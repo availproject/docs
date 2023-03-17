@@ -5,7 +5,6 @@ sidebar_label: Run a Validator
 description: "Learn about running an Avail validator."
 keywords:
   - docs
-  - polygon
   - avail
   - node
   - validator
@@ -25,7 +24,7 @@ internal validators.
 
 :::warning System administration
 
-Although Polygon Avail is in testnet phase, in general, users should have **significant system
+Although Avail is in testnet phase, in general, users should have **significant system
 administration experience** when running validator nodes.
 
 Validator nodes are responsbile for maintaining and securing the network by staking tokens with real

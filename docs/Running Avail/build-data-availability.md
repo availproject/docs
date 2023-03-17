@@ -5,7 +5,6 @@ sidebar_label: Data Availability
 description: Learn about running an Avail Validator node for Data Availability.
 keywords:
   - docs
-  - polygon
   - avail
   - node
   - data availability

@@ -5,7 +5,6 @@ sidebar_label: System Overview
 description: Learn about the architecture of the Avail chain
 keywords:
   - docs
-  - polygon
   - avail
   - data
   - availability
@@ -22,7 +21,7 @@ Currently, monolithic blockchain architectures like that of Ethereum cannot effi
 
 Modularizing execution to scale blockchains is what rollup-centric chain models attempt to do. This can work well when the settlement and data availability layers are on the same layer, which is the approach Ethereum rollups take. Still, there are necessary trade-offs when working with rollups, as the rollup construction can be more secure depending on the security of the data availability layer but would be inherently more challenging to scale.
 
-However, a granular design creates different layers to be lightweight protocols, like microservices. Then, the overall network becomes a collection of loosely-coupled lightweight protocols. An example is a data availability layer that only specializes in data availability. Polygon Avail is a Substrate-based layer two blockchain for data availability. 
+However, a granular design creates different layers to be lightweight protocols, like microservices. Then, the overall network becomes a collection of loosely-coupled lightweight protocols. An example is a data availability layer that only specializes in data availability. Avail is a Substrate-based layer two blockchain for data availability. 
 
 :::info Substrate runtime
 
@@ -30,7 +29,7 @@ Although Avail is based on the Substrate codebase, it includes modifications to 
 
 :::
 
-Avail provides a high guarantee of data availability to any light client, but does not make higher guarantees to light clients about DA than any other network. Avail focuses on making it possible to prove that block data is available without downloading the whole block by leveraging Kate polynomial commitments, erasure coding, and other technologies to allow light clients (which download only the _headers_ of the chain) to efficiently and randomly sample small amounts of the block data to verify its full availability. However, there are fundamentally different primitives than fraud-proof-based DA systems, which are explained [here](https://blog.polygon.technology/the-data-availability-problem-6b74b619ffcc/).
+Avail provides a high guarantee of data availability to any light client, but does not make higher guarantees to light clients about DA than any other network. Avail focuses on making it possible to prove that block data is available without downloading the whole block by leveraging Kate polynomial commitments, erasure coding, and other technologies to allow light clients (which download only the _headers_ of the chain) to efficiently and randomly sample small amounts of the block data to verify its full availability. However, there are fundamentally different primitives than fraud-proof-based DA systems, which are explained [here](https://blog.availproject.org/the-data-availability-problem/).
 
 ### Providing data availability
 
@@ -129,7 +128,7 @@ What is unique about Avail is that the chain design allows **anyone** to check D
 
 ### Transaction settlement
 
-Avail will use a settlement layer built with Polygon Edge. The settlement layer provides an EVM-compatible blockchain for rollups to store their data and perform dispute resolution. The settlement layer utilizes Polygon Avail for its DA. When rollups are using a settlement layer, they also inherit all the DA properties of Avail.
+Avail will use a settlement layer built with Polygon Edge. The settlement layer provides an EVM-compatible blockchain for rollups to store their data and perform dispute resolution. The settlement layer utilizes Avail for its DA. When rollups are using a settlement layer, they also inherit all the DA properties of Avail.
 
 :::note Different ways to settle
 
@@ -141,5 +140,5 @@ Avail offers data hosting and ordering. The execution layer will likely come fro
 
 ## Resources
 
-- [Introduction to Avail by Polygon](https://medium.com/the-polygon-blog/introducing-avail-by-polygon-a-robust-general-purpose-scalable-data-availability-layer-98bc9814c048).
-- [Polygon Talks: Polygon Avail](https://www.youtube.com/watch?v=okqMT1v3xi0)
+- [Introduction to Avail](https://blog.availproject.org/introducing-avail-by-a-robust-general-purpose-scalable-data-availability-layer/).
+- [Polygon Talks: Avail](https://www.youtube.com/watch?v=okqMT1v3xi0)

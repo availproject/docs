@@ -1,12 +1,11 @@
 ---
 id: avail-quick-start
-title: How to use Polygon Avail
+title: How to use Avail
 sidebar_label: Quick Start
 sidebar_position: 2
-description: Learn how to use Polygon Avail
+description: Learn how to use Avail
 keywords:
   - docs
-  - polygon
   - avail
   - data
   - availability
@@ -21,11 +20,11 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-# How to use Polygon Avail
+# How to use Avail
 
 :::note
 
-We are working on improving many of the current features. We appreciate you using our testnet and encourage your valuable feedback through one of our [<ins>community channels</ins>](https://polygon.technology/community/).
+We are working on improving many of the current features. We appreciate you using our testnet and encourage your valuable feedback through one of our [<ins>community channels</ins>](https://discord.gg/y6fHnxZQX8).
 
 :::
 
@@ -91,7 +90,7 @@ copy your address.  Alternatively, you can copy the address manually.
 
 <img src={useBaseUrl("img/avail/account-icon.png")} align= "center" width="100%" height="100%"/>
 
-Head over to the [Polygon faucet](https://faucet.polygon.technology).
+Head over to the [faucet](https://faucet.polygon.technology).
 
 On the faucet page, select `DA Network`  and  `DA (Test Token)` as the network and token.
 Paste your account address and click on **Submit**. The transfer will up to one
@@ -100,8 +99,8 @@ minute to complete.
 <img src={useBaseUrl("img/avail/faucet.png")} width="100%" height="100%"/>
 
 Upon successful transfer, your account should now have a non-zero balance. If you face any issues
-obtaining tokens from the faucet, please reach out to the
-[support team](https://support.polygon.technology/support/home).
+obtaining tokens from the faucet, please reach out on
+[Discord](https://discord.gg/y6fHnxZQX8).
 
 ## Submit a New Transaction
 
@@ -286,7 +285,7 @@ medium.
 
 ## Receive AVL Testnet Tokens
 
-Head over to the [Polygon faucet](https://faucet.polygon.technology).
+Head over to the [faucet](https://faucet.polygon.technology).
 
 On the faucet page, select `DA (Test Token)` and `DA Network` as the token and network,
 respectively. Paste your account address and click on **Submit**. The transfer will take up to one
@@ -294,7 +293,7 @@ minute to complete.
 
 <img src={useBaseUrl("img/avail/faucet.png")} width="100%" height="100%"/>
 
-Upon successful transfer, your account should now have a non-zero balance. If you face any issues obtaining tokens from the faucet, please reach out to the [support team](https://support.polygon.technology/support/home).
+Upon successful transfer, your account should now have a non-zero balance. If you face any issues obtaining tokens from the faucet, please reach out on [Discord](https://discord.gg/y6fHnxZQX8).
 
 ### Balance Check with `@polkadot/api`
 
@@ -387,7 +386,7 @@ main().catch(console.error)
 Sample Result:
 
 ```
-You are connected to chain Avail-Testnet using Polygon Avail Node v3.0.0-6c8781e-x86_64-linux-gnu
+You are connected to chain Avail-Testnet using Avail Node v3.0.0-6c8781e-x86_64-linux-gnu
 5HBCFfAs5gfqYgSinsr5s1nSZY2uRCh8MhYhXXp6Y9jNRJFB
 5HBCFfAs5gfqYgSinsr5s1nSZY2uRCh8MhYhXXp6Y9jNRJFB has balance of 0
 ```

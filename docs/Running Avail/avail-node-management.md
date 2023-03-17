@@ -5,7 +5,6 @@ sidebar_label: Run an Avail node
 description: "Learn about running an Avail node."
 keywords:
   - docs
-  - polygon
   - avail
   - node
 image: https://availproject.github.io/img/avail/AvailDocs.png

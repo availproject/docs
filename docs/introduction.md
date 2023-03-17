@@ -1,12 +1,11 @@
 ---
 id: what-is-avail
-title: Avail by Polygon
+title: Avail
 sidebar_label: Introduction
 sidebar_position: 1
-description: Learn about Polygon's data availability chain
+description: Learn about Avail's data availability chain
 keywords:
   - docs
-  - polygon
   - avail
   - availability
   - scale
@@ -15,7 +14,7 @@ image: https://availproject.github.io/img/avail/AvailDocs.png
 slug: /
 ---
 
-# Polygon Avail
+# Avail
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -73,7 +72,7 @@ Avail enables new chains to be created without needing to spin up a new validato
 Fast provable finality via Nominated Proof of Stake. Backed by KZG
 commitments and erasure coding.
 
-Start by checking out this [blog post](https://blog.polygon.technology/polygon-research-ethereum-scaling-with-rollups-8a2c221bf644/) on scaling Ethereum with Rollups.
+Start by checking out this [blog post](https://polygon.technology/blog/polygon-research-ethereum-scaling-with-rollups) on scaling Ethereum with Rollups.
 
 ## Avail-Powered Validiums
 
@@ -91,5 +90,5 @@ The Avail team will make this data availability verification simple on Ethereum 
 
 ## See Also
 
-* [Introducing Avail by Polygon — a Robust General-Purpose Scalable Data Availability Layer](https://polygontech.medium.com/introducing-avail-by-polygon-a-robust-general-purpose-scalable-data-availability-layer-98bc9814c048)
-* [The Data Availability Problem](https://blog.polygon.technology/the-data-availability-problem-6b74b619ffcc/)
+* [Introducing Avail — a Robust General-Purpose Scalable Data Availability Layer](https://blog.availproject.org/introducing-avail-by-a-robust-general-purpose-scalable-data-availability-layer/)
+* [The Data Availability Problem](https://blog.availproject.org/the-data-availability-problem/)

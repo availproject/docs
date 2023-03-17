@@ -5,7 +5,6 @@ sidebar_label: Consensus
 description: Learn about Avail's consensus mechanism
 keywords:
   - docs
-  - polygon
   - avail
   - consensus
   - proof of stake
@@ -31,17 +30,17 @@ Avail is not a DAC, but an actual blockchain network with its consensus mechanis
 :::caution Current validators
 
 With the initial launch of the Avail testnet, validators will be
-internally operated and maintained by Polygon.
+internally operated and maintained by Avail Labs.
 
 :::
 
 Traditional proof of stake systems require block production authors to have token holdings (stake) on-chain to produce blocks, as opposed to computational resources (work). 
 
-Polygon's products use PoS (proof of stake) or a modification of PoS. Usually, validators in traditional PoS systems that have the most stake have the most influence and control of the network.
+Most protocols use PoS (proof of stake) or a modification of PoS. Usually, validators in traditional PoS systems that have the most stake have the most influence and control of the network.
 
 Systems with many network maintainers tend to form off-chain pools to maximize capital gains by reducing reward variance. This centralization challenge alleviates when pools are included on-chain that allows token holders to back network maintainers who they feel best represent them and the interests of the network. This also distributes the validator power concentration, assuming the right voting and election mechanisms are in place, as the overall stake on the network is allocated as a one-to-many or many-to-many relationship instead of only relying on a one-to-one relationship, where trust is put in the "highest staked" validators.
 
-This modification of proof of stake can be administered through delegation or nomination, commonly referred to as DPoS (delegated proof of stake) or NPoS (nominated proof of stake). Polygon's scaling solutions have adapted these enhanced mechanisms, including Polygon Avail.
+This modification of proof of stake can be administered through delegation or nomination, commonly referred to as DPoS (delegated proof of stake) or NPoS (nominated proof of stake). Avail has adapted these enhanced mechanisms.
 
 Avail uses NPoS with a modification in block verification. The actors involved are still validators and nominators.
 

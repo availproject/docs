@@ -5,7 +5,6 @@ sidebar_label: Run a Light Client
 description: Learn about building and running a Light Client with Data Availability
 keywords:
   - docs
-  - polygon
   - avail
   - node
   - data availability
