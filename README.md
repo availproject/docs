@@ -1,41 +1,28 @@
-# Website
+# Avail Docs
 
-This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
+This repo contains the code for the website containing [Avail](https://www.availproject.org/) documentation. The website is deployed at [availproject.github.io](https://availproject.github.io/). 
 
-### Installation
+If you are interested to know more about the project, follow us on [Twitter](https://twitter.com/AvailProject) or join us on [Discord](https://discord.gg/y6fHnxZQX8).
 
-```
-$ yarn
-```
+### Development and Deployment
+- To install it locally, use
+  ```
+  $ yarn
+  ```
 
-### Local Development
+- To start a development server locally, use
+  ```
+  $ yarn start
+  ```
 
-```
-$ yarn start
-```
+- To deploy on `gh-pages` branch using SSH, use
+  ```
+  $ USE_SSH=true yarn deploy
+  ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+- To deploy on `gh-pages` branch without using SSH, use
+  ```
+  $ GIT_USER=<Your GitHub username> yarn deploy
+  ```
 
-### Build
-
-```
-$ yarn build
-```
-
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
-
-### Deployment
-
-Using SSH:
-
-```
-$ USE_SSH=true yarn deploy
-```
-
-Not using SSH:
-
-```
-$ GIT_USER=<Your GitHub username> yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+<sup>This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.</sup>
