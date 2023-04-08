@@ -30,19 +30,16 @@ http_server_port = "7000"
 
 libp2p_seed = 1
 libp2p_port = "37000"
-ipfs_path = "avail_ipfs_store"
+ipfs_path = "avail_store"
 
-# put full_node_rpc = https://testnet.polygonavail.net/rpc incase you are connecting to devnet
+# Local node must be running otherwise connect to wss://testnet.avail.tools/ws
 full_node_rpc = ["http://127.0.0.1:9933"]
-# put full_node_ws = wss://testnet.polygonavail.net/ws incase you are connecting to devnet
 full_node_ws = ["ws://127.0.0.1:9944"]
 # None in case of default Light Client Mode
-app_id = 1
-# sync_blocks_depth=400
+app_id = 0
 
 confidence = 92.0
 avail_path = "avail_path"
-secret_key = { seed =  "1" }
 
 bootstraps = []
 

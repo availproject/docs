@@ -83,7 +83,7 @@ access your account.
 
 :::
 
-## Receive AVL Testnet Tokens
+<!-- ## Receive AVL Testnet Tokens
 
 On the Avail Explorer, click on the icon next to your account name to
 copy your address.  Alternatively, you can copy the address manually.
@@ -100,7 +100,7 @@ minute to complete.
 
 Upon successful transfer, your account should now have a non-zero balance. If you face any issues
 obtaining tokens from the faucet, please reach out on
-[Discord](https://discord.gg/y6fHnxZQX8).
+[Discord](https://discord.gg/y6fHnxZQX8). -->
 
 ## Submit a New Transaction
 
@@ -283,7 +283,7 @@ medium.
 
 :::
 
-## Receive AVL Testnet Tokens
+<!-- ## Receive AVL Testnet Tokens
 
 Head over to the [faucet](https://faucet.polygon.technology).
 
@@ -488,7 +488,7 @@ You are connected to chain Avail-Testnet using Avail Node v3.0.0-6c8781e-x86_64-
 For convenience, you can add the account you generated with
 `@polkadot/api` on the Avail Explorer UI to perform account actions.
 
-:::
+::: -->
 
 ## Submit a New Transaction
 
@@ -675,10 +675,11 @@ async function main () {
         let KEY = 1;
         let createId = api.tx.dataAvailability.createApplicationKey(KEY);
         const nonce = (await api.rpc.system.accountNextIndex(address)).toNumber();
+        // Use nonce:-1 if the following nonce query is not working
         const unsub = await createId
             .signAndSend(
             pair,
-            { app_id: 0, nonce},
+            { app_id: 0, nonce: nonce},
             ( result: ISubmittableResult ) => {
                 console.log(`Tx status: ${result.status}`);
 
@@ -871,10 +872,11 @@ async function main () {
         let APP_ID = 1;
         let VALUE = `iucakcbak`;
         let transfer = api.tx.dataAvailability.submitData(VALUE);
+        // Use nonce:-1 if the following nonce query is not working
         const unsub = await transfer
             .signAndSend(
             pair,
-            { app_id: APP_ID, nonce},
+            { app_id: APP_ID, nonce: nonce},
             ( result: ISubmittableResult ) => {
                 console.log(`Tx status: ${result.status}`);
 
