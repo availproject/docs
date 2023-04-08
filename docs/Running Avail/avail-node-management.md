@@ -89,7 +89,7 @@ git clone git@github.com:maticnetwork/avail.git
 Compile the source code:
 
 ```sh
-cargo build --release
+cargo build --release -p data-avail
 ```
 
 :::caution This process usually takes time
