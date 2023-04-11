@@ -80,13 +80,13 @@ rustc --version
 
 ## Run Avail Locally
 
-Clone the [Avail source code](https://github.com/maticnetwork/avail):
+Clone the [Avail source code](https://github.com/availproject/avail.git):
 
 ```sh
-git clone git@github.com:maticnetwork/avail.git
+git clone git@github.com:availproject/avail.git
 ```
 
-Compile the source code:
+Now go to `avail` directory and Compile the source code:
 
 ```sh
 cargo build --release -p data-avail
