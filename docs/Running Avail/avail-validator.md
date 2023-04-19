@@ -63,7 +63,7 @@ On this **Accounts** page, click on the **Add account** button and follow the st
 
 Please reachout to the Avail team with your *Stash* account address to seek the AVL tokens for validating.
 
-2. If you have built the `data-avail` binary from sources, you already have the *raw chain spec* to connect to the testnet in `avail/misc/genesis` folder file `testnet-v2.chain.spec.raw.json`. But if you are using the binary directly, then please reach out to Avail team to get the *raw chain spec* to connect to.
+2. If you have built the `data-avail` binary from sources, you already have the *raw chain spec* to connect to the testnet in `avail/misc/genesis` folder file `avail-testnet-raw-chain-spec.json`, if not, reach out to Avail team. But if you are using the binary directly, then please reach out to Avail team to get the *raw chain spec* to connect to.
 
 3. Please reach out to the Avail team to obtain the p2p address (similar to the one shown below) of a node to connect with. 
 
