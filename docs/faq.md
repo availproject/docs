@@ -3,10 +3,9 @@ id: faq
 title: FAQ
 sidebar_label: FAQ
 sidebar_position: 6
-description: Frequently asked questions about Polygon Avail
+description: Frequently asked questions about Avail
 keywords:
   - docs
-  - polygon
   - avail
   - availability
   - client
@@ -20,7 +19,7 @@ slug: faq
 
 :::tip
 
-If you do not find your question on this page, please submit your question on the **[<ins>Polygon Avail Discord server</ins>](https://discord.gg/jXbK2DDeNt)**.
+If you do not find your question on this page, please submit your question on the **[<ins>Avail Discord server</ins>](https://discord.gg/S2XQJjHsZt)**.
 
 :::
 

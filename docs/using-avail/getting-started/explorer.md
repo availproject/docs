@@ -30,7 +30,7 @@ We are working on improving many of the current features. We appreciate you usin
 ## Generate an Avail Account
 
 You can generate an account using one of two methods:
-- [Avail Explorer](https://testnet.polygonavail.net/)
+- [Avail Explorer](https://testnet.avail.tools/)
 - Console/Typescript
 
 <Tabs
@@ -42,13 +42,13 @@ You can generate an account using one of two methods:
 }>
 <TabItem value="explorer">
 
-Head over to [Avail Explorer](https://testnet.polygonavail.net/).
+Head over to [Avail Explorer](https://testnet.avail.tools/).
 
 <img src={useBaseUrl("img/avail/avail-explorer.png")} width="100%" height="100%"/>
 
 :::note
 
-**[Avail Explorer](https://testnet.polygonavail.net/)** is a fork
+**[Avail Explorer](https://testnet.avail.tools/)** is a fork
 of **[Polkadot-JS Apps](https://polkadot.js.org/)**. The interface and navigation are the same
 if you are familiar with Polkadot-JS Apps.
 
@@ -89,11 +89,8 @@ copy your address.  Alternatively, you can copy the address manually.
 
 <img src={useBaseUrl("img/avail/account-icon.png")} align= "center" width="100%" height="100%"/>
 
-Head over to the [faucet](https://faucet.polygon.technology).
-
-On the faucet page, select `DA Network`  and  `DA (Test Token)` as the network and token.
-Paste your account address and click on **Submit**. The transfer will up to one
-minute to complete.
+Join our [<ins>Discord</ins>](https://discord.gg/y6fHnxZQX8) and use
+the /deposit command with your address to receive testnet tokens.
 
 <img src={useBaseUrl("img/avail/faucet.png")} width="100%" height="100%"/>
 
@@ -150,7 +147,7 @@ Before sending a transaction using `App_ID`, it must be created using the `creat
 
 :::
 
-Submit the transaction. Head over to the [Avail Explorer](https://testnet.polygonavail.net/#/explorer).
+Submit the transaction. Head over to the [Avail Explorer](https://testnet.avail.tools/#/explorer).
 The recent event list should list your transaction. You can click on the event and expand it to check out
 the transaction details.
 
@@ -166,7 +163,7 @@ Enter the values you wish to submit as part of this transaction for `row` and `c
 
 <img src={useBaseUrl("img/avail/da-row-col.png")} width="100%" height="100%"/>
 
-Submit the transaction. Head over to the [Avail Explorer](https://testnet.polygonavail.net/#/explorer).
+Submit the transaction. Head over to the [Avail Explorer](https://testnet.avail.tools/#/explorer).
 The recent event list should list your transaction. You can click on the event and expand it to check out
 the transaction details.
 
@@ -282,18 +279,6 @@ medium.
 
 :::
 
-## Receive AVL Testnet Tokens
-
-Head over to the [faucet](https://faucet.polygon.technology).
-
-On the faucet page, select `DA (Test Token)` and `DA Network` as the token and network,
-respectively. Paste your account address and click on **Submit**. The transfer will take up to one
-minute to complete.
-
-<img src={useBaseUrl("img/avail/faucet.png")} width="100%" height="100%"/>
-
-Upon successful transfer, your account should now have a non-zero balance. If you face any issues obtaining tokens from the faucet, please reach out on [Discord](https://discord.gg/y6fHnxZQX8).
-
 ### Balance Check with `@polkadot/api`
 
 Use the following script to check the balance of the account you just created:
@@ -309,7 +294,7 @@ const keyring = new Keyring({ type: 'sr25519' });
 
 async function createApi() {
   // Initialise the provider to connect to the local node
-  const provider = new WsProvider('wss://testnet.polygonavail.net/ws');
+  const provider = new WsProvider('wss://testnet.avail.tools/ws');
 
   // Create the API and wait until ready
   return ApiPromise.create({
@@ -540,7 +525,7 @@ const keyring = new Keyring({ type: 'sr25519' });
 
 async function createApi() {
   // Initialise the provider to connect to the local node
-  const provider = new WsProvider('wss://testnet.polygonavail.net/ws');
+  const provider = new WsProvider('wss://testnet.avail.tools/ws');
 
   // Create the API and wait until ready
   return ApiPromise.create({
@@ -633,7 +618,7 @@ main().catch(console.error)
 </TabItem>
 </Tabs>
 
-You can head over to the [Avail Explorer](https://testnet.polygonavail.net/#/explorer), and the
+You can head over to the [Avail Explorer](https://testnet.avail.tools/#/explorer), and the
 recent event list should list your transaction. You can click on the event and expand it to check out
 the transaction details.
 
@@ -644,7 +629,7 @@ one you wish to get availability guarantees for.
 
 ```bash
 
-curl -s -H 'Content-Type: application/json' -d '{"jsonrpc":"2.0","method":"get_blockConfidence","params": {"number": block_number_here}, "id": 1}' 'https://polygon-da-light.matic.today/v1/json-rpc'
+curl -s -H 'Content-Type: application/json' -d '{"jsonrpc":"2.0","method":"get_blockConfidence","params": {"number": block_number_here}, "id": 1}' 'https://testnet.avail.tools/v1/json-rpc'
 
 ```
 :::
