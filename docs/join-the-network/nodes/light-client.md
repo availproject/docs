@@ -2,6 +2,7 @@
 id: avail-light-client-da
 title: Build and Run a Light Client with Data Availability
 sidebar_label: Run a Light Client
+sidebar_position: 1
 description: Learn about building and running a Light Client with Data Availability
 keywords:
   - docs

@@ -2,7 +2,6 @@
 id: avail-quick-start
 title: How to use Avail
 sidebar_label: Quick Start
-sidebar_position: 2
 description: Learn how to use Avail
 keywords:
   - docs

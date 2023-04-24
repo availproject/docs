@@ -2,6 +2,7 @@
 id: avail-validator
 title: Run an Avail Validator
 sidebar_label: Run a Validator
+sidebar_position: 2
 description: "Learn about running an Avail validator."
 keywords:
   - docs

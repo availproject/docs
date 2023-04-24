@@ -2,6 +2,7 @@
 id: faq
 title: FAQ
 sidebar_label: FAQ
+sidebar_position: 6
 description: Frequently asked questions about Polygon Avail
 keywords:
   - docs
