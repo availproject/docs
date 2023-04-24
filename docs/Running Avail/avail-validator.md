@@ -37,14 +37,14 @@ When in doubt, reach out to the Validator Engagement team.
 
 ## Manual Setup
 
-The easiest way to deploy your own Avail validator node is a Manual setup. But before we start, need to ensure a few pre-requisites for *Manual Setup*, explained in next *Praparing for Node Configuration* section.
+The easiest way to deploy your own Avail validator node is to use the Manual setup. But please take additional care about the node security aspects. A few tips and tricks provided throughout this document may prove to be useful. 
 
 ### Preparing for Node Configuration
 
-Please ensure that, follwing three things are ready with you -
+Ensure that, follwing three things are ready with you -
 1. Create a **Stash** and **Controller** account and obtain AVLs for these accounts.
-2. Raw chain spec for the chain to connect to (i.e. testnet or devnet chain spec)
-3. Address of the node to connect to (i.e. p2p address of a node on testnet or devnet)
+2. Raw chain spec for the chain to connect to 
+3. The p2p address of the boot node to connect to 
 
 1. To create **Stash** and **Controller** accounts -
 Please visit Polygon Avail Explorer [here](https://testnet.avail.tools/), preferably in the incognito mode.
@@ -54,51 +54,51 @@ Please visit Polygon Avail Explorer [here](https://testnet.avail.tools/), prefer
 
 </aside>
 
-Navigate to the **Accounts** tab and click on the **Accounts** sub-tab as shown in figure below. 
+Navigate to **Accounts** tab and click on the **Accounts** sub-tab as shown in figure below. 
 
 <img src={useBaseUrl("img/avail/account.png")} width="100%" height="100%"/>
 
 
-On this **Accounts** page, click on the **Add account** button and follow the steps in the pop-up window to create your *Stash* and *Controller* accounts.
+On this **Accounts** page, click **Add account** button and follow steps in the pop-up window to create your *Stash* and *Controller* accounts.
 
-Please reachout to the Avail team with your *Stash* account address to seek the AVL tokens for validating.
+Then reachout to the Avail team with your *Stash* account address to seek the AVL tokens for validating.
 
-2. If you have built the `data-avail` binary from sources, you already have the *raw chain spec* to connect to the testnet in `avail/misc/genesis` folder file `avail-testnet-raw-chain-spec.json`, if not, reach out to Avail team. But if you are using the binary directly, then please reach out to Avail team to get the *raw chain spec* to connect to.
+2. If you built the `data-avail` binary from sources, you may have the *raw chain spec* to connect to the testnet in `avail/misc/genesis` folder file `avail-testnet-raw-chain-spec.json`. If it is not there or if you are using the binary directly, then please reach out to Avail team to get the *raw chain spec* to connect to.
 
-3. Please reach out to the Avail team to obtain the p2p address (similar to the one shown below) of a node to connect with. 
+3. Obtain the p2p address (similar to the one shown below) of the boot node to connect to from the Avail team. 
 
 ```bash
 **p2p address:** *ip4/32.xxx.yyy.21/tcp/30333/p2p/12D3KoxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxYwLNRAnW*
 ```
 
-Now, the *Manual Setup* comprises of follwoing three steps -
+The *Manual Setup* now comprises of follwoing steps -
 
 * ***1. Run `data-avail` binary to connect to the testnet***
-* ***2. Insert keys in the node’s key store for Controller account and Generate session key for the node***
-* ***3. Stake AVLs and Associate session key to the Controller account to become new validator***
+* ***2. Insert keys in the node’s key store for Controller account and generate session key for the node***
+* ***3. Stake AVLs and associate session key to the Controller account to become new validator***
 
 ### 1. Run `data-avail` binary to connect to the testnet
 
-If you built the `data-avail` binary from the sources, then navigate to your `avail` directory and run:
+If you built the `data-avail` binary from sources, then navigate to your `avail` directory and run:
 
 ```bash
 [ec2-user@ip-171-32-14-198 avail]$ *./target/release/data-avail --base-path /tmp/Testnet --chain misc/genesis/avail-testnet-raw-chain-spec.json --port 30333 --validator --bootnodes /ip4/32.xxx.yyy.21/tcp/30333/p2p/12D3KoxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxYwLNRAnW*
 ```
 
-- The `--validator` flag indicates that we intend to run this new node as a validator node
-- The `--base-path` flag identifies `/tmp/Testnet` is the directory where this new node will maintain its local store.
-- Apart from port 30333, we can specify other ports such as `ws-port` , which specifies the port you can use to connect to using the Avail block explorer, and `rpc-port`, which is the port where this new node will listen to `rpc-calls`.
+- The `--validator` flag makes this new node run as a validator node
+- The `--base-path` flag specifies that, `/tmp/Testnet` is the directory where this new node will maintain its local store.
+- Apart from 30333, one can specify other ports such as `ws-port` to connect to using the Avail block explorer and `rpc-port` where this new node will listen to `rpc-calls`.
     
-    > For security reasons we are not specifying those ports and they are not needed at this stage. Please refer to `data-avail` `--help` documentation if you need to know more about those options and flags.
+    > For security reasons those ports are not specified at this stage. Please refer to `data-avail` `--help` documentation if you need to know more about those options and flags.
     > 
 
 <aside>
-💡 **Running data-avail binary as service:** This is not the best way to use the `data-avail` binary in production. We recommend that you build the service around `data-avail` binary to use in your production environments.
+💡 **Running data-avail binary as service:** The command line execution shown above is not the best way to use the `data-avail` binary in production. We recommend that you build a service around `data-avail` binary to use in your production environments. 
 </aside>
 
-Note that, the `--bootnodes` flag uses the p2p address of the bootnode that you received from Avail team. After issuing this command, you should get output logs on your screen.
+Note that, `--bootnodes` flag uses p2p address of the bootnode that you received from Avail team. After issuing this command, you should get output logs on your screen.
 
-If you are using the pre-built binaries, then issue the above command from the directory where you have your `data-avail` binary. Ensure that you change the path appropriately to point to your `raw chain spec` file and the `local store` directory. 
+If using the pre-built binaries, then issue the above command from the directory where you have your `data-avail` binary. Alsp ensure that the path appropriately to point to your `raw chain spec` file and the `local store` directory. 
 
 <aside>
 ⚠️ The output must show at least one peer, otherwise there is something wrong in the command execution, such as a typo, an incorrect parameter, etc. 
@@ -108,19 +108,19 @@ Successfully connecting one or more peers indicates that your new node is now su
 
 
 
-### 2. Insert keys in the node’s key store for Controller account and Generate session key for the node
+### 2. Insert keys in the node’s key store for Controller account and generate session key for the node
 
-Open another command line session, navigate to the `avail` directory and then run the following command:
+Open another command line session, navigate to the `avail` directory and then run following command:
 
 ```bash
 *[ec2-user@ip-171-32-14-198 avail]$./target/release/data-avail key insert --base-path /tmp/Testnet --chain avail-testnet-raw-chain-spec.json --scheme Sr25519 --suri* 0x13ffxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxd7cf8292f3  *--password-interactive --key-type babe* 
 ```
 
-This command inserts key for [BABE](https://wiki.polkadot.network/docs/learn-consensus#block-production-babe) (the block production mechanism) in the key store. The argument `--suri` specifies the secret seed used to generate the SS58 address and public key for the Controller account. You may use it in “quotes” in its mnemonic form, or the way shown above as a raw seed. 
+This command inserts key for [BABE](https://wiki.polkadot.network/docs/learn-consensus#block-production-babe) (the block production mechanism) in the key store of the validator node. Argument `--suri` specifies the secret seed used to generate SS58 address and public key for the Controller account. You may use it in “quotes” in its mnemonic form, or the way shown above as a raw seed. 
 
 The JSON file of your Controller account has this raw seed as the `genesisHash`.
 
-Like this insert the key for the grandpa, imon and audi pallets used in the Avail node. For that, the above command should be **repeated for each pair of key type and scheme** shown in the following table:
+Like this, insert the key for the grandpa, imon and audi pallets used in the Avail node. For that, the above command should be **repeated for each pair of key type and scheme** shown in the following table:
 
 | Key type | Scheme    |
 | -------- | --------- |
@@ -137,6 +137,10 @@ Like this insert the key for the grandpa, imon and audi pallets used in the Avai
 
 </aside>
 
+<aside>
+💡 **Caution: Avoid inserting the keys through command line** This command line execution is not the best way to insert the keys in production because it could reveal the `--suri` parameters through command history. We recommend use of any secure solution or at least use a shell script. 
+</aside>
+
 Now to generate the session key for this node execute following command -
 
 ```jsx
@@ -144,7 +148,7 @@ curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method":
 ```
 
 <aside>
-💡 Even though RPC port is not explicitly exposed while running the node, the above command executes because by default the `data-avail` binary allows access to the RPC port locally.
+💡 Even though RPC port is not explicitly exposed while running the node, the above command executes because by default `data-avail` binary allows access to the RPC port locally.
 </aside>
 
 It gives an output something similar to:
@@ -155,23 +159,27 @@ It gives an output something similar to:
 
 **Please copy and preserve this output**, as it is needed later. Specifically the `result` field from this output, which is the session key.
 
-Now **do not forget to restart the Avail node i.e. Avail service**. Once the node is back up and running, proceed to the final section.
+Now **do not forget to restart the Avail node i.e. Avail service**. Once the Avail node is back up and running, proceed to the final section.
 
 
 
-### 3. Stake AVLs and Associate session key to the Controller account to become new validator
+### 3. Stake AVLs and associate session key to the Controller account to become new validator
 
 Now [Avail Explorer](https://testnet.avail.tools) can be used to stake AVLs and associate the session key with the Controller account and thereby run Validator node. Go to the Accounts page on [Avail Explorer](https://testnet.avail.tools) where you should see your Stash and Controller accounts. If you do not see them there, simply restore them by importing their respective JSON files. 
+
+<aside>
+⚠️ Please note that, it is better to wait till your node syncs with the testnet before you carry out the steps in this section. Node sync status can be checked by looking at your node logs.  
+</aside>
 
 Ensure following configurations for your validator's **Stash** and **Controller** accounts:
 
 - **Stash** account - The minimum bonding amount is 1000. Make sure that your Stash account contains at least this much. You can, of course, stake more than this.
     
     <aside>
-    ⚠️ Keep most of the funds in stash account as it is the custodian of your staking funds. Keep small, say just enough funds in the controller account to pay for fees. Make sure not to bond all the AVL balance since you will not be able to pay transaction fees from your bonded balance.
+    ⚠️ Keep most of your funds in stash account and small, say just enough funds in the controller account to pay for fees. Please do not bond all the AVLs you have so that you have some spare AVLs to pay transaction fees from your un-bonded balance.
     </aside>
     
-- **Controller** account - This account will need a small amount of AVL in order to start and stop validating.
+- **Controller** account - Keep only a few AVLs in this account to start and stop validating.
 - **Value** bonded - The amount of AVL tokens you intend to bond from the Stash account.
     
     <aside>
@@ -180,15 +188,16 @@ Ensure following configurations for your validator's **Stash** and **Controller*
     
 - **Payment** destination - This is the account where rewards for validation are sent. More information can be found [here](https://wiki.polkadot.network/docs/learn-staking#reward-distribution).
 
-Navigate to the “Staking” sub-tab under the “Network” tab, select “Account actions” where you see options to “Add Nominator”, “Add Validator”, and “Add Stash” as shown in figure below. Click on the “Add Stash” option.
+Navigate to the “Staking” sub-tab under the “Network” tab and select “Account actions”. Here you see options to “Add Nominator”, “Add Validator”, and “Add Stash” as shown in figure below. Click on the “Add Stash” option.
 
 <img src={useBaseUrl("img/avail/StakingPage.png")} width="100%" height="100%"/>
 
-Follow the process to provide your “Stash” and ‘Controller’ accounts, along with the AVL you intend to bond for staking. Only after this is done, the "Session Key" option (as seen in the figure above) will be visible. Select the “Session Key” option; it will pop a dialog box where you can paste the session key (i.e. the key generated by the author_rotateKeys() RPC call as explained in earlier section). Follow the process, once you add the session key, the maintainer's actions available i.e. “Validate” and “Nominate” as shown in figure below.
+Follow the process to provide your “Stash” and ‘Controller’ accounts as well as the AVLs you intend to bond. Only after this is done, the "Session Key" option (as seen in the figure above) will be visible. 
+Select the “Session Key” option; it will pop a dialog box where you can paste the session key (i.e. the key generated by the author_rotateKeys() RPC call as explained in earlier section). Follow the process, once you add the session key, the maintainer's actions are available i.e. “Validate” and “Nominate” can be seen as shown in figure below.
 
 <img src={useBaseUrl("img/avail/ValidateNominate.png")} width="100%" height="100%"/>
 
-Select “Validate” option and follow the process to configure your node as the new validator on Avail testnet. If enough AVLs are bonded/staked (preferably more that those staked by existing set of validators), your newly added node will soon get chosen in the set of active validators, after say one or two Era time. 
+Select “Validate” option and follow the process to configure your node as new validator on Avail testnet. If enough AVLs are bonded/staked (preferably more that those staked by existing set of validators), your newly added node will soon get chosen in the set of active validators, after say one or two Era time. 
 
 To verify that your node is live and synchronized, navigate to
 [**Network &rarr; Staking**](https://testnet.avail.tools/#/staking) and select
