@@ -39,50 +39,52 @@ When in doubt, reach out to the Validator Engagement team.
 
 The easiest way to deploy your own Avail validator node is to use the Manual setup. But please take additional care about the node security aspects. A few tips and tricks provided throughout this document may prove to be useful. 
 
-### Preparing for Node Configuration
-
+### Prerequisites for node setup
 Ensure that, follwing three things are ready with you -
-1. Create a **Stash** and **Controller** account and obtain AVLs for these accounts.
-2. Raw chain spec for the chain to connect to 
+1. To create **Stash** and **Controller** accounts Please visit Avail [Explorer](https://testnet.avail.tools/), preferably in the incognito mode. <br />
+    On this **Accounts** page, click **Add account** button and follow steps in the pop-up window to create your *Stash* and *Controller* accounts.
+    <img src={useBaseUrl("img/avail/account.png")} width="100%" height="100%"/>
+
+    Another option to create an account is to run the following command. <br />
+    **PS**: But before using this command you should build the node binary first.
+
+    ```bash
+    ./target/release/data-avail key generate --scheme Sr25519 --password-interactive
+    ```
+    Type a password for the generated keys
+
+    The command generates keys and displays output similar to the following:
+
+    ```console
+    Secret phrase:     cherry mind such wing lift battle hedgehog gap fresh much mimic cheese
+    Network ID:        substrate
+    Secret seed:       0x4b855f43d903e6c9923523578e6d902b9efb879284113c7510e3aae8f62ad271
+    Public key (hex):  0x2c47b3a45a505ca740fe1ece27862ed83c5afddb7775a62a1bea2ea23fc3262b
+    Account ID:        0x2c47b3a45a505ca740fe1ece27862ed83c5afddb7775a62a1bea2ea23fc3262b
+    Public key (SS58): 5D4mGGBKeWnoadSgSVbcqNNQZvgU4tk8VXpWL5MDPQWRXP22
+    SS58 Address:      5D4mGGBKeWnoadSgSVbcqNNQZvgU4tk8VXpWL5MDPQWRXP22
+    ```
+    
+2. [Raw chain spec](http://testnet.avail.tools/chainspec.raw.json) for the chain to connect to 
 3. The p2p address of the boot node to connect to 
 
-1. To create **Stash** and **Controller** accounts -
-Please visit Polygon Avail Explorer [here](https://testnet.avail.tools/), preferably in the incognito mode.
+Reach out to Avail Team for getting AVL tokens in your stash account or for address of the bootnode 
 
-<aside>
-🗒️ The **[Avail Explorer](https://testnet.avail.tools/)** is a fork of **[Polkadot-JS Apps](https://polkadot.js.org/).** The interface and navigation are the same if you are familiar with Polkadot-JS Apps.
+🗒️ The Avail [Explorer](https://testnet.avail.tools/) is a fork of [Polkadot-JS-Apps](https://polkadot.js.org/). The interface and navigation are the same if you are familiar with Polkadot-JS Apps.
 
-</aside>
+4. If you built the `data-avail` binary from sources, you may have the *raw chain spec* to connect to the testnet in `avail/misc/genesis` folder file [avail-testnet-raw-chain-spec.json](https://github.com/availproject/avail/tree/main/misc/genesis) or follow this [link](http://testnet.avail.tools/chainspec.raw.json). If it is not there or if you are using the binary directly to make one, then please reach out to Avail team to get the *raw chain spec* to connect to.
 
-Navigate to **Accounts** tab and click on the **Accounts** sub-tab as shown in figure below. 
-
-<img src={useBaseUrl("img/avail/account.png")} width="100%" height="100%"/>
+5. Obtain the p2p address (similar to the one shown below) of the boot node to connect to from the Avail team. 
 
 
-On this **Accounts** page, click **Add account** button and follow steps in the pop-up window to create your *Stash* and *Controller* accounts.
-
-Then reachout to the Avail team with your *Stash* account address to seek the AVL tokens for validating.
-
-2. If you built the `data-avail` binary from sources, you may have the *raw chain spec* to connect to the testnet in `avail/misc/genesis` folder file `avail-testnet-raw-chain-spec.json`. If it is not there or if you are using the binary directly, then please reach out to Avail team to get the *raw chain spec* to connect to.
-
-3. Obtain the p2p address (similar to the one shown below) of the boot node to connect to from the Avail team. 
-
-```bash
-**p2p address:** *ip4/32.xxx.yyy.21/tcp/30333/p2p/12D3KoxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxYwLNRAnW*
-```
-
-The *Manual Setup* now comprises of follwoing steps -
-
-* ***1. Run `data-avail` binary to connect to the testnet***
-* ***2. Insert keys in the node’s key store for Controller account and generate session key for the node***
-* ***3. Stake AVLs and associate session key to the Controller account to become new validator***
+    ip4/32.xxx.yyy.21/tcp/30333/p2p/12D3KoxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxYwLNRAnW
 
 ### 1. Run `data-avail` binary to connect to the testnet
 
 If you built the `data-avail` binary from sources, then navigate to your `avail` directory and run:
 
 ```bash
-[ec2-user@ip-171-32-14-198 avail]$ *./target/release/data-avail --base-path /tmp/Testnet --chain misc/genesis/avail-testnet-raw-chain-spec.json --port 30333 --validator --bootnodes /ip4/32.xxx.yyy.21/tcp/30333/p2p/12D3KoxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxYwLNRAnW*
+./target/release/data-avail --base-path /tmp/Testnet --chain misc/genesis/avail-testnet-raw-chain-spec.json --port 30333 --validator --bootnodes /ip4/32.xxx.yyy.21/tcp/30333/p2p/12D3KoxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxYwLNRAnW*
 ```
 
 - The `--validator` flag makes this new node run as a validator node
@@ -106,15 +108,34 @@ If using the pre-built binaries, then issue the above command from the directory
 
 Successfully connecting one or more peers indicates that your new node is now successfully connected to the Avail testnet.
 
-
-
 ### 2. Insert keys in the node’s key store for Controller account and generate session key for the node
 
-Open another command line session, navigate to the `avail` directory and then run following command:
+Open another command line session, navigate to the `avail` directory and then
+
+1.  Open a text editor such as nano, vim, or gedit.
+2.  Type the following command in the text editor:
 
 ```bash
-*[ec2-user@ip-171-32-14-198 avail]$./target/release/data-avail key insert --base-path /tmp/Testnet --chain avail-testnet-raw-chain-spec.json --scheme Sr25519 --suri* 0x13ffxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxd7cf8292f3  *--password-interactive --key-type babe* 
+#! /bin/bash
+./target/release/data-avail key insert --base-path /tmp/Testnet --chain avail-testnet-raw-chain-spec.json --scheme Sr25519 --suri 0x13ffxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxd7cf8292f3  --password-interactive --key-type babe
 ```
+3.  Save the file with a .sh extension, for example, "data-avail.sh".
+
+4.  Open a terminal and navigate to the directory where the sh file is located.
+
+5.  Make the file executable by running the following command:
+
+```bash
+chmod +x data-avail.sh
+```
+6. Finally, run the sh file by typing the following command in the terminal:
+
+```bash
+./data-avail.sh
+```
+
+You can directly use the command directly instead of making a sh file, but for security reasons we prefer this way. <br />
+
 
 This command inserts key for [BABE](https://wiki.polkadot.network/docs/learn-consensus#block-production-babe) (the block production mechanism) in the key store of the validator node. Argument `--suri` specifies the secret seed used to generate SS58 address and public key for the Controller account. You may use it in “quotes” in its mnemonic form, or the way shown above as a raw seed. 
 
@@ -143,8 +164,8 @@ Like this, insert the key for the grandpa, imon and audi pallets used in the Ava
 
 Now to generate the session key for this node execute following command -
 
-```jsx
-curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "author_rotateKeys", "params":[]}' [http://localhost:9933](http://localhost:9933/)
+```bash
+curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "author_rotateKeys", "params":[]}' http://localhost:9933/
 ```
 
 <aside>
@@ -153,11 +174,11 @@ curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method":
 
 It gives an output something similar to:
 
-```jsx
+```
 {"jsonrpc":"2.0","result":"0x14cccfe72a5606902b429493ee3b5c48eb4c7660bdcc0bc7df59cb5a7a959570436c6714c050fe7302a74b0555eb65445af2011cf46aa936cbf014255a75e1946a2ee9184d47cc02d1b58767edb36ed911c29a8e927e104e24fe5a4b7f1ae95ada248033170a1ed9f2a3ab030512dbebdf80ede8607077466fb549ed3c10c218","id":1}
 ```
 
-**Please copy and preserve this output**, as it is needed later. Specifically the `result` field from this output, which is the session key.
+**Please copy and preserve the output that you are getting**, as it is needed later. Specifically the `result` field from this output, which is the session key.
 
 Now **do not forget to restart the Avail node i.e. Avail service**. Once the Avail node is back up and running, proceed to the final section.
 
