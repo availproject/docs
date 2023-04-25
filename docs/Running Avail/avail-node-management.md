@@ -104,11 +104,11 @@ Run a local dev node with temporary datastore:
 
 ## Running Avail full node
 
-If you intend to run a full node instaead of a validator node, then first seek following two things from the Avail team -
+If you intend to run a full node instaead of a validator node, then you must have following two things ready with you -
 
-1) [Raw chain spec](http://testnet.avail.tools/chainspec.raw.json) for the chain to connect to (incase the link giving the chainspec is not working as expteced)
+1) Raw chain spec to connect to the Avail testnet available [here](http://testnet.avail.tools/chainspec.raw.json) 
 
-2) The p2p address of the boot node to connect to 
+2) The p2p address of the boot node to connect to.  
 
 When you have both of them, then from your `avail` directory execute the command -
 
@@ -116,15 +116,13 @@ When you have both of them, then from your `avail` directory execute the command
 ./target/release/data-avail --base-path /tmp/Testnet --chain misc/genesis/avail-testnet-raw-chain-spec.json --port 30333 --bootnodes /ip4/32.xxx.yyy.21/tcp/30333/p2p/12D3KoxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxYwLNRAnW*
 ``` 
 
-Please ensure that the `--validator` flag is *NOT* there in your command. Of course, you can specify some other flags as per your needs too. Please refer to `data-avail` `--help` documentation if you need to know more about those options and flags.
+Of course, you can specify some other flags as per your needs too. Please refer to `data-avail` `--help` documentation if you need to know more about those options and flags.
 
 
 💡  **Running data-avail binary as service:** The command line execution shown above is not the best way to use the `data-avail` binary in production. We recommend that you build a service around `data-avail` binary to use in your production environments. 
 
 
-Note that, [avail-testnet-raw-chain-spec.json](http://testnet.avail.tools/chainspec.raw.json) is the raw chain spec and `--bootnodes` flag uses p2p address of the bootnode that you received from Avail team. After issuing this command, you should get output logs on your screen.
-
 ⚠️ The output must show at least one peer, otherwise there is something wrong in the command execution, such as a typo, an incorrect parameter, etc. 
 
-Successfully connecting one or more peers indicates that your new full node is now successfully connected to the Avail testnet. Congratulations!
+Successfully connecting to one or more peers indicates that your new full node is now successfully connected to the Avail testnet. Congratulations!
 

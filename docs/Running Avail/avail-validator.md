@@ -41,8 +41,13 @@ The easiest way to deploy your own Avail validator node is to use the Manual set
 
 ### Prerequisites for node setup
 Ensure that, follwing three things are ready with you -
-1. To create **Stash** and **Controller** accounts Please visit Avail [Explorer](https://testnet.avail.tools/), preferably in the incognito mode. <br />
-    On this **Accounts** page, click **Add account** button and follow steps in the pop-up window to create your *Stash* and *Controller* accounts.
+1. To create **Stash** and **Controller** accounts please visit Avail [Explorer](https://testnet.avail.tools/), preferably in the incognito mode. 
+
+🗒️ The Avail [Explorer](https://testnet.avail.tools/) is a fork of [Polkadot-JS-Apps](https://polkadot.js.org/). The interface and navigation are the same if you are familiar with Polkadot-JS Apps.
+
+<br />
+    
+    On the **Accounts** page, click **Add account** button and follow steps in the pop-up window to create your *Stash* and *Controller* accounts.
     <img src={useBaseUrl("img/avail/account.png")} width="100%" height="100%"/>
 
     Another option to create an account is to run the following command. <br />
@@ -56,28 +61,22 @@ Ensure that, follwing three things are ready with you -
     The command generates keys and displays output similar to the following:
 
     ```console
-    Secret phrase:     cherry mind such wing lift battle hedgehog gap fresh much mimic cheese
+    Secret phrase:     cherry xxxx yyyy zzzz xxyy xxyyzz xxyyxxzz gap xxyyzz yyzz xxyyz cheese
     Network ID:        substrate
-    Secret seed:       0x4b855f43d903e6c9923523578e6d902b9efb879284113c7510e3aae8f62ad271
-    Public key (hex):  0x2c47b3a45a505ca740fe1ece27862ed83c5afddb7775a62a1bea2ea23fc3262b
-    Account ID:        0x2c47b3a45a505ca740fe1ece27862ed83c5afddb7775a62a1bea2ea23fc3262b
-    Public key (SS58): 5D4mGGBKeWnoadSgSVbcqNNQZvgU4tk8VXpWL5MDPQWRXP22
-    SS58 Address:      5D4mGGBKeWnoadSgSVbcqNNQZvgU4tk8VXpWL5MDPQWRXP22
+    Secret seed:       0x4bxxxyyyf903e6czzzxxxyyyjk6d90xxxyyyzzzpppqqqc7510exxxyyyzzzad271
+    Public key (hex):  0x2c47bxxxyyyzzzpppqqq1ece27862exxxyyyzzzpppqqq62a1bexxxyyyzzz262b
+    Account ID:        0x2c47bxxxyyyzzzpppqqq1ece27862exxxyyyzzzpppqqq62a1bexxxyyyzzz262b
+    Public key (SS58): 5D4mxxxyyyzzzdSgSVbcxxxyyyzzztk8VXxxxyyyzzzRXP22
+    SS58 Address:      5D4mxxxyyyzzzdSgSVbcxxxyyyzzztk8VXxxxyyyzzzRXP22
     ```
     
-2. [Raw chain spec](http://testnet.avail.tools/chainspec.raw.json) for the chain to connect to 
-3. The p2p address of the boot node to connect to 
+2. Raw chain spec to connect to the Avail testnet is available [here](http://testnet.avail.tools/chainspec.raw.json)  
+3. The p2p address (similar to the one shown below) of the boot node to connect to 
+ip4/32.xxx.yyy.21/tcp/30333/p2p/12D3KoxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxYwLNRAnW
 
-Reach out to Avail Team for getting AVL tokens in your stash account or for address of the bootnode 
-
-🗒️ The Avail [Explorer](https://testnet.avail.tools/) is a fork of [Polkadot-JS-Apps](https://polkadot.js.org/). The interface and navigation are the same if you are familiar with Polkadot-JS Apps.
-
-4. If you built the `data-avail` binary from sources, you may have the *raw chain spec* to connect to the testnet in `avail/misc/genesis` folder file [avail-testnet-raw-chain-spec.json](https://github.com/availproject/avail/tree/main/misc/genesis) or follow this [link](http://testnet.avail.tools/chainspec.raw.json). If it is not there or if you are using the binary directly to make one, then please reach out to Avail team to get the *raw chain spec* to connect to.
-
-5. Obtain the p2p address (similar to the one shown below) of the boot node to connect to from the Avail team. 
+Reach out to Avail Team for getting AVL tokens in your stash account and the p2p address of the bootnode.
 
 
-    ip4/32.xxx.yyy.21/tcp/30333/p2p/12D3KoxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxYwLNRAnW
 
 ### 1. Run `data-avail` binary to connect to the testnet
 
@@ -100,7 +99,7 @@ If you built the `data-avail` binary from sources, then navigate to your `avail`
 
 Note that, `--bootnodes` flag uses p2p address of the bootnode that you received from Avail team. After issuing this command, you should get output logs on your screen.
 
-If using the pre-built binaries, then issue the above command from the directory where you have your `data-avail` binary. Alsp ensure that the path appropriately to point to your `raw chain spec` file and the `local store` directory. 
+If using the pre-built binaries, then issue the above command from the directory where you have your `data-avail` binary. Also ensure that the path appropriately points to your `raw chain spec` file and the `local store` directory. 
 
 <aside>
 ⚠️ The output must show at least one peer, otherwise there is something wrong in the command execution, such as a typo, an incorrect parameter, etc. 
@@ -175,7 +174,7 @@ curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method":
 It gives an output something similar to:
 
 ```
-{"jsonrpc":"2.0","result":"0x14cccfe72a5606902b429493ee3b5c48eb4c7660bdcc0bc7df59cb5a7a959570436c6714c050fe7302a74b0555eb65445af2011cf46aa936cbf014255a75e1946a2ee9184d47cc02d1b58767edb36ed911c29a8e927e104e24fe5a4b7f1ae95ada248033170a1ed9f2a3ab030512dbebdf80ede8607077466fb549ed3c10c218","id":1}
+{"jsonrpc":"2.0","result":"0x14cccxxxyyyzzzpppqqq9493ee3b5c48eb4c7660bdcc0bc7xxxyyyzzzpppqqq0436c6714c050fe7302a7xxxyyyzzzpppqqq2011cf46aa936cbf0142xxxyyyzzzpppqqq184d47cc02d1b58767edb36ed91xxxyyyzzzpppqqq24fe5a4b7f1ae95ada24xxxyyyzzzpppqqq3ab030512dbebdf80ede860xxxyyyzzzpppqqqc10c218","id":1}
 ```
 
 **Please copy and preserve the output that you are getting**, as it is needed later. Specifically the `result` field from this output, which is the session key.
