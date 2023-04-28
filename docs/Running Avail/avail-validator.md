@@ -41,24 +41,22 @@ The easiest way to deploy your own Avail validator node is to use the Manual set
 
 ### Prerequisites for node setup
 Ensure that, follwing three things are ready with you -
-1. To create **Stash** and **Controller** accounts please visit Avail [Explorer](https://testnet.avail.tools/), preferably in the incognito mode. 
-
-🗒️ The Avail [Explorer](https://testnet.avail.tools/) is a fork of [Polkadot-JS-Apps](https://polkadot.js.org/). The interface and navigation are the same if you are familiar with Polkadot-JS Apps.
-
-<br />
-    
-    On the **Accounts** page, click **Add account** button and follow steps in the pop-up window to create your *Stash* and *Controller* accounts.
+1. To create **Stash** and **Controller** accounts please visit Avail [Explorer](https://testnet.avail.tools/), preferably in the incognito mode. On the **Accounts** page, click **Add account** button and follow steps in the pop-up window to create your *Stash* and *Controller* accounts.
     <img src={useBaseUrl("img/avail/account.png")} width="100%" height="100%"/>
 
-    Another option to create an account is to run the following command. <br />
-    **PS**: But before using this command you should build the node binary first.
+<aside>
+🗒️ The Avail [Explorer](https://testnet.avail.tools/) is a fork of [Polkadot-JS-Apps](https://polkadot.js.org/). The interface and navigation are the same if you are familiar with Polkadot-JS Apps.
+</aside>
 
-    ```bash
-    ./target/release/data-avail key generate --scheme Sr25519 --password-interactive
-    ```
-    Type a password for the generated keys
+Another option to create an account is, to run the following command.     
+**PS**: But before using this command you should build the node binary first.
 
-    The command generates keys and displays output similar to the following:
+```bash
+./target/release/data-avail key generate --scheme Sr25519 --password-interactive
+```
+Type a password for the generated keys
+
+The command generates keys and displays output similar to the following:
 
     ```console
     Secret phrase:     cherry xxxx yyyy zzzz xxyy xxyyzz xxyyxxzz gap xxyyzz yyzz xxyyz cheese
@@ -133,7 +131,7 @@ chmod +x data-avail.sh
 ./data-avail.sh
 ```
 
-You can directly use the command directly instead of making a sh file, but for security reasons we prefer this way. <br />
+You can directly use the command instead of making a sh file, but for security reasons we prefer this way. 
 
 
 This command inserts key for [BABE](https://wiki.polkadot.network/docs/learn-consensus#block-production-babe) (the block production mechanism) in the key store of the validator node. Argument `--suri` specifies the secret seed used to generate SS58 address and public key for the Controller account. You may use it in “quotes” in its mnemonic form, or the way shown above as a raw seed. 
