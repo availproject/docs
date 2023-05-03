@@ -104,7 +104,7 @@ Run a local dev node with temporary datastore:
 
 ## Running Avail full node
 
-If you intend to run a full node instaead of a validator node, then you must have following two things ready with you -
+If you intend to run a full node instead of a validator node, then you must have following two things ready with you -
 
 1) Raw chain spec to connect to the Avail testnet available [here](http://testnet.avail.tools/chainspec.raw.json) 
 
