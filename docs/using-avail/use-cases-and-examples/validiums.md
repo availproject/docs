@@ -86,8 +86,9 @@ it is possible to dispatch data root by creating transaction
     return await sendTx(availApi, account, tx);
    }
    ```
-Example of submitting data to Avail and dispatching data root [**TODO link**].
-
+:::info Example
+Example of submitting data to Avail and dispatching the data root [**TODO link**].
+:::
 Dispatching data root will trigger Nomad Bridge which will bridge data root to the Ethereum network. Since Nomad bridge is optimistic
 bridge, it is necessary to wait for 30 minutes before the data root is available on the Ethereum network.
 
@@ -138,6 +139,8 @@ data root membership function `validiumContract.checkDataRootMembership(blockNum
 
 `proof` Array of the merkle proofs to construct root
 
-This contract call will return `true` or `false` depending if the provided proof is valid or not.
+This contract call will return `true` or `false` depending on the provided proof.
 
-Example of submitting proof to the verification contract [**TODO link**].
+:::info Example 
+Example of getting the proof and submitting if to the verification contract [**TODO link**].
+:::
