@@ -41,8 +41,8 @@ The Avail team will make this data availability verification simple on
 Ethereum by building an attestation bridge to post data availability
 attestations directly to Ethereum. This will make the verification
 contract's job a simple one, since the DA attestations will already be
-on-chain. This bridge is currently in design; please reach out to the
-Avail team for more information or to join our early access program.
+on-chain. Please reach out to the Avail team for more information or
+to join our early access program.
 
 ## Verify data availability on Ethereum
 
@@ -53,7 +53,7 @@ for communication with Substrate based chains.
 
 Example:
 
- ```
+ ```typescript
     async function submitData(availApi, data, account) {
         let submit = await availApi.tx.dataAvailability.submitData(data);
         return await sendTx(availApi, account, submit);
@@ -427,10 +427,15 @@ deployed on Ethereum can be queried by calling data root membership function
 `async function checkProof(sepoliaApi, blockNumber, proof, numberOfLeaves, leafIndex, leafHash);` where
 
 `sepoliaApi` Sepolia network api instance.
+
 `blockNumber` Avail block number.
+
 `proof` Merkle proof fot the leaf.
+
 `numberOfLeaves` Number of leaves in the original tree.
+
 `leafIndex` Index of the leaf in the Merkle tree.
+
 `leafHash` Hash of the leaf in the Merkle tree.
 
 This contract call will return `true` or `false` depending on the provided proof.
