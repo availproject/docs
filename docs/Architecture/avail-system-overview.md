@@ -29,7 +29,7 @@ Although Avail is based on the Substrate codebase, it includes modifications to 
 
 :::
 
-Avail provides a high guarantee of data availability to any light client, but does not make higher guarantees to light clients about DA than any other network. Avail focuses on making it possible to prove that block data is available without downloading the whole block by leveraging Kate polynomial commitments, erasure coding, and other technologies to allow light clients (which download only the _headers_ of the chain) to efficiently and randomly sample small amounts of the block data to verify its full availability. However, there are fundamentally different primitives than fraud-proof-based DA systems, which are explained [here](https://blog.availproject.org/the-data-availability-problem/).
+Avail provides a high guarantee of data availability to any light client, but does not make higher guarantees to light clients about DA than any other network. Avail focuses on making it possible to prove that block data is available without downloading the whole block by leveraging KZG polynomial commitments, erasure coding, and other technologies to allow light clients (which download only the _headers_ of the chain) to efficiently and randomly sample small amounts of the block data to verify its full availability. However, there are fundamentally different primitives than fraud-proof-based DA systems, which are explained [here](https://blog.availproject.org/the-data-availability-problem/).
 
 ### Providing data availability
 
@@ -124,7 +124,7 @@ Erasure codes effectively duplicate data so that if part of a block is suppresse
 > The technique is used in devices like CD-ROMs and multi-disk (RAID) arrays (for instance,
 > if a hard drive dies, it can be replaced and re-constructed from the data on other disks).
 
-What is unique about Avail is that the chain design allows **anyone** to check DA without needing to download the data. DA checks require each light client to sample a minimal number of random chunks from each block in the chain. A set of light clients can collectively sample the entire blockchain in this manner. Consequently, the more non-consensus nodes there are, the greater the block size (and throughput) can securely exist. Meaning, non-consensus nodes can contribute to the throughput and security of the network.
+What is unique about Avail is that the chain design allows **anyone** to check DA without needing to download the data. DA checks require each light client to sample a minimal number of random chunks from each block in the chain. A set of light clients can collectively sample the entire blockchain in this manner. Consequently, the more non-consensus nodes there are, the greater the block size (and throughput) that can securely exist. Meaning, non-consensus nodes can contribute to the throughput and security of the network.
 
 ### Transaction settlement
 
