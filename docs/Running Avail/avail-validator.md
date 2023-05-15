@@ -132,8 +132,7 @@ balance.
 
 It is now time to set up your validator by doing the following:
 
- - Bond the AVL of the Stash account. These token will be put at stake for the security of the network and
-   subject to slashing.
+ - Bond the AVL of the Stash account. These tokens will be put at stake for the security of the network and are subject to slashing.
  - Select the Controller. This is the account that will decide when to start or stop validating.
 
 First, go to the **Developer** tab in the [Avail Apps](https://devnet-avail.polygon.technology/)
@@ -162,8 +161,7 @@ Select the **staking** pallet, and the **bond** extrinsic.
 
 <img src={useBaseUrl("img/avail/add_validator_bound_step.png")} width="100%" height="100%"/>
 
-Create a transaction where your **stash** account bounds 1001 AVLs at least to your **controller** account,
-as shown below.
+Create a transaction where your stash account bonds at least 1001 AVLs to your controller account, as shown below.
 
 <img src={useBaseUrl("img/avail/bond-avl-val.png")} width="100%" height="100%"/>
 
@@ -171,7 +169,7 @@ as shown below.
 
 Once your node is **fully synced**, you need to rotate and submit your session keys.
 
-### Rotate you session keys
+### Rotate your session keys
 
 Run this command on the same machine (while the node is running with the default HTTP RPC port configured):
 
