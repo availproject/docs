@@ -93,7 +93,7 @@ copy your address.  Alternatively, you can copy the address manually.
 Head over to the [faucet](https://faucet.polygon.technology).
 
 On the faucet page, select `DA Network`  and  `DA (Test Token)` as the network and token.
-Paste your account address and click on **Submit**. The transfer will up to one
+Paste your account address and click on **Submit**. The transfer will take up to one
 minute to complete.
 
 <img src={useBaseUrl("img/avail/faucet.png")} width="100%" height="100%"/>
