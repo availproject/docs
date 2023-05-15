@@ -23,7 +23,7 @@ Until now, the approach to maintaining DA solutions has generally been through a
 
 Through a DAC, scaling solutions rely on a DAC to reach a Validium. The issue with DACs is that data availability becomes a trusted service upon a small group of committee members who are responsible for storing and truthfully reporting data.
 
-Avail is not a DAC, but an actual blockchain network with its consensus mechanism, and has its own set of validator nodes and block producers.
+Avail is not a DAC, but an actual blockchain network with its own consensus mechanism, and has its own set of validator nodes and block producers.
 
 ## Proof of Stake
 
@@ -57,4 +57,4 @@ At face value, delegation and nomination seem like the same action, especially f
 In DPoS, a voting-centric election system determines a fixed number of validators to secure the network. Delegators can delegate their stake against candidate network validators by using it as voting power to back 
 delegates. Delegators often support validators on the highest staked, as higher-staked validators have a higher chance of election. The delegates with the most votes become the network's validators and can verify transactions. While using their stake as voting power, on Avail, they are not subject to consequences via slashing if their elected validator behaves maliciously. In other DPoS systems, delegators may be subject to slashing.
 
-In NPoS, delegators turn into nominators and use their stake in a similar manner to nominate potential candidate validators to secure the network. Stake is locked on-chain, and contrary to DPoS, nominators are subject to slashing based on the potential malicious behavior of their nominations. In this regard, NPoS is a more proactive staking mechanism as opposed to staking that is "set and forget", as nominators look out for well-behaving and sustainable validators. This also encourages validators to create robust validator operations to attract and maintain nominations.
+In NPoS, delegators turn into nominators and use their stake in a similar manner to nominate potential candidate validators to secure the network. Stake is locked on-chain, and contrary to DPoS, nominators are subject to slashing based on the potential malicious behavior of their nominations. In this regard, NPoS is a more proactive staking mechanism as opposed to staking that is "set and forget," as nominators look out for well-behaving and sustainable validators. This also encourages validators to create robust validator operations to attract and maintain nominations.
