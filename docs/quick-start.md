@@ -83,7 +83,7 @@ access your account.
 
 :::
 
-## Receive AVL Testnet Tokens
+<!-- ## Receive AVL Testnet Tokens
 
 On the Avail Explorer, click on the icon next to your account name to
 copy your address.  Alternatively, you can copy the address manually.
@@ -100,7 +100,7 @@ minute to complete.
 
 Upon successful transfer, your account should now have a non-zero balance. If you face any issues
 obtaining tokens from the faucet, please reach out on
-[Discord](https://discord.gg/y6fHnxZQX8).
+[Discord](https://discord.gg/y6fHnxZQX8). -->
 
 ## Submit a New Transaction
 
@@ -283,7 +283,7 @@ medium.
 
 :::
 
-## Receive AVL Testnet Tokens
+<!-- ## Receive AVL Testnet Tokens
 
 Head over to the [faucet](https://faucet.polygon.technology).
 
@@ -301,10 +301,11 @@ Use the following script to check the balance of the account you just created:
 
 ```typescript
 
-const { ApiPromise, WsProvider, Keyring } = require('@polkadot/api');
-const {mnemonicGenerate, cryptoWaitReady } = require('@polkadot/util-crypto');
+import { ApiPromise, WsProvider, Keyring } from '@polkadot/api';
+import {mnemonicGenerate, cryptoWaitReady } = from '@polkadot/util-crypto';
 
-import type { ISubmittableResult} from '@polkadot/types/types';
+import type { ISubmittableResult, SignatureOptions } from '@polkadot/types/types';
+import '@polkadot/api-augment';
 
 const keyring = new Keyring({ type: 'sr25519' });
 
@@ -314,43 +315,131 @@ async function createApi() {
 
   // Create the API and wait until ready
   return ApiPromise.create({
-    provider,
-    types: {
-        DataLookup: {
-          size: 'u32',
-          index: 'Vec<(u32,u32)>'
-        },
-        KateExtrinsicRoot: {
-          hash: 'Hash',
-          commitment: 'Vec<u8>',
-          rows: 'u16',
-          cols: 'u16'
-        },
-        KateHeader: {
-          parentHash: 'Hash',
-          number: 'Compact<BlockNumber>',
-          stateRoot: 'Hash',
-          extrinsicsRoot: 'KateExtrinsicRoot',
-          digest: 'Digest',
-          app_data_lookup: 'DataLookup'
-        },
-        Header: 'KateHeader',
-        AppId: 'u32',
-        CheckAppId: {
-            extra: {
-                appId: 'u32',
-            },
-            types: {}
-        }
-    },
-    signedExtensions: {
-      CheckAppId: {
-        extrinsic: {
-          appId: 'u32'
-        },
-        payload: {}
+  provider,
+      rpc: {
+          kate: {
+              blockLength: {
+                  description: "Get Block Length",
+                  params: [
+                      {
+                          name: 'at',
+                          type: 'Hash',
+                          isOptional: true
+                      }
+                  ],
+                  type: 'BlockLength'
+              },
+              queryProof: {
+                  description: 'Generate the kate proof for the given `cells`',
+                  params: [
+                      {
+                          name: 'cells',
+                          type: 'Vec<Cell>'
+                      },
+                      {
+                          name: 'at',
+                          type: 'Hash',
+                          isOptional: true
+                      },
+                  ],
+                  type: 'Vec<u8>'
+              },
+              queryDataProof: {
+                  description: 'Generate the data proof for the given `index`',
+                  params: [
+                      {
+                          name: 'data_index',
+                          type: 'u32'
+                      },
+                      {
+                          name: 'at',
+                          type: 'Hash',
+                          isOptional: true
+                      }
+                  ],
+                  type: 'DataProof'
+              }
+          }
       },
-    },
+      types: {
+          AppId: 'Compact<u32>',
+          DataLookupIndexItem: {
+              appId: 'AppId',
+              start: 'Compact<u32>'
+          },
+          DataLookup: {
+              size: 'Compact<u32>',
+              index: 'Vec<DataLookupIndexItem>'
+          },
+          KateCommitment: {
+              rows: 'Compact<u16>',
+              cols: 'Compact<u16>',
+              dataRoot: 'H256',
+              commitment: 'Vec<u8>'
+          },
+          V1HeaderExtension: {
+              commitment: 'KateCommitment',
+              appLookup: 'DataLookup'
+          },
+          VTHeaderExtension: {
+              newField: 'Vec<u8>',
+              commitment: 'KateCommitment',
+              appLookup: 'DataLookup'
+          },
+          HeaderExtension: {
+              _enum: {
+                  V1: 'V1HeaderExtension',
+                  VTest: 'VTHeaderExtension'
+              }
+          },
+          DaHeader: {
+              parentHash: 'Hash',
+              number: 'Compact<BlockNumber>',
+              stateRoot: 'Hash',
+              extrinsicsRoot: 'Hash',
+              digest: 'Digest',
+              extension: 'HeaderExtension'
+          },
+          Header: 'DaHeader',
+          CheckAppIdExtra: {
+              appId: 'AppId'
+          },
+          CheckAppIdTypes: {},
+          CheckAppId: {
+              extra: 'CheckAppIdExtra',
+              types: 'CheckAppIdTypes'
+          },
+          BlockLength: {
+              max: 'PerDispatchClass',
+              cols: 'Compact<u32>',
+              rows: 'Compact<u32>',
+              chunkSize: 'Compact<u32>'
+          },
+          PerDispatchClass: {
+              normal: 'u32',
+              operational: 'u32',
+              mandatory: 'u32'
+          },
+          DataProof: {
+              root: 'H256',
+              proof: 'Vec<H256>',
+              numberOfLeaves: 'Compact<u32>',
+              leaf_index: 'Compact<u32>',
+              leaf: 'H256'
+          },
+          Cell: {
+              row: 'u32',
+              col: 'u32',
+          }
+      },
+      signedExtensions: {
+          CheckAppId: {
+              extrinsic: {
+                  appId: 'AppId'
+              },
+              payload: {}
+          },
+      },
   });
 }
 
@@ -399,7 +488,7 @@ You are connected to chain Avail-Testnet using Avail Node v3.0.0-6c8781e-x86_64-
 For convenience, you can add the account you generated with
 `@polkadot/api` on the Avail Explorer UI to perform account actions.
 
-:::
+::: -->
 
 ## Submit a New Transaction
 
@@ -441,43 +530,131 @@ async function createApi() {
 
   // Create the API and wait until ready
   return ApiPromise.create({
-    provider,
-    types: {
-        DataLookup: {
-          size: 'u32',
-          index: 'Vec<(u32,u32)>'
-        },
-        KateExtrinsicRoot: {
-          hash: 'Hash',
-          commitment: 'Vec<u8>',
-          rows: 'u16',
-          cols: 'u16'
-        },
-        KateHeader: {
-          parentHash: 'Hash',
-          number: 'Compact<BlockNumber>',
-          stateRoot: 'Hash',
-          extrinsicsRoot: 'KateExtrinsicRoot',
-          digest: 'Digest',
-          app_data_lookup: 'DataLookup'
-        },
-        Header: 'KateHeader',
-        AppId: 'u32',
-        CheckAppId: {
-            extra: {
-                appId: 'u32',
-            },
-            types: {}
-        }
-    },
-    signedExtensions: {
-      CheckAppId: {
-        extrinsic: {
-          appId: 'u32'
-        },
-        payload: {}
+     provider,
+      rpc: {
+          kate: {
+              blockLength: {
+                  description: "Get Block Length",
+                  params: [
+                      {
+                          name: 'at',
+                          type: 'Hash',
+                          isOptional: true
+                      }
+                  ],
+                  type: 'BlockLength'
+              },
+              queryProof: {
+                  description: 'Generate the kate proof for the given `cells`',
+                  params: [
+                      {
+                          name: 'cells',
+                          type: 'Vec<Cell>'
+                      },
+                      {
+                          name: 'at',
+                          type: 'Hash',
+                          isOptional: true
+                      },
+                  ],
+                  type: 'Vec<u8>'
+              },
+              queryDataProof: {
+                  description: 'Generate the data proof for the given `index`',
+                  params: [
+                      {
+                          name: 'data_index',
+                          type: 'u32'
+                      },
+                      {
+                          name: 'at',
+                          type: 'Hash',
+                          isOptional: true
+                      }
+                  ],
+                  type: 'DataProof'
+              }
+          }
       },
-    },
+      types: {
+          AppId: 'Compact<u32>',
+          DataLookupIndexItem: {
+              appId: 'AppId',
+              start: 'Compact<u32>'
+          },
+          DataLookup: {
+              size: 'Compact<u32>',
+              index: 'Vec<DataLookupIndexItem>'
+          },
+          KateCommitment: {
+              rows: 'Compact<u16>',
+              cols: 'Compact<u16>',
+              dataRoot: 'H256',
+              commitment: 'Vec<u8>'
+          },
+          V1HeaderExtension: {
+              commitment: 'KateCommitment',
+              appLookup: 'DataLookup'
+          },
+          VTHeaderExtension: {
+              newField: 'Vec<u8>',
+              commitment: 'KateCommitment',
+              appLookup: 'DataLookup'
+          },
+          HeaderExtension: {
+              _enum: {
+                  V1: 'V1HeaderExtension',
+                  VTest: 'VTHeaderExtension'
+              }
+          },
+          DaHeader: {
+              parentHash: 'Hash',
+              number: 'Compact<BlockNumber>',
+              stateRoot: 'Hash',
+              extrinsicsRoot: 'Hash',
+              digest: 'Digest',
+              extension: 'HeaderExtension'
+          },
+          Header: 'DaHeader',
+          CheckAppIdExtra: {
+              appId: 'AppId'
+          },
+          CheckAppIdTypes: {},
+          CheckAppId: {
+              extra: 'CheckAppIdExtra',
+              types: 'CheckAppIdTypes'
+          },
+          BlockLength: {
+              max: 'PerDispatchClass',
+              cols: 'Compact<u32>',
+              rows: 'Compact<u32>',
+              chunkSize: 'Compact<u32>'
+          },
+          PerDispatchClass: {
+              normal: 'u32',
+              operational: 'u32',
+              mandatory: 'u32'
+          },
+          DataProof: {
+              root: 'H256',
+              proof: 'Vec<H256>',
+              numberOfLeaves: 'Compact<u32>',
+              leaf_index: 'Compact<u32>',
+              leaf: 'H256'
+          },
+          Cell: {
+              row: 'u32',
+              col: 'u32',
+          }
+      },
+      signedExtensions: {
+          CheckAppId: {
+              extrinsic: {
+                  appId: 'AppId'
+              },
+              payload: {}
+          },
+      },
   });
 }
 
@@ -497,10 +674,12 @@ async function main () {
     try{
         let KEY = 1;
         let createId = api.tx.dataAvailability.createApplicationKey(KEY);
+        const nonce = (await api.rpc.system.accountNextIndex(address)).toNumber();
+        // Use nonce:-1 if the following nonce query is not working
         const unsub = await createId
             .signAndSend(
             pair,
-            { app_id: 0},
+            { app_id: 0, nonce: nonce},
             ( result: ISubmittableResult ) => {
                 console.log(`Tx status: ${result.status}`);
 
@@ -546,42 +725,130 @@ async function createApi() {
   // Create the API and wait until ready
   return ApiPromise.create({
     provider,
-    types: {
-        DataLookup: {
-          size: 'u32',
-          index: 'Vec<(u32,u32)>'
+        rpc: {
+            kate: {
+                blockLength: {
+                    description: "Get Block Length",
+                    params: [
+                        {
+                            name: 'at',
+                            type: 'Hash',
+                            isOptional: true
+                        }
+                    ],
+                    type: 'BlockLength'
+                },
+                queryProof: {
+                    description: 'Generate the kate proof for the given `cells`',
+                    params: [
+                        {
+                            name: 'cells',
+                            type: 'Vec<Cell>'
+                        },
+                        {
+                            name: 'at',
+                            type: 'Hash',
+                            isOptional: true
+                        },
+                    ],
+                    type: 'Vec<u8>'
+                },
+                queryDataProof: {
+                    description: 'Generate the data proof for the given `index`',
+                    params: [
+                        {
+                            name: 'data_index',
+                            type: 'u32'
+                        },
+                        {
+                            name: 'at',
+                            type: 'Hash',
+                            isOptional: true
+                        }
+                    ],
+                    type: 'DataProof'
+                }
+            }
         },
-        KateExtrinsicRoot: {
-          hash: 'Hash',
-          commitment: 'Vec<u8>',
-          rows: 'u16',
-          cols: 'u16'
-        },
-        KateHeader: {
-          parentHash: 'Hash',
-          number: 'Compact<BlockNumber>',
-          stateRoot: 'Hash',
-          extrinsicsRoot: 'KateExtrinsicRoot',
-          digest: 'Digest',
-          app_data_lookup: 'DataLookup'
-        },
-        Header: 'KateHeader',
-        AppId: 'u32',
-        CheckAppId: {
-            extra: {
-                appId: 'u32',
+        types: {
+            AppId: 'Compact<u32>',
+            DataLookupIndexItem: {
+                appId: 'AppId',
+                start: 'Compact<u32>'
             },
-            types: {}
-        }
-    },
-    signedExtensions: {
-      CheckAppId: {
-        extrinsic: {
-          appId: 'u32'
+            DataLookup: {
+                size: 'Compact<u32>',
+                index: 'Vec<DataLookupIndexItem>'
+            },
+            KateCommitment: {
+                rows: 'Compact<u16>',
+                cols: 'Compact<u16>',
+                dataRoot: 'H256',
+                commitment: 'Vec<u8>'
+            },
+            V1HeaderExtension: {
+                commitment: 'KateCommitment',
+                appLookup: 'DataLookup'
+            },
+            VTHeaderExtension: {
+                newField: 'Vec<u8>',
+                commitment: 'KateCommitment',
+                appLookup: 'DataLookup'
+            },
+            HeaderExtension: {
+                _enum: {
+                    V1: 'V1HeaderExtension',
+                    VTest: 'VTHeaderExtension'
+                }
+            },
+            DaHeader: {
+                parentHash: 'Hash',
+                number: 'Compact<BlockNumber>',
+                stateRoot: 'Hash',
+                extrinsicsRoot: 'Hash',
+                digest: 'Digest',
+                extension: 'HeaderExtension'
+            },
+            Header: 'DaHeader',
+            CheckAppIdExtra: {
+                appId: 'AppId'
+            },
+            CheckAppIdTypes: {},
+            CheckAppId: {
+                extra: 'CheckAppIdExtra',
+                types: 'CheckAppIdTypes'
+            },
+            BlockLength: {
+                max: 'PerDispatchClass',
+                cols: 'Compact<u32>',
+                rows: 'Compact<u32>',
+                chunkSize: 'Compact<u32>'
+            },
+            PerDispatchClass: {
+                normal: 'u32',
+                operational: 'u32',
+                mandatory: 'u32'
+            },
+            DataProof: {
+                root: 'H256',
+                proof: 'Vec<H256>',
+                numberOfLeaves: 'Compact<u32>',
+                leaf_index: 'Compact<u32>',
+                leaf: 'H256'
+            },
+            Cell: {
+                row: 'u32',
+                col: 'u32',
+            }
         },
-        payload: {}
-      },
-    },
+        signedExtensions: {
+            CheckAppId: {
+                extrinsic: {
+                    appId: 'AppId'
+                },
+                payload: {}
+            },
+        },
   });
 }
 
@@ -599,15 +866,17 @@ async function main () {
   ]);
 
   console.log(`You are connected to chain ${chain} using ${nodeName} v${nodeVersion}`);
+    const nonce = (await api.rpc.system.accountNextIndex(address)).toNumber();
 
     try{
         let APP_ID = 1;
         let VALUE = `iucakcbak`;
         let transfer = api.tx.dataAvailability.submitData(VALUE);
+        // Use nonce:-1 if the following nonce query is not working
         const unsub = await transfer
             .signAndSend(
             pair,
-            { app_id: APP_ID},
+            { app_id: APP_ID, nonce: nonce},
             ( result: ISubmittableResult ) => {
                 console.log(`Tx status: ${result.status}`);
 
@@ -637,18 +906,6 @@ main().catch(console.error)
 You can head over to the [Avail Explorer](https://testnet.polygonavail.net/#/explorer), and the
 recent event list should list your transaction. You can click on the event and expand it to check out
 the transaction details.
-
-:::info How to get guarantees that the data behind the transaction is available?
-
-You can use the following curl request to check out the confidence level. Just replace the block number with the
-one you wish to get availability guarantees for.
-
-```bash
-
-curl -s -H 'Content-Type: application/json' -d '{"jsonrpc":"2.0","method":"get_blockConfidence","params": {"number": block_number_here}, "id": 1}' 'https://polygon-da-light.matic.today/v1/json-rpc'
-
-```
-:::
 
 </TabItem>
 </Tabs>
