@@ -72,7 +72,7 @@ Avail enables new chains to be created without needing to spin up a new validato
 Fast provable finality via Nominated Proof of Stake. Backed by KZG
 commitments and erasure coding.
 
-Start by checking out this [blog post](https://polygon.technology/blog/polygon-research-ethereum-scaling-with-rollups) on scaling Ethereum with Rollups.
+Start by checking out our [blog posts](https://blog.availproject.org/) to know more.
 
 ## Avail-Powered Validiums
 

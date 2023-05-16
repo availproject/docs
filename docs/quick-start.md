@@ -31,7 +31,7 @@ We are working on improving many of the current features. We appreciate you usin
 ## Generate an Avail Account
 
 You can generate an account using one of two methods:
-- [Avail Explorer](https://testnet.polygonavail.net/)
+- [Avail Explorer](https://testnet.avail.tools/)
 - Console/Typescript
 
 <Tabs
@@ -43,13 +43,13 @@ You can generate an account using one of two methods:
 }>
 <TabItem value="explorer">
 
-Head over to [Avail Explorer](https://testnet.polygonavail.net/).
+Head over to [Avail Explorer](https://testnet.avail.tools/).
 
 <img src={useBaseUrl("img/avail/avail-explorer.png")} width="100%" height="100%"/>
 
 :::note
 
-**[Avail Explorer](https://testnet.polygonavail.net/)** is a fork
+**[Avail Explorer](https://testnet.avail.tools/)** is a fork
 of **[Polkadot-JS Apps](https://polkadot.js.org/)**. The interface and navigation are the same
 if you are familiar with Polkadot-JS Apps.
 
@@ -82,6 +82,14 @@ as long as you use a strong password to encrypt the file. You can import the JSO
 access your account.
 
 :::
+
+## Receive AVL Testnet Tokens
+
+On the Avail Explorer, click on the icon next to your account name to
+copy your address.  Alternatively, you can copy the address manually. 
+This section will soon be updated with instructions to receive the 
+AVL testnet tokens into your account address.
+
 
 <!-- ## Receive AVL Testnet Tokens
 
@@ -151,7 +159,7 @@ Before sending a transaction using `App_ID`, it must be created using the `creat
 
 :::
 
-Submit the transaction. Head over to the [Avail Explorer](https://testnet.polygonavail.net/#/explorer).
+Submit the transaction. Head over to the [Avail Explorer](https://testnet.avail.tools/#/explorer).
 The recent event list should list your transaction. You can click on the event and expand it to check out
 the transaction details.
 
@@ -167,7 +175,7 @@ Enter the values you wish to submit as part of this transaction for `row` and `c
 
 <img src={useBaseUrl("img/avail/da-row-col.png")} width="100%" height="100%"/>
 
-Submit the transaction. Head over to the [Avail Explorer](https://testnet.polygonavail.net/#/explorer).
+Submit the transaction. Head over to the [Avail Explorer](https://testnet.avail.tools/#/explorer).
 The recent event list should list your transaction. You can click on the event and expand it to check out
 the transaction details.
 
@@ -282,6 +290,11 @@ an internet connection. The seed phrase should be written down and stored on a n
 medium.
 
 :::
+
+## Receive AVL Testnet Tokens
+
+This section will soon be updated with instructions to receive the 
+AVL testnet tokens into your account address.
 
 <!-- ## Receive AVL Testnet Tokens
 
@@ -720,7 +733,7 @@ const keyring = new Keyring({ type: 'sr25519' });
 
 async function createApi() {
   // Initialise the provider to connect to the local node
-  const provider = new WsProvider('wss://testnet.polygonavail.net/ws');
+  const provider = new WsProvider('ws://127.0.0.1:9944');
 
   // Create the API and wait until ready
   return ApiPromise.create({
@@ -903,7 +916,7 @@ main().catch(console.error)
 </TabItem>
 </Tabs>
 
-You can head over to the [Avail Explorer](https://testnet.polygonavail.net/#/explorer), and the
+You can head over to the [Avail Explorer](https://testnet.avail.tools/#/explorer), and the
 recent event list should list your transaction. You can click on the event and expand it to check out
 the transaction details.
 

@@ -78,12 +78,30 @@ Verify your installation with:
 rustc --version
 ```
 
+Then update rustup nightly with:
+
+```sh
+rustup update nightly
+```
+
+Next add rustup target with:
+
+```sh
+rustup target add wasm32-unknown-unknown --toolchain nightly
+```
+
+Also install protoc with:
+
+```sh
+sudo apt-get install protobuf-compiler
+```
+
 ## Run Avail Locally
 
 Clone the [Avail source code](https://github.com/availproject/avail.git):
 
 ```sh
-git clone git@github.com:availproject/avail.git
+git clone https://github.com/availproject/avail.git
 ```
 
 Now go to `avail` directory and compile the source code:

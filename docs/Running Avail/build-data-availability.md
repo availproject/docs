@@ -19,7 +19,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 Clone the repo and checkout to the right branch:
 
 ```shell
-git clone git@github.com:maticnetwork/avail.git
+git clone https://github.com/availproject/avail.git
 ```
 
 Only build the node binaries
@@ -63,7 +63,7 @@ info: override toolchain for '/build' set to '1.57.0-x86_64-unknown-linux-gnu'
 ⏳ That can take a little while, be patient... subsequent builds will be faster.
  Since you have to wait a little, you may want to learn more about Substrate runtimes:
  https://docs.substrate.io/v3/getting-started/architecture/
-   Updating git repository `https://github.com/maticnetwork/plonk.git`
+   Updating git repository `https://github.com/availproject/plonk.git`
    Updating crates.io index
 Downloading crates ...
   Downloaded addr2line v0.17.0
