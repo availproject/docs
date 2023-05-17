@@ -1,7 +1,7 @@
 ---
 id: avail-data-avail
-title: Avail Validator Data Availability
-sidebar_label: Data Availability
+title: Multi Node Setup
+sidebar_label: Multi Node Setup
 description: Learn about running an Avail Validator node for Data Availability.
 keywords:
   - docs
