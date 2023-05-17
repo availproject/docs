@@ -142,4 +142,4 @@ Avail offers data hosting and ordering. The execution layer will likely come fro
 
 - [Introduction to Avail](https://blog.availproject.org/introducing-avail-by-a-robust-general-purpose-scalable-data-availability-layer/).
 - [Avail Blogs](https://blog.availproject.org/
-<!-- - [Polygon Talks: Avail](https://www.youtube.com/watch?v=okqMT1v3xi0) -->
+

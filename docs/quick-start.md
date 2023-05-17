@@ -98,8 +98,6 @@ copy your address.  Alternatively, you can copy the address manually.
 
 <img src={useBaseUrl("img/avail/account-icon.png")} align= "center" width="100%" height="100%"/>
 
-Head over to the [faucet](https://faucet.polygon.technology).
-
 On the faucet page, select `DA Network`  and  `DA (Test Token)` as the network and token.
 Paste your account address and click on **Submit**. The transfer will up to one
 minute to complete.
@@ -298,8 +296,6 @@ AVL testnet tokens into your account address.
 
 <!-- ## Receive AVL Testnet Tokens
 
-Head over to the [faucet](https://faucet.polygon.technology).
-
 On the faucet page, select `DA (Test Token)` and `DA Network` as the token and network,
 respectively. Paste your account address and click on **Submit**. The transfer will take up to one
 minute to complete.
@@ -324,7 +320,7 @@ const keyring = new Keyring({ type: 'sr25519' });
 
 async function createApi() {
   // Initialise the provider to connect to the local node
-  const provider = new WsProvider('wss://testnet.polygonavail.net/ws');
+  const provider = new WsProvider(' wss://testnet.avail.tools/ws');
 
   // Create the API and wait until ready
   return ApiPromise.create({

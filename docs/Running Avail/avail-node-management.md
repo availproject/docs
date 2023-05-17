@@ -65,26 +65,21 @@ If not, start by running the following command to fetch the latest version of Ru
 ```sh
 curl https://sh.rustup.rs -sSf | sh -s -- -y
 
-Now to configure your shell, run:
-
 source $HOME/.cargo/env
-
-Verify your installation with:
-
-rustc --version
-
-Then update rustup nightly with:
 
 rustup update nightly
 
-Next add rustup target with:
-
 rustup target add wasm32-unknown-unknown --toolchain nightly
 
-Also install protoc with:
-
-sudo apt-get install protobuf-compiler
+rustc --version
 ```
+💡If you encounter any issues during the installation process, please contact our team for assistance.
+
+If you are looking for installing the required tools on different operating systems to work with our project visit the official Rust website: [https://www.rust-lang.org/tools/install](https://www.rust-lang.org/tools/install).
+Click on the appropriate link for your operating system to download the Rust installation package.
+
+If you are facing any issues during the Node installation process, please refer to the official Substrate installation guide: [https://docs.substrate.io/install/](https://docs.substrate.io/install/). The guide provides detailed instructions for different operating systems.
+
 
 ## Run Avail Locally
 
@@ -103,6 +98,11 @@ cargo build --release -p data-avail
 :::caution This process usually takes time
 
 :::
+
+:::caution If the avail-node build is failing please install [protoc](https://grpc.io/docs/protoc-installation/) also
+
+:::
+
 
 Run a local dev node with temporary datastore:
 

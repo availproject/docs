@@ -2,10 +2,9 @@
 id: faq
 title: FAQ
 sidebar_label: FAQ
-description: Frequently asked questions about Polygon Avail
+description: Frequently asked questions about Avail
 keywords:
   - docs
-  - polygon
   - avail
   - availability
   - client
