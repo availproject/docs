@@ -729,7 +729,7 @@ const keyring = new Keyring({ type: 'sr25519' });
 
 async function createApi() {
   // Initialise the provider to connect to the local node
-  const provider = new WsProvider('ws://127.0.0.1:9944');
+  const provider = new WsProvider('wss://testnet.avail.tools/ws');
 
   // Create the API and wait until ready
   return ApiPromise.create({
