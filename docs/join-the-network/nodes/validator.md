@@ -137,7 +137,7 @@ It is now time to set up your validator by doing the following:
    subject to slashing.
  - Select the Controller. This is the account that will decide when to start or stop validating.
 
-First, go to the **Developer** tab in the [Avail Apps](https://devnet.avail.tools/)
+First, go to the **Developer** tab in the [Avail Apps](https://testnet.avail.tools/)
 navbar and click on **Extrinsics**.
 
 * **Stash** account - Select your Stash account. In this example, we bond 1001 AVL tokens, where the
@@ -194,7 +194,7 @@ You can restart your node at this point.
 You need to tell the chain your Session keys by signing and submitting an extrinsic. This is what associates
 your validator with your Controller account.
 
-Navigate to the [**Network &rarr; Staking**](https://devnet.avail.tools/#/staking).
+Navigate to the [**Network &rarr; Staking**](https://testnet.avail.tools/#/staking).
 Here, you can perform various staking actions. Navigate to **Account actions**, and select **Set Session Key**
 on the bonding account you generated earlier. Enter the output `from author_rotateKeys` in the field and click on
 **Set Session Key**.
@@ -206,6 +206,6 @@ After submitting this extrinsic, you are ready to start validating.
 ## Validate
 
 To verify that your node is live and synchronized, navigate to
-[**Network &rarr; Staking**](https://devnet.avail.tools/#/staking) and select
+[**Network &rarr; Staking**](https://testnet.avail.tools/#/staking) and select
 **Waiting**. Your account should be shown there. A new validator set is selected every **era**,
 based on the staking amount.
