@@ -64,35 +64,25 @@ If not, start by running the following command to fetch the latest version of Ru
 
 ```sh
 curl https://sh.rustup.rs -sSf | sh -s -- -y
-```
 
-To configure your shell, run:
+Now to configure your shell, run:
 
-```sh
 source $HOME/.cargo/env
-```
 
 Verify your installation with:
 
-```sh
 rustc --version
-```
 
 Then update rustup nightly with:
 
-```sh
 rustup update nightly
-```
 
 Next add rustup target with:
 
-```sh
 rustup target add wasm32-unknown-unknown --toolchain nightly
-```
 
 Also install protoc with:
 
-```sh
 sudo apt-get install protobuf-compiler
 ```
 
