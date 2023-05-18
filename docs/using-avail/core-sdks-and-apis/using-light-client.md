@@ -55,12 +55,10 @@ On fresh startup, the LC performs a block sync with the node, using both DHT and
 
 ---
 
-The **fat client** mode of operation is enabled by setting the `block_matrix_partition` parameter in the config file. The parameter needs to be set to a fraction of the matrix, the fraction size depending on the CPU power of the instance running the client. 
-
-Fat clients are used to populate the DHT with the new block data by retrieving larger contiguous chunks of block matrix on each new block via RPC calls, and storing them on the DHT.
+The **fat client** mode of operation is enabled by setting the `block_matrix_partition` parameter in the config file. This mode is  used to populate the DHT with the new block data by retrieving larger contiguous chunks of block matrix on each new block via RPC calls, and storing them on the DHT. The `block_matrix_partition` parameter needs to be set to a fraction of the matrix, the fraction size depending on the CPU power of the instance running the client. 
 
 :::caution
-Fat client mode is **heavily** resource intensive and requires a far stronger machine than the regular light client.
+Fat client mode is **very** resource intensive and requires a far stronger machine than the regular light client.
 :::
 
 ---
@@ -93,7 +91,6 @@ http_server_host = "127.0.0.1"
 http_server_port = "7001"
 
 libp2p_port = "37001"
-libp2p_psk_path = "avail_ipfs_store"
 
 full_node_rpc = ["http://127.0.0.1:9933"]
 full_node_ws = ["ws://127.0.0.1:9944"]
@@ -113,3 +110,11 @@ bootstraps = [["12D3KooWStAKPADXqJ7cngPYXd2mSANpdgh1xQ34aouufHA2xShz", "/ip4/127
 For monitoring purposes, **Prometheus** is used.
 
 ### Application client
+
+The app client mode is used by individual apps to download, reconstruct and locally store relevant app data. 
+Application data is primarily downloaded from the DHT, either by downloading individual block matrix rows or with per-cell approach, downloading relevant individual cells.
+RPC is (again) used as a fallback mechanisms, if DHT doesn't contain the data.
+
+Downloaded and reconstructed data is exposed through a HTTP endpoint, with port configured by the `http_server_port` parameter. 
+
+App client mode is activated by setting the `app_id` to a value greater than `0`. 
