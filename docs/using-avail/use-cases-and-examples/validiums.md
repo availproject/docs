@@ -64,7 +64,10 @@ submit data availability transaction to the Avail network. Submitting data avail
 to Avail can be done using `Polkadot-JS` which is a collection of tools
 for communication with Substrate based chains.
 
-Example:
+Complete example can be found on [github](https://github.com/availproject/avail-js-examples/tree/master/src/validium).   
+
+
+Example of sending data to Avail:
 
  ```typescript
     async function submitData(availApi, data, account) {
