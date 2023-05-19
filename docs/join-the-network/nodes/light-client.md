@@ -58,3 +58,6 @@ Run the Light client with following config
 ```
 cargo run -- -c config.yaml
 ```
+
+One thing to note is that you might be asked to connect a bootstrap client when you try to run it locally. 
+Please reach out to Avail team inorder to get the bootstrap address. 

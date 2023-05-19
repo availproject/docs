@@ -82,6 +82,14 @@ access your account.
 
 :::
 
+## Receive AVL Testnet Tokens
+
+On the Avail Explorer, click on the icon next to your account name to
+copy your address.  Alternatively, you can copy the address manually. 
+This section will soon be updated with instructions to receive the 
+AVL testnet tokens into your account address.
+
+
 <!-- ## Receive AVL Testnet Tokens
 
 On the Avail Explorer, click on the icon next to your account name to
@@ -315,7 +323,7 @@ const keyring = new Keyring({ type: 'sr25519' });
 
 async function createApi() {
   // Initialise the provider to connect to the local node
-  const provider = new WsProvider('ws://127.0.0.1:9944');
+  const provider = new WsProvider('wss://testnet.avail.tools/ws');
 
   // Create the API and wait until ready
   return ApiPromise.create({
