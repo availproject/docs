@@ -126,7 +126,7 @@ Erasure codes effectively duplicate data so that if part of a block is suppresse
 
 What is unique about Avail is that the chain design allows **anyone** to check DA without needing to download the data. DA checks require each light client to sample a minimal number of random chunks from each block in the chain. A set of light clients can collectively sample the entire blockchain in this manner. Consequently, the more non-consensus nodes there are, the greater the block size (and throughput) can securely exist. Meaning, non-consensus nodes can contribute to the throughput and security of the network.
 
-### Transaction settlement
+<!-- ### Transaction settlement
 
 Avail will use a settlement layer built with Polygon Edge. The settlement layer provides an EVM-compatible blockchain for rollups to store their data and perform dispute resolution. The settlement layer utilizes Avail for its DA. When rollups are using a settlement layer, they also inherit all the DA properties of Avail.
 
@@ -136,7 +136,7 @@ There are different ways to use Avail, and the validiums will not use the settle
 
 :::
 
-Avail offers data hosting and ordering. The execution layer will likely come from multiple off-chain scaling solutions or legacy execution layers. The settlement layer takes on the verification and dispute resolution component.
+Avail offers data hosting and ordering. The execution layer will likely come from multiple off-chain scaling solutions or legacy execution layers. The settlement layer takes on the verification and dispute resolution component. -->
 
 ## Resources
 
