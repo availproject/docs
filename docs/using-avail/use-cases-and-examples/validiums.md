@@ -4,7 +4,6 @@ title: Avail-Powered Validiums
 sidebar_label: Validiums
 description: How to use Avail to build validiums
 keywords:
-
 - docs
 - avail
 - availability
