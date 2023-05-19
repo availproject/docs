@@ -33,7 +33,7 @@ availability guarantees. Avail solves this issue, thus enabling more application
 
 ## What is data availability sampling?
 
-Avail light clients, like other light clients, only download the headers of the blockchain. However, they additional perform data availability sampling: a technique that randomly samples small sections of the block data and verifies they are correct. When combined with erasure coding and Kate polynomial commitments, Avail clients are able to provide strong (nearly 100%) guarantees of availability without relying on fraud proofs, and with only a small constant number of queries.
+Avail light clients, like other light clients, only download the headers of the blockchain. However, they additionally perform data availability sampling: a technique that randomly samples small sections of the block data and verifies they are correct. When combined with erasure coding and KZG polynomial commitments, Avail clients are able to provide strong (nearly 100%) guarantees of availability without relying on fraud proofs, and with only a small constant number of queries.
 
 ## How is erasure coding used to increase data availability guarantees?
 
@@ -41,18 +41,18 @@ Erasure coding is a technique that encodes data in a way that spreads out the in
 
 Since a malicious actor needs to hide a large part of the block in order to attempt to hide even a single transaction, it makes it much more likely that random sampling would catch the large gaps in the data. Effectively, erasure coding makes the data availibility sampling technique much more powerful.
 
-## What are Kate commitments?
+## What are KZG commitments?
 
-Kate commitments, introduced by Aniket Kate, Gregory M. Zaverucha, and Ian Goldberg in 2010, provide a 
+KZG commitments, introduced by Aniket Kate, Gregory M. Zaverucha, and Ian Goldberg in 2010, provide a 
 way to commit to polynomials in a succinct manner. Recently, polynomial commitments came to the forefront, 
 being primarily used as commitments in PLONK-like zero knowledge constructions.
 
-In our construction, we use Kate commitments for the following reasons:
+In our construction, we use KZG commitments for the following reasons:
 
 - It allows us to commit to values in a succinct manner to be kept inside the block header.
 - Short openings are possible which helps a light client verify availability.
 - The cryptographic binding property helps us avoid fraud proofs by making it computationally infeasible 
-  to produce wrong commitments.
+  to produce incorrect commitments.
 
 In the future, we might use other polynomial commitment schemes, if that gives us better bounds or guarantees.
 
