@@ -58,10 +58,12 @@ _verification_ contract which verifies the validity proof when making state tran
 
 ## Verify data availability on Ethereum
 
-In order to verify data availability on the Ethereum it is necessary to
-submit data availability transaction to the Avail network. Submitting data availability transaction
-to Avail can be done using `Polkadot-JS` which is a collection of tools
-for communication with Substrate based chains.
+In order to verify data availability on the Ethereum it is necessary
+to first submit data to Avail as a data submission transaction. Data
+submitted this way will be included in Avail blocks, but not
+interpreted or executed in any way. The submission can be done using
+`Polkadot-JS` which is a collection of tools for communication with
+Substrate based chains.
 
 Complete example can be found on [github](https://github.com/availproject/avail-js-examples/tree/master/src/validium).   
 
@@ -80,9 +82,9 @@ and the `account` which is sending the transaction. In order to create account
 it is necessary to create _keyring_ _pair_ for the account that wants to send the data.
 This can be done with `keyring.addFromUri(secret)` which creates keyring pair via suri
 (the secret can be a hex string, mnemonic phrase or a string).
-After creating keyring pair, it is possible to send data availability transaction
-`availApi.tx.dataAvailability.submitData(data);` to the Avail network. Once transaction is included in the block
-it is possible to dispatch data root by creating transaction
+After creating keyring pair, it is possible to submit data in a transaction to the Avail network with 
+`availApi.tx.dataAvailability.submitData(data);`. Once the transaction is included in an Avail block,
+it is possible to initiate the dispatch of the data root by creating a dispatch transaction
 `availApi.tx.daBridge.tryDispatchDataRoot(destinationDomain, bridgeRouterEthAddress, header);` with the parameters:
 
 `destinationDomain` Destination domain 1000.
@@ -255,7 +257,7 @@ async function sendTx(api, account, tx) {
 }
 
 /**
- * Submitting data availability transaction.
+ * Submitting data to Avail as a transaction.
  *
  * @param availApi api instance
  * @param data payload to send
@@ -335,7 +337,7 @@ it is possible to prove that data is available on Avail network by submitting a 
 Fetching proof from Avail can be done via RPC call `kate_queryDataProof` for
 example `availApi.rpc.kate.queryDataProof(dataIndex, hashBlock);`
 where `dataIndex` is index of the data (leaf) in the Merkle tree and `hashBlock` which is a hash of the block in which
-the data is included. This RPC endpoint returns `DataProof` object that can be used to prove data availability on Avail.
+the data is included. This RPC endpoint returns `DataProof` object that can be used to prove on Ethereum that data is available on the Avail network.
 Example:
 
 ```typescript
