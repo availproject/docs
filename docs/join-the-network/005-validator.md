@@ -1,5 +1,5 @@
 ---
-id: avail-validator-node
+id: validator-node-setup
 title: Run an Avail Validator
 sidebar_label: Run a Validator
 sidebar_position: 5
@@ -10,7 +10,7 @@ keywords:
   - node
   - validator
 image: https://availproject.github.io/img/avail/AvailDocs.png
-slug: avail-validator-node
+slug: validator-node-setup
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 

@@ -1,5 +1,5 @@
 ---
-id: full-node
+id: full-node-setup
 title: Run a Full Node
 sidebar_position: 3
 sidebar_label: Run a Full Node
@@ -12,7 +12,7 @@ keywords:
   - data availability
   - da
 image: https://availproject.github.io/img/avail/AvailDocs.png
-slug: full-node
+slug: full-node-setup
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
