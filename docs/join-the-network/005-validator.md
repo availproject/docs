@@ -1,7 +1,8 @@
 ---
 id: avail-validator-node
 title: Run an Avail Validator
-sidebar_label: Run a Avail Validator
+sidebar_label: Run a Validator
+sidebar_position: 5
 description: "Learn about running an Avail validator."
 keywords:
   - docs
@@ -17,8 +18,8 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 :::info Onboarding validators
 
-In Avail's current state, the Avail team will maintain the network and run
-internal validators.
+Please join our Discord for up-to-date information on our network and
+validator onboarding.
 
 :::
 
@@ -37,7 +38,7 @@ When in doubt, reach out to the Validator Engagement team.
 
 ## Validator Setup
 
-To run an validator node you must first reveiw the full node setup. You will complete all the same steps. 
+To run an validator node you must first review the full node setup. You will complete all the same steps. 
 The only difference is the addition of `--validator` to the paramaters.
 
 A quick recap on creating a node:

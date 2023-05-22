@@ -1,70 +1,63 @@
 ---
-id: avail-full-node
+id: full-node
 title: Run a Full Node
+sidebar_position: 3
 sidebar_label: Run a Full Node
-description: Learn how to run a full node
+description: Learn how to run an Avail full node
 keywords:
   - docs
   - avail
   - node
+  - full node
   - data availability
   - da
 image: https://availproject.github.io/img/avail/AvailDocs.png
-slug: avail-full-node
+slug: full-node
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-:::tip Common practice
+## Before you start
 
-Users often run nodes on a cloud server. You may consider using a VPS provider (AWS, GCP, etc) to run your node.
+The instructions below assume a Linux distribution with `apt` (Debian,
+for example), but you may be able to adapt them to a different
+distribution. It's also common for users to run nodes on a cloud
+server. The following list of standard hardware is a recommendation of
+hardware specs that your environment should have:
+
+| Minimum      | Recommended    |
+|--------------|----------------|
+| 4GB RAM      | 8GB RAM        |
+| 2 core CPU   | 4 core CPU     |
+| 20-40 GB SSD | 200-300 GB SSD |
+
+:::info Alternate networks & releases
+
+All instructions below are for the **Kate testnet** network. To join a
+different network, you may need to download a different node version
+from the [node releases
+page](https://github.com/availproject/avail/releases) and a chain
+specification file for the specific network. Contact the Avail team if
+you have questions.
 
 :::
 
-## Prerequisites
-
-The following list of standard hardware is a recommendation of hardware specs that your environment should
-have.
-
-The hardware specs should at least have:
-
-* 8GB RAM
-* 4 core CPU
-* 200-300 GB SSD
-
-There is two sections below on how to run a full node, you only need to do one of them. There is also how to run a local dev node section for developers looking for a local node.
-
 ## Quick Full Node Setup
 
-Follow the below steps to run a full node in the most minimal time
-* Deteremine the latest [Avail binary](https://github.com/availproject/avail/releases) version you would like to use. Avail testnet is using version [v1.3.0-2-ad405d0](https://github.com/availproject/avail/releases/tag/v1.3.0-2-ad405d0)
-* Create a working directory:
-```
-cd ~
-mkdir avail-node
-cd avail-node
-```
-* Download the Avail binary. For now we will use the Testnet binary:
-```
-wget https://github.com/availproject/avail/releases/download/v1.3.0-2-ad405d0/data-avail-linux-amd64.tar.gz
-tar -xvf data-avail-linux-amd64.tar.gz
-mv data-avail-linux-amd64 data-avail
-rm data-avail-linux-amd64.tar.gz
-```
-* Download the chain specification file for the Testnet:
-```
-wget https://testnet.polygonavail.net/chainspec.raw.json
-```
-* Run a full node:
-```
-./data-avail --base-path ~/avail-node/data \
-		--chain ~/avail-node/chainspec.raw.json \
+This is the easiest way to get started. Follow these steps for the Kate testnet:
+
+1. Download the [node binary](https://github.com/availproject/avail/releases/tag/v1.3.0-2-ad405d0) and unpack it into a new folder of your choice. Rename the binary to `data-avail` for convenience.
+2. Download the [chain specification](https://testnet.avail.tools/chainspec.raw.json) file and place it in the same folder.
+3. `cd` into the folder and run the node:
+   ```
+./data-avail --base-path `pwd`/data \
+		--chain `pwd`/chainspec.raw.json \
 		--port 30333 \
 		--bootnodes /dns/gateway-fullnode-002.testnet.avail.tools/tcp/30333/p2p/12D3KooWNuBaLtAGNxQbei7rUzpp8N8TF8k5kPsgKShAJgK4crkB \
 		/dns/gateway-fullnode-001.testnet.avail.tools/tcp/30333/p2p/12D3KooWDgqCRtsJWKjckh2XHtRZbboVdgDJswsxoNmX8PMf59bV \
 		/dns/gateway-fullnode-003.testnet.avail.tools/tcp/30333/p2p/12D3KooWBNy1vzragtwiummqXwry19h6dke68hybY6jVeEH4mAtT
-```
+   ```
 
-The node should start running and output the following:
+The node should output:
 ```
 2023-05-07 12:55:07 ✌️  version 1.3.0-ad405d0-x86_64-linux-gnu
 2023-05-07 12:55:07 ❤️  by Anonymous, 2017-2023
@@ -79,77 +72,65 @@ The node should start running and output the following:
 2023-05-07 12:55:21 Listening for new connections on 127.0.0.1:9944.
 ```
 
-:::info Observe Role
-
-Pay attention to the role of the node. This will help you know what type of node you are running.
-
-:::
-
-You have succesfully run a full node.
-
+That's all! You are now running an Avail full node 🎉
 
 ## Build Binary & Full Node Setup
-The above quick setup section allows you to get a node up and running without building the binary. making use of an existing binary. Should you wish to build the binary and then run the node then follow the below steps.
 
-* First thing you will need to do is install dependencies:
-```
+We recommend the quick setup above, but if you prefer to build the
+node from source (e.g. if you are developing a pallet or need a
+version for which there aren't binaries available), then follow these
+instructions to build it.
+
+1. Install dependencies. You may need to adjust these for a different
+   Linux distribution, or if you already have Rust installed. Note
+   that Avail currently requires a nightly Rust build:
+
+   ```
 sudo apt install make clang pkg-config libssl-dev build-essential
-```
-
-* You will need to install Rust. Proceed with option 1 when using the below commands:
-```
 curl https://sh.rustup.rs -sSf | sh
 source $HOME/.cargo/env
-```
-
-* Use the following to verify Rust version and is in working condition:
-```
-rustc --version
-```
-
-* Update to Rust nightly and have the latest:
-```
 rustup update nightly
 rustup target add wasm32-unknown-unknown --toolchain nightly
-```
+rustc --version # verify rust is working, print the installed version
+   ```
 
-* We are now ready to download the code and build the binary. For the purpose of this document we making use of the TestNet version. You can download your preferred version:
-```
+2. Download the Avail node source and build the binary:
+
+   ```
 wget https://github.com/maticnetwork/avail/archive/refs/tags/v1.3.0-2-ad405d0.tar.gz
 tar -xvf v1.3.0-2-ad405d0.tar.gz
-rm v1.3.0-2-ad405d0.tar.gz
 cd avail-1.3.0-2-ad405d0 
 cargo build --release -p data-avail
-```
+   ```
 
-:::tip Build time will vary
+:::info Avail on GitHub
 
-The time taken to build the binary will vary from server. The more server resources available the faster the build will be.
+You may download the Avail node source from our [git
+repository](https://github.com/availproject/avail) instead, though we
+advise that you download a specific release tag unless you
+specifically require the latest source.
 
 :::
 
-* You may now create a working directory and transfer the binary into that directory:
-```
-cd ~
-mkdir avail-node
-cp  ~/avail-1.3.0-2-ad405d0/target/release/avail-node ~/avail-node/
+3. Create a working directory and transfer the binary into that
+   directory (you may use any directory you like, `~/avail-node` is an
+   example):
+   ```
+mkdir ~/avail-node
+cp  target/release/avail-node ~/avail-node/
 cd avail-node
-```
+   ```
 
-* Download the chain specification file for the Testnet:
-```
+4. Download the chain specification file and run the node:
+   ```
 wget https://testnet.polygonavail.net/chainspec.raw.json
-```
-
-* Run a full node:
-```
 ./data-avail --base-path ~/avail-node/data \
                 --chain ~/avail-node/chainspec.raw.json \
                 --port 30333 \
                 --bootnodes /dns/gateway-fullnode-002.testnet.avail.tools/tcp/30333/p2p/12D3KooWNuBaLtAGNxQbei7rUzpp8N8TF8k5kPsgKShAJgK4crkB \
                 /dns/gateway-fullnode-001.testnet.avail.tools/tcp/30333/p2p/12D3KooWDgqCRtsJWKjckh2XHtRZbboVdgDJswsxoNmX8PMf59bV \
                 /dns/gateway-fullnode-003.testnet.avail.tools/tcp/30333/p2p/12D3KooWBNy1vzragtwiummqXwry19h6dke68hybY6jVeEH4mAtT
-```
+   ```
 
 The node should start running and output the following:
 ```
@@ -166,12 +147,12 @@ The node should start running and output the following:
 2023-05-07 12:55:21 Listening for new connections on 127.0.0.1:9944.
 ```
 
+:::tip Run Avail Locally
 
-## Run Avail Locally
-
-To run a local dev node with temporary datastore:
+If you are working on the node itself, it can be useful to run a local dev node with temporary datastore:
 
 ```sh
 ./data-avail --dev --tmp
 ```
 
+:::

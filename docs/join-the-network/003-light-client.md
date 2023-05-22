@@ -2,7 +2,7 @@
 id: avail-light-client-da
 title: Build and Run a Light Client with Data Availability
 sidebar_label: Run a Light Client
-sidebar_position: 1
+sidebar_position: 2
 description: Learn about building and running a Light Client with Data Availability
 keywords:
   - docs
@@ -15,7 +15,7 @@ slug: avail-light-client-da
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-## Build & Run `avail-light` & `data-avail`
+## Building from source
 
 First clone the Light client repo 
 
