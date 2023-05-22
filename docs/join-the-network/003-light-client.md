@@ -93,6 +93,6 @@ performs random sampling to reach the confidence level set in the
 config file.
 
 Read more about how to build on the light client in the [Light Client
-Overview](avail-light-client-overview) section.
+Overview](/) section.
 
 Thanks for running an Avail light client!
