@@ -1,8 +1,8 @@
 ---
-id: avail-quick-start
-title: How to use Avail
-sidebar_label: Quick Start
-description: Learn how to use Avail
+id: avail-explorer
+title: Using the Explorer
+sidebar_label: Using the Explorer
+description: Getting started with the Avail Explorer
 keywords:
   - docs
   - avail
@@ -13,13 +13,13 @@ keywords:
   - explorer
   - use
 image: https://availproject.github.io/img/avail/AvailDocs.png
-slug: avail-quick-start
+slug: avail-explorer
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-# How to use Avail
+# Using the Avail Explorer
 
 :::note
 
