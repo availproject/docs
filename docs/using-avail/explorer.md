@@ -2,6 +2,7 @@
 id: avail-explorer
 title: Using the Explorer
 sidebar_label: Using the Explorer
+sidebar_position: 1
 description: Getting started with the Avail Explorer
 keywords:
   - docs
