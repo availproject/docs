@@ -2,7 +2,7 @@
 id: validator-node-setup
 title: Run an Avail Validator
 sidebar_label: Run a Validator
-sidebar_position: 5
+sidebar_position: 3
 description: "Learn about running an Avail validator."
 keywords:
   - docs
