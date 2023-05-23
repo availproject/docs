@@ -80,7 +80,7 @@ Follow these steps to connect a light client to the Kate testnet.
 
    See the [config
    reference](https://github.com/availproject/avail-light#config-reference)
-   for a complete description of the availa
+   for a complete description of the available settings.
 
 When run again, the light client should show:
 
