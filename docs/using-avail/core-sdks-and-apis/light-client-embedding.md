@@ -16,6 +16,9 @@ keywords:
 image: https://availproject.github.io/img/avail/AvailDocs.png
 slug: embedding-the-light-client
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 # Embedding the light client
 
@@ -25,12 +28,30 @@ The Avail light client plays a vital role in ensuring the availability and corre
 The light client is capable of downloading and verifying application-specific data submitted to Avail, which can be conveniently queried using the light client API.  
 The light client exposes an HTTP API that enables users to query the status, confidence, and application data for each processed block. When a block is finalized in Avail, the light client performs random sampling and verification, calculates confidence in the given block data, and if the confidence is high, retrieves the application data from the block. This data is then verified and stored locally for easy access.
 
-## Rust examples
+
+## Examples
 
 ### Fetching the number of the latest block processed by light client
 
 To fetch the number of the latest block processed by light client, we can perform `GET` request on `/v1/latest_block` endpoint.
 
+<Tabs groupId="examples" defaultValue="rust">
+<TabItem value="curl" label="CURL">
+
+```sh
+curl "http://localhost:7000/v1/latest_block"
+```
+
+Response:
+
+```json
+{
+  "latest_block": 10
+}
+```
+
+</TabItem>
+<TabItem value="rust" label="Rust">
 
 ```rust
 use reqwest::StatusCode;
@@ -41,7 +62,7 @@ pub struct LatestBlock {
     pub latest_block: u32,
 }
 
-const LIGHT_CLIENT_URL: &str = "http://127.0.0.1:7000";
+const LIGHT_CLIENT_URL: &str = "http://localhost:7000";
 
 let latest_block_url = format!("{LIGHT_CLIENT_URL}/v1/latest_block");
 let response = reqwest::get(latest_block_url).await.unwrap();
@@ -53,10 +74,32 @@ if response.status() == StatusCode::OK {
 }
 // ...error handling...
 ```
+</TabItem>
+</Tabs>
 
 ### Fetching the confidence for given block
 
 To fetch the the confidence for specific block, which is already processed by application client, we can perform `GET` request on `/v1/confidece/{block_number}` endpoint.
+
+<Tabs groupId="examples">
+<TabItem value="curl" label="CURL">
+
+```sh
+curl "http://localhost:7000/v1/confidence/1"
+```
+
+Response:
+
+```json
+{
+  "block": 1,
+  "confidence": 93.75,
+  "serialised_confidence": "5232467296"
+}
+```
+
+</TabItem>
+<TabItem value="rust" label="Rust">
 
 ```rust
 use reqwest::StatusCode;
@@ -69,7 +112,7 @@ pub struct Confidence {
     pub serialised_confidence: Option<String>,
 }
 	
-const LIGHT_CLIENT_URL: &str = "http://127.0.0.1:7000";
+const LIGHT_CLIENT_URL: &str = "http://localhost:7000";
 
 let block_number = 1;
 let confidence_url = format!("{LIGHT_CLIENT_URL}/v1/confidence/{block_number}");
@@ -83,9 +126,47 @@ if response.status() == StatusCode::OK {
 // ...error handling...
 ```
 
+</TabItem>
+</Tabs>
+
 ### Fetching decoded application data for given block
 
 After data is verified, it can be fetched with `GET` request on `/v1/appdata/{block_number}` endpoint, by specifying `decode=true` query parameter.
+
+<Tabs groupId="examples">
+<TabItem value="curl" label="CURL">
+
+#### JSON response
+
+```sh
+curl "http://localhost:7000/v1/appdata/1?decode=true"
+```
+
+Response:
+
+```json
+{
+  "block": 46,
+  "extrinsics": [
+    "ZXhhbXBsZQ=="
+  ]
+}
+```
+
+#### Decoded extrinsic
+
+```sh
+curl -s "http://127.0.0.1:7000/v1/appdata/1?decode=true" | jq -r '.extrinsics[-1]' | base64 -d
+```
+
+Response:
+
+```json
+"example"
+```
+
+</TabItem>
+<TabItem value="rust" label="Rust">
 
 ```rust
 
@@ -99,7 +180,7 @@ pub struct ExtrinsicsData {
     pub extrinsics: Vec<String>,
 }
 
-const LIGHT_CLIENT_URL: &str = "http://127.0.0.1:7000";
+const LIGHT_CLIENT_URL: &str = "http://localhost:7000";
 
 let block_number = 2;
 let confidence_url = format!("{LIGHT_CLIENT_URL}/v1/appdata/{block_number}?decode=true");
@@ -119,10 +200,30 @@ if response.status() == StatusCode::OK {
 // ...error handling...
 ```
 
+</TabItem>
+</Tabs>
 
 ### Waiting for application data to be verified
 
 If light client is still processing specific block, we can poll light client with `GET` request on `/v1/appdata/{block_number}` endpoint, and wait for data to became available.
+
+<Tabs groupId="examples">
+<TabItem value="curl" label="CURL">
+
+```sh
+curl "http://localhost:7000/v1/appdata/2"
+```
+
+If response status code is `401` and body is:
+
+```json
+"Processing block"
+```
+
+we need to poll endpoint until data becomes available.
+
+</TabItem>
+<TabItem value="rust" label="Rust">
 
 ```rust
 use avail_subxt::primitives::AppUncheckedExtrinsic;
@@ -138,7 +239,7 @@ pub struct ExtrinsicsData {
 
 const POLLING_TIMEOUT: Duration = Duration::from_secs(120);
 const POLLING_INTERVAL: Duration = Duration::from_secs(1);
-const LIGHT_CLIENT_URL: &str = "http://127.0.0.1:7000";
+const LIGHT_CLIENT_URL: &str = "http://localhost:7000";
 
 async fn wait_for_appdata(appdata_url: &str, block: u32) -> anyhow::Result<ExtrinsicsData> {
     let appdata_url = format!("{LIGHT_CLIENT_URL}/v1/appdata/{block}");
@@ -177,6 +278,9 @@ async fn wait_for_appdata(appdata_url: &str, block: u32) -> anyhow::Result<Extri
 ```
 
 Function `wait_for_appdata` will block until data is available or timeout is reached.
+
+</TabItem>
+</Tabs>
 
 ## API reference
 
@@ -251,7 +355,7 @@ Given a block number, it retrieves the hex-encoded extrinsics for the specified 
 - `block_number` - block number (requred)
 
 > Query parameters:
-- `decode` - `true` if decoded extrinsics is requested (boolean, optional, default is `false`)
+- `decode` - `true` if decoded extrinsics are requested (boolean, optional, default is `false`)
 
 #### Responses
 
