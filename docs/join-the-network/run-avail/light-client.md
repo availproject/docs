@@ -88,6 +88,17 @@ When run again, the light client should show:
 ...
 ```
 
+:::tip Running Light Client from binary 
+
+Create the `config.yaml` file. You may copy the sample `config.yaml` file available in Installation section at https://github.com/availproject/avail-light and modify it to your requirements. Please refer the [config
+reference](https://github.com/availproject/avail-light#config-reference) for more details. Now copy the Light Client binary from the binary releases [available here](https://github.com/availproject/avail-light/releases) in the same directory where you have the `config.yaml` file and execute following command - 
+```
+   ./avail-light -c config.yaml
+```
+
+:::
+
+
 Note that as each block is produced by the network, the light client
 performs random sampling to reach the confidence level set in the
 config file.
