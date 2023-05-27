@@ -15,7 +15,38 @@ slug: light-client-setup
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-## Before you start
+## Quick Setup
+
+Follow these steps to connect a light client to the Kate testnet.
+
+1. Download the client binary and config file for the network you want to join:
+   
+   | Network      | Client Binary           | Config File             |
+   |--------------|-------------------------|-------------------------|
+   | Kate Testnet | [Node v1.4.0](https://github.com/availproject/avail-light/releases/tag/v1.4.0) | [Config](https://) |
+
+2. Unpack both files into a folder and run the client:
+   
+   ```
+      ./avail-light -c config.yaml
+   ```
+   You may need to tweak the command depending on the binary name. You can also rename the binary for convenience.
+   
+   The client output should look like this:
+   ```
+   ...
+   ```
+
+
+3. That's it! There is no step 3. You're running the light client 🎉
+   
+   Refer to the [config
+   reference](https://github.com/availproject/avail-light#config-reference)
+   for available configuration options. And check out the "Using Avail"
+   section of these docs for guides and examples for how to interact with
+   Avail, embed the light client into your application, and more.
+
+## Building From Source
 
 1. Ensure have Rust installed:
 
@@ -27,83 +58,20 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
    rustc --version # verify rust is working, print the installed version
    ```
 
-   If it's not possible to install rust, you may be able to use one of
-   our pre-compiled binaries, see the releases link below.
-
-## Quick Setup
-
-Follow these steps to connect a light client to the Kate testnet.
-
-1. Clone the light client [git repository](https://github.com/availproject/avail-light):
+2. Clone the light client [git repository](https://github.com/availproject/avail-light):
 
    ```
    git clone https://github.com/availproject/avail-light.git
    ```
 
-   Binary releases are [also available](https://github.com/availproject/avail-light/releases) for convenience.
-
-2. Run the light client:
+3. Buid and run the light client:
 
    ```
    cd avail-light
    cargo run
    ```
 
-   After the compilation is complete (which can take a while), the client
-   will print something similar to this:
-   
-   ```
-   2023-05-22T18:51:02.695946Z  INFO avail_light::telemetry: Metrics server on http://0.0.0.0:9520/metrics
-   2023-05-22T18:51:02.719962Z  INFO avail_light::http: RPC running on http://127.0.0.1:7000
-   2023-05-22T18:51:02.720093Z  INFO avail_light::network: Local peer id: PeerId("12D3KooWQ5mVQPuq2urxqDZGpLE1BMqSi5kKAgFpNrGK467XxHUB"). Public key: Ed25519(PublicKey(compressed): d3f5b2f56be65c64e657f3c7f5b54f4cba3fd0c92644b52c96374474cf360).
-   2023-05-22T18:51:02.720365Z  INFO Server::run{addr=127.0.0.1:7000}: warp::server: listening on http://127.0.0.1:7000
-   2023-05-22T18:51:02.728516Z  INFO avail_light::network::event_loop: Local node is listening on "/ip4/127.0.0.1/udp/37000/quic-v1"
-   2023-05-22T18:51:02.728596Z  INFO avail_light::network::event_loop: Local node is listening on "/ip4/192.168.1.146/udp/37000/quic-v1"
-   2023-05-22T18:51:02.728702Z  INFO avail_light::network::event_loop: Local node is listening on "/ip4/127.0.0.1/tcp/37000"
-   2023-05-22T18:51:02.728703Z  INFO avail_light: No bootstrap nodes, waiting for first peer to connect...
-   2023-05-22T18:51:02.728731Z  INFO avail_light::network::event_loop: Local node is listening on "/ip4/192.168.1.146/tcp/37000"
-   ```
-
-3. Stop the client with `Control-c` and edit the `config.yaml` file.
-
-   Although the client runs, it needs to know the network
-   endpoint to use to subscribe to new block headers. The example
-   below is for the Kate testnet network, for other networks please
-   check the documentation or ask for help on Discord.
-   
-   Edit the `config.yaml` file (created by the client on first-run)
-   and set the `full_node_ws` setting as follows:
-
-   ```
-   full_node_ws = ['wss://testnet.avail.tools/ws']
-   ```
-
-   See the [config
-   reference](https://github.com/availproject/avail-light#config-reference)
-   for a complete description of the available settings.
-
-When run again, the light client should show:
-
-```
-...
-```
-
-:::tip Running Light Client from binary 
-
-Create the `config.yaml` file. You may copy the sample `config.yaml` file available in Installation section at https://github.com/availproject/avail-light and modify it to your requirements. Please refer the [config
-reference](https://github.com/availproject/avail-light#config-reference) for more details. Now copy the Light Client binary from the binary releases [available here](https://github.com/availproject/avail-light/releases) in the same directory where you have the `config.yaml` file and execute following command - 
-```
-   ./avail-light -c config.yaml
-```
-
-:::
-
-
-Note that as each block is produced by the network, the light client
-performs random sampling to reach the confidence level set in the
-config file.
-
-Read more about how to build on the light client in the [Light Client
-Overview](/) section.
-
-Thanks for running an Avail light client!
+   The client will generate a default `config.yaml` file, but it will
+   not be connected to any network. Replace the config with the
+   appropriate one from the "Quick Setup" section above, and re-run
+   the client. That's it!
