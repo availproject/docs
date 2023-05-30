@@ -14,7 +14,12 @@ image: https://availproject.github.io/img/avail/AvailDocs.png
 slug: /resources
 ---
 
-# See Also
+For more information about Avail, visit our homepage at
+https://availproject.org/ and our blog at
+https://blog.availproject.org/, or follow us on twitter at
+[@AvailProject](https://twitter.com/AvailProject).
 
-* [Introducing Avail — a Robust General-Purpose Scalable Data Availability Layer](https://blog.availproject.org/introducing-avail-by-a-robust-general-purpose-scalable-data-availability-layer/)
-* [The Data Availability Problem](https://blog.availproject.org/the-data-availability-problem/)
+If you need any help or just want to say hi, you can also connect with
+us and the Avail community on
+[Discord](https://discord.gg/S2XQJjHsZt). Looking forward to hearing
+from you!
