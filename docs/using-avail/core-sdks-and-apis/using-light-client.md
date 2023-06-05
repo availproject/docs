@@ -31,7 +31,7 @@ Light client functionality is separated into two logical parts - the *light clie
 
 ### Light client
 
-The **light client** mode of operation is active regardless of whether the app client is also active or not. 
+The **light client** mode of operation is active regardless of whether the app client is also active or not.
 Light client connects to an Avail node via a WebSocket connection and waits for a newly finalized block, with the header containing its KZG commitments.
 
 :::info
@@ -46,19 +46,11 @@ On each received header the client does random sampling of the matrix cells, whi
 Once the data is received, light client verifies individual cells and calculates the confidence that is then stored locally.
 
 :::note
-Light client uses *libp2p* with **Kademlia** as a DHT implementation. Peer-to-peer network is able to perform NAT traversal, both symmetric and asymmetric, enabling easy connectivity with various network configurations (e.g. symmetric and asymmetric NAT). 
+Light client uses *libp2p* with **Kademlia** as a DHT implementation. Peer-to-peer network is able to perform NAT traversal, both symmetric and asymmetric, enabling easy connectivity with various network configurations (e.g. symmetric and asymmetric NAT).
 :::
 
 :::note
 On fresh startup, the LC performs a block sync with the node, using both DHT and RPC mechanisms. The block depth to which the sync is going to be done is set with the `sync_block_depth` config parameter, which needs to be set to the max number of blocks the connected node is caching (if downloading via RPC).
-:::
-
----
-
-The **fat client** mode of operation is enabled by setting the `block_matrix_partition` parameter in the config file. This mode is  used to populate the DHT with the new block data by retrieving larger contiguous chunks of block matrix on each new block via RPC calls, and storing them on the DHT. The `block_matrix_partition` parameter needs to be set to a fraction of the matrix, the fraction size depending on the CPU power of the instance running the client. 
-
-:::caution
-Fat client mode is **very** resource intensive and requires a far stronger machine than the regular light client.
 :::
 
 ---
@@ -80,41 +72,18 @@ app_id = 0
 confidence = 92.0
 avail_path = "avail_path"
 prometheus_port = 9520
+# Set to actual bootstrap peer ID and multiaddress
 bootstraps = [["12D3KooWStAKPADXqJ7cngPYXd2mSANpdgh1xQ34aouufHA2xShz", "/ip4/127.0.0.1/tcp/39000"]]
 ```
 
-Fat client config example:
-
-```yaml
-log_level = "info"
-http_server_host = "127.0.0.1"
-http_server_port = "7001"
-
-libp2p_port = "37001"
-
-full_node_rpc = ["http://127.0.0.1:9933"]
-full_node_ws = ["ws://127.0.0.1:9944"]
-app_id = 0
-confidence = 92.0
-avail_path = "avail_path"
-prometheus_port = 9521
-disable_client_sync = true
-block_matrix_partition = "1/10"
-query_proof_rpc_parallel_tasks = 300
-max_cells_per_rpc = 1024
-dht_parallelization_limit = 20
-block_processing_delay = 0
-
-bootstraps = [["12D3KooWStAKPADXqJ7cngPYXd2mSANpdgh1xQ34aouufHA2xShz", "/ip4/127.0.0.1/tcp/39000"]]
-```
 For monitoring purposes, **Prometheus** is used.
 
 ### Application client
 
-The app client mode is used by individual apps to download, reconstruct and locally store relevant app data. 
+The app client mode is used by individual apps to download, reconstruct and locally store relevant app data.
 Application data is primarily downloaded from the DHT, either by downloading individual block matrix rows or with per-cell approach, downloading relevant individual cells.
 RPC is (again) used as a fallback mechanisms, if DHT doesn't contain the data.
 
-Downloaded and reconstructed data is exposed through a HTTP endpoint, with port configured by the `http_server_port` parameter. 
+Downloaded and reconstructed data is exposed through a HTTP endpoint, with port configured by the `http_server_port` parameter.
 
-App client mode is activated by setting the `app_id` to a value greater than `0`. 
+App client mode is activated by setting the `app_id` to a value greater than `0`.
