@@ -2,9 +2,9 @@
 id: communicating-with-avail
 title: Communicating With Avail Examples
 sidebar_label: Communicating With Avail
+sidebar_position: 1
 description: Examples of how to communicate with Avail
 keywords:
-
 - docs
 - avail
 - examples
@@ -16,7 +16,7 @@ slug: /using-avail/communicating-with-avail
 # Communicating With Avail
 
 The API provides application developers the ability to query a node and interact with the Avail.
-Here you will find a list of examples in `Javascript/Typesctipt`, `Rust` and `Go` that show
+Here you will find a list of examples in `Javascript/Typescript`, `Rust` and `Go` that show
 the basics of connecting to a local node, retrieving data from the node/chain and executing transactions on the chain.
 
 ## Prerequisites
