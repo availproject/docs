@@ -2,6 +2,7 @@
 id: communicating-with-avail
 title: Communicating With Avail Examples
 sidebar_label: Communicating With Avail
+sidebar_position: 1
 description: Examples of how to communicate with Avail
 keywords:
 
