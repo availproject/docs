@@ -2,7 +2,7 @@
 id: use-case-validiums
 title: Avail-Powered Validiums
 sidebar_label: Validiums
-sidebar_position: 2
+sidebar_position: 1
 description: How to use Avail to build validiums
 keywords:
 - docs

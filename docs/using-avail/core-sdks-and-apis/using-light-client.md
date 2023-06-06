@@ -2,6 +2,7 @@
 id: avail-light-client-overview
 title: Light Client Overview
 sidebar_label: Light client overview
+sidebar_position: 2
 description: Short summary of light client use
 keywords:
   - docs
