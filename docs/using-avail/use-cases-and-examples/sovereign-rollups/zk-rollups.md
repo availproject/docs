@@ -18,5 +18,4 @@ image: https://availproject.github.io/img/avail/AvailDocs.png
 slug: /using-avail/sovereign-rollups/zk-rollups
 ---
 
-Work in progress. Please get in touch with the Avail team, we'd be
-happy to discuss how to build sovereign rollups on Avail.
+The docs for ZK / Validity proof based Rollups on Avail are still work in progress. Please check back again for updates. Do reach out to the team on Twitter at [@AvailProject](https://twitter.com/AvailProject) for any specific questions on this. DMs are open. We are always willing to help.
