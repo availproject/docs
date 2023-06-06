@@ -215,6 +215,8 @@ The output will have a hex-encoded "result" field. The result is the
 concatenation of the four public keys.  Save this result for a later
 step.
 
+You should now restart the node so it will use the new session keys.
+
 ### Submitting the `setKeys` transaction
 
 You need to tell the chain your Session keys by signing and submitting
