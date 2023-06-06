@@ -1,20 +1,17 @@
 #! /bin/bash
 
-# Edit this line to set the key to your controller key
-# You may use a raw seed (like in this example) or a mnemonic (sequence of words)
-
-key="0x13ffxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxd7cf8292f3"
-
-#
-# Do not modify below this line
-#
+echo -n "Controller account mnemonic or raw seed: "
+read -s key
+echo
+echo -n "Controller account password: "
+read -s pass
 
 insert_key() {
     ./data-avail key insert --base-path `pwd`/data \
         --chain `pwd`/chainspec.raw.json \
         --scheme $2 \
         --suri "${key}" \
-        --password-interactive \
+        --password "${pass}" \
         --key-type $1
 }
 
