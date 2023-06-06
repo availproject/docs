@@ -90,7 +90,7 @@ it is possible to initiate the dispatch of the data root by creating a dispatch 
 
 `destinationDomain` Destination domain 1000.
 
-`bridgeRouterEthAddress` Address of the main data availability router contract.
+`bridgeRouterEthAddress` Address of the main data availability router contract deployed on Sepolia network `0xbD824890A51ed8bda53F51F27303b14EFfEbC152`.
 
 `header` Provided from the block when data is submitted.
 
@@ -110,9 +110,9 @@ it is possible to initiate the dispatch of the data root by creating a dispatch 
 
 Environment variables:
 ```dotenv
-AVAIL_RPC= # avail websocket url
+AVAIL_RPC= # avail network websocket url
 SURI= # mnemonic
-DA_BRIDGE_ADDRESS= # main da bridge contract address
+DA_BRIDGE_ADDRESS= # main da bridge contract address deployed to Sepolia network in format 0x000000000000000000000000bD824890A51ed8bda53F51F27303b14EFfEbC152
 DESTINATION_DOMAIN= # destination domain is 1000
 DATA= # data sending to avail
 ```
@@ -289,7 +289,7 @@ async function dispatchDataRoot(availApi, blockHash, account) {
 }
 
 /**
- * Returns data root fot the particular block.
+ * Returns data root for the particular block.
  *
  * @param availApi api instance
  * @param blockHash hash of the block
@@ -441,14 +441,14 @@ contract ValidiumContract {
 By submitting proof to the verification contract it is possible to verify
 that data is available on Avail. Merkle proof is a list of hashes that can be used to prove
 that given leaf is a member of the Merkle tree. Example of submitting a proof to the verification contract
-deployed on Ethereum can be queried by calling data root membership function
+deployed on Sepolia network (`0x038348cD1106476a9cd359Bc34EA027E29513dEB`) can be queried by calling data root membership function 
 `async function checkProof(sepoliaApi, blockNumber, proof, numberOfLeaves, leafIndex, leafHash);` where
 
 `sepoliaApi` Sepolia network api instance.
 
 `blockNumber` Avail block number.
 
-`proof` Merkle proof fot the leaf.
+`proof` Merkle proof for the leaf.
 
 `numberOfLeaves` Number of leaves in the original tree.
 
@@ -456,16 +456,17 @@ deployed on Ethereum can be queried by calling data root membership function
 
 `leafHash` Hash of the leaf in the Merkle tree.
 
-This contract call will return `true` or `false` depending on the provided proof.
+This will call deployed contracts function `verificationContract.checkDataRootMembership(blockNumber, proof, numberOfLeaves, leafIndex, leafHash)`
+and return `true` or `false` depending on the provided proof.
 
 :::info Example of getting the proof and checking it with verification contract using `Polkadot-JS` and `Ethers.js`.
 
 Environment variables:
 ```dotenv
 AVAIL_RPC= # avail websocket address
-INFURA_KEY= # rpc provider key if needed
-VALIDIUM_ADDRESS= # address of the verification contract
-VALIDIYM_ABI_PATH= # path to abi file
+INFURA_KEY= # rpc provider key if needed 
+VALIDIUM_ADDRESS= # address of the verification contract, one such is deployed on Sepolia network 0x038348cD1106476a9cd359Bc34EA027E29513dEB
+VALIDIYM_ABI_PATH= # path to abi file e.g. abi/ValidiumContract.json
 BLOCK_NUMBER= # number of the block for which to get Merkle proof
 BLOCK_HASH= # hash of the block for which to get Merkle proof
 DATA_INDEX= # index of the leaf element in the Merkle trie for which to get the proof 
@@ -533,7 +534,7 @@ async function createApi(url) {
  *
  * @param availApi Api instance
  * @param hashBlock Hash of the block
- * @param dataIndex Leaf index in the merkle trie fot which the proof is returned
+ * @param dataIndex Leaf index in the merkle trie for which the proof is returned
  * @returns {Promise<*>}
  */
 async function getProof(availApi, hashBlock, dataIndex) {
@@ -547,7 +548,7 @@ async function getProof(availApi, hashBlock, dataIndex) {
  *
  * @param sepoliaApi Sepolia network api instance
  * @param blockNumber Avail block number
- * @param proof Merkle proof fot the leaf
+ * @param proof Merkle proof for the leaf
  * @param numberOfLeaves Number of leaves in the original tree
  * @param leafIndex Index of the leaf in the Merkle tree
  * @param leafHash Hash of the leaf in the Merkle tree
@@ -555,11 +556,12 @@ async function getProof(availApi, hashBlock, dataIndex) {
  */
 async function checkProof(sepoliaApi, blockNumber, proof, numberOfLeaves, leafIndex, leafHash) {
     const abi = JSON.parse(readFileSync(process.env.VALIDIYM_ABI_PATH).toString());
-    const availContract = new ethers.Contract(process.env.VALIDIUM_ADDRESS, abi, sepoliaApi);
-    return await availContract.checkDataRootMembership(BigInt(blockNumber), proof, BigInt(numberOfLeaves), BigInt(leafIndex), leafHash)
+    const verificationContract = new ethers.Contract(process.env.VALIDIUM_ADDRESS, abi, sepoliaApi);
+    return await verificationContract.checkDataRootMembership(BigInt(blockNumber), proof, BigInt(numberOfLeaves), BigInt(leafIndex), leafHash)
 }
 
 (async function submitProof() {
+    // connect to Sepolia through Infura but can be used any other available provider
     const sepoliaApi = new ethers.providers.InfuraProvider
         .getWebSocketProvider("sepolia", process.env.INFURA_KEY);
     const availApi = await createApi(process.env.AVAIL_RPC);
@@ -573,7 +575,8 @@ async function checkProof(sepoliaApi, blockNumber, proof, numberOfLeaves, leafIn
     console.log(`Leaf index : ${daHeader.leaf_index}`);
     console.log(`Number of leaves: ${daHeader.numberOfLeaves}`);
 
-    const isDataAccepted = await checkProof(sepoliaApi, process.env.BLOCK_NUMBER, daHeader.proof, daHeader.numberOfLeaves, daHeader.leaf_index, daHeader.leaf);    console.log("Data is: " + (isDataAccepted ? "available" : "not available"));
+    const isDataAccepted = await checkProof(sepoliaApi, process.env.BLOCK_NUMBER, daHeader.proof, daHeader.numberOfLeaves, daHeader.leaf_index, daHeader.leaf);
+    console.log("Data is: " + (isDataAccepted ? "available" : "not available"));
     await availApi.disconnect();
     await sepoliaApi.destroy();
 })().then(() => {
