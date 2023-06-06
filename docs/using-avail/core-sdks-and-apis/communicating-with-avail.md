@@ -37,10 +37,10 @@ and [Rust](https://github.com/availproject/avail/tree/develop/avail-subxt/exampl
 Some of the examples that show communication with Avail by submitting transactions and rpc calls:
 
 - Submitting a blob of data
-  transaction [example](https://github.com/availproject/avail/tree/develop/examples/data_submit.ts).
+  transaction [example](https://github.com/availproject/avail/tree/develop/examples/ts/src/data_submit.ts).
 - Dispatching data root
-  transaction [example](https://github.com/availproject/avail/tree/develop/examples/dispatch_data_root.ts).
-- Creating application key transaction [example](https://github.com/availproject/avail/tree/develop/examples/app_id.ts).
+  transaction [example](https://github.com/availproject/avail/tree/develop/examples/ts/src/dispatch_data_root.ts).
+- Creating application key transaction [example](https://github.com/availproject/avail/tree/develop/examples/ts/src/app_id.ts).
 - Creating a simple transfer [example](https://github.com/availproject/avail/tree/develop/examples/ts/src/transfer.ts).
 - Query data proof [example](https://github.com/availproject/avail/tree/develop/examples/ts/src/query_proof_data.ts).
 - Query proof [example](https://github.com/availproject/avail/tree/develop/examples/ts/src/query_proof.ts).
