@@ -50,25 +50,15 @@ This is the easiest way to get started.
    
    | Network      | Node Binary           | Chain Specification File | Chain Info Reference |
    |--------------|-----------------------|--------------------------|----------------------|
-   | Kate Testnet | [v1.6.0](https://github.com/availproject/avail/releases/tag/v1.6.0) | <a target="_blank" href="https://kate-beta.avail.tools/chainspec.raw.json" download>chainspec.raw.json</a> | [Chain Info](https://kate-beta.avail.tools/chaininfo.txt) |
+   | Kate Testnet | [v1.6.0](https://github.com/availproject/avail/releases/tag/v1.6.0) | [chainspec.raw.json](https://kate.avail.tools/chainspec.raw.json) | [Chain Info](https://kate.avail.tools/chaininfo.txt) |
 
 2. Unpack both files into a folder, and run the node from that folder (adjust for
-   platform or version in the downloaded binary name). Pass the list of bootnodes
-   from the "Chain Info" file above (all in one line) using the `--bootnodes` option:
+   platform or version in the downloaded binary name):
    ```
    ./data-avail --base-path `pwd`/data \
        --chain `pwd`/chainspec.raw.json \
        --port 30333 \
-	   --telemetry-url 'ws://telemetry.avail.tools:8001/submit 0' \
-       --bootnodes # <list of bootnodes, space-separated>
-   ```
-   For example, for the Kate network the bootnodes should look like:
-   ```
-   ./data-avail --base-path `pwd`/data \
-       --chain `pwd`/chainspec.raw.json \
-       --port 30333 \
-	   --telemetry-url 'ws://telemetry.avail.tools:8001/submit 0' \
-       --bootnodes /dns/gateway-fullnode-003.kate-beta.avail.tools/tcp/30333/p2p/12D3KooWSMAEE4v5jUxRV9JsNJk15NJV9i2sw6bhFUeEsEhcWj3c /dns/gateway-fullnode-001.kate-beta.avail.tools/tcp/30333/p2p/12D3KooWSMAEE4v5jUxRV9JsNJk15NJV9i2sw6bhFUeEsEhcWj3c /dns/gateway-fullnode-002.kate-beta.avail.tools/tcp/30333/p2p/12D3KooWSMAEE4v5jUxRV9JsNJk15NJV9i2sw6bhFUeEsEhcWj3c
+       --telemetry-url 'ws://telemetry.avail.tools:8001/submit 0'
    ```
 
    The node should output:

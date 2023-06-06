@@ -11,7 +11,7 @@ keywords:
   - data availability
   - da
 image: https://availproject.github.io/img/avail/AvailDocs.png
-slug: node-networks
+slug: networks
 ---
 
 ## Testnets
@@ -22,10 +22,11 @@ slug: node-networks
 This network is still in development and is not yet fully available to the general public
 :::
 
-* Explorer: https://kate-beta.avail.tools
-* RPC Endpoint: https://kate-beta.avail.tools/v1
-* WS Endpoint: wss://kate-beta.avail.tools/ws
-* Chain Specification: [chainspec.json](https://kate-beta.avail.tools/chainspec.json), [chainspec.raw.json](https://kate-beta.avail.tools/chainspec.raw.json)
+* Explorer: https://kate.avail.tools
+* RPC Endpoint: https://kate.avail.tools/v1
+* WS Endpoint: wss://kate.avail.tools/ws
+* Chain Specification: [chainspec.json](https://kate.avail.tools/chainspec.json), [chainspec.raw.json](https://kate.avail.tools/chainspec.raw.json)
+* Chain Info: [chaininfo.txt](https://kate.avail.tools/chaininfo.txt)
 
 Use these software versions to connect to this network:
 
