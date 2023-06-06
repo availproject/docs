@@ -2,6 +2,7 @@
 id: smart-contract-rollups
 title: Smart Contract Rollups
 sidebar_label: Smart Contract Rollups
+sidebar_position: 3
 description: How to use Avail to build a smart contract rollup
 keywords:
 - docs

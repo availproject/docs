@@ -2,6 +2,7 @@
 id: op-sovereign-rollup
 title: OP Sovereign Rollups
 sidebar_label: Optimistic Rollups
+sidebar_position: 2
 description: How to use Avail to build an OP sovereign rollup
 keywords:
 - docs
