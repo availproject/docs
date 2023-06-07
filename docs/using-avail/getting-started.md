@@ -64,8 +64,8 @@ access your account.
 
 If you need Avail (AVL) tokens to work with on the Kate testnet, you can use the Discord faucet.
 
-1. Create an account <link to account creation>
-2. Navigate to the #avail-faucet channel on [Avail Discord]()
+1. Create an [account](#creating-an-account).
+2. Navigate to the #avail-faucet channel on [Avail Discord](https://discord.gg/y6fHnxZQX8).
 3. Use the following command in the #avail-faucet channel:
-`/deposit <your address> `
-4. Your address will be deposited 1 AVL token. You can repeat this process every 3 minutes.
+`/deposit <your address> `.
+4. 5. Your address will be deposited 1 AVL token when the status changes to `Complete`. You can repeat this process every 3 minutes.
