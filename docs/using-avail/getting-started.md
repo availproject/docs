@@ -2,6 +2,7 @@
 id: avail-getting-started
 title: Getting Started
 sidebar_label: Getting started
+sidebar_position: 1
 description: Get started with Avail
 keywords:
   - docs
