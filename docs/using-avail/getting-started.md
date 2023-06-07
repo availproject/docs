@@ -16,7 +16,15 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-# Using the Explorer
+# Getting started
+
+:::note
+
+We are working on improving many of the current features. We appreciate you using our testnet and encourage your valuable feedback through one of our [<ins>community channels</ins>](https://discord.gg/y6fHnxZQX8).
+
+:::
+
+## Using the Explorer
 
 Avail networks are deployed with an [explorer](https://kate.avail.tools/) that you can use to perform network and account related operations. At a high level, you can perform the following:
 
@@ -52,7 +60,7 @@ access your account.
 
 :::
 
-### Using the Avail faucet to get AVL tokens
+## Using the Avail faucet to get AVL tokens
 
 If you need Avail (AVL) tokens to work with on the Kate testnet, you can use the Discord faucet.
 
