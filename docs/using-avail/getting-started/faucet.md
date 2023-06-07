@@ -20,7 +20,7 @@ slug: testnet-faucet
 You can use the Discord Faucet to get Avail (AVL) tokens on the Kate
 testnet.
 
-1. Create an [account](/using-avail/managing-accounts).
+1. Create an [account](managing-accounts).
 2. Navigate to the `#avail-faucet` channel on [Avail
    Discord](https://discord.gg/y6fHnxZQX8).
 3. Use the following command: `/deposit <your address> `.
