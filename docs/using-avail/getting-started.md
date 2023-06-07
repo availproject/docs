@@ -50,14 +50,9 @@ You can create accounts on the Kate testnet directly from the [explorer](https:/
 4. Follow the account creation wizard to complete creating your account.
 5. The account creation wizard downloads your account's JSON file to your file system at the end of the process. You may be prompted to allow the browser to download the files.
 
-:::caution Key Management
+:::caution Secret Management
 
-The seed phrase is your account key, which controls your account.
-The seed phrase should be written down and stored on a non-digital medium.
-
-Storing your account's JSON file does not have to be as rigourous as storing the seed phrase,
-as long as you use a strong password to encrypt the file. You can import the JSON file to
-access your account.
+The only ways to get access to your account are via your secret seed or your account’s JSON file in combination with a password. Keep them offline in a secure and private location.
 
 :::
 
