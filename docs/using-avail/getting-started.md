@@ -26,7 +26,7 @@ We are working on improving many of the current features. We appreciate you usin
 
 ## Using the Explorer
 
-Avail networks are deployed with an [explorer](https://kate.avail.tools/) that you can use to perform network and account related operations. At a high level, you can perform the following:
+The Kate testnet is deployed with an [explorer](https://kate.avail.tools/) that you can use to perform network and account related operations. At a high level, you can perform the following:
 
 1. Inspect blocks, events, and general network-related data.
 2. Manage your accounts and send transactions.
