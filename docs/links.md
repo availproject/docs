@@ -15,7 +15,7 @@ slug: /resources
 ---
 
 For more information about Avail, visit our homepage at
-https://availproject.org/ and our blog at
+https://www.availproject.org/ and our blog at
 https://blog.availproject.org/, or follow us on twitter at
 [@AvailProject](https://twitter.com/AvailProject).
 

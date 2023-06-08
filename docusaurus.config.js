@@ -73,7 +73,7 @@ const config = {
             items: [
               {
                 label: 'Avail Home',
-                href: 'https://availproject.org',
+                href: 'https://www.availproject.org',
               },
             ],
           },
