@@ -50,10 +50,9 @@ For example:
 
 ```
 ./data-avail --validator \
-    --base-path `pwd`/data \
-    --chain `pwd`/chainspec.raw.json \
     --port 30333 \
-    --telemetry-url 'ws://telemetry.avail.tools:8001/submit 0'
+    --base-path `pwd`/data \
+    --chain `pwd`/chainspec.raw.json
 ```
 
 The node will ouput the following when started:

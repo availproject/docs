@@ -50,15 +50,12 @@ This is the easiest way to get started.
    
    | Network      | Node Binary           | Chain Specification File | Chain Info Reference |
    |--------------|-----------------------|--------------------------|----------------------|
-   | Kate Testnet | [v1.6.0](https://github.com/availproject/avail/releases/tag/v1.6.0) | [chainspec.raw.json](https://kate.avail.tools/chainspec.raw.json) | [Chain Info](https://kate.avail.tools/chaininfo.txt) |
+   | Kate Testnet | [v1.6.0](https://github.com/availproject/avail/releases/tag/v1.6.0) | [chainspec.raw.json](/configs/kate/chainspec.raw.json) | [Chain Info](https://kate.avail.tools/chaininfo.txt) |
 
 2. Unpack both files into a folder, and run the node from that folder (adjust for
    platform or version in the downloaded binary name):
    ```
-   ./data-avail --base-path `pwd`/data \
-       --chain `pwd`/chainspec.raw.json \
-       --port 30333 \
-       --telemetry-url 'ws://telemetry.avail.tools:8001/submit 0'
+   ./data-avail --port 30333 --base-path `pwd`/data --chain `pwd`/chainspec.raw.json
    ```
 
    The node should output:

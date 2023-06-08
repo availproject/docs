@@ -21,7 +21,7 @@ slug: networks
 * Explorer: https://kate.avail.tools
 * RPC Endpoint: https://kate.avail.tools/v1
 * WS Endpoint: wss://kate.avail.tools/ws
-* Chain Specification: [chainspec.json](https://kate.avail.tools/chainspec.json), [chainspec.raw.json](https://kate.avail.tools/chainspec.raw.json)
+* Chain Specification: [chainspec.raw.json](/configs/kate/chainspec.raw.json)
 * Chain Info: [chaininfo.txt](https://kate.avail.tools/chaininfo.txt)
 
 Use these software versions to connect to this network:
