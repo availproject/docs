@@ -124,28 +124,6 @@ pay transaction fees from your bonded balance.
 
 :::
 
-### Add controller key to the local node
-
-Now add the controller account to your local node:
-1. Download [this script](pathname:///scripts/avail-insert-key.sh),
-   place it in the working directory for the node.
-2. Make the script executable and then run it:
-   ```
-   chmod 755 avail-insert-key.sh
-   ./avail-insert-key.sh
-   ```
-3. The script will prompt for the controller account secret (mnemonic
-   or raw seed) and password, enter them and press enter.
-
-:::info Why a separate script?
-
-You might notice that the `avail-insert-key.sh` script merely runs a
-few simple commands. While it is possible to run those commands
-directly, we advise against it because you might accidentally leave
-behind your raw key seed in the shell's history.
-
-:::
-
 ### Bonding
 
 It is now time to set up your validator by doing the following:
