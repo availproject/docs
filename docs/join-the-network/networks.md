@@ -18,10 +18,6 @@ slug: networks
 
 ### Kate Testnet
 
-:::warning In Development
-This network is still in development and is not yet fully available to the general public
-:::
-
 * Explorer: https://kate.avail.tools
 * RPC Endpoint: https://kate.avail.tools/v1
 * WS Endpoint: wss://kate.avail.tools/ws
