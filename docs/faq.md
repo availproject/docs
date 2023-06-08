@@ -2,6 +2,7 @@
 id: faq
 title: FAQ
 sidebar_label: FAQ
+sidebar_position: 6
 description: Frequently asked questions about Avail
 keywords:
   - docs
@@ -18,7 +19,7 @@ slug: faq
 
 :::tip
 
-If you do not find your question on this page, please submit your question on the **[<ins>Avail Discord server</ins>](https://discord.gg/y6fHnxZQX8)**.
+If you do not find your question on this page, please submit your question on the **[<ins>Avail Discord server</ins>](https://discord.gg/S2XQJjHsZt)**.
 
 :::
 
