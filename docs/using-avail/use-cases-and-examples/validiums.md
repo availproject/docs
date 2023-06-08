@@ -66,7 +66,7 @@ interpreted or executed in any way. The submission can be done using
 `Polkadot-JS` which is a collection of tools for communication with
 Substrate based chains.
 
-<!-- Complete example can be found on [github](https://github.com/availproject/avail-js-examples/tree/master/src/validium).    -->
+Complete example can be found on [github](https://github.com/availproject/avail/tree/develop/examples/validium).
 
 
 Example of sending data to Avail:
