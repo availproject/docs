@@ -41,7 +41,7 @@ upgrading to one of our current networks is required.
 Testnet Phase 1
 </summary>
 
-This is the old public network endpoints, which are no longer functional.
+These are the old public network endpoints, which are no longer functional.
 
 * Explorer: https://testnet.avail.tools
 * RPC Endpoint: https://testnet.avail.tools/v1
