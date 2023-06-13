@@ -21,7 +21,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 Avail is a **modular blockchain** that is laser-focused on **data
 availability**: ordering, publishing transactions, and making it
 possible to verify that block data is available without downloading
-the whole block. This modular approach with a strong data availbility
+the whole block. This modular approach with a strong data availability
 layer at the core enables scalability while maintaining security.
 
 Since Avail is data-agnostic, it can support any execution
