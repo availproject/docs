@@ -38,16 +38,16 @@ upgrading to one of our current networks is required.
 
 <details>
 <summary>
-Testnet-03
+Testnet Phase 1
 </summary>
 
-This is the current public network, available for anyone to use, permissionessly.
+These are the old public network endpoints, which are no longer functional.
 
 * Explorer: https://testnet.avail.tools
 * RPC Endpoint: https://testnet.avail.tools/v1
 * WS Endpoint: wss://testnet.avail.tools/ws
 
-Use these software versions to connect to this network:
+The network used these software versions:
 
 * Node: [v1.5.0-303f39d](https://github.com/availproject/avail/releases/tag/v1.5.0-303f39d)
 * Light client: [1.3.1](https://github.com/availproject/avail-light/releases/tag/v1.3.1)
