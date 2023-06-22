@@ -1,6 +1,6 @@
 ---
 id: avail-monitoring-validator-node
-title: Monitoring Validator Node
+title: Monitoring a Validator Node
 sidebar_label: Monitoring Validators
 description: "Learn about monitoring a validator"
 keywords:
@@ -20,7 +20,7 @@ Maintaining a healthy, stable, and secure ecosystem involves closely monitoring 
 telemetry components that automatically gather and transmit detailed information about each node's operation within the network. This backend telemetry data is streamed in real-time to a 
 designated endpoint, allowing you to observe information regarding your nodes behavior.
 
-Avail project has made available a [public telemetry](http://telemetry.avail.tools/) for anyone to view the status of their nodes. This should not replace your own monitoring and alerts. However is a key tool that anyone can use to view the status
+Avail project has made available a [public telemetry](http://telemetry.avail.tools/) for anyone to view the status of their nodes. This should not replace your own monitoring and alerts. However it is a key tool that anyone can use to view the status
 of their nodes at anytime.
 
  <img src={useBaseUrl("img/avail/validator-avail-telemetry.png")} width="100%" height="100%"/>
