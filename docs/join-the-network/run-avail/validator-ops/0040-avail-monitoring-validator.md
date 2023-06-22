@@ -158,11 +158,11 @@ Click on **Prometheus**
 Set URL to http://localhost:9090, then test and save the connection
  <img src={useBaseUrl("img/avail/validator-avail-grafana-add-data-source-4.png")} width="100%" height="100%"/>
 
-Navigate back to your home page, on the top right in the menu select **Imprt dashbaord**
+Navigate back to your home page, on the top right in the menu select **Import dashboard**
  <img src={useBaseUrl("img/avail/validator-avail-grafana-add-dashboard.png")} width="100%" height="100%"/>
 
 Import the [Avail Node Metrics](https://raw.githubusercontent.com/staking4all/availproject.github.io-staking4all/main/static/grafana/Avail-Node-Metrics.json) file
  <img src={useBaseUrl("img/avail/validator-avail-grafana-add-dashboard-2.png")} width="100%" height="100%"/>
 
-You will have a new dashoard that opens that you can use to monitor your node
+You will have a new dashboard that opens and that you can use to monitor your node
  <img src={useBaseUrl("img/avail/validator-avail-grafana-add-dashboard-3.png")} width="100%" height="100%"/>
