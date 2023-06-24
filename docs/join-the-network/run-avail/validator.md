@@ -43,10 +43,9 @@ When in doubt, reach out to the Validator Engagement team.
 
 First, explore running a full node as per the [Full
 Node](/join-the-network/run-avail/full-node-setup)
-instructions. 
+instructions. This is to familiarise yourself with running a node.
 
-Simply adding the `--validator` option to the command
-will enable validator mode. 
+To run a validator the command line is the same and requires the addition of the `--validator` option to the command. 
 
 For example:
 
@@ -89,13 +88,9 @@ Note that the Role now has a value of `Authority`, this indicates it is a valida
 
 If you were running a full node and added the `--validator` flag after syncing a full node you will get an error that it is expecting an archive database. You can purge the database and restart the node.
 
-It is strongly recommended to run your node as a service. Create a service file with your favourite editor.
+It is strongly recommended to run your node as a service.
 ```
-sudo nano /etc/systemd/system/availd.service
-```
-
-Add the following contents
-```
+sudo tee /etc/systemd/system/availd.service > /dev/null <<'EOF'
 [Unit]
 Description=Avail Validator
 After=network.target
@@ -110,11 +105,12 @@ ExecStart=/home/avail/avail-node/data-avail --base-path /home/avail/avail-node/d
 
 [Install]
 WantedBy=multi-user.target
-
+EOF
 ```
 
 Enable auto restart on for your Avail node
 ```
+sudo systemctl daemon-reload
 sudo systemctl enable availd.service 
 ```
 
