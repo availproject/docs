@@ -41,10 +41,11 @@ When in doubt, reach out to the Validator Engagement team.
 
 ## Running The Node
 
-First, run a full node as per the [Full
+First, explore running a full node as per the [Full
 Node](/join-the-network/run-avail/full-node-setup)
-instructions. Simply adding the `--validator` option to the command
-will enable validator mode.
+instructions. This is to familiarise yourself with running a node.
+
+To run a validator the command line is the same and requires the addition of the `--validator` option to the command. 
 
 For example:
 
@@ -62,7 +63,7 @@ The node will ouput the following when started:
 2023-06-03 20:36:29 ❤️  by Anonymous, 2017-2023
 2023-06-03 20:36:29 📋 Chain specification: Avail Kate Testnet
 2023-06-03 20:36:29 🏷  Node name: bewildered-distance-1229
-2023-06-03 20:36:29 👤 Role: FULL
+2023-06-03 20:36:29 👤 Role:Authority
 2023-06-03 20:36:29 💾 Database: RocksDb at /Users/thunder/code/avail/data/chains/Avail Testnet_6831251e-0222-11ee-a2c3-c90377335962/db/full
 2023-06-03 20:36:29 ⛓  Native runtime: data-avail-9 (data-avail-0.tx1.au11)
 2023-06-03 20:36:35 👶 Creating empty BABE epoch changes on what appears to be first startup.
@@ -84,6 +85,49 @@ The node will ouput the following when started:
 Note that the Role now has a value of `Authority`, this indicates it is a validator node.
 
 :::
+
+If you were running a full node and added the `--validator` flag after syncing a full node you will get an error that it is expecting an archive database. You can purge the database and restart the node.
+
+It is strongly recommended to run your node as a service.
+```
+sudo tee /etc/systemd/system/availd.service > /dev/null <<'EOF'
+[Unit]
+Description=Avail Validator
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+User=avail
+Type=simple
+Restart=always
+RestartSec=120
+ExecStart=/home/avail/avail-node/data-avail --base-path /home/avail/avail-node/data --chain /home/avail/avail-node/chainspec.raw.json --port 30333 --validator --name MyAvailNode
+
+[Install]
+WantedBy=multi-user.target
+EOF
+```
+
+Enable auto restart on for your Avail node
+```
+sudo systemctl daemon-reload
+sudo systemctl enable availd.service 
+```
+
+Start your avail node
+```
+sudo systemctl start availd.service 
+```
+
+Check the node is running
+```
+sudo systemctl status availd.service
+```
+
+View the logs from the running service
+```
+journalctl -f -u availd.service
+```
 
 ## Staking Set-up
 
