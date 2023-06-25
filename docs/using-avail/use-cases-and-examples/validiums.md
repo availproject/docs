@@ -329,9 +329,8 @@ async function getDataRoot(availApi, blockHash) {
 
 </details>
 :::
-Dispatching data root will trigger Nomad Bridge which will bridge data root to the Ethereum network. Since Nomad bridge
-is optimistic
-bridge, it is necessary to wait for 30 minutes before the data root is available on the Ethereum network.
+Dispatching data root will trigger an optimistic bridge which will bridge the data root to the Ethereum network. Since the bridge
+is optimistic, it is necessary to wait for 30 minutes before the data root is available on the Ethereum network.
 
 After successfully bridging data root to the main data availability attestation contract on the Ethereum network,
 it is possible to prove that data is available on Avail network by submitting a Merkle proof to the verification contract.
