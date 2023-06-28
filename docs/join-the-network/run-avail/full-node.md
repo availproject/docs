@@ -50,7 +50,7 @@ This is the easiest way to get started.
    
    | Network      | Node Binary           | Chain Specification File | Chain Info Reference |
    |--------------|-----------------------|--------------------------|----------------------|
-   | Kate Testnet | [v1.6.0](https://github.com/availproject/avail/releases/tag/v1.6.0) | [chainspec.raw.json](/configs/kate/chainspec.raw.json) | [Chain Info](https://kate.avail.tools/chaininfo.txt) |
+   | Kate Testnet | [v1.6.0](https://github.com/availproject/avail/releases/tag/v1.6.0) | [chainspec.raw.json](/configs/kate/chainspec.raw.json) | [Chain Info](/configs/kate/chaininfo.txt) |
 
 2. Unpack both files into a folder, and run the node from that folder (adjust for
    platform or version in the downloaded binary name):
