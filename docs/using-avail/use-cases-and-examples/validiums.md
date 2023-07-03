@@ -376,23 +376,24 @@ DataProof: {
   </summary>
 
 ```solidity
+//SPDX-License-Identifier: UNLICENSED
+pragma solidity 0.8.19;
 
-pragma solidity 0.8.15;
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract DataAvailabilityRouter {
     mapping(uint32 => bytes32) public roots;
 }
 
-contract ValidiumContract {
+contract ValidiumContract is Ownable {
+    DataAvailabilityRouter private router;
 
-    DataAvailabilityRouter router;
-    
     function setRouter(
         address _router
-    ) public {
+    ) public onlyOwner {
         router = DataAvailabilityRouter(_router);
     }
-    
+
     function getDataRoot(
         uint32 blockNumber
     ) public view returns (bytes32) {
@@ -401,37 +402,46 @@ contract ValidiumContract {
 
     function checkDataRootMembership(
         uint32 blockNumber,
-        bytes32[] memory proof,
+        bytes32[] calldata proof,
         uint256 numberOfLeaves,
-        uint256 leafIndex,
+        uint256 index,
         bytes32 leaf
-    ) public view returns (bool) {
-        if (leafIndex >= numberOfLeaves) {
-            return false;
-        }
+    ) public view returns (bool isMember) {
+        // if the proof is of size n, the tree height will be n+1
+        // in a tree of height n+1, max possible leaves are 2^n
+        require(index < numberOfLeaves, "INVALID_LEAF_INDEX");
+        // refuse to accept padded leaves as proof
+        require(leaf != bytes32(0), "INVALID_LEAF");
 
-        uint256 position = leafIndex;
-        uint256 width = numberOfLeaves;
+        bytes32 rootHash = getDataRoot(blockNumber);
+        assembly ("memory-safe") {
+            if proof.length {
+                let end := add(proof.offset, shl(5, proof.length))
+                let i := proof.offset
+                let width := numberOfLeaves
 
-        bytes32 computedHash = leaf;
-
-        for (uint256 i = 0; i < proof.length; i++) {
-            bytes32 proofElement = proof[i];
-
-            if (position % 2 == 1 || position + 1 == width) {
-                computedHash = sha256(abi.encodePacked(proofElement, computedHash));
-            } else {
-                computedHash = sha256(abi.encodePacked(computedHash, proofElement));
+                for {} 1 {} {
+                    let leafSlot := shl(5, and(0x1, index))
+                    if eq(add(index, 1), width) {
+                        leafSlot := 0x20
+                    }
+                    mstore(leafSlot, leaf)
+                    mstore(xor(leafSlot, 32), calldataload(i))
+                    leaf := keccak256(0, 64)
+                    index := shr(1, index)
+                    i := add(i, 32)
+                    width := add(shr(1, sub(width, 1)), 1)
+                    if iszero(lt(i, end)) {
+                        break
+                    }
+                }
             }
+            isMember := eq(leaf, rootHash)
 
-            position /= 2;
-            width = (width - 1) / 2 + 1;
         }
-
-        return computedHash == getDataRoot(blockNumber);
+        return isMember;
     }
 }
-
 ```
 </details>
 
@@ -440,7 +450,7 @@ contract ValidiumContract {
 By submitting proof to the verification contract it is possible to verify
 that data is available on Avail. Merkle proof is a list of hashes that can be used to prove
 that given leaf is a member of the Merkle tree. Example of submitting a proof to the verification contract
-deployed on Sepolia network (`0x038348cD1106476a9cd359Bc34EA027E29513dEB`) can be queried by calling data root membership function 
+deployed on Sepolia network (`0xA06386C65B1f56De57CE6aB9CeEB2552fa811529`) can be queried by calling data root membership function 
 `async function checkProof(sepoliaApi, blockNumber, proof, numberOfLeaves, leafIndex, leafHash);` where
 
 `sepoliaApi` Sepolia network api instance.
@@ -464,7 +474,7 @@ Environment variables:
 ```dotenv
 AVAIL_RPC= # avail websocket address
 INFURA_KEY= # rpc provider key if needed 
-VALIDIUM_ADDRESS= # address of the verification contract, one such is deployed on Sepolia network 0x038348cD1106476a9cd359Bc34EA027E29513dEB
+VALIDIUM_ADDRESS= # address of the verification contract, one such is deployed on Sepolia network 0xA06386C65B1f56De57CE6aB9CeEB2552fa811529
 VALIDIYM_ABI_PATH= # path to abi file e.g. abi/ValidiumContract.json
 BLOCK_NUMBER= # number of the block for which to get Merkle proof
 BLOCK_HASH= # hash of the block for which to get Merkle proof
