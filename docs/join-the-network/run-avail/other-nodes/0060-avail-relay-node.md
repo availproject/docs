@@ -16,7 +16,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ## Relay Node Setup
 
-If for some reason you ever wanted to host your own network, you will most likely encounter connectivity issues and difficulties between your netwokr peers.
+If for some reason you ever wanted to host your own network, you will most likely encounter connectivity issues and difficulties between your network peers.
 This is where you will want to use the Relay node. We offer a simple and functioning setup for a such node, just be sure to deploy few of these and that they are publicly accessible over the network.
 
 First, binary for the Relay node needs to be compiled. On your local machine, or either on any cloud provider VM, be sure that Rust is installed:

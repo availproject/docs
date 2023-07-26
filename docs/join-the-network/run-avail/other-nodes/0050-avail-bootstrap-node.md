@@ -16,7 +16,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ## Bootstrap Node Setup
 
-If for some reason you ever wanted to host your own network, you will need a node that will serve as an access point to all the other nodes wanting to join.
+If for some reason you ever wanted to host your own network of Light Clients, you will need a node that will serve as an access point to all the other nodes wanting to join.
 This is where the Bootstrap node comes onto to the stage. We offer a simple and functioning setup for a such node, just be sure to deploy few of these and that they are publicly accessible over the network.
 
 First, binary for the Bootstrap node needs to be compiled. On your local machine, or either on any cloud provider VM, be sure that Rust is installed:
