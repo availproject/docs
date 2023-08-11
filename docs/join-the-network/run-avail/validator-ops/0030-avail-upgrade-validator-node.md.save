@@ -13,45 +13,15 @@ slug: avail-upgrade-validator-node
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-When upgrading Avail nodes there is two options for upgrading. Below two sections provide details on each upgrade process. You only need to use one of the below upgrade processes.
 
-## Fast Upgrade
-
-While a rapid upgrade is possible, it carries inherent risks. For instance, if you proceed with the upgrade and encounter issues such as database corruption, there's a chance of prolonged downtime. This could lead to your node being removed from the active validator set due to unresponsiveness.
-
-The fast upgrade steps are:
-
-- Stop the Avail node.
-```
-sudo systemctl stop availd.service
-```
-
-- Locate your Avail binary, create a backup of the current binary, and then uninstall the existing binary by deleting the binary. Proceed to download the most recent binary announced in Discord, which will replace the previous version. 
-As an illustration, if your current binary is situated in `/home/avail/avail-node/`, with a binary named `data-avail` and you downloading pre-built binary from Avail github repository, follow these steps.
-```
-cd /home/avail/avail-node/
-mv data-avail data-avail-backup
-wget https://github.com/availproject/avail/releases/download/v1.6.2-rc1/data-avail-linux-amd64.tar.gz
-tar -xvf data-avail-linux-amd64.tar.gz
-mv data-avail-linux-amd64 data-avail
-```
-
-- Start the Avail node again.
-```
-sudo systemctl start availd.service
-```
-
-- Ensure our node start syncing with the network, view the logs from the running service.
-```
-journalctl -f -u availd.service
-```
-
-- Also check that your node is visible on telemetry and the version matches the upgrade version.
+When upgrading your Avail node. There is two possible ways. One is fast but if you run into trouble and take long to recover you may be removed from 
+## Fast Upgrade Steps
 
 
-## Slow & Safe Upgrade
 
-Upgrading a Avail node safely is a careful process to ensure a smooth transition without disruption to the network. Here's a step-by-step guide on how to upgrade a Avail node, 
+## Safe Upgrade Steps
+
+Upgrading a Avail node involves a careful process to ensure a smooth transition without disruption to the network. Here's a step-by-step guide on how to upgrade a Avail node, 
 including the process of switching nodes using rotated keys:
 
 - Preparing for the Upgrade:
