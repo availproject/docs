@@ -46,6 +46,7 @@ For example:
 
 Prometheus serves as a monitoring platform that gathers metrics from monitored targets through scraping their metrics HTTP endpoints. In contrast, Grafana acts as a visualization dashboard specifically designed to present the collected data in an easily understandable and visually appealing manner.
 
+The below guide is for setting up a local Prometheus & Grafana instance on the same server as your Avail node. If you're already experienced with Prometheus & Grafana and want to connect your Avail node to an existing Prometheus installation on a different server, include the `--prometheus-external` flag in your Avail node's startup command.
 
 ### Install Prometheus
 
