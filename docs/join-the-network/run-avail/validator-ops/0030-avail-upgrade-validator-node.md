@@ -42,7 +42,7 @@ rm data-avail-linux-amd64.tar.gz
 sudo systemctl start availd.service
 ```
 
-- Ensure our node start syncing with the network, view the logs from the running service.
+- Ensure your node start syncing with the network, view the logs from the running service.
 ```
 journalctl -f -u availd.service
 ```
