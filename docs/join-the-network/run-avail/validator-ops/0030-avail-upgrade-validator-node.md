@@ -34,6 +34,7 @@ mv data-avail data-avail-backup
 wget https://github.com/availproject/avail/releases/download/v1.6.2-rc1/data-avail-linux-amd64.tar.gz
 tar -xvf data-avail-linux-amd64.tar.gz
 mv data-avail-linux-amd64 data-avail
+rm data-avail-linux-amd64.tar.gz
 ```
 
 - Start the Avail node again.
