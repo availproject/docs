@@ -13,11 +13,13 @@ slug: avail-upgrade-validator-node
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-When upgrading Avail nodes there is two options for upgrading. Below two sections provide details on each upgrade process. You only need to use one of the below upgrade processes.
+When upgrading Avail nodes there are two options, a faster method and a slower (but safer) method. Both are detailed below, but you only need to use one of them.
 
 ## Fast Upgrade
 
-While a rapid upgrade is possible, it carries inherent risks. For instance, if you proceed with the upgrade and encounter issues such as database corruption, there's a chance of prolonged downtime. This could lead to your node being removed from the active validator set due to unresponsiveness.
+While a rapid upgrade is possible, it carries inherent risks if done on a validator node. For instance, if you proceed with the upgrade on a validator node and encounter issues such as database corruption, there's a chance of prolonged downtime. This could lead to your node being removed from the active validator set due to unresponsiveness.
+
+This upgrade process is appropriate for non-validator nodes.
 
 The fast upgrade steps are:
 
@@ -26,8 +28,8 @@ The fast upgrade steps are:
 sudo systemctl stop availd.service
 ```
 
-- Locate your Avail binary, create a backup of the current binary, and then uninstall the existing binary by deleting the binary. Proceed to download the most recent binary announced in Discord, which will replace the previous version. 
-As an illustration, if your current binary is situated in `/home/avail/avail-node/`, with a binary named `data-avail` and you downloading pre-built binary from Avail github repository, follow these steps.
+- Locate your Avail binary, create a backup of the current binary, and then uninstall the existing binary by deleting the binary. Proceed to download the most recent binary announced in Discord, which will replace the previous binary version. 
+To provide an example, assuming your existing binary is located at `/home/avail/avail-node/` and is named `data-avail`, and you used the [validator](/join-the-network/run-avail/validator) setup guidelines while obtaining a pre-built binary from the Avail GitHub repository, proceed as outlined below.
 ```
 cd /home/avail/avail-node/
 mv data-avail data-avail-backup
@@ -52,7 +54,7 @@ journalctl -f -u availd.service
 
 ## Slow & Safe Upgrade
 
-Upgrading a Avail node safely is a careful process to ensure a smooth transition without disruption to the network. Here's a step-by-step guide on how to upgrade a Avail node, 
+This upgrade procedure is most appropriate for validator nodes exclusively and is unnecessary for other types of nodes, such as full, archive, rpc, and so forth. Upgrading a Avail node safely is a careful process to ensure a smooth transition without disruption to the network. Here's a step-by-step guide on how to upgrade a Avail node, 
 including the process of switching nodes using rotated keys:
 
 - Preparing for the Upgrade:
