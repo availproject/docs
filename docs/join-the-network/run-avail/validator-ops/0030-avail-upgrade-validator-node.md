@@ -19,7 +19,7 @@ When upgrading Avail nodes there are two options, a faster method and a slower (
 
 While a rapid upgrade is possible, it carries inherent risks if done on a validator node. For instance, if you proceed with the upgrade on a validator node and encounter issues such as database corruption, there's a chance of prolonged downtime. This could lead to your node being removed from the active validator set due to unresponsiveness.
 
-This upgrade process is appropriate for non-validator nodes.
+This upgrade process is appropriate for non-validator nodes. However, this upgrade process is still possible on validator nodes with careful consideration.
 
 The fast upgrade steps are:
 
