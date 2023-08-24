@@ -39,12 +39,6 @@ const config = {
       title: 'Avail Docs',
       items: [
         {
-          type: 'doc',
-          docId: 'introduction/introduction',
-          position: 'left',
-          label: 'About',
-        },
-        {
           href: 'https://github.com/availproject',
           position: 'right',
           label: 'GitHub',
