@@ -53,8 +53,8 @@ const config = {
     },
     algolia: {
       indexName: "avail_documentation",
-      appId: '',
-      apiKey: "",
+      appId: '5787ZYX98U',
+      apiKey: "c86a5367191e7a307aba4a20285dd1b1",
       contextualSearch: true,
       algoliaOptions: {
         attributesToSnippet: ['content:20'],
