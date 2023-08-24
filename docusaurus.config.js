@@ -33,6 +33,82 @@ const config = {
       },
     ],
   ],
+  plugins: [
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: [
+          {
+            to: '/',
+            from: ['/en/latest', '/en/'],
+          },
+          // Getting started
+          {
+            to: '/getting-started/avail-explorer',
+            from: '/using-avail/getting-started/avail-explorer',
+          },
+          {
+            to: '/getting-started/managing-accounts',
+            from: '/using-avail/getting-started/managing-accounts',
+          },
+          {
+            to: '/getting-started/testnet-faucet',
+            from: '/using-avail/getting-started/testnet-faucet',
+          },
+          // Development guides
+          {
+            to: '/getting-started/core-sdks-and-apis/avail-light-client-overview',
+            from: '/using-avail/core-sdks-and-apis/avail-light-client-overview',
+          },
+          {
+            to: '/getting-started/core-sdks-and-apis/embedding-the-light-client',
+            from: '/using-avail/core-sdks-and-apis/embedding-the-light-client',
+          },
+          // Node guides
+          {
+            to: '/validators/networks',
+            from: '/join-the-network/networks',
+          },
+          {
+            to: '/validators/node-types',
+            from: '/join-the-network/node-types',
+          },
+          {
+            to: '/validators/run-avail/light-client-setup',
+            from: '/join-the-network/run-avail/light-client-setup',
+          },
+          {
+            to: '/validators/run-avail/full-node-setup',
+            from: '/join-the-network/run-avail/full-node-setup',
+          },
+          {
+            to: '/validators/run-avail/validator-node-setup',
+            from: '/join-the-network/run-avail/validator-node-setup',
+          },
+          {
+            to: '/validators/run-avail/other-nodes/avail-archive-node',
+            from: '/join-the-network/run-avail/other-nodes/avail-archive-node',
+          },
+          {
+            to: '/validators/run-avail/other-nodes/avail-rpc-node',
+            from: '/join-the-network/run-avail/other-nodes/avail-rpc-node',
+          },
+          {
+            to: '/validators/run-avail/validator-ops/avail-backup-node',
+            from: '/join-the-network/run-avail/validator-ops/avail-backup-node',
+          },
+          {
+            to: '/validators/run-avail/validator-ops/avail-upgrade-validator-node',
+            from: '/join-the-network/run-avail/validator-ops/avail-upgrade-validator-node',
+          },
+          {
+            to: '/validators//run-avail/validator-ops/avail-monitoring-validator-node',
+            from: '/join-the-network/run-avail/validator-ops/avail-monitoring-validator-node',
+          },
+        ],
+      },
+    ],
+  ],
   themeConfig: {
     image: 'img/docusaurus-social-card.jpg',
     navbar: {
