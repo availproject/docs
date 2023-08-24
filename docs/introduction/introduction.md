@@ -1,6 +1,6 @@
 ---
 id: introduction
-title: Avail
+title: What is Avail?
 sidebar_label: Introduction
 sidebar_position: 1
 description: Learn about Avail's data availability chain
@@ -13,8 +13,6 @@ keywords:
 image: https://availproject.github.io/img/avail/AvailDocs.png
 slug: /
 ---
-
-# Avail
 
 import useBaseUrl from '@docusaurus/useBaseUrl';
 

@@ -1,7 +1,7 @@
 ---
 id: zk-sovereign-rollup
 title: ZK Sovereign Rollups
-sidebar_label: ZK / Validity Proof Rollups
+sidebar_label: ZK Rollups
 sidebar_position: 1
 description: How to use Avail to build a ZK sovereign rollup
 keywords:
