@@ -51,6 +51,15 @@ const config = {
         },
       ],
     },
+    algolia: {
+      indexName: "avail_documentation",
+      appId: '',
+      apiKey: "",
+      contextualSearch: true,
+      algoliaOptions: {
+        attributesToSnippet: ['content:20'],
+      },
+    },
     footer: {
       style: 'dark',
       links: [
