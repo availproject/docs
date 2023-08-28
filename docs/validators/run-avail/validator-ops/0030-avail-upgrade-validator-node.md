@@ -29,7 +29,7 @@ sudo systemctl stop availd.service
 ```
 
 - Locate your Avail binary, create a backup of the current binary, and then uninstall the existing binary by deleting the binary. Proceed to download the most recent binary announced in Discord, which will replace the previous binary version. 
-To provide an example, assuming your existing binary is located at `/home/avail/avail-node/` and is named `data-avail`, and you used the [validator](/join-the-network/run-avail/validator) setup guidelines while obtaining a pre-built binary from the Avail GitHub repository, proceed as outlined below.
+To provide an example, assuming your existing binary is located at `/home/avail/avail-node/` and is named `data-avail`, and you used the [validator](/validators/run-avail/validator-node-setup) setup guidelines while obtaining a pre-built binary from the Avail GitHub repository, proceed as outlined below.
 ```
 cd /home/avail/avail-node/
 mv data-avail data-avail-backup
