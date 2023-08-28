@@ -13,9 +13,48 @@ slug: avail-upgrade-validator-node
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-## Upgrade Process
+When upgrading Avail nodes there are two options, a faster method and a slower (but safer) method. Both are detailed below, but you only need to use one of them.
 
-Upgrading a Avail node involves a careful process to ensure a smooth transition without disruption to the network. Here's a step-by-step guide on how to upgrade a Avail node, 
+## Fast Upgrade
+
+While a rapid upgrade is possible, it carries inherent risks if done on a validator node. For instance, if you proceed with the upgrade on a validator node and encounter issues such as database corruption, there's a chance of prolonged downtime. This could lead to your node being removed from the active validator set due to unresponsiveness.
+
+This upgrade process is appropriate for non-validator nodes. However, this upgrade process is still possible on validator nodes with careful consideration.
+
+The fast upgrade steps are:
+
+- Stop the Avail node.
+```
+sudo systemctl stop availd.service
+```
+
+- Locate your Avail binary, create a backup of the current binary, and then uninstall the existing binary by deleting the binary. Proceed to download the most recent binary announced in Discord, which will replace the previous binary version. 
+To provide an example, assuming your existing binary is located at `/home/avail/avail-node/` and is named `data-avail`, and you used the [validator](/join-the-network/run-avail/validator) setup guidelines while obtaining a pre-built binary from the Avail GitHub repository, proceed as outlined below.
+```
+cd /home/avail/avail-node/
+mv data-avail data-avail-backup
+wget https://github.com/availproject/avail/releases/download/v1.6.2-rc1/data-avail-linux-amd64.tar.gz
+tar -xvf data-avail-linux-amd64.tar.gz
+mv data-avail-linux-amd64 data-avail
+rm data-avail-linux-amd64.tar.gz
+```
+
+- Start the Avail node again.
+```
+sudo systemctl start availd.service
+```
+
+- Ensure your node starts syncing with the network, view the logs from the running service.
+```
+journalctl -f -u availd.service
+```
+
+- Also check that your node is visible on telemetry and the version matches the upgrade version.
+
+
+## Slow & Safe Upgrade
+
+This upgrade procedure is most appropriate for validator nodes exclusively and is unnecessary for other types of nodes, such as full, archive, rpc, and so forth. Upgrading a Avail node safely is a careful process to ensure a smooth transition without disruption to the network. Here's a step-by-step guide on how to upgrade a Avail node, 
 including the process of switching nodes using rotated keys:
 
 - Preparing for the Upgrade:
@@ -57,4 +96,3 @@ Before turning Node A off you must ensure Node B has become the active validator
 fully switches over. The best is to look in the logs and confirm the new node is sealing the blocks.
 
 :::
-
