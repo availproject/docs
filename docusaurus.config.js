@@ -1,6 +1,4 @@
 // @ts-check
-// Note: type annotations allow type checking and IDEs autocompletion
-
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
@@ -9,83 +7,150 @@ const config = {
   title: 'Avail Docs',
   tagline: '',
   favicon: 'img/favicon.ico',
-
-  // Set the production url of your site here
   url: 'https://availproject.github.io',
-  // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
-
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'availproject', // Usually your GitHub org/user name.
-  projectName: 'availproject.github.io', // Usually your repo name.
+  organizationName: 'availproject',
+  projectName: 'availproject.github.io',
   deploymentBranch: 'gh-pages',
   trailingSlash: false,
-
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-
-  // Even if you don't use internalization, you can use this field to set useful
-  // metadata like html lang. For example, if your site is Chinese, you may want
-  // to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
   },
-
   presets: [
     [
       'classic',
-      /** @type {import('@docusaurus/preset-classic').Options} */
-      ({
+      {
         docs: {
-	  routeBasePath: '/', // Serve the docs at the site's root
-//          sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-//          editUrl:
-//            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          routeBasePath: '/',
         },
         blog: false,
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
-      }),
+      },
     ],
   ],
-
-  themeConfig:
-    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
-    ({
-      // Replace with your project's social card
-      image: 'img/docusaurus-social-card.jpg',
-      navbar: {
-        title: 'Avail Docs',
-        items: [
-        ],
-      },
-      footer: {
-        style: 'dark',
-        links: [
+  plugins: [
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: [
           {
-            title: 'Links',
-            items: [
-              {
-                label: 'Avail Home',
-                href: 'https://www.availproject.org',
-              },
-            ],
+            to: '/',
+            from: ['/en/latest', '/en/'],
+          },
+          // Getting started
+          {
+            to: '/getting-started/avail-explorer',
+            from: '/using-avail/getting-started/avail-explorer',
+          },
+          {
+            to: '/getting-started/managing-accounts',
+            from: '/using-avail/getting-started/managing-accounts',
+          },
+          {
+            to: '/getting-started/testnet-faucet',
+            from: '/using-avail/getting-started/testnet-faucet',
+          },
+          // Development guides
+          {
+            to: '/getting-started/core-sdks-and-apis/avail-light-client-overview',
+            from: '/using-avail/core-sdks-and-apis/avail-light-client-overview',
+          },
+          {
+            to: '/getting-started/core-sdks-and-apis/embedding-the-light-client',
+            from: '/using-avail/core-sdks-and-apis/embedding-the-light-client',
+          },
+          // Node guides
+          {
+            to: '/validators/networks',
+            from: '/join-the-network/networks',
+          },
+          {
+            to: '/validators/node-types',
+            from: '/join-the-network/node-types',
+          },
+          {
+            to: '/validators/run-avail/light-client-setup',
+            from: '/join-the-network/run-avail/light-client-setup',
+          },
+          {
+            to: '/validators/run-avail/full-node-setup',
+            from: '/join-the-network/run-avail/full-node-setup',
+          },
+          {
+            to: '/validators/run-avail/validator-node-setup',
+            from: '/join-the-network/run-avail/validator-node-setup',
+          },
+          {
+            to: '/validators/run-avail/other-nodes/avail-archive-node',
+            from: '/join-the-network/run-avail/other-nodes/avail-archive-node',
+          },
+          {
+            to: '/validators/run-avail/other-nodes/avail-rpc-node',
+            from: '/join-the-network/run-avail/other-nodes/avail-rpc-node',
+          },
+          {
+            to: '/validators/run-avail/validator-ops/avail-backup-node',
+            from: '/join-the-network/run-avail/validator-ops/avail-backup-node',
+          },
+          {
+            to: '/validators/run-avail/validator-ops/avail-upgrade-validator-node',
+            from: '/join-the-network/run-avail/validator-ops/avail-upgrade-validator-node',
+          },
+          {
+            to: '/validators//run-avail/validator-ops/avail-monitoring-validator-node',
+            from: '/join-the-network/run-avail/validator-ops/avail-monitoring-validator-node',
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Erasure Coding Technologies Ltd.`,
       },
-      prism: {
-        theme: lightCodeTheme,
-        darkTheme: darkCodeTheme,
-        additionalLanguages: ['rust'],
+    ],
+  ],
+  themeConfig: {
+    image: 'img/docusaurus-social-card.jpg',
+    navbar: {
+      title: 'Avail Docs',
+      items: [
+        {
+          href: 'https://github.com/availproject',
+          position: 'right',
+          label: 'GitHub',
+        },
+      ],
+    },
+    algolia: {
+      indexName: "avail_documentation",
+      appId: '5787ZYX98U',
+      apiKey: "c86a5367191e7a307aba4a20285dd1b1",
+      contextualSearch: true,
+      algoliaOptions: {
+        attributesToSnippet: ['content:20'],
       },
-    }),
+    },
+    footer: {
+      style: 'dark',
+      links: [
+        {
+          title: 'Links',
+          items: [
+            {
+              label: 'Avail Home',
+              href: 'https://www.availproject.org',
+            },
+          ],
+        },
+      ],
+      copyright: `Copyright © ${new Date().getFullYear()} Erasure Coding Technologies Ltd.`,
+    },
+    prism: {
+      theme: lightCodeTheme,
+      darkTheme: darkCodeTheme,
+      additionalLanguages: ['rust'],
+    },
+  },
 };
 
 module.exports = config;

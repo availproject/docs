@@ -96,4 +96,3 @@ Before turning Node A off you must ensure Node B has become the active validator
 fully switches over. The best is to look in the logs and confirm the new node is sealing the blocks.
 
 :::
-

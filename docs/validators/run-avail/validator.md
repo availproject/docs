@@ -41,8 +41,8 @@ When in doubt, reach out to the Validator Engagement team.
 
 ## Running The Node
 
-First, explore running a full node as per the [Full
-Node](/join-the-network/run-avail/full-node-setup)
+First, explore running a full node as per the 
+[Full Node](/validators/run-avail/full-node-setup)
 instructions. This is to familiarise yourself with running a node.
 
 To run a validator the command line is the same and requires the addition of the `--validator` option to the command. 
@@ -148,7 +148,7 @@ with their own key:
 You can create the two accounts via the Explorer interface. The Kate
 network explorer is at [kate.avail.tools](https://kate.avail.tools/),
 for other networks refer to the [Avail
-Networks](/join-the-network/networks) page.
+Networks](/validators/networks) page.
 
 Once you have created the accounts, Ensure each account has enough
 funds to pay the fees for making transactions. For validators
@@ -180,7 +180,7 @@ First, go to the accounts section on the **Staking** tab in the
 Explorer at
 [kate.avail.tools](https://kate.avail.tools/#/staking/actions) for the
 Kate network (for other networks refer to the [Avail
-Networks](/join-the-network/networks) page). Here, you can perform
+Networks](/validators/networks) page). Here, you can perform
 various staking actions. Click on Stash.
 
 <img src={useBaseUrl("img/avail/staking-bond-1.png")} width="100%" height="100%"/>
