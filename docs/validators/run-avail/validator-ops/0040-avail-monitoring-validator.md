@@ -46,6 +46,7 @@ For example:
 
 Prometheus serves as a monitoring platform that gathers metrics from monitored targets through scraping their metrics HTTP endpoints. In contrast, Grafana acts as a visualization dashboard specifically designed to present the collected data in an easily understandable and visually appealing manner.
 
+The below guide is for setting up a local Prometheus & Grafana instance on the same server as your Avail node. If you're already experienced with Prometheus & Grafana and want to connect your Avail node to an existing Prometheus installation on a different server, include the `--prometheus-external` flag in your Avail node's startup command.
 
 ### Install Prometheus
 
@@ -161,7 +162,7 @@ Set URL to http://localhost:9090, then test and save the connection
 Navigate back to your home page, on the top right in the menu select **Import dashboard**
  <img src={useBaseUrl("img/avail/validator-avail-grafana-add-dashboard.png")} width="100%" height="100%"/>
 
-Import the [Avail Node Metrics](https://raw.githubusercontent.com/staking4all/availproject.github.io-staking4all/main/static/grafana/Avail-Node-Metrics.json) file
+Import the [Avail Node Metrics](https://github.com/availproject/availproject.github.io/blob/main/static/grafana/Avail-Node-Metrics.json) file
  <img src={useBaseUrl("img/avail/validator-avail-grafana-add-dashboard-2.png")} width="100%" height="100%"/>
 
 You will have a new dashboard that opens and that you can use to monitor your node
