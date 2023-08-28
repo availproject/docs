@@ -57,11 +57,11 @@ const config = {
           },
           // Development guides
           {
-            to: '/getting-started/core-sdks-and-apis/avail-light-client-overview',
+            to: '/develop/core-sdks-and-apis/avail-light-client-overview',
             from: '/using-avail/core-sdks-and-apis/avail-light-client-overview',
           },
           {
-            to: '/getting-started/core-sdks-and-apis/embedding-the-light-client',
+            to: '/develop/core-sdks-and-apis/embedding-the-light-client',
             from: '/using-avail/core-sdks-and-apis/embedding-the-light-client',
           },
           // Node guides
@@ -102,7 +102,7 @@ const config = {
             from: '/join-the-network/run-avail/validator-ops/avail-upgrade-validator-node',
           },
           {
-            to: '/validators//run-avail/validator-ops/avail-monitoring-validator-node',
+            to: '/validators/run-avail/validator-ops/avail-monitoring-validator-node',
             from: '/join-the-network/run-avail/validator-ops/avail-monitoring-validator-node',
           },
         ],
