@@ -2,7 +2,7 @@
 id: faq
 title: FAQ
 sidebar_label: FAQ
-sidebar_position: 9
+sidebar_position: 10
 description: Frequently asked questions about Avail
 keywords:
   - docs
