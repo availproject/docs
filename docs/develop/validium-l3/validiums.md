@@ -335,14 +335,14 @@ is optimistic, it is necessary to wait for 30 minutes before the data root is av
 After successfully bridging data root to the main data availability attestation contract on the Ethereum network,
 it is possible to prove that data is available on Avail network by submitting a Merkle proof to the verification contract.
 Fetching proof from Avail can be done via RPC call `kate_queryDataProof` for
-example `availApi.rpc.kate.queryDataProof(dataIndex, hashBlock);`
-where `dataIndex` is index of the data (leaf) in the Merkle tree and `hashBlock` which is a hash of the block in which
+example `availApi.rpc.kate.queryDataProof(transactionIndex, hashBlock);`
+where `transactionIndex` is index of the transaction in the block and `hashBlock` which is a hash of the block in which
 the data is included. This RPC endpoint returns `DataProof` object that can be used to prove on Ethereum that data is available on the Avail network.
 Example:
 
 ```typescript
-async function getProof(availApi, hashBlock, dataIndex) {
-    const dataProof = await availApi.rpc.kate.queryDataProof(dataIndex, hashBlock);
+async function getProof(availApi, hashBlock, transactionIndex) {
+    const dataProof = await availApi.rpc.kate.queryDataProof(transactionIndex, hashBlock);
     return dataProof;
 }
 ```
@@ -478,7 +478,7 @@ VALIDIUM_ADDRESS= # address of the verification contract, one such is deployed o
 VALIDIYM_ABI_PATH= # path to abi file e.g. abi/ValidiumContract.json
 BLOCK_NUMBER= # number of the block for which to get Merkle proof
 BLOCK_HASH= # hash of the block for which to get Merkle proof
-DATA_INDEX= # index of the leaf element in the Merkle trie for which to get the proof 
+TRANSACTION_INDEX= # index of the transaction in the block 
 ```
 
 <details>
@@ -543,12 +543,12 @@ async function createApi(url) {
  *
  * @param availApi Api instance
  * @param hashBlock Hash of the block
- * @param dataIndex Leaf index in the merkle trie for which the proof is returned
+ * @param transactionIndex Index of the transaction in the block
  * @returns {Promise<*>}
  */
-async function getProof(availApi, hashBlock, dataIndex) {
-    const daHeader = await availApi.rpc.kate.queryDataProof(dataIndex, hashBlock);
-    console.log(`Fetched proof from Avail for txn index ${dataIndex} inside block ${hashBlock}`);
+async function getProof(availApi, hashBlock, transactionIndex) {
+    const daHeader = await availApi.rpc.kate.queryDataProof(transactionIndex, hashBlock);
+    console.log(`Fetched proof from Avail for txn index ${transactionIndex} inside block ${hashBlock}`);
     return daHeader;
 }
 
@@ -575,8 +575,8 @@ async function checkProof(sepoliaApi, blockNumber, proof, numberOfLeaves, leafIn
         .getWebSocketProvider("sepolia", process.env.INFURA_KEY);
     const availApi = await createApi(process.env.AVAIL_RPC);
 
-    console.log(`Getting proof for data index ${process.env.DATA_INDEX} block number ${process.env.BLOCK_NUMBER} and block hash ${process.env.BLOCK_HASH}`)
-    const daHeader = await getProof(availApi, process.env.BLOCK_HASH, process.env.DATA_INDEX)
+    console.log(`Getting proof for transaction index ${process.env.TRANSACTION_INDEX} block number ${process.env.BLOCK_NUMBER} and block hash ${process.env.BLOCK_HASH}`)
+    const daHeader = await getProof(availApi, process.env.BLOCK_HASH, process.env.TRANSACTION_INDEX)
 
     console.log(`Data Root: ${hexlify(daHeader.root)}`);
     console.log(`Proof: ${daHeader.proof}`);
