@@ -920,7 +920,7 @@ html[data-theme="dark"] .header-twitter-link::before {
 ============================================================================= */
 
 .grey-card {
-  background: #141217;
+  background: radial-gradient(69.54% 69.54% at 50% 28.63%, rgba(228, 238, 251, 0.8) 0%, rgba(212, 227, 244, 0.8) 100%);
   border-radius: 20px;
   padding: 25px;
   margin-bottom: 24px;
@@ -1291,34 +1291,6 @@ strong {
   min-width: 200px;
 }
 
-.index-page .player-wrapper {
-  max-width: 500px;
-  position: relative;
-}
-.play-button-wrapper {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.play-button {
-  border: none;
-  border-radius: 50%;
-  /*background-color: #222;*/
-  cursor: pointer;
-  width: 111px;
-  height: 111px;
-  opacity: .5;
-  background: no-repeat center/50% url("/images/play.png") #222;
-}
-.play-button:hover {
-  opacity: .8;
-}
-
 .index-page p {
   font-size: 1.2em;
   margin-bottom: 25px;
@@ -1381,8 +1353,8 @@ strong {
 
 .footer {
   margin-top: 10px;
-  background-color: #000;
-  color: #ffffff;
+  background: radial-gradient(69.54% 69.54% at 50% 28.63%, rgba(228, 238, 251, 0.8) 0%, rgba(212, 227, 244, 0.8) 100%);
+  color: #151515;
   padding: 44px 0;
   border-top: thin solid;
 }
@@ -1791,18 +1763,6 @@ code:not(.language-text) {
   line-height: 3rem;
 }
 
-.white-button {
-  background: #fff;
-  transition: .1s ease-out;
-  color: #111;
-  font-weight: 500;
-}
-
-.white-button:hover {
-  background: radial-gradient(70.64% 70.64% at 50% 25.87%, #8a53ff 0%, #7332ff 100%);
-  color: #fff;
-}
-
 .c2a-text {
   color: #fff;
   line-height: 1.5rem;
@@ -1814,11 +1774,6 @@ code:not(.language-text) {
   transform-style: preserve-3d;
   transition: all 0.3s ease-in-out;
 }
-
-/*.pop-text:hover {*/
-/*  transform: translate3d(0px, -16px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);*/
-/*  transform-style: preserve-3d;*/
-/*}*/
 
 .title:hover {
   text-decoration: underline;
@@ -1997,8 +1952,7 @@ p {
   justify-content: center;
   align-items: center;
   display: flex;
-  /*margin-top: 20px;*/
-  /*margin-right: 32px;*/
+
 }
 .faq-accordion-icon:before {
   position: relative;
