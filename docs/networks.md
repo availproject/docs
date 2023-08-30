@@ -2,7 +2,7 @@
 id: avail-networks
 title: Avail Networks
 sidebar_label: Avail Networks
-sidebar_position: 1
+sidebar_position: 3
 description: Learn about Avail's various networks for development, testing, and (eventually) production
 keywords:
   - docs

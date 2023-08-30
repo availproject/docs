@@ -2,7 +2,7 @@
 id: links
 title: Links & Resources
 sidebar_label: Links & Resources
-sidebar_position: 5
+sidebar_position: 9
 description: Avail-related links and resources
 keywords:
   - docs
