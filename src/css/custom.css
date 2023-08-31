@@ -1571,3 +1571,15 @@ p {
   color: #4E6786;
   text-decoration: none;
 }
+
+@media (max-width: 768px) {
+  .landing-page-h1 {
+    font-size: 50px;
+  }
+}
+
+@media (max-width: 576px) {
+  .landing-page-h1 {
+    font-size: 30px;
+  }
+}
