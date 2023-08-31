@@ -11,13 +11,7 @@ module.exports = {
   organizationName: "availproject",
   projectName: "availproject.github.io",
   trailingSlash: true,
-  scripts: [
-    {
-      src: 'https://plausible.io/js/script.js',
-      defer: true,
-      'data-domain': 'availproject.github.io'
-    },
-  ],
+  scripts: [{src: 'https://plausible.io/js/plausible.js', async: true, defer: true, 'data-domain': 'availproject.github.io'}],
   customFields: {
     description: "Build your next blockchain solution using Avail.",
   },
