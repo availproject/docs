@@ -35,7 +35,6 @@ In the event that a validator becomes unresponsive for an entire session, the va
 depending on the session in which the chilling occurred. However, a chilled validator has the ability to declare their intent to validate again at any time. If less than 10% of nodes go offline there is
 no slash for being unresponsive or offline.
 
-
 ## Slashing
 
 Involuntary chilling can also occur as a consequence of slashing. However, in such a situation, the validator not only loses their nominations but also faces a potential loss of support. Consequently, even if 

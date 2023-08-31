@@ -14,8 +14,6 @@ slug: avail-rpc-node
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-## RPC Node Setup
-
 To run an rpc node you must first reveiw the [archive node](0030-avail-archive-node.md) setup. You will complete the same steps. The only difference is you will add `--rpc-external --ws-external --rpc-port 9944 --ws-port 9933 --rpc-cors=all` to the paramaters. 
 
 You will then be able to communicate with node using `http` or `ws` endpoints. The default ports are 9933 for HTTP and 9944 for WS.

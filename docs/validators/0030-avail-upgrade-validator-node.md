@@ -52,7 +52,6 @@ journalctl -f -u availd.service
 
 - Also check that your node is visible on telemetry and the version matches the upgrade version.
 
-
 ## Slow & Safe Upgrade
 
 This upgrade procedure is most appropriate for validator nodes exclusively and is unnecessary for other types of nodes, such as full, archive, rpc, and so forth. Upgrading a Avail node safely is a careful process to ensure a smooth transition without disruption to the network. Here's a step-by-step guide on how to upgrade a Avail node, 

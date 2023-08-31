@@ -39,7 +39,6 @@ stored in a format optimized for efficient data retrieval and storage. The defau
 
 * network: The network folder holds configuration files related to network connectivity and peer management. It includes information about known nodes, peer addresses, and other network-related settings. 
 
-
 ## Re-Sync or Restore Snapshot
 
 To delete your DB and re-sync from genesis:
@@ -60,8 +59,8 @@ warp sync yet. Will be made available in future release.
 
 :::
 
-
 ## Backup Keystore
+
 If the contents of the keystore from a primary node is moved to backup node that is in sync, will allow the node to carry on particpating in the concensus. However the primary node 
 should not be running anymore.
 

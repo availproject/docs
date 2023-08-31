@@ -49,7 +49,7 @@ To run a validator the command line is the same and requires the addition of the
 
 For example:
 
-```
+```bash
 ./data-avail --validator \
     --port 30333 \
     --base-path `pwd`/data \
@@ -108,24 +108,28 @@ WantedBy=multi-user.target
 EOF
 ```
 
-Enable auto restart on for your Avail node
-```
+Enable auto restart on for your Avail node:
+
+```bash
 sudo systemctl daemon-reload
 sudo systemctl enable availd.service 
 ```
 
-Start your avail node
-```
+Start your avail node:
+
+```bash
 sudo systemctl start availd.service 
 ```
 
-Check the node is running
-```
+Check the node is running:
+
+```bash
 sudo systemctl status availd.service
 ```
 
-View the logs from the running service
-```
+View the logs from the running service:
+
+```bash
 journalctl -f -u availd.service
 ```
 
@@ -216,7 +220,6 @@ You should now be ready to generate your session keys. Note the
 submit here.  <img src={useBaseUrl("img/avail/staking-bond-4.png")}
 width="100%" height="100%"/>
 
-
 ## Set Session Keys
 
 Once your node is **fully synced**, you need to rotate and submit your
@@ -290,4 +293,3 @@ When the validator node has enough stake it will be elected, below is
 an example of the node being elected and making blocks.
 
 <img src={useBaseUrl("img/avail/validator-active-set.png")} width="100%" height="100%"/>
-
