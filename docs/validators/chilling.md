@@ -1,8 +1,8 @@
 ---
-id: avail-chill-slashing-node
-title: Chill & Slashing a Validator
-sidebar_label: Chill & Slashing
-sidebar_position: 6
+id: avail-chilling
+title: Chill Your Validator
+sidebar_label: Chill Your Validator
+sidebar_position: 5
 description: "Learn about how Chill & Slashing Affect an Avail validator."
 keywords:
   - docs
@@ -10,7 +10,6 @@ keywords:
   - node
   - validator
 image: https://availproject.github.io/img/avail/AvailDocs.png
-slug: avail-chill-slashing-node
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
@@ -35,7 +34,7 @@ In the event that a validator becomes unresponsive for an entire session, the va
 depending on the session in which the chilling occurred. However, a chilled validator has the ability to declare their intent to validate again at any time. If less than 10% of nodes go offline there is
 no slash for being unresponsive or offline.
 
-## Slashing
+### Slashing
 
 Involuntary chilling can also occur as a consequence of slashing. However, in such a situation, the validator not only loses their nominations but also faces a potential loss of support. Consequently, even if 
 the validator re-declares their intent to validate before session 5, there may not be enough nominations to reintegrate the node into the active set.
