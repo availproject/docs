@@ -44,18 +44,11 @@ page](https://github.com/availproject/avail/releases) and a chain
 specification file for the specific network. Contact the Avail team if
 you have questions.
 
-
 ## Useful Links
 
 [Dockerhub Repository](https://hub.docker.com/r/availj/avail/tags)
 
 [Github Releases](https://github.com/availproject/avail/releases)
-
-
-
-
-
-
 
 ## Initial Setup
 

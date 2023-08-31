@@ -42,18 +42,11 @@ page](https://github.com/availproject/avail/releases) and a chain
 specification file for the specific network. Contact the Avail team if
 you have questions.
 
-
 ## Useful Links
 
 [Dockerhub Repository](https://hub.docker.com/r/availj/avail/tags)
 
 [Github Releases](https://github.com/availproject/avail/releases)
-
-
-
-
-
-
 
 ## Initial Setup
 
@@ -151,7 +144,6 @@ cd /mnt/avail
 sudo docker run -v $(pwd)/config/kate-chainspec.raw.json:/da/genesis/chainspec.raw.json -v $(pwd)/state:/da/state:rw -v $(pwd)/keystore:/da/keystore:rw -e DA_CHAIN=/da/genesis/chainspec.raw.json -e DA_NAME=kate-docker-avail-Node -p 0.0.0.0:30333:30333 -p 9615:9615 -p 9933:9933 -d --restart unless-stopped availj/avail:v1.6.2-rc1 --validator
 ```
 
-
 in the above command steps include:
 
 - changing directory to `/mnt/avail` so we are in correct directory 
@@ -173,7 +165,6 @@ CONTAINER ID   IMAGE                     COMMAND            CREATED         STAT
 ubuntu:/mnt/avail# docker logs 5b3978de8f35
 # 5b3978de8f35 is the container id 
 ```
-
 
 If started with --validator flags the Role will `Role:Authority`
 and logs will look like this:
