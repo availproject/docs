@@ -133,9 +133,9 @@ module.exports = {
     },
     algolia: {
       // need to update this
-      indexName: "docs-availproject",
-      appId: '5787ZYX98U',
-      apiKey: "c86a5367191e7a307aba4a20285dd1b1",
+      indexName: "docs-avail",
+      appId: 'K3VW8MOPEL',
+      apiKey: "5aa555cc8f86ca8214a00f5c8bf80314",
       contextualSearch: true,
       algoliaOptions: {
         attributesToSnippet: ['content:20'],
