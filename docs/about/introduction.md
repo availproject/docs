@@ -11,7 +11,6 @@ keywords:
   - scale
   - rollup
 image: https://availproject.github.io/img/avail/AvailDocs.png
-slug: /
 ---
 
 import useBaseUrl from '@docusaurus/useBaseUrl';

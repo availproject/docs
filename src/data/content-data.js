@@ -3,7 +3,7 @@ export const contentData = {
         {
             iconSrc: '/img/avail-logo.png',
             title: 'Run a Node',
-            cardLink: '/docs/node/node-types/',
+            cardLink: '/node/node-types/',
             blockInfo: [
                 'Flexible Node Types',
                 'Optimized Resource Use',
@@ -12,22 +12,22 @@ export const contentData = {
             tutorialsInfo: [
                 {
                     title: 'Run a Light Client',
-                    link: '/docs/node/light-client-setup/'
+                    link: '/node/light-client-setup/'
                 },
                 {
                     title: 'Run a Full Node',
-                    link: '/docs/node/full-node-setup/'
+                    link: '/node/full-node-setup/'
                 },
                 {
                     title: 'Run an Archive Node',
-                    link: '/docs/node/avail-archive-node/'
+                    link: '/node/avail-archive-node/'
                 }
             ]
         },                
         {
             iconSrc: '/img/avail-logo.png',
             title: 'Become a Validator',
-            cardLink: '/docs/validators/validator-node-setup/',
+            cardLink: '/validators/validator-node-setup/',
             blockInfo: [
                 'Secure the Network',
                 'Earn Validator Rewards',
@@ -36,22 +36,22 @@ export const contentData = {
             tutorialsInfo: [
                 {
                     title: 'Run a Validator Node',
-                    link: '/docs/validators/validator-node-setup/'
+                    link: '/validators/validator-node-setup/'
                 },
                 {
                     title: 'Upgrade Your Validator',
-                    link: '/docs/validators/avail-upgrade-validator-node/'
+                    link: '/validators/avail-upgrade-validator-node/'
                 },
                 {
                     title: 'Monitor Your Validator',
-                    link: '/docs/validators/avail-monitoring-validator-node/'
+                    link: '/validators/avail-monitoring-validator-node/'
                 }
             ]
         },        
         {
             iconSrc:'/img/avail-logo.png',
             title: 'Build Modular Solutions',
-            cardLink: '/docs/api/communicating-with-avail/',
+            cardLink: '/api/communicating-with-avail/',
             blockInfo: [
                 'Highly Efficient Validiums',
                 'Optimized Smart Contract Rollups',
@@ -60,7 +60,7 @@ export const contentData = {
             tutorialsInfo: [
                 {
                     title: 'Avail-Powered Validiums',
-                    link: '/docs/api/use-case-validiums'
+                    link: '/api/use-case-validiums'
                 },
                 {
                     title: 'Smart Contract Rollups: Docs Coming Soon',

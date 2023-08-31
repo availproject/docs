@@ -92,11 +92,11 @@ module.exports = {
           title: "Network Guides",
           items: [
             {
-              href: '/docs/node/node-types/',
+              href: '/node/node-types/',
               label: 'Node Guide',
             },
             {
-              href: '/docs/validators/validator-node-setup/',
+              href: '/validators/validator-node-setup/',
               label: 'Validator Guide',
             },
           ]
@@ -152,22 +152,22 @@ module.exports = {
        },
       items: [
         {
-          href: "/docs/",
+          href: "/about/introduction/",
           position: 'left',
           label: 'Get Started',
         },
         {
-          href: "/docs/node/node-types/",
+          href: "/node/node-types/",
           position: 'left',
           label: 'Node Guide',
         },
         {
-          href: "/docs/validators/validator-node-setup/",
+          href: "/validators/validator-node-setup/",
           position: 'left',
           label: 'Validator Guide',
         },
         {
-          href: "/docs/api/communicating-with-avail/",
+          href: "/api/communicating-with-avail/",
           position: 'left',
           label: 'API Reference',
         },
@@ -204,7 +204,7 @@ module.exports = {
       "@docusaurus/preset-classic",
       {
         docs: {
-          routeBasePath: '/docs',
+          routeBasePath: '/',
           sidebarPath: require.resolve("./sidebars.js"),
           editUrl: "https://github.com/availproject/availproject.github.io/tree/main",
           path: "docs",
