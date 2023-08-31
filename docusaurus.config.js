@@ -35,7 +35,93 @@ module.exports = {
       },
     },
   },
-
+  plugins: [
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: [
+          {
+            to: '/',
+            from: ['/en/latest', '/en/'],
+          },
+          {
+            to: '/',
+            from: '/join-the-network/networks',
+          },
+          {
+            to: '/about/managing-accounts',
+            from: '/using-avail/getting-started/managing-accounts',
+          },
+          {
+            to: '/about/testnet-faucet',
+            from: '/using-avail/getting-started/testnet-faucet',
+          },
+          // Getting started
+          {
+            to: '/about/avail-explorer',
+            from: '/using-avail/getting-started/avail-explorer',
+          },
+          {
+            to: '/about/managing-accounts',
+            from: '/using-avail/getting-started/managing-accounts',
+          },
+          {
+            to: '/about/testnet-faucet',
+            from: '/using-avail/getting-started/testnet-faucet',
+          },
+          {
+            to: '/api/light-client/avail-light-client-overview/',
+            from: '/using-avail/core-sdks-and-apis/avail-light-client-overview',
+          },
+          {
+            to: '/api/light-client/embedding-the-light-client/',
+            from: '/using-avail/core-sdks-and-apis/embedding-the-light-client',
+          },
+          // Node guides
+          {
+            to: '/',
+            from: '/join-the-network/networks',
+          },
+          {
+            to: '/node/node-types',
+            from: '/join-the-network/node-types',
+          },
+          {
+            to: '/about/light-client-setup',
+            from: '/join-the-network/run-avail/light-client-setup',
+          },
+          {
+            to: '/node/full-node-setup',
+            from: '/join-the-network/run-avail/full-node-setup',
+          },
+          {
+            to: '/validators/validator-node-setup',
+            from: '/join-the-network/run-avail/validator-node-setup',
+          },
+          {
+            to: '/node/avail-archive-node',
+            from: '/join-the-network/run-avail/other-nodes/avail-archive-node',
+          },
+          {
+            to: '/node/avail-rpc-node',
+            from: '/join-the-network/run-avail/other-nodes/avail-rpc-node',
+          },
+          {
+            to: '/validators/avail-backup-node',
+            from: '/join-the-network/run-avail/validator-ops/avail-backup-node',
+          },
+          {
+            to: '/validators/avail-upgrade-validator-node',
+            from: '/join-the-network/run-avail/validator-ops/avail-upgrade-validator-node',
+          },
+          {
+            to: '/validators/avail-monitoring-validator-node',
+            from: '/join-the-network/run-avail/validator-ops/avail-monitoring-validator-node',
+          },
+        ],
+      },
+    ],
+  ],
   onBrokenLinks: 'log',
   themeConfig: {
     metadata: [{name: 'description', content: 'Welcome to the Avail Project Documentation, the official documentation for Avail.'}],
