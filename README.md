@@ -1,10 +1,10 @@
 <p align="center">
-<img align="center" src="/static/img/avail-logo.png" width="300">
+<img align="center" src="/static/img/avail-logo.png" width="250">
 </p>
 
 <div align="Center">
 <h1>The Avail Project Developer Documentation</h1>
-<h3>The Essential Base Layer for Modern Blockchains.</h3>
+<h3>The Essential Base Layer for Modern Blockchains</h3>
 
 </div>
 
