@@ -1,6 +1,6 @@
 ---
 id: managing-accounts
-title: Create an Account
+title: How to Create an Account
 sidebar_label: Create an Account
 sidebar_position: 2
 description: Managing Avail accounts

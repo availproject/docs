@@ -17,7 +17,7 @@ function Home() {
               <section className="section container-fluid">
                 <div className="row justify-content-between">
                   <div className="col-lg-6 pop-text">
-                  <h1 className="landing-page-h1">Avail Project Developer Documentation</h1>
+                  <h1 className="landing-page-h1"><a href="https://www.availproject.org/">Avail Project</a> Developer Documentation</h1>
                     <h2 className="mt-0" dangerouslySetInnerHTML={{__html: contentData.headText}}></h2>
                   </div>
                 </div>

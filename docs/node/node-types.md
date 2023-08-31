@@ -15,7 +15,7 @@ slug: node-types
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-## Types of nodes
+## Overview
 
 Blockchains are distributed ledgers that store transactional data
 across a network of nodes. Although Avail is not the traditional
@@ -26,14 +26,16 @@ and different requirements in terms of storage and bandwidth.
 
 The most important kinds of nodes you will likely set up are:
 
-### Light clients
+### Light Clients
+
 Light nodes are a type of nodes that allows users to interact with the
 blockchain network without having to download and store the entire
 blockchain history. Instead, light nodes rely on a set of trusted
 nodes, called a light client infrastructure, to provide them with the
 necessary data to interact with the network.
 
-### Full nodes
+### Full Nodes
+
 Full nodes store the current state of the blockchain, including the
 current block and transaction data. This node type is designed to
 quickly and efficiently access the current state of the blockchain,
@@ -42,14 +44,16 @@ optimized for fast, efficient access to current blockchain data. They
 are designed to be lightweight and responsive, making them well-suited
 for tasks like verifying transactions and broadcasting new blocks.
 
-### Validator nodes
+### Validator Nodes
+
 Validators are full nodes that also have a staked amount on the chain,
 and are responsible for producing blocks and validating that the chain
 is functioning correctly.
 
-## Notable node variants
+## Notable Node Variants
 
-### Archive nodes
+### Archive Nodes
+
 Archive nodes store the entire transaction history of the blockchain,
 including all previous blocks and transactions. This makes archive
 nodes much larger in terms of storage requirements. Can provide access
@@ -62,7 +66,8 @@ slower and less responsive than full nodes, especially when accessing
 historical data. Their primary focus is on data storage and historical
 data access.
 
-### Pruned nodes
+### Pruned Nodes
+
 A pruned node refers to a type of node configuration where certain
 historical data is removed or pruned from Avails storage, reducing the
 disk space requirements while maintaining the ability to participate
@@ -73,7 +78,8 @@ transactions. The pruning process allows the node to save disk space
 by selectively discarding data that is no longer needed for the
 current state verification or network consensus.
 
-### RPC nodes
+### RPC Nodes
+
 An RPC (Remote Procedure Call) node refers to a node that exposes an
 API (Application Programming Interface) for remote interaction with
 the Avail network. It allows external clients, such as applications or

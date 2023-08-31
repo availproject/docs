@@ -1,6 +1,6 @@
 ---
 id: avail-archive-node
-title: Run an Archive Node
+title: How to Run an Archive Node
 sidebar_label: Run an Archive Node
 description: Learn how to run a archive node
 keywords:
@@ -13,8 +13,6 @@ image: https://availproject.github.io/img/avail/AvailDocs.png
 slug: avail-archive-node
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
-
-## Archive Node Setup
 
 To run an archive node you must first reveiw the [full node](/validators/run-avail/full-node-setup) setup. You will complete all the same steps. The only difference is you will add `--pruning archive` to the paramaters. 
 

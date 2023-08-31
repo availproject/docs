@@ -1,6 +1,6 @@
 ---
 id: avail-rpc-node
-title: Run an RPC Node
+title: How to Run an RPC Node
 sidebar_label: Run an RPC Node
 description: Learn how to run a rpc node
 keywords:
@@ -13,8 +13,6 @@ image: https://availproject.github.io/img/avail/AvailDocs.png
 slug: avail-rpc-node
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
-
-## RPC Node Setup
 
 To run an rpc node you must first reveiw the [archive node](0030-avail-archive-node.md) setup. You will complete the same steps. The only difference is you will add `--rpc-external --ws-external --rpc-port 9944 --ws-port 9933 --rpc-cors=all` to the paramaters. 
 

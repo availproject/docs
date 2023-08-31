@@ -26,7 +26,6 @@ of their nodes at anytime.
 
  <img src={useBaseUrl("img/avail/validator-avail-telemetry.png")} width="100%" height="100%"/>
 
-
 Avail telemetry has been added to the chain specification file and should automatically send telemetry data to Avail [public telemetry](http://telemetry.avail.tools/). You can however also 
 add the telemetry `--telemetry-url 'ws://telemetry.avail.tools:8001/submit/ 0'` to your avail node start command if your node is not visible on the public telemetry.
 
@@ -106,7 +105,6 @@ Check the status, ensure Prometheus has started without errors
 ```
 sudo systemctl status prometheus.service prometheus-node-exporter.service
 ```
-
 
 ### Install Grafana
 
