@@ -1,6 +1,6 @@
 ---
 id: avail-explorer
-title: Use the Explorer
+title: How to Use the Avail Explorer
 sidebar_label: Use the Explorer
 sidebar_position: 3
 description: Using the Avail Explorer

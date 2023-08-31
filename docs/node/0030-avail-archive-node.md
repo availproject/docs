@@ -1,6 +1,6 @@
 ---
 id: avail-archive-node
-title: Run an Archive Node
+title: How to Run an Archive Node
 sidebar_label: Run an Archive Node
 description: Learn how to run a archive node
 keywords:

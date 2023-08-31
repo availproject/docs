@@ -1,6 +1,6 @@
 ---
 id: full-node-setup
-title: Run a Full Node
+title: How to Run a Full Node
 sidebar_position: 3
 sidebar_label: Run a Full Node
 description: Learn how to run an Avail full node
