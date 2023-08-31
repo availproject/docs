@@ -52,7 +52,8 @@ you have questions.
 
 At this point, you should have shell access with root privileges to a linux machine.
 
-### Install Docker 
+### Install Docker
+
 Most likely your operating system won’t have Docker installed by default. Please follow the instructions for your particular distribution found here: https://docs.docker.com/engine/install/
 
 We’re following the instructions for Ubuntu. The steps are included below, but please see the official instructions in case they’ve been updated.
@@ -80,6 +81,7 @@ sudo usermod -aG docker $USER
 ```
 
 Now you should be able to logout and log back in and run docker commands without **`sudo.`**
+
 ## Disk Setup
 
 The exact steps required here are going to vary a lot based on your needs. Most likely you’ll have a root partition running your operating system on one device. You’ll probably want one or more devices for actually holding the blockchain data. For the rest of the walkthrough, we’re going to have that additional device mounted at **`/mnt/avail`**.
@@ -120,6 +122,7 @@ sudo emacs /etc/fstab
 # use this to verify the fstab actually works
 sudo findmnt --verify --verbose
 ```
+
 At this point you should be able to reboot and confirm that the system loads your mount properly.
 
 ## Avail setup
