@@ -2,155 +2,224 @@
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
-/** @type {import('@docusaurus/types').Config} */
-const config = {
-  title: 'Avail Docs',
-  tagline: '',
-  favicon: 'img/favicon.ico',
-  url: 'https://availproject.github.io',
-  baseUrl: '/',
-  organizationName: 'availproject',
-  projectName: 'availproject.github.io',
-  deploymentBranch: 'gh-pages',
-  trailingSlash: false,
-  onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+module.exports = {
+  title: "Avail Docs",
+  tagline: "The official documentation hub for the Avail Project.",
+  url: "https://availproject.github.io/",
+  baseUrl: "/",
+  favicon: "/img/favicon.ico",
+  organizationName: "availproject",
+  projectName: "availproject.github.io",
+  trailingSlash: true,
+  customFields: {
+    description: "Build your next blockchain solution using Avail.",
+  },
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
+    path: 'i18n',
+    localeConfigs: {
+      en: {
+        label: 'English',
+        direction: 'ltr',
+        htmlLang: 'en-US',
+        calendar: 'gregory',
+        path: 'en',
+      },
+    },
   },
-  presets: [
-    [
-      'classic',
-      {
-        docs: {
-          routeBasePath: '/',
-        },
-        blog: false,
-        theme: {
-          customCss: require.resolve('./src/css/custom.css'),
-        },
-      },
-    ],
-  ],
-  plugins: [
-    [
-      '@docusaurus/plugin-client-redirects',
-      {
-        redirects: [
-          {
-            to: '/',
-            from: ['/en/latest', '/en/'],
-          },
-          // Getting started
-          {
-            to: '/getting-started/avail-explorer',
-            from: '/using-avail/getting-started/avail-explorer',
-          },
-          {
-            to: '/getting-started/managing-accounts',
-            from: '/using-avail/getting-started/managing-accounts',
-          },
-          {
-            to: '/getting-started/testnet-faucet',
-            from: '/using-avail/getting-started/testnet-faucet',
-          },
-          // Development guides
-          {
-            to: '/develop/core-sdks-and-apis/avail-light-client-overview',
-            from: '/using-avail/core-sdks-and-apis/avail-light-client-overview',
-          },
-          {
-            to: '/develop/core-sdks-and-apis/embedding-the-light-client',
-            from: '/using-avail/core-sdks-and-apis/embedding-the-light-client',
-          },
-          // Node guides
-          {
-            to: '/validators/networks',
-            from: '/join-the-network/networks',
-          },
-          {
-            to: '/validators/node-types',
-            from: '/join-the-network/node-types',
-          },
-          {
-            to: '/validators/run-avail/light-client-setup',
-            from: '/join-the-network/run-avail/light-client-setup',
-          },
-          {
-            to: '/validators/run-avail/full-node-setup',
-            from: '/join-the-network/run-avail/full-node-setup',
-          },
-          {
-            to: '/validators/run-avail/validator-node-setup',
-            from: '/join-the-network/run-avail/validator-node-setup',
-          },
-          {
-            to: '/validators/run-avail/other-nodes/avail-archive-node',
-            from: '/join-the-network/run-avail/other-nodes/avail-archive-node',
-          },
-          {
-            to: '/validators/run-avail/other-nodes/avail-rpc-node',
-            from: '/join-the-network/run-avail/other-nodes/avail-rpc-node',
-          },
-          {
-            to: '/validators/run-avail/validator-ops/avail-backup-node',
-            from: '/join-the-network/run-avail/validator-ops/avail-backup-node',
-          },
-          {
-            to: '/validators/run-avail/validator-ops/avail-upgrade-validator-node',
-            from: '/join-the-network/run-avail/validator-ops/avail-upgrade-validator-node',
-          },
-          {
-            to: '/validators/run-avail/validator-ops/avail-monitoring-validator-node',
-            from: '/join-the-network/run-avail/validator-ops/avail-monitoring-validator-node',
-          },
-        ],
-      },
-    ],
-  ],
+
+  onBrokenLinks: 'log',
   themeConfig: {
-    image: 'img/docusaurus-social-card.jpg',
-    navbar: {
-      title: 'Avail Docs',
-      items: [
+    metadata: [{name: 'description', content: 'Welcome to the Avail Project Documentation, the official documentation for Avail.'}],
+    colorMode: {
+      defaultMode: 'light',
+      disableSwitch: true,
+      respectPrefersColorScheme: false,
+    },
+
+    footer: {
+      style: 'dark',
+      links: [
         {
-          href: 'https://github.com/availproject',
-          position: 'right',
-          label: 'GitHub',
+          title: "Company",
+          items: [
+            {
+              label: "About Us",
+              href: "https://www.availproject.org/ecosystem"
+            },
+            {
+              label: "Blog",
+              href: "https://blog.availproject.org/"
+            },
+            {
+              label: "Careers",
+              href: "https://wellfound.com/company/avail-6/jobs"
+            }
+          ]
+        },
+        {
+          title: "Repositories",
+          items: [
+            {
+              href: 'https://github.com/availproject/avail-light',
+              label: 'Light Client',
+            },
+            {
+              href: 'https://github.com/availproject/avail',
+              label: 'Avail Node',
+            },
+            {
+              href: 'https://github.com/availproject/avail-core',
+              label: 'Avail Core',
+            },
+          ]
+        },
+        {
+          title: "Data Availability Resources",
+          items: [
+            {
+              href: 'https://ethereum.org/en/developers/docs/data-availability/',
+              label: 'What is Data Availability',
+            },
+            {
+              href: 'https://dankradfeist.de/ethereum/2019/12/20/data-availability-checks.html',
+              label: 'Data Availability Checks',
+            },
+          ]
+        },
+        {
+          title: "Network Guides",
+          items: [
+            {
+              href: '/node/node-types/',
+              label: 'Node Guide',
+            },
+            {
+              href: '/validators/validator-node-setup/',
+              label: 'Validator Guide',
+            },
+          ]
+        },
+        {
+          title: "Community",
+          items: [
+            {
+              href: 'https://discord.com/invite/y6fHnxZQX8',
+              label: 'Discord',
+            },
+            {
+              href: 'https://twitter.com/AvailProjects',
+              label: 'Twitter',
+            },
+            {
+              href: 'https://github.com/availproject',
+              label: 'GitHub',
+            },
+            {
+              href: 'https://www.linkedin.com/company/availproject/',
+              label: 'LinkedIn',
+            },
+          ]
         },
       ],
     },
+    image: 'img/avail-logo.png',
+    prism: {
+      theme: require("prism-react-renderer/themes/github"),
+      darkTheme: require("prism-react-renderer/themes/dracula"),
+      defaultLanguage: "javascript",
+      additionalLanguages: ['solidity']
+    },
     algolia: {
-      indexName: "avail_documentation",
-      appId: '5787ZYX98U',
-      apiKey: "c86a5367191e7a307aba4a20285dd1b1",
+      // need to update this
+      indexName: "docs-avail",
+      appId: 'K3VW8MOPEL',
+      apiKey: "5aa555cc8f86ca8214a00f5c8bf80314",
       contextualSearch: true,
       algoliaOptions: {
         attributesToSnippet: ['content:20'],
       },
     },
-    footer: {
-      style: 'dark',
-      links: [
+    navbar: {
+      hideOnScroll: true,
+      logo: {
+        alt: "Avail logo",
+        src: "img/avail-logo.png",
+        srcDark: "img/avail-logo.png",
+        href: '/',
+        target: "_self",
+       },
+      items: [
         {
-          title: 'Links',
-          items: [
-            {
-              label: 'Avail Home',
-              href: 'https://www.availproject.org',
-            },
-          ],
+          href: "/about/introduction/",
+          position: 'left',
+          label: 'Get Started',
+        },
+        {
+          href: "/node/node-types/",
+          position: 'left',
+          label: 'Node Guide',
+        },
+        {
+          href: "/validators/validator-node-setup/",
+          position: 'left',
+          label: 'Validator Guide',
+        },
+        {
+          href: "/api/communicating-with-avail/",
+          position: 'left',
+          label: 'API Reference',
+        },
+        {
+          href: "https://github.com/availproject/avail",
+          position: "right",
+          className: "header-github-link",
+          "aria-label": "GitHub repository",
+        },
+        {
+          href: "https://twitter.com/AvailProject",
+          position: "right",
+          className: "header-twitter-link",
+        },
+        {
+          href: "https://discord.com/invite/y6fHnxZQX8",
+          position: "right",
+          className: "header-discord-link",
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Erasure Coding Technologies Ltd.`,
-    },
-    prism: {
-      theme: lightCodeTheme,
-      darkTheme: darkCodeTheme,
-      additionalLanguages: ['rust'],
     },
   },
+  stylesheets: [
+    {
+      href: "https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css",
+      type: "text/css",
+      integrity:
+        "sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc",
+      crossorigin: "anonymous",
+    },
+  ],
+  presets: [
+    [
+      "@docusaurus/preset-classic",
+      {
+        docs: {
+          routeBasePath: '/',
+          sidebarPath: require.resolve("./sidebars.js"),
+          editUrl: "https://github.com/availproject/availproject.github.io/tree/main",
+          path: "docs",
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
+        },
+        theme: {
+          customCss: require.resolve("./src/css/custom.css"),
+        },
+        gtag: {
+          // Need to create new tags for zkEVM docs
+           trackingID: 'GTM-5TKTB44',
+           anonymizeIP: true,
+        },
+      },
+    ],
+  ],
 };
-
-module.exports = config;
