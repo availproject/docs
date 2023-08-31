@@ -1,5 +1,4 @@
 export const contentData = {
-    headText: '<span class="grey-text">Avail Documentation Hub</span>',
     linksCard: [
         {
             iconSrc: '/img/avail-logo.png',

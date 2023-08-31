@@ -1049,7 +1049,7 @@ a.disabled {
 .full-background {
   border-top: 1px solid #222;
   border-bottom: 1px solid #222;
-  background: #D1E5FF;
+  background: #383C4D;
 }
 .head-section {
   width: 100%;
@@ -1085,39 +1085,6 @@ a.disabled {
   }
 }
 
-.theme-tabs__tab {
-  color: #1a202c;
-  border-color: #cbd5e0;
-}
-
-.theme-tabs__tab:hover {
-  color: #fff;
-  background-color: #1a202c;
-  border-color: #1a202c;
-}
-
-.big-block-content {
-  width: 90%;
-  display: flex;
-  justify-content: space-between;
-}
-
-.big-block-content img {
-  width: 160px;
-  height: 100%;
-  float: right;
-}
-.big-block-content .text {
-  width: 75%;
-  float: left;
-  padding: 20px;
-}
-
-.big-block-content .text .title {
-  font-size: 40px;
-  margin-bottom: 0.5em;
-}
-
 @media (max-width: 768px) {
   .big-block-content .text .title {
     font-size: 26px;
@@ -1137,10 +1104,6 @@ a.disabled {
   .bootstrap-wrapper .section-divider-40 {
     margin-bottom: 20px;
   }
-}
-
-.grey-text {
-  color: #383C4D;
 }
 
 /* ----- IMPORTANT --- */
@@ -1389,7 +1352,7 @@ code {
   border-bottom: 4px solid transparent;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
-  color: #E6E6E9;
+  color: #4E6786;
   display: inline-flex;
   flex-direction: column;
   font-size: var(--ifm-h4-font-size);
@@ -1402,16 +1365,7 @@ code {
 
 .tabs__item:hover {
   background-color: transparent;
-  border-bottom: 4px solid #222;
-}
-
-.tabs__item--active {
-  border-bottom: 4px solid var(--ifm-color-primary);
-
-}
-
-.tabs__item--active:hover {
-  border-bottom: 4px solid var(--ifm-color-primary);
+  border-bottom: 4px solid #4E6786;
 }
 
 [role =  tabpanel] {
@@ -1494,34 +1448,6 @@ p {
   }
 }
 
-/* Newsletter CSS */
-.newsletter {
-  position: relative;
-}
-
-.newsletter_anim-wrapper {
-  position: absolute;
-  top: 0%;
-  bottom: 0%;
-  left: 0%;
-  right: 0%;
-}
-
-.newsletter_anim-wrapper.pb_intersection {
-  z-index: -1;
-  mix-blend-mode: lighten;
-}
-
-.animation_embed {
-  z-index: 1;
-  position: absolute;
-  top: 0%;
-  bottom: 0%;
-  left: 0%;
-  right: 0%;
-  transform: translate(0);
-}
-
 .padding-global {
   padding-left: 2.5rem;
   padding-right: 2.5rem;
@@ -1567,7 +1493,7 @@ p {
 }
 
 .grey-text {
-  color: #969696;
+  color: #5f6c74;
 }
 
 .underline-text:hover {
@@ -1584,20 +1510,22 @@ p {
 }
 .faq-wrapper {
   border-radius: 20px;
-  border: 1px solid #222;
+  border: 1px solid #798da1;
   overflow: hidden;
+  background: radial-gradient(69.54% 69.54% at 50% 28.63%, rgba(228, 238, 251, 0.8) 0%, rgba(212, 227, 244, 0.8) 100%);
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.10), 0px 4px 10px 0px rgba(0, 0, 0, 0.10);
 }
 .faq-accordion-dropdown:not(:last-of-type) {
   border: 1px solid #222;
 }
 .faq-accordion-dropdown.open .faq-accordion-icon {
-  background: rgba(255,255,255,.05);
+  background: radial-gradient(69.54% 69.54% at 50% 28.63%, rgba(228, 238, 251, 0.8) 0%, rgba(212, 227, 244, 0.8) 100%);
 }
 .faq-accordion-dropdown.open .faq-dropdown-list{
   grid-template-rows: 1fr;
 }
 .faq-accordion-dropdown.open {
-  background: #D1E5FF;
+  background: radial-gradient(69.54% 69.54% at 50% 28.63%, rgba(228, 238, 251, 0.8) 0%, rgba(212, 227, 244, 0.8) 100%);
 }
 .faq-accordion-dropdown.open .faq-accordion-icon:before {
   transform: rotate(315deg);
@@ -1605,7 +1533,7 @@ p {
 .faq-accordion-dropdown:hover {
 }
 .faq-accordion-dropdown:not(.open) .faq-accordion-toggle:hover {
-  background: #D1E5FF;
+  background: radial-gradient(69.54% 69.54% at 50% 28.63%, rgba(228, 238, 251, 0.8) 0%, rgba(212, 227, 244, 0.8) 100%);
 }
 .faq-question {
   color: #005471;
@@ -1625,7 +1553,7 @@ p {
   min-width: 3rem;
   width: 3rem;
   height: 3rem;
-  background-color: #D1E5FF;
+  background: radial-gradient(69.54% 69.54% at 50% 28.63%, rgba(228, 238, 251, 0.8) 0%, rgba(212, 227, 244, 0.8) 100%);
   border-radius: 50%;
   justify-content: center;
   align-items: center;
@@ -1648,7 +1576,7 @@ p {
 .faq-dropdown-list {
   padding: 0 18px;
   overflow: hidden;
-  background: #D1E5FF;
+  background: radial-gradient(69.54% 69.54% at 50% 28.63%, rgba(228, 238, 251, 0.8) 0%, rgba(212, 227, 244, 0.8) 100%);
   display: grid;
   grid-template-rows: 0fr;
   transition: grid-template-rows 0.5s ease-out;
@@ -1673,21 +1601,33 @@ p {
 
 .network-detail-item {
   margin-bottom: 20px;
-  border-bottom: 1px solid #D1E5FF;;
+  border-bottom: 1px solid #78a0d4;;
   padding-bottom: 10px;
 }
 
 .network-title {
   font-weight: bold;
   margin-bottom: 10px;
+  font-size: 22px;
 }
 
 .network-info-list {
   list-style-type: disc;
   margin-left: 20px;
+  font-weight: bold;
+  color: #FFFFFF;
 }
 
 .network-link {
-  color: blue;
+  color: #78a0d4;
   text-decoration: underline;
+}
+
+.landing-page-h1 {
+  font-family: "PP Mori", sans-serif;
+  font-weight: bold;
+  font-size: 70px !important;
+  color: #333333;
+  margin: 0 !important;
+  padding: 0 !important;
 }
