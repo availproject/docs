@@ -1578,3 +1578,8 @@ p {
   margin: 0 !important;
   padding: 0 !important;
 }
+
+.landing-page-h1 a {
+  color: #4E6786;
+  text-decoration: none;
+}
