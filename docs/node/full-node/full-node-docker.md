@@ -1,9 +1,9 @@
 ---
-id: docker-node-setup
-title: Run Avail Node using Docker
-sidebar_label: Run Docker Fullnode
-sidebar_position: 4
-description: Learn how to run an Avail full node on Docker
+id: full-node-docker
+title: How to Run a Full Node using Docker
+sidebar_label: Run a Full Node Using Docker
+sidebar_position: 2
+description: "Learn how to run an Avail full node using Docker."
 keywords:
   - docs
   - avail
@@ -13,7 +13,6 @@ keywords:
   - da
   - docker
 image: https://availproject.github.io/img/avail/AvailDocs.png
-slug: docker-full-node-setup
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 

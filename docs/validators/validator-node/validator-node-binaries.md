@@ -1,16 +1,15 @@
 ---
-id: validator-node-setup
-title: How to Run an Avail Validator
-sidebar_label: Run a Validator Node
+id: validator-binaries
+title: How to Run an Avail Validator using Binaries
+sidebar_label: Run a Validator Node using Binaries
 sidebar_position: 1
-description: "Learn about running an Avail validator."
+description: "Learn about running an Avail validator using binaries."
 keywords:
   - docs
   - avail
   - node
   - validator
 image: https://availproject.github.io/img/avail/AvailDocs.png
-slug: validator-node-setup
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 

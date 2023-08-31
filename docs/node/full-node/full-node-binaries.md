@@ -1,9 +1,9 @@
 ---
-id: full-node-setup
-title: How to Run a Full Node
-sidebar_position: 3
-sidebar_label: Run a Full Node
-description: Learn how to run an Avail full node
+id: full-node-binaries
+title: How to Run a Full Node using Binaries
+sidebar_label: Run a Full Node using Binaries
+sidebar_position: 1
+description: "Learn how to run an Avail full node using binaries."
 keywords:
   - docs
   - avail
@@ -12,7 +12,6 @@ keywords:
   - data availability
   - da
 image: https://availproject.github.io/img/avail/AvailDocs.png
-slug: full-node-setup
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 

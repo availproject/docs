@@ -1,9 +1,9 @@
 ---
-id: validator-docker-setup
-title: Run an Avail Validator on Docker
-sidebar_label: Run a Validator on Docker
-sidebar_position: 5
-description: "Learn about running an Avail validatoron Docker."
+id: validator-docker
+title: How to Run an Avail Validator Node using Docker
+sidebar_label: Run a Validator Node Using Docker
+sidebar_position: 2
+description: "Learn about running an Avail validator using Docker."
 keywords:
   - docs
   - avail
@@ -12,7 +12,6 @@ keywords:
   - validator
   - data availability
 image: https://availproject.github.io/img/avail/AvailDocs.png
-slug: validator-docker-setup
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 

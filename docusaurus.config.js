@@ -96,7 +96,7 @@ module.exports = {
               label: 'Node Guide',
             },
             {
-              href: '/validators/validator-node-setup/',
+              href: '/validators/validator-node/validator-binaries/',
               label: 'Validator Guide',
             },
           ]
@@ -162,7 +162,7 @@ module.exports = {
           label: 'Node Guide',
         },
         {
-          href: "/validators/validator-node-setup/",
+          href: "/validators/validator-node/validator-binaries/",
           position: 'left',
           label: 'Validator Guide',
         },

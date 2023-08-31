@@ -2,7 +2,7 @@
 id: avail-chill-slashing-node
 title: Chill & Slashing a Validator
 sidebar_label: Chill & Slashing
-sidebar_position: 5
+sidebar_position: 6
 description: "Learn about how Chill & Slashing Affect an Avail validator."
 keywords:
   - docs
