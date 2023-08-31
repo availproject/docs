@@ -153,59 +153,23 @@ a:after {
   margin-right: auto;
   margin-left: auto;
 }
-@media (min-width: 576px) {
-  .bootstrap-wrapper .container {
-    max-width: 530px;
-  }
-  .bootstrap-wrapper .youtube-wrapper {
-    height: 222px;
-  }
-  .bootstrap-wrapper .section-ecosystem {
-    padding: 32px 0 48px;
-  }
-  .bootstrap-wrapper .overlay__container {
-    max-width: 430px;
-    max-height: 210px;
-  }
-}
+
 @media (min-width: 768px) {
   .bootstrap-wrapper .container {
     max-width: 700px;
-  }
-  .bootstrap-wrapper .youtube-wrapper {
-    height: 250px;
-  }
-  .bootstrap-wrapper .overlay__container {
-    max-width: 600px;
-    max-height: 310px;
   }
 }
 @media (min-width: 992px) {
   .bootstrap-wrapper .container {
     max-width: 900px;
   }
-  .bootstrap-wrapper .overlay__container {
-    max-width: 800px;
-    max-height: 420px;
-  }
-  .bootstrap-wrapper .overlay__container {
-    max-width: 800px;
-    max-height: 420px;
-  }
 }
 @media (min-width: 1200px) {
   .bootstrap-wrapper .container {
     max-width: 1100px;
   }
-  .bootstrap-wrapper .youtube-wrapper {
-    height: 300px;
-  }
   .bootstrap-wrapper .section-ecosystem {
     padding: 48px 0 64px;
-  }
-  .bootstrap-wrapper .overlay__container {
-    max-width: 1000px;
-    max-height: 562px;
   }
 }
 .bootstrap-wrapper .container-fluid {
@@ -953,6 +917,7 @@ a.disabled {
   margin-bottom: 30px;
   margin-right: 30px;
 }
+
 .tutorial-title {
   color: #005471;
   font-size: 14px;
@@ -1071,6 +1036,14 @@ a.disabled {
 }
 .section-ecosystem .head .section-title {
   margin-bottom: 0;
+}
+
+.ecosystem-title {
+  font-family: "PP Mori", sans-serif;
+  font-weight: bold;
+  font-size: 40px !important;
+  color: #f4f5f8;
+  margin: 60 !important;
 }
 
 @keyframes bounce {
@@ -1352,7 +1325,7 @@ code {
   border-bottom: 4px solid transparent;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
-  color: #4E6786;
+  color: #90afdb;
   display: inline-flex;
   flex-direction: column;
   font-size: var(--ifm-h4-font-size);
@@ -1381,15 +1354,6 @@ code {
 .tab-content {
   display: flex;
   flex-wrap: wrap;
-}
-.youtube-wrapper iframe {
-  width: 100%;
-  height: inherit;
-}
-.youtube-wrapper {
-  min-height: 200px;
-  height: 307px;
-  min-width: 300px;
 }
 
 /* increases the search bar width */
@@ -1508,6 +1472,16 @@ p {
 .navbar__item svg {
   display: none;
 }
+
+.faq-title {
+  font-family: "PP Mori", sans-serif;
+  font-weight: bold;
+  font-size: 40px !important;
+  color: #333333;
+  margin: 14 !important;
+  padding: 10 !important;
+}
+
 .faq-wrapper {
   border-radius: 20px;
   border: 1px solid #798da1;

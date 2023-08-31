@@ -12,10 +12,11 @@ export const EcosystemSection = (props) => {
   return (
     <>
       <HeadSection {...head}/>
+      <h2 className="ecosystem-title">Networks</h2>
       <div className="tabs-container col">
         <Tabs>
           {
-            tabs.map(({name, contentText, contentList, contentListTitle, link, details}, idx) => {
+            tabs.map(({name, contentText, contentList, contentListTitle, details}, idx) => {
               return (
                 <TabItem key={idx} value={idx} label={name}>
                   <div className="tab-content">
@@ -53,15 +54,6 @@ export const EcosystemSection = (props) => {
                             ))
                           }
                         </div>
-                      }
-                    </div>
-                    <div className="col-md-6 youtube-wrapper">
-                      {
-                        link && <iframe
-                          src={link}
-                          title="YouTube video player" frameBorder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                          allowFullScreen></iframe>
                       }
                     </div>
                   </div>

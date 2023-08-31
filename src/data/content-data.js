@@ -72,14 +72,9 @@ export const contentData = {
         },
     ],
     ecosystem: {
-        head: {
-            title: 'Networks',
-            description: 'Explore the details of active and retired networks in the Avail ecosystem.',
-        },
         tabs: [
             {
                 name: 'Active Networks',
-                contentText: 'Get all the information you need to connect to our active networks.',
                 details: [
                     {
                         networkName: 'Kate Testnet',
@@ -96,7 +91,6 @@ export const contentData = {
             },
             {
                 name: 'Retired Networks',
-                contentText: 'These networks are no longer in operation and are presented here only for reference.',
                 details: [
                     {
                         networkName: 'Testnet Phase 1',
@@ -113,10 +107,6 @@ export const contentData = {
     },
     
     faq: {
-        head: {
-            title: 'Frequently Asked Questions',
-            description: 'Can’t find an answer? Find us on Discord!',
-        },
         faqList: [
             {
                 title: 'What is a light client?',

@@ -11,6 +11,7 @@ export const FAQSection = (props) => {
   return (
     <>
       <HeadSection {...head}/>
+      <h2 className="faq-title">Frequently Asked Questions</h2>
       <div className="faq-wrapper">
         {
           faqList.length &&
