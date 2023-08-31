@@ -141,11 +141,9 @@ curl -L -o /mnt/avail/config/kate-chainspec.raw.json https://raw.githubuserconte
 Now that we have Our Chainspec config Downlaoded Let's start our Avail Node.
 
 ```bash
-
 cd /mnt/avail
 
 sudo docker run -v $(pwd)/config/kate-chainspec.raw.json:/da/genesis/chainspec.raw.json -v $(pwd)/state:/da/state:rw -v $(pwd)/keystore:/da/keystore:rw -e DA_CHAIN=/da/genesis/chainspec.raw.json -e DA_NAME=kate-docker-avail-Node -p 0.0.0.0:30333:30333 -p 9615:9615 -p 9933:9933 -d --restart unless-stopped availj/avail:v1.6.2-rc1
-
 ```
 
 in the above command steps include:
@@ -169,7 +167,7 @@ ubuntu:/mnt/avail# docker logs 5b3978de8f35
 # 5b3978de8f35 is the container id 
 ```
 
-```
+```shell
 2023-08-21 08:29:55 Avail Node
 2023-08-21 08:29:55 ✌️  version 1.6.2-bb4cc104b25
 2023-08-21 08:29:55 ❤️  by Anonymous, 2017-2023

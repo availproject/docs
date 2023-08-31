@@ -169,7 +169,7 @@ ubuntu:/mnt/avail# docker logs 5b3978de8f35
 If started with --validator flags the Role will `Role:Authority`
 and logs will look like this:
 
-```
+```shell
 2023-08-21 08:27:03 Avail Node2023-08-21 08:27:03 ✌️  version 1.6.2-bb4cc104b25
 2023-08-21 08:27:03 ❤️  by Anonymous, 2017-2023
 2023-08-21 08:27:03 📋 Chain specification: Avail Kate Testnet
@@ -291,7 +291,6 @@ You should now be ready to generate your session keys. Note the
 **Session Key** button, in the next step we will generate a key to
 submit here.  <img src={useBaseUrl("img/avail/staking-bond-4.png")}
 width="100%" height="100%"/>
-
 
 ## Set Session Keys
 
