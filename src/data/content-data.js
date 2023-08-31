@@ -54,7 +54,7 @@ export const contentData = {
             title: 'Build Modular Solutions',
             cardLink: '/docs/api/communicating-with-avail/',
             blockInfo: [
-                'Highly Secure Validiums',
+                'Highly Efficient Validiums',
                 'Optimized Smart Contract Rollups',
                 'Robust Soverign Chain Rollups',
             ],
