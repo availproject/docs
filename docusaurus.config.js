@@ -59,6 +59,49 @@ module.exports = {
           ]
         },
         {
+          title: "Repositories",
+          items: [
+            {
+              href: 'https://github.com/availproject/avail-light',
+              label: 'Light Client',
+            },
+            {
+              href: 'https://github.com/availproject/avail',
+              label: 'Avail Node',
+            },
+            {
+              href: 'https://github.com/availproject/avail-core',
+              label: 'Avail Core',
+            },
+          ]
+        },
+        {
+          title: "Data Availability Resources",
+          items: [
+            {
+              href: 'https://ethereum.org/en/developers/docs/data-availability/',
+              label: 'What is Data Availability',
+            },
+            {
+              href: 'https://dankradfeist.de/ethereum/2019/12/20/data-availability-checks.html',
+              label: 'Data Availability Checks',
+            },
+          ]
+        },
+        {
+          title: "Network Guides",
+          items: [
+            {
+              href: '/docs/node/node-types/',
+              label: 'Node Guide',
+            },
+            {
+              href: '/docs/validators/validator-node-setup/',
+              label: 'Validator Guide',
+            },
+          ]
+        },
+        {
           title: "Community",
           items: [
             {
