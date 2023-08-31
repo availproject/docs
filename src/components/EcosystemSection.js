@@ -16,7 +16,7 @@ export const EcosystemSection = (props) => {
       <div className="tabs-container col">
         <Tabs>
           {
-            tabs.map(({name, contentText, contentList, contentListTitle, details}, idx) => {
+            tabs.map(({name, contentText, contentList, contentListTitle, link, details}, idx) => {
               return (
                 <TabItem key={idx} value={idx} label={name}>
                   <div className="tab-content">

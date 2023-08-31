@@ -81,10 +81,10 @@ export const contentData = {
                         explorer: 'https://kate.avail.tools',
                         rpcEndpoint: 'https://kate.avail.tools/v1',
                         wsEndpoint: 'wss://kate.avail.tools/ws',
-                        chainSpec: '[chainspec.raw.json](/configs/kate/chainspec.raw.json)',
-                        chainInfo: '[chaininfo.txt](/configs/kate/chaininfo.txt)',
-                        nodeVersion: '[v1.6.0](https://github.com/availproject/avail/releases/tag/v1.6.0)',
-                        lightClientVersion: '[1.4.1](https://github.com/availproject/avail-light/releases/tag/v1.4.1)'
+                        chainSpec: { link: 'https://availproject.github.io/assets/files/chainspec.raw-1905ee8ba4620c9cd6f1f378a84346eb.json', text: 'chainspec.raw.json' },
+                        chainInfo: { link: 'https://availproject.github.io/assets/files/chaininfo-de1eeff4d63715bbec85aae81a956d40.txt', text: 'chaininfo.txt' },
+                        nodeVersion: { link: 'https://github.com/availproject/avail/releases/tag/v1.6.0', text: 'v1.6.0' },
+                        lightClientVersion: { link: 'https://github.com/availproject/avail-light/releases/tag/v1.4.1', text: '1.4.1' }
                     },
                     // Add more active networks here
                 ]
@@ -97,8 +97,8 @@ export const contentData = {
                         explorer: 'https://testnet.avail.tools',
                         rpcEndpoint: 'https://testnet.avail.tools/v1',
                         wsEndpoint: 'wss://testnet.avail.tools/ws',
-                        nodeVersion: '[v1.5.0-303f39d](https://github.com/availproject/avail/releases/tag/v1.5.0-303f39d)',
-                        lightClientVersion: '[1.3.1](https://github.com/availproject/avail-light/releases/tag/v1.3.1)'
+                        nodeVersion: { link: 'https://github.com/availproject/avail/releases/tag/v1.5.0-303f39d', text: 'v1.5.0-303f39d' },
+                        lightClientVersion: { link: 'https://github.com/availproject/avail-light/releases/tag/v1.3.1', text: '1.3.1' }
                     },
                     // Add more retired networks here
                 ]

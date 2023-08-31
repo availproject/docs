@@ -10,7 +10,7 @@ export const TutorialsCard = (props) => {
     tutorialsInfo
   } = props;
   const onCardClick = () => {
-    window.open(cardLink, '_blank').focus();
+    window.open(cardLink, '_self').focus();
   };
   const onLinkClick = (e) => {
     e.stopPropagation();
@@ -37,7 +37,7 @@ export const TutorialsCard = (props) => {
             tutorialsInfo.map(({title, link}, idx) => {
               return (
                 <li key={idx}>
-                  <a onClick={onLinkClick} href={link} target="_blank" className="tutorial-link">{title}</a>
+                  <a onClick={onLinkClick} href={link} target="_self" className="tutorial-link">{title}</a>
                 </li>
               );
             })
