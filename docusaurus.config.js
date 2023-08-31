@@ -172,6 +172,11 @@ module.exports = {
           label: 'API Reference',
         },
         {
+          href: "https://blog.availproject.org/",
+          position: 'right',
+          label: 'Blog',
+        },
+        {
           href: "https://github.com/availproject/avail",
           position: "right",
           className: "header-github-link",
