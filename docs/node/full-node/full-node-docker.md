@@ -87,7 +87,7 @@ The specific steps will vary significantly based on your requirements. Typically
 
 Before mounting the additional disk, it's advisable to format it and create a filesystem. For guidance on this process, you can [follow these instructions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html).
 
-In this example, we have a device with 300 GB of available space located at **`/dev/nvme1n1`**. We are going to mount that using the steps below:
+In this example, we're working with a 300 GB device located at `/dev/nvme1n1`. The steps to mount this device are outlined below:
 
 ```bash
 sudo mkdir /mnt/avail
