@@ -303,7 +303,7 @@ session keys.
 ### Rotate your session keys
 
 Run this command on the machine where you are running your Avail
-port configured):
+> While the node is running with the default HTTP RPC port configured.
 
 ```shell
 curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "author_rotateKeys", "params":[]}' http://localhost:9933
