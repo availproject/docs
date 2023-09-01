@@ -36,7 +36,7 @@ Recommended hardware specifications for your environment are provided below:
 #### Alternate Networks & Releases Information
 
 The instructions provided are specifically for the **Kate testnet**.
-different network, you may need to download a different node version
+To connect to a different network, you may need to download an alternate node version
 from the [node releases
 page](https://github.com/availproject/avail/releases) and a chain
 specification file for the specific network. Contact the Avail team if
