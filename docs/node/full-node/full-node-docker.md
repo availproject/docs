@@ -19,7 +19,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 The Avail team provides official Docker images designed to run nodes on the **Kate testnet**. While these guidelines focus on setting up a Full Node, they can easily be modified to accommodate the requirements for running a validator node.
 
-## Before you start
+## Before You Start
 
 The instructions below assume a Linux distribution with `apt` (Debian,
 for example), but you may be able to adapt them to a different
