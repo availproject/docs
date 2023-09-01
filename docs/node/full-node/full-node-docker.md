@@ -51,7 +51,8 @@ chain specification file. For any queries, feel free to reach out to the Avail t
 
 At this point, you should have shell access with root privileges to a linux machine.
 
-### Install Docker 
+### Install Docker
+
 Most likely your operating system won’t have Docker installed by default. Please follow the instructions for your particular distribution found here: https://docs.docker.com/engine/install/
 
 We’re following the instructions for Ubuntu. The steps are included below, but please see the official instructions in case they’ve been updated.
