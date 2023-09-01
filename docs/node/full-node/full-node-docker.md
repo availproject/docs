@@ -200,7 +200,7 @@ ubuntu:/mnt/avail# docker logs 5b3978de8f35
 ```
 
 Your node will also appear on the [Avail Telemetry](http://telemetry.avail.tools/) website,
-   Telemetry](http://telemetry.avail.tools/) site under the "Node
+   listed under the "Node name" displayed in the node command output.
    name" that appears in the node command output. Note that there are
    network tabs at the top, select the one for the network you joined.
 
