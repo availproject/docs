@@ -17,7 +17,7 @@ image: https://availproject.github.io/img/avail/AvailDocs.png
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 
-The Avail team distributes official Docker images which can be used to run nodes on the **Kate testnet** network . These instructions are for running a Full Node, but they can be adapted for running validators as well.
+The Avail team provides official Docker images designed to run nodes on the **Kate testnet**. While these guidelines focus on setting up a Full Node, they can easily be modified to accommodate the requirements for running a validator node.
 
 ## Before you start
 
