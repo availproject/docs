@@ -53,7 +53,7 @@ At this point, you should have shell access with root privileges to a linux mach
 
 ### Install Docker
 
-Most likely your operating system won’t have Docker installed by default. Please follow the instructions for your particular distribution found here: https://docs.docker.com/engine/install/
+If you do not have Docker installed, please follow the installation instructions [here](https://docs.docker.com/engine/install/).
 
 We’re following the instructions for Ubuntu. The steps are included below, but please see the official instructions in case they’ve been updated.
 
