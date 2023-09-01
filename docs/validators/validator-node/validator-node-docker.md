@@ -302,7 +302,7 @@ session keys.
 
 ### Rotate your session keys
 
-Run this command on the machine where you are running your Avail
+Run the following command on your Avail validator node machine:
 > While the node is running with the default HTTP RPC port configured.
 
 ```shell
