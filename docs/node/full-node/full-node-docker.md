@@ -92,7 +92,6 @@ In this example, we're working with a 300 GB device located at `/dev/nvme1n1`. T
 ```bash
 sudo mkdir /mnt/avail
 sudo mount -a /dev/nvme1n1 /mnt/avail
-```
 We use **`df -h`** to make sure the mount looks good.
 
 If that all looks good, we might as well create Additional Sub-Directories for our DATA and config store
