@@ -104,7 +104,7 @@ sudo mkdir /mnt/avail/keystore
 
 Based on your specific use case and operating system, you'll likely need to add an entry to `/etc/fstab` to ensure the device remains mounted upon system reboot.
 
-In our case we're following some steps like this:
+In our scenario, we'll proceed as follows:
 
 ```bash
 # Use blkid to get the UUID for the device that we're mounting
