@@ -203,4 +203,4 @@ Your node will also appear on the [Avail Telemetry](http://telemetry.avail.tools
    listed under the "Node name" displayed in the node command output.
     Be sure to select the appropriate network tab at the top corresponding to the network you've joined.
 
-That's all! You are now running an Avail full node 🎉
+That's it! You're now successfully running an Avail full node 🎉
