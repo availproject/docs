@@ -32,7 +32,7 @@ hardware specs that your environment should have:
 | 2 core CPU amd64/x86 architecture  | 4 core CPU  amd64/x86 architecture  |
 | 20-40 GB SSD                       | 200-300 GB SSD                      |
 
-The peer exchange for a Avail full node generally depends on port 30333 being open. When you configure your firewall or security groups for Cloud Providers, make sure these ports are open along with whatever ports you need to access the machine.
+**Port 30333** is typically required for peer exchange. Ensure this port, along with any others needed for machine access, is open when setting up your firewall or cloud provider's security groups.
 
 #### Info Alternate networks & releases
 
