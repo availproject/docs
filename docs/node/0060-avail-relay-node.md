@@ -2,7 +2,7 @@
 id: avail-relay-node
 title: How to Run a Relay Node
 sidebar_label: Run a Relay Node
-sidebar_position: 7
+sidebar_position: 6
 description: "Learn how to run an Avail relay node."
 keywords:
   - docs
