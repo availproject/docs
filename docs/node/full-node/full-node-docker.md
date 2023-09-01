@@ -33,7 +33,7 @@ Recommended hardware specifications for your environment are provided below:
 
 **Port 30333** is typically required for peer exchange. Ensure this port, along with any others needed for machine access, is open when setting up your firewall or cloud provider's security groups.
 
-#### Info Alternate networks & releases
+#### Alternate Networks & Releases Information
 
 All instructions below are for the **Kate testnet** network. To join a
 different network, you may need to download a different node version
