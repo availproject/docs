@@ -85,7 +85,7 @@ You should now be able to log out and log back in, and execute Docker commands w
 
 The specific steps will vary significantly based on your requirements. Typically, you'll have a root partition for the operating system on one device, and one or more separate devices for storing blockchain data. For the remainder of this guide, we'll assume that the additional storage device is mounted at `/mnt/avail`.
 
-Before Mounting the Additional Disk it is recommended to format that disk for Use and Create a Filesystem You can [Follow Here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html) for that.
+Before mounting the additional disk, it's advisable to format it and create a filesystem. For guidance on this process, you can [follow these instructions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html).
 
 In this example, we have a device with 300 GB of available space located at **`/dev/nvme1n1`**. We are going to mount that using the steps below:
 
