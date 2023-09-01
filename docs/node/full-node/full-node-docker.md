@@ -146,7 +146,7 @@ cd /mnt/avail
 sudo docker run -v $(pwd)/config/kate-chainspec.raw.json:/da/genesis/chainspec.raw.json -v $(pwd)/state:/da/state:rw -v $(pwd)/keystore:/da/keystore:rw -e DA_CHAIN=/da/genesis/chainspec.raw.json -e DA_NAME=kate-docker-avail-Node -p 0.0.0.0:30333:30333 -p 9615:9615 -p 9933:9933 -d --restart unless-stopped availj/avail:v1.6.2-rc1
 ```
 
-in the above command steps include:
+Now that we've downloaded our Chainspec configuration, let's proceed to launch our Avail Node. The steps in the command include:
 
 - changing directory to `/mnt/avail` so we are in correct directory 
 - we have mounted the `/mnt/avail/config/kate-chainspec.raw.json` to `/da/genesis/chainspec.raw.json` of the docker container so that the chainspec is correct
