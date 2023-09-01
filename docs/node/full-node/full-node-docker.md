@@ -40,7 +40,6 @@ To connect to a different network, you may need to download an alternate node ve
 from the [node releases
 page](https://github.com/availproject/avail/releases) and acquire the corresponding
 chain specification file. For any queries, feel free to reach out to the Avail team.
-you have questions.
 
 ## Useful Links
 
