@@ -41,12 +41,7 @@ function Home() {
         </section>
 
         <div className="container">
-          <div className="flex-row">
-          </div>
           <div className="section-divider"></div>
-          <div className="flex-row">
-          </div>
-          <div className="section-divider-40"></div>
           <section className="faq">
             <FAQSection {...contentData.faq}/>
           </section>

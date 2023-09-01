@@ -1000,9 +1000,8 @@ a.disabled {
 /* Networks Section Styling */
 
 .full-background {
-  border-top: 1px solid #222;
-  border-bottom: 1px solid #222;
-  background: #383C4D;
+  background: radial-gradient(69.54% 69.54% at 50% 28.63%, rgba(228, 238, 251, 0.8) 0%, rgba(212, 227, 244, 0.8) 100%);
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.10), 0px 4px 10px 0px rgba(0, 0, 0, 0.10);
 }
 .head-section {
   width: 100%;
@@ -1011,11 +1010,9 @@ a.disabled {
 .head-section .button-group {
   display: inline-block;
   padding-left: 8px;
-  margin: 0 0 var(--ifm-paragraph-margin-bottom);
 }
 .section-ecosystem {
   padding: 32px 0 64px;
-  /*margin: 0;*/
 }
 .section-ecosystem .head {
   display: flex;
@@ -1029,9 +1026,8 @@ a.disabled {
 .ecosystem-title {
   font-family: "PP Mori", sans-serif;
   font-weight: bold;
-  font-size: 40px !important;
-  color: #f4f5f8;
-  margin: 60 !important;
+  font-size: 40px;
+  margin: 60;
 }
 
 @keyframes bounce {
@@ -1437,10 +1433,8 @@ p {
 .faq-title {
   font-family: "PP Mori", sans-serif;
   font-weight: bold;
-  font-size: 40px !important;
-  color: #333333;
-  margin: 14 !important;
-  padding: 10 !important;
+  font-size: 40px;
+  margin: 60;
 }
 
 .faq-wrapper {
@@ -1550,7 +1544,7 @@ p {
   list-style-type: disc;
   margin-left: 20px;
   font-weight: bold;
-  color: #FFFFFF;
+  color: #333333;
 }
 
 .network-link {
@@ -1561,10 +1555,8 @@ p {
 .landing-page-h1 {
   font-family: "PP Mori", sans-serif;
   font-weight: bold;
-  font-size: 70px !important;
+  font-size: 70px;
   color: #333333;
-  margin: 0 !important;
-  padding: 0 !important;
 }
 
 .landing-page-h1 a {
