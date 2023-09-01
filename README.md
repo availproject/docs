@@ -3,13 +3,13 @@
 </p>
 
 <div align="Center">
-<h1>The Avail Project Developer Documentation</h1>
+<h1>Avail Project Developer Documentation</h1>
 <h3>The Essential Base Layer for Modern Blockchains</h3>
 
 </div>
 
 <p align="left">
-  Welcome to the Avail Documentation, your go-to resource for all things related to data availability and modular blockchain development. Designed with a focus on community collaboration, this repository aims to provide the most accurate, comprehensive, and up-to-date information for anyone interested in learning about, contributing to, or maintaining projects within the Avail ecosystem.
+  Welcome to the Avail Project Developer Documentation, your go-to resource for all things related to data availability and modular blockchain development. Designed with a focus on community collaboration, this repository aims to provide the most accurate, comprehensive, and up-to-date information for anyone interested in learning about, contributing to, or maintaining projects within the Avail ecosystem.
 </p>
 
 <!-- TOC -->
@@ -48,7 +48,7 @@ Traditional monolithic blockchains like Ethereum have faced scaling challenges d
 
 ## The Avail Solution
 
-Avail is building a general-purpose data availability layer that addresses scalability, governance, and decentralization concerns. It enables constructs like Validiums and Sovereign Rollups to take data availability off-chain, thereby reducing costs and increasing efficiency.
+Avail is a blockchain-based platform focused on creating a general-purpose data availability layer, addressing key challenges such as scalability, governance, and decentralization. By enabling technologies like Validiums and Sovereign Rollups, Avail allows for off-chain data availability, which significantly reduces costs and enhances efficiency.
 
 ### Key Features
 
