@@ -120,7 +120,8 @@ sudo emacs /etc/fstab
 # use this to verify the fstab actually works
 sudo findmnt --verify --verbose
 ```
-At this point you should be able to reboot and confirm that the system loads your mount properly.
+
+At this stage, you should be able to reboot and verify that the system correctly mounts your device upon startup.
 
 ## Avail setup
 
