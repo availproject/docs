@@ -55,7 +55,7 @@ At this point, you should have shell access with root privileges to a linux mach
 
 If you do not have Docker installed, please follow the installation instructions [here](https://docs.docker.com/engine/install/).
 
-We’re following the instructions for Ubuntu. The steps are included below, but please see the official instructions in case they’ve been updated.
+In this guide, we will use the Ubuntu-specific installation instructions. It's advisable to consult the official guidelines for the most up-to-date information.
 
 ```bash
 sudo apt-get update
