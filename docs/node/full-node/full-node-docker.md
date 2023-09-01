@@ -39,7 +39,7 @@ The instructions provided are specifically for the **Kate testnet**.
 To connect to a different network, you may need to download an alternate node version
 from the [node releases
 page](https://github.com/availproject/avail/releases) and acquire the corresponding
-specification file for the specific network. Contact the Avail team if
+chain specification file. For any queries, feel free to reach out to the Avail team.
 you have questions.
 
 ## Useful Links
