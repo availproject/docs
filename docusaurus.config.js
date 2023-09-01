@@ -219,10 +219,9 @@ module.exports = {
       additionalLanguages: ['solidity']
     },
     algolia: {
-      // need to update this
-      indexName: "docs-avail",
-      appId: 'K3VW8MOPEL',
-      apiKey: "5aa555cc8f86ca8214a00f5c8bf80314",
+      indexName: "availprojectio",
+      appId: 'SRNYX3PD60',
+      apiKey: "fe996ed80af806d818acfbc4bab16ddf",
       contextualSearch: true,
       algoliaOptions: {
         attributesToSnippet: ['content:20'],
