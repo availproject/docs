@@ -154,7 +154,7 @@ Now that we've downloaded our Chainspec configuration, let's proceed to launch o
 - Using `DA_CHAIN` to specify the chainspec file within the container.
 - Setting `DA_NAME` as the name of your node; in our example, it's `kate-docker-avail-Node`.
 - Utilizing port **`30333`** for public P2P connections, **`9615`** for the Prometheus metrics endpoint, and **`9933`** for the HTTP RPC port. For WebSocket, add port **`9944`**.
-- image we have used if from the availj docker hub repository
+- Using an image from the Avail Docker Hub repository.
 - you can add any chain flag you want after the image name as --rpc ... 
 
 check the docker logs to see if the node is working fine or not .
