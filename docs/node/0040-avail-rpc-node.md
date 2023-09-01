@@ -2,7 +2,7 @@
 id: avail-rpc-node
 title: How to Run an RPC Node
 sidebar_label: Run an RPC Node
-sidebar_position: 5
+sidebar_position: 4
 description: Learn how to run a rpc node
 keywords:
   - docs
