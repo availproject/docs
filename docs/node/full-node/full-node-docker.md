@@ -102,7 +102,7 @@ sudo mkdir /mnt/avail/state
 sudo mkdir /mnt/avail/keystore
 ```
 
-Depending on your use case and operating system, you’ll likely want to create an entry in **`/etc/fstab`** in order to make sure your device is mounted when the system reboots.
+Based on your specific use case and operating system, you'll likely need to add an entry to `/etc/fstab` to ensure the device remains mounted upon system reboot.
 
 In our case we're following some steps like this:
 
