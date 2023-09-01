@@ -71,7 +71,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
 At this point, you should have Docker installed.
 
-In many cases, it’s inconvenient to run docker as **`root`** user so we’ll follow the post install steps [here](https://docs.docker.com/engine/install/linux-postinstall/) in order to interact with docker without needing to be **`root:`**
+To avoid running Docker as the **root** user, which is often inconvenient, we'll adhere to the post-installation steps outlined [here](https://docs.docker.com/engine/install/linux-postinstall/). This allows us to interact with Docker without requiring **root** privileges.
 
 ```bash
 sudo groupadd docker
