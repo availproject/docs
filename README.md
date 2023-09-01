@@ -20,7 +20,7 @@
     + [Key Features](#key-features)
     + [Benefits for Validiums and Sovereign Rollups](#benefits-for-validiums-and-sovereign-rollups)
   * [High Availability and Scalability](#high-availability-and-scalability)
-  * [Avail Repositories](#avail-repositories)
+  * [Key Repositories under availproject](#key-repositories-under-availproject)
 - [Repository Overview](#repository-overview)
   * [Configuration Guide](#configuration-guide)
     + [Static-Site Generator](#static-site-generator)
