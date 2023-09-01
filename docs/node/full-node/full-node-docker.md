@@ -94,7 +94,7 @@ sudo mkdir /mnt/avail
 sudo mount -a /dev/nvme1n1 /mnt/avail
 Use the the `df -h` command to verify that the mount has been successfully configured.
 
-If that all looks good, we might as well create Additional Sub-Directories for our DATA and config store
+If everything appears to be in order, it's advisable to create additional sub-directories for storing our data and configuration files.
 
 ```bash
 sudo mkdir /mnt/avail/config
