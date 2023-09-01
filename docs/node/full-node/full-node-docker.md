@@ -35,7 +35,7 @@ Recommended hardware specifications for your environment are provided below:
 
 #### Alternate Networks & Releases Information
 
-All instructions below are for the **Kate testnet** network. To join a
+The instructions provided are specifically for the **Kate testnet**.
 different network, you may need to download a different node version
 from the [node releases
 page](https://github.com/availproject/avail/releases) and a chain
