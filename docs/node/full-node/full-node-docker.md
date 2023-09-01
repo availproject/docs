@@ -79,7 +79,7 @@ sudo usermod -aG docker $USER
 
 ```
 
-Now you should be able to logout and log back in and run docker commands without **`sudo.`**
+You should now be able to log out and log back in, and execute Docker commands without the need for **sudo**.
 ## Disk Setup
 
 The exact steps required here are going to vary a lot based on your needs. Most likely you’ll have a root partition running your operating system on one device. You’ll probably want one or more devices for actually holding the blockchain data. For the rest of the walkthrough, we’re going to have that additional device mounted at **`/mnt/avail`**.
