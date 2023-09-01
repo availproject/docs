@@ -137,7 +137,8 @@ In our case we will download the chainspec into our config folder as `kate-chain
 ```bash
 curl -L -o /mnt/avail/config/kate-chainspec.raw.json https://raw.githubusercontent.com/availproject/availproject.github.io/main/static/configs/kate/chainspec.raw.json
 ```
-Now that we have Our Chainspec config Downlaoded Let's start our Avail Node.
+
+Now that we've downloaded our Chainspec configuration, let's proceed to launch our Avail Node.
 
 ```bash
 cd /mnt/avail
