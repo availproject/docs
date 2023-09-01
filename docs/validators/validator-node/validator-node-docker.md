@@ -364,6 +364,6 @@ is selected every **era**, based on the staking amount.
 
 
 When the validator node has enough stake it will be elected. The image below is
-an example of the node being elected and making blocks.
+an example of our elected validator node producing blocks.
 
 <img src={useBaseUrl("img/avail/validator-active-set.png")} width="100%" height="100%"/>
