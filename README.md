@@ -40,7 +40,7 @@
 
 # Avail Overview
 
-Avail aims to revolutionize the blockchain industry by providing a trust-minimized and secure base layer focused on data availability. This base layer serves as the foundation for next-generation, trust-minimized applications and blockchains.
+Avail aims to revolutionize the blockchain space by providing a trust-minimized and secure base layer focused on data availability. This base layer serves as the foundation for next-generation, trust-minimized applications and blockchains.
 
 ## The Evolution from Monolithic to Modular Blockchains
 
@@ -65,9 +65,9 @@ Avail is building a general-purpose data availability layer that addresses scala
 
 ## High Availability and Scalability
 
-Avail's light client network ensures high data availability through Data Availability Sampling. As more light clients join the network, Avail can support bigger blocks, unlocking significant scaling potential for the industry.
+Avail's light client network ensures high data availability through Data Availability Sampling. As more light clients join the network, Avail can support bigger blocks, unlocking significant scaling potential for blockchains.
 
-## Avail Repositories
+## Key Repositories under availproject
 
 | Category                 | Repository Name                                                     | Description                                                                                     |
 |--------------------------|---------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
