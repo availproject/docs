@@ -12,7 +12,7 @@ export const contentData = {
             tutorialsInfo: [
                 {
                     title: 'Run a Light Client',
-                    link: '/node/light-client-setup/'
+                    link: '/about/light-client-setup/'
                 },
                 {
                     title: 'Run a Full Node',
