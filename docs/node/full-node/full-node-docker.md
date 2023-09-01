@@ -23,7 +23,7 @@ The Avail team provides official Docker images designed to run nodes on the **Ka
 
 The following instructions are tailored for Linux distribution with `apt` support, such as Debian.
 Note that the available Docker images are compatible only with **Linux/amd64 or x86_64 based** CPUs. Running nodes on a cloud server is also common.
-server. The following list of standard hardware is a recommendation of
+Recommended hardware specifications for your environment are provided below:
 hardware specs that your environment should have:
 
 | Minimum                            | Recommended                         |
