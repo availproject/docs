@@ -154,7 +154,7 @@ module.exports = {
             },
             {
               href: 'https://github.com/availproject/avail',
-              label: 'Avail Node',
+              label: 'DA Node',
             },
             {
               href: 'https://github.com/availproject/avail-core',
