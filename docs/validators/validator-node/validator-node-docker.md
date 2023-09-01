@@ -364,7 +364,7 @@ is selected every **era**, based on the staking amount.
 <img src={useBaseUrl("img/avail/validator-waiting-list.png")} width="100%" height="100%"/>
 
 
-When the validator node has enough stake it will be elected, below is
+When the validator node has enough stake it will be elected. The image below is
 an example of the node being elected and making blocks.
 
 <img src={useBaseUrl("img/avail/validator-active-set.png")} width="100%" height="100%"/>
