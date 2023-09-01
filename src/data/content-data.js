@@ -16,7 +16,7 @@ export const contentData = {
                 },
                 {
                     title: 'Run a Full Node',
-                    link: '/node/full-node-setup/'
+                    link: '/node/full-node/full-node-binaries/'
                 },
                 {
                     title: 'Run an Archive Node',
@@ -27,7 +27,7 @@ export const contentData = {
         {
             iconSrc: '/img/avail-logo.png',
             title: 'Become a Validator',
-            cardLink: '/validators/validator-node-setup/',
+            cardLink: 'validators/validator-node/validator-binaries/',
             blockInfo: [
                 'Secure the Network',
                 'Earn Validator Rewards',
@@ -36,7 +36,7 @@ export const contentData = {
             tutorialsInfo: [
                 {
                     title: 'Run a Validator Node',
-                    link: '/validators/validator-node-setup/'
+                    link: 'validators/validator-node/validator-binaries/'
                 },
                 {
                     title: 'Upgrade Your Validator',

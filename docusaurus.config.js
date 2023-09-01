@@ -85,11 +85,11 @@ module.exports = {
             from: '/join-the-network/run-avail/light-client-setup',
           },
           {
-            to: '/node/full-node-setup',
+            to: '/node/full-node/full-node-binaries',
             from: '/join-the-network/run-avail/full-node-setup',
           },
           {
-            to: '/validators/validator-node-setup',
+            to: '/validators/validator-node/validator-binaries/',
             from: '/join-the-network/run-avail/validator-node-setup',
           },
           {
