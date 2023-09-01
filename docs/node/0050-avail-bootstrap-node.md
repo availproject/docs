@@ -14,7 +14,11 @@ image: https://availproject.github.io/img/avail/AvailDocs.png
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-This guide provides a step-by-step walkthrough for setting up a Bootstrap Node, which serves as an entry point for light clients in your network. Follow the installation and configuration steps below to get your Bootstrap Node up and running.
+This guide provides a step-by-step walkthrough for setting up a bootstrap node, which serves as an entry point for light clients in your network.
+bootstrap nodes play a vital role in network stability and discoverability. They help new nodes join the network, assist in peer discovery, and often serve as a fallback mechanism to maintain network connectivity. 
+
+It's advisable to deploy multiple bootstrap nodes. A good rule of thumb is to have at least three to five bootstrap nodes to kickstart a new network. 
+Follow the installation and configuration steps below to get your bootstrap node up and running.
 
 ## Prerequisites
 
@@ -45,7 +49,8 @@ rustc --version                      # Verify Rust installation by displaying th
 
 ### 2. Clone the Bootstrap Node Repository
 
-Clone the Bootstrap Node project repository from GitHub to your local machine or VM:
+Clone the [Bootstrap Node project repository](https://github.com/availproject/avail-light-bootstrap/tree/main) 
+from GitHub to your local machine or VM:
 
 ```bash
 git clone https://github.com/availproject/avail-light-bootstrap.git
@@ -87,4 +92,4 @@ libp2p_identify_protocol: '/avail_kad/id/1.0.0'  # libp2p protocol
 
 For more advanced configurations, consult the [Configuration Reference](https://github.com/availproject/avail-light-bootstrap#config-reference).
 
-Congratulations! You've successfully set up a Bootstrap Node. Your node is now ready to serve as an entry point for light clients in your network. Happy Bootstrapping! 🚀
+Congratulations! You've successfully set up a Bootstrap Node. Your node is now ready to serve as an entry point for light clients in your network. Happy bootstrapping! 🚀

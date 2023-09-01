@@ -14,7 +14,9 @@ image: https://availproject.github.io/img/avail/AvailDocs.png
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-This guide provides a step-by-step walkthrough for setting up a Relay Node, which can help resolve connectivity issues between network peers. Follow Follow the installation and configuration steps below to get your Relay Node up and running.
+This guide provides a step-by-step walkthrough for setting up a relay node, which can help resolve connectivity issues between network peers. Follow the installation and configuration steps below to get your relay node up and running.
+
+<!-- TO DO: add context -->
 
 ## Prerequisites
 
@@ -44,7 +46,7 @@ rustc --version                      # Verify Rust installation by displaying th
 
 ### 2. Clone the Relay Node Repository
 
-Clone the Relay Node project repository from GitHub:
+Clone the [Relay Node project repository](https://github.com/availproject/avail-light-relay) from GitHub:
 
 ```bash
 git clone https://github.com/availproject/avail-light-relay.git
@@ -92,4 +94,4 @@ libp2p_identify_protocol: '/avail_kad/id/1.0.0'  # libp2p protocol
 
 For more advanced configurations, consult the [Configuration Reference](https://github.com/availproject/avail-light-relay#config-reference).
 
-Congratulations! You've successfully set up a Relay Node. Your node is now ready to assist with connectivity issues between light clients in your network. Happy Relaying! 🚀
+Congratulations! You've successfully set up a relay Node. Your node is now ready to assist with connectivity issues between light clients in your network. Happy relaying! 🚀
