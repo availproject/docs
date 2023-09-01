@@ -157,7 +157,7 @@ Now that we've downloaded our Chainspec configuration, let's proceed to launch o
 - Using an image from the Avail Docker Hub repository.
 - Adding any desired chain flags after the image name, such as `--rpc`.
 
-check the docker logs to see if the node is working fine or not .
+Inspect the Docker logs to verify that the node is functioning as expected.
 
 ```bash
 ubuntu:/mnt/avail# docker ps
