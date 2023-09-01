@@ -15,15 +15,16 @@ image: https://availproject.github.io/img/avail/AvailDocs.png
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-The Avail team distributes official Docker images which can be used to run nodes on the **Kate testnet** network . These instructions are for running a Full Node, but they can be adapted for running validators as well.
+The Avail team provides official Docker images designed to run nodes on 
+the **Kate testnet**.
 
 ## Before you start
 
-The instructions below assume a Linux distribution with `apt` (Debian,
-for example), but you may be able to adapt them to a different
-distribution. Also the Docker images Currently Available are only supported for **Linux/amd64 or x86_64 based** cpus .It's also common for users to run nodes on a cloud
-server. The following list of standard hardware is a recommendation of
-hardware specs that your environment should have:
+The following instructions are tailored for Linux distribution with `apt` 
+support, such as Debian.Note that the available Docker images are compatible 
+only with **Linux/amd64 or x86_64 based** CPUs. Running nodes on a cloud server 
+is also common. Recommended hardware specifications for your environment are 
+provided below:
 
 | Minimum                            | Recommended                         |
 |------------------------------------|-------------------------------------|
@@ -31,22 +32,27 @@ hardware specs that your environment should have:
 | 2 core CPU amd64/x86 architecture  | 4 core CPU  amd64/x86 architecture  |
 | 20-40 GB SSD                       | 200-300 GB SSD                      |
 
-The peer exchange for a Avail full node generally depends on port 30333 being open. When you configure your firewall or security groups for Cloud Providers, make sure these ports are open along with whatever ports you need to access the machine.
+**Port 30333** is typically required for peer exchange. Ensure this port, 
+along with any others needed for machine access, is open when setting up your 
+firewall  or cloud provider's security groups.
 
-#### Info Alternate networks & releases
+> Useful Links:
 
-All instructions below are for the **Kate testnet** network. To join a
-different network, you may need to download a different node version
-from the [node releases
-page](https://github.com/availproject/avail/releases) and a chain
-specification file for the specific network. Contact the Avail team if
-you have questions.
+- [DockerHub Repository](https://hub.docker.com/r/availj/avail/tags)
+- [Github Releases](https://github.com/availproject/avail/releases)
 
-## Useful Links
+#### Alternate Networks & Releases Information
 
-[Dockerhub Repository](https://hub.docker.com/r/availj/avail/tags)
+The instructions provided are specifically for the **Kate testnet**.
+To connect to a different network, you may need to download an alternate node 
+version from the 
+[node releases page](https://github.com/availproject/avail/releases) and acquire 
+the corresponding chain specification file. For any queries, feel free to reach out 
+to the Avail team.
 
-[Github Releases](https://github.com/availproject/avail/releases)
+## Initial Setup
+
+At this point, you should have shell access with root privileges to a linux machine.
 
 ## Initial Setup
 
@@ -54,9 +60,9 @@ At this point, you should have shell access with root privileges to a linux mach
 
 ### Install Docker
 
-Most likely your operating system won’t have Docker installed by default. Please follow the instructions for your particular distribution found here: https://docs.docker.com/engine/install/
+If you do not have Docker installed, please follow the installation instructions [here](https://docs.docker.com/engine/install/).
 
-We’re following the instructions for Ubuntu. The steps are included below, but please see the official instructions in case they’ve been updated.
+In this guide, we will use the Ubuntu-specific installation instructions. It's advisable to consult the official guidelines for the most up-to-date information.
 
 ```bash
 sudo apt-get update
@@ -70,9 +76,9 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 ```
 
-At this point you should have Docker installed.
+At this point, you should have Docker installed.
 
-In many cases, it’s inconvenient to run docker as **`root`** user so we’ll follow the post install steps [here](https://docs.docker.com/engine/install/linux-postinstall/) in order to interact with docker without needing to be **`root:`**
+To avoid running Docker as the **root** user, which is often inconvenient, we'll adhere to the post-installation steps outlined [here](https://docs.docker.com/engine/install/linux-postinstall/). This allows us to interact with Docker without requiring **root** privileges.
 
 ```bash
 sudo groupadd docker
@@ -80,23 +86,22 @@ sudo usermod -aG docker $USER
 
 ```
 
-Now you should be able to logout and log back in and run docker commands without **`sudo.`**
+You should now be able to log out and log back in, and execute Docker commands without the need for **sudo**.
 
 ## Disk Setup
 
-The exact steps required here are going to vary a lot based on your needs. Most likely you’ll have a root partition running your operating system on one device. You’ll probably want one or more devices for actually holding the blockchain data. For the rest of the walkthrough, we’re going to have that additional device mounted at **`/mnt/avail`**.
+The specific steps will vary significantly based on your requirements. Typically, you'll have a root partition for the operating system on one device, and one or more separate devices for storing blockchain data. For the remainder of this guide, we'll assume that the additional storage device is mounted at `/mnt/avail`.
 
-Before Mounting the Additional Disk it is recommended to format that disk for Use and Create a Filesystem You can [Follow Here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html) for that.
+Before mounting the additional disk, it's advisable to format it and create a filesystem. For guidance on this process, you can [follow these instructions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html).
 
-In this example, we have a device with 300 GB of available space located at **`/dev/nvme1n1`**. We are going to mount that using the steps below:
+In this example, we're working with a 300 GB device located at `/dev/nvme1n1`. The steps to mount this device are outlined below:
 
 ```bash
 sudo mkdir /mnt/avail
 sudo mount -a /dev/nvme1n1 /mnt/avail
-```
-We use **`df -h`** to make sure the mount looks good.
+Use the the `df -h` command to verify that the mount has been successfully configured.
 
-If that all looks good, we might as well create Additional Sub-Directories for our DATA and config store
+If everything appears to be in order, it's advisable to create additional sub-directories for storing our data and configuration files.
 
 ```bash
 sudo mkdir /mnt/avail/config
@@ -104,9 +109,9 @@ sudo mkdir /mnt/avail/state
 sudo mkdir /mnt/avail/keystore
 ```
 
-Depending on your use case and operating system, you’ll likely want to create an entry in **`/etc/fstab`** in order to make sure your device is mounted when the system reboots.
+Based on your specific use case and operating system, you'll likely need to add an entry to `/etc/fstab` to ensure the device remains mounted upon system reboot.
 
-In our case we're following some steps like this:
+In our scenario, we'll proceed as follows:
 
 ```bash
 # Use blkid to get the UUID for the device that we're mounting
@@ -123,9 +128,9 @@ sudo emacs /etc/fstab
 sudo findmnt --verify --verbose
 ```
 
-At this point you should be able to reboot and confirm that the system loads your mount properly.
+At this stage, you should be able to reboot and verify that the system correctly mounts your device upon startup.
 
-## Avail setup
+## Avail Setup
 
 Download the Correct Chaispec file for the network in our case we are using the **`Kate-Testnet`** Chainspec.
 
@@ -139,27 +144,27 @@ In our case we will download the chainspec into our config folder as `kate-chain
 ```bash
 curl -L -o /mnt/avail/config/kate-chainspec.raw.json https://raw.githubusercontent.com/availproject/availproject.github.io/main/static/configs/kate/chainspec.raw.json
 ```
-Now that we have Our Chainspec config Downloaded Let's start our Avail Validator Node.
+
+Now that we've downloaded our Chainspec configuration, let's proceed to launch our Avail Node.
 
 ```bash
 cd /mnt/avail
 
-sudo docker run -v $(pwd)/config/kate-chainspec.raw.json:/da/genesis/chainspec.raw.json -v $(pwd)/state:/da/state:rw -v $(pwd)/keystore:/da/keystore:rw -e DA_CHAIN=/da/genesis/chainspec.raw.json -e DA_NAME=kate-docker-avail-Node -p 0.0.0.0:30333:30333 -p 9615:9615 -p 9933:9933 -d --restart unless-stopped availj/avail:v1.6.2-rc1 --validator
+sudo docker run -v $(pwd)/config/kate-chainspec.raw.json:/da/genesis/chainspec.raw.json -v $(pwd)/state:/da/state:rw -v $(pwd)/keystore:/da/keystore:rw -e DA_CHAIN=/da/genesis/chainspec.raw.json -e DA_NAME=kate-docker-avail-Node -p 0.0.0.0:30333:30333 -p 9615:9615 -p 9933:9933 -d --restart unless-stopped availj/avail:v1.6.2-rc1
 ```
 
-in the above command steps include:
+Now that we've downloaded our Chainspec configuration, let's proceed to launch our Avail Node. The steps in the command include:
 
-- changing directory to `/mnt/avail` so we are in correct directory 
-- we have mounted the `/mnt/avail/config/kate-chainspec.raw.json` to `/da/genesis/chainspec.raw.json` of the docker container so that the chainspec is correct
-- `/mnt/avail/state` to `/da/state` and gave it permission to read and write both so that our da data is stored on the separate disk and is presistent in case of even the container crashes.
-- `DA_CHAIN` suggest which chainspec file to use inside the container
-- `DA_NAME` is Name of your node you can give if any name in our example we have given kate-docker-avail-Node
-- ports convention **`30333`** is used for public `p2p connection` **`9615`** is the `prometheus metrics endpoint port` and **`9933`** is the `http rpc port` if you also want to add `websocket` you add port **`9944`** in the docker command.
-- image we have used if from the availj docker hub repository
-- --validator flags indicates to run this as a validator.
-- you can add any chain flag you want after the image name as --rpc ... 
+- Navigating to `/mnt/avail` to ensure we're in the correct directory.
+- Mounting `/mnt/avail/config/kate-chainspec.raw.json` to `/da/genesis/chainspec.raw.json` in the Docker container for accurate chainspec.
+- Mapping `/mnt/avail/state` to `/da/state` and granting read-write permissions to ensure data persistence, even if the container crashes.
+- Using `DA_CHAIN` to specify the chainspec file within the container.
+- Setting `DA_NAME` as the name of your node; in our example, it's `kate-docker-avail-Node`.
+- Utilizing port **`30333`** for public P2P connections, **`9615`** for the Prometheus metrics endpoint, and **`9933`** for the HTTP RPC port. For WebSocket, add port **`9944`**.
+- Using an image from the Avail Docker Hub repository.
+- Adding any desired chain flags after the image name, such as `--rpc`.
 
-check the docker logs to see if the node is working fine or not .
+Inspect the Docker logs to verify that the node is functioning as expected.
 
 ```bash
 ubuntu:/mnt/avail# docker ps
@@ -169,52 +174,50 @@ ubuntu:/mnt/avail# docker logs 5b3978de8f35
 # 5b3978de8f35 is the container id 
 ```
 
-If started with --validator flags the Role will `Role:Authority`
-and logs will look like this:
-
 ```shell
-2023-08-21 08:27:03 Avail Node2023-08-21 08:27:03 ✌️  version 1.6.2-bb4cc104b25
-2023-08-21 08:27:03 ❤️  by Anonymous, 2017-2023
-2023-08-21 08:27:03 📋 Chain specification: Avail Kate Testnet
-2023-08-21 08:27:03 🏷  Node name: kate-docker-avail-Node
-2023-08-21 08:27:03 👤 Role: AUTHORITY
-2023-08-21 08:27:03 💾 Database: RocksDb at /da/state/chains/Avail Testnet_116d7474-0481-11ee-bc2a-7bfc086be54e/db/full
-2023-08-21 08:27:03 ⛓  Native runtime: data-avail-11 (data-avail-0.tx1.au11)
-2023-08-21 08:27:09 🔨 Initializing Genesis block/state (state: 0x6bc8…8ac6, header-hash: 0xd120…50c6)
-2023-08-21 08:27:09 👴 Loading GRANDPA authority set from genesis on what appears to be first startup.
-root@ip-172-31-34-103:/mnt/avail# docker logs 0d24ff1e8c20
-Launching node kate-docker-avail-Node on chain /da/genesis/chainspec.raw.json...
-2023-08-21 08:27:03 Avail Node
-2023-08-21 08:27:03 ✌️  version 1.6.2-bb4cc104b25
-2023-08-21 08:27:03 ❤️  by Anonymous, 2017-2023
-2023-08-21 08:27:03 📋 Chain specification: Avail Kate Testnet
-2023-08-21 08:27:03 🏷  Node name: kate-docker-avail-Node
-2023-08-21 08:27:03 👤 Role: AUTHORITY
-2023-08-21 08:27:03 💾 Database: RocksDb at /da/state/chains/Avail Testnet_116d7474-0481-11ee-bc2a-7bfc086be54e/db/full
-2023-08-21 08:27:03 ⛓  Native runtime: data-avail-11 (data-avail-0.tx1.au11)
-2023-08-21 08:27:09 🔨 Initializing Genesis block/state (state: 0x6bc8…8ac6, header-hash: 0xd120…50c6)
-2023-08-21 08:27:09 👴 Loading GRANDPA authority set from genesis on what appears to be first startup.
-2023-08-21 08:27:14 👶 Creating empty BABE epoch changes on what appears to be first startup.
-2023-08-21 08:27:14 🏷  Local node identity is: 12D3KooWEdgyAtH8ZCU8ScTx1hx5NWh4gmDGNcedtLxrJ1htSeBe
-2023-08-21 08:27:14 Prometheus metrics extended with avail metrics
-2023-08-21 08:27:14 💻 Operating system: linux
-2023-08-21 08:27:14 💻 CPU architecture: x86_64
-2023-08-21 08:27:14 💻 Target environment: gnu
-2023-08-21 08:27:14 💻 CPU: Intel(R) Xeon(R) Platinum 8175M CPU @ 2.50GHz
-2023-08-21 08:27:14 💻 CPU cores: 1
-2023-08-21 08:27:14 💻 Memory: 7835MB
-2023-08-21 08:27:14 💻 Kernel: 5.15.0-1040-aws2023-08-21 08:27:14 💻 Linux distribution: Debian GNU/Linux 11 (bullseye)
-2023-08-21 08:27:14 💻 Virtual machine: yes2023-08-21 08:27:14 📦 Highest known block at #02023-08-21 08:27:14 〽️ Prometheus exporter started at 127.0.0.1:96152023-08-21 08:27:14 Running JSON-RPC HTTP server: addr=127.0.0.1:9933, allowed origins=["http://localhost:*", "http://127.0.0.1:*", "https://localhost:*", "https://127.0.0.1:*", "https://polkadot.js.org"]2023-08-21 08:27:14 Running JSON-RPC WS server: addr=127.0.0.1:9944, allowed origins=["http://localhost:*", "http://127.0.0.1:*", "https://localhost:*", "https://127.0.0.1:*", "https://polkadot.js.org"]2023-08-21 08:27:14 🏁 CPU score: 674.66 MiBs2023-08-21 08:27:14 🏁 Memory score: 4.53 GiBs2023-08-21 08:27:14 🏁 Disk score (seq. writes): 324.35 MiBs2023-08-21 08:27:14 🏁 Disk score (rand. writes): 62.64 MiBs
-2023-08-21 08:27:14 👶 Starting BABE Authorship worker
+2023-08-21 08:29:55 Avail Node
+2023-08-21 08:29:55 ✌️  version 1.6.2-bb4cc104b25
+2023-08-21 08:29:55 ❤️  by Anonymous, 2017-2023
+2023-08-21 08:29:55 📋 Chain specification: Avail Kate Testnet
+2023-08-21 08:29:55 🏷  Node name: kate-docker-avail-Node
+2023-08-21 08:29:55 👤 Role: FULL
+2023-08-21 08:29:55 💾 Database: RocksDb at /da/state/chains/Avail Testnet_116d7474-0481-11ee-bc2a-7bfc086be54e/db/full
+2023-08-21 08:29:55 ⛓  Native runtime: data-avail-11 (data-avail-0.tx1.au11)
+2023-08-21 08:30:04 🏷  Local node identity is: 12D3KooWEdgyAtH8ZCU8ScTx1hx5NWh4gmDGNcedtLxrJ1htSeBe
+2023-08-21 08:30:04 Prometheus metrics extended with avail metrics
+2023-08-21 08:30:04 💻 Operating system: linux
+2023-08-21 08:30:04 💻 CPU architecture: x86_64
+2023-08-21 08:30:04 💻 Target environment: gnu
+2023-08-21 08:30:04 💻 CPU: Intel(R) Xeon(R) Platinum 8175M CPU @ 2.50GHz
+2023-08-21 08:30:04 💻 CPU cores: 1
+2023-08-21 08:30:04 💻 Memory: 7835MB
+2023-08-21 08:30:04 💻 Kernel: 5.15.0-1040-aws
+2023-08-21 08:30:04 💻 Linux distribution: Debian GNU/Linux 11 (bullseye)
+2023-08-21 08:30:04 💻 Virtual machine: yes
+2023-08-21 08:30:04 📦 Highest known block at #9150
+2023-08-21 08:30:04 〽️ Prometheus exporter started at 127.0.0.1:9615
+2023-08-21 08:30:04 Running JSON-RPC HTTP server: addr=127.0.0.1:9933, allowed origins=["http://localhost:*", "http://127.0.0.1:*", "https://localhost:*", "https://127.0.0.1:*", "https://polkadot.js.org"]
+2023-08-21 08:30:04 Running JSON-RPC WS server: addr=127.0.0.1:9944, allowed origins=["http://localhost:*", "http://127.0.0.1:*", "https://localhost:*", "https://127.0.0.1:*", "https://polkadot.js.org"]
+2023-08-21 08:30:04 🏁 CPU score: 671.55 MiBs
+2023-08-21 08:30:04 🏁 Memory score: 4.47 GiBs
+2023-08-21 08:30:04 🏁 Disk score (seq. writes): 339.36 MiBs
+2023-08-21 08:30:04 🏁 Disk score (rand. writes): 62.48 MiBs
+2023-08-21 08:30:05 🔍 Discovered new external address for our node: /ip4/13.53.42.153/tcp/30333/ws/p2p/12D3KooWEdgyAtH8ZCU8ScTx1hx5NWh4gmDGNcedtLxrJ1htSeBe2023-08-21 08:30:09 ⚙️  Syncing, target=#326624 (15 peers), best: #9406 (0x875e…c887), finalized #9317 (0x37b6…28ff), ⬇ 321.9kiB/s ⬆ 30.1kiB/s
+2023-08-21 08:30:14 ⚙️  Syncing 64.4 bps, target=#326624 (15 peers), best: #9728 (0xb4fe…e318), finalized #9317 (0x37b6…28ff), ⬇ 40.2kiB/s ⬆ 1.8kiB/s
 ```
 
-## Staking Set-up
+Your node will also appear on the [Avail Telemetry](http://telemetry.avail.tools/) 
+website, listed under the "Node name" displayed in the node command output. Be sure 
+to select the appropriate network tab at the top corresponding to the network you've 
+joined.
+
+## Prepare for Staking
 
 Once the node is running and connected to the network, it needs to be
 linked to accounts with bonded (staked) funds in order to be eligible
 to become an active validator.
 
-### Creating accounts
+### Create Avail Accounts
 
 We recommend creating two accounts, `stash` and `controller`, each
 with their own key:
@@ -247,7 +250,7 @@ pay transaction fees from your bonded balance.
 
 :::
 
-### Bonding
+### Bonding Process
 
 It is now time to set up your validator by doing the following:
 
@@ -295,12 +298,12 @@ You should now be ready to generate your session keys. Note the
 submit here.  <img src={useBaseUrl("img/avail/staking-bond-4.png")}
 width="100%" height="100%"/>
 
-## Set Session Keys
+## Session Key Management
 
 Once your node is **fully synced**, you need to rotate and submit your
 session keys.
 
-### Rotate your session keys
+### Rotating Session Keys
 
 Run the following command on your Avail validator node machine:
 > While the node is running with the default HTTP RPC port configured.
@@ -315,7 +318,7 @@ step.
 
 You should now restart the node so it will use the new session keys.
 
-### Submitting the `setKeys` transaction
+### Submitting the `setKeys` Transaction
 
 You need to tell the chain your Session keys by signing and submitting
 an extrinsic. This is what associates your validator with your
@@ -334,7 +337,7 @@ After submitting this extrinsic, you will notice **Set Session Key**
 changed to **Validate**. Ensure your node is in sync before
 proceeding.
 
-## Validate
+## Becoming a Validator
 
 If you are ready to start validating you must click **Validate**
 
@@ -346,6 +349,8 @@ your password.
 
 <img src={useBaseUrl("img/avail/set-validate-commission.png")} width="100%" height="100%"/>
 
+### Starting Validation
+
 Your validator is now ready to start validating. You can click the
 stop icon should you wish to exit. Note that the Avail interface does
 not check if your node is in sync.  You need to ensure your node is in
@@ -353,6 +358,8 @@ sync. The Avail blockchain will select your node in the next epoch or
 two if you have enough stake.
 
 <img src={useBaseUrl("img/avail/validator-ready.png")} width="100%" height="100%"/>
+
+### Verifying Validator Status
 
 To verify that your node is ready for possible selection at the end of
 the next era , navigate to [**Network &rarr;
@@ -362,8 +369,11 @@ is selected every **era**, based on the staking amount.
 
 <img src={useBaseUrl("img/avail/validator-waiting-list.png")} width="100%" height="100%"/>
 
+### Validator in Action
 
 When the validator node has enough stake it will be elected. The image below is
 an example of our elected validator node producing blocks.
 
 <img src={useBaseUrl("img/avail/validator-active-set.png")} width="100%" height="100%"/>
+
+That's it! You're now successfully running an Avail Validator node. 🎉

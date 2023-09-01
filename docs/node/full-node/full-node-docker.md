@@ -16,14 +16,15 @@ image: https://availproject.github.io/img/avail/AvailDocs.png
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-
 The Avail team provides official Docker images designed to run nodes on the **Kate testnet**. While these guidelines focus on setting up a Full Node, they can easily be modified to accommodate the requirements for running a validator node.
 
 ## Before You Start
 
-The following instructions are tailored for Linux distribution with `apt` support, such as Debian.
-Note that the available Docker images are compatible only with **Linux/amd64 or x86_64 based** CPUs. Running nodes on a cloud server is also common.
-Recommended hardware specifications for your environment are provided below:
+The following instructions are tailored for Linux distribution with `apt` 
+support, such as Debian.Note that the available Docker images are compatible 
+only with **Linux/amd64 or x86_64 based** CPUs. Running nodes on a cloud server 
+is also common. Recommended hardware specifications for your environment are 
+provided below:
 
 | Minimum                            | Recommended                         |
 |------------------------------------|-------------------------------------|
@@ -31,7 +32,14 @@ Recommended hardware specifications for your environment are provided below:
 | 2 core CPU amd64/x86 architecture  | 4 core CPU  amd64/x86 architecture  |
 | 20-40 GB SSD                       | 200-300 GB SSD                      |
 
-**Port 30333** is typically required for peer exchange. Ensure this port, along with any others needed for machine access, is open when setting up your firewall or cloud provider's security groups.
+**Port 30333** is typically required for peer exchange. Ensure this port, 
+along with any others needed for machine access, is open when setting up your firewall 
+or cloud provider's security groups.
+
+> Useful Links:
+
+- [DockerHub Repository](https://hub.docker.com/r/availj/avail/tags)
+- [Github Releases](https://github.com/availproject/avail/releases)
 
 #### Alternate Networks & Releases Information
 
@@ -40,12 +48,6 @@ To connect to a different network, you may need to download an alternate node ve
 from the [node releases
 page](https://github.com/availproject/avail/releases) and acquire the corresponding
 chain specification file. For any queries, feel free to reach out to the Avail team.
-
-## Useful Links
-
-[Dockerhub Repository](https://hub.docker.com/r/availj/avail/tags)
-
-[Github Releases](https://github.com/availproject/avail/releases)
 
 ## Initial Setup
 
@@ -123,7 +125,7 @@ sudo findmnt --verify --verbose
 
 At this stage, you should be able to reboot and verify that the system correctly mounts your device upon startup.
 
-## Avail setup
+## Avail Setup
 
 Download the Correct Chaispec file for the network in our case we are using the **`Kate-Testnet`** Chainspec.
 
@@ -199,8 +201,9 @@ ubuntu:/mnt/avail# docker logs 5b3978de8f35
 2023-08-21 08:30:14 ⚙️  Syncing 64.4 bps, target=#326624 (15 peers), best: #9728 (0xb4fe…e318), finalized #9317 (0x37b6…28ff), ⬇ 40.2kiB/s ⬆ 1.8kiB/s
 ```
 
-Your node will also appear on the [Avail Telemetry](http://telemetry.avail.tools/) website,
-   listed under the "Node name" displayed in the node command output.
-    Be sure to select the appropriate network tab at the top corresponding to the network you've joined.
+Your node will also appear on the [Avail Telemetry](http://telemetry.avail.tools/) 
+website, listed under the "Node name" displayed in the node command output. Be sure 
+to select the appropriate network tab at the top corresponding to the network you've 
+joined.
 
-That's it! You're now successfully running an Avail full node 🎉
+That's it! You're now successfully running an Avail full node. 🎉
