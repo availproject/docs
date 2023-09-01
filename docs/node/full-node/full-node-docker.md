@@ -199,7 +199,7 @@ ubuntu:/mnt/avail# docker logs 5b3978de8f35
 2023-08-21 08:30:14 ⚙️  Syncing 64.4 bps, target=#326624 (15 peers), best: #9728 (0xb4fe…e318), finalized #9317 (0x37b6…28ff), ⬇ 40.2kiB/s ⬆ 1.8kiB/s
 ```
 
-It will also be listed on the [Avail
+Your node will also appear on the [Avail Telemetry](http://telemetry.avail.tools/) website,
    Telemetry](http://telemetry.avail.tools/) site under the "Node
    name" that appears in the node command output. Note that there are
    network tabs at the top, select the one for the network you joined.
