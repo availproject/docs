@@ -137,7 +137,7 @@ Download the Correct Chaispec file for the network in our case we are using the 
    
    | Network      |Docker Hub |  Chain Specification File | Chain Info Reference|
    |--------------|-----------|--------------------------|----------------------|
-   | Kate Testnet |[Releases](https://hub.docker.com/r/availj/avail/tags)|[chainspec.raw.json](/configs/kate/chainspec.raw.json) | [Chain Info](/configs/kate/chaininfo.txt) |
+   | Kate Testnet |[Releases](https://hub.docker.com/r/availj/avail/tags)|[chainspec.raw.json](/kate/chainspec.raw.json) | [Chain Info](/kate/chaininfo.txt) |
 
 In our case we will download the chainspec into our config folder as `kate-chainspec.raw.json`
 
