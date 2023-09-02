@@ -1445,7 +1445,6 @@ p {
   box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.10), 0px 4px 10px 0px rgba(0, 0, 0, 0.10);
 }
 .faq-accordion-dropdown:not(:last-of-type) {
-  border: 1px solid #222;
 }
 .faq-accordion-dropdown.open .faq-accordion-icon {
   background: radial-gradient(69.54% 69.54% at 50% 28.63%, rgba(228, 238, 251, 0.8) 0%, rgba(212, 227, 244, 0.8) 100%);
