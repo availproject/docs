@@ -29,9 +29,9 @@ export const contentData = {
             title: 'Become a Validator',
             cardLink: 'validators/validator-node/validator-binaries/',
             blockInfo: [
-                'Secure the Network',
-                'Earn Validator Rewards',
-                'Participate in Governance'
+                'Network Security',
+                'Governance Participation',
+                'Maintainer Rewards'
             ],
             tutorialsInfo: [
                 {
@@ -84,7 +84,7 @@ export const contentData = {
                         chainSpec: { link: 'https://availproject.github.io/assets/files/chainspec.raw-1905ee8ba4620c9cd6f1f378a84346eb.json', text: 'chainspec.raw.json' },
                         chainInfo: { link: 'https://availproject.github.io/assets/files/chaininfo-de1eeff4d63715bbec85aae81a956d40.txt', text: 'chaininfo.txt' },
                         nodeVersion: { link: 'https://github.com/availproject/avail/releases/tag/v1.6.3', text: 'v1.6.3' },
-                        lightClientVersion: { link: 'https://github.com/availproject/avail-light/releases/tag/v1.4.1', text: '1.4.1' }
+                        lightClientVersion: { link: 'https://github.com/availproject/avail-light/releases/tag/v1.6.0-rc1', text: '1.6.0-rc1' }
                     },
                     // Add more active networks here
                 ]
