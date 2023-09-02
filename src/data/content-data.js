@@ -66,7 +66,7 @@ export const contentData = {
                     title: 'Soverign Chain Rollups: Docs Coming Soon',
                 },
                 {
-                    title: 'App-chain: Docs Coming Soon',
+                    title: 'App-chains: Docs Coming Soon',
                 },
             ]
         },

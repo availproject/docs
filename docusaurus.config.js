@@ -154,7 +154,7 @@ module.exports = {
           ]
         },
         {
-          title: "Repositories",
+          title: "Node Repositories",
           items: [
             {
               href: 'https://github.com/availproject/avail-light',
@@ -162,11 +162,15 @@ module.exports = {
             },
             {
               href: 'https://github.com/availproject/avail',
-              label: 'DA Node',
+              label: 'Full Node',
             },
             {
-              href: 'https://github.com/availproject/avail-core',
-              label: 'Avail Core',
+              href: 'https://github.com/availproject/avail-light-bootstrap',
+              label: 'Bootstrap Node',
+            },
+            {
+              href: 'https://github.com/availproject/avail-light-relay',
+              label: 'Relay Node',
             },
           ]
         },
