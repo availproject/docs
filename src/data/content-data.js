@@ -5,9 +5,9 @@ export const contentData = {
             title: 'Run a Node',
             cardLink: '/node/node-types/',
             blockInfo: [
-                'Flexible Node Types',
-                'Optimized Resource Use',
-                'Community-Driven Support'
+                'Optimal Performance',
+                'Low Barrier to Entry',
+                'Security-Focused Design'
             ],
             tutorialsInfo: [
                 {
