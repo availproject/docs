@@ -54,8 +54,8 @@ export const contentData = {
             cardLink: '/api/communicating-with-avail/',
             blockInfo: [
                 'Highly Efficient Validiums',
-                'Optimized Smart Contract Rollups',
                 'Robust Soverign Chain Rollups',
+                'Optimized App-chains',
             ],
             tutorialsInfo: [
                 {
@@ -63,10 +63,10 @@ export const contentData = {
                     link: '/api/use-case-validiums'
                 },
                 {
-                    title: 'Smart Contract Rollups: Docs Coming Soon',
+                    title: 'Soverign Chain Rollups: Docs Coming Soon',
                 },
                 {
-                    title: 'Soverign Chain Rollups: Docs Coming Soon',
+                    title: 'App-chain: Docs Coming Soon',
                 },
             ]
         },
@@ -83,7 +83,7 @@ export const contentData = {
                         wsEndpoint: 'wss://kate.avail.tools/ws',
                         chainSpec: { link: 'https://availproject.github.io/assets/files/chainspec.raw-1905ee8ba4620c9cd6f1f378a84346eb.json', text: 'chainspec.raw.json' },
                         chainInfo: { link: 'https://availproject.github.io/assets/files/chaininfo-de1eeff4d63715bbec85aae81a956d40.txt', text: 'chaininfo.txt' },
-                        nodeVersion: { link: 'https://github.com/availproject/avail/releases/tag/v1.6.0', text: 'v1.6.0' },
+                        nodeVersion: { link: 'https://github.com/availproject/avail/releases/tag/v1.6.3', text: 'v1.6.3' },
                         lightClientVersion: { link: 'https://github.com/availproject/avail-light/releases/tag/v1.4.1', text: '1.4.1' }
                     },
                     // Add more active networks here
