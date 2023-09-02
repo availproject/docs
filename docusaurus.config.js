@@ -129,24 +129,32 @@ module.exports = {
       style: 'dark',
       links: [
         {
-          title: "Company",
+          title: "Data Availability Resources",
           items: [
             {
-              label: "About Us",
-              href: "https://www.availproject.org/ecosystem"
+              href: 'https://blog.availproject.org/the-data-availability-problem/',
+              label: 'The Data Availability Problem',
             },
             {
-              label: "Blog",
-              href: "https://blog.availproject.org/"
+              href: 'https://blog.availproject.org/introducing-avail-by-a-robust-general-purpose-scalable-data-availability-layer/',
+              label: 'What is Avail',
             },
             {
-              label: "Careers",
-              href: "https://wellfound.com/company/avail-6/jobs"
-            }
+              href: 'https://github.com/availproject/data-availability/blob/master/reference%20document/Data%20Availability%20-%20Reference%20Document.pdf',
+              label: 'Avail Whitepaper',
+            },
+            {
+              href: 'https://blog.availproject.org/data-attestation-bridge/',
+              label: 'Data Attestation Bridge',
+            },
+            {
+              href: 'https://blog.availproject.org/abilitytoscalepart3/',
+              label: 'Avail`s Ability to Scale',
+            },
           ]
         },
         {
-          title: "Repositories",
+          title: "Node Repositories",
           items: [
             {
               href: 'https://github.com/availproject/avail-light',
@@ -154,24 +162,15 @@ module.exports = {
             },
             {
               href: 'https://github.com/availproject/avail',
-              label: 'DA Node',
+              label: 'Full Node',
             },
             {
-              href: 'https://github.com/availproject/avail-core',
-              label: 'Avail Core',
-            },
-          ]
-        },
-        {
-          title: "Data Availability Resources",
-          items: [
-            {
-              href: 'https://ethereum.org/en/developers/docs/data-availability/',
-              label: 'What is Data Availability',
+              href: 'https://github.com/availproject/avail-light-bootstrap',
+              label: 'Bootstrap Node',
             },
             {
-              href: 'https://dankradfeist.de/ethereum/2019/12/20/data-availability-checks.html',
-              label: 'Data Availability Checks',
+              href: 'https://github.com/availproject/avail-light-relay',
+              label: 'Relay Node',
             },
           ]
         },
@@ -196,7 +195,7 @@ module.exports = {
               label: 'Discord',
             },
             {
-              href: 'https://twitter.com/AvailProjects',
+              href: 'https://twitter.com/AvailProject',
               label: 'Twitter',
             },
             {
@@ -207,6 +206,23 @@ module.exports = {
               href: 'https://www.linkedin.com/company/availproject/',
               label: 'LinkedIn',
             },
+          ]
+        },
+        {
+          title: "Company",
+          items: [
+            {
+              label: "About Us",
+              href: "https://www.availproject.org/ecosystem"
+            },
+            {
+              label: "Blog",
+              href: "https://blog.availproject.org/"
+            },
+            {
+              label: "Careers",
+              href: "https://wellfound.com/company/avail-6/jobs"
+            }
           ]
         },
       ],
