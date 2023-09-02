@@ -137,7 +137,7 @@ module.exports = {
             },
             {
               href: 'https://blog.availproject.org/introducing-avail-by-a-robust-general-purpose-scalable-data-availability-layer/',
-              label: 'What is Avail',
+              label: 'What is Avail?',
             },
             {
               href: 'https://github.com/availproject/data-availability/blob/master/reference%20document/Data%20Availability%20-%20Reference%20Document.pdf',
@@ -149,7 +149,7 @@ module.exports = {
             },
             {
               href: 'https://blog.availproject.org/abilitytoscalepart3/',
-              label: 'Avail`s Ability to Scale',
+              label: 'Ability to Scale',
             },
           ]
         },

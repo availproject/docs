@@ -23,13 +23,13 @@ Follow these steps to connect a light client to the Kate testnet.
    
    | Network      | Client Binary           | Config File             |
    |--------------|-------------------------|-------------------------|
-   | Kate Testnet | [v1.5.0-rc2](https://github.com/availproject/avail-light/releases/tag/v1.5.0-rc2) | <a target="_blank" href="/configs/kate/avail-light-1.4.3/config.yaml" download>Config</a> |
+   | Kate Testnet | [v1.6.0-rc1](https://github.com/availproject/avail-light/releases/tag/v1.6.0-rc1) | <a target="_blank" href="/configs/kate/avail-light-1.4.3/config.yaml" download>Config</a> |
 
 2. Unpack both files into a folder, and run the client (adjust for
    platform or version in the downloaded binary name):
    
-   ```
-      ./avail-light -c config.yaml
+   ```bash
+   ./avail-light -c config.yaml
    ```
    
    The client output should look like this:
@@ -74,7 +74,7 @@ binaries for), these are the steps to follow:
 
 1. Ensure have Rust installed:
 
-   ```
+   ```bash
    curl https://sh.rustup.rs -sSf | sh
    source $HOME/.cargo/env
    rustup update nightly
@@ -84,13 +84,13 @@ binaries for), these are the steps to follow:
 
 2. Clone the light client [git repository](https://github.com/availproject/avail-light):
 
-   ```
+   ```bash
    git clone https://github.com/availproject/avail-light.git
    ```
 
-3. Buid and run the light client:
+3. Build and run the light client:
 
-   ```
+   ```bash
    cd avail-light
    cargo run
    ```
