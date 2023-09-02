@@ -23,7 +23,7 @@ Follow these steps to connect a light client to the Kate testnet.
    
    | Network      | Client Binary           | Config File             |
    |--------------|-------------------------|-------------------------|
-   | Kate Testnet | [v1.5.0-rc2](https://github.com/availproject/avail-light/releases/tag/v1.5.0-rc2) | <a target="_blank" href="/configs/kate/avail-light-1.4.3/config.yaml" download>Config</a> |
+   | Kate Testnet | [v1.6.0-rc1](https://github.com/availproject/avail-light/releases/tag/v1.6.0-rc1) | <a target="_blank" href="/configs/kate/avail-light-1.4.3/config.yaml" download>Config</a> |
 
 2. Unpack both files into a folder, and run the client (adjust for
    platform or version in the downloaded binary name):
