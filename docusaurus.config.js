@@ -196,7 +196,7 @@ module.exports = {
               label: 'Discord',
             },
             {
-              href: 'https://twitter.com/AvailProjects',
+              href: 'https://twitter.com/AvailProject',
               label: 'Twitter',
             },
             {
