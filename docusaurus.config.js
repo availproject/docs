@@ -93,7 +93,7 @@ module.exports = {
             from: '/join-the-network/run-avail/validator-node-setup',
           },
           {
-            to: '/node/avail-archive-node',
+            to: '/node/full-node/full-node-binaries',
             from: '/join-the-network/run-avail/other-nodes/avail-archive-node',
           },
           {
