@@ -16,10 +16,7 @@ function Home() {
             <div className="index-page exclude">
               <section className="section container-fluid">
                 <div className="row justify-content-between">
-                  <div className="col-lg-6 pop-text">
-                  <h1 className="landing-page-h1"><a href="https://www.availproject.org/">Avail Project</a> Developer Docs</h1>
-                    <h2 className="mt-0" dangerouslySetInnerHTML={{__html: contentData.headText}}></h2>
-                  </div>
+                <h1 className="landing-page-h1"><a href="https://www.availproject.org/">Avail</a> Developer Docs</h1>
                 </div>
               </section>
             </div>
