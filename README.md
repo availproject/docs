@@ -21,6 +21,8 @@
     + [Benefits for Validiums and Sovereign Rollups](#benefits-for-validiums-and-sovereign-rollups)
   * [High Availability and Scalability](#high-availability-and-scalability)
   * [Key Repositories under availproject](#key-repositories-under-availproject)
+    + [Get Started](#get-started)
+    + [Full List](#full-list)
 - [Repository Overview](#repository-overview)
   * [Configuration Guide](#configuration-guide)
     + [Static-Site Generator](#static-site-generator)
@@ -68,6 +70,20 @@ Avail is a blockchain-based platform focused on creating a general-purpose data 
 Avail's light client network ensures high data availability through Data Availability Sampling. As more light clients join the network, Avail can support bigger blocks, unlocking significant scaling potential for blockchains.
 
 ## Key Repositories under availproject
+
+Below is a curated list of GitHub repositories that are actively tracking the various development efforts related to Avail.
+
+### Get Started
+
+| Repository Name & Link                                                                                     | Description                                                                                     |
+|------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
+| [Reference Document](https://github.com/availproject/data-availability/blob/master/reference%20document/Data%20Availability%20-%20Reference%20Document.pdf) | Comprehensive document outlining the rationale, design decisions, and theoretical foundations.    |
+| [Avail Node](https://github.com/availproject/avail)                                                         | Repository for the Avail node implementation, built using Substrate.                            |
+| [Light Client](https://github.com/availproject/avail-light)                                                 | Light client designed for verifying data availability proofs on Avail.                          |
+| [Explorer](https://github.com/availproject/avail-apps)                                                      | Implementation repository for the Avail explorer, built using PolkadotJS Apps.                     |
+| [Tests](https://github.com/availproject/avail-test)                                                         | Repository for end-to-end tests designed to validate Avail's functionalities.                    |
+
+### Full List
 
 | Category                 | Repository Name                                                     | Description                                                                                     |
 |--------------------------|---------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
