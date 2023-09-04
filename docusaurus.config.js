@@ -140,16 +140,16 @@ module.exports = {
               label: 'What is Avail?',
             },
             {
-              href: 'https://github.com/availproject/data-availability/blob/master/reference%20document/Data%20Availability%20-%20Reference%20Document.pdf',
-              label: 'Avail Whitepaper',
-            },
-            {
               href: 'https://blog.availproject.org/data-attestation-bridge/',
               label: 'Data Attestation Bridge',
             },
             {
               href: 'https://blog.availproject.org/abilitytoscalepart3/',
               label: 'Ability to Scale',
+            },
+            {
+              href: 'https://github.com/availproject/data-availability/blob/master/reference%20document/Data%20Availability%20-%20Reference%20Document.pdf',
+              label: 'Reference Document',
             },
           ]
         },
