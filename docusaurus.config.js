@@ -42,14 +42,6 @@ module.exports = {
             to: '/',
             from: '/join-the-network/networks',
           },
-          {
-            to: '/about/managing-accounts',
-            from: '/using-avail/getting-started/managing-accounts',
-          },
-          {
-            to: '/about/testnet-faucet',
-            from: '/using-avail/getting-started/testnet-faucet',
-          },
           // Getting started
           {
             to: '/about/avail-explorer',
@@ -72,10 +64,6 @@ module.exports = {
             from: '/using-avail/core-sdks-and-apis/embedding-the-light-client',
           },
           // Node guides
-          {
-            to: '/',
-            from: '/join-the-network/networks',
-          },
           {
             to: '/node/node-types',
             from: '/join-the-network/node-types',

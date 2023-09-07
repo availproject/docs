@@ -42,7 +42,7 @@ stored in a format optimized for efficient data retrieval and storage. The defau
 ## Re-Sync or Restore Snapshot
 
 To delete your DB and re-sync from genesis:
-```
+```bash
 avail purge-chain
 ```
 
