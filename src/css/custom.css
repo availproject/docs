@@ -5,13 +5,8 @@
  */
 
 :root {
+  --ifm-font-color-base: #21415f;
   --ifm-color-primary: #005471;
-  --ifm-color-primary-dark: #005471;
-  --ifm-color-primary-darker: #1156df;
-  --ifm-color-primary-darkest: #0e47b8;
-  --ifm-color-primary-light: #457ff1;
-  --ifm-color-primary-lighter: #5288f2;
-  --ifm-color-primary-lightest: #7aa3f5;
   --ifm-code-font-size: 95%;
   --ifm-font-family-base: PPMori;
 
@@ -21,25 +16,13 @@
   --ifm-h4-font-size: 1rem;
   --ifm-h5-font-size: 0.875rem;
   --ifm-h6-font-size: 0.85rem;
-  --docusaurus-highlighted-code-line-bg: rgb(255, 255, 0);
 
   --ifm-dropdown-background-color: #222222;
-  --ifm-heading-color: #4E6786;
+  --ifm-heading-color: #3e5570;
 }
 
-.markdown,
-.markdown > h1,
-.markdown > h2,
-.markdown > h3,
-.markdown > h4,
-.markdown > h5,
-.markdown > h6 {
-  --ifm-h1-font-size: 2rem;
-  --ifm-h2-font-size: 1.5rem;
-  --ifm-h3-font-size: 1.25rem;
-  --ifm-h4-font-size: 1rem;
-  --ifm-h5-font-size: 0.875rem;
-  --ifm-h6-font-size: 0.85rem;
+p {
+  color: #333333 !important;  /* Darker color for all text */
 }
 
 @font-face {
@@ -901,6 +884,11 @@ a.disabled {
   margin-right: 30px;
 }
 
+.data-info .dot-list.grey-text li {
+  color: #344257;
+  font-weight: 600;
+}
+
 .clear-list {
   padding-left: 0;
 }
@@ -926,19 +914,11 @@ a.disabled {
 }
 
 .tutorial-link {
-  color: #005471;
+  color: #1c446c;
+  font-weight: 600;
   text-decoration: underline;
 }
 
-.section-title {
-  display: inline-block;
-  color: #FFF;
-  font-size: 32px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 40px;
-  margin-bottom: 20px;
-}
 .event-section {
   display: flex;
   flex-direction: column;
@@ -1104,7 +1084,7 @@ a.disabled {
 }
 
 header > h1 {
-  font-size: 2.5rem !important;
+  font-size: 2.5rem;
 }
 
 strong {
@@ -1523,7 +1503,7 @@ p {
 
 .network-info-list {
   list-style-type: disc;
-  margin-left: 20px;
+  margin-left: 30px;
   font-weight: bold;
   color: #333333;
 }
