@@ -41,7 +41,7 @@ contract's job a simple one, since the DA attestations will already be
 on-chain. Please reach out to the Avail team for more information or
 to join our early access program.
 
-### What is Validium?
+### What are Validiums?
 
 Validiums are scaling solutions that are using off-chain computation and
 validity proofs, but data is not stored on Ethereum chain which significantly
@@ -50,13 +50,13 @@ like _ZK-SNARK_ or _ZK-STARK_ in which one party can prove to another party that
 while the prover avoids disclosure of additional information apart from the fact that the statement is indeed true.
 Validity of all transactions is enforced using validity proofs while data availability is kept off chain.
 User can withdraw funds by providing a Merkle proof which can prove inclusion of the users withdrawal transaction and allow
-the on-chain contract to process withdrawal. Validium interact with the Ethereum with a collection of contracts
+the on-chain contract to process withdrawal. Validium interact with Ethereum with a collection of contracts
 including main _attestation_ contract that stores state commitments (Merkle data roots) submitted by the block produce and
 _verification_ contract which verifies the validity proof when making state transitions.
 
 ## Verify data availability on Ethereum
 
-In order to verify data availability on the Ethereum it is necessary
+In order to verify data availability on Ethereum it is necessary
 to first submit data to Avail as a data submission transaction. Data
 submitted this way will be included in Avail blocks, but not
 interpreted or executed in any way. The submission can be done using
@@ -327,10 +327,10 @@ async function getDataRoot(availApi, blockHash) {
 </details>
 :::
 Dispatching data root will trigger an optimistic bridge which will bridge the data root to the Ethereum network. Since the bridge
-is optimistic, it is necessary to wait for 30 minutes before the data root is available on the Ethereum network.
+is optimistic, it is necessary to wait for 30 minutes before the data root is available on Ethereum.
 
-After successfully bridging data root to the main data availability attestation contract on the Ethereum network,
-it is possible to prove that data is available on Avail network by submitting a Merkle proof to the verification contract.
+After successfully bridging data root to the main data availability attestation contract on Ethereum,
+it is possible to prove that data is available on the Avail network by submitting a Merkle proof to the verification contract.
 Fetching proof from Avail can be done via RPC call `kate_queryDataProof` for
 example `availApi.rpc.kate.queryDataProof(transactionIndex, hashBlock);`
 where `transactionIndex` is index of the transaction in the block and `hashBlock` which is a hash of the block in which
@@ -542,7 +542,7 @@ async function getProof(availApi, hashBlock, transactionIndex) {
 }
 
 /**
- * Checks if the provided Merkle proof is valid by checking on the Ethereum deployed validation contract.
+ * Checks if the provided Merkle proof is valid by checking on Ethereum deployed validation contract.
  *
  * @param sepoliaApi Sepolia network api instance
  * @param blockNumber Avail block number

@@ -1,7 +1,6 @@
 export const contentData = {
     linksCard: [
         {
-            iconSrc: '/img/avail-logo.png',
             title: 'Run a Node',
             cardLink: '/node/node-types/',
             blockInfo: [
@@ -19,13 +18,12 @@ export const contentData = {
                     link: '/node/full-node/full-node-binaries/'
                 },
                 {
-                    title: 'Run an Archive Node',
-                    link: '/node/avail-archive-node/'
+                    title: 'Run a Relay Node',
+                    link: '/node/avail-relay-node/'
                 }
             ]
         },                
         {
-            iconSrc: '/img/avail-logo.png',
             title: 'Become a Validator',
             cardLink: 'validators/validator-node/validator-binaries/',
             blockInfo: [
@@ -49,7 +47,6 @@ export const contentData = {
             ]
         },        
         {
-            iconSrc:'/img/avail-logo.png',
             title: 'Build Modular Solutions',
             cardLink: '/api/communicating-with-avail/',
             blockInfo: [

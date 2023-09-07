@@ -72,7 +72,7 @@ A pruned node refers to a type of node configuration where certain
 historical data is removed or pruned from Avails storage, reducing the
 disk space requirements while maintaining the ability to participate
 in the network.  When a Avail node operates as a pruned node, it
-retains only the most recent state of Avail network and discards or
+retains only the most recent state of the Avail network and discards or
 removes older historical data, such as past blocks and
 transactions. The pruning process allows the node to save disk space
 by selectively discarding data that is no longer needed for the

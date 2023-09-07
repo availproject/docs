@@ -54,10 +54,6 @@ to the Avail team.
 
 At this point, you should have shell access with root privileges to a linux machine.
 
-## Initial Setup
-
-At this point, you should have shell access with root privileges to a linux machine.
-
 ### Install Docker
 
 If you do not have Docker installed, please follow the installation instructions [here](https://docs.docker.com/engine/install/).
@@ -137,7 +133,7 @@ Download the Correct Chaispec file for the network in our case we are using the 
    
    | Network      |Docker Hub |  Chain Specification File | Chain Info Reference|
    |--------------|-----------|--------------------------|----------------------|
-   | Kate Testnet |[Releases](https://hub.docker.com/r/availj/avail/tags)|[chainspec.raw.json](/kate/chainspec.raw.json) | [Chain Info](/kate/chaininfo.txt) |
+   | Kate Testnet |[Releases](https://hub.docker.com/r/availj/avail/tags)|[chainspec.raw.json](https://kate.avail.tools/#/explorer/chainspec) | [Chain Info](https://availproject.github.io/assets/files/chaininfo-de1eeff4d63715bbec85aae81a956d40.txt) |
 
 In our case we will download the chainspec into our config folder as `kate-chainspec.raw.json`
 
@@ -228,9 +224,14 @@ with their own key:
   be used for account-related activities like submitting extrinsics.
 
 You can create the two accounts via the Explorer interface. The Kate
-network explorer is at [kate.avail.tools](https://kate.avail.tools/),
-for other networks refer to the [Avail
-Networks](/join-the-network/networks) page.
+network explorer is at [kate.avail.tools](https://kate.avail.tools/)
+
+<!-- Network info currently displayed on landing page
+but there is only one network of interest at the moment.
+
+for other networks refer to the [Avail Networks]() page.
+
+-->
 
 Once you have created the accounts, Ensure each account has enough
 funds to pay the fees for making transactions. For validators
@@ -259,10 +260,8 @@ It is now time to set up your validator by doing the following:
 - Select the Controller. This is the account that will decide when to start or stop validating.
 
 First, go to the accounts section on the **Staking** tab in the
-Explorer at
-[kate.avail.tools](https://kate.avail.tools/#/staking/actions) for the
-Kate network (for other networks refer to the [Avail
-Networks](/join-the-network/networks) page). Here, you can perform
+Explorer at [kate.avail.tools](https://kate.avail.tools/#/staking/actions) for the
+Kate network. Here, you can perform
 various staking actions. Click on Stash.
 
 <img src={useBaseUrl("img/avail/staking-bond-1.png")} width="100%" height="100%"/>
