@@ -93,7 +93,7 @@ Below is a curated list of GitHub repositories that are actively tracking the va
 |                          | [Avail Light Bootstrap](https://github.com/availproject/avail-light-bootstrap)| Bootstrap for Avail Light client.                                  |
 |                          | [Avail Light Relay](https://github.com/availproject/avail-light-relay)| Relay for Avail Light client.                                                                   |
 | **Applications**         | [Avail Apps](https://github.com/availproject/avail-apps)             | Repository for applications built on Avail.                                                     |
-| **Substrate Integration**| [Go Substrate RPC Client](https://github.com/availproject/go-substrate-rpc-client)| RPC client for Substrate integration.                               |
+| **Substrate (now part of Polkadot SDK) Integration**| [Go Substrate RPC Client](https://github.com/availproject/go-substrate-rpc-client)| RPC client for Substrate integration.                               |
 |                          | [Substrate](https://github.com/availproject/substrate)               | Fork of Substrate for Avail.                                                                    |
 | **Explorations**         | [Avail Explorations](https://github.com/availproject/avail-explorations)| Experimental features and research.                                                             |
 |                          | [Avail Sovereign DA Adapter](https://github.com/availproject/avail-sovereign-da-adapter)| Data availability adapter for Sovereign Rollups.                    |

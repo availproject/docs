@@ -61,7 +61,7 @@ to first submit data to Avail as a data submission transaction. Data
 submitted this way will be included in Avail blocks, but not
 interpreted or executed in any way. The submission can be done using
 `Polkadot-JS` which is a collection of tools for communication with
-Substrate based chains.
+chains based on Substrate (which is now part of the Polkadot SDK).
 
 Complete example can be found on [github](https://github.com/availproject/avail/tree/develop/examples/validium).
 
