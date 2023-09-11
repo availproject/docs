@@ -1,9 +1,9 @@
 ---
 id: avail-explorer
-title: How to Use the Avail Explorer
+title: How to Use the Kate Testnet Explorer
 sidebar_label: Use the Explorer
 sidebar_position: 3
-description: Using the Avail Explorer
+description: A comprehensive guide on using the Avail Explorer to interact with the Avail network.
 keywords:
   - docs
   - avail
@@ -14,37 +14,51 @@ slug: avail-explorer
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-The Avail network features a full-featured
-[explorer](https://kate.avail.tools/) that can be used to observe and
-interact with the Avail network in several ways. It can be used to:
+## Introduction
 
-1. Inspect blocks, events, and general network-related data.
-2. Manage your accounts and send transactions.
-3. Participate in governance.
-4. Manually submit
-   [transactions](https://docs.substrate.io/v3/concepts/extrinsics/),
-   make RPC calls, and other development/debugging tasks.
+The [<ins>Kate Testnet Explorer</ins>](https://kate.avail.tools/) serves as a powerful interface for interacting with the Avail network. Whether you're a developer, a validator, or an end-user, the explorer provides you with the tools to inspect network activities, manage accounts, and participate in governance. This guide will walk you through its key features.
 
-## Recent Blocks Overview
+### Quick Navigation
 
-The default explorer page displays recent blocks as they are produced
-by the chain:
+- [Inspect Network Data](#inspect-network-data)
+- [Manage Accounts](#manage-accounts)
+- [Participate in Governance](#participate-in-governance)
+- [Advanced Features](#advanced-features)
+
+## Inspect Network Data
+
+### Recent Blocks Overview
+
+The default page of the explorer displays the most recently produced blocks, allowing you to monitor network activity in real-time.
 
 ![Avail Explorer](/img/avail/explorer.png)
 
-## Block Details
+### Block Details
 
-Clicking on a block number (or block "height") opens up a detailed
-view of that block:
+Clicking on a block number (or block "height") will open a detailed view of that block, including transactions, validators, and more.
 
 ![Avail Explorer Block Detail](/img/avail/explorer-block-detail.png)
 
+## Manage Accounts
+
+The explorer allows you to create, manage, and recover accounts. You can also initiate transactions, stake tokens, and more. To learn how to create an account, check out the [<ins>Create and Manage Accounts guide</ins>](/docs/about/accounts.md).
+
+## Participate in Governance
+
+From proposals to referenda, the explorer provides you with the tools to actively participate in network governance.
+
+## Advanced Features
+
+### Manual Transactions and RPC Calls
+
+For developers and advanced users, the explorer offers features like manually submitting [transactions](https://docs.substrate.io/v3/concepts/extrinsics/), making RPC calls, and other debugging tasks.
+
 :::info Confidence
 
-The explorer hosts a light client which performs DAS to verify data
-availability. The very latest blocks will not display a confidence
-score until that process is complete. Note that your own light clients
-may be configured to guarantee a higher degree of confidence. See our
-[FAQ](/faq) for more information.
+The explorer hosts a light client that performs Data Availability Sampling (DAS) to verify data availability. The very latest blocks may not display a confidence score until this process is complete. For more information, see our [FAQ](/faq).
 
 :::
+
+## Conclusion
+
+The Avail Explorer is a versatile tool for anyone involved in the Avail network. Whether you're inspecting blocks, managing accounts, or participating in governance, the explorer offers a comprehensive set of features to meet your needs.
