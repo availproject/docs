@@ -2,7 +2,7 @@
 id: light-client-setup
 title: How to Run a Light Client
 sidebar_label: Run a Light Client
-sidebar_position: 5
+sidebar_position: 6
 description: Learn how to run an Avail Light Client
 keywords:
   - docs
