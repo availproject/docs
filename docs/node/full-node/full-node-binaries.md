@@ -15,21 +15,11 @@ image: https://availproject.github.io/img/avail/AvailDocs.png
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-This guide provides step-by-step instructions on how to set up and run a full node for the Avail network using pre-compiled binaries. Whether you're a beginner or an experienced node operator, this guide aims to make the process as straightforward as possible.
+This guide provides step-by-step instructions on how to set up and run a full node for the Avail network using pre-compiled binaries. Whether you're a beginner or an experienced node operator, this guide aims to make the process straightforward.
 
 ## Quick Setup
 
 For those looking to quickly and effortlessly set up a full node, this section provides a streamlined approach.
-
-### Step 1: Download Required Files
-
-Download the node binary and chain specification file for the network you want to join:
-
-| Network      | Node Binary           | Chain Specification File | Chain Info Reference |
-|--------------|-----------------------|--------------------------|----------------------|
-| Kate Testnet | [v1.6.2-rc1](https://github.com/availproject/avail/releases/tag/v1.6.2-rc1) | [chainspec.raw.json](https://kate.avail.tools/#/explorer/chainspec) | [Chain Info](https://availproject.github.io/assets/files/chaininfo-de1eeff4d63715bbec85aae81a956d40.txt) |
-
-### Step 2: Initialize the Node
 
 Unpack both files into a folder and run the node from that folder. Adjust for platform or version in the downloaded binary name:
 
@@ -108,7 +98,7 @@ If you are working on the node itself, it can be useful to run a local dev node 
 
 :::
 
-## Archive Mode
+#### Archive Mode
 
 To run an archive node, you must first review the [full node setup guide](/validators/run-avail/full-node-setup). You will complete all the same steps. The only difference is you will add `--pruning archive` to the parameters.
 
@@ -129,4 +119,8 @@ Example for an archive node start command:
                 /dns/gateway-fullnode-003.testnet.avail.tools/tcp/30333/p2p/12D3KooWBNy1vzragtwiummqXwry19h6dke68hybY6jVeEH4mAtT
 ```
 
-Congratulations! You are now running an Avail full node. 🎉
+### Step 5: Next Steps
+
+Congratulations! You've successfully set up and are running an Avail full node using Docker. 🎉
+
+[...]

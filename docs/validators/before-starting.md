@@ -71,6 +71,13 @@ When configuring your environment, take into account the following:
 
 **Port 30333** is typically required for peer exchange. Ensure that this port, along with any others needed for machine access, is open when configuring your firewall or your cloud provider's security groups.
 
+### Installation Packages for Full Node
+
+| Installation Type | Network      | Source/Hub             | Chain Specification File                                      | Chain Info Reference                                                               |
+|-------------------|--------------|------------------------|---------------------------------------------------------------|------------------------------------------------------------------------------------|
+| Docker            | Kate Testnet | [Docker Hub](https://hub.docker.com/r/availj/avail/tags)      | [chainspec.raw.json](https://kate.avail.tools/#/explorer/chainspec)                 | [Chain Info](https://availproject.github.io/assets/files/chaininfo-de1eeff4d63715bbec85aae81a956d40.txt) |
+| Binaries          | Kate Testnet | [v1.6.2-rc1](https://github.com/availproject/avail/releases/tag/v1.6.2-rc1) | [chainspec.raw.json](https://kate.avail.tools/#/explorer/chainspec)                 | [Chain Info](https://availproject.github.io/assets/files/chaininfo-de1eeff4d63715bbec85aae81a956d40.txt) |
+
 ### Disk Setup Example
 
 For disk setup, you'll typically have a root partition for the operating system on one device, and one or more separate devices for storing blockchain data. In this guide, we'll assume the additional storage device is mounted at `/mnt/avail`.
