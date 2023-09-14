@@ -125,6 +125,7 @@ module.exports = {
             "validators/validator-node/validator-docker",
           ],
         },
+        "validators/validator-staking",
         "validators/avail-backup-node",
         "validators/avail-upgrade-validator-node",
         "validators/avail-monitoring-validator-node",
