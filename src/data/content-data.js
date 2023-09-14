@@ -1,8 +1,8 @@
 export const contentData = {
     linksCard: [
         {
-            title: 'Run a Node',
-            cardLink: '/node/node-types/',
+            title: 'Operate a Node',
+            cardLink: '/category/operate/',
             blockInfo: [
                 'Optimal Performance',
                 'Low Barrier to Entry',
@@ -15,7 +15,7 @@ export const contentData = {
                 },
                 {
                     title: 'Run a Full Node',
-                    link: '/node/full-node/full-node-binaries/'
+                    link: '/category/full-node/'
                 },
                 {
                     title: 'Run a Relay Node',
@@ -25,7 +25,7 @@ export const contentData = {
         },                
         {
             title: 'Become a Validator',
-            cardLink: 'validators/validator-node/validator-binaries/',
+            cardLink: '/category/become-a-validator/',
             blockInfo: [
                 'Network Security',
                 'Governance Participation',
@@ -34,7 +34,7 @@ export const contentData = {
             tutorialsInfo: [
                 {
                     title: 'Run a Validator Node',
-                    link: 'validators/validator-node/validator-binaries/'
+                    link: '/category/run-a-validator-node/'
                 },
                 {
                     title: 'Upgrade Your Validator',
