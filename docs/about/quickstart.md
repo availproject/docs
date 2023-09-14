@@ -50,14 +50,12 @@ The Kate testnet offers a multitude of avenues for user engagement:
 | Run a Light Client  | [<ins>Guide</ins>](/docs/node/light-client.md)  | No            | No      | Moderate                 | 1.6.0-rc1      | [<ins>v1.6.0-rc1</ins>](https://github.com/availproject/avail-light/releases/tag/v1.6.0-rc1) | [<ins>Config</ins>](/configs/kate/avail-light-1.4.3/config.yaml) |
 | Become a Validator  | [<ins>Guide</ins>](/docs/category/become-a-validator/) | Yes           | Yes     | Advanced                 | 1.6.3          | [<ins>v1.6.3</ins>](https://github.com/availproject/avail/releases/tag/v1.6.3) | N/A |
 
-### Kate Testnet Technical Details
+### Kate Testnet Details
 
-| Information         | Details                                         |
-|---------------------|--------------------------------------------------|
-| Explorer            | [<ins>https://kate.avail.tools</ins>](https://kate.avail.tools) |
-| RPC Endpoint        | [<ins>https://kate.avail.tools/v1</ins>](https://kate.avail.tools/v1) |
-| WS Endpoint         | [<ins>wss://kate.avail.tools/ws</ins>](wss://kate.avail.tools/ws) |
-| Chain Spec          | chainspec.raw.json                              |
-| Chain Info          | chaininfo.txt                                   |
-
+- **Explorer**: Navigate the blockchain with ease using our [<ins>Explorer</ins>](https://kate.avail.tools).
+- **Endpoints**: 
+  - **RPC**: Connect directly via our [<ins>RPC Endpoint</ins>](https://kate.avail.tools/v1).
+  - **WebSocket**: For real-time updates, use our [<ins>WebSocket Endpoint</ins>](wss://kate.avail.tools/ws).
+- **Chain Specifications**: Interested in the nitty-gritty? Check out the [<ins>chainspec.raw.json</ins>](https://kate.avail.tools/#/explorer/chainspec).
+- **Chain Info**: For a textual overview, refer to `chaininfo.txt`.
 ---
