@@ -24,13 +24,13 @@ While Avail diverges from conventional blockchain frameworks to concentrate on m
 | Node Type       | Storage Requirement | Network Role | Special Features | Use Case |
 |-----------------|---------------------|--------------|------------------|----------|
 | Light Clients   | Low                 | Interaction  | Minimal Storage  | Quick Queries, Low-resource Environments |
-| Full Nodes      | Moderate            | Core         | Fast Access      | Transaction Verification, Data Retrieval |
+| Full Nodes      | Moderate            | Core         | Network Access      | Transaction Verification, Data Retrieval |
 | Validator Nodes | Moderate            | Core         | Block Production | Network Security, Governance |
-| Archive Nodes   | High                | Auxiliary    | Historical Data  | Auditing, Compliance |
+| Archive Nodes   | High                | Auxiliary    | Historical Data  | Auditing, Compliance, Reference |
 | Pruned Nodes    | Variable            | Core         | Disk Space Efficiency | Limited Storage Environments |
 | RPC Nodes       | Moderate            | Gateway      | API Exposure     | Development, Remote Access |
 | Bootstrap Nodes | Low                 | Initial      | Network Entry    | Network Initialization |
-| Relay Nodes     | Moderate            | Mediator     | Connectivity     | NAT Traversal, Firewall Bypass |
+| Relay Nodes     | Moderate            | Mediator     | Connectivity     | NAT Traversal; Firewall Bypass |
 
 ## Overview of Node Types
 
