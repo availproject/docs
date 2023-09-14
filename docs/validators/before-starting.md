@@ -32,3 +32,9 @@ When configuring your environment, take into account the following:
 ## Alternate Networks & Releases Information
 
 The instructions provided here are specifically for the **Kate testnet**. If you need to connect to a different network, you may have to download an alternate node version from the [node releases page](https://github.com/availproject/avail/releases) and obtain the corresponding chain specification file. If you have any questions or require assistance, don't hesitate to reach out to the Avail team.
+
+## How Many Tokens Do I Need to Become an Active Validator?
+
+To become an active validator, you'll need a certain number of tokens for staking. Please refer to the [Faucet guide](/docs/about/faucet.md) on obtaining test AVL tokens.
+
+If you have any questions or need further assistance, don't hesitate to get in touch with the Avail team for guidance and support.
