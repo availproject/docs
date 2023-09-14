@@ -16,11 +16,13 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 :::note Hardware environment tips
 
-While we do not favor any operating system, more secure and stable Linux server distributions (like CentOS) should be preferred over desktop operating systems (like Mac OS and Windows).
-
-The minimum storage requirements will change over time as the network grows. It is recommended to use more than the minimum requirements to run a robust full node.
+* Linux server distributions are recommended.
+* Use more than the minimum requirements to run a full node.
 
 :::
+
+While we do not favor any operating system, more secure and stable Linux server distributions (like CentOS) should be preferred over desktop operating systems (like Mac OS and Windows). Also, the minimum storage requirements will change over time as the network grows. 
+It is recommended to use more than the minimum requirements to run a robust full node.
 
 This is the hardware configuration required to set up a validator node:
 
