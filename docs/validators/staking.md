@@ -134,7 +134,7 @@ After submitting this extrinsic, you will notice **Set Session Key**
 changed to **Validate**. Ensure your node is in sync before
 proceeding.
 
-## Becoming a Validator
+## Register as a Validator
 
 If you are ready to start validating you must click **Validate**
 

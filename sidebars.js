@@ -87,6 +87,7 @@ module.exports = {
       },
       collapsed: false,
       items: [
+        "node/node-types",
         "validators/validator-system-requirements",
         "validators/validator-before-starting",
         {
@@ -97,7 +98,6 @@ module.exports = {
           },
           collapsed: false,
           items: [
-            "node/node-types",
             {
               type: "category",
               label: "Full Node",
