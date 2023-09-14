@@ -81,7 +81,7 @@ module.exports = {
     },
     {
       type: "category",
-      label: "Maintain",
+      label: "Operate",
       link: {
         type: "generated-index",
       },
