@@ -67,19 +67,6 @@ module.exports = {
     "about/introduction",
     {
       type: "category",
-      label: "System Design",
-      link: {
-        type: "generated-index",
-      },
-      collapsed: true,
-      items: [
-        "about/introduction/app-id",
-        "about/introduction/light-client",
-        "about/introduction/validiums",
-      ],
-    },
-    {
-      type: "category",
       label: "Get Started",
       link: {
         type: "generated-index",
@@ -90,6 +77,19 @@ module.exports = {
         "about/avail-explorer",
         "about/testnet-faucet",
         "about/quickstart",
+      ],
+    },
+    {
+      type: "category",
+      label: "System Design",
+      link: {
+        type: "generated-index",
+      },
+      collapsed: true,
+      items: [
+        "about/introduction/app-id",
+        "about/introduction/light-client",
+        "about/introduction/validiums",
       ],
     },
     {
