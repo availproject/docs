@@ -1,6 +1,6 @@
 ---
 id: node-types
-title: Types of Nodes in the Avail Network
+title: What are the Types of Nodes in the Avail Network?
 sidebar_label: Types of Nodes
 sidebar_position: 1
 description: Understand the various types of nodes in the Avail network and their unique functionalities.
@@ -15,11 +15,11 @@ slug: node-types
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-## Overview
+## Introduction
 
 While Avail diverges from conventional blockchain frameworks to concentrate on modular solutions tailored for data availability, it continues to utilize a diverse array of node types. These nodes differ in their functions, storage needs, and levels of engagement within the network.
 
-## Node Types Comparison Table
+## Node Types Comparison
 
 | Node Type       | Storage Requirement | Network Role | Special Features | Use Case |
 |-----------------|---------------------|--------------|------------------|----------|
@@ -65,3 +65,9 @@ Bootstrap nodes serve as initial connection points for new nodes joining the net
 ### Relay Nodes
 
 Relay nodes act as intermediaries to enable communication between peers that cannot establish a direct connection, often due to firewalls or NAT issues.
+
+## Next Steps
+
+Now that you have a comprehensive understanding of the various node types within the Avail network, it's recommended to take your first step by setting up a Light Client. Before you begin, make sure to review the [<ins>System Requirements</ins>](/docs/validators/requirements.md) and [<ins>Before You Start</ins>](/docs/validators/before-starting.md) guides. Once you're ready, you can proceed to the [<ins>Light Client Deployment guide</ins>](/docs/node/light-client.md) to get started.
+
+> Light Clients provide an accessible entry point to the Avail network, enabling quick interactions without storing the full blockchain. Ideal for newcomers, they play an integral role in maintaining a robust data availability layer.
