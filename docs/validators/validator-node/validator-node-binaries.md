@@ -13,24 +13,22 @@ image: https://availproject.github.io/img/avail/AvailDocs.png
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-:::info Onboarding validators
+## Preliminaries
 
-Please join our Discord for up-to-date information on our network and
-validator onboarding.
-
-:::
+Validator nodes hold a pivotal role in maintaining network integrity by staking real-value tokens. Successfully managing a validator comes with a comprehensive grasp of node operations, hardware configuration, and constant vigilance. Validators face the potential consequences of penalties, such as slashing, for infractions like extended periods of offline activity or equivocation. This responsibility underscores the need for a profound understanding of the associated risks.
 
 :::warning System administration
 
-Although Avail is in testnet phase, in general, users should have
-**significant system administration experience** when running
-validator nodes.
+While Avail is currently in its testnet phase, running validator nodes requires significant system administration expertise.
 
-Validator nodes are responsbile for maintaining and securing the
-network by staking tokens with real value. Validators need to
-understand how to manage their node, its associated hardware &
-configuration, and be wary that they are subject to being slashed due
-to actions like being offline or equivocation.
+:::
+
+Becoming a validator is a significant responsibility because mistakes or errors can jeopardize not just your tokens but also your reputation, given your role in managing both your stake and that of your nominators. Despite these challenges, it offers a rewarding chance to enhance network security and be incentivized.
+
+:::info Onboarding
+
+Please join the [<ins>Avail Discord</ins>](https://discord.com/invite/y6fHnxZQX8) for up-to-date information on the Kate Testnet and
+validator onboarding.
 
 :::
 
