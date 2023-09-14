@@ -1,7 +1,7 @@
 ---
 id: managing-accounts
 title: How to Create and Manage an Avail Account
-sidebar_label: Create and Manage Account
+sidebar_label: Create an Account
 sidebar_position: 2
 description: Comprehensive guide on creating and managing Avail accounts.
 keywords:

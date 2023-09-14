@@ -122,6 +122,7 @@ module.exports = {
           },
           collapsed: false,
           items: [
+            "validators/validator-already-running-full-node",
             {
               type: "category",
               label: "Run a Validator Node",
