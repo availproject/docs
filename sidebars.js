@@ -110,7 +110,7 @@ module.exports = {
           link: {
             type: "generated-index",
           },
-          collapsed: false,
+          collapsed: true,
           items: [
             {
               type: "category",
@@ -134,7 +134,7 @@ module.exports = {
           link: {
             type: "generated-index",
           },
-          collapsed: false,
+          collapsed: true,
           items: [
             "validators/validator-already-running-full-node",
             {
