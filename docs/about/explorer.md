@@ -2,7 +2,7 @@
 id: avail-explorer
 title: How to Use the Kate Testnet Explorer
 sidebar_label: Use the Explorer
-sidebar_position: 3
+sidebar_position: 4
 description: A comprehensive guide on using the Avail Explorer to interact with the Avail network.
 keywords:
   - docs

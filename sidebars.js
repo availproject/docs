@@ -89,7 +89,7 @@ module.exports = {
         "about/managing-accounts",
         "about/avail-explorer",
         "about/testnet-faucet",
-        "about/light-client-setup",
+        "about/quickstart",
       ],
     },
     {
@@ -103,6 +103,7 @@ module.exports = {
         "node/node-types",
         "validators/validator-system-requirements",
         "validators/validator-before-starting",
+        "node/light-client-setup",
         {
           type: "category",
           label: "Run a Node",
