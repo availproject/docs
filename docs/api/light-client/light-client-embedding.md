@@ -20,13 +20,6 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-## When and how to embed the light client
-
-The Avail light client plays a vital role in ensuring the availability and correctness of data within the Avail network. By employing random sampling, it achieves security levels comparable to full nodes. Furthermore, by leveraging the peer-to-peer network, it enhances overall data availability while reducing the load on full nodes.  
-The light client is capable of downloading and verifying application-specific data submitted to Avail, which can be conveniently queried using the light client API.  
-The light client exposes an HTTP API that enables users to query the status, confidence, and application data for each processed block. When a block is finalized in Avail, the light client performs random sampling and verification, calculates confidence in the given block data, and if the confidence is high, retrieves the application data from the block. This data is then verified and stored locally for easy access.
-
-
 ## Examples
 
 ### Fetching the number of the latest block processed by light client

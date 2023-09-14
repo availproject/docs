@@ -67,6 +67,19 @@ module.exports = {
     "about/introduction",
     {
       type: "category",
+      label: "Introduction",
+      link: {
+        type: "generated-index",
+      },
+      collapsed: false,
+      items: [
+        "about/introduction/app-id",
+        "about/introduction/light-client",
+        "about/introduction/validiums",
+      ],
+    },
+    {
+      type: "category",
       label: "Get Started",
       link: {
         type: "generated-index",
