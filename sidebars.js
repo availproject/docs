@@ -81,32 +81,7 @@ module.exports = {
     },
     {
       type: "category",
-      label: "Run a Node",
-      link: {
-        type: "generated-index",
-      },
-      collapsed: false,
-      items: [
-        "node/node-types",
-        {
-          type: "category",
-          label: "Full Node",
-          link: {
-            type: "generated-index",
-          },
-          items: [
-            "node/full-node/full-node-binaries",
-            "node/full-node/full-node-docker",
-          ],
-        },
-        "node/avail-rpc-node",
-        "node/avail-bootstrap-node",
-        "node/avail-relay-node",
-      ],
-    },
-    {
-      type: "category",
-      label: "Become a Validator",
+      label: "Maintain",
       link: {
         type: "generated-index",
       },
@@ -116,20 +91,55 @@ module.exports = {
         "validators/validator-before-starting",
         {
           type: "category",
-          label: "Run a Validator Node",
+          label: "Run a Node",
           link: {
             type: "generated-index",
           },
+          collapsed: false,
           items: [
-            "validators/validator-node/validator-binaries",
-            "validators/validator-node/validator-docker",
+            "node/node-types",
+            {
+              type: "category",
+              label: "Full Node",
+              link: {
+                type: "generated-index",
+              },
+              items: [
+                "node/full-node/full-node-binaries",
+                "node/full-node/full-node-docker",
+              ],
+            },
+            "node/avail-rpc-node",
+            "node/avail-bootstrap-node",
+            "node/avail-relay-node",
           ],
         },
-        "validators/validator-staking",
-        "validators/avail-backup-node",
-        "validators/avail-upgrade-validator-node",
-        "validators/avail-monitoring-validator-node",
-        "validators/avail-chilling",
+        {
+          type: "category",
+          label: "Become a Validator",
+          link: {
+            type: "generated-index",
+          },
+          collapsed: false,
+          items: [
+            {
+              type: "category",
+              label: "Run a Validator Node",
+              link: {
+                type: "generated-index",
+              },
+              items: [
+                "validators/validator-node/validator-binaries",
+                "validators/validator-node/validator-docker",
+              ],
+            },
+            "validators/validator-staking",
+            "validators/avail-backup-node",
+            "validators/avail-upgrade-validator-node",
+            "validators/avail-monitoring-validator-node",
+            "validators/avail-chilling",
+          ],
+        },
       ],
     },
     {
