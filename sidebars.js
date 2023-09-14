@@ -67,7 +67,7 @@ module.exports = {
     "about/introduction",
     {
       type: "category",
-      label: "Introduction",
+      label: "System Design",
       link: {
         type: "generated-index",
       },
