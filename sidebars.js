@@ -71,7 +71,7 @@ module.exports = {
       link: {
         type: "generated-index",
       },
-      collapsed: false,
+      collapsed: true,
       items: [
         "about/introduction/app-id",
         "about/introduction/light-client",

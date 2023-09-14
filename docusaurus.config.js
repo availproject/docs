@@ -69,7 +69,7 @@ module.exports = {
             from: '/join-the-network/node-types',
           },
           {
-            to: '/about/light-client-setup',
+            to: '/node/light-client-setup',
             from: '/join-the-network/run-avail/light-client-setup',
           },
           {
