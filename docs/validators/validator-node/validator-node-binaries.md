@@ -32,17 +32,75 @@ understand how to manage their node, its associated hardware &
 configuration, and be wary that they are subject to being slashed due
 to actions like being offline or equivocation.
 
-When in doubt, reach out to the Validator Engagement team.
-
 :::
 
-## Running The Node
+## Already Running a Full Node?
 
-First, explore running a full node as per the 
-[Full Node](/validators/run-avail/full-node-setup)
-instructions. This is to familiarise yourself with running a node.
+If you're already running a full node and wish to transition to a validator node, please note that simply adding the `--validator` flag after your full node has synced will result in an error expecting an archive database. Follow these steps to make the switch:
 
-To run a validator the command line is the same and requires the addition of the `--validator` option to the command. 
+### 1. Stop Your Full Node
+
+Before making any changes, safely stop your running full node.
+
+```bash
+sudo systemctl stop avail-node.service  # Replace 'avail-node.service' with your service name if different
+```
+
+### 2. Purge the Database
+
+Since adding the `--validator` flag after syncing expects an archive database, you'll need to purge the existing database.
+
+```bash
+# Replace the path with your actual data path
+rm -rf /path/to/your/data/directory
+```
+
+### 3. Update Command Line Flags
+
+Modify the command line used for running your full node to include the `--validator` flag.
+  
+For example:
+
+```bash
+./data-avail --validator \
+    --port 30333 \
+    --base-path `pwd`/data \
+    --chain `pwd`/chainspec.raw.json
+```
+
+### 4. Update Systemd Service File
+
+If you were running your full node as a systemd service, update the service file to reflect the new command 
+with the `--validator` flag.
+  
+```bash
+sudo nano /etc/systemd/system/avail-node.service  # Replace 'avail-node.service' with your service name if different
+```
+  
+- Update the `ExecStart` line with the new command.
+  
+- Save and exit the editor.
+
+### 5. Restart the Service
+
+Restart the systemd service to apply the changes:
+
+```bash
+sudo systemctl start avail-node.service  # Replace 'avail-node.service' with your service name if different
+```
+
+### 6. Verify Role
+
+Once your node is up and running, verify that the role displays as "Authority," confirming that you are now running a validator node.
+
+## Run a Validator Node
+
+### 1. Run a Full Node as a Validator
+
+First, follow the steps for running a full node as outlined in the 
+[Full Node Setup Instructions](/validators/run-avail/full-node-setup).
+
+To run a validator, you'll use the same command line as for the full node, but with the addition of the `--validator` option to the command.
 
 For example:
 
@@ -77,15 +135,13 @@ The node will ouput the following when started:
 2023-06-03 20:36:35 🏁 Disk score (seq. writes): 1.91 GiBs
 2023-06-03 20:36:35 🏁 Disk score (rand. writes): 454.66 MiBs
 ```
-:::info Node Role
 
-Note that the Role now has a value of `Authority`, this indicates it is a validator node.
+**Please take note that the role now displays as `Authority`, indicating that your node is operating as a validator node.**
 
-:::
+> If you were previously running a full node and added the `--validator` flag after syncing, you may encounter an error expecting an archive database. In such cases, it's necessary to purge the existing database and then restart the node.
 
-If you were running a full node and added the `--validator` flag after syncing a full node you will get an error that it is expecting an archive database. You can purge the database and restart the node.
+For the best practice, it is highly recommended to run your node as a service.
 
-It is strongly recommended to run your node as a service.
 ```
 sudo tee /etc/systemd/system/availd.service > /dev/null <<'EOF'
 [Unit]
