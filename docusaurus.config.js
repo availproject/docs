@@ -241,12 +241,12 @@ module.exports = {
         target: "_self",
        },
       items: [
-        /*
         {
           href: "/about/introduction/",
           position: 'left',
-          label: 'New to Avail?',
+          label: 'Docs',
         },
+        /*
         {
           href: "/node/node-types/",
           position: 'left',
@@ -265,7 +265,7 @@ module.exports = {
         */
         {
           href: "https://blog.availproject.org/",
-          position: 'right',
+          position: 'left',
           label: 'Blog',
         },
         {
