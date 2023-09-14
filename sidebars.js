@@ -140,7 +140,7 @@ module.exports = {
         "api/communicating-with-avail",
         {
           type: "category",
-          label: "Run a Validator Node",
+          label: "Light Client",
           link: {
             type: "generated-index",
           },
