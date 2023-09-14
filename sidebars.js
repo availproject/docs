@@ -102,7 +102,6 @@ module.exports = {
       items: [
         "node/node-types",
         "validators/validator-system-requirements",
-        "validators/validator-before-starting",
         "node/light-client-setup",
         {
           type: "category",

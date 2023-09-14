@@ -58,24 +58,7 @@ It will also be listed on the [Avail Telemetry](http://telemetry.avail.tools/) s
 
 While the quick setup above is designed for ease and speed, this section is for those who prefer to have more control over the build process by compiling the node from source code. Follow the instructions below if you fall into this category.
 
-### Step 1: Install Dependencies
-
-You may need to adjust these for a different Linux distribution, or if you already have Rust installed. Note that Avail currently requires a nightly Rust build:
-
-```bash
-sudo apt install make clang pkg-config libssl-dev build-essential
-curl https://sh.rustup.rs -sSf | sh
-source $HOME/.cargo/env
-rustup update nightly
-rustup target add wasm32-unknown-unknown --toolchain nightly
-rustc --version # verify rust is working, print the installed version
-```
-
-### Step 2: Download Source Code
-
-Select the appropriate node version from the table in the "Quick Full Node Setup" section above, and download the source. You may also use `git`, but be sure to download a specific release tag.
-
-### Step 3: Compile the Binary
+### Step 1: Compile the Binary
 
 Unpack the sources and build the binary:
 
@@ -83,7 +66,7 @@ Unpack the sources and build the binary:
 cargo build --release -p data-avail
 ```
 
-### Step 4: Run the Node
+### Step 2: Run the Node
 
 Create a working directory and copy the binary into that directory. Follow the rest of the "Quick Full Node Setup" instructions to download the appropriate chain specification file and run the node.
 

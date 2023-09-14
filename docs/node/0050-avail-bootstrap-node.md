@@ -19,43 +19,7 @@ bootstrap nodes play a vital role in network stability and discoverability. They
 It's advisable to deploy multiple bootstrap nodes. A good rule of thumb is to have at least three to five bootstrap nodes to kickstart a new network. 
 Follow the installation and configuration steps below to get your bootstrap node up and running.
 
-## Prerequisites
-
-- A local machine or a cloud-based Virtual Machine (VM)
-- Basic familiarity with command-line operations
-- Rust programming language installed
-
-## Installation Steps
-
-### 1. Install Rust and Dependencies
-
-First, you'll need to install Rust and its toolchain. Open your terminal and run the following commands:
-
-> If you're using a new machine (i.e. Ubuntu), you may need to install essential build tools:
-
-> ```bash
-> sudo apt update
-> sudo apt install build-essential
-> ```
-
-```bash
-curl https://sh.rustup.rs -sSf | sh  # Download and install Rust
-source $HOME/.cargo/env              # Add Rust to your PATH
-rustup update nightly                # Update to the nightly version
-rustup target add wasm32-unknown-unknown --toolchain nightly  # Add WebAssembly target
-rustc --version                      # Verify Rust installation by displaying the version
-```
-
-### 2. Clone the Bootstrap Node Repository
-
-Clone the [Bootstrap Node project repository](https://github.com/availproject/avail-light-bootstrap/tree/main) 
-from GitHub to your local machine or VM:
-
-```bash
-git clone https://github.com/availproject/avail-light-bootstrap.git
-```
-
-### 3. Compile the Binary
+### Step 1: Compile the Binary
 
 Navigate to the cloned project directory and compile the source code:
 
@@ -66,11 +30,11 @@ cargo build --release                 # Compile the project in release mode
 
 Upon successful compilation, you'll find the binary at `target/release/avail-light-bootstrap`.
 
-### 4. Deploy the Binary
+### Step 2: Deploy the Binary
 
 If you've compiled the binary on a local machine, transfer it to your server using `scp` or any other secure method.
 
-### 5. Create and Edit the Configuration File
+### Step 3: Create and Edit the Configuration File
 
 On your server, navigate to the directory where you've placed the binary. Create and edit a `config.yaml` file:
 
