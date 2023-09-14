@@ -1,7 +1,7 @@
 ---
 id: validator-docker
 title: How to Run a Validator Node using Docker
-sidebar_label: Run a Validator Node Using Docker
+sidebar_label: Docker
 sidebar_position: 2
 description: "Learn about running an Avail validator using Docker."
 keywords:

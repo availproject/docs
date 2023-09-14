@@ -1,7 +1,7 @@
 ---
 id: validator-binaries
 title: How to Run a Validator Node using Binaries
-sidebar_label: Run a Validator Node using Binaries
+sidebar_label: Binaries
 sidebar_position: 1
 description: "Learn about running an Avail validator using binaries."
 keywords:
@@ -12,8 +12,6 @@ keywords:
 image: https://availproject.github.io/img/avail/AvailDocs.png
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
-
-## Data Availability Deployments
 
 :::info Onboarding validators
 
