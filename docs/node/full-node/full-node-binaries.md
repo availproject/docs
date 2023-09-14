@@ -1,11 +1,11 @@
 ---
 id: full-node-binaries
-title: How to Run a Full Node using Binaries
-sidebar_label: Run a Full Node using Binaries
+title: Running a Full Node with Binaries
+sidebar_label: Using Binaries
 sidebar_position: 1
-description: "Learn how to run an Avail full node using binaries."
+description: "Discover how to operate an Avail full node through binaries."
 keywords:
-  - docs
+  - documentation
   - avail
   - node
   - full node
@@ -15,130 +15,101 @@ image: https://availproject.github.io/img/avail/AvailDocs.png
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-## Before you Start
+This guide provides step-by-step instructions on how to set up and run a full node for the Avail network using pre-compiled binaries. Whether you're a beginner or an experienced node operator, this guide aims to make the process straightforward.
 
-The instructions below assume a Linux distribution with `apt` (Debian,
-for example), but you may be able to adapt them to a different
-distribution. It's also common for users to run nodes on a cloud
-server. The following list of standard hardware is a recommendation of
-hardware specs that your environment should have:
+## Quick Setup
 
-| Minimum      | Recommended    |
-|--------------|----------------|
-| 4GB RAM      | 8GB RAM        |
-| 2 core CPU   | 4 core CPU     |
-| 20-40 GB SSD | 200-300 GB SSD |
+For those looking to quickly and effortlessly set up a full node, this section provides a streamlined approach.
 
-:::info Alternate networks & releases
+Unpack both files into a folder and run the node from that folder. Adjust for platform or version in the downloaded binary name:
 
-All instructions below are for the **Kate testnet** network. To join a
-different network, you may need to download a different node version
-from the [node releases
-page](https://github.com/availproject/avail/releases) and a chain
-specification file for the specific network. Contact the Avail team if
-you have questions.
+```bash
+./data-avail --port 30333 --base-path `pwd`/data --chain `pwd`/chainspec.raw.json
+```
 
-:::
+The node should output:
 
-## Quick Full Node Setup
+```bash
+2023-06-03 20:36:29 Avail Node
+2023-06-03 20:36:29 ✌️  version 1.6.0-99b85257d6b
+2023-06-03 20:36:29 ❤️  by Anonymous, 2017-2023
+2023-06-03 20:36:29 📋 Chain specification: Avail Kate Testnet
+2023-06-03 20:36:29 🏷  Node name: bewildered-distance-1229
+2023-06-03 20:36:29 👤 Role: FULL
+2023-06-03 20:36:29 💾 Database: RocksDb at /Users/thunder/code/avail/data/chains/Avail Testnet_6831251e-0222-11ee-a2c3-c90377335962/db/full
+2023-06-03 20:36:29 ⛓  Native runtime: data-avail-9 (data-avail-0.tx1.au11)
+2023-06-03 20:36:35 👶 Creating empty BABE epoch changes on what appears to be first startup.
+2023-06-03 20:36:35 🏷  Local node identity is: 12D3KooWPt7odw3aeq7azZDugXjNuUvQNPU58n1VRBzY1YBqsjkr
+2023-06-03 20:36:35 Prometheus metrics extended with avail metrics
+2023-06-03 20:36:35 💻 Operating system: macos
+2023-06-03 20:36:35 💻 CPU architecture: aarch64
+2023-06-03 20:36:35 📦 Highest known block at #0
+2023-06-03 20:36:35 〽️ Prometheus exporter started at 127.0.0.1:9615
+2023-06-03 20:36:35 Running JSON-RPC HTTP server: addr=127.0.0.1:9933, allowed origins=["http://localhost:*", "http://127.0.0.1:*", "https://localhost:*", "https://127.0.0.1:*", "https://polkadot.js.org"]
+2023-06-03 20:36:35 Running JSON-RPC WS server: addr=127.0.0.1:9944, allowed origins=["http://localhost:*", "http://127.0.0.1:*", "https://localhost:*", "https://127.0.0.1:*", "https://polkadot.js.org"]
+2023-06-03 20:36:35 🏁 CPU score: 724.71 MiBs
+2023-06-03 20:36:35 🏁 Memory score: 41.49 GiBs
+2023-06-03 20:36:35 🏁 Disk score (seq. writes): 1.91 GiBs
+2023-06-03 20:36:35 🏁 Disk score (rand. writes): 454.66 MiBs
+```
 
-This is the easiest way to get started.
-
-1. Download the node binary and chain specification file for the
-   network you want to join:
-   
-   | Network      | Node Binary           | Chain Specification File | Chain Info Reference |
-   |--------------|-----------------------|--------------------------|----------------------|
-   | Kate Testnet | [v1.6.2-rc1](https://github.com/availproject/avail/releases/tag/v1.6.2-rc1) | [chainspec.raw.json](https://kate.avail.tools/#/explorer/chainspec) | [Chain Info](https://availproject.github.io/assets/files/chaininfo-de1eeff4d63715bbec85aae81a956d40.txt) |
-
-2. Unpack both files into a folder, and run the node from that folder (adjust for
-   platform or version in the downloaded binary name):
-   ```
-   ./data-avail --port 30333 --base-path `pwd`/data --chain `pwd`/chainspec.raw.json
-   ```
-
-   The node should output:
-   ```
-   2023-06-03 20:36:29 Avail Node
-   2023-06-03 20:36:29 ✌️  version 1.6.0-99b85257d6b
-   2023-06-03 20:36:29 ❤️  by Anonymous, 2017-2023
-   2023-06-03 20:36:29 📋 Chain specification: Avail Kate Testnet
-   2023-06-03 20:36:29 🏷  Node name: bewildered-distance-1229
-   2023-06-03 20:36:29 👤 Role: FULL
-   2023-06-03 20:36:29 💾 Database: RocksDb at /Users/thunder/code/avail/data/chains/Avail Testnet_6831251e-0222-11ee-a2c3-c90377335962/db/full
-   2023-06-03 20:36:29 ⛓  Native runtime: data-avail-9 (data-avail-0.tx1.au11)
-   2023-06-03 20:36:35 👶 Creating empty BABE epoch changes on what appears to be first startup.
-   2023-06-03 20:36:35 🏷  Local node identity is: 12D3KooWPt7odw3aeq7azZDugXjNuUvQNPU58n1VRBzY1YBqsjkr
-   2023-06-03 20:36:35 Prometheus metrics extended with avail metrics
-   2023-06-03 20:36:35 💻 Operating system: macos
-   2023-06-03 20:36:35 💻 CPU architecture: aarch64
-   2023-06-03 20:36:35 📦 Highest known block at #0
-   2023-06-03 20:36:35 〽️ Prometheus exporter started at 127.0.0.1:9615
-   2023-06-03 20:36:35 Running JSON-RPC HTTP server: addr=127.0.0.1:9933, allowed origins=["http://localhost:*", "http://127.0.0.1:*", "https://localhost:*", "https://127.0.0.1:*", "https://polkadot.js.org"]
-   2023-06-03 20:36:35 Running JSON-RPC WS server: addr=127.0.0.1:9944, allowed origins=["http://localhost:*", "http://127.0.0.1:*", "https://localhost:*", "https://127.0.0.1:*", "https://polkadot.js.org"]
-   2023-06-03 20:36:35 🏁 CPU score: 724.71 MiBs
-   2023-06-03 20:36:35 🏁 Memory score: 41.49 GiBs
-   2023-06-03 20:36:35 🏁 Disk score (seq. writes): 1.91 GiBs
-   2023-06-03 20:36:35 🏁 Disk score (rand. writes): 454.66 MiBs
-   ```
-
-   It will also be listed on the [Avail
-   Telemetry](http://telemetry.avail.tools/) site under the "Node
-   name" that appears in the node command output. Note that there are
-   network tabs at the top, select the one for the network you joined.
+It will also be listed on the [Avail Telemetry](http://telemetry.avail.tools/) site under the "Node name" that appears in the node command output. Note that there are network tabs at the top; select the one for the network you joined.
 
 ## Building From Source
 
-We recommend the quick setup above, but if you prefer to build the
-node from source (e.g. if you are developing a pallet or need a
-version for which there aren't binaries available), then follow these
-instructions to build it.
+While the quick setup above is designed for ease and speed, this section is for those who prefer to have more control over the build process by compiling the node from source code. Follow the instructions below if you fall into this category.
 
-1. Install dependencies. You may need to adjust these for a different
-   Linux distribution, or if you already have Rust installed. Note
-   that Avail currently requires a nightly Rust build:
+### Step 1: Install Dependencies
 
-   ```
+You may need to adjust these for a different Linux distribution, or if you already have Rust installed. Note that Avail currently requires a nightly Rust build:
+
+```bash
 sudo apt install make clang pkg-config libssl-dev build-essential
 curl https://sh.rustup.rs -sSf | sh
 source $HOME/.cargo/env
 rustup update nightly
 rustup target add wasm32-unknown-unknown --toolchain nightly
 rustc --version # verify rust is working, print the installed version
-   ```
+```
 
-2. Select the appropriate node version From the table in the "Quick
-   Full Node Setup" section above, and download the source. You may
-   also use `git`, but be sure to download a specific release tag.
+### Step 2: Download Source Code
 
-3. Unpack the sources and build the binary with:
+Select the appropriate node version from the table in the "Quick Full Node Setup" section above, and download the source. You may also use `git`, but be sure to download a specific release tag.
 
-   ```
-   cargo build --release -p data-avail
-   ```
+### Step 3: Compile the Binary
 
-3. Create a working directory and copy the binary into that directory,
-   and follow the rest of the "Quick Full Node Setup" instructions to
-   download the appropriate chain specification file and run the node.
+Unpack the sources and build the binary:
+
+```bash
+cargo build --release -p data-avail
+```
+
+### Step 4: Run the Node
+
+Create a working directory and copy the binary into that directory. Follow the rest of the "Quick Full Node Setup" instructions to download the appropriate chain specification file and run the node.
 
 :::tip Run Avail Locally
 
-If you are working on the node itself, it can be useful to run a local dev node with temporary datastore:
+If you are working on the node itself, it can be useful to run a local dev node with a temporary datastore:
 
-```sh
+```bash
 ./data-avail --dev --tmp
 ```
 
 :::
 
-## Archive Mode
+#### Archive Mode
 
-To run an archive node you must first reveiw the [full node](/validators/run-avail/full-node-setup) setup. You will complete all the same steps. The only difference is you will add `--pruning archive` to the paramaters. 
+To run an archive node, you must first review the [full node setup guide](/validators/run-avail/full-node-setup). You will complete all the same steps. The only difference is you will add `--pruning archive` to the parameters.
 
-When running as a full node, only the state of the past 256 blocks will be kept. Adding `--pruning archive` will store all the data.
+:::info Storage space requirements
+
+An archive node will require more storage over time and the storage space requirements will grow over time.
+:::
 
 Example for an archive node start command:
-```
+
+```bash
 ./data-avail --base-path ~/avail-node/data \
                 --chain ~/avail-node/chainspec.raw.json \
                 --pruning archive \
@@ -148,9 +119,8 @@ Example for an archive node start command:
                 /dns/gateway-fullnode-003.testnet.avail.tools/tcp/30333/p2p/12D3KooWBNy1vzragtwiummqXwry19h6dke68hybY6jVeEH4mAtT
 ```
 
-:::info Storage space requirements
+### Step 5: Next Steps
 
-An archive node will require more storage over time and the storage space requirements will grow over time.
-:::
+Congratulations! You've successfully set up and are running an Avail full node using Docker. 🎉
 
-That's all! You are now running an Avail full node 🎉
+[...]

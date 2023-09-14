@@ -241,26 +241,28 @@ module.exports = {
         target: "_self",
        },
       items: [
+        /*
         {
           href: "/about/introduction/",
           position: 'left',
-          label: 'Get Started',
+          label: 'New to Avail?',
         },
         {
           href: "/node/node-types/",
           position: 'left',
-          label: 'Node Guide',
+          label: 'Run a Node',
         },
         {
           href: "/validators/validator-node/validator-binaries/",
           position: 'left',
-          label: 'Validator Guide',
+          label: 'Maintainer Handbook',
         },
         {
           href: "/api/communicating-with-avail/",
           position: 'left',
           label: 'API Reference',
         },
+        */
         {
           href: "https://blog.availproject.org/",
           position: 'right',

@@ -20,16 +20,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-## When and how to embed the light client
-
-The Avail light client plays a vital role in ensuring the availability and correctness of data within the Avail network. By employing random sampling, it achieves security levels comparable to full nodes. Furthermore, by leveraging the peer-to-peer network, it enhances overall data availability while reducing the load on full nodes.  
-The light client is capable of downloading and verifying application-specific data submitted to Avail, which can be conveniently queried using the light client API.  
-The light client exposes an HTTP API that enables users to query the status, confidence, and application data for each processed block. When a block is finalized in Avail, the light client performs random sampling and verification, calculates confidence in the given block data, and if the confidence is high, retrieves the application data from the block. This data is then verified and stored locally for easy access.
-
-
-## Examples
-
-### Fetching the number of the latest block processed by light client
+## Fetching the number of the latest block processed by light client
 
 To fetch the number of the latest block processed by light client, we can perform `GET` request on `/v1/latest_block` endpoint.
 
@@ -75,7 +66,7 @@ if response.status() == StatusCode::OK {
 </TabItem>
 </Tabs>
 
-### Fetching the confidence for given block
+## Fetching the confidence for given block
 
 To fetch the the confidence for specific block, which is already processed by application client, we can perform `GET` request on `/v1/confidece/{block_number}` endpoint.
 
@@ -127,14 +118,14 @@ if response.status() == StatusCode::OK {
 </TabItem>
 </Tabs>
 
-### Fetching decoded application data for given block
+## Fetching decoded application data for given block
 
 After data is verified, it can be fetched with `GET` request on `/v1/appdata/{block_number}` endpoint, by specifying `decode=true` query parameter.
 
 <Tabs groupId="examples">
 <TabItem value="curl" label="CURL">
 
-#### JSON response
+### JSON response
 
 ```sh
 curl "http://localhost:7000/v1/appdata/1?decode=true"
@@ -151,7 +142,7 @@ Response:
 }
 ```
 
-#### Decoded extrinsic
+### Decoded extrinsic
 
 ```sh
 curl -s "http://127.0.0.1:7000/v1/appdata/1?decode=true" | jq -r '.extrinsics[-1]' | base64 -d
@@ -201,7 +192,7 @@ if response.status() == StatusCode::OK {
 </TabItem>
 </Tabs>
 
-### Waiting for application data to be verified
+## Waiting for application data to be verified
 
 If light client is still processing specific block, we can poll light client with `GET` request on `/v1/appdata/{block_number}` endpoint, and wait for data to became available.
 
