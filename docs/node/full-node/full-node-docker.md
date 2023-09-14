@@ -1,7 +1,7 @@
 ---
 id: full-node-docker
 title: How to Run a Full Node using Docker
-sidebar_label: Run a Full Node Using Docker
+sidebar_label: Docker
 sidebar_position: 2
 description: "Learn how to run an Avail full node using Docker."
 keywords:
