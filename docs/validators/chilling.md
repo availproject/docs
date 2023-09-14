@@ -1,7 +1,7 @@
 ---
 id: avail-chilling
-title: Chill Your Validator
-sidebar_label: How to Chill Your Validator
+title: How to Chill Your Validator
+sidebar_label: Chill Your Validator
 sidebar_position: 5
 description: "Learn about how Chill & Slashing Affect an Avail validator."
 keywords:
