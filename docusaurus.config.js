@@ -73,7 +73,7 @@ module.exports = {
             from: '/join-the-network/run-avail/light-client-setup',
           },
           {
-            to: '/node/full-node/full-node-binaries',
+            to: '/operate/node/full-node/full-node-binaries',
             from: '/join-the-network/run-avail/full-node-setup',
           },
           {
@@ -81,7 +81,7 @@ module.exports = {
             from: '/join-the-network/run-avail/validator-node-setup',
           },
           {
-            to: '/node/full-node/full-node-binaries',
+            to: '/operate/node/full-node/full-node-binaries',
             from: '/join-the-network/run-avail/other-nodes/avail-archive-node',
           },
           {

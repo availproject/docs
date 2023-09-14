@@ -1,5 +1,5 @@
 ---
-id: validator-system-requirements
+id: system-requirements
 title: System Requirements
 sidebar_label: System Requirements
 description: "Learn about running an Avail validator using Docker."
