@@ -112,6 +112,8 @@ module.exports = {
       },
       collapsed: false,
       items: [
+        "validators/validator-system-requirements",
+        "validators/validator-before-starting",
         {
           type: "category",
           label: "Run a Validator Node",
