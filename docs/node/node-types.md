@@ -2,7 +2,6 @@
 id: node-types
 title: What are the Types of Nodes?
 sidebar_label: Types of Nodes
-sidebar_position: 1
 description: Learn about the type of nodes in avail project
 keywords:
   - docs

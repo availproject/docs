@@ -2,7 +2,6 @@
 id: full-node-binaries
 title: Running a Full Node with Binaries
 sidebar_label: Using Binaries
-sidebar_position: 1
 description: "Discover how to operate an Avail full node through binaries."
 keywords:
   - documentation

@@ -2,7 +2,6 @@
 id: introduction
 title: What is Avail?
 sidebar_label: What is Avail
-sidebar_position: 1
 description: Learn about Avail's data availability chain
 keywords:
   - docs

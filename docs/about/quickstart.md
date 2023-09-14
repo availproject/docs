@@ -2,7 +2,6 @@
 id: quickstart
 title: Get Started with the Kate Testnet
 sidebar_label: Quickstart
-sidebar_position: 2
 description: Learn how to run an Avail Light Client
 keywords:
   - docs

@@ -2,7 +2,6 @@
 id: validator-binaries
 title: How to Run a Validator Node using Binaries
 sidebar_label: Using Binaries
-sidebar_position: 1
 description: "Learn about running an Avail validator using binaries."
 keywords:
   - docs

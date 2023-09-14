@@ -2,7 +2,6 @@
 id: avail-monitoring-validator-node
 title: How to Monitor Your Avail Validator Node
 sidebar_label: Monitor Your Validator
-sidebar_position: 5
 description: "Learn about monitoring a validator"
 keywords:
   - docs
