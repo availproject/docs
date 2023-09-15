@@ -13,7 +13,9 @@ image: https://availproject.github.io/img/avail/AvailDocs.png
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-This guide provides a step-by-step walkthrough for setting up a relay node, which can help resolve connectivity issues between network peers. Follow the installation and configuration steps below to get your relay node up and running.
+This guide provides a step-by-step walkthrough for setting up a relay node, which can help resolve connectivity issues between network peers.
+
+Before you start, ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).
 
 ## Step 1: Compile the Binary
 
@@ -26,11 +28,11 @@ cargo build --release                # Compile the project in release mode
 
 Upon successful compilation, the binary will be located at `target/release/avail-light-relay`.
 
-### Step 2: Deploy the Binary
+## Step 2: Deploy the Binary
 
 If you've compiled the binary locally, transfer it to your server using `scp` or another secure method.
 
-### Step 3: Create and Edit the Configuration File
+## Step 3: Create and Edit the Configuration File
 
 On your server, navigate to the directory where you've placed the binary. Create and edit a `config.yaml` file:
 

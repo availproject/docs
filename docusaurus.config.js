@@ -246,6 +246,12 @@ module.exports = {
           position: "left",
           items: [
             {
+              href: '/about/introduction/',
+              label: 'What is Avail',
+              target: '_self',
+              rel: null,
+            },
+            {
               href: '/category/get-started/',
               label: 'Get Started',
               target: '_self',

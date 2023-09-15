@@ -14,12 +14,13 @@ image: https://availproject.github.io/img/avail/AvailDocs.png
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 This guide provides a step-by-step walkthrough for setting up a bootstrap node, which serves as an entry point for light clients in your network.
-bootstrap nodes play a vital role in network stability and discoverability. They help new nodes join the network, assist in peer discovery, and often serve as a fallback mechanism to maintain network connectivity. 
 
 It's advisable to deploy multiple bootstrap nodes. A good rule of thumb is to have at least three to five bootstrap nodes to kickstart a new network. 
 Follow the installation and configuration steps below to get your bootstrap node up and running.
 
-### Step 1: Compile the Binary
+Before you start, ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).
+
+## Step 1: Compile the Binary
 
 Navigate to the cloned project directory and compile the source code:
 
@@ -30,11 +31,11 @@ cargo build --release                 # Compile the project in release mode
 
 Upon successful compilation, you'll find the binary at `target/release/avail-light-bootstrap`.
 
-### Step 2: Deploy the Binary
+## Step 2: Deploy the Binary
 
 If you've compiled the binary on a local machine, transfer it to your server using `scp` or any other secure method.
 
-### Step 3: Create and Edit the Configuration File
+## Step 3: Create and Edit the Configuration File
 
 On your server, navigate to the directory where you've placed the binary. Create and edit a `config.yaml` file:
 

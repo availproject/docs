@@ -60,7 +60,7 @@ RPC nodes expose an API for remote interactions, serving as a gateway for develo
 
 ### Bootstrap Nodes
 
-Bootstrap nodes serve as initial connection points for new nodes joining the network. They provide essential configuration information to facilitate network entry.
+Bootstrap nodes serve as initial connection points for new nodes joining the network. They are essential for network stability and discovery as they help new nodes join the network, discover peers, and maintain connectivity.
 
 ### Relay Nodes
 
