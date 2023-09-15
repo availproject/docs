@@ -242,9 +242,34 @@ module.exports = {
        },
       items: [
         {
-          href: "/about/introduction/",
-          position: 'left',
-          label: 'Docs',
+          label: "Docs",
+          position: "left",
+          items: [
+            {
+              href: '/category/get-started/',
+              label: 'Get Started',
+              target: '_self',
+              rel: null,
+            },
+            {
+              href: '/category/system-design/',
+              label: 'System Design',
+              target: '_self',
+              rel: null,
+            },
+            {
+              href: '/category/run-a-node/',
+              label: 'Run a Node',
+              target: '_self',
+              rel: null,
+            },
+            {
+              href: '/category/become-a-validator/',
+              label: 'Become a Validator',
+              target: '_self',
+              rel: null,
+            },
+          ],
         },
         /*
         {
