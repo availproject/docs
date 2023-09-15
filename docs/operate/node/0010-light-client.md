@@ -14,13 +14,23 @@ slug: light-client-setup
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-## Quick Setup
+This guide outlines how to set up an Avail light client, covering both pre-compiled releases and source compilation.
 
-Unpack both files into a folder, and run the client (adjust for platform or version in the downloaded binary name):
-   
+Before you start, ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).
+We recommend downloading the pre-compiled binary for speed and convenience.
+
+## Run the Pre-Built Release
+
+All you need to do is run:
+
 ```bash
 ./avail-light -c config.yaml
 ```
+
+> Refer to the [configuration reference](https://github.com/availproject/avail-light#config-reference) for configuration options. See the "Using Avail" section for guides on embedding the light client.
+
+<details>
+<summary> Sample out </summary>
 
 The client output should look like this:
 
@@ -47,29 +57,25 @@ The client output should look like this:
 2023-06-04T02:56:44.050133Z  INFO avail_light::light_client: DHT PUT operation success rate: inf block_number=2074
 2023-06-04T02:56:44.050211Z  INFO avail_light::light_client: 4 cells inserted into DHT. Time elapsed: 	160.697ms block_number=2074 partition_dht_insert_time_elapsed=0.160697
 ```
+</details>
 
 That's it! You're running the light client 🎉
-   
-Refer to the [config
-reference](https://github.com/availproject/avail-light#config-reference)
-for available configuration options. And check out the "Using Avail"
-section of these docs for guides and examples for how to interact with
-Avail, embed the light client into your application, and more.
 
-## Building From Source
+## Build and Run From Source
 
-We recommend the binary download above because it's faster and easier,
-but if you need to build the client (e.g. for a platform we don't have
-binaries for), these are the steps to follow:
-
-Build and run the light client:
+To build the client, run:
 
 ```bash
 cd avail-light
 cargo run
 ```
 
-The client will generate a default `config.yaml` file, but it will
-not be connected to any network. Replace the config with the
-appropriate one from the "Quick Setup" section above, and re-run
-the client. That's it!
+The client creates a default `config.yaml` file, initially unconnected to any network.
+
+Once the build is complete, run:
+
+```bash
+./avail-light -c config.yaml
+```
+
+That's it! You're running the light client 🎉
