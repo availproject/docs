@@ -2,7 +2,6 @@
 id: avail-light-client-overview
 title: How to Configure a Light Client
 sidebar_label: Configure a Light Client
-sidebar_position: 1
 description: Short summary of light client use
 keywords:
   - docs

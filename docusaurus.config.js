@@ -69,11 +69,11 @@ module.exports = {
             from: '/join-the-network/node-types',
           },
           {
-            to: '/about/light-client-setup',
+            to: '/node/light-client-setup',
             from: '/join-the-network/run-avail/light-client-setup',
           },
           {
-            to: '/node/full-node/full-node-binaries',
+            to: '/operate/node/full-node/full-node-binaries',
             from: '/join-the-network/run-avail/full-node-setup',
           },
           {
@@ -81,7 +81,7 @@ module.exports = {
             from: '/join-the-network/run-avail/validator-node-setup',
           },
           {
-            to: '/node/full-node/full-node-binaries',
+            to: '/operate/node/full-node/full-node-binaries',
             from: '/join-the-network/run-avail/other-nodes/avail-archive-node',
           },
           {
@@ -241,12 +241,43 @@ module.exports = {
         target: "_self",
        },
       items: [
-        /*
         {
-          href: "/about/introduction/",
-          position: 'left',
-          label: 'New to Avail?',
+          label: "Docs",
+          position: "left",
+          items: [
+            {
+              href: '/about/introduction/',
+              label: 'What is Avail',
+              target: '_self',
+              rel: null,
+            },
+            {
+              href: '/category/get-started/',
+              label: 'Get Started',
+              target: '_self',
+              rel: null,
+            },
+            {
+              href: '/category/system-design/',
+              label: 'System Design',
+              target: '_self',
+              rel: null,
+            },
+            {
+              href: '/category/run-a-node/',
+              label: 'Run a Node',
+              target: '_self',
+              rel: null,
+            },
+            {
+              href: '/category/become-a-validator/',
+              label: 'Become a Validator',
+              target: '_self',
+              rel: null,
+            },
+          ],
         },
+        /*
         {
           href: "/node/node-types/",
           position: 'left',
@@ -265,7 +296,7 @@ module.exports = {
         */
         {
           href: "https://blog.availproject.org/",
-          position: 'right',
+          position: 'left',
           label: 'Blog',
         },
         {

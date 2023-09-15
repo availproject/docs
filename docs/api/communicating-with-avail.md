@@ -2,7 +2,6 @@
 id: communicating-with-avail
 title: Get Started Communicating with Avail
 sidebar_label: Quickstart
-sidebar_position: 1
 description: Examples of how to communicate with Avail
 keywords:
 - docs

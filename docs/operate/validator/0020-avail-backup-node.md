@@ -2,7 +2,6 @@
 id: avail-backup-node
 title: How to Backup Your Avail Validator
 sidebar_label: Backup Your Validator
-sidebar_position: 3
 description: "Learn about backup tasks for Avail validator."
 keywords:
   - docs

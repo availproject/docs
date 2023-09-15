@@ -2,7 +2,6 @@
 id: full-node-binaries
 title: Running a Full Node with Binaries
 sidebar_label: Using Binaries
-sidebar_position: 1
 description: "Discover how to operate an Avail full node through binaries."
 keywords:
   - documentation
@@ -17,17 +16,21 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 This guide provides step-by-step instructions on how to set up and run a full node for the Avail network using pre-compiled binaries. Whether you're a beginner or an experienced node operator, this guide aims to make the process straightforward.
 
-## Quick Setup
+**Before you start, ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).**
+We recommend downloading the pre-compiled binary for speed and convenience.
 
-For those looking to quickly and effortlessly set up a full node, this section provides a streamlined approach.
+## Option 1: Run the Pre-Built Release
 
-Unpack both files into a folder and run the node from that folder. Adjust for platform or version in the downloaded binary name:
+All you need to do is run:
 
 ```bash
 ./data-avail --port 30333 --base-path `pwd`/data --chain `pwd`/chainspec.raw.json
 ```
 
-The node should output:
+<details>
+<summary>Sample Output</summary>
+
+The client output should look like this:
 
 ```bash
 2023-06-03 20:36:29 Avail Node
@@ -53,38 +56,21 @@ The node should output:
 2023-06-03 20:36:35 🏁 Disk score (rand. writes): 454.66 MiBs
 ```
 
-It will also be listed on the [Avail Telemetry](http://telemetry.avail.tools/) site under the "Node name" that appears in the node command output. Note that there are network tabs at the top; select the one for the network you joined.
+</details>
 
-## Building From Source
+Your node will also appear on the [<ins>Avail Telemetry</ins>](http://telemetry.avail.tools/) site, listed under the "Node name" from the node command output. Be sure to select the appropriate network tab at the top to view your node's status.
 
-While the quick setup above is designed for ease and speed, this section is for those who prefer to have more control over the build process by compiling the node from source code. Follow the instructions below if you fall into this category.
+## Option 2: Build From Source
 
-### Step 1: Install Dependencies
+### Step 1: Compile the Binary
 
-You may need to adjust these for a different Linux distribution, or if you already have Rust installed. Note that Avail currently requires a nightly Rust build:
-
-```bash
-sudo apt install make clang pkg-config libssl-dev build-essential
-curl https://sh.rustup.rs -sSf | sh
-source $HOME/.cargo/env
-rustup update nightly
-rustup target add wasm32-unknown-unknown --toolchain nightly
-rustc --version # verify rust is working, print the installed version
-```
-
-### Step 2: Download Source Code
-
-Select the appropriate node version from the table in the "Quick Full Node Setup" section above, and download the source. You may also use `git`, but be sure to download a specific release tag.
-
-### Step 3: Compile the Binary
-
-Unpack the sources and build the binary:
+To compile the client source code, run:
 
 ```bash
 cargo build --release -p data-avail
 ```
 
-### Step 4: Run the Node
+### Step 2: Run the Node
 
 Create a working directory and copy the binary into that directory. Follow the rest of the "Quick Full Node Setup" instructions to download the appropriate chain specification file and run the node.
 

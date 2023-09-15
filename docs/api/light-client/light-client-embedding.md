@@ -2,7 +2,6 @@
 id: embedding-the-light-client
 title: How to Embed Your Light Client
 sidebar_label: Embed Your Light Client
-sidebar_position: 2
 description: How to embed the light client into a dust application
 keywords:
   - docs

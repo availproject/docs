@@ -67,19 +67,6 @@ module.exports = {
     "about/introduction",
     {
       type: "category",
-      label: "Introduction",
-      link: {
-        type: "generated-index",
-      },
-      collapsed: false,
-      items: [
-        "about/introduction/app-id",
-        "about/introduction/light-client",
-        "about/introduction/validiums",
-      ],
-    },
-    {
-      type: "category",
       label: "Get Started",
       link: {
         type: "generated-index",
@@ -94,23 +81,35 @@ module.exports = {
     },
     {
       type: "category",
+      label: "System Design",
+      link: {
+        type: "generated-index",
+      },
+      collapsed: true,
+      items: [
+        "about/introduction/app-id",
+        "about/introduction/light-client",
+        "about/introduction/validiums",
+      ],
+    },
+    {
+      type: "category",
       label: "Operate",
       link: {
         type: "generated-index",
       },
       collapsed: false,
       items: [
-        "node/node-types",
-        "validators/validator-system-requirements",
-        "validators/validator-before-starting",
-        "node/light-client-setup",
+        "operate/node-types",
+        "operate/system-requirements",
+        "operate/node/light-client-setup",
         {
           type: "category",
           label: "Run a Node",
           link: {
             type: "generated-index",
           },
-          collapsed: false,
+          collapsed: true,
           items: [
             {
               type: "category",
@@ -119,13 +118,13 @@ module.exports = {
                 type: "generated-index",
               },
               items: [
-                "node/full-node/full-node-binaries",
-                "node/full-node/full-node-docker",
+                "operate/node/full-node/full-node-binaries",
+                "operate/node/full-node/full-node-docker",
               ],
             },
-            "node/avail-rpc-node",
-            "node/avail-bootstrap-node",
-            "node/avail-relay-node",
+            "operate/node/avail-rpc-node",
+            "operate/node/avail-bootstrap-node",
+            "operate/node/avail-relay-node",
           ],
         },
         {
@@ -134,9 +133,9 @@ module.exports = {
           link: {
             type: "generated-index",
           },
-          collapsed: false,
+          collapsed: true,
           items: [
-            "validators/validator-already-running-full-node",
+            "operate/validator/validator-already-running-full-node",
             {
               type: "category",
               label: "Run a Validator Node",
@@ -144,15 +143,15 @@ module.exports = {
                 type: "generated-index",
               },
               items: [
-                "validators/validator-node/validator-binaries",
-                "validators/validator-node/validator-docker",
+                "operate/validator/validator-node/validator-binaries",
+                "operate/validator/validator-node/validator-docker",
               ],
             },
-            "validators/validator-staking",
-            "validators/avail-backup-node",
-            "validators/avail-upgrade-validator-node",
-            "validators/avail-monitoring-validator-node",
-            "validators/avail-chilling",
+            "operate/validator/validator-staking",
+            "operate/validator/avail-backup-node",
+            "operate/validator/avail-upgrade-validator-node",
+            "operate/validator/avail-monitoring-validator-node",
+            "operate/validator/avail-chilling",
           ],
         },
       ],

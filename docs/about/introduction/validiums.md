@@ -2,7 +2,6 @@
 id: validiums
 title: Avail-Powered Validiums
 sidebar_label: Validiums
-sidebar_position: 1
 description: Learn about Avail's data availability chain
 keywords:
   - docs

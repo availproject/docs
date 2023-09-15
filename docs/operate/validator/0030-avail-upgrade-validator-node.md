@@ -2,7 +2,6 @@
 id: avail-upgrade-validator-node
 title: How to Upgrade Your Avail Validator
 sidebar_label: Upgrade Your Validator
-sidebar_position: 4
 description: "Learn about upgrading a validator"
 keywords:
   - docs

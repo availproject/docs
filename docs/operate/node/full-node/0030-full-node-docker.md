@@ -1,8 +1,7 @@
 ---
 id: full-node-docker
-title: Running a Full Node with Docker
+title: How to Run a Full Node with Docker
 sidebar_label: Using Docker
-sidebar_position: 2
 description: "This step-by-step guide will walk you through the process of setting up and running an Avail full node using Docker."
 keywords:
   - docs
@@ -18,11 +17,11 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 This guide provides step-by-step instructions for setting up and running a full node on the Avail network using Docker. Whether you're new to node operation or have prior experience, this guide is designed to make the setup process straightforward.
 
-## Step 1: Initial Setup
+**Before you start, ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).**
 
-### Download the Chainspec Configuration
+## Step 1: Download the Kate Testnet Chain Specification
 
-First, you'll need to download the Chainspec configuration file for the network you intend to join. For this example, we'll use `kate-chainspec.raw.json` for the Kate Testnet.
+First, you'll need to download the `kate-chainspec.raw.json` Chainspec configuration file.
 
 ```bash
 curl -L -o /mnt/avail/config/kate-chainspec.raw.json https://raw.githubusercontent.com/availproject/availproject.github.io/main/static/configs/kate/chainspec.raw.json
@@ -30,14 +29,24 @@ curl -L -o /mnt/avail/config/kate-chainspec.raw.json https://raw.githubuserconte
 
 ## Step 2: Launch Your Avail Node
 
-### Execute the Docker Command
-
-With the Chainspec configuration securely downloaded, you're now ready to launch your Avail node.
+With the Chainspec configuration securely downloaded, you're now ready to launch your Avail node. To do so, navigate to the `/mnt/avail` directory and execute the following Docker command:
 
 ```bash
 cd /mnt/avail
 sudo docker run -v $(pwd)/config/kate-chainspec.raw.json:/da/genesis/chainspec.raw.json -v $(pwd)/state:/da/state:rw -v $(pwd)/keystore:/da/keystore:rw -e DA_CHAIN=/da/genesis/chainspec.raw.json -e DA_NAME=kate-docker-avail-Node -p 0.0.0.0:30333:30333 -p 9615:9615 -p 9933:9933 -d --restart unless-stopped availj/avail:v1.6.2-rc1
 ```
+> The Docker command performs several important steps:
+
+> - Mounts the downloaded Chainspec configuration to the Docker container.
+> - Maps the state and keystore directories, providing read-write permissions for data persistence.
+> - Specifies the Chainspec file and node name within the Docker container.
+> - Opens various ports for different functionalities, including P2P connections, metrics, and HTTP RPC.
+> - Utilizes the Avail image from Docker Hub and sets it to restart unless manually stopped.
+
+<details>
+<summary>Sample output</summary>
+
+You should see an output similar to the following:
 
 ```shell
 2023-08-21 08:29:55 Avail Node
@@ -70,33 +79,19 @@ sudo docker run -v $(pwd)/config/kate-chainspec.raw.json:/da/genesis/chainspec.r
 2023-08-21 08:30:05 🔍 Discovered new external address for our node: /ip4/13.53.42.153/tcp/30333/ws/p2p/12D3KooWEdgyAtH8ZCU8ScTx1hx5NWh4gmDGNcedtLxrJ1htSeBe2023-08-21 08:30:09 ⚙️  Syncing, target=#326624 (15 peers), best: #9406 (0x875e…c887), finalized #9317 (0x37b6…28ff), ⬇ 321.9kiB/s ⬆ 30.1kiB/s
 2023-08-21 08:30:14 ⚙️  Syncing 64.4 bps, target=#326624 (15 peers), best: #9728 (0xb4fe…e318), finalized #9317 (0x37b6…28ff), ⬇ 40.2kiB/s ⬆ 1.8kiB/s
 ```
-
-### Understand the Docker Command
-
-The Docker command performs several crucial steps:
-
-- Navigates to the `/mnt/avail` directory to ensure the correct working environment.
-- Mounts the downloaded Chainspec configuration to the Docker container.
-- Maps the state and keystore directories, providing read-write permissions for data persistence.
-- Specifies the Chainspec file and node name within the Docker container.
-- Opens various ports for different functionalities, including P2P connections, metrics, and HTTP RPC.
-- Utilizes the Avail image from Docker Hub and sets it to restart unless manually stopped.
+</details>
 
 ## Step 3: Verify Node Functionality
 
-To confirm that your node is operating as expected, inspect the Docker logs:
+### Inspect Node Logs
+
+To confirm that your node is operating as expected, inspect the Docker logs by running the following:
 
 ```bash
 ubuntu:/mnt/avail# docker ps
 ubuntu:/mnt/avail# docker logs 5b3978de8f35  # 5b3978de8f35 is the container id 
 ```
 
-## Step 4: Monitor Your Node
+### Monitor Your Node
 
-Your node's status will also be displayed on the [Avail Telemetry](http://telemetry.avail.tools/) website. Make sure to select the appropriate network tab corresponding to the network you've joined.
-
-## Step 5: Next Steps
-
-Congratulations! You've successfully set up and are running an Avail full node using Docker. 🎉
-
-[...]
+You can monitor the status of your node on the [<ins>Avail Telemetry</ins>](http://telemetry.avail.tools/) website.

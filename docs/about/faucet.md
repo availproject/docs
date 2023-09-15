@@ -2,7 +2,6 @@
 id: testnet-faucet
 title: How to Use the Testnet Faucet
 sidebar_label: Get Testnet Tokens
-sidebar_position: 5
 description: Using the Avail Testnet Faucet
 keywords:
   - docs

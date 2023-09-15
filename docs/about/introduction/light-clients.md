@@ -2,7 +2,6 @@
 id: light-client
 title: Introduction to Avail Light Clients
 sidebar_label: Light Clients
-sidebar_position: 1
 description: Learn about Avail's data availability chain
 keywords:
   - docs
