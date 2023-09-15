@@ -59,11 +59,9 @@ The client output should look like this:
 ```
 </details>
 
-That's it! You're running the light client 🎉
+## Option 2: Build From Source
 
-## Build and Run From Source
-
-To build the client, run:
+To compile the client source code, run:
 
 ```bash
 cd avail-light
@@ -77,5 +75,3 @@ Once the build is complete, run:
 ```bash
 ./avail-light -c config.yaml
 ```
-
-That's it! You're running the light client 🎉
