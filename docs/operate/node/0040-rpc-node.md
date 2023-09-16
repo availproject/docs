@@ -13,6 +13,8 @@ image: https://availproject.github.io/img/avail/AvailDocs.png
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
+This guide offers a walkthrough for configuring and running an RPC node, enabling seamless interaction with the Avail network via HTTP and WebSocket.
+
 :::note Before you start
 
 **Ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).**
