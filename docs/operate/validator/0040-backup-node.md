@@ -1,5 +1,5 @@
 ---
-id: avail-backup-node
+id: backup
 title: How to Backup Your Avail Validator
 sidebar_label: Backup Your Validator
 description: "Learn about backup tasks for Avail validator."
@@ -9,7 +9,6 @@ keywords:
   - node
   - validator
 image: https://availproject.github.io/img/avail/AvailDocs.png
-slug: avail-backup-node
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
@@ -70,4 +69,4 @@ Never run two nodes with the same keys. The node will double sign(equivocation) 
 :::
 
 Moving keystore between servers is not the recommended approach to switch between nodes. This method should only be used in extreme occassions. Review how you can transition between nodes safely in
-the [upgrading section](0030-avail-upgrade-validator-node.md)
+the [upgrading section](0030-avail-upgrade-node.md)

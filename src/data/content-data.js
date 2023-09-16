@@ -34,21 +34,21 @@ export const contentData = {
             tutorialsInfo: [
                 {
                     title: 'Run a Validator Node',
-                    link: '/category/run-a-validator-node/'
+                    link: '/category/run-a-node/'
                 },
                 {
                     title: 'Upgrade Your Validator',
-                    link: '/validators/avail-upgrade-validator-node/'
+                    link: '/validators/avail-upgrade-node/'
                 },
                 {
                     title: 'Monitor Your Validator',
-                    link: '/validators/avail-monitoring-validator-node/'
+                    link: '/validators/avail-monitoring-node/'
                 }
             ]
         },        
         {
             title: 'Build Modular Solutions',
-            cardLink: '/api/communicating-with-avail/',
+            cardLink: '/api/quickstart/',
             blockInfo: [
                 'Highly Efficient Validiums',
                 'Robust Soverign Chain Rollups',

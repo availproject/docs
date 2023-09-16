@@ -65,23 +65,23 @@ module.exports = {
           },
           // Node guides
           {
-            to: '/node/node-types',
+            to: '/operate/node-types/',
             from: '/join-the-network/node-types',
           },
           {
-            to: '/node/light-client-setup',
+            to: '/operate/node/light-client-setup/',
             from: '/join-the-network/run-avail/light-client-setup',
           },
           {
-            to: '/operate/node/full-node/full-node-binaries',
+            to: '/operate/node/full-node-binaries',
             from: '/join-the-network/run-avail/full-node-setup',
           },
           {
-            to: '/validators/validator-node/validator-binaries/',
-            from: '/join-the-network/run-avail/validator-node-setup',
+            to: '/validators/node/binaries/',
+            from: '/join-the-network/run-avail/node-setup',
           },
           {
-            to: '/operate/node/full-node/full-node-binaries',
+            to: '/operate/node/full-node-binaries',
             from: '/join-the-network/run-avail/other-nodes/avail-archive-node',
           },
           {
@@ -93,12 +93,12 @@ module.exports = {
             from: '/join-the-network/run-avail/validator-ops/avail-backup-node',
           },
           {
-            to: '/validators/avail-upgrade-validator-node',
-            from: '/join-the-network/run-avail/validator-ops/avail-upgrade-validator-node',
+            to: '/validators/avail-upgrade-node',
+            from: '/join-the-network/run-avail/validator-ops/avail-upgrade-node',
           },
           {
-            to: '/validators/avail-monitoring-validator-node',
-            from: '/join-the-network/run-avail/validator-ops/avail-monitoring-validator-node',
+            to: '/validators/avail-monitoring-node',
+            from: '/join-the-network/run-avail/validator-ops/avail-monitoring-node',
           },
         ],
       },
@@ -170,7 +170,7 @@ module.exports = {
               label: 'Node Guide',
             },
             {
-              href: '/validators/validator-node/validator-binaries/',
+              href: '/validators/node/binaries/',
               label: 'Validator Guide',
             },
           ]
@@ -284,12 +284,12 @@ module.exports = {
           label: 'Run a Node',
         },
         {
-          href: "/validators/validator-node/validator-binaries/",
+          href: "/validators/node/binaries/",
           position: 'left',
           label: 'Maintainer Handbook',
         },
         {
-          href: "/api/communicating-with-avail/",
+          href: "/api/quickstart/",
           position: 'left',
           label: 'API Reference',
         },

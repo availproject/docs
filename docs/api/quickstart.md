@@ -1,5 +1,5 @@
 ---
-id: communicating-with-avail
+id: quickstart
 title: Get Started Communicating with Avail
 sidebar_label: Quickstart
 description: Examples of how to communicate with Avail

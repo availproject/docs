@@ -1,5 +1,5 @@
 ---
-id: validator-already-running-full-node
+id: already-running-full-node
 title: Already Running a Full Node?
 sidebar_label: Already Running a Full Node
 description: "Learn about running an Avail validator using binaries."

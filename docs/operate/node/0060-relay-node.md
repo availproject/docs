@@ -1,5 +1,5 @@
 ---
-id: avail-relay-node
+id: relay
 title: How to Run a Relay Node
 sidebar_label: Relay Node
 description: "Learn how to run an Avail relay node."

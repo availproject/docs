@@ -1,5 +1,5 @@
 ---
-id: avail-bootstrap-node
+id: bootstrap
 title: How to Run a Bootstrap Node
 sidebar_label: Bootstrap Node
 description: "Learn how to run an Avail bootstrap node."

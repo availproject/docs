@@ -1,5 +1,5 @@
 ---
-id: avail-rpc-node
+id: rpc
 title: How to Run an RPC Node
 sidebar_label: RPC Node
 description: Learn how to run a rpc node

@@ -1,5 +1,5 @@
 ---
-id: full-node-binaries
+id: binaries
 title: Running a Full Node with Binaries
 sidebar_label: Using Binaries
 description: "Discover how to operate an Avail full node through binaries."

@@ -1,5 +1,5 @@
 ---
-id: validator-staking
+id: staking
 title: How to Stake Your Validator
 sidebar_label: Stake Your Validator
 description: "Learn about running an Avail validator using binaries."
