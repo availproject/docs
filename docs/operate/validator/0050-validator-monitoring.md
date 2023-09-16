@@ -10,7 +10,6 @@ keywords:
   - validator
   - monitoring
 image: https://availproject.github.io/img/avail/AvailDocs.png
-slug: avail-monitoring-node
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 

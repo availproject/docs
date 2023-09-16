@@ -73,9 +73,9 @@ module.exports = {
       },
       collapsed: false,
       items: [
-        "about/managing-accounts",
-        "about/avail-explorer",
-        "about/testnet-faucet",
+        "about/accounts",
+        "about/explorer",
+        "about/faucet",
         "about/quickstart",
       ],
     },
@@ -102,7 +102,7 @@ module.exports = {
       items: [
         "operate/node-types",
         "operate/system-requirements",
-        "operate/node/light-client-setup",
+        "operate/node/light-client",
         {
           type: "category",
           label: "Run a Node",

@@ -69,4 +69,4 @@ Never run two nodes with the same keys. The node will double sign(equivocation) 
 :::
 
 Moving keystore between servers is not the recommended approach to switch between nodes. This method should only be used in extreme occassions. Review how you can transition between nodes safely in
-the [upgrading section](0030-avail-upgrade-node.md)
+the [upgrading section](/docs/operate/validator/0060-validator-upgrade.md)

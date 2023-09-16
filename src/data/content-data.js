@@ -11,7 +11,7 @@ export const contentData = {
             tutorialsInfo: [
                 {
                     title: 'Run a Light Client',
-                    link: '/node/light-client-setup/'
+                    link: '/operate/node/light-client-setup/'
                 },
                 {
                     title: 'Run a Full Node',
@@ -19,7 +19,7 @@ export const contentData = {
                 },
                 {
                     title: 'Run a Relay Node',
-                    link: '/node/avail-relay-node/'
+                    link: '/operate/node/relay/'
                 }
             ]
         },                
@@ -38,11 +38,11 @@ export const contentData = {
                 },
                 {
                     title: 'Upgrade Your Validator',
-                    link: '/validators/avail-upgrade-node/'
+                    link: '/operate/validator/avail-upgrade-node/'
                 },
                 {
                     title: 'Monitor Your Validator',
-                    link: '/validators/avail-monitoring-node/'
+                    link: '/operate/validator/avail-monitoring-node/'
                 }
             ]
         },        

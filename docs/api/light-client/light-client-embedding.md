@@ -13,7 +13,6 @@ keywords:
   - embedding
   - rust
 image: https://availproject.github.io/img/avail/AvailDocs.png
-slug: embedding-the-light-client
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

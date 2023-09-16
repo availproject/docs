@@ -42,9 +42,9 @@ It is recommended to use more than the minimum requirements to run a robust full
 
 There are two primary methods to run an Avail node, each with its own set of instructions:
 
-1. **[<ins>Using Binaries</ins>](/docs/validators/node/node-binaries.md):** You can follow the instructions provided here for setting up an Avail node using binary releases. This method is suitable for users who prefer manual installation and configuration. For reference, you can also explore the [GitHub Releases](https://github.com/availproject/avail/releases) page for binary releases.
+1. **[<ins>Using Binaries</ins>](/docs/operate/validator/0010-validator-node-binaries.md):** You can follow the instructions provided here for setting up an Avail node using binary releases. This method is suitable for users who prefer manual installation and configuration. For reference, you can also explore the [GitHub Releases](https://github.com/availproject/avail/releases) page for binary releases.
 
-2. **[<ins>Using Docker</ins>](/docs/validators/node/node-docker.md):** Alternatively, if you're comfortable with Docker, you can pull Avail node images from the [DockerHub Repository](https://hub.docker.com/r/availj/avail/tags). Docker provides a convenient way to containerize and deploy Avail nodes.
+2. **[<ins>Using Docker</ins>](/docs/operate/validator/0020-validator-node-docker.md):** Alternatively, if you're comfortable with Docker, you can pull Avail node images from the [DockerHub Repository](https://hub.docker.com/r/availj/avail/tags). Docker provides a convenient way to containerize and deploy Avail nodes.
 > The Avail team offers official Docker images specifically designed for running nodes on the Kate testnet.
 
 ## Setting Up Your Environment

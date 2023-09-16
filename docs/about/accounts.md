@@ -1,5 +1,5 @@
 ---
-id: managing-accounts
+id: accounts
 title: How to Create and Manage an Avail Account
 sidebar_label: Create an Account
 description: Comprehensive guide on creating and managing Avail accounts.
@@ -9,7 +9,6 @@ keywords:
   - explorer
   - accounts
 image: https://availproject.github.io/img/avail/AvailDocs.png
-slug: managing-accounts
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 

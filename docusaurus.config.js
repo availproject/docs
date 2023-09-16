@@ -44,15 +44,15 @@ module.exports = {
           },
           // Getting started
           {
-            to: '/about/avail-explorer',
+            to: '/about/explorer',
             from: '/using-avail/getting-started/avail-explorer',
           },
           {
-            to: '/about/managing-accounts',
+            to: '/about/accounts',
             from: '/using-avail/getting-started/managing-accounts',
           },
           {
-            to: '/about/testnet-faucet',
+            to: '/about/faucet',
             from: '/using-avail/getting-started/testnet-faucet',
           },
           {
@@ -69,35 +69,35 @@ module.exports = {
             from: '/join-the-network/node-types',
           },
           {
-            to: '/operate/node/light-client-setup/',
+            to: '/operate/node/light-client/',
             from: '/join-the-network/run-avail/light-client-setup',
           },
           {
-            to: '/operate/node/full-node-binaries',
+            to: '/operate/node/binaries',
             from: '/join-the-network/run-avail/full-node-setup',
           },
           {
-            to: '/validators/node/binaries/',
+            to: '/operate/validator/binaries/',
             from: '/join-the-network/run-avail/node-setup',
           },
           {
-            to: '/operate/node/full-node-binaries',
+            to: '/operate/node/binaries',
             from: '/join-the-network/run-avail/other-nodes/avail-archive-node',
           },
           {
-            to: '/node/avail-rpc-node',
+            to: '/operate/node/rpc',
             from: '/join-the-network/run-avail/other-nodes/avail-rpc-node',
           },
           {
-            to: '/validators/avail-backup-node',
+            to: '/operate/validator/backup',
             from: '/join-the-network/run-avail/validator-ops/avail-backup-node',
           },
           {
-            to: '/validators/avail-upgrade-node',
+            to: '/operate/validator/upgrade',
             from: '/join-the-network/run-avail/validator-ops/avail-upgrade-node',
           },
           {
-            to: '/validators/avail-monitoring-node',
+            to: '/operate/validator/monitor',
             from: '/join-the-network/run-avail/validator-ops/avail-monitoring-node',
           },
         ],
@@ -166,11 +166,11 @@ module.exports = {
           title: "Network Guides",
           items: [
             {
-              href: '/node/node-types/',
+              href: '/operate/node-types/',
               label: 'Node Guide',
             },
             {
-              href: '/validators/node/binaries/',
+              href: '/category/become-a-validator/',
               label: 'Validator Guide',
             },
           ]

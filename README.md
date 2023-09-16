@@ -195,7 +195,7 @@ Contributing to the Avail Documentation is simple. You'll need a GitHub account 
 4. **Edit Mode**: Once on GitHub, click the pencil icon located in the upper-right corner to enter edit mode.
 5. **Make Edits**: Modify the Markdown file as needed.
 6. **Initiate Pull Request**: Scroll to the bottom and click on **Create pull request**.
-7. **Title Your PR**: Give your pull request a descriptive title. For example, if you're editing the "Getting Started" page, you could title it *Update /docs/develop/getting-started.md*.
+7. **Title Your PR**: Give your pull request a descriptive title. For example, if you're editing the "Getting Started" page, you could title it *Update /docs/getting-started.md*.
 8. **Describe Changes**: In the pull request description, specify the issue your changes resolve. 
    > See [GitHub Docs on Linking a Pull Request to an Issue](https://docs.github.com/en/free-pro-team@latest/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword) for guidance.
 9. **Additional Information**: Provide a concise summary of the changes you've made. Include screenshots or references if applicable.
