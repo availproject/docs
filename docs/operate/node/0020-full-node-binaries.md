@@ -1,5 +1,5 @@
 ---
-id: full-node-binaries
+id: binaries
 title: Running a Full Node with Binaries
 sidebar_label: Using Binaries
 description: "Discover how to operate an Avail full node through binaries."
@@ -86,7 +86,7 @@ If you are working on the node itself, it can be useful to run a local dev node 
 
 #### Archive Mode
 
-To run an archive node, you must first review the [full node setup guide](/validators/run-avail/full-node-setup). You will complete all the same steps. The only difference is you will add `--pruning archive` to the parameters.
+To run an archive node, you must first review the [full node setup guide](/category/run-a-validator-node/). You will complete all the same steps. The only difference is you will add `--pruning archive` to the parameters.
 
 :::info Storage space requirements
 

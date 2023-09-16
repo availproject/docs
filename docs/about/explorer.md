@@ -1,5 +1,5 @@
 ---
-id: avail-explorer
+id: explorer
 title: How to Use the Kate Testnet Explorer
 sidebar_label: Use the Explorer
 description: A comprehensive guide on using the Avail Explorer to interact with the Avail network.
@@ -9,7 +9,6 @@ keywords:
   - explorer
   - accounts
 image: https://availproject.github.io/img/avail/AvailDocs.png
-slug: avail-explorer
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
@@ -40,7 +39,7 @@ Clicking on a block number (or block "height") will open a detailed view of that
 
 ## Manage Accounts
 
-The explorer allows you to create, manage, and recover accounts. You can also initiate transactions, stake tokens, and more. To learn how to create an account, check out the [<ins>Create and Manage Accounts guide</ins>](/docs/about/accounts.md).
+The explorer allows you to create, manage, and recover accounts. You can also initiate transactions, stake tokens, and more. To learn how to create an account, check out the [<ins>Create and Manage Accounts guide</ins>](/about/accounts.md).
 
 ## Participate in Governance
 
@@ -54,7 +53,7 @@ For developers and advanced users, the explorer offers features like manually su
 
 :::info Confidence
 
-The explorer hosts a light client that performs Data Availability Sampling (DAS) to verify data availability. The very latest blocks may not display a confidence score until this process is complete. For more information, see our [FAQ](/faq).
+The explorer hosts a light client that performs Data Availability Sampling (DAS) to verify data availability. The very latest blocks may not display a confidence score until this process is complete.
 
 :::
 

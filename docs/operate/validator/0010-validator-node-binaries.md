@@ -1,5 +1,5 @@
 ---
-id: validator-binaries
+id: binaries
 title: How to Run a Validator Node using Binaries
 sidebar_label: Using Binaries
 description: "Learn about running an Avail validator using binaries."
@@ -34,7 +34,7 @@ validator onboarding.
 ## Run a Validator Node
 
 First, follow the steps for running a full node as outlined in the 
-[Full Node Setup Instructions](/validators/run-avail/full-node-setup).
+[Full Node Setup Instructions](/category/run-a-validator-node/).
 
 To run a validator, you'll use the same command line as for the full node, but with the addition of the `--validator` option to the command.
 

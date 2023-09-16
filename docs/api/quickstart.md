@@ -1,5 +1,5 @@
 ---
-id: communicating-with-avail
+id: quickstart
 title: Get Started Communicating with Avail
 sidebar_label: Quickstart
 description: Examples of how to communicate with Avail
@@ -81,64 +81,19 @@ Finally, you can monitor the network and your data by listening for new blocks a
 
 The following table lists various code examples for interacting with the Avail network. These examples are categorized by programming language and functionality.
 
-<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+## API Examples
 
-<!-- TypeScript/JavaScript Examples -->
-<div style={{ width: '45%' }}>
+The following table lists various code examples for interacting with the Avail network. These examples are organized by functionality and the supported programming languages.
 
-### TypeScript
-
-| Functionality                | GitHub Link                                                                                     |
-|------------------------------|-------------------------------------------------------------------------------------------------|
-| Submitting Blob Data         | [Link](https://github.com/availproject/avail/tree/develop/examples/ts/src/data_submit.ts)        |
-| Dispatching Data Root        | [Link](https://github.com/availproject/avail/tree/develop/examples/ts/src/dispatch_data_root.ts)  |
-| Creating Application Key     | [Link](https://github.com/availproject/avail/tree/develop/examples/ts/src/app_id.ts)             |
-| Simple Asset Transfer        | [Link](https://github.com/availproject/avail/tree/develop/examples/ts/src/transfer.ts)           |
-| Querying Data Proof          | [Link](https://github.com/availproject/avail/tree/develop/examples/ts/src/query_proof_data.ts)   |
-| Querying Proof               | [Link](https://github.com/availproject/avail/tree/develop/examples/ts/src/query_proof.ts)        |
-| Querying Application Data    | [Link](https://github.com/availproject/avail/tree/develop/examples/ts/src/query_app_data.ts)     |
-| Listening to New Blocks      | [Link](https://github.com/availproject/avail/tree/develop/examples/ts/src/listen_new_blocks.ts)  |
-| Fetching Chain & Node Info   | [Link](https://github.com/availproject/avail/tree/develop/examples/ts/src/connect.ts)            |
-
-</div>
-
-<!-- Go Examples -->
-<div style={{ width: '45%' }}>
-
-### Go
-
-| Functionality                | GitHub Link                                                                                     |
-|------------------------------|-------------------------------------------------------------------------------------------------|
-| Establishing Connection      | [Link](https://github.com/availproject/avail/tree/old_develop/examples/go/connect)               |
-| Submitting Data              | [Link](https://github.com/availproject/avail/tree/old_develop/examples/go/dataSubmit)            |
-| Watching Data Submission     | [Link](https://github.com/availproject/avail/tree/old_develop/examples/go/dataSubmitWatch)       |
-| Internal Operations          | [Link](https://github.com/availproject/avail/tree/old_develop/examples/go/internal)              |
-| Listening for New Blocks     | [Link](https://github.com/availproject/avail/tree/old_develop/examples/go/listenNewBlocks)       |
-| Querying Data with Proof     | [Link](https://github.com/availproject/avail/tree/old_develop/examples/go/queryProofData)        |
-| Asset Transfer               | [Link](https://github.com/availproject/avail/tree/old_develop/examples/go/transfer)              |
-
-</div>
-
-<!-- Rust Examples -->
-<div style={{ width: '45%' }}>
-
-### Rust
-
-| Functionality                             | GitHub Link                                                                                                          |
+| Functionality                             | Supported Languages                                                                                                  |
 |-------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
-| Creating Application Key                  | [Link](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/create_app_key.rs)                 |
-| Data Availability Bridge Actor            | [Link](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/da_bridge_actor.rs)                |
-| Democracy External                        | [Link](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/democracy_external.rs)              |
-| Downloading Digest Items                  | [Link](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/download_digest_items.rs)          |
-| Headers                                   | [Link](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/headers.rs)                        |
-| Max Block Submit                          | [Link](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/max_block_submit.rs)                |
-| Setting Updater                           | [Link](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/set_updater.rs)                     |
-| Submitting Block Length Proposal          | [Link](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/submit_block_length_proposal.rs)    |
-| Block Length Proposal via Democracy       | [Link](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/submit_block_length_proposal_democracy.rs) |
-| Submitting Data                           | [Link](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/submit_data.rs)                     |
-| Submit Data and Dispatch Data Root        | [Link](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/submit_data_and_dispatch_data_root.rs) |
-
-
-</div>
-
-</div>
+| Data Submission                           | [<ins>TypeScript</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/data_submit.ts), [<ins>Go</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/dataSubmit), [<ins>Rust</ins>](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/submit_data_and_dispatch_data_root.rs) |
+| Dispatching Data Root                     | [<ins>TypeScript</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/dispatch_data_root.ts)                                                             |
+| Creating Application Key                  | [<ins>TypeScript</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/app_id.ts), [<ins>Rust</ins>](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/create_app_key.rs)  |
+| Asset Transfer                            | [<ins>TypeScript</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/transfer.ts), [<ins>Go</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/transfer)                                 |
+| Querying Proof/Data Proof                 | [<ins>TypeScript</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/query_proof.ts), [<ins>Go</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/queryProofData)                     |
+| Querying Application Data                 | [<ins>TypeScript</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/query_app_data.ts)                                                                 |
+| Event Monitoring (Blocks/Data Submission) | [<ins>TypeScript</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/listen_new_blocks.ts), [<ins>Go</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/listenNewBlocks), [<ins>Go</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/dataSubmitWatch) |
+| Network Connection & Info                 | [<ins>TypeScript</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/connect.ts), [<ins>Go</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/connect)                                     |
+| Internal Operations                       | [<ins>Go</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/internal)                                                                                   |
+| Rust + & Substrate Examples                    | Various [<ins>Rust</ins>](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/) examples like Data Availability Bridge Actor, Democracy External, etc.  |

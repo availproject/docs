@@ -1,5 +1,5 @@
 ---
-id: avail-monitoring-validator-node
+id: monitor
 title: How to Monitor Your Avail Validator Node
 sidebar_label: Monitor Your Validator
 description: "Learn about monitoring a validator"
@@ -10,7 +10,6 @@ keywords:
   - validator
   - monitoring
 image: https://availproject.github.io/img/avail/AvailDocs.png
-slug: avail-monitoring-validator-node
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 

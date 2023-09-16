@@ -12,8 +12,7 @@ keywords:
   - DHT
   - Kademlia
   - data sampling
-# image: https://availproject.github.io/img/avail/AvailDocs.png
-slug: avail-light-client-overview
+image: https://availproject.github.io/img/avail/AvailDocs.png
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

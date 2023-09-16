@@ -1,5 +1,5 @@
 ---
-id: light-client-setup
+id: light-client
 title: How to Run a Light Client
 sidebar_label: Run a Light Client
 description: Learn how to run an Avail Light Client
@@ -10,7 +10,6 @@ keywords:
   - data availability
   - da
 image: https://availproject.github.io/img/avail/AvailDocs.png
-slug: light-client-setup
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 

@@ -11,7 +11,6 @@ keywords:
   - data availability
   - da
 image: https://availproject.github.io/img/avail/AvailDocs.png
-slug: node-types
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
@@ -68,6 +67,6 @@ Relay nodes act as intermediaries to enable communication between peers that can
 
 ## Next Steps
 
-Now that you have a comprehensive understanding of the various node types within the Avail network, it's recommended to take your first step by setting up a Light Client. Before you begin, make sure to review the [<ins>System Requirements</ins>](/docs/validators/requirements.md) and [<ins>Before You Start</ins>](/docs/validators/before-starting.md) guides. Once you're ready, you can proceed to the [<ins>Light Client Deployment guide</ins>](/docs/node/light-client.md) to get started.
+Now that you have a comprehensive understanding of the various node types within the Avail network, it's recommended to take your first step by setting up a Light Client. Before you begin, make sure to review the [<ins>System Requirements guide</ins>](/docs/operate/requirements.md). Once you're ready, you can proceed to the [<ins>Light Client Deployment guide</ins>](/docs/operate/node/0010-light-client.md) to get started.
 
 > Light Clients provide an accessible entry point to the Avail network, enabling quick interactions without storing the full blockchain. Ideal for newcomers, they play an integral role in maintaining a robust data availability layer.
