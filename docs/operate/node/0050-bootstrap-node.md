@@ -15,13 +15,12 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 This guide provides a step-by-step walkthrough for setting up a bootstrap node, which serves as an entry point for light clients in your network.
 
-It's advisable to deploy multiple bootstrap nodes. A good rule of thumb is to have at least three to five bootstrap nodes to kickstart a new network. 
-Follow the installation and configuration steps below to get your bootstrap node up and running.
-
 :::note Before you start
 
 **Ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).**
 We recommend downloading the pre-compiled binary for speed and convenience.
+
+It's advisable to deploy multiple bootstrap nodes. A good rule of thumb is to have at least three to five bootstrap nodes to kickstart a new network. 
 
 :::
 
@@ -59,6 +58,4 @@ libp2p_port: 39000                    # libp2p port
 libp2p_identify_protocol: '/avail_kad/id/1.0.0'  # libp2p protocol
 ```
 
-For more advanced configurations, consult the [Configuration Reference](https://github.com/availproject/avail-light-bootstrap#config-reference).
-
-Congratulations! You've successfully set up a Bootstrap Node. Your node is now ready to serve as an entry point for light clients in your network. Happy bootstrapping! 🚀
+For more advanced configurations, consult the [<ins>Configuration Reference</ins>](https://github.com/availproject/avail-light-bootstrap#config-reference).

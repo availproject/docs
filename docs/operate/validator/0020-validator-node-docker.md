@@ -33,9 +33,6 @@ validator onboarding.
 
 :::
 
-The Avail team provides official Docker images designed to run nodes on 
-the **Kate testnet**.
-
 ## Run a Validator Node
 
 Download the Correct Chaispec file for the network in our case we are using the **`Kate-Testnet`** Chainspec.
