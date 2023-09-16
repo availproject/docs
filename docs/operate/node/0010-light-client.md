@@ -15,8 +15,12 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 This guide outlines how to set up an Avail light client, covering both pre-compiled releases and source compilation.
 
-Before you start, ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).
+:::note Before you start
+
+**Ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).**
 We recommend downloading the pre-compiled binary for speed and convenience.
+
+:::
 
 ## Run the Pre-Built Release
 

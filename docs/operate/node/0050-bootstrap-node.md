@@ -18,7 +18,12 @@ This guide provides a step-by-step walkthrough for setting up a bootstrap node, 
 It's advisable to deploy multiple bootstrap nodes. A good rule of thumb is to have at least three to five bootstrap nodes to kickstart a new network. 
 Follow the installation and configuration steps below to get your bootstrap node up and running.
 
-Before you start, ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).
+:::note Before you start
+
+**Ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).**
+We recommend downloading the pre-compiled binary for speed and convenience.
+
+:::
 
 ## Step 1: Compile the Binary
 

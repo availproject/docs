@@ -17,7 +17,12 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 This guide provides step-by-step instructions for setting up and running a full node on the Avail network using Docker. Whether you're new to node operation or have prior experience, this guide is designed to make the setup process straightforward.
 
-**Before you start, ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).**
+:::note Before you start
+
+**Ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).**
+We recommend downloading the pre-compiled binary for speed and convenience.
+
+:::
 
 ## Step 1: Download the Kate Testnet Chain Specification
 

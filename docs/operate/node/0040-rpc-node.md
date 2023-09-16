@@ -13,7 +13,11 @@ image: https://availproject.github.io/img/avail/AvailDocs.png
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-Before you start, ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).
+:::note Before you start
+
+**Ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).**
+
+:::
 
 To run an rpc node you must first review the [archive node](/docs/operate/node/0020-full-node-binaries.md#archive-mode) setup. You will complete the same steps. The only difference is you will add `--rpc-external --ws-external --rpc-port 9944 --ws-port 9933 --rpc-cors=all` to the parameters.
 

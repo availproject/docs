@@ -15,7 +15,11 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 This guide provides a step-by-step walkthrough for setting up a relay node, which can help resolve connectivity issues between network peers.
 
-Before you start, ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).
+:::note Before you start
+
+**Ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).**
+
+:::
 
 ## Step 1: Compile the Binary
 
