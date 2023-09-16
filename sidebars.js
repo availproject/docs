@@ -94,6 +94,18 @@ module.exports = {
     },
     {
       type: "category",
+      label: "Build",
+      link: {
+        type: "generated-index",
+      },
+      collapsed: false,
+      items: [
+        "build/quickstart",
+        "build/validium",
+      ],
+    },
+    {
+      type: "category",
       label: "Operate",
       link: {
         type: "generated-index",

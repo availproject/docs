@@ -18,7 +18,7 @@ This guide outlines how to set up an Avail light client, covering both pre-compi
 Before you start, ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).
 We recommend downloading the pre-compiled binary for speed and convenience.
 
-## Run the Pre-Built Release
+## Option 1: Run the Pre-Built Release
 
 All you need to do is run:
 

@@ -48,7 +48,7 @@ export const contentData = {
         },        
         {
             title: 'Build Modular Solutions',
-            cardLink: '/api/quickstart/',
+            cardLink: '/category/build/',
             blockInfo: [
                 'Highly Efficient Validiums',
                 'Robust Soverign Chain Rollups',
@@ -57,7 +57,7 @@ export const contentData = {
             tutorialsInfo: [
                 {
                     title: 'Avail-Powered Validiums',
-                    link: '/api/use-case-validiums'
+                    link: '/build/validium'
                 },
                 {
                     title: 'Soverign Chain Rollups: Docs Coming Soon',

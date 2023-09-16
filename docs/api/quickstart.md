@@ -8,7 +8,6 @@ keywords:
 - avail
 - examples
 image: https://availproject.github.io/img/avail/AvailDocs.png
-
 ---
 
 The Avail API offers a robust set of features that enable application developers to interact 
