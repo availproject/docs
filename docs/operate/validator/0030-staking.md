@@ -139,8 +139,18 @@ Once your validator node has accrued enough stake, it will be elected for valida
 Below is an example image of an elected validator node actively producing blocks.
 
 In addition, please check out the guide on validator monitoring available 
-[<ins>here</ins>](/operate/validator/0050-validator-monitoring.md)
+[<ins>here</ins>](/operate/validator/0050-validator-monitoring.md).
 
 <img src={useBaseUrl("img/avail/validator-active-set.png")} width="100%" height="100%"/>
 
-That's it! You're now successfully running an Avail Validator node. 🎉
+## Next Steps
+
+Congratulations on successfully setting up your Avail Validator node!
+
+As you move forward, here are some essential actions to consider:
+
+1. **Backup Your Validator**: Ensure you have a secure backup of your validator settings and keys. Refer to the [<ins>Backup Guide</ins>](/operate/validator/0040-backup-node) for detailed steps.
+  
+2. **Start Monitoring**: If you haven't already, set up monitoring tools to keep track of your validator's performance. Check out the [<ins>Monitoring Guide</ins>](/operate/validator/0050-validator-monitoring) for recommendations.
+
+3. **Join the Community**: Connect with other validators and the Avail team on the official [<ins>Discord Channel</ins>](https://discord.com/invite/y6fHnxZQX8). It's a great place to share experiences, ask questions, and get updates.
