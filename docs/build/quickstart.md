@@ -80,7 +80,6 @@ Finally, you can monitor the network and your data by listening for new blocks a
 | JavaScript  | [Listening for New Blocks](https://github.com/availproject/avail/tree/develop/examples/ts/src/listen_new_blocks.ts)|
 | Go          | [Listening for New Blocks](https://github.com/availproject/avail/tree/old_develop/examples/go/listenNewBlocks)   |
 
-
 ## API Examples
 
 The following table lists various code examples for interacting with the Avail network. These examples are organized by functionality and the supported programming languages.
@@ -98,7 +97,7 @@ The following table lists various code examples for interacting with the Avail n
 | Internal Operations                       | [<ins>Go</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/internal)                                                                                   |
 | Rust + & Substrate Examples                    | Various [<ins>Rust</ins>](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/) examples like Data Availability Bridge Actor, Democracy External, etc.  |
 
-## Build Anything
+## Construct Modular Solutions
 
 | Solution          | Guide                                       |
 |-------------------|---------------------------------------------|
