@@ -1039,6 +1039,14 @@ a.disabled {
   font-weight: bold;
 }
 
+[data-theme="light"] .dropdown__menu {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+[data-theme="light"] .dropdown__link {
+  color: #000000;
+}
 
 .navbar__inner {
   margin: 0 5px;

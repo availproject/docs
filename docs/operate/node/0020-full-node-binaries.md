@@ -16,8 +16,12 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 This guide provides step-by-step instructions on how to set up and run a full node for the Avail network using pre-compiled binaries. Whether you're a beginner or an experienced node operator, this guide aims to make the process straightforward.
 
-**Before you start, ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).**
+:::note Before you start
+
+**Ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).**
 We recommend downloading the pre-compiled binary for speed and convenience.
+
+:::
 
 ## Option 1: Run the Pre-Built Release
 
@@ -104,9 +108,3 @@ Example for an archive node start command:
                 /dns/gateway-fullnode-001.testnet.avail.tools/tcp/30333/p2p/12D3KooWDgqCRtsJWKjckh2XHtRZbboVdgDJswsxoNmX8PMf59bV \
                 /dns/gateway-fullnode-003.testnet.avail.tools/tcp/30333/p2p/12D3KooWBNy1vzragtwiummqXwry19h6dke68hybY6jVeEH4mAtT
 ```
-
-### Step 5: Next Steps
-
-Congratulations! You've successfully set up and are running an Avail full node using Docker. 🎉
-
-[...]

@@ -13,31 +13,51 @@ image: https://availproject.github.io/img/avail/AvailDocs.png
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-Before you start, ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).
+This guide offers a walkthrough for configuring and running an RPC node, enabling seamless interaction with the Avail network via HTTP and WebSocket.
 
-To run an rpc node you must first review the [archive node](/docs/operate/node/0020-full-node-binaries.md#archive-mode) setup. You will complete the same steps. The only difference is you will add `--rpc-external --ws-external --rpc-port 9944 --ws-port 9933 --rpc-cors=all` to the parameters.
+:::note Before you start
 
-You will then be able to communicate with node using `http` or `ws` endpoints. The default ports are 9933 for HTTP and 9944 for WS.
+**Ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).**
 
-Example for an rpc node start command:
-```
-./data-avail --base-path ~/avail-node/data \
-                --chain ~/avail-node/chainspec.raw.json \
-                --pruning archive \
-                --port 30333 \
-                --rpc-external --ws-external --rpc-port 9933 --ws-port 9944 --rpc-cors=all \
-                --bootnodes /dns/gateway-fullnode-002.testnet.avail.tools/tcp/30333/p2p/12D3KooWNuBaLtAGNxQbei7rUzpp8N8TF8k5kPsgKShAJgK4crkB \
-                /dns/gateway-fullnode-001.testnet.avail.tools/tcp/30333/p2p/12D3KooWDgqCRtsJWKjckh2XHtRZbboVdgDJswsxoNmX8PMf59bV \
-                /dns/gateway-fullnode-003.testnet.avail.tools/tcp/30333/p2p/12D3KooWBNy1vzragtwiummqXwry19h6dke68hybY6jVeEH4mAtT
-```
-
-:::info Firewall
-
-Ensure that you have added the rpc ports used to your firewall
+Before setting up an RPC node, make sure to review the [archive node setup process](/docs/operate/node/0020-full-node-binaries.md#archive-mode). The setup process for an RPC node is almost identical, with a few additional parameters to enable RPC functionality.
 
 :::
 
-You can test that your rpc is running correctly with a smple curl command. A working rpc will reply with data while a non working rpc will reply with an error.
+## Configuration Parameters
+
+To run an RPC node, append the following flags to your startup command:
+
+- `--rpc-external`
+- `--ws-external`
+- `--rpc-port 9944`
+- `--ws-port 9933`
+- `--rpc-cors=all`
+
+These flags enable external RPC and WebSocket connections and set the default ports to 9933 for HTTP and 9944 for WebSocket (WS).
+
+## Example Startup Command
+
+Here's an example command to start your RPC node:
+
+```bash
+./data-avail --base-path ~/avail-node/data \
+             --chain ~/avail-node/chainspec.raw.json \
+             --pruning archive \
+             --port 30333 \
+             --rpc-external --ws-external --rpc-port 9933 --ws-port 9944 --rpc-cors=all \
+             --bootnodes /dns/gateway-fullnode-002.testnet.avail.tools/tcp/30333/p2p/12D3KooWNuBaLtAGNxQbei7rUzpp8N8TF8k5kPsgKShAJgK4crkB \
+                         /dns/gateway-fullnode-001.testnet.avail.tools/tcp/30333/p2p/12D3KooWDgqCRtsJWKjckh2XHtRZbboVdgDJswsxoNmX8PMf59bV \
+                         /dns/gateway-fullnode-003.testnet.avail.tools/tcp/30333/p2p/12D3KooWBNy1vzragtwiummqXwry19h6dke68hybY6jVeEH4mAtT
 ```
+
+:::info Firewall Configuration
+Make sure to add the RPC ports (9933 for HTTP and 9944 for WS) to your firewall's allowed list to ensure smooth communication.
+:::
+
+## Testing Your RPC Node
+
+You can verify that your RPC node is running correctly by executing a simple `curl` command. A functioning RPC node will return data, while a non-functioning one will return an error.
+
+```bash
 curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "rpc_methods"}' http://127.0.0.1:9933/
 ```

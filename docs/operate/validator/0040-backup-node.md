@@ -2,7 +2,7 @@
 id: backup
 title: How to Backup Your Avail Validator
 sidebar_label: Backup Your Validator
-description: "Learn about backup tasks for Avail validator."
+description: "A comprehensive guide on backup tasks essential for maintaining an Avail Validator."
 keywords:
   - docs
   - avail
@@ -10,63 +10,61 @@ keywords:
   - validator
 image: https://availproject.github.io/img/avail/AvailDocs.png
 ---
-import useBaseUrl from '@docusaurus/useBaseUrl';
 
-## Validator Directories
+## Understanding Validator Directories
 
-It is important to understand the folder structure of the Avail node. Knowing where the database and keys are stored can help manage your node more affectively.
+Before diving into backup procedures, it's crucial to understand the directory structure of your Avail node.
 
-The folder structure for Avail node:
+### Directory Structure
+
+The Avail node's directory structure is as follows:
+
 ```
 └── chains
     └── da_testnet
         └── db
-            └── full
         └── keystore
         └── network
 ```
-The `--base-path` parameter allows you to specify a custom base directory for storing Avail's data and configuration files. When you specify a directory using `--base-path`,
- Avail will create the necessary folders (db, keystore, network) within that custom location. 
 
-Details of the folder content:
-* db: This folder contains the database files used by Avail to store blockchain state, block data, transaction history, and other related data. The database files are typically
-stored in a format optimized for efficient data retrieval and storage. The default database is RocksDB.
+### Directory Descriptions
 
-* keystore: The keystore folder is where the encrypted key files of the Validator are stored. When you execute `author_rotateKeys` several key files are created. The output from
-`author_rotateKeys` provides a hex-encoded value, this value is a concatanation of the file names in the keystore folder.
+- **db**: This directory contains the database files, which store blockchain state, transaction history, and other data.
+- **keystore**: This is where the encrypted key files for your Validator are stored.
+- **network**: This directory contains configuration files related to network connectivity and peer management.
 
-* network: The network folder holds configuration files related to network connectivity and peer management. It includes information about known nodes, peer addresses, and other network-related settings. 
+You can specify a custom directory using the `--base-path` parameter.
 
-## Re-Sync or Restore Snapshot
+## Step 1: Re-Sync or Restore Snapshot
 
-To delete your DB and re-sync from genesis:
+### To Re-Sync from Genesis
+
+Run the following command:
+
 ```bash
 avail purge-chain
 ```
 
-Should we wish to restore a DB you will need to
-* Stop your node
-* Delete the chain data
-* Download a snapshot from another node 
-* Restore the snapshot on the DB folder
+### To Restore a Database Snapshot
 
-:::info warp sync
+1. Stop your node.
+2. Delete existing chain data.
+3. Download a snapshot from another node.
+4. Restore the snapshot to the `db` folder.
 
-Note that the dependancy on snapshots will be less in the future as warp sync will allow a node to be up and running in a few minutes. Current Avail Testnet does not support 
-warp sync yet. Will be made available in future release.
-
+:::info Warp Sync
+Warp sync will be available in future releases, allowing quicker node setup.
 :::
 
-## Backup Keystore
+## Step 2: Backup Keystore
 
-If the contents of the keystore from a primary node is moved to backup node that is in sync, will allow the node to carry on particpating in the concensus. However the primary node 
-should not be running anymore.
+### To Move Keystore to a Backup Node
 
-:::warning Never run two nodes with the same keys
+1. Ensure the primary node is offline.
+2. Transfer the keystore to a backup node that is in sync.
 
-Never run two nodes with the same keys. The node will double sign(equivocation) if you have two nodes running at the same time with the same keys.
-
+:::warning Equivocation Risk
+Never run two nodes with identical keys at the same time to avoid double-signing.
 :::
 
-Moving keystore between servers is not the recommended approach to switch between nodes. This method should only be used in extreme occassions. Review how you can transition between nodes safely in
-the [upgrading section](/docs/operate/validator/0060-validator-upgrade.md)
+This method is not recommended for routine transitions between nodes. For safer alternatives, consult the [Upgrading Guide](/docs/operate/validator/0060-validator-upgrade.md).

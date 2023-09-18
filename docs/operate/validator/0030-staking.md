@@ -12,165 +12,145 @@ image: https://availproject.github.io/img/avail/AvailDocs.png
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-## Prepare for Staking
+This guide offers a step-by-step walkthrough on how to stake your Avail validator. 
+It covers essential steps such as bonding your funds, managing session keys, and initiating the validation process.
 
-Once the node is running and connected to the network, it needs to be
-linked to accounts with bonded (staked) funds in order to be eligible
-to become an active validator.
+## Step 1: Prepare for Staking
+
+Before you can become an active validator, you need to bond your funds to your node. This involves creating two separate Avail accounts: a `stash` account for holding your funds and a `controller` account for managing staking actions.
 
 ### Create Avail Accounts
 
-We recommend creating two accounts, `stash` and `controller`, each
-with their own key:
-- The controller key is used to control staking actions and submitting
-  transactions (paying for transaction fees).
-- The stash key is used to control most of your funds. It is
-  recommended that the stash key be a cold wallet or offline and not
-  be used for account-related activities like submitting extrinsics.
+1. Navigate to the Kate network explorer at [<ins>kate.avail.tools</ins>](https://kate.avail.tools/).
+2. Create a `stash` and a `controller` account. The `stash` account should ideally be a cold wallet, while the `controller` can be a hot wallet.
+  > - The controller key is responsible for managing staking activities and executing transactions, 
+      including the payment of transaction fees.
+  >
+  > - The stash key primarily safeguards your funds and should ideally be stored in a cold wallet or 
+      kept offline. It is not recommended to use the stash key for routine account activities like submitting 
+      extrinsics.
+3. Ensure both accounts have sufficient funds to cover transaction fees.
 
-You can create the two accounts via the Explorer interface. The Kate
-network explorer is at [kate.avail.tools](https://kate.avail.tools/)
+:::tip Funding Accounts
 
-Once you have created the accounts, Ensure each account has enough
-funds to pay the fees for making transactions. For validators
-participating in our testnet, contact the Avail team to have funds
+Keep the majority of your funds in the `stash` account and only a minimal amount in the `controller` 
+account to cover transaction fees.
+
+:::
+
+For validators participating in our testnet, contact the Avail team to have funds
 transferred.
 
-<img src={useBaseUrl("img/avail/stash-controller-accounts.png")} width="200%" height="200%"/>
+<img src="img/avail/stash-controller-accounts.png" width="200%" height="200%"/>
 
-:::tip Storing Funds
+### Bond Your Funds
 
-Keep most of your funds in the stash account since it is meant to be
-the custodian of your staking funds, and have just enough funds in the
-controller account to pay for fees.
-
-Make sure not to bond all your AVL balance since you will be unable to
-pay transaction fees from your bonded balance.
-
+:::tip Bonding Tips
+Don't bond all your AVL tokens as you'll need some for transaction fees. You can always bond more tokens later.
+Note: Withdrawing any bonded amount is subject to the duration of the unbonding period.
 :::
 
-### Bonding Process
+1. Navigate to the **Staking** tab in the Explorer.
+2. Click on `Stash` to initiate the bonding process.
+<img src="img/avail/staking-bond-1.png" width="100%" height="100%"/>
 
-It is now time to set up your validator by doing the following:
+3. Fill in the bonding preferences.
 
-- Bond the AVL of the Stash account. These token will be put at stake
-   for the security of the network and subject to slashing.
-- Select the Controller. This is the account that will decide when to start or stop validating.
+  > - **Stash Account:** This is your designated Stash account.
+  > - **Controller Account:** Choose your Controller account, which only requires a minimal amount of AVL to initiate and cease validation.
+  >- **Value Bonded:** Specify the quantity of AVL tokens you wish to bond from your Stash account. You can stake any amount that exceeds the minimum requirement.
+  > - **Payment Destination:** This is the account where your validation rewards will be sent. For more details, visit [this link](https://wiki.polkadot.network/docs/learn-staking#reward-distribution).
 
-First, go to the accounts section on the **Staking** tab in the
-Explorer at [kate.avail.tools](https://kate.avail.tools/#/staking/actions) for the
-Kate network. Here, you can perform
-various staking actions. Click on Stash.
 
-<img src={useBaseUrl("img/avail/staking-bond-1.png")} width="100%" height="100%"/>
+4. After filling in the required fields, click `Bond`. You will be prompted to enter your wallet password. Input your password and then click **Sign and Submit**.
 
-The bonding preferences window will open with the following options:
-- **Stash account:** Your Stash account.
-- **Controller account:** Select your Controller account. This account
-  only needs a small amount of AVL in order to start and stop
-  validating.
-- **Value bonded:** The amount of AVL tokens you want to bond from
-  your Stash account. You may stake any amount above the minimum.
-- **Payment destination:** The account where the rewards from
-  validating are sent. More information can be found
-  [here](https://wiki.polkadot.network/docs/learn-staking#reward-distribution).
-
-:::tip
-
-You should not bond all of the AVL in that account, you will require
-some AVL for transactions. Also note that you can always bond more
-`AVL` later.  However, withdrawing any bonded amount requires the
-duration of the unbonding period.
-
-:::
-
-Once populating the fields you can click bond. You will then be
-promted to enter your wallet password. Enter your password and then
-click **Sign and Submit**.
-
-<img src={useBaseUrl("img/avail/staking-bond-3.png")} width="100%" height="100%"/>
+<img src="img/avail/staking-bond-3.png" width="100%" height="100%"/>
 
 You should now be ready to generate your session keys. Note the
 **Session Key** button, in the next step we will generate a key to
-submit here.  <img src={useBaseUrl("img/avail/staking-bond-4.png")}
-width="100%" height="100%"/>
+submit here.  <img src="img/avail/staking-bond-4.png width="100%" height="100%"/>
 
-## Session Key Management
+## Step 2: Manage Session Keys
 
-Once your node is **fully synced**, you need to rotate and submit your
-session keys.
+After your node is fully synced, you'll need to rotate and submit your session keys.
 
 ### Rotating Session Keys
 
-Run the following command on your Avail validator node machine:
-> While the node is running with the default HTTP RPC port configured.
+Run the following command on your node machine:
+> Ensure the node is running with the default HTTP RPC port configured.
 
 ```shell
 curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "author_rotateKeys", "params":[]}' http://localhost:9933
 ```
 
-The output will have a hex-encoded "result" field. The result is the
-concatenation of the four public keys.  Save this result for a later
-step.
+The result is the concatenation of the four public keys. Save the hex-encoded 
+result for the next step and **restart your node**.
 
-You should now restart the node so it will use the new session keys.
+### Submit Session Keys
 
-### Submitting the `setKeys` Transaction
+You must inform the network of your Session keys by signing and submitting the 
+`setKeys` extrinsic. This action associates your validator with your Controller account.
 
-You need to tell the chain your Session keys by signing and submitting
-an extrinsic. This is what associates your validator with your
-Controller account.
+1. Navigate back to the **[<ins>Staking</ins>](https://kate.avail.tools/#/staking/actions)** tab.
+2. Click on `Set Session Key` and enter the hex-encoded result.
+3. Click `Set Session Key` and enter your password when prompted.
 
-Navigate back to the [**Network &rarr;
-Staking**](https://kate.avail.tools/#/staking/actions) if you
-closed the window.  Ensure you are on **Account actions**, and select
-**Set Session Key** on the bonding account you generated earlier.
-Enter the output `from author_rotateKeys` in the field and click on
-**Set Session Key**. Will be promted for password again.
+<img src="img/avail/set-session-keys.png" width="100%" height="100%"/>
 
-<img src={useBaseUrl("img/avail/set-session-keys.png")} width="100%" height="100%"/>
+After submitting the extrinsic, you'll observe that **Set Session Key** changes 
+to **Validate**. Make sure your node is fully synchronized before proceeding further.
 
-After submitting this extrinsic, you will notice **Set Session Key**
-changed to **Validate**. Ensure your node is in sync before
-proceeding.
+## Step 3: Register as a Validator
 
-## Register as a Validator
+1. Click `Validate` on the **Staking** tab.
 
-If you are ready to start validating you must click **Validate**
+<img src="img/avail/start-validating.png" width="100%" height="100%"/>
 
-<img src={useBaseUrl("img/avail/start-validating.png")} width="100%" height="100%"/>
+2. Set your validator commission percentage.
+3. Enter your password and click `Validate`.
 
-You will be prompted to enter your validator commission
-percentage. Once you click on **Validate** you will be prompted for
-your password.
+<img src="img/avail/set-validate-commission.png" width="100%" height="100%"/>
 
-<img src={useBaseUrl("img/avail/set-validate-commission.png")} width="100%" height="100%"/>
+## Step 4: Start Validation
 
-### Starting Validation
+Your validator is now prepared to begin the validation process. If you wish to discontinue, 
+you can click the stop icon. Please note that the Avail interface doesn't automatically verify 
+if your node is synchronized; you'll need to confirm this manually. If your node has sufficient 
+stake, the Avail blockchain will likely select it in the next epoch or two.
 
-Your validator is now ready to start validating. You can click the
-stop icon should you wish to exit. Note that the Avail interface does
-not check if your node is in sync.  You need to ensure your node is in
-sync. The Avail blockchain will select your node in the next epoch or
-two if you have enough stake.
+<img src="img/avail/validator-ready.png" width="100%" height="100%"/>
 
-<img src={useBaseUrl("img/avail/validator-ready.png")} width="100%" height="100%"/>
-
-### Verifying Validator Status
+### Verify Validator Status
 
 To verify that your node is ready for possible selection at the end of
-the next era , navigate to [**Network &rarr;
-Staking**](https://kate.avail.tools/#/staking) and select
-**Waiting**. Your account should be shown there. A new validator set
-is selected every **era**, based on the staking amount.
+the next era, follow these steps:
 
-<img src={useBaseUrl("img/avail/validator-waiting-list.png")} width="100%" height="100%"/>
+1. Go to the **[<ins>Staking</ins>](https://kate.avail.tools/#/staking)** tab and 
+   select `Waiting` to see if your account appears.
+2. If your node has enough stake, it will be elected in the next era or two.
+   > A new set of validators is chosen every **era**, based on the amount staked.
 
-### Validator in Action
+<img src="img/avail/validator-waiting-list.png" width="100%" height="100%"/>
 
-When the validator node has enough stake it will be elected. The image below is
-an example of our elected validator node producing blocks.
+### Monitor Validator in Action
 
-<img src={useBaseUrl("img/avail/validator-active-set.png")} width="100%" height="100%"/>
+Once your validator node has accrued enough stake, it will be elected for validation. 
+Below is an example image of an elected validator node actively producing blocks.
 
-That's it! You're now successfully running an Avail Validator node. 🎉
+In addition, please check out the guide on validator monitoring available 
+[<ins>here</ins>](/operate/validator/0050-validator-monitoring.md).
+
+<img src="img/avail/validator-active-set.png" width="100%" height="100%"/>
+
+## Next Steps
+
+Congratulations on successfully setting up your Avail Validator node!
+
+As you move forward, here are some essential actions to consider:
+
+1. **Backup Your Validator**: Ensure you have a secure backup of your validator settings and keys. Refer to the 
+[<ins>Backup Guide</ins>](/operate/validator/0040-backup-node.md) for detailed steps.
+  
+2. **Start Monitoring**: If you haven't already, set up monitoring tools to keep track of your validator's performance. Check out the [<ins>Monitoring Guide</ins>](/operate/validator/0050-validator-monitoring.md) for recommendations.
+
+3. **Join the Community**: Connect with other validators and the Avail team on the official [<ins>Discord Channel</ins>](https://discord.com/invite/y6fHnxZQX8). It's a great place to share experiences, ask questions, and get updates.
