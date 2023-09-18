@@ -190,7 +190,6 @@ module.exports = {
       },
       collapsed: false,
       items: [
-        "api/quickstart",
         {
           type: "category",
           label: "Light Client",
