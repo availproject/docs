@@ -79,7 +79,7 @@ export const contentData = {
                         rpcEndpoint: 'https://kate.avail.tools/v1',
                         wsEndpoint: 'wss://kate.avail.tools/ws',
                         chainSpec: { link: 'https://kate.avail.tools/#/explorer/chainspec', text: 'chainspec.raw.json' },
-                        chainInfo: { link: 'https://availproject.github.io/assets/files/chaininfo-de1eeff4d63715bbec85aae81a956d40.txt', text: 'chaininfo.txt' },
+                        chainInfo: { link: 'https://kate.avail.tools/chaininfo.txt', text: 'chaininfo.txt' },
                         nodeVersion: { link: 'https://github.com/availproject/avail/releases/tag/v1.6.3', text: 'v1.6.3' },
                         lightClientVersion: { link: 'https://github.com/availproject/avail-light/releases/tag/v1.6.0-rc1', text: '1.6.0-rc1' }
                     },

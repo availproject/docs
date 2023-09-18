@@ -15,7 +15,11 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 This guide provides a step-by-step walkthrough for setting up a relay node, which can help resolve connectivity issues between network peers.
 
-Before you start, ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).
+:::note Before you start
+
+**Ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).**
+
+:::
 
 ## Step 1: Compile the Binary
 
@@ -57,6 +61,4 @@ libp2p_port: 39000                   # libp2p port
 libp2p_identify_protocol: '/avail_kad/id/1.0.0'  # libp2p protocol
 ```
 
-For more advanced configurations, consult the [Configuration Reference](https://github.com/availproject/avail-light-relay#config-reference).
-
-Congratulations! You've successfully set up a relay Node. Your node is now ready to assist with connectivity issues between light clients in your network. Happy relaying! 🚀
+For more advanced configurations, consult the [<ins>Configuration Reference</ins>](https://github.com/availproject/avail-light-relay#config-reference).

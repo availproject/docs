@@ -15,8 +15,12 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 This guide outlines how to set up an Avail light client, covering both pre-compiled releases and source compilation.
 
-Before you start, ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).
+:::note Before you start
+
+**Ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).**
 We recommend downloading the pre-compiled binary for speed and convenience.
+
+:::
 
 ## Option 1: Run the Pre-Built Release
 
@@ -74,3 +78,7 @@ Once the build is complete, run:
 ```bash
 ./avail-light -c config.yaml
 ```
+
+## Monitor Your Node
+
+You can monitor the status of your node on the [<ins>Avail Telemetry</ins>](http://telemetry.avail.tools/) website.
