@@ -1,8 +1,8 @@
 ---
-id: validium
-title: How to Build a Validium Using Avail
-sidebar_label: Validium
-description: "Discover how to utilize Avail as a data availability layer to build a validium."
+id: app-chains
+title: How to Build an Application-Specific Blockchain Using Avail
+sidebar_label: App-chain
+description: "Discover how to utilize Avail as a data availability layer to build an app-chain."
 keywords:
   - documentation
   - avail

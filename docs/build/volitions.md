@@ -1,8 +1,8 @@
 ---
-id: validium
-title: How to Build a Validium Using Avail
-sidebar_label: Validium
-description: "Discover how to utilize Avail as a data availability layer to build a validium."
+id: volitions
+title: How to Build a Volition Using Avail
+sidebar_label: Volition
+description: "Discover how to utilize Avail as a data availability layer to build a Volitions."
 keywords:
   - documentation
   - avail

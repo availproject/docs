@@ -94,7 +94,7 @@ module.exports = {
     },
     {
       type: "category",
-      label: "Build",
+      label: "Build Anything",
       link: {
         type: "generated-index",
       },
@@ -102,6 +102,20 @@ module.exports = {
       items: [
         "build/quickstart",
         "build/validium",
+        {
+          type: "category",
+          label: "Sovereign Rollup",
+          link: {
+            type: "generated-index",
+          },
+          collapsed: true,
+          items: [
+            "build/zk-rollup",
+            "build/op-rollup",
+          ],
+        },
+        "build/app-chains",
+        "build/volitions",
       ],
     },
     {
