@@ -22,7 +22,7 @@ We recommend downloading the pre-compiled binary for speed and convenience.
 
 :::
 
-## Run the Pre-Built Release
+## Option 1: Run the Pre-Built Release
 
 All you need to do is run:
 
@@ -78,3 +78,7 @@ Once the build is complete, run:
 ```bash
 ./avail-light -c config.yaml
 ```
+
+## Monitor Your Node
+
+You can monitor the status of your node on the [<ins>Avail Telemetry</ins>](http://telemetry.avail.tools/) website.

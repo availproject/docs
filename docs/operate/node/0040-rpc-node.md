@@ -56,7 +56,7 @@ Make sure to add the RPC ports (9933 for HTTP and 9944 for WS) to your firewall'
 
 ## Testing Your RPC Node
 
-You can verify that your RPC node is running correctly by executing a simple \`curl\` command. A functioning RPC node will return data, while a non-functioning one will return an error.
+You can verify that your RPC node is running correctly by executing a simple `curl` command. A functioning RPC node will return data, while a non-functioning one will return an error.
 
 ```bash
 curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "rpc_methods"}' http://127.0.0.1:9933/

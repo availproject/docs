@@ -112,7 +112,7 @@ to **Validate**. Make sure your node is fully synchronized before proceeding fur
 
 <img src={useBaseUrl("img/avail/set-validate-commission.png")} width="100%" height="100%"/>
 
-## Step 5: Start Validation
+## Step 4: Start Validation
 
 Your validator is now prepared to begin the validation process. If you wish to discontinue, 
 you can click the stop icon. Please note that the Avail interface doesn't automatically verify 
