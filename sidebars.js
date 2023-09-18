@@ -94,7 +94,7 @@ module.exports = {
     },
     {
       type: "category",
-      label: "Build Anything",
+      label: "Build",
       link: {
         type: "generated-index",
       },
