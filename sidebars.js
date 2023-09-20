@@ -65,6 +65,7 @@ module.exports = {
 
   avail: [
     "about/introduction",
+    "build/quickstart",
     {
       type: "category",
       label: "Get Started",
@@ -90,6 +91,31 @@ module.exports = {
         "about/introduction/app-id",
         "about/introduction/light-client",
         "about/introduction/validiums",
+      ],
+    },
+    {
+      type: "category",
+      label: "Build",
+      link: {
+        type: "generated-index",
+      },
+      collapsed: false,
+      items: [
+        "build/validium",
+        {
+          type: "category",
+          label: "Sovereign Rollup",
+          link: {
+            type: "generated-index",
+          },
+          collapsed: true,
+          items: [
+            "build/zk-rollup",
+            "build/op-rollup",
+          ],
+        },
+        "build/app-chains",
+        "build/volitions",
       ],
     },
     {
@@ -164,7 +190,6 @@ module.exports = {
       },
       collapsed: false,
       items: [
-        "api/quickstart",
         {
           type: "category",
           label: "Light Client",
