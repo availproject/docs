@@ -77,7 +77,6 @@ module.exports = {
         "about/accounts",
         "about/explorer",
         "about/faucet",
-        "about/quickstart",
       ],
     },
     {
