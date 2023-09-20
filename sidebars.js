@@ -65,6 +65,7 @@ module.exports = {
 
   avail: [
     "about/introduction",
+    "build/quickstart",
     {
       type: "category",
       label: "Get Started",
@@ -100,7 +101,6 @@ module.exports = {
       },
       collapsed: false,
       items: [
-        "build/quickstart",
         "build/validium",
         {
           type: "category",
