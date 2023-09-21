@@ -11,7 +11,7 @@ export const contentData = {
             tutorialsInfo: [
                 {
                     title: 'Run a Light Client',
-                    link: '/operate/node/light-client-setup/'
+                    link: '/operate/node/light-client/'
                 },
                 {
                     title: 'Run a Full Node',
@@ -42,13 +42,13 @@ export const contentData = {
                 },
                 {
                     title: 'Monitor Your Validator',
-                    link: '/operate/validator/avail-monitoring-node/'
+                    link: '/operate/validator/monitor/'
                 }
             ]
         },        
         {
             title: 'Build Modular Solutions',
-            cardLink: '/category/build/',
+            cardLink: '/category/api-reference/',
             blockInfo: [
                 'Highly Efficient Validiums',
                 'Robust Soverign Chain Rollups',
