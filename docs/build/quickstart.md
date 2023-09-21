@@ -14,6 +14,7 @@ image: https://availproject.github.io/img/avail/AvailDocs.png
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
+<!--
 Construct any blockchain-based solution using Avail.
 
 ## Construct Modular Solutions
@@ -25,6 +26,8 @@ Construct any blockchain-based solution using Avail.
 | Optimistic Rollup | [<ins>How to Build an Optimistic Rollup using Avail</ins>](/build/op-rollup.md) |
 | App-chain         | [<ins>How to Build an App-chain using Avail</ins>](/build/app-chain.md) |
 | Volition          | [<ins>How to Build a Volition using Avail</ins>](/build/volition.md) |
+
+-->
 
 ## Avail API
 
