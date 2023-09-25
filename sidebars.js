@@ -205,6 +205,10 @@ module.exports = {
         "api/use-case-validiums",
       ],
     },
+    {
+      type: "doc",
+      id: "glossary",
+    },
   ],
 
 };
