@@ -19,7 +19,7 @@ image: https://availproject.github.io/img/avail/AvailDocs.png
 # Avail Glossary
 ## General
 
-### Modularity
+### Modular Blockchain
 A modular blockchain is one that focuses on handling a select few duties and outsources the rest to one or more separate layers.
 
 ### Monolithic 
