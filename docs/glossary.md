@@ -24,8 +24,7 @@ image: https://availproject.github.io/img/avail/AvailDocs.png
 A modular blockchain is one that focuses on handling a select few duties and outsources the rest to one or more separate layers.
 
 ### Monolithic Blockchain 
-In a monolithic blockchain, all tasks are handled on a single layer or a group of tightly coupled chains operating on the same layer. The latter distinction is important to note: a network of interconnected blockchains that handle all roles, such as Polkadot’s parachains or Avalanche’s subnets, doesn’t qualify as modular architecture.
-
+In a monolithic blockchain, all tasks are handled on a single layer or a group of tightly coupled chains operating on the same layer. 
 ### Data Availability (DA)
 The DA layer guarantees that all necessary data is available for reconstructing the state of a rollup. Data Availability is not Data Storage. Data availability is the assurance that full nodes have been able to access and verify the full set of transactions associated with a specific block.
 
@@ -39,7 +38,7 @@ Execution is how nodes on the blockchain process transactions to transition the 
 The "finality" that blockchains offer is a promise that the transactions that have been recorded in the chain's history are unchangeable (or "immutable"). The blockchain must be persuaded of a transaction's authenticity for this to occur. The chain must therefore validate transactions, check the accuracy of proofs, and resolve disagreements in order to perform the settlement function.
 
 ### Decoupling
-The concept behind a modular blockchain is that it can focus on a few tasks rather than attempting to perform all of them. In particular, modular blockchains decouple execution from consensus.
+The concept behind a modular blockchain is that it can focus on a few tasks rather than attempting to perform all of them. Decoupling refers to the process of separating functions into modular layers or components.
 
 ### Bridging
 Connection between different layers in modular blockchain
@@ -47,14 +46,14 @@ Connection between different layers in modular blockchain
 
 ## Blockchain Solution
 ### Validiums 
-A validium is like a zero-knowledge rollup, but it doesn't store the transaction data on the parent chain. Instead, it uses a validity proof to prove that the transactions are valid.
+Validiums store transaction data off the L1 (e.g. Ethereum). Validiums can inherit the benefits of Avail’s scalable and purpose-built module quite well. Instead of posting transaction data to a Data Availability Committee (or somewhere else), Validiums can post transaction data to Avail.
 
 ### Sovereign Rollups
 A sovereign rollup is a type of blockchain that publishes its transactions to another blockchain, typically for ordering and data availability, but handles its own settlement. This means that sovereign rollups have their own canonical chain and validity rules, and they do not need to rely on a settlement layer to determine which transactions are valid.
 
 ### App-Chains
 
-App-chains, short for application-specific blockchains, are specialized blockchains that are designed to meet the specific needs of a particular application or use case. This customization can lead to significant improvements in efficiency, scalability, and security compared to general-purpose blockchains, such as Ethereum, which serve a wide range of applications.
+App-chains allow developers to optimize their applications by tailoring a chain to the specific needs of their use case, without constraints from a shared blockchain. They provide enhanced performance and scalability by functioning as independent chains, serving specific applications. App-chains simplify the development process by eliminating the need for developers to manage and maintain a validator set.
 
 ### Sidechains
 A sidechain is a separate blockchain network that is connected to another blockchain, called a parent chain or mainnet, through a two-way bridge. Sidechains can have their own consensus mechanisms, block times, and transaction fees, which allows them to be optimized for specific use cases.
@@ -84,7 +83,7 @@ Nominated Proof of Stake (NPoS) is a consensus mechanism that allows users to no
 Governance in blockchain refers to the process of making decisions about the development and operation of a blockchain network.
 
 ### Validator
-A validator in blockchain is a full node that is responsible for verifying transactions and adding them to the blockchain.
+A validator in blockchain is a full node that is responsible for verifying transactions and adding them to the blockchain. Avail is building towards supporting up to 1,000 external validators in the active set.
 
 ### Oversubscribed
 Oversubscribed means that there are more validators who want to participate in the consensus process than there are slots available.
@@ -115,13 +114,23 @@ A type of cryptographic proof that can be used to attest to the validity of a st
 
 ## Data Management and Availability
 ### Data Availability Sampling (DAS)
-Data Availability Sampling (DAS) is a technique that allows light nodes to verify the availability of data without having to download all of it. This is important because blockchains can contain a lot of data, and it can be expensive and time-consuming for light nodes to download all of it. DAS works by having light nodes download a small sample of the data from each block. If the light node can successfully download and verify the sample, then it can be confident that the entire block is available.
+Avail light clients, like other light clients, only download the headers of the blockchain. However, they additionally perform data availability sampling: a technique that randomly samples small sections of the block data and verifies they are correct. When combined with erasure coding and KZG polynomial commitments, Avail clients are able to provide strong (nearly 100%) guarantees of availability without relying on fraud proofs, and with only a small constant number of queries.
 
 ### KZG Commitments
-KZG Commitments are a type of polynomial commitment scheme that was introduced by Kate, Zaverucha, and Goldberg in 2010. KZG commitments are non-interactive, meaning that they can be generated and verified without any communication between the prover and the verifier. This makes them ideal for use in blockchain applications, where it is important to minimize communication overhead.
+KZG commitments, introduced by Aniket Kate, Gregory M. Zaverucha, and Ian Goldberg in 2010, provide a way to commit to polynomials in a succinct manner. Recently, polynomial commitments came to the forefront, being primarily used as commitments in PLONK-like zero knowledge constructions.
+
+In Avail’s construction, we use KZG commitments for the following reasons:
+
+* It allows us to commit to values in a succinct manner to be kept inside the block header.
+* Short openings are possible which helps a light client verify availability.
+* The cryptographic binding property helps us avoid fraud proofs by making it computationally infeasible to produce incorrect commitments.
+
+
 
 ### Erasure Coding
-Erasure coding is a data protection technique that allows data to be recovered even if some of the data is lost or corrupted. Erasure coding works by dividing the data into fragments and then adding redundant data to the fragments. The redundant data is calculated in such a way that it can be used to reconstruct the original data if a certain number of fragments are lost or corrupted.
+
+It is a method of reproducing data from smaller encoded blocks. The light client recovers application data from the already erasure-encoded blocks on Avail. It’s important because the LC is sampling randomly, so block-level redundancy makes it more likely that the LC would find missing data.
+
 
 ### Fraud Proofs
 Fraud proofs are a type of cryptographic proof that can be used to prove that a transaction or state transition is invalid. Fraud proofs are particularly useful for blockchain applications, where it is important to be able to verify the validity of transactions and state transitions quickly and efficiently.
