@@ -17,19 +17,20 @@ image: https://availproject.github.io/img/avail/AvailDocs.png
 ---
 
 # Avail Glossary
+
 ## General
 
 ### Modular Blockchain
 A modular blockchain is one that focuses on handling a select few duties and outsources the rest to one or more separate layers.
 
-### Monolithic 
-In a monolithic chain, all tasks are handled on a single layer or a group of tightly coupled chains operating on the same layer. The latter distinction is important to note: a network of interconnected blockchains that handle all roles, such as Polkadot’s parachains or Avalanche’s subnets, doesn’t qualify as modular architecture.
+### Monolithic Blockchain 
+In a monolithic blockchain, all tasks are handled on a single layer or a group of tightly coupled chains operating on the same layer. The latter distinction is important to note: a network of interconnected blockchains that handle all roles, such as Polkadot’s parachains or Avalanche’s subnets, doesn’t qualify as modular architecture.
 
 ### Data Availability
 Data availability is the guarantee that block proposers publish all transaction data of a block, along with making this data available to all network participants. In essence, it refers to all nodes’ ability to access and download all the data contained within the various blocks of a network.
 
 ### Scalability
-Blockchain scalability refers to a blockchain's capacity to execute transactions, store data, and come to consensus as the network's user base grows.
+Scalability refers to the ability to increase the amount of data published by the chain without negatively impacting the participants and users of the chain. For example, without drastically increasing hardware requirements for validators, full nodes, or application clients.
 
 ### Execution
 Execution is how nodes on the blockchain process transactions to transition the blockchain between states. Nodes participating in consensus must execute transactions using their copy of the blockchain to attest before validating blocks.
@@ -43,8 +44,6 @@ The concept behind a modular blockchain is that it can focus on a few tasks rath
 ### Bridging
 Connection between different layers in modular blockchain
 
-### Stateless
-Stateless blockchain is a type of blockchain that does not require validators to store the entire state of the network. Instead, validators only need to store a small amount of data, such as a Merkle root hash of the state, which can be used to verify the validity of transactions.
 
 ## Blockchain Solution
 ### Validiums 
