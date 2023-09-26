@@ -26,8 +26,8 @@ A modular blockchain is one that focuses on handling a select few duties and out
 ### Monolithic Blockchain 
 In a monolithic blockchain, all tasks are handled on a single layer or a group of tightly coupled chains operating on the same layer. The latter distinction is important to note: a network of interconnected blockchains that handle all roles, such as Polkadot’s parachains or Avalanche’s subnets, doesn’t qualify as modular architecture.
 
-### Data Availability
-Data availability is the guarantee that block proposers publish all transaction data of a block, along with making this data available to all network participants. In essence, it refers to all nodes’ ability to access and download all the data contained within the various blocks of a network.
+### Data Availability (DA)
+The DA layer guarantees that all necessary data is available for reconstructing the state of a rollup. Data Availability is not Data Storage. Data availability is the assurance that full nodes have been able to access and verify the full set of transactions associated with a specific block.
 
 ### Scalability
 Scalability refers to the ability to increase the amount of data published by the chain without negatively impacting the participants and users of the chain. For example, without drastically increasing hardware requirements for validators, full nodes, or application clients.
