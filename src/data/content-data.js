@@ -57,7 +57,7 @@ export const contentData = {
             tutorialsInfo: [
                 {
                     title: 'Avail-Powered Validiums',
-                    link: '/build/validium'
+                    link: '/api/use-case-validiums'
                 },
                 {
                     title: 'Soverign Chain Rollups: Docs Coming Soon',
