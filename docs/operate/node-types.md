@@ -20,16 +20,16 @@ While Avail diverges from conventional blockchain frameworks to concentrate on m
 
 ## Node Types Comparison
 
-| Node Type       | Storage Requirement | Network Role | Special Features | Use Case |
-|-----------------|---------------------|--------------|------------------|----------|
-| Light Clients   | Low                 | Interaction  | Minimal Storage  | Quick Queries, Low-resource Environments |
-| Full Nodes      | Moderate            | Core         | Network Access      | Transaction Verification, Data Retrieval |
-| Validator Nodes | Moderate            | Core         | Block Production | Network Security, Governance |
-| Archive Nodes   | High                | Auxiliary    | Historical Data  | Auditing, Compliance, Reference |
-| Pruned Nodes    | Variable            | Core         | Disk Space Efficiency | Limited Storage Environments |
-| RPC Nodes       | Moderate            | Gateway      | API Exposure     | Development, Remote Access |
-| Bootstrap Nodes | Low                 | Initial      | Network Entry    | Network Initialization |
-| Relay Nodes     | Moderate            | Mediator     | Connectivity     | NAT Traversal; Firewall Bypass |
+| Node Type       | Storage Requirement | Network Role | Special Features | Use Case | Typically Hosted By|
+|-----------------|---------------------|--------------|------------------|----------|--------------------|
+| Light Clients   | Low                 | Interaction  | Minimal Storage  | Quick Queries, Low-resource Environments |End users, infrastructure providers|
+| Full Nodes      | Moderate            | Core         | Network Access      | Transaction Verification, Data Retrieval |End users, infrastructure providers, Regular network participants|
+| Validator Nodes | Moderate            | Core         | Block Production | Network Security, Governance |Infrastructure providers, staked node providers, Trusted or elected entities|
+| Archive Nodes   | High                | Auxiliary    | Historical Data  | Auditing, Compliance, Reference |Institutions, research organizations, infrastructure providers|
+| Pruned Nodes    | Variable            | Core         | Disk Space Efficiency | Limited Storage Environments |End users, infrastructure providers, Users with limited storage|
+| RPC Nodes       | Moderate            | Gateway      | API Exposure     | Development, Remote Access |Infrastructure providers, developers|
+| Bootstrap Nodes | Low                 | Initial      | Network Entry    | Network Initialization |Infrastructure providers, early participants|
+| Relay Nodes     | Moderate            | Mediator     | Connectivity     | NAT Traversal; Firewall Bypass |End users, infrastructure providers, businesses setting up private networks|
 
 ## Overview of Node Types
 
