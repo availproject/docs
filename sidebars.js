@@ -1,6 +1,7 @@
 module.exports = {
 
   avail: [
+    "index",
     "about/introduction",
     "build/quickstart",
     {
