@@ -51,7 +51,7 @@ export const contentData = {
             cardLink: '/category/api-reference/',
             blockInfo: [
                 'Highly Efficient Validiums',
-                'Robust Soverign Chain Rollups',
+                'Robust Sovereign Chain Rollups',
                 'Optimized App-chains',
             ],
             tutorialsInfo: [
@@ -60,7 +60,7 @@ export const contentData = {
                     link: '/api/use-case-validiums'
                 },
                 {
-                    title: 'Soverign Chain Rollups: Docs Coming Soon',
+                    title: 'Sovereign Chain Rollups: Docs Coming Soon',
                 },
                 {
                     title: 'App-chains: Docs Coming Soon',
