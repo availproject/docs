@@ -1,14 +1,12 @@
-import * as React from "react";
-import {useState} from "react";
-import Layout from "@theme/Layout";
+import React, { useState } from "react";
 import { contentData } from "../data/content-data";
-import {ButtonLink, TutorialsCard, FAQSection, EcosystemSection} from "../components";
+import Layout from "@theme/Layout";
+import {ButtonLink, TutorialsCard, FAQSection, EcosystemSection} from ".";
 
 function Home() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <Layout>
       <div className="bootstrap-wrapper">
         <div className="section-divider"></div>
         <div className="container">
@@ -44,7 +42,6 @@ function Home() {
           </section>
         </div>
       </div>
-    </Layout>
   );
 }
 
