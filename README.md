@@ -110,7 +110,7 @@ Below is a curated list of GitHub repositories that are actively tracking the va
 
 ### Static-Site Generator
 
-The [Avail Developer Documentation](https://availproject.github.io/) is built using [Docusaurus](https://docusaurus.io/), making it easy to serve and host its static files.
+The [Avail Developer Documentation](https://docs.availproject.org/) is built using [Docusaurus](https://docusaurus.io/), making it easy to serve and host its static files.
 
 ### Deployments
 
@@ -189,7 +189,7 @@ Your contributions can significantly enrich the Docs in the following ways:
 
 Contributing to the Avail Documentation is simple. You'll need a GitHub account and a basic understanding of Markdown syntax to get started.
 
-1. **Locate the Page**: Visit the [Avail Documentation page](https://availproject.github.io/) you wish to edit.
+1. **Locate the Page**: Visit the [Avail Documentation page](https://docs.availproject.org/) you wish to edit.
 2. **Navigate to the Bottom**: Scroll to the bottom of the page.
 3. **Edit Link**: Click on the **Edit this page** link. This will redirect you to the corresponding Markdown file on GitHub.
 4. **Edit Mode**: Once on GitHub, click the pencil icon located in the upper-right corner to enter edit mode.

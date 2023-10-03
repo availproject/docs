@@ -10,7 +10,7 @@ keywords:
 - scale
 - rollup
 - validium
-image: https://availproject.github.io/img/avail/AvailDocs.png
+image: https://docs.availproject.org/img/avail/AvailDocs.png
 
 ---
 

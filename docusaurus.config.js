@@ -5,7 +5,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 module.exports = {
   title: "Avail Docs",
   tagline: "The official documentation hub for the Avail Project.",
-  url: "https://availproject.github.io/",
+  url: "https://docs.availproject.org/",
   baseUrl: "/",
   favicon: "/img/favicon.ico",
   organizationName: "availproject",

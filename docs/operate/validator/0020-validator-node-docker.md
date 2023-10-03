@@ -10,7 +10,7 @@ keywords:
   - docker
   - validator
   - data availability
-image: https://availproject.github.io/img/avail/AvailDocs.png
+image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
@@ -45,7 +45,7 @@ Download the Correct Chaispec file for the network in our case we are using the 
 In our case we will download the chainspec into our config folder as `kate-chainspec.raw.json`
 
 ```bash
-curl -L -o /mnt/avail/config/kate-chainspec.raw.json https://raw.githubusercontent.com/availproject/availproject.github.io/main/static/configs/kate/chainspec.raw.json
+curl -L -o /mnt/avail/config/kate-chainspec.raw.json https://raw.githubusercontent.com/availproject/docs.availproject.org/main/static/configs/kate/chainspec.raw.json
 ```
 
 Now that we've downloaded our Chainspec configuration, let's proceed to launch our Avail Node.

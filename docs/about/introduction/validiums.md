@@ -9,7 +9,7 @@ keywords:
   - availability
   - scale
   - rollup
-image: https://availproject.github.io/img/avail/AvailDocs.png
+image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
 Due to the architecture of monolithic blockchains (such as Ethereum in

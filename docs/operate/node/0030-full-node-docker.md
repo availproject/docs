@@ -11,7 +11,7 @@ keywords:
   - data availability
   - da
   - docker
-image: https://availproject.github.io/img/avail/AvailDocs.png
+image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
@@ -29,7 +29,7 @@ We recommend downloading the pre-compiled binary for speed and convenience.
 First, you'll need to download the `kate-chainspec.raw.json` Chainspec configuration file.
 
 ```bash
-curl -L -o /mnt/avail/config/kate-chainspec.raw.json https://raw.githubusercontent.com/availproject/availproject.github.io/main/static/configs/kate/chainspec.raw.json
+curl -L -o /mnt/avail/config/kate-chainspec.raw.json https://raw.githubusercontent.com/availproject/docs.availproject.org/main/static/configs/kate/chainspec.raw.json
 ```
 
 ## Step 2: Launch Your Avail Node

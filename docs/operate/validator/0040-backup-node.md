@@ -8,7 +8,7 @@ keywords:
   - avail
   - node
   - validator
-image: https://availproject.github.io/img/avail/AvailDocs.png
+image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
 ## Understanding Validator Directories
