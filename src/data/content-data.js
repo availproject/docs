@@ -53,7 +53,7 @@ export const contentData = {
                 'Ecosystem Agnostic Modularity',
                 'Scalable Across All Layers',
                 'Robust Sovereign Chain Rollups',
-                'Optimized App-chains',
+                'Optimized App-Chains',
             ],
             tutorialsInfo: [
                 {
