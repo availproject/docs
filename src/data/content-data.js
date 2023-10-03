@@ -50,7 +50,7 @@ export const contentData = {
             title: 'Build Modular Solutions',
             cardLink: '/category/api-reference/',
             blockInfo: [
-                'Ecosystem Agnostic Data Layer',
+                'Ecosystem Agnostic Modularity',
                 'Scalable Across All Layers',
                 'Robust Sovereign Chain Rollups',
                 'Optimized App-chains',
