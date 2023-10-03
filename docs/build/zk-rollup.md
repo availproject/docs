@@ -11,7 +11,7 @@ keywords:
   - validium
   - modular
   - scalability
-image: https://availproject.github.io/img/avail/AvailDocs.png
+image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 

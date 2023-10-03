@@ -10,7 +10,7 @@ keywords:
   - accounts
   - faucet
   - funding
-image: https://availproject.github.io/img/avail/AvailDocs.png
+image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
 You can use the Discord Faucet to get Avail (AVL) tokens on the Kate

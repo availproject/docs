@@ -10,7 +10,7 @@ keywords:
   - docker
   - validator
   - data availability
-image: https://availproject.github.io/img/avail/AvailDocs.png
+image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
