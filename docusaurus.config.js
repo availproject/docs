@@ -334,7 +334,7 @@ module.exports = {
         docs: {
           routeBasePath: '/',
           sidebarPath: require.resolve("./sidebars.js"),
-          editUrl: "https://github.com/availproject/docs.availproject.org/tree/main",
+          editUrl: "https://github.com/availproject/availproject.github.io/tree/main",
           path: "docs",
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
