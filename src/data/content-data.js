@@ -50,7 +50,8 @@ export const contentData = {
             title: 'Build Modular Solutions',
             cardLink: '/category/api-reference/',
             blockInfo: [
-                'Highly Efficient Validiums',
+                'Ecosystem Agnostic Data Layer',
+                'Scalable Across All Layers',
                 'Robust Sovereign Chain Rollups',
                 'Optimized App-chains',
             ],
@@ -60,10 +61,10 @@ export const contentData = {
                     link: '/api/use-case-validiums'
                 },
                 {
-                    title: 'Sovereign Chain Rollups: Docs Coming Soon',
+                    title: 'Avail-Powered Optimiums: Docs Coming Soon',
                 },
                 {
-                    title: 'App-chains: Docs Coming Soon',
+                    title: 'Avail-Powered Volitions: Docs Coming Soon',
                 },
             ]
         },

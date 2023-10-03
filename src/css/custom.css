@@ -977,8 +977,8 @@ a.disabled {
   padding-left: 8px;
 }
 .section-ecosystem {
-  width: 90%;
-  margin: auto;
+  width: 87%;
+  margin: 60px;
 }
 .section-ecosystem .head {
   display: flex;
@@ -1262,31 +1262,35 @@ code {
 
 .tabs__item {
   appearance: none;
-  border-bottom: 4px solid transparent;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+  border: 2px solid #BCC6D4;
+  border-radius: 8px;
   color: #31414e;
   display: inline-flex;
   flex-direction: column;
   font-size: var(--ifm-h4-font-size);
   font-weight: 700;
   justify-content: center;
-  padding: 0 4px 12px;
-  margin-right: 16px;
-  transition: background-color .2s,color .2s;
+  padding: 8px 12px;
+  margin: 0 8px 8px 0;
+  transition: background-color .2s, color .2s, opacity .2s, border-color .2s, box-shadow .2s;
+  opacity: 0.7;
+  background-color: #C8D4E8;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .tabs__item:hover {
-  border-bottom: 4px solid #4E6786;
+  border-color: #4E6786;
+  opacity: 1;
+  background-color: #B3C2D9;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-[role =  tabpanel] {
-  /*padding: 0 1rem 1rem 1rem;*/
+.tabs__item.active {
+  background-color: #B3C2D9;
+  border-bottom-color: transparent;
 }
 
 .tabs {
-  /*margin: 24px auto 0;*/
-  /*justify-content: center;*/
   position: inherit;
   flex-wrap: wrap;
 }
@@ -1295,7 +1299,7 @@ code {
   flex-wrap: wrap;
 }
 
-/* increases the search bar width */
+
 .navbar__items--right > :last-child {
     padding-right: 0;
     width: 300px;
