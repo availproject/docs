@@ -61,8 +61,8 @@ Download the client binary and config file for the node you want to run:
 
 | Node Type       | Repository Name       | Latest Release                        |
 |-----------------|-----------------------|---------------------------------------|
-| **Full Node**   | [<ins>avail</ins>](https://github.com/availproject/avail)                 | [<ins>v1.6.3</ins>](https://github.com/availproject/avail/releases/tag/v1.6.3) |
-| **Light Client**| [<ins>avail-light</ins>](https://github.com/availproject/avail-light)           | [<ins>v1.6.0-rc1</ins>](https://github.com/availproject/avail-light/releases/tag/v1.6.0-rc1) |
+| **Full Node**   | [<ins>avail</ins>](https://github.com/availproject/avail)                 | [<ins>v1.7.1</ins>](https://github.com/availproject/avail/releases/tag/v1.7.1) |
+| **Light Client**| [<ins>avail-light</ins>](https://github.com/availproject/avail-light)           | [<ins>v1.7.0</ins>](https://github.com/availproject/avail-light/releases/tag/v1.7.0) |
 | **Bootstrap Node** | [<ins>avail-light-bootstrap</ins>](https://github.com/availproject/avail-light-bootstrap) | No release yet - build from source    |
 | **Relay Node**  | [<ins>avail-light-relay</ins>](https://github.com/availproject/avail-light-relay)     | No release yet - build from source    |
 
@@ -126,7 +126,7 @@ sudo usermod -aG docker $USER
 
 | Node Type       | Docker Repository Name | Latest Version                     |
 |-----------------|------------------------|------------------------------------|
-| Full Node       | [<ins>availj/avail</ins>](https://hub.docker.com/r/availj/avail/tags)  | [<ins>v1.6.3</ins>](https://hub.docker.com/layers/availj/avail/v1.6.3/images/sha256-7b75902171a84deda195a665a130223f9dfeddf618fe810e984abcc2f24eadce?context=explore) |
+| Full Node       | [<ins>availj/avail</ins>](https://hub.docker.com/r/availj/avail/tags)  | [<ins>v1.7.1</ins>](https://hub.docker.com/layers/availj/avail/v1.7.1/images/sha256-caa7ec656a26f24185f993cfb806066c16ad65ccbe0c8aea472bd099a976bd7e?context=explore) |
 
 </TabItem>
 </Tabs>
