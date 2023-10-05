@@ -29,7 +29,7 @@ We recommend downloading the pre-compiled binary for speed and convenience.
 First, you'll need to download the `kate-chainspec.raw.json` Chainspec configuration file.
 
 ```bash
-curl -L -o /mnt/avail/config/kate-chainspec.raw.json https://raw.githubusercontent.com/availproject/docs.availproject.org/main/static/configs/kate/chainspec.raw.json
+curl -L -o /mnt/avail/config/kate-chainspec.raw.json https://raw.githubusercontent.com/availproject/avail/v1.7.1/misc/genesis/testnet.kate.chain.spec.raw.json
 ```
 
 ## Step 2: Launch Your Avail Node
