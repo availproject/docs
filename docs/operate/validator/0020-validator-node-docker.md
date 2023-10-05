@@ -35,37 +35,22 @@ validator onboarding.
 
 ## Run a Validator Node
 
-Download the Correct Chaispec file for the network in our case we are using the **`Kate-Testnet`** Chainspec.
-
-   
-   | Network      |Docker Hub |  Chain Specification File | Chain Info Reference|
-   |--------------|-----------|--------------------------|----------------------|
-   | Kate Testnet |[Releases](https://hub.docker.com/r/availj/avail/tags)|[chainspec.raw.json](https://kate.avail.tools/#/explorer/chainspec) | [Chain Info](https://kate.avail.tools/#/explorer/chaintext.info) |
-
-In our case we will download the chainspec into our config folder as `kate-chainspec.raw.json`
-
-```bash
-curl -L -o /mnt/avail/config/kate-chainspec.raw.json https://raw.githubusercontent.com/availproject/docs.availproject.org/main/static/configs/kate/chainspec.raw.json
-```
-
-Now that we've downloaded our Chainspec configuration, let's proceed to launch our Avail Node.
-
+Run the following commands to launch your Avail node:
 ```bash
 cd /mnt/avail
 
-sudo docker run -v $(pwd)/config/kate-chainspec.raw.json:/da/genesis/chainspec.raw.json -v $(pwd)/state:/da/state:rw -v $(pwd)/keystore:/da/keystore:rw -e DA_CHAIN=/da/genesis/chainspec.raw.json -e DA_NAME=kate-docker-avail-Node -p 0.0.0.0:30333:30333 -p 9615:9615 -p 9933:9933 -d --restart unless-stopped availj/avail:v1.6.2-rc1
+sudo docker run -v $(pwd)/state:/da/state:rw -v $(pwd)/keystore:/da/keystore:rw -e DA_CHAIN=kate -e DA_NAME=kate-docker-avail-Node -p 0.0.0.0:30333:30333 -p 9615:9615 -p 9933:9933 -d --restart unless-stopped availj/avail:v1.7.1
 ```
 
-Now that we've downloaded our Chainspec configuration, let's proceed to launch our Avail Node. The steps in the command include:
+> The Docker command performs several important steps:
 
-- Navigating to `/mnt/avail` to ensure we're in the correct directory.
-- Mounting `/mnt/avail/config/kate-chainspec.raw.json` to `/da/genesis/chainspec.raw.json` in the Docker container for accurate chainspec.
-- Mapping `/mnt/avail/state` to `/da/state` and granting read-write permissions to ensure data persistence, even if the container crashes.
-- Using `DA_CHAIN` to specify the chainspec file within the container.
-- Setting `DA_NAME` as the name of your node; in our example, it's `kate-docker-avail-Node`.
-- Utilizing port **`30333`** for public P2P connections, **`9615`** for the Prometheus metrics endpoint, and **`9933`** for the HTTP RPC port. For WebSocket, add port **`9944`**.
-- Using an image from the Avail Docker Hub repository.
-- Adding any desired chain flags after the image name, such as `--rpc`.
+> - Navigating to `/mnt/avail` to ensure we're in the correct directory.
+> - Mapping `/mnt/avail/state` to `/da/state` and granting read-write permissions to ensure data persistence, even if the container crashes.
+> - Using `DA_CHAIN` to specify the kate chainspec.
+> - Setting `DA_NAME` as the name of your node; in our example, it's `kate-docker-avail-Node`.
+> - Utilizing port **`30333`** for public P2P connections, **`9615`** for the Prometheus metrics endpoint, and **`9933`** for the HTTP RPC port. For WebSocket, add port **`9944`**.
+> - Using an image from the Avail Docker Hub repository.
+> - Adding any desired node flags after the image name, such as `--rpc`.
 
 Inspect the Docker logs to verify that the node is functioning as expected.
 
