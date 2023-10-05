@@ -36,7 +36,7 @@ validator onboarding.
 First, follow the steps for running a full node as outlined in the 
 [Full Node Setup Instructions](/category/run-a-validator-node/).
 
-To run a validator, you'll use the same command line as for the full node, but with the addition of the `--validator` option to the command.
+To run a validator node, you'll use the same command line as for the full node, but with the addition of the `--validator` option to the command.
 
 For example:
 
@@ -44,7 +44,7 @@ For example:
 ./data-avail --validator \
     --port 30333 \
     --base-path `pwd`/data \
-    --chain `pwd`/chainspec.raw.json
+    --chain kate
 ```
 
 The node will ouput the following when started:

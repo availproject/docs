@@ -28,7 +28,7 @@ We recommend downloading the pre-compiled binary for speed and convenience.
 All you need to do is run:
 
 ```bash
-./data-avail --port 30333 --base-path `pwd`/data --chain `pwd`/chainspec.raw.json
+./data-avail --port 30333 --base-path `pwd`/data --chain kate
 ```
 
 <details>
