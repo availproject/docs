@@ -28,7 +28,7 @@ We recommend downloading the pre-compiled binary for speed and convenience.
 All you need to do is run:
 
 ```bash
-./data-avail --base-path `pwd`/data --chain kate --name "MyKateAvailNode"
+./data-avail --base-path `pwd`/data --chain kate --name "MyKateNode"
 ```
 
 <details>
