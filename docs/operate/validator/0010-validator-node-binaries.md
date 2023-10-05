@@ -36,7 +36,7 @@ validator onboarding.
 First, follow the steps for running a full node as outlined in the 
 [Full Node Setup Instructions](/category/run-a-validator-node/).
 
-To run a validator node, you'll use the same command line as for the full node, but with the addition of the `--validator` option to the command.
+To run a validator node, you'll use the same command as the full node with the addition of the `--validator` option.
 
 For example:
 
