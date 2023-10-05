@@ -28,7 +28,7 @@ We recommend downloading the pre-compiled binary for speed and convenience.
 All you need to do is run:
 
 ```bash
-./data-avail --port 30333 --base-path `pwd`/data --chain kate
+./data-avail --base-path `pwd`/data --chain kate --name "MyKateAvailNode"
 ```
 
 <details>
@@ -66,45 +66,9 @@ Your node will also appear on the [<ins>Avail Telemetry</ins>](http://telemetry.
 
 ## Option 2: Build From Source
 
-### Step 1: Compile the Binary
-
-To compile the client source code, run:
+To compile the client source code, run the node:
 
 ```bash
-cargo build --release -p data-avail
-```
-
-### Step 2: Run the Node
-
-Create a working directory and copy the binary into that directory. Follow the rest of the "Quick Full Node Setup" instructions to download the appropriate chain specification file and run the node.
-
-:::tip Run Avail Locally
-
-If you are working on the node itself, it can be useful to run a local dev node with a temporary datastore:
-
-```bash
-./data-avail --dev --tmp
-```
-
-:::
-
-#### Archive Mode
-
-To run an archive node, you must first review the [full node setup guide](/category/run-a-validator-node/). You will complete all the same steps. The only difference is you will add `--pruning archive` to the parameters.
-
-:::info Storage space requirements
-
-An archive node will require more storage over time and the storage space requirements will grow over time.
-:::
-
-Example for an archive node start command:
-
-```bash
-./data-avail --base-path ~/avail-node/data \
-                --chain ~/avail-node/chainspec.raw.json \
-                --pruning archive \
-                --port 30333 \
-                --bootnodes /dns/gateway-fullnode-002.testnet.avail.tools/tcp/30333/p2p/12D3KooWNuBaLtAGNxQbei7rUzpp8N8TF8k5kPsgKShAJgK4crkB \
-                /dns/gateway-fullnode-001.testnet.avail.tools/tcp/30333/p2p/12D3KooWDgqCRtsJWKjckh2XHtRZbboVdgDJswsxoNmX8PMf59bV \
-                /dns/gateway-fullnode-003.testnet.avail.tools/tcp/30333/p2p/12D3KooWBNy1vzragtwiummqXwry19h6dke68hybY6jVeEH4mAtT
+cargo build --release
+./target/release/data-avail --base-path `pwd`/data --chain kate --name "MyKateAvailNode"
 ```
