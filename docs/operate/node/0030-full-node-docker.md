@@ -26,7 +26,7 @@ We recommend downloading the pre-compiled binary for speed and convenience.
 
 ## Step 1: Launch Your Avail Node
 
-To launch your Avail node navigate to the `/mnt/avail` directory and execute the following Docker command:
+To launch your Avail node, navigate to the `/mnt/avail` directory and execute the following Docker command:
 
 ```bash
 cd /mnt/avail
