@@ -35,7 +35,7 @@ validator onboarding.
 
 ## Run a Validator Node
 
-Run the following commands to launch Avail node:
+Run the following commands to launch your Avail node:
 ```bash
 cd /mnt/avail
 
