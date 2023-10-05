@@ -41,7 +41,7 @@ account to cover transaction fees.
 For validators participating in our testnet, contact the Avail team to have funds
 transferred.
 
-<img src="img/avail/stash-controller-accounts.png" width="200%" height="200%"/>
+<img src="/img/avail/stash-controller-accounts.png" width="200%" height="200%"/>
 
 ### Bond Your Funds
 
@@ -52,7 +52,7 @@ Note: Withdrawing any bonded amount is subject to the duration of the unbonding 
 
 1. Navigate to the **Staking** tab in the Explorer.
 2. Click on `Stash` to initiate the bonding process.
-<img src="img/avail/staking-bond-1.png" width="100%" height="100%"/>
+<img src="/img/avail/staking-bond-1.png" width="100%" height="100%"/>
 
 3. Fill in the bonding preferences.
 
@@ -64,11 +64,11 @@ Note: Withdrawing any bonded amount is subject to the duration of the unbonding 
 
 4. After filling in the required fields, click `Bond`. You will be prompted to enter your wallet password. Input your password and then click **Sign and Submit**.
 
-<img src="img/avail/staking-bond-3.png" width="100%" height="100%"/>
+<img src="/img/avail/staking-bond-3.png" width="100%" height="100%"/>
 
 You should now be ready to generate your session keys. Note the
 **Session Key** button, in the next step we will generate a key to
-submit here.  <img src="img/avail/staking-bond-4.png width="100%" height="100%"/>
+submit here.  <img src="/img/avail/staking-bond-4.png width="100%" height="100%"/>
 
 ## Step 2: Manage Session Keys
 
@@ -95,7 +95,7 @@ You must inform the network of your Session keys by signing and submitting the
 2. Click on `Set Session Key` and enter the hex-encoded result.
 3. Click `Set Session Key` and enter your password when prompted.
 
-<img src="img/avail/set-session-keys.png" width="100%" height="100%"/>
+<img src="/img/avail/set-session-keys.png" width="100%" height="100%"/>
 
 After submitting the extrinsic, you'll observe that **Set Session Key** changes 
 to **Validate**. Make sure your node is fully synchronized before proceeding further.
@@ -104,12 +104,12 @@ to **Validate**. Make sure your node is fully synchronized before proceeding fur
 
 1. Click `Validate` on the **Staking** tab.
 
-<img src="img/avail/start-validating.png" width="100%" height="100%"/>
+<img src="/img/avail/start-validating.png" width="100%" height="100%"/>
 
 2. Set your validator commission percentage.
 3. Enter your password and click `Validate`.
 
-<img src="img/avail/set-validate-commission.png" width="100%" height="100%"/>
+<img src="/img/avail/set-validate-commission.png" width="100%" height="100%"/>
 
 ## Step 4: Start Validation
 
@@ -130,7 +130,7 @@ the next era, follow these steps:
 2. If your node has enough stake, it will be elected in the next era or two.
    > A new set of validators is chosen every **era**, based on the amount staked.
 
-<img src="img/avail/validator-waiting-list.png" width="100%" height="100%"/>
+<img src="/img/avail/validator-waiting-list.png" width="100%" height="100%"/>
 
 ### Monitor Validator in Action
 
@@ -140,7 +140,7 @@ Below is an example image of an elected validator node actively producing blocks
 In addition, please check out the guide on validator monitoring available 
 [<ins>here</ins>](/operate/validator/0050-validator-monitoring.md).
 
-<img src="img/avail/validator-active-set.png" width="100%" height="100%"/>
+<img src="/img/avail/validator-active-set.png" width="100%" height="100%"/>
 
 ## Next Steps
 
