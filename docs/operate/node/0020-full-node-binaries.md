@@ -70,5 +70,5 @@ To compile the client source code, run the node:
 
 ```bash
 cargo build --release
-./target/release/data-avail --base-path `pwd`/data --chain kate --name "MyKateAvailNode"
+./target/release/data-avail --base-path `pwd`/data --chain kate --name "MyKateNode"
 ```
