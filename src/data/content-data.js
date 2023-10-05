@@ -81,8 +81,8 @@ export const contentData = {
                         wsEndpoint: 'wss://kate.avail.tools/ws',
                         chainSpec: { link: 'https://kate.avail.tools/#/explorer/chainspec', text: 'chainspec.raw.json' },
                         chainInfo: { link: 'https://kate.avail.tools/chaininfo.txt', text: 'chaininfo.txt' },
-                        nodeVersion: { link: 'https://github.com/availproject/avail/releases/tag/v1.6.3', text: 'v1.6.3' },
-                        lightClientVersion: { link: 'https://github.com/availproject/avail-light/releases/tag/v1.6.0-rc1', text: '1.6.0-rc1' }
+                        nodeVersion: { link: 'https://github.com/availproject/avail/releases/tag/v1.7.1', text: 'v1.7.1' },
+                        lightClientVersion: { link: 'https://github.com/availproject/avail-light/releases/tag/v1.7.0', text: '1.7.0' }
                     },
                     // Add more active networks here
                 ]

@@ -145,10 +145,10 @@ The Kate testnet offers a multitude of avenues for user engagement:
 
 ### Try it Out
 
-| Action              | Guide Link                                      | Tokens Needed | Staking | Technical Skill Required | Version        | Client Binary  |
-|---------------------|-------------------------------------------------|---------------|---------|--------------------------|----------------|----------------|
+| Action              | Guide Link                                      | Tokens Needed | Staking | Technical Skill Required | Version        | Client Binary                                                                                |
+|---------------------|-------------------------------------------------|---------------|---------|--------------------------|----------------|----------------------------------------------------------------------------------------------|
 | Run a Light Client  | [<ins>Guide</ins>](/docs/operate/node/0010-light-client.md)  | No            | No      | Moderate                 | 1.6.0-rc1      | [<ins>v1.6.0-rc1</ins>](https://github.com/availproject/avail-light/releases/tag/v1.6.0-rc1) |
-| Become a Validator  | [<ins>Guide</ins>](/category/become-a-validator/) | Yes           | Yes     | Advanced                 | 1.6.3          | [<ins>v1.6.3</ins>](https://github.com/availproject/avail/releases/tag/v1.6.3) |
+| Become a Validator  | [<ins>Guide</ins>](/category/become-a-validator/) | Yes           | Yes     | Advanced                 | 1.7.1          | [<ins>v1.7.1</ins>](https://github.com/availproject/avail/releases/tag/v1.7.1)               |
 
 ### Kate Testnet Details
 
