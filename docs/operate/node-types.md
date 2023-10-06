@@ -5,11 +5,11 @@ sidebar_label: Types of Nodes
 sidebar_position: 1
 description: Understand the various types of nodes in the Avail network and their unique functionalities.
 keywords:
-- docs
-- avail
-- node
-- data availability
-- da
+  - docs
+  - avail
+  - node
+  - data availability
+  - da
   image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
