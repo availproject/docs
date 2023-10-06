@@ -5,7 +5,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 module.exports = {
   title: "Avail Docs",
   tagline: "The official documentation hub for the Avail Project.",
-  url: "https://docs.availproject.org/",
+  url: "https://availproject.github.io/",
   baseUrl: "/",
   favicon: "/img/favicon.ico",
   organizationName: "availproject",
@@ -239,7 +239,7 @@ module.exports = {
         srcDark: "img/avail-logo.png",
         href: '/',
         target: "_self",
-       },
+      },
       items: [
         {
           label: "Docs",
@@ -275,6 +275,14 @@ module.exports = {
               target: '_self',
               rel: null,
             },
+            {
+              href: '/category/exploration-team/',
+              label: 'Exploration Team',
+              target: '_self',
+              rel: null,
+            },
+
+
           ],
         },
         /*
@@ -323,7 +331,7 @@ module.exports = {
       href: "https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css",
       type: "text/css",
       integrity:
-        "sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc",
+          "sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc",
       crossorigin: "anonymous",
     },
   ],
