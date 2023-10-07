@@ -1,16 +1,16 @@
 ---
-id: exploration
+id: explorations
 title: Avail Uncharted
-sidebar_label: Exploration Team
+sidebar_label: Data Availability Explorations
 slug: /exploration-team
-description:  An overview of exploration team and their project.
+description:  "An overview of the explorations and projects by Avail Uncharted."
 
 
 ---
 
 ## Exploring Uncharted Horizons in Modular Blockchains
 
-  <p>Welcome to the home of <b><i>Avail Uncharted</i></b>. This is the heart of exploration within the Avail ecosystem. Our mission is to encourage exciting initiatives and collaborate closely with the community. Through collaboration, we aim to gain deeper insights into the needs of builders within our ecosystem and push beyond the horizons of what is possible.</p>
+This page gives an overview of ***Avail Uncharted***. It shows the exploration within the Avail ecosystem. The mission is to encourage exciting initiatives and collaboration.  The aim is to gain deeper insights into the needs of builders within our ecosystem and push beyond the horizons of what is possible.
 
 ## Active Projects
 | Project              | Description | Repository |               

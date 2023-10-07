@@ -208,9 +208,12 @@ module.exports = {
     },
     {
       type:"doc",
-      id:"exploration",
+      id:"explorations",
     },
-
+    // {
+    //   type:"doc",
+    //   id:"glossary",
+    // },
 
   ],
 
