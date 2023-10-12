@@ -42,7 +42,7 @@ to join our early access program.
 
 Validiums are scaling solutions that are using off-chain computation and
 validity proofs, but data is not stored on Ethereum chain which significantly
-increases transactions throughput.  Validity proof can come in from of zero 
+increases transactions throughput.  Validity proof can come in the form of zero 
 knowledge proofs like _ZK-SNARK_ or _ZK-STARK_ in which one party can prove to 
 another party that the given statement is true while the prover avoids disclosure 
 of additional information apart from the fact that the statement is indeed true.
