@@ -30,33 +30,7 @@ module.exports = {
         "about/introduction/validiums",
       ],
     },
-    /*
-    {
-      type: "category",
-      label: "Build",
-      link: {
-        type: "generated-index",
-      },
-      collapsed: false,
-      items: [
-        "build/validium",
-        {
-          type: "category",
-          label: "Sovereign Rollup",
-          link: {
-            type: "generated-index",
-          },
-          collapsed: true,
-          items: [
-            "build/zk-rollup",
-            "build/op-rollup",
-          ],
-        },
-        "build/app-chains",
-        "build/volitions",
-      ],
-    },
-    */
+
     {
       type: "category",
       label: "Operate",
@@ -143,10 +117,7 @@ module.exports = {
         "api/use-case-validiums",
       ],
     },
-    {
-      type:"doc",
-      id:"explorations",
-    },
+    "explorations",
   ],
 
 };
