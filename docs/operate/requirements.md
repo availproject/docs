@@ -172,7 +172,7 @@ blkid
 # UUID={your uuid}      /mnt/data   {your filesystem}   defaults    0   1
 sudo emacs /etc/fstab
 
-#you can use any test editor based on your prefereance to edit the file here we have used emacs .
+# you can use any test editor based on your preference to edit the file here we have used emacs.
 
 # use this to verify the fstab actually works
 sudo findmnt --verify --verbose
