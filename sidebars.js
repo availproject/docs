@@ -143,6 +143,7 @@ module.exports = {
         "api/use-case-validiums",
       ],
     },
+    "explorations",
   ],
 
 };
