@@ -45,7 +45,7 @@ Slashing can occur under the following conditions
 the validator and nominators.
 * If more than 10% of the validators go offline simultaneously and were chilled in an epoch, all of those validators will be slashed.
 
-The slashing will show immediatly on [Avail Apps](https://testnet.avail.tools/#/staking/slashes) on the slash tab. However the financial slash is not applied at the time. The physical deduction from
+The slashing will show immediately on [Avail Apps](https://testnet.avail.tools/#/staking/slashes) on the slash tab. However the financial slash is not applied at the time. The physical deduction from
 validator stake and nominator stake happens at a later stage. A governance proposal can be made to reverse the slash, this is why there is a delay in the physical deduction of coins. Without 
 Governance intervention the physical coin deduction will happen a few days later.
 

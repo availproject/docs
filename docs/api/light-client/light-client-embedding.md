@@ -66,7 +66,7 @@ if response.status() == StatusCode::OK {
 
 ## Fetching the confidence for given block
 
-To fetch the the confidence for specific block, which is already processed by application client, we can perform `GET` request on `/v1/confidece/{block_number}` endpoint.
+To fetch the confidence for specific block, which is already processed by application client, we can perform `GET` request on `/v1/confidece/{block_number}` endpoint.
 
 <Tabs groupId="examples">
 <TabItem value="curl" label="CURL">
@@ -192,7 +192,7 @@ if response.status() == StatusCode::OK {
 
 ## Waiting for application data to be verified
 
-If light client is still processing specific block, we can poll light client with `GET` request on `/v1/appdata/{block_number}` endpoint, and wait for data to became available.
+If light client is still processing specific block, we can poll light client with `GET` request on `/v1/appdata/{block_number}` endpoint, and wait for data to become available.
 
 <Tabs groupId="examples">
 <TabItem value="curl" label="CURL">
@@ -241,7 +241,7 @@ async fn wait_for_appdata(appdata_url: &str, block: u32) -> anyhow::Result<Extri
         let response = reqwest::get(&appdata_url).await?;
 
         match response.status() {
-            // If status is OK. response continas json representation of submitted data
+            // If status is OK. response continues json representation of submitted data
             StatusCode::OK => {
                 let text = &response.text().await?;
                 return Ok(serde_json::from_str(text)?);
@@ -253,7 +253,7 @@ async fn wait_for_appdata(appdata_url: &str, block: u32) -> anyhow::Result<Extri
                     extrinsics: vec![],
                 })
             }
-            // Wait for data to became available otherwise
+            // Wait for data to become available otherwise
             _ => {
                 tokio::time::sleep(POLLING_INTERVAL).await;
                 continue;
@@ -309,7 +309,7 @@ Retrieves the latest block processed by the light client.
 Given a block number, it returns the confidence computed by the light client for that specific block.
 
 > Path parameters:
-- `block_number` - block number (requred)
+- `block_number` - block number (required)
 
 #### Responses
 
@@ -339,7 +339,7 @@ If confidence is not computed, and specified block is after the latest processed
 Given a block number, it retrieves the hex-encoded extrinsics for the specified block, if available. Alternatively, if specified by a query parameter, the retrieved extrinsic is decoded and returned as a base64-encoded string.
 
 > Path parameters:
-- `block_number` - block number (requred)
+- `block_number` - block number (required)
 
 > Query parameters:
 - `decode` - `true` if decoded extrinsics are requested (boolean, optional, default is `false`)
@@ -379,7 +379,7 @@ If application data is not available, and specified block is not the latest bloc
 Retrieves the status of the latest block processed by the light client.
 
 > Path parameters:
-- `block_number` - block number (requred)
+- `block_number` - block number (required)
 
 #### Responses
 

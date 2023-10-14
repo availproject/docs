@@ -82,7 +82,7 @@ export const contentData = {
                         chainSpec: { link: 'https://kate.avail.tools/#/explorer/chainspec', text: 'chainspec.raw.json' },
                         chainInfo: { link: 'https://kate.avail.tools/chaininfo.txt', text: 'chaininfo.txt' },
                         nodeVersion: { link: 'https://github.com/availproject/avail/releases/tag/v1.7.1', text: 'v1.7.1' },
-                        lightClientVersion: { link: 'https://github.com/availproject/avail-light/releases/tag/v1.7.0', text: '1.7.0' }
+                        lightClientVersion: { link: 'https://github.com/availproject/avail-light/releases/tag/v1.7.2', text: '1.7.2' }
                     },
                     // Add more active networks here
                 ]
