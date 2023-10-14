@@ -2,24 +2,24 @@
 id: explorations
 title: Avail Uncharted
 sidebar_label: Data Availability Explorations
-slug: /exploration-team
-description:  "An overview of the explorations and projects by Avail Uncharted."
-
+description: "Exploring Uncharted Horizons in Modular Blockchains."
 ---
 
-## Exploring Uncharted Horizons in Modular Blockchains
+## Overview
 
-This page gives an overview of ***Avail Uncharted***. It shows the exploration within the Avail ecosystem. The mission is to encourage exciting initiatives and collaboration.  The aim is to gain deeper insights into the needs of builders within our ecosystem and push beyond the horizons of what is possible.
+Avail Uncharted is a core initiative within the Avail ecosystem dedicated to exploring uncharted territories in modular blockchain technology. 
+Driven by the core Avail team, the mission is twofold: to nurture innovative projects and to cultivate a close-knit collaboration with the community.
 
 ## Active Projects
-| Project              | Description | Repository |               
-|:------------------------- | :----- | :-------- | 
-| OpEVM   |  OpEVM is a sovereign EVM-compatible optimistic rollup construction designed for efficient and secure transaction processing  |  [OpEVM](https://github.com/availproject/op-evm)  |
-| Adapter for Soverign SDK  | A data availability adapter for Sovereign Rollups integrated with sovereign-sdk   | [sovereign-da-adapter](https://github.com/availproject/sovereign-sdk/tree/main) |
-| Madara DA Interface | A unified DA interface for Madara Starknet Sequencer to publish data onto a preferred DA Layer such as Avail for a reliable and secure DA    | [madara-da-interface](https://github.com/keep-starknet-strange/madara/pull/1021) | 
-| Validium Node and Validium Contracts |A production-ready validium based on the Polygon zkEVM stack with Avail as the data availability layer for scalable and secure DA | [validium-node](https://github.com/QEDK/validium-node) <br/>&<br/> [validium-contracts](https://github.com/QEDK/validium-contracts) | 
-| Avail Stack Adapter    | Avail DA's integration with Optimism's rollup SDK op-stack | [avail-op-stack-adapter ](https://github.com/availproject/avail-op-stack-adapter) | 
-| Rollkit DA Adapter  | A Data availability adapter for Rollkit's modular rollup framework | [rollkit-da-adapter ](https://github.com/rollkit/rollkit/pull/1168) | 
+
+| Project                                | Description                                                                                                         | Repository                                                                                                   |
+|:---------------------------------------|:--------------------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------|
+| Optimistic EVM Rollup                   | A sovereign EVM-compatible optimistic rollup construction aimed at efficient and secure transaction processing.     | [<ins>op-evm</ins>](https://github.com/availproject/op-evm)                                                             |
+| Adapter for Sovereign SDK              | A data availability adapter for Sovereign Rollups, integrated with the Sovereign SDK.                                | [<ins>sovereign-da-adapter</ins>](https://github.com/availproject/sovereign-sdk/tree/main)                              |
+| Madara Starknet DA Interface           | A unified DA interface allowing Madara Starknet Sequencer to publish data onto a preferred DA Layer like Avail for reliable and secure data availability. | [<ins>madara-da-interface</ins>](https://github.com/keep-starknet-strange/madara/pull/1021)                              |
+| DA layer for zkEVM-based Validium      | A production-ready Validium based on the Polygon zkEVM stack, with Avail as the data availability layer, aimed at scalable and secure data availability. | - [<ins>validium-node</ins>](https://github.com/QEDK/validium-node) <br/> - [<ins>validium-contracts</ins>](https://github.com/QEDK/validium-contracts) |
+| Avail and Optimism Stack Adapter       | An adapter facilitating Avail DA's integration with Optimism's rollup SDK op-stack.                                  | [<ins>avail-op-stack-adapter</ins>](https://github.com/availproject/avail-op-stack-adapter)                              |
+| Rollkit Data Availability Adapter      | A data availability adapter designed for Rollkit's modular rollup framework.                                        | [<ins>rollkit-da-adapter</ins>](https://github.com/rollkit/rollkit/pull/1168)                                            |
 
 ## OpEVM
 OpEVM is an EVM-compatible sovereign optimistic rollup SDK with working fraud proofs and has support for a decentralized sequencer set. OpEVM is designed for efficient and secure transaction processing. It provides a decentralized infrastructure for running a layer-2 (L2) blockchain. OpEVM enables high-throughput, low-latency transaction processing.
