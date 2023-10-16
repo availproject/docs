@@ -165,7 +165,7 @@ Click on **Add data source**
 Click on **Prometheus**
 <img src="/img/avail/validator-avail-grafana-add-data-source-3.png" width="100%" height="100%"/>
 
-Set URL to http://localhost:9090, then test and save the connection
+Set URL to "localhost:9090", then test and save the connection
 <img src="/img/avail/validator-avail-grafana-add-data-source-4.png" width="100%" height="100%"/>
 
 Navigate back to your home page, on the top right in the menu select **Import dashboard**
