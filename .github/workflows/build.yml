@@ -64,3 +64,5 @@ jobs:
       # Check spelling in markdown files using cspell
       - name: Spell Checker using cspell
         uses: streetsidesoftware/cspell-action@v1
+        with:
+          config: './.github/cspell.json'
