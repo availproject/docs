@@ -2,7 +2,7 @@
 id: docker
 title: How to Run a Full Node with Docker
 sidebar_label: Using Docker
-description: "This step-by-step guide will walk you through the process of setting up and running an Avail full node using Docker."
+description: 'This step-by-step guide will walk you through the process of setting up and running an Avail full node using Docker.'
 keywords:
   - docs
   - avail
@@ -13,6 +13,7 @@ keywords:
   - docker
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
+
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 This guide provides step-by-step instructions for setting up and running a full node on the Avail network using Docker. Whether you're new to node operation or have prior experience, this guide is designed to make the setup process straightforward.
@@ -32,6 +33,7 @@ To launch your Avail node, navigate to the `/mnt/avail` directory and execute th
 cd /mnt/avail
 sudo docker run -v $(pwd)/state:/da/state:rw -v $(pwd)/keystore:/da/keystore:rw -e DA_CHAIN=kate -e DA_NAME=kate-docker-avail-Node -p 0.0.0.0:30333:30333 -p 9615:9615 -p 9933:9933 -d --restart unless-stopped availj/avail:v1.7.1
 ```
+
 > The Docker command performs several important steps:
 
 > - Maps the state and keystore directories, providing read-write permissions for data persistence.
@@ -75,6 +77,7 @@ You should see an output similar to the following:
 2023-08-21 08:30:05 🔍 Discovered new external address for our node: /ip4/13.53.42.153/tcp/30333/ws/p2p/12D3KooWEdgyAtH8ZCU8ScTx1hx5NWh4gmDGNcedtLxrJ1htSeBe2023-08-21 08:30:09 ⚙️  Syncing, target=#326624 (15 peers), best: #9406 (0x875e…c887), finalized #9317 (0x37b6…28ff), ⬇ 321.9kiB/s ⬆ 30.1kiB/s
 2023-08-21 08:30:14 ⚙️  Syncing 64.4 bps, target=#326624 (15 peers), best: #9728 (0xb4fe…e318), finalized #9317 (0x37b6…28ff), ⬇ 40.2kiB/s ⬆ 1.8kiB/s
 ```
+
 </details>
 
 ## Step 2: Verify Node Functionality
@@ -85,7 +88,7 @@ To confirm that your node is operating as expected, inspect the Docker logs by r
 
 ```bash
 ubuntu:/mnt/avail# docker ps
-ubuntu:/mnt/avail# docker logs 5b3978de8f35  # 5b3978de8f35 is the container id 
+ubuntu:/mnt/avail# docker logs 5b3978de8f35  # 5b3978de8f35 is the container id
 ```
 
 ### Monitor Your Node
