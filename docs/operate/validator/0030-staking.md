@@ -67,7 +67,7 @@ Note: Withdrawing any bonded amount is subject to the duration of the unbonding 
 
 You should now be ready to generate your session keys. Note the
 **Session Key** button, in the next step we will generate a key to
-submit here. <img src="/img/avail/staking-bond-4.png width="100%" height="100%"/>
+submit here. <img src="/img/avail/staking-bond-4.png" width="100%" height="100%"/>
 
 ## Step 2: Manage Session Keys
 
@@ -118,7 +118,7 @@ you can click the stop icon. Please note that the Avail interface doesn't automa
 if your node is synchronized; you'll need to confirm this manually. If your node has sufficient
 stake, the Avail blockchain will likely select it in the next epoch or two.
 
-<img src="img/avail/validator-ready.png" width="100%" height="100%"/>
+<img src="/img/avail/validator-ready.png" width="100%" height="100%"/>
 
 ### Verify Validator Status
 
