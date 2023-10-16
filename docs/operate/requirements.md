@@ -2,7 +2,7 @@
 id: system-requirements
 title: System Requirements
 sidebar_label: System Requirements
-description: "Learn about running an Avail validator using Docker."
+description: 'Learn about running an Avail validator using Docker.'
 keywords:
   - docs
   - avail
@@ -12,6 +12,7 @@ keywords:
   - data availability
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import useBaseUrl from '@docusaurus/useBaseUrl';
@@ -29,14 +30,14 @@ To ensure a smooth experience, considering the following:
 
 This is the hardware configuration required to set up an Avail node:
 
-| Component                           | Minimum                            | Recommended                         |
-|-------------------------------------|------------------------------------|-------------------------------------|
-| RAM                                 | 4GB                                | 8GB                                 |
-| CPU (amd64/x86 architecture)        | 2 core                             | 4 core                              |
-| Storage (SSD)                       | 20-40 GB                           | 200-300 GB                          |
+| Component                    | Minimum  | Recommended |
+| ---------------------------- | -------- | ----------- |
+| RAM                          | 4GB      | 8GB         |
+| CPU (amd64/x86 architecture) | 2 core   | 4 core      |
+| Storage (SSD)                | 20-40 GB | 200-300 GB  |
 
-> While we do not favor any operating system, more secure and stable Linux server distributions (like CentOS) should be preferred over desktop operating systems (like Mac OS and Windows). Also, the minimum storage requirements will change over time as the network grows. 
-It is recommended to use more than the minimum requirements to run a robust full node.
+> While we do not favor any operating system, more secure and stable Linux server distributions (like CentOS) should be preferred over desktop operating systems (like Mac OS and Windows). Also, the minimum storage requirements will change over time as the network grows.
+> It is recommended to use more than the minimum requirements to run a robust full node.
 
 ## Methods to Run an Avail Node
 
@@ -45,11 +46,11 @@ There are two primary methods to run an Avail node, each with its own set of ins
 1. **[<ins>Using Binaries</ins>](/docs/operate/validator/0010-validator-node-binaries.md):** You can follow the instructions provided here for setting up an Avail node using binary releases. This method is suitable for users who prefer manual installation and configuration. For reference, you can also explore the [GitHub Releases](https://github.com/availproject/avail/releases) page for binary releases.
 
 2. **[<ins>Using Docker</ins>](/docs/operate/validator/0020-validator-node-docker.md):** Alternatively, if you're comfortable with Docker, you can pull Avail node images from the [DockerHub Repository](https://hub.docker.com/r/availj/avail/tags). Docker provides a convenient way to containerize and deploy Avail nodes.
-> The Avail team offers official Docker images specifically designed for running nodes on the Kate testnet.
+   > The Avail team offers official Docker images specifically designed for running nodes on the Kate testnet.
 
 ## Setting Up Your Environment
 
-The node deployment guides provide specific instructions tailored for Linux distributions with apt support, such as **Debian**. 
+The node deployment guides provide specific instructions tailored for Linux distributions with apt support, such as **Debian**.
 Additionally, it's common practice to run nodes on cloud servers.
 
 ### Installation
@@ -59,12 +60,12 @@ Additionally, it's common practice to run nodes on cloud servers.
 
 Download the client binary and config file for the node you want to run:
 
-| Node Type       | Repository Name       | Latest Release                                                                       |
-|-----------------|-----------------------|--------------------------------------------------------------------------------------|
-| **Full Node**   | [<ins>avail</ins>](https://github.com/availproject/avail)                 | [<ins>v1.7.1</ins>](https://github.com/availproject/avail/releases/tag/v1.7.1)       |
-| **Light Client**| [<ins>avail-light</ins>](https://github.com/availproject/avail-light)           | [<ins>v1.7.2</ins>](https://github.com/availproject/avail-light/releases/tag/v1.7.2) |
+| Node Type          | Repository Name                                                                           | Latest Release                                                                       |
+| ------------------ | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| **Full Node**      | [<ins>avail</ins>](https://github.com/availproject/avail)                                 | [<ins>v1.7.1</ins>](https://github.com/availproject/avail/releases/tag/v1.7.1)       |
+| **Light Client**   | [<ins>avail-light</ins>](https://github.com/availproject/avail-light)                     | [<ins>v1.7.2</ins>](https://github.com/availproject/avail-light/releases/tag/v1.7.2) |
 | **Bootstrap Node** | [<ins>avail-light-bootstrap</ins>](https://github.com/availproject/avail-light-bootstrap) | No release yet - build from source                                                   |
-| **Relay Node**  | [<ins>avail-light-relay</ins>](https://github.com/availproject/avail-light-relay)     | No release yet - build from source                                                   |
+| **Relay Node**     | [<ins>avail-light-relay</ins>](https://github.com/availproject/avail-light-relay)         | No release yet - build from source                                                   |
 
 </TabItem>
 <TabItem value="source" label="Build from Source">
@@ -85,10 +86,10 @@ rustc --version # Verify Rust installation by displaying the version
 
 Clone the node repository you would like to run:
 
-| Node Type      | Build Steps                           |
-|----------------|---------------------------------------|
-| [<ins>**Full Node**</ins>](https://github.com/availproject/avail)  | `cargo build --release -p data-avail` |
-| [<ins>**Relay Node**</ins>](https://github.com/availproject/avail-light-relay) | `cd avail-light-relay && cargo build --release` |
+| Node Type                                                                              | Build Steps                                         |
+| -------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| [<ins>**Full Node**</ins>](https://github.com/availproject/avail)                      | `cargo build --release -p data-avail`               |
+| [<ins>**Relay Node**</ins>](https://github.com/availproject/avail-light-relay)         | `cd avail-light-relay && cargo build --release`     |
 | [<ins>**Bootstrap Node**</ins>](https://github.com/availproject/avail-light-bootstrap) | `cd avail-light-bootstrap && cargo build --release` |
 
 </TabItem>
@@ -124,9 +125,9 @@ sudo usermod -aG docker $USER
 
 </details>
 
-| Node Type       | Docker Repository Name | Latest Version                     |
-|-----------------|------------------------|------------------------------------|
-| Full Node       | [<ins>availj/avail</ins>](https://hub.docker.com/r/availj/avail/tags)  | [<ins>v1.7.1</ins>](https://hub.docker.com/layers/availj/avail/v1.7.1/images/sha256-caa7ec656a26f24185f993cfb806066c16ad65ccbe0c8aea472bd099a976bd7e?context=explore) |
+| Node Type | Docker Repository Name                                                | Latest Version                                                                                                                                                        |
+| --------- | --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Full Node | [<ins>availj/avail</ins>](https://hub.docker.com/r/availj/avail/tags) | [<ins>v1.7.1</ins>](https://hub.docker.com/layers/availj/avail/v1.7.1/images/sha256-caa7ec656a26f24185f993cfb806066c16ad65ccbe0c8aea472bd099a976bd7e?context=explore) |
 
 </TabItem>
 </Tabs>

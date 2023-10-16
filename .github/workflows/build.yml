@@ -2,9 +2,9 @@ name: Doc build and Checks
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -14,14 +14,14 @@ jobs:
     steps:
       # Checkout the code
       - uses: actions/checkout@v2
-      
+
       # Setup node with version 16.14.1 and cache dependencies
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16.14.1"
+          node-version: '16.14.1'
           cache: 'yarn'
-      
+
       # Cache Docusaurus build artifacts for faster build times
       - name: Cache Docusaurus artifacts
         uses: actions/cache@v3
@@ -30,17 +30,17 @@ jobs:
           path: |
             .docusaurus
             build
-      
+
       # Cache node_modules for faster build times
       - name: Cache node_modules
         uses: actions/cache@v3
         with:
           key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
           path: node_modules
-      
+
       # Install project dependencies
       - run: yarn install --frozen-lockfile
-      
+
       # Build the Docusaurus project
       - run: yarn build
 

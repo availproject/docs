@@ -10,6 +10,7 @@ keywords:
   - accounts
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
+
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ## Introduction

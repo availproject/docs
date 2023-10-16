@@ -3,17 +3,24 @@ const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 module.exports = {
-  title: "Avail Docs",
-  tagline: "The official documentation hub for the Avail Project.",
-  url: "https://docs.availproject.org/",
-  baseUrl: "/",
-  favicon: "/img/favicon.ico",
-  organizationName: "availproject",
-  projectName: "availproject.github.io",
+  title: 'Avail Docs',
+  tagline: 'The official documentation hub for the Avail Project.',
+  url: 'https://docs.availproject.org/',
+  baseUrl: '/',
+  favicon: '/img/favicon.ico',
+  organizationName: 'availproject',
+  projectName: 'availproject.github.io',
   trailingSlash: true,
-  scripts: [{src: 'https://plausible.io/js/plausible.js', async: true, defer: true, 'data-domain': 'availproject.github.io'}],
+  scripts: [
+    {
+      src: 'https://plausible.io/js/plausible.js',
+      async: true,
+      defer: true,
+      'data-domain': 'availproject.github.io',
+    },
+  ],
   customFields: {
-    description: "Build your next blockchain solution using Avail.",
+    description: 'Build your next blockchain solution using Avail.',
   },
   i18n: {
     defaultLocale: 'en',
@@ -106,7 +113,13 @@ module.exports = {
   ],
   onBrokenLinks: 'log',
   themeConfig: {
-    metadata: [{name: 'description', content: 'Welcome to the Avail Project Documentation, the official documentation for Avail.'}],
+    metadata: [
+      {
+        name: 'description',
+        content:
+          'Welcome to the Avail Project Documentation, the official documentation for Avail.',
+      },
+    ],
     colorMode: {
       defaultMode: 'light',
       disableSwitch: true,
@@ -117,7 +130,7 @@ module.exports = {
       style: 'dark',
       links: [
         {
-          title: "Data Availability Resources",
+          title: 'Data Availability Resources',
           items: [
             {
               href: 'https://blog.availproject.org/the-data-availability-problem/',
@@ -139,10 +152,10 @@ module.exports = {
               href: 'https://github.com/availproject/data-availability/blob/master/reference%20document/Data%20Availability%20-%20Reference%20Document.pdf',
               label: 'Reference Document',
             },
-          ]
+          ],
         },
         {
-          title: "Node Repositories",
+          title: 'Node Repositories',
           items: [
             {
               href: 'https://github.com/availproject/avail-light',
@@ -160,10 +173,10 @@ module.exports = {
               href: 'https://github.com/availproject/avail-light-relay',
               label: 'Relay Node',
             },
-          ]
+          ],
         },
         {
-          title: "Network Guides",
+          title: 'Network Guides',
           items: [
             {
               href: '/operate/node-types/',
@@ -173,10 +186,10 @@ module.exports = {
               href: '/category/become-a-validator/',
               label: 'Validator Guide',
             },
-          ]
+          ],
         },
         {
-          title: "Community",
+          title: 'Community',
           items: [
             {
               href: 'https://discord.com/invite/y6fHnxZQX8',
@@ -194,38 +207,38 @@ module.exports = {
               href: 'https://www.linkedin.com/company/availproject/',
               label: 'LinkedIn',
             },
-          ]
+          ],
         },
         {
-          title: "Company",
+          title: 'Company',
           items: [
             {
-              label: "About Us",
-              href: "https://www.availproject.org/ecosystem"
+              label: 'About Us',
+              href: 'https://www.availproject.org/ecosystem',
             },
             {
-              label: "Blog",
-              href: "https://blog.availproject.org/"
+              label: 'Blog',
+              href: 'https://blog.availproject.org/',
             },
             {
-              label: "Careers",
-              href: "https://wellfound.com/company/avail-6/jobs"
-            }
-          ]
+              label: 'Careers',
+              href: 'https://wellfound.com/company/avail-6/jobs',
+            },
+          ],
         },
       ],
     },
     image: 'img/avail-logo.png',
     prism: {
-      theme: require("prism-react-renderer/themes/github"),
-      darkTheme: require("prism-react-renderer/themes/dracula"),
-      defaultLanguage: "javascript",
-      additionalLanguages: ['solidity']
+      theme: require('prism-react-renderer/themes/github'),
+      darkTheme: require('prism-react-renderer/themes/dracula'),
+      defaultLanguage: 'javascript',
+      additionalLanguages: ['solidity'],
     },
     algolia: {
-      indexName: "availprojectio",
+      indexName: 'availprojectio',
       appId: 'SRNYX3PD60',
-      apiKey: "fe996ed80af806d818acfbc4bab16ddf",
+      apiKey: 'fe996ed80af806d818acfbc4bab16ddf',
       contextualSearch: true,
       algoliaOptions: {
         attributesToSnippet: ['content:20'],
@@ -234,16 +247,16 @@ module.exports = {
     navbar: {
       hideOnScroll: true,
       logo: {
-        alt: "Avail logo",
-        src: "img/avail-logo.png",
-        srcDark: "img/avail-logo.png",
+        alt: 'Avail logo',
+        src: 'img/avail-logo.png',
+        srcDark: 'img/avail-logo.png',
         href: '/',
-        target: "_self",
-       },
+        target: '_self',
+      },
       items: [
         {
-          label: "Docs",
-          position: "left",
+          label: 'Docs',
+          position: 'left',
           items: [
             {
               href: '/about/introduction/',
@@ -295,52 +308,53 @@ module.exports = {
         },
         */
         {
-          href: "https://blog.availproject.org/",
+          href: 'https://blog.availproject.org/',
           position: 'left',
           label: 'Blog',
         },
         {
-          href: "https://github.com/availproject/avail",
-          position: "right",
-          className: "header-github-link",
-          "aria-label": "GitHub repository",
+          href: 'https://github.com/availproject/avail',
+          position: 'right',
+          className: 'header-github-link',
+          'aria-label': 'GitHub repository',
         },
         {
-          href: "https://twitter.com/AvailProject",
-          position: "right",
-          className: "header-twitter-link",
+          href: 'https://twitter.com/AvailProject',
+          position: 'right',
+          className: 'header-twitter-link',
         },
         {
-          href: "https://discord.com/invite/y6fHnxZQX8",
-          position: "right",
-          className: "header-discord-link",
+          href: 'https://discord.com/invite/y6fHnxZQX8',
+          position: 'right',
+          className: 'header-discord-link',
         },
       ],
     },
   },
   stylesheets: [
     {
-      href: "https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css",
-      type: "text/css",
+      href: 'https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css',
+      type: 'text/css',
       integrity:
-        "sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc",
-      crossorigin: "anonymous",
+        'sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc',
+      crossorigin: 'anonymous',
     },
   ],
   presets: [
     [
-      "@docusaurus/preset-classic",
+      '@docusaurus/preset-classic',
       {
         docs: {
           routeBasePath: '/',
-          sidebarPath: require.resolve("./sidebars.js"),
-          editUrl: "https://github.com/availproject/availproject.github.io/tree/main",
-          path: "docs",
+          sidebarPath: require.resolve('./sidebars.js'),
+          editUrl:
+            'https://github.com/availproject/availproject.github.io/tree/main',
+          path: 'docs',
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
         },
         theme: {
-          customCss: require.resolve("./src/css/custom.css"),
+          customCss: require.resolve('./src/css/custom.css'),
         },
       },
     ],

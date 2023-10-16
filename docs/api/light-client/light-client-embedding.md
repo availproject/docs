@@ -14,6 +14,7 @@ keywords:
   - rust
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import useBaseUrl from '@docusaurus/useBaseUrl';
@@ -61,6 +62,7 @@ if response.status() == StatusCode::OK {
 }
 // ...error handling...
 ```
+
 </TabItem>
 </Tabs>
 
@@ -98,7 +100,7 @@ pub struct Confidence {
     pub confidence: f64,
     pub serialised_confidence: Option<String>,
 }
-	
+
 const LIGHT_CLIENT_URL: &str = "http://localhost:7000";
 
 let block_number = 1;
@@ -134,9 +136,7 @@ Response:
 ```json
 {
   "block": 46,
-  "extrinsics": [
-    "ZXhhbXBsZQ=="
-  ]
+  "extrinsics": ["ZXhhbXBsZQ=="]
 }
 ```
 
@@ -230,7 +230,7 @@ const LIGHT_CLIENT_URL: &str = "http://localhost:7000";
 
 async fn wait_for_appdata(appdata_url: &str, block: u32) -> anyhow::Result<ExtrinsicsData> {
     let appdata_url = format!("{LIGHT_CLIENT_URL}/v1/appdata/{block}");
-    
+
     let start_time = std::time::Instant::now();
 
     loop {
@@ -282,6 +282,7 @@ Retrieves the operating mode of the light client. Light client can operate in tw
 If operating mode is `LightClient` response is:
 
 > Status code: `200 OK`
+
 ```json
 "LightClient"
 ```
@@ -289,6 +290,7 @@ If operating mode is `LightClient` response is:
 In case of `AppClient` mode, response is:
 
 > Status code: `200 OK`
+
 ```json
 {"AppClient": {app_id}}
 ```
@@ -300,6 +302,7 @@ Retrieves the latest block processed by the light client.
 #### Responses
 
 > Status code: `200 OK`
+
 ```json
 {"latest_block":{block_number}}
 ```
@@ -309,6 +312,7 @@ Retrieves the latest block processed by the light client.
 Given a block number, it returns the confidence computed by the light client for that specific block.
 
 > Path parameters:
+
 - `block_number` - block number (required)
 
 #### Responses
@@ -316,13 +320,15 @@ Given a block number, it returns the confidence computed by the light client for
 In case when confidence is computed:
 
 > Status code: `200 OK`
+
 ```json
-{"block":1,"confidence":93.75,"serialised_confidence":"5232467296"}
+{ "block": 1, "confidence": 93.75, "serialised_confidence": "5232467296" }
 ```
 
 If confidence is not computed, and specified block is before the latest processed block:
 
 > Status code: `400 Bad Request`
+
 ```json
 "Not synced"
 ```
@@ -330,6 +336,7 @@ If confidence is not computed, and specified block is before the latest processe
 If confidence is not computed, and specified block is after the latest processed block:
 
 > Status code: `404 Not Found`
+
 ```json
 "Not found"
 ```
@@ -339,9 +346,11 @@ If confidence is not computed, and specified block is after the latest processed
 Given a block number, it retrieves the hex-encoded extrinsics for the specified block, if available. Alternatively, if specified by a query parameter, the retrieved extrinsic is decoded and returned as a base64-encoded string.
 
 > Path parameters:
+
 - `block_number` - block number (required)
 
 > Query parameters:
+
 - `decode` - `true` if decoded extrinsics are requested (boolean, optional, default is `false`)
 
 #### Responses
@@ -349,20 +358,28 @@ Given a block number, it retrieves the hex-encoded extrinsics for the specified 
 If application data is available, and decode is `false` or unspecified:
 
 > Status code: `200 OK`
+
 ```json
-{"block":1,"extrinsics":["0xc5018400d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d01308e88ca257b65514b7b44fc1913a6a9af6abc34c3d22761b0e425674d68df7de26be1c8533a7bbd01fdb3a8daa5af77df6d3fb0a67cde8241f461f4fe16f188000000041d011c6578616d706c65"]}
+{
+  "block": 1,
+  "extrinsics": [
+    "0xc5018400d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d01308e88ca257b65514b7b44fc1913a6a9af6abc34c3d22761b0e425674d68df7de26be1c8533a7bbd01fdb3a8daa5af77df6d3fb0a67cde8241f461f4fe16f188000000041d011c6578616d706c65"
+  ]
+}
 ```
 
 If application data is available, and decode is `true`:
 
 > Status code: `200 OK`
+
 ```json
-{"block":1,"extrinsics":["ZXhhbXBsZQ=="]}
+{ "block": 1, "extrinsics": ["ZXhhbXBsZQ=="] }
 ```
 
 If application data is not available, and specified block is the latest block:
 
 > Status code: `401 Unauthorized`
+
 ```json
 "Processing block"
 ```
@@ -370,6 +387,7 @@ If application data is not available, and specified block is the latest block:
 If application data is not available, and specified block is not the latest block:
 
 > Status code: `404 Not Found`
+
 ```json
 "Not found"
 ```
@@ -379,6 +397,7 @@ If application data is not available, and specified block is not the latest bloc
 Retrieves the status of the latest block processed by the light client.
 
 > Path parameters:
+
 - `block_number` - block number (required)
 
 #### Responses
@@ -386,13 +405,15 @@ Retrieves the status of the latest block processed by the light client.
 If latest processed block exists, and `app_id` is configured (otherwise, `app_id` is not set):
 
 > Status code: `200 OK`
+
 ```json
-{"block_num":89,"confidence":93.75,"app_id":1}
+{ "block_num": 89, "confidence": 93.75, "app_id": 1 }
 ```
 
 If there are no processed blocks:
 
 > Status code: `404 Not Found`
+
 ```json
 "Not found"
 ```

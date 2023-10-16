@@ -2,7 +2,7 @@
 id: binaries
 title: Running a Full Node with Binaries
 sidebar_label: Using Binaries
-description: "Discover how to operate an Avail full node through binaries."
+description: 'Discover how to operate an Avail full node through binaries.'
 keywords:
   - documentation
   - avail
@@ -12,6 +12,7 @@ keywords:
   - da
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
+
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 This guide provides step-by-step instructions on how to set up and run a full node for the Avail network using pre-compiled binaries. Whether you're a beginner or an experienced node operator, this guide aims to make the process straightforward.
