@@ -24,7 +24,7 @@ testnet.
 
 Your address will be deposited 1 AVL token once the status changes to
 `Complete`.
-   
+
 :::note
 
 The verification step is required, and you can only use the command

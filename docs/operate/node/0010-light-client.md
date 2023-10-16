@@ -11,6 +11,7 @@ keywords:
   - da
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
+
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 This guide outlines how to set up an Avail light client, covering both pre-compiled releases and source compilation.
@@ -60,6 +61,7 @@ The client output should look like this:
 2023-06-04T02:56:44.050133Z  INFO avail_light::light_client: DHT PUT operation success rate: inf block_number=2074
 2023-06-04T02:56:44.050211Z  INFO avail_light::light_client: 4 cells inserted into DHT. Time elapsed: 	160.697ms block_number=2074 partition_dht_insert_time_elapsed=0.160697
 ```
+
 </details>
 
 ## Option 2: Build From Source

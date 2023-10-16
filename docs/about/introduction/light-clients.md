@@ -20,7 +20,7 @@ This is accomplished by leveraging **Data Availability Sampling (DAS)** performe
 The light client listens on the Avail network for finalized blocks and performs DAS on a predetermined number of cells on each new block.
 After successful block verification, **block confidence** is calculated for a number of cells in the matrix, with the number depending on the percentage of certainty the users wishes to achieve.
 
-Light client functionality is separated into two logical parts - the *light client* and the *app client*. While the LC is primarily focused on DAS, the app client is used to perform data reconstruction.
+Light client functionality is separated into two logical parts - the _light client_ and the _app client_. While the LC is primarily focused on DAS, the app client is used to perform data reconstruction.
 
 ### Light client
 
@@ -39,7 +39,7 @@ On each received header the client does random sampling of the matrix cells, whi
 Once the data is received, light client verifies individual cells and calculates the confidence that is then stored locally.
 
 :::note
-Light client uses *libp2p* with **Kademlia** as a DHT implementation. Peer-to-peer network is able to perform NAT traversal, both symmetric and asymmetric, enabling easy connectivity with various network configurations (e.g. symmetric and asymmetric NAT).
+Light client uses _libp2p_ with **Kademlia** as a DHT implementation. Peer-to-peer network is able to perform NAT traversal, both symmetric and asymmetric, enabling easy connectivity with various network configurations (e.g. symmetric and asymmetric NAT).
 :::
 
 :::note
@@ -48,12 +48,12 @@ On fresh startup, the LC performs a block sync with the node, using both DHT and
 
 ## When and how to embed the light client
 
-The Avail light client plays a vital role in ensuring the availability and correctness of data 
-within the Avail network. By employing random sampling, it achieves security levels comparable to 
-full nodes. Furthermore, by leveraging the peer-to-peer network, it enhances overall data availability 
-while reducing the load on full nodes. The light client is capable of downloading and verifying 
+The Avail light client plays a vital role in ensuring the availability and correctness of data
+within the Avail network. By employing random sampling, it achieves security levels comparable to
+full nodes. Furthermore, by leveraging the peer-to-peer network, it enhances overall data availability
+while reducing the load on full nodes. The light client is capable of downloading and verifying
 application-specific data submitted to Avail, which can be conveniently queried using the light client API.  
-The light client exposes an HTTP API that enables users to query the status, confidence, and application data 
-for each processed block. When a block is finalized in Avail, the light client performs random sampling and 
-verification, calculates confidence in the given block data, and if the confidence is high, retrieves the 
+The light client exposes an HTTP API that enables users to query the status, confidence, and application data
+for each processed block. When a block is finalized in Avail, the light client performs random sampling and
+verification, calculates confidence in the given block data, and if the confidence is high, retrieves the
 application data from the block. This data is then verified and stored locally for easy access.

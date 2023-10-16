@@ -2,7 +2,7 @@
 id: docker
 title: How to Run a Validator Node using Docker
 sidebar_label: Using Docker
-description: "Learn about running an Avail validator using Docker."
+description: 'Learn about running an Avail validator using Docker.'
 keywords:
   - docs
   - avail
@@ -12,6 +12,7 @@ keywords:
   - data availability
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
+
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ## Preliminaries
@@ -36,6 +37,7 @@ validator onboarding.
 ## Run a Validator Node
 
 Run the following commands to launch your Avail node:
+
 ```bash
 cd /mnt/avail
 
@@ -59,7 +61,7 @@ ubuntu:/mnt/avail# docker ps
 CONTAINER ID   IMAGE                     COMMAND            CREATED         STATUS         PORTS                                                                                                            NAMES
 5b3978de8f35   availj/avail:v1.6.2-rc1   "/entrypoint.sh"   6 minutes ago   Up 6 minutes   0.0.0.0:9615->9615/tcp, :::9615->9615/tcp, 0.0.0.0:9933->9933/tcp, 0.0.0.0:30333->30333/tcp, :::9933->9933/tcp   relaxed_wilson
 ubuntu:/mnt/avail# docker logs 5b3978de8f35
-# 5b3978de8f35 is the container id 
+# 5b3978de8f35 is the container id
 ```
 
 ```shell
@@ -94,7 +96,7 @@ ubuntu:/mnt/avail# docker logs 5b3978de8f35
 2023-08-21 08:30:14 ⚙️  Syncing 64.4 bps, target=#326624 (15 peers), best: #9728 (0xb4fe…e318), finalized #9317 (0x37b6…28ff), ⬇ 40.2kiB/s ⬆ 1.8kiB/s
 ```
 
-Your node will also appear on the [Avail Telemetry](http://telemetry.avail.tools/) 
-website, listed under the "Node name" displayed in the node command output. Be sure 
-to select the appropriate network tab at the top corresponding to the network you've 
+Your node will also appear on the [Avail Telemetry](http://telemetry.avail.tools/)
+website, listed under the "Node name" displayed in the node command output. Be sure
+to select the appropriate network tab at the top corresponding to the network you've
 joined.
