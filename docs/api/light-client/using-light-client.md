@@ -14,11 +14,12 @@ keywords:
   - data sampling
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-The Avail light client is *heavily* customizable with the most important parameters being exposed through its config file, the full config reference can be found [here](https://github.com/availproject/avail-light#config-reference). The default config files for both light and fat client mode of operations can be found below.
+The Avail light client is _heavily_ customizable with the most important parameters being exposed through its config file, the full config reference can be found [here](https://github.com/availproject/avail-light#config-reference). The default config files for both light and fat client mode of operations can be found below.
 
 Light client config example:
 

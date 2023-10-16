@@ -16,8 +16,8 @@ import styles from './styles.module.css';
 const Moon = () => <span className={classnames(styles.toggle, styles.moon)} />;
 const Sun = () => <span className={classnames(styles.toggle, styles.sun)} />;
 
-export default function(props) {
-  const {isClient} = useDocusaurusContext();
+export default function (props) {
+  const { isClient } = useDocusaurusContext();
   return (
     <Toggle
       disabled={!isClient}

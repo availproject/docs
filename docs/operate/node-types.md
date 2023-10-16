@@ -12,6 +12,7 @@ keywords:
   - da
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
+
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ## Introduction
@@ -22,16 +23,16 @@ While Avail diverges from conventional blockchain frameworks to concentrate on m
 
 **Note:** Infrastructure providers can host all types of Avail nodes.
 
-| Node Type       | Storage Requirement | Network Role | Special Features | Use Case | Typically Hosted By|
-|-----------------|---------------------|--------------|------------------|----------|--------------------|
-| Light Clients   | Low                 | Interaction  | Minimal Storage  | Quick Queries, Low-resource Environments |End users in low-resource environments|
-| Full Nodes      | Moderate            | Core         | Network Access      | Transaction Verification, Data Retrieval |Regular network participants, those involved in verification|
-| Validator Nodes | Moderate            | Core         | Block Production | Network Security, Governance |Trusted entities, elected participants, staked node providers|
-| Archive Nodes   | High                | Auxiliary    | Historical Data  | Auditing, Compliance, Reference |Institutions, researchers, those needing comprehensive historical data|
-| Pruned Nodes    | Variable            | Core         | Disk Space Efficiency | Limited Storage Environments |Users with limited storage capacity|
-| RPC Nodes       | Moderate            | Gateway      | API Exposure     | Development, Remote Access |Developers, entities requiring remote network access|
-| Bootstrap Nodes | Low                 | Initial      | Network Entry    | Network Initialization |Early network participants|
-| Relay Nodes     | Moderate            | Mediator     | Connectivity     | NAT Traversal; Firewall Bypass |End users, businesses setting up private networks|
+| Node Type       | Storage Requirement | Network Role | Special Features      | Use Case                                 | Typically Hosted By                                                    |
+| --------------- | ------------------- | ------------ | --------------------- | ---------------------------------------- | ---------------------------------------------------------------------- |
+| Light Clients   | Low                 | Interaction  | Minimal Storage       | Quick Queries, Low-resource Environments | End users in low-resource environments                                 |
+| Full Nodes      | Moderate            | Core         | Network Access        | Transaction Verification, Data Retrieval | Regular network participants, those involved in verification           |
+| Validator Nodes | Moderate            | Core         | Block Production      | Network Security, Governance             | Trusted entities, elected participants, staked node providers          |
+| Archive Nodes   | High                | Auxiliary    | Historical Data       | Auditing, Compliance, Reference          | Institutions, researchers, those needing comprehensive historical data |
+| Pruned Nodes    | Variable            | Core         | Disk Space Efficiency | Limited Storage Environments             | Users with limited storage capacity                                    |
+| RPC Nodes       | Moderate            | Gateway      | API Exposure          | Development, Remote Access               | Developers, entities requiring remote network access                   |
+| Bootstrap Nodes | Low                 | Initial      | Network Entry         | Network Initialization                   | Early network participants                                             |
+| Relay Nodes     | Moderate            | Mediator     | Connectivity          | NAT Traversal; Firewall Bypass           | End users, businesses setting up private networks                      |
 
 ## Overview of Node Types
 

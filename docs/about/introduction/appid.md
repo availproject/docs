@@ -22,9 +22,10 @@ download _only_ the sections of a block that have data for that
 particular application.
 
 This has very important benefits, including:
-* Modular applications are largely unaffected by other uses of the
+
+- Modular applications are largely unaffected by other uses of the
   base layer at the same time.
-* Block sizes can increase without requiring applications to fetch
+- Block sizes can increase without requiring applications to fetch
   more data, because they don't fetch the whole block, only what's
   relevant to them.
 
