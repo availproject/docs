@@ -65,4 +65,4 @@ jobs:
       - name: Spell Checker using cspell
         uses: streetsidesoftware/cspell-action@v1
         with:
-          config: './.github/cspell.json'
+          config: './cspell.json'
