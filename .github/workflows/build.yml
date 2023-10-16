@@ -1,4 +1,4 @@
-name: Doc build and Checks
+name: Build and Checks
 
 on:
   push:
@@ -44,7 +44,7 @@ jobs:
       # Build the Docusaurus project
       - run: yarn build
 
-  linkChecker:
+  lintChecks:
     needs: build
     runs-on: ubuntu-latest
 
@@ -60,3 +60,9 @@ jobs:
           fail: true
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      # Check spelling in markdown files using cspell
+      - name: Spell Checker using cspell
+        uses: streetsidesoftware/cspell-action@v1
+        with:
+          config: './cspell.json'
