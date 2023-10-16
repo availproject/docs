@@ -20,8 +20,7 @@ This guide provides step-by-step instructions for setting up and running a full 
 
 :::note Before you start
 
-**Ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).**
-We recommend downloading the pre-compiled binary for speed and convenience.
+**Ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).** We recommend downloading the pre-compiled binary for speed and convenience.
 
 :::
 
