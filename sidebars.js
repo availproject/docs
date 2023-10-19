@@ -133,5 +133,6 @@ module.exports = {
       ],
     },
     "explorations",
+    'faqs',
   ],
 };
