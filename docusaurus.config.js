@@ -255,7 +255,7 @@ module.exports = {
       },
       items: [
         {
-          label: 'Docs',
+          label: 'Navigate the Docs',
           position: 'left',
           items: [
             {
