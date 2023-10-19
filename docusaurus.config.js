@@ -245,7 +245,7 @@ module.exports = {
       },
     },
     navbar: {
-      hideOnScroll: true,
+      hideOnScroll: false,
       logo: {
         alt: 'Avail logo',
         src: 'img/avail-logo.png',
