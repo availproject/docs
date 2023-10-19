@@ -1,6 +1,7 @@
 module.exports = {
   avail: [
     'index',
+    'networks',
     'about/introduction',
     'build/quickstart',
     {
