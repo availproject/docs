@@ -88,8 +88,8 @@ export const contentData = {
               text: 'chaininfo.txt',
             },
             nodeVersion: {
-              link: 'https://github.com/availproject/avail/releases/tag/v1.7.1',
-              text: 'v1.7.1',
+              link: 'https://github.com/availproject/avail/releases/tag/v1.7.2',
+              text: 'v1.7.2',
             },
             lightClientVersion: {
               link: 'https://github.com/availproject/avail-light/releases/tag/v1.7.2',
