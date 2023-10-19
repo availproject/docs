@@ -111,10 +111,10 @@ p {
 }
 
 [data-theme='light'] {
-  background: radial-gradient(
+  background-image: radial-gradient(
     69.54% 69.54% at 50% 28.63%,
     rgba(228, 238, 251, 0.8) 0%,
-    rgba(212, 227, 244, 0.8) 100%
+    rgba(228, 238, 251, 0.8) 100%
   );
 }
 
@@ -1132,7 +1132,7 @@ code {
 
 .tabs__item {
   appearance: none;
-  border: 2px solid #bcc6d4;
+  border: 1px solid #bcc6d4;
   border-radius: 8px;
   color: #31414e;
   display: inline-flex;
@@ -1140,35 +1140,40 @@ code {
   font-size: var(--ifm-h4-font-size);
   font-weight: 700;
   justify-content: center;
-  padding: 8px 12px;
-  margin: 0 8px 8px 0;
+  padding: 6px 10px;
+  margin: 0 6px 6px 0;
   transition:
     background-color 0.2s,
     color 0.2s,
     opacity 0.2s,
     border-color 0.2s,
     box-shadow 0.2s;
-  opacity: 0.7;
+  opacity: 0.6;
   background-color: #c8d4e8;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 .tabs__item:hover {
   border-color: #4e6786;
-  opacity: 1;
+  opacity: 0.8;
   background-color: #b3c2d9;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
 }
 
 .tabs__item.active {
-  background-color: #b3c2d9;
-  border-bottom-color: transparent;
+  background-color: #005471; /* Darker background for active tab */
+  border-color: #4e6786;
+  opacity: 1;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  color: #ffffff; /* White font color for active tab */
+  border-width: 2px;
 }
 
 .tabs {
   position: inherit;
   flex-wrap: wrap;
 }
+
 .tab-content {
   display: flex;
   flex-wrap: wrap;
@@ -1185,7 +1190,6 @@ code {
     width: unset;
   }
 }
-
 /* ==========================================================================
   Search Bar
 ============================================================================= */
@@ -1294,154 +1298,73 @@ p {
 ============================================================================= */
 
 .full-background {
-  background: transparent;
-  box-shadow:
-    0px 3px 15px rgba(0, 0, 0, 0.1),
-    0px 3px 8px rgba(0, 0, 0, 0.1);
-  text-align: left;
+  padding: 20px 0;
 }
 
 .head-section {
-  width: 90%;
-  justify-content: space-between;
-  margin: auto;
-}
-
-.head-section .button-group {
-  display: inline-block;
-  padding-left: 5px;
+  width: 95%;
 }
 
 .section-ecosystem {
-  width: 80%;
-  margin: 20px auto;
-}
-
-.section-ecosystem .head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.section-ecosystem .head .section-title,
-.ecosystem-title {
-  margin-bottom: 0;
-}
-
-.ecosystem-title {
-  font:
-    bold 32px 'PP Mori',
-    sans-serif;
-  margin: 20px 0;
-}
-
-@media (max-width: 768px) {
-  .big-block-content .text .title {
-    font-size: 22px;
-    margin: 0.4em 0;
-  }
-  .call-to-action {
-    display: block !important;
-  }
-  .bootstrap-wrapper .index-page h2 {
-    font-size: 30px;
-  }
-  .bootstrap-wrapper .section-divider {
-    margin-bottom: 24px;
-  }
-  .bootstrap-wrapper .section-divider-40 {
-    margin-bottom: 15px;
-  }
-}
-
-.section-class,
-.element-id {
-  color: #333;
-}
-
-/* ==========================================================================
-  FAQs Section
-============================================================================= */
-
-.faq-title {
-  font-family: 'PP Mori', sans-serif;
+  width: 85%;
+  padding: 20px 0;
   font-weight: bold;
-  font-size: 40px;
-  margin: 25px;
+  font-family: 'Arial', sans-serif;
+  line-height: 1.5;
 }
 
-.faq-wrapper {
-  border-radius: 20px;
-  border: 1px solid #798da1;
-  overflow: hidden;
-  box-shadow:
-    0px 4px 20px 0px rgba(0, 0, 0, 0.1),
-    0px 4px 10px 0px rgba(0, 0, 0, 0.1);
+.ecosystem-title {
+  margin: 30px 0;
+}
+
+/* Table Styling */
+.section-ecosystem table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.section-ecosystem th,
+.section-ecosystem td {
+  padding: 10px 15px;
+  text-align: left;
+}
+
+.grey-card {
+  padding: 20px;
   width: 90%;
-  margin: 0 auto 24px auto;
 }
 
-.faq-question {
-  color: #005471;
+.grey-card .card-title {
+  margin-bottom: 10px;
+}
+
+.tutorial-icon {
+  height: 65px;
+  margin-right: 25px;
+}
+
+.clear-list li,
+.dot-list li {
+  margin-bottom: 10px;
+}
+
+.list {
+  margin-top: 10px;
+}
+
+.event-section .name {
   font-size: 20px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 30px;
+  margin-bottom: 10px;
 }
 
-.faq-accordion-toggle {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  padding: 18px;
+.event-section .description {
+  margin: 10px 0;
 }
 
-.faq-accordion-icon {
-  min-width: 3rem;
-  width: 3rem;
-  height: 3rem;
-  background: radial-gradient(
-    69.54% 69.54% at 50% 28.63%,
-    rgba(228, 238, 251, 0.8) 0%,
-    rgba(212, 227, 244, 0.8) 100%
-  );
-  border-radius: 50%;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-}
-
-.faq-accordion-icon:before {
-  position: relative;
-  content: '';
-  display: inline-block;
-  width: 0.6em;
-  height: 0.6em;
-  border-right: 2px solid currentColor;
-  border-top: 2px solid currentColor;
-  transform: rotate(135deg);
-  transition: transform 1s ease;
-}
-
-.faq-dropdown-list {
-  padding: 0 18px;
-  overflow: hidden;
-  background: radial-gradient(
-    69.54% 69.54% at 50% 28.63%,
-    rgba(228, 238, 251, 0.8) 0%,
-    rgba(212, 227, 244, 0.8) 100%
-  );
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.5s ease-out;
-}
-
-.faq-dropdown-list p {
-  margin: 0;
-  padding-bottom: 12px;
-  color: #2e353e;
-  font-weight: bold;
+.no-events .icon {
+  width: 95px;
+  height: 95px;
+  margin-bottom: 10px;
 }
 
 .section-divider {
@@ -1467,4 +1390,14 @@ p {
   .landing-page-h1 {
     font-size: 30px;
   }
+}
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tutorial-section,
+.ecosystem-section {
+  flex: 30;
 }

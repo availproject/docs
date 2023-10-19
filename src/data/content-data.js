@@ -116,7 +116,6 @@ export const contentData = {
               text: '1.3.1',
             },
           },
-          // Add more retired networks here
         ],
       },
     ],
