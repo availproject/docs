@@ -9,7 +9,7 @@ module.exports = {
       link: {
         type: 'generated-index',
       },
-      collapsed: false,
+      collapsed: true,
       items: ['about/accounts', 'about/explorer', 'about/faucet'],
     },
     {
@@ -32,7 +32,7 @@ module.exports = {
       link: {
         type: "generated-index",
       },
-      collapsed: false,
+      collapsed: true,
       items: [
         "build/validium",
         {
@@ -58,7 +58,7 @@ module.exports = {
       link: {
         type: 'generated-index',
       },
-      collapsed: false,
+      collapsed: true,
       items: [
         'operate/node-types',
         'operate/system-requirements',
@@ -116,7 +116,7 @@ module.exports = {
       link: {
         type: 'generated-index',
       },
-      collapsed: false,
+      collapsed: true,
       items: [
         {
           type: 'category',
