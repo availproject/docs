@@ -265,7 +265,7 @@ module.exports = {
               rel: null,
             },
             {
-              href: '/category/get-started/',
+              href: '/build/quickstart/',
               label: 'Get Started',
               target: '_self',
               rel: null,
