@@ -19,12 +19,7 @@ function Home() {
             </section>
           </div>
         </div>
-        <section className="section-ecosystem full-background">
-          <div className="container">
-            <EcosystemSection {...contentData.ecosystem} />
-          </div>
-        </section>
-        <div className="justify-content-center tutorial-cards">
+        <div className="justify-content-center tutorial-cards card-container">
           {contentData.linksCard.map((props, idx) => (
             <TutorialsCard key={idx} {...props} />
           ))}

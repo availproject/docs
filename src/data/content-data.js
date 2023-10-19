@@ -1,8 +1,8 @@
 export const contentData = {
   linksCard: [
     {
-      title: 'Operate a Node',
-      cardLink: '/category/operate/',
+      title: 'Run a Light Client',
+      cardLink: '/operate/node/light-client/',
       blockInfo: [
         'Optimal Performance',
         'Low Barrier to Entry',
@@ -10,16 +10,16 @@ export const contentData = {
       ],
       tutorialsInfo: [
         {
-          title: 'Run a Light Client',
-          link: '/operate/node/light-client/',
+          title: 'Download the Binaries for Linux ARM64',
+          link: 'https://github.com/availproject/avail-light/releases/download/v1.7.2/avail-light-apple-arm64.tar.gz',
         },
         {
-          title: 'Run a Full Node',
-          link: '/category/full-node/',
+          title: 'Download the Binaries for Linux x86_64',
+          link: 'https://github.com/availproject/avail-light/releases/download/v1.7.2/avail-light-linux-aarch64.tar.gz',
         },
         {
-          title: 'Run a Relay Node',
-          link: '/operate/node/relay/',
+          title: 'Download the Binaries for Apple ARM64',
+          link: 'https://github.com/availproject/avail-light/releases/download/v1.7.2/avail-light-apple-arm64.tar.gz',
         },
       ],
     },
@@ -33,16 +33,16 @@ export const contentData = {
       ],
       tutorialsInfo: [
         {
+          title: 'Already Running a Full Node?',
+          link: '/operate/validator/already-running-full-node/',
+        },
+        {
           title: 'Run a Validator Node',
-          link: '/category/run-a-node/',
+          link: '/category/run-a-validator-node/',
         },
         {
           title: 'Upgrade Your Validator',
           link: '/operate/validator/upgrade/',
-        },
-        {
-          title: 'Monitor Your Validator',
-          link: '/operate/validator/monitor/',
         },
       ],
     },
@@ -51,7 +51,6 @@ export const contentData = {
       cardLink: '/category/api-reference/',
       blockInfo: [
         'Ecosystem Agnostic Modularity',
-        'Scalable Across All Layers',
         'Robust Sovereign Chain Rollups',
         'Optimized App-Chains',
       ],
@@ -69,55 +68,4 @@ export const contentData = {
       ],
     },
   ],
-  ecosystem: {
-    tabs: [
-      {
-        name: 'Active Networks',
-        details: [
-          {
-            networkName: 'Kate Testnet',
-            explorer: 'https://kate.avail.tools',
-            rpcEndpoint: 'https://kate.avail.tools/v1',
-            wsEndpoint: 'wss://kate.avail.tools/ws',
-            chainSpec: {
-              link: 'https://kate.avail.tools/#/explorer/chainspec',
-              text: 'chainspec.raw.json',
-            },
-            chainInfo: {
-              link: 'https://kate.avail.tools/chaininfo.txt',
-              text: 'chaininfo.txt',
-            },
-            nodeVersion: {
-              link: 'https://github.com/availproject/avail/releases/tag/v1.7.2',
-              text: 'v1.7.2',
-            },
-            lightClientVersion: {
-              link: 'https://github.com/availproject/avail-light/releases/tag/v1.7.2',
-              text: '1.7.2',
-            },
-          },
-          // Add more active networks here
-        ],
-      },
-      {
-        name: 'Retired Networks',
-        details: [
-          {
-            networkName: 'Testnet Phase 1',
-            explorer: 'https://testnet.avail.tools',
-            rpcEndpoint: 'https://testnet.avail.tools/v1',
-            wsEndpoint: 'wss://testnet.avail.tools/ws',
-            nodeVersion: {
-              link: 'https://github.com/availproject/avail/releases/tag/v1.5.0-303f39d',
-              text: 'v1.5.0-303f39d',
-            },
-            lightClientVersion: {
-              link: 'https://github.com/availproject/avail-light/releases/tag/v1.3.1',
-              text: '1.3.1',
-            },
-          },
-        ],
-      },
-    ],
-  },
 };
