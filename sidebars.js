@@ -15,20 +15,6 @@ module.exports = {
     },
     {
       type: 'category',
-      label: 'System Design',
-      link: {
-        type: 'generated-index',
-      },
-      collapsed: true,
-      items: [
-        'about/introduction',
-        'about/introduction/app-id',
-        'about/introduction/light-client',
-        'about/introduction/validiums',
-      ],
-    },
-    {
-      type: 'category',
       label: 'Operate a Node',
       link: {
         type: 'generated-index',
@@ -104,6 +90,20 @@ module.exports = {
           ],
         },
         'api/use-case-validiums',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'System Design',
+      link: {
+        type: 'generated-index',
+      },
+      collapsed: true,
+      items: [
+        'about/introduction',
+        'about/introduction/app-id',
+        'about/introduction/light-client',
+        'about/introduction/validiums',
       ],
     },
     'faqs',
