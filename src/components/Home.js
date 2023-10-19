@@ -37,13 +37,6 @@ function Home() {
           <EcosystemSection {...contentData.ecosystem} />
         </div>
       </section>
-
-      <div className="container">
-        <div className="section-divider"></div>
-        <section className="faq">
-          <FAQSection {...contentData.faq} />
-        </section>
-      </div>
     </div>
   );
 }
