@@ -9,7 +9,6 @@ export const EcosystemSection = (props) => {
   return (
     <>
       <HeadSection {...head} />
-      <h2 className="ecosystem-title">Networks</h2>
       <div className="tabs-container col">
         <Tabs>
           {tabs.map(

@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import { contentData } from '../data/content-data';
-import Layout from '@theme/Layout';
-import { ButtonLink, TutorialsCard, FAQSection, EcosystemSection } from '.';
+import { TutorialsCard, EcosystemSection } from '.';
 
 function Home() {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
     <div className="bootstrap-wrapper">
       <div className="section-divider"></div>
@@ -21,28 +18,17 @@ function Home() {
               </div>
             </section>
           </div>
-          <br />
-          <br />
         </div>
-        <div className="section-divider"></div>
+        <section className="section-ecosystem full-background">
+          <div className="container">
+            <EcosystemSection {...contentData.ecosystem} />
+          </div>
+        </section>
         <div className="justify-content-center tutorial-cards">
           {contentData.linksCard.map((props, idx) => (
             <TutorialsCard key={idx} {...props} />
           ))}
         </div>
-      </div>
-      <div className="section-divider"></div>
-      <section className="section-ecosystem full-background">
-        <div className="container">
-          <EcosystemSection {...contentData.ecosystem} />
-        </div>
-      </section>
-
-      <div className="container">
-        <div className="section-divider"></div>
-        <section className="faq">
-          <FAQSection {...contentData.faq} />
-        </section>
       </div>
     </div>
   );
