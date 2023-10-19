@@ -23,6 +23,11 @@ We recommend downloading the pre-compiled binary for speed and convenience.
 
 :::
 
+| Node Type        | Repository Name                                                       | Latest Release                                                                       |
+| ---------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| **Full Node**    | [<ins>avail</ins>](https://github.com/availproject/avail)             | [<ins>v1.7.2</ins>](https://github.com/availproject/avail/releases/tag/v1.7.2)       |
+| **Light Client** | [<ins>avail-light</ins>](https://github.com/availproject/avail-light) | [<ins>v1.7.2</ins>](https://github.com/availproject/avail-light/releases/tag/v1.7.2) |
+
 ## Option 1: Run the Pre-Built Release
 
 All you need to do is run:

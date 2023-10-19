@@ -290,26 +290,15 @@ module.exports = {
             },
           ],
         },
-        /*
         {
-          href: "/node/node-types/",
-          position: 'left',
-          label: 'Run a Node',
+          href: '/networks/',
+          label: 'Network Info',
+          target: '_self',
+          rel: null,
         },
-        {
-          href: "/validators/node/binaries/",
-          position: 'left',
-          label: 'Maintainer Handbook',
-        },
-        {
-          href: "/api/quickstart/",
-          position: 'left',
-          label: 'API Reference',
-        },
-        */
         {
           href: 'https://blog.availproject.org/',
-          position: 'left',
+          position: 'right',
           label: 'Blog',
         },
         {
