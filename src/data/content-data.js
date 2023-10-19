@@ -18,7 +18,7 @@ export const contentData = {
           link: 'https://github.com/availproject/avail-light/releases/download/v1.7.2/avail-light-linux-aarch64.tar.gz',
         },
         {
-          title: 'Download the Binaries for Mac ARM64',
+          title: 'Download the Binaries for Apple ARM64',
           link: 'https://github.com/availproject/avail-light/releases/download/v1.7.2/avail-light-apple-arm64.tar.gz',
         },
       ],
