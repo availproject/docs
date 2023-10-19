@@ -1,21 +1,17 @@
 module.exports = {
   avail: [
     'index',
+    'build/quickstart',
     'networks',
     'operate/node/light-client',
     {
       type: 'category',
-      label: 'Get Started',
+      label: 'New User Guide',
       link: {
         type: 'generated-index',
       },
       collapsed: true,
-      items: [
-        'build/quickstart',
-        'about/accounts',
-        'about/explorer',
-        'about/faucet',
-      ],
+      items: ['about/accounts', 'about/explorer', 'about/faucet'],
     },
     {
       type: 'category',
@@ -33,7 +29,7 @@ module.exports = {
     },
     {
       type: 'category',
-      label: 'Operate',
+      label: 'Operate a Node',
       link: {
         type: 'generated-index',
       },
