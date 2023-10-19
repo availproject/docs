@@ -1,6 +1,7 @@
 ---
 id: networks
 title: Network Information
+sidebar_label: Network Info
 description: 'Information on Networks related to Avail'
 keywords:
   - docs
@@ -35,13 +36,3 @@ image: https://docs.availproject.org/img/avail/AvailDocs.png
 - **WS Endpoint**: [<ins>wss://testnet.avail.tools/ws</ins>](wss://testnet.avail.tools/ws)
 - **Node Version**: [<ins>v1.5.0-303f39d</ins>](https://github.com/availproject/avail/releases/tag/v1.5.0-303f39d)
 - **Light Client Version**: [<ins>1.3.1</ins>](https://github.com/availproject/avail-light/releases/tag/v1.3.1)
-
----
-
-<!-- Very temporary -->
-
-### [<ins>Go back to Homepage</ins>](/)
-
-### [<ins>Check out the Light Client Guide</ins>](/operate/node/light-client/)
-
-### [<ins>Check out the Full Node Guide</ins>](/category/full-node/)

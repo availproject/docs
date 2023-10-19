@@ -245,7 +245,7 @@ module.exports = {
       },
     },
     navbar: {
-      hideOnScroll: true,
+      hideOnScroll: false,
       logo: {
         alt: 'Avail logo',
         src: 'img/avail-logo.png',
@@ -277,6 +277,12 @@ module.exports = {
               rel: null,
             },
             {
+              href: '/networks/',
+              label: 'Network Info',
+              target: '_self',
+              rel: null,
+            },
+            {
               href: '/category/run-a-node/',
               label: 'Run a Node',
               target: '_self',
@@ -289,12 +295,6 @@ module.exports = {
               rel: null,
             },
           ],
-        },
-        {
-          href: '/networks/',
-          label: 'Network Info',
-          target: '_self',
-          rel: null,
         },
         {
           href: 'https://blog.availproject.org/',
