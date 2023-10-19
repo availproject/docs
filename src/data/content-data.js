@@ -1,7 +1,7 @@
 export const contentData = {
   linksCard: [
     {
-      title: 'Run a Light Client',
+      title: 'Unlock Data Availability with the Light Client',
       cardLink: '/operate/node/light-client/',
       blockInfo: [
         'Optimal Performance',
@@ -24,7 +24,7 @@ export const contentData = {
       ],
     },
     {
-      title: 'Become a Validator',
+      title: 'Maintain Data Availability as a Validator',
       cardLink: '/category/become-a-validator/',
       blockInfo: [
         'Network Security',
@@ -41,13 +41,13 @@ export const contentData = {
           link: '/category/run-a-validator-node/',
         },
         {
-          title: 'Upgrade Your Validator',
+          title: 'Upgrade Your Validator Node',
           link: '/operate/validator/upgrade/',
         },
       ],
     },
     {
-      title: 'Build Modular Solutions',
+      title: 'Use Avail as a Base Layer to Empower Innovation',
       cardLink: '/category/api-reference/',
       blockInfo: [
         'Ecosystem Agnostic Modularity',
