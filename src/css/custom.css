@@ -1407,6 +1407,10 @@ p {
   margin-bottom: 20px;
 }
 
+h1 {
+  font-size: 2.7rem; /* Adjust this value as needed */
+}
+
 .landing-page-h1 a {
   color: #4e6786;
   text-decoration: none;
@@ -1432,4 +1436,25 @@ p {
 .tutorial-section,
 .ecosystem-section {
   flex: 30;
+}
+
+.modular-blockchain-container {
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.modular-blockchain-container strong {
+  font-weight: 600;
+}
+
+.modular-blockchain-container p {
+  margin: 0;
+}
+
+.modular-blockchain-container {
+  margin-bottom: 60px;
 }

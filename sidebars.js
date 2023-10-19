@@ -2,8 +2,7 @@ module.exports = {
   avail: [
     'index',
     'networks',
-    'about/introduction',
-    'build/quickstart',
+    'operate/node/light-client',
     {
       type: 'category',
       label: 'Get Started',
@@ -11,7 +10,12 @@ module.exports = {
         type: 'generated-index',
       },
       collapsed: true,
-      items: ['about/accounts', 'about/explorer', 'about/faucet'],
+      items: [
+        'build/quickstart',
+        'about/accounts',
+        'about/explorer',
+        'about/faucet',
+      ],
     },
     {
       type: 'category',
@@ -21,38 +25,12 @@ module.exports = {
       },
       collapsed: true,
       items: [
+        'about/introduction',
         'about/introduction/app-id',
         'about/introduction/light-client',
         'about/introduction/validiums',
       ],
     },
-    /*
-    {
-      type: "category",
-      label: "Build",
-      link: {
-        type: "generated-index",
-      },
-      collapsed: true,
-      items: [
-        "build/validium",
-        {
-          type: "category",
-          label: "Sovereign Rollup",
-          link: {
-            type: "generated-index",
-          },
-          collapsed: true,
-          items: [
-            "build/zk-rollup",
-            "build/op-rollup",
-          ],
-        },
-        "build/app-chains",
-        "build/volitions",
-      ],
-    },
-    */
     {
       type: 'category',
       label: 'Operate',
@@ -63,7 +41,6 @@ module.exports = {
       items: [
         'operate/node-types',
         'operate/system-requirements',
-        'operate/node/light-client',
         {
           type: 'category',
           label: 'Run a Node',
