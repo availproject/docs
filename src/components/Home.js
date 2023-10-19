@@ -21,10 +21,10 @@ function Home() {
         </div>
         <div className="modular-blockchain-container">
           <p>
-            Avail is a highly robust <strong>modular blockchain</strong> that is
+            Avail is a highly robust <strong>modular base layer</strong> that is
             laser-focused on <strong>data availability</strong>: ordering,
-            publishing transactions, and making it possible to verify that block
-            data is available without downloading a whole block.
+            publishing transactions, and making it possible to seamlessly verify
+            the availability of block data.
           </p>
         </div>
         <div className="justify-content-center tutorial-cards card-container">
