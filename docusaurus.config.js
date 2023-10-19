@@ -46,7 +46,7 @@ module.exports = {
             from: ['/en/latest', '/en/'],
           },
           {
-            to: '/build/quickstart',
+            to: '/networks/',
             from: '/join-the-network/networks',
           },
           // Getting started

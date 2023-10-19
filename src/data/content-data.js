@@ -38,7 +38,7 @@ export const contentData = {
         },
         {
           title: 'Run a Validator Node',
-          link: '/category/run-a-node/',
+          link: '/category/run-a-validator-node/',
         },
         {
           title: 'Upgrade Your Validator',
