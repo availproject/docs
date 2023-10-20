@@ -40,7 +40,7 @@ All you need to do is run:
 ./avail-light -c config.yaml
 ```
 
-> Refer to the [configuration reference](https://github.com/availproject/avail-light#configuration-reference) for configuration options. See the "Using Avail" section for guides on embedding the light client.
+> Refer to the [<ins>configuration reference</ins>](https://github.com/availproject/avail-light#configuration-reference) for configuration options. See the "Using Avail" section for guides on embedding the light client.
 
 <details>
 <summary> Sample out </summary>
