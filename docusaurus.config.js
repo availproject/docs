@@ -46,6 +46,14 @@ module.exports = {
             from: ['/en/latest', '/en/'],
           },
           {
+            to: '/category/api-reference/',
+            from: '/using-avail/communicating-with-avail',
+          },
+          {
+            to: '/category/become-a-validator/',
+            from: '/join-the-network/run-avail/validator-node-setup',
+          },
+          {
             to: '/networks/',
             from: '/join-the-network/networks',
           },
