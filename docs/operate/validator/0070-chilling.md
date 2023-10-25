@@ -15,7 +15,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ## Overview
 
-Two important concepts in Avail concensus are "Chill" and "Slashing". We will explore the conditions under which validators are chilled or slashed, the impact of these actions on validators and nominators.
+Two important concepts in Avail consensus are "Chill" and "Slashing". We will explore the conditions under which validators are chilled or slashed, the impact of these actions on validators and nominators.
 
 ## Voluntary Chill
 
