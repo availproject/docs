@@ -48,7 +48,7 @@ For example:
     --chain kate
 ```
 
-The node will ouput the following when started:
+The node will output the following when started:
 
 ```
 2023-06-03 20:36:29 Avail Node
