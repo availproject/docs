@@ -2,14 +2,15 @@
 id: binaries
 title: How to Run a Validator Node using Binaries
 sidebar_label: Using Binaries
-description: "Learn about running an Avail validator using binaries."
+description: 'Learn about running an Avail validator using binaries.'
 keywords:
   - docs
   - avail
   - node
   - validator
-image: https://availproject.github.io/img/avail/AvailDocs.png
+image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
+
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ## Preliminaries
@@ -33,10 +34,10 @@ validator onboarding.
 
 ## Run a Validator Node
 
-First, follow the steps for running a full node as outlined in the 
+First, follow the steps for running a full node as outlined in the
 [Full Node Setup Instructions](/category/run-a-validator-node/).
 
-To run a validator, you'll use the same command line as for the full node, but with the addition of the `--validator` option to the command.
+To run a validator node, you'll use the same command as the full node with the addition of the `--validator` option.
 
 For example:
 
@@ -44,10 +45,11 @@ For example:
 ./data-avail --validator \
     --port 30333 \
     --base-path `pwd`/data \
-    --chain `pwd`/chainspec.raw.json
+    --chain kate
 ```
 
-The node will ouput the following when started:
+The node will output the following when started:
+
 ```
 2023-06-03 20:36:29 Avail Node
 2023-06-03 20:36:29 ✌️  version 1.6.0-99b85257d6b
@@ -101,13 +103,13 @@ Enable auto restart on for your Avail node:
 
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl enable availd.service 
+sudo systemctl enable availd.service
 ```
 
 Start your avail node:
 
 ```bash
-sudo systemctl start availd.service 
+sudo systemctl start availd.service
 ```
 
 Check the node is running:

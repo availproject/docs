@@ -4,14 +4,13 @@ title: Validium Reference
 sidebar_label: Validiums
 description: How to use Avail to build validiums
 keywords:
-- docs
-- avail
-- availability
-- scale
-- rollup
-- validium
-image: https://availproject.github.io/img/avail/AvailDocs.png
-
+  - docs
+  - avail
+  - availability
+  - scale
+  - rollup
+  - validium
+image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
 ## Verify data availability on Ethereum
@@ -25,22 +24,21 @@ chains based on Substrate (which is now part of the Polkadot SDK).
 
 Complete example can be found on [github](https://github.com/availproject/avail/tree/develop/examples/validium).
 
-
 Example of sending data to Avail:
 
- ```typescript
-    async function submitData(availApi, data, account) {
-        let submit = await availApi.tx.dataAvailability.submitData(data);
-        return await sendTx(availApi, account, submit);
-    }
-   ```
+```typescript
+async function submitData(availApi, data, account) {
+  let submit = await availApi.tx.dataAvailability.submitData(data);
+  return await sendTx(availApi, account, submit);
+}
+```
 
 Function `submitData` receives `availApi` api instance, `data` that will be submitted,
 and the `account` which is sending the transaction. In order to create account
 it is necessary to create _keyring_ _pair_ for the account that wants to send the data.
 This can be done with `keyring.addFromUri(secret)` which creates keyring pair via suri
 (the secret can be a hex string, mnemonic phrase or a string).
-After creating keyring pair, it is possible to submit data in a transaction to the Avail network with 
+After creating keyring pair, it is possible to submit data in a transaction to the Avail network with
 `availApi.tx.dataAvailability.submitData(data);`. Once the transaction is included in an Avail block,
 it is possible to initiate the dispatch of the data root by creating a dispatch transaction
 `availApi.tx.daBridge.tryDispatchDataRoot(destinationDomain, bridgeRouterEthAddress, header);` with the parameters:
@@ -52,20 +50,21 @@ it is possible to initiate the dispatch of the data root by creating a dispatch 
 `header` Provided from the block when data is submitted.
 
 ```typescript
-   async function dispatchDataRoot(availApi, blockHash, account) {
-    const header = await availApi.rpc.chain.getHeader(blockHash);
-    let tx = await availApi.tx.daBridge.tryDispatchDataRoot(
-        process.env.DESTINATION_DOMAIN,
-        process.env.DA_BRIDGE_ADDRESS,
-        header
-    );
-    return await sendTx(availApi, account, tx);
+async function dispatchDataRoot(availApi, blockHash, account) {
+  const header = await availApi.rpc.chain.getHeader(blockHash);
+  let tx = await availApi.tx.daBridge.tryDispatchDataRoot(
+    process.env.DESTINATION_DOMAIN,
+    process.env.DA_BRIDGE_ADDRESS,
+    header,
+  );
+  return await sendTx(availApi, account, tx);
 }
-   ```
+```
 
 :::info Example of submitting data to Avail and dispatching the data root using `Polkadot-JS`.
 
 Environment variables:
+
 ```dotenv
 AVAIL_RPC= # avail network websocket url
 SURI= # mnemonic
@@ -73,16 +72,17 @@ DA_BRIDGE_ADDRESS= # main da bridge contract address deployed to Sepolia network
 DESTINATION_DOMAIN= # destination domain is 1000
 DATA= # data sending to avail
 ```
+
 <details>
   <summary>
     Dispatch Data Root Javascript Example
   </summary>
 
 ```typescript
-import {ApiPromise, Keyring, WsProvider} from "@polkadot/api";
-import * as dotenv from "dotenv";
+import { ApiPromise, Keyring, WsProvider } from '@polkadot/api';
+import * as dotenv from 'dotenv';
 
-dotenv.config()
+dotenv.config();
 
 /**
  * Creates api instance.
@@ -90,97 +90,97 @@ dotenv.config()
  * @param url websocket address
  */
 async function createApi(url) {
-    const provider = new WsProvider(url)
-    return ApiPromise.create({
-        provider,
-        rpc: {
-            kate: {
-                queryDataProof: {
-                    description: 'Generate the data proof for the given `index`',
-                    params: [
-                        {
-                            name: 'data_index',
-                            type: 'u32'
-                        },
-                        {
-                            name: 'at',
-                            type: 'Hash',
-                            isOptional: true
-                        }
-                    ],
-                    type: 'DataProof'
-                }
-            }
+  const provider = new WsProvider(url);
+  return ApiPromise.create({
+    provider,
+    rpc: {
+      kate: {
+        queryDataProof: {
+          description: 'Generate the data proof for the given `index`',
+          params: [
+            {
+              name: 'data_index',
+              type: 'u32',
+            },
+            {
+              name: 'at',
+              type: 'Hash',
+              isOptional: true,
+            },
+          ],
+          type: 'DataProof',
         },
-        types: {
-            AppId: 'Compact<u32>',
-            DataLookupIndexItem: {
-                appId: 'AppId',
-                start: 'Compact<u32>'
-            },
-            DataLookup: {
-                size: 'Compact<u32>',
-                index: 'Vec<DataLookupIndexItem>'
-            },
-            KateCommitment: {
-                rows: 'Compact<u16>',
-                cols: 'Compact<u16>',
-                dataRoot: 'H256',
-                commitment: 'Vec<u8>'
-            },
-            V1HeaderExtension: {
-                commitment: 'KateCommitment',
-                appLookup: 'DataLookup'
-            },
-            VTHeaderExtension: {
-                newField: 'Vec<u8>',
-                commitment: 'KateCommitment',
-                appLookup: 'DataLookup'
-            },
-            HeaderExtension: {
-                _enum: {
-                    V1: 'V1HeaderExtension',
-                    VTest: 'VTHeaderExtension'
-                }
-            },
-            DaHeader: {
-                parentHash: 'Hash',
-                number: 'Compact<BlockNumber>',
-                stateRoot: 'Hash',
-                extrinsicsRoot: 'Hash',
-                digest: 'Digest',
-                extension: 'HeaderExtension'
-            },
-            Header: 'DaHeader',
-            CheckAppIdExtra: {
-                appId: 'AppId'
-            },
-            CheckAppIdTypes: {},
-            CheckAppId: {
-                extra: 'CheckAppIdExtra',
-                types: 'CheckAppIdTypes'
-            },
-            DataProof: {
-                root: 'H256',
-                proof: 'Vec<H256>',
-                numberOfLeaves: 'Compact<u32>',
-                leaf_index: 'Compact<u32>',
-                leaf: 'H256'
-            },
-            Cell: {
-                row: 'u32',
-                col: 'u32',
-            }
+      },
+    },
+    types: {
+      AppId: 'Compact<u32>',
+      DataLookupIndexItem: {
+        appId: 'AppId',
+        start: 'Compact<u32>',
+      },
+      DataLookup: {
+        size: 'Compact<u32>',
+        index: 'Vec<DataLookupIndexItem>',
+      },
+      KateCommitment: {
+        rows: 'Compact<u16>',
+        cols: 'Compact<u16>',
+        dataRoot: 'H256',
+        commitment: 'Vec<u8>',
+      },
+      V1HeaderExtension: {
+        commitment: 'KateCommitment',
+        appLookup: 'DataLookup',
+      },
+      VTHeaderExtension: {
+        newField: 'Vec<u8>',
+        commitment: 'KateCommitment',
+        appLookup: 'DataLookup',
+      },
+      HeaderExtension: {
+        _enum: {
+          V1: 'V1HeaderExtension',
+          VTest: 'VTHeaderExtension',
         },
-        signedExtensions: {
-            CheckAppId: {
-                extrinsic: {
-                    appId: 'AppId'
-                },
-                payload: {}
-            },
+      },
+      DaHeader: {
+        parentHash: 'Hash',
+        number: 'Compact<BlockNumber>',
+        stateRoot: 'Hash',
+        extrinsicsRoot: 'Hash',
+        digest: 'Digest',
+        extension: 'HeaderExtension',
+      },
+      Header: 'DaHeader',
+      CheckAppIdExtra: {
+        appId: 'AppId',
+      },
+      CheckAppIdTypes: {},
+      CheckAppId: {
+        extra: 'CheckAppIdExtra',
+        types: 'CheckAppIdTypes',
+      },
+      DataProof: {
+        root: 'H256',
+        proof: 'Vec<H256>',
+        numberOfLeaves: 'Compact<u32>',
+        leaf_index: 'Compact<u32>',
+        leaf: 'H256',
+      },
+      Cell: {
+        row: 'u32',
+        col: 'u32',
+      },
+    },
+    signedExtensions: {
+      CheckAppId: {
+        extrinsic: {
+          appId: 'AppId',
         },
-    });
+        payload: {},
+      },
+    },
+  });
 }
 
 /**
@@ -191,27 +191,25 @@ async function createApi(url) {
  * @param tx transaction
  */
 async function sendTx(api, account, tx) {
-    return new Promise(async (resolve) => {
-        try {
-            const res = await tx
-                .signAndSend(
-                    account,
-                    (result) => {
-                        if (result.status.isReady) {
-                            console.log(`Txn has been sent to the mempool`)
-                        }
-                        if (result.status.isInBlock) {
-                            console.log(`Tx hash: ${result.txHash} is in block ${result.status.asInBlock}`)
-                            res()
-                            resolve(result)
-                        }
-                    });
-
-        } catch (e) {
-            console.log(e);
-            process.exit(1);
+  return new Promise(async (resolve) => {
+    try {
+      const res = await tx.signAndSend(account, (result) => {
+        if (result.status.isReady) {
+          console.log(`Txn has been sent to the mempool`);
         }
-    })
+        if (result.status.isInBlock) {
+          console.log(
+            `Tx hash: ${result.txHash} is in block ${result.status.asInBlock}`,
+          );
+          res();
+          resolve(result);
+        }
+      });
+    } catch (e) {
+      console.log(e);
+      process.exit(1);
+    }
+  });
 }
 
 /**
@@ -223,8 +221,8 @@ async function sendTx(api, account, tx) {
  * @returns {Promise<unknown>}
  */
 async function submitData(availApi, data, account) {
-    let submit = await availApi.tx.dataAvailability.submitData(data);
-    return await sendTx(availApi, account, submit);
+  let submit = await availApi.tx.dataAvailability.submitData(data);
+  return await sendTx(availApi, account, submit);
 }
 
 /**
@@ -236,13 +234,17 @@ async function submitData(availApi, data, account) {
  * @returns {Promise<unknown>}
  */
 async function dispatchDataRoot(availApi, blockHash, account) {
-    const destinationDomain = process.env.DESTINATION_DOMAIN;
-    const bridgeRouterEthAddress = process.env.DA_BRIDGE_ADDRESS;
-    const header = await availApi.rpc.chain.getHeader(blockHash);
-    console.log(`Block Number: ${header.number}`);
-    console.log(`State Root: ${header.stateRoot}`);
-    let tx = await availApi.tx.daBridge.tryDispatchDataRoot(destinationDomain, bridgeRouterEthAddress, header);
-    return await sendTx(availApi, account, tx);
+  const destinationDomain = process.env.DESTINATION_DOMAIN;
+  const bridgeRouterEthAddress = process.env.DA_BRIDGE_ADDRESS;
+  const header = await availApi.rpc.chain.getHeader(blockHash);
+  console.log(`Block Number: ${header.number}`);
+  console.log(`State Root: ${header.stateRoot}`);
+  let tx = await availApi.tx.daBridge.tryDispatchDataRoot(
+    destinationDomain,
+    bridgeRouterEthAddress,
+    header,
+  );
+  return await sendTx(availApi, account, tx);
 }
 
 /**
@@ -253,35 +255,38 @@ async function dispatchDataRoot(availApi, blockHash, account) {
  * @returns {Promise<(*)[]>}
  */
 async function getDataRoot(availApi, blockHash) {
-    const header = JSON.parse(await availApi.rpc.chain.getHeader(blockHash));
-    return [header.extension.v1.commitment.dataRoot, header.number];
+  const header = JSON.parse(await availApi.rpc.chain.getHeader(blockHash));
+  return [header.extension.v1.commitment.dataRoot, header.number];
 }
 
 (async function dataRootDispatch() {
-    const availApi = await createApi(process.env.AVAIL_RPC);
-    const keyring = new Keyring({type: 'sr25519'});
-    const account = keyring.addFromMnemonic(process.env.SURI);
-    console.log("Submitting data to Avail...")
+  const availApi = await createApi(process.env.AVAIL_RPC);
+  const keyring = new Keyring({ type: 'sr25519' });
+  const account = keyring.addFromMnemonic(process.env.SURI);
+  console.log('Submitting data to Avail...');
 
-    let result = await submitData(availApi, process.env.DATA, account)
-    const txIndex = JSON.parse(result.events[0].phase).applyExtrinsic;
-    const blockHash = result.status.asInBlock;
-    console.log(`Transaction: ${result.txHash}. Block hash: ${blockHash}. Transaction index: ${txIndex}.`)
+  let result = await submitData(availApi, process.env.DATA, account);
+  const txIndex = JSON.parse(result.events[0].phase).applyExtrinsic;
+  const blockHash = result.status.asInBlock;
+  console.log(
+    `Transaction: ${result.txHash}. Block hash: ${blockHash}. Transaction index: ${txIndex}.`,
+  );
 
-    console.log("Triggering Home...");
-    result = await dispatchDataRoot(availApi, blockHash, account);
-    console.log(`Sent txn on Avail. Txn Hash: ${result.txHash}.`);
-    let [root, blockNum] = await getDataRoot(availApi, blockHash);
-    console.log("Data Root:" + root + " and Block number: " + blockNum);
+  console.log('Triggering Home...');
+  result = await dispatchDataRoot(availApi, blockHash, account);
+  console.log(`Sent txn on Avail. Txn Hash: ${result.txHash}.`);
+  let [root, blockNum] = await getDataRoot(availApi, blockHash);
+  console.log('Data Root:' + root + ' and Block number: ' + blockNum);
 
-    await availApi.disconnect();
-})().then(() => {
-    console.log("Done")
-}).catch((err) => {
+  await availApi.disconnect();
+})()
+  .then(() => {
+    console.log('Done');
+  })
+  .catch((err) => {
     console.error(err);
     process.exit(1);
-});
-
+  });
 ```
 
 </details>
@@ -299,8 +304,11 @@ Example:
 
 ```typescript
 async function getProof(availApi, hashBlock, transactionIndex) {
-    const dataProof = await availApi.rpc.kate.queryDataProof(transactionIndex, hashBlock);
-    return dataProof;
+  const dataProof = await availApi.rpc.kate.queryDataProof(
+    transactionIndex,
+    hashBlock,
+  );
+  return dataProof;
 }
 ```
 
@@ -320,13 +328,14 @@ DataProof: {
 
 `proof` Merkle proof items (does not contain the leaf hash, nor the root).
 
-`numberOfLeaves`  Number of leaves in the original tree.
+`numberOfLeaves` Number of leaves in the original tree.
 
 `leaf_index` Index of the leaf the proof is for (starts from 0).
 
 `leaf` Leaf for which is the proof.
 
 :::info Example
+
 <details>
   <summary>
     Example of Verification Contract
@@ -392,6 +401,7 @@ contract ValidiumContract is Ownable {
     }
 }
 ```
+
 </details>
 
 :::
@@ -399,7 +409,7 @@ contract ValidiumContract is Ownable {
 By submitting proof to the verification contract it is possible to verify
 that data is available on Avail. Merkle proof is a list of hashes that can be used to prove
 that given leaf is a member of the Merkle tree. Example of submitting a proof to the verification contract
-deployed on Sepolia network (`0xA06386C65B1f56De57CE6aB9CeEB2552fa811529`) can be queried by calling data root membership function 
+deployed on Sepolia network (`0xA06386C65B1f56De57CE6aB9CeEB2552fa811529`) can be queried by calling data root membership function
 `async function checkProof(sepoliaApi, blockNumber, proof, numberOfLeaves, leafIndex, leafHash);` where
 
 `sepoliaApi` Sepolia network api instance.
@@ -420,14 +430,15 @@ and return `true` or `false` depending on the provided proof.
 :::info Example of getting the proof and checking it with verification contract using `Polkadot-JS` and `Ethers.js`.
 
 Environment variables:
+
 ```dotenv
 AVAIL_RPC= # avail websocket address
-INFURA_KEY= # rpc provider key if needed 
+INFURA_KEY= # rpc provider key if needed
 VALIDIUM_ADDRESS= # address of the verification contract, one such is deployed on Sepolia network 0xA06386C65B1f56De57CE6aB9CeEB2552fa811529
 VALIDIYM_ABI_PATH= # path to abi file e.g. abi/ValidiumContract.json
 BLOCK_NUMBER= # number of the block for which to get Merkle proof
 BLOCK_HASH= # hash of the block for which to get Merkle proof
-TRANSACTION_INDEX= # index of the transaction in the block 
+TRANSACTION_INDEX= # index of the transaction in the block
 ```
 
 <details>
@@ -436,13 +447,13 @@ TRANSACTION_INDEX= # index of the transaction in the block
   </summary>
 
 ```typescript
-import {ethers} from "ethers";
-import * as dotenv from 'dotenv'
-import {hexlify} from "ethers/lib/utils.js";
-import {readFileSync} from "fs";
-import {ApiPromise, WsProvider} from "@polkadot/api";
+import { ethers } from 'ethers';
+import * as dotenv from 'dotenv';
+import { hexlify } from 'ethers/lib/utils.js';
+import { readFileSync } from 'fs';
+import { ApiPromise, WsProvider } from '@polkadot/api';
 
-dotenv.config()
+dotenv.config();
 
 /**
  * Creates api instance.
@@ -451,40 +462,40 @@ dotenv.config()
  * @returns {Promise<ApiPromise>}
  */
 async function createApi(url) {
-    const provider = new WsProvider(url)
+  const provider = new WsProvider(url);
 
-    // Create the API and wait until ready
-    return ApiPromise.create({
-        provider,
-        rpc: {
-            kate: {
-                queryDataProof: {
-                    description: 'Generate the data proof for the given `index`',
-                    params: [
-                        {
-                            name: 'data_index',
-                            type: 'u32'
-                        },
-                        {
-                            name: 'at',
-                            type: 'Hash',
-                            isOptional: true
-                        }
-                    ],
-                    type: 'DataProof'
-                }
-            }
+  // Create the API and wait until ready
+  return ApiPromise.create({
+    provider,
+    rpc: {
+      kate: {
+        queryDataProof: {
+          description: 'Generate the data proof for the given `index`',
+          params: [
+            {
+              name: 'data_index',
+              type: 'u32',
+            },
+            {
+              name: 'at',
+              type: 'Hash',
+              isOptional: true,
+            },
+          ],
+          type: 'DataProof',
         },
-        types: {
-            DataProof: {
-                root: 'H256',
-                proof: 'Vec<H256>',
-                numberOfLeaves: 'Compact<u32>',
-                leaf_index: 'Compact<u32>',
-                leaf: 'H256'
-            }
-        }
-    });
+      },
+    },
+    types: {
+      DataProof: {
+        root: 'H256',
+        proof: 'Vec<H256>',
+        numberOfLeaves: 'Compact<u32>',
+        leaf_index: 'Compact<u32>',
+        leaf: 'H256',
+      },
+    },
+  });
 }
 
 /**
@@ -496,9 +507,14 @@ async function createApi(url) {
  * @returns {Promise<*>}
  */
 async function getProof(availApi, hashBlock, transactionIndex) {
-    const daHeader = await availApi.rpc.kate.queryDataProof(transactionIndex, hashBlock);
-    console.log(`Fetched proof from Avail for txn index ${transactionIndex} inside block ${hashBlock}`);
-    return daHeader;
+  const daHeader = await availApi.rpc.kate.queryDataProof(
+    transactionIndex,
+    hashBlock,
+  );
+  console.log(
+    `Fetched proof from Avail for txn index ${transactionIndex} inside block ${hashBlock}`,
+  );
+  return daHeader;
 }
 
 /**
@@ -512,39 +528,75 @@ async function getProof(availApi, hashBlock, transactionIndex) {
  * @param leafHash Hash of the leaf in the Merkle tree
  * @returns {Promise<*>}
  */
-async function checkProof(sepoliaApi, blockNumber, proof, numberOfLeaves, leafIndex, leafHash) {
-    const abi = JSON.parse(readFileSync(process.env.VALIDIYM_ABI_PATH).toString());
-    const verificationContract = new ethers.Contract(process.env.VALIDIUM_ADDRESS, abi, sepoliaApi);
-    return await verificationContract.checkDataRootMembership(BigInt(blockNumber), proof, BigInt(numberOfLeaves), BigInt(leafIndex), leafHash)
+async function checkProof(
+  sepoliaApi,
+  blockNumber,
+  proof,
+  numberOfLeaves,
+  leafIndex,
+  leafHash,
+) {
+  const abi = JSON.parse(
+    readFileSync(process.env.VALIDIYM_ABI_PATH).toString(),
+  );
+  const verificationContract = new ethers.Contract(
+    process.env.VALIDIUM_ADDRESS,
+    abi,
+    sepoliaApi,
+  );
+  return await verificationContract.checkDataRootMembership(
+    BigInt(blockNumber),
+    proof,
+    BigInt(numberOfLeaves),
+    BigInt(leafIndex),
+    leafHash,
+  );
 }
 
 (async function submitProof() {
-    // connect to Sepolia through Infura but can be used any other available provider
-    const sepoliaApi = new ethers.providers.InfuraProvider
-        .getWebSocketProvider("sepolia", process.env.INFURA_KEY);
-    const availApi = await createApi(process.env.AVAIL_RPC);
+  // connect to Sepolia through Infura but can be used any other available provider
+  const sepoliaApi = new ethers.providers.InfuraProvider.getWebSocketProvider(
+    'sepolia',
+    process.env.INFURA_KEY,
+  );
+  const availApi = await createApi(process.env.AVAIL_RPC);
 
-    console.log(`Getting proof for transaction index ${process.env.TRANSACTION_INDEX} block number ${process.env.BLOCK_NUMBER} and block hash ${process.env.BLOCK_HASH}`)
-    const daHeader = await getProof(availApi, process.env.BLOCK_HASH, process.env.TRANSACTION_INDEX)
+  console.log(
+    `Getting proof for transaction index ${process.env.TRANSACTION_INDEX} block number ${process.env.BLOCK_NUMBER} and block hash ${process.env.BLOCK_HASH}`,
+  );
+  const daHeader = await getProof(
+    availApi,
+    process.env.BLOCK_HASH,
+    process.env.TRANSACTION_INDEX,
+  );
 
-    console.log(`Data Root: ${hexlify(daHeader.root)}`);
-    console.log(`Proof: ${daHeader.proof}`);
-    console.log(`Leaf to prove: ${hexlify(daHeader.leaf)}`);
-    console.log(`Leaf index : ${daHeader.leaf_index}`);
-    console.log(`Number of leaves: ${daHeader.numberOfLeaves}`);
+  console.log(`Data Root: ${hexlify(daHeader.root)}`);
+  console.log(`Proof: ${daHeader.proof}`);
+  console.log(`Leaf to prove: ${hexlify(daHeader.leaf)}`);
+  console.log(`Leaf index : ${daHeader.leaf_index}`);
+  console.log(`Number of leaves: ${daHeader.numberOfLeaves}`);
 
-    const isDataAccepted = await checkProof(sepoliaApi, process.env.BLOCK_NUMBER, daHeader.proof, daHeader.numberOfLeaves, daHeader.leaf_index, daHeader.leaf);
-    console.log("Data is: " + (isDataAccepted ? "available" : "not available"));
-    await availApi.disconnect();
-    await sepoliaApi.destroy();
-})().then(() => {
-    console.log("Done")
-}).catch((err) => {
+  const isDataAccepted = await checkProof(
+    sepoliaApi,
+    process.env.BLOCK_NUMBER,
+    daHeader.proof,
+    daHeader.numberOfLeaves,
+    daHeader.leaf_index,
+    daHeader.leaf,
+  );
+  console.log('Data is: ' + (isDataAccepted ? 'available' : 'not available'));
+  await availApi.disconnect();
+  await sepoliaApi.destroy();
+})()
+  .then(() => {
+    console.log('Done');
+  })
+  .catch((err) => {
     console.error(err);
     process.exit(1);
-});
-
+  });
 ```
+
 </details>
 
 :::

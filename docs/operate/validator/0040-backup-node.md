@@ -2,13 +2,13 @@
 id: backup
 title: How to Backup Your Avail Validator
 sidebar_label: Backup Your Validator
-description: "A comprehensive guide on backup tasks essential for maintaining an Avail Validator."
+description: 'A comprehensive guide on backup tasks essential for maintaining an Avail Validator.'
 keywords:
   - docs
   - avail
   - node
   - validator
-image: https://availproject.github.io/img/avail/AvailDocs.png
+image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
 ## Understanding Validator Directories

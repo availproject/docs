@@ -2,29 +2,30 @@
 id: monitor
 title: How to Monitor Your Avail Validator Node
 sidebar_label: Monitor Your Validator
-description: "Learn about monitoring a validator"
+description: 'Learn about monitoring a validator'
 keywords:
   - docs
   - avail
   - node
   - validator
   - monitoring
-image: https://availproject.github.io/img/avail/AvailDocs.png
+image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
+
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ## Telemetry
 
-Maintaining a healthy, stable, and secure ecosystem involves closely monitoring network operations and performance. In the case of Avail nodes, they come equipped with built-in low-level 
-telemetry components that automatically gather and transmit detailed information about each node's operation within the network. This backend telemetry data is streamed in real-time to a 
+Maintaining a healthy, stable, and secure ecosystem involves closely monitoring network operations and performance. In the case of Avail nodes, they come equipped with built-in low-level
+telemetry components that automatically gather and transmit detailed information about each node's operation within the network. This backend telemetry data is streamed in real-time to a
 designated endpoint, allowing you to observe information regarding your nodes behavior.
 
 Avail project has made available a [public telemetry](http://telemetry.avail.tools/) for anyone to view the status of their nodes. This should not replace your own monitoring and alerts. However it is a key tool that anyone can use to view the status
 of their nodes at anytime.
 
- <img src={useBaseUrl("img/avail/validator-avail-telemetry.png")} width="100%" height="100%"/>
+<img src="/img/avail/validator-avail-telemetry.png" width="100%" height="100%"/>
 
-Avail telemetry has been added to the chain specification file and should automatically send telemetry data to Avail [public telemetry](http://telemetry.avail.tools/). You can however also 
+Avail telemetry has been added to the chain specification file and should automatically send telemetry data to Avail [public telemetry](http://telemetry.avail.tools/). You can however also
 add the telemetry `--telemetry-url 'ws://telemetry.avail.tools:8001/submit/ 0'` to your avail node start command if your node is not visible on the public telemetry.
 
 You can also use `--name <Validator Node Name>` to set the name that will display on telemetry. Without this it will display a random node name on the telemetry.
@@ -37,7 +38,7 @@ For example:
     --base-path `pwd`/data \
     --chain `pwd`/chainspec.raw.json \
     --name AvailNode \
-    --telemetry-url 'ws://telemetry.avail.tools:8001/submit/ 0' 
+    --telemetry-url 'ws://telemetry.avail.tools:8001/submit/ 0'
 ```
 
 ## Monitoring with Prometheus & Grafana
@@ -49,11 +50,13 @@ The below guide is for setting up a local Prometheus & Grafana instance on the s
 ### Install Prometheus
 
 Install prometheus and prometheus node exporter.
+
 ```
 sudo apt-get install -y prometheus prometheus-node-exporter
-``` 
+```
 
 Create the prometheus.yml config file
+
 ```
 cat > $HOME/prometheus.yml << EOF
 global:
@@ -80,26 +83,31 @@ EOF
 ```
 
 Move `prometheus.yml` to the correct location
+
 ```
 sudo mv $HOME/prometheus.yml /etc/prometheus/prometheus.yml
 ```
 
 Update the file permissions
+
 ```
 sudo chmod 644 /etc/prometheus/prometheus.yml
 ```
 
 Ensure Prometheus starts automatically
+
 ```
 sudo systemctl enable prometheus.service prometheus-node-exporter.service
 ```
 
 Restart Prometheus to activate latest settings
+
 ```
 sudo systemctl restart prometheus.service prometheus-node-exporter.service
 ```
 
 Check the status, ensure Prometheus has started without errors
+
 ```
 sudo systemctl status prometheus.service prometheus-node-exporter.service
 ```
@@ -107,6 +115,7 @@ sudo systemctl status prometheus.service prometheus-node-exporter.service
 ### Install Grafana
 
 Install Grafana
+
 ```
 wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
 echo "deb https://packages.grafana.com/oss/deb stable main" > grafana.list
@@ -115,52 +124,55 @@ sudo apt-get update && sudo apt-get install -y grafana
 ```
 
 Ensure Grafana starts automatically
+
 ```
-sudo systemctl enable grafana-server.service 
+sudo systemctl enable grafana-server.service
 ```
 
 Start Grafana
+
 ```
-sudo systemctl start grafana-server.service 
+sudo systemctl start grafana-server.service
 ```
 
 Check the status, ensure Grafana has started without errors
+
 ```
-sudo systemctl status grafana-server.service 
+sudo systemctl status grafana-server.service
 ```
 
 ### Setup Grafana Dashboard
 
 Ensure port 3000 is open, example of adding to ubuntu firewall
+
 ```
 sudo ufw allow 3000/tcp
 ```
 
 In your browser navigate to `http://<your validators ip address>:3000`. The default login username and password is admin/admin
 
- <img src={useBaseUrl("img/avail/validator-avail-grafana.png")} width="100%" height="100%"/>
+<img src="/img/avail/validator-avail-grafana.png" width="100%" height="100%"/>
 
 You will be asked to reset your password, please write it down or remember the password as you will need it for the next login.
 
 You will need to create a datasource. Navigate to **Home->Connections->Data sources**
 
- <img src={useBaseUrl("img/avail/validator-avail-grafana-add-data-source.png")} width="100%" height="100%"/>
-
+<img src="/img/avail/validator-avail-grafana-add-data-source.png" width="100%" height="100%"/>
 
 Click on **Add data source**
- <img src={useBaseUrl("img/avail/validator-avail-grafana-add-data-source-2.png")} width="100%" height="100%"/>
+<img src="/img/avail/validator-avail-grafana-add-data-source-2.png" width="100%" height="100%"/>
 
 Click on **Prometheus**
- <img src={useBaseUrl("img/avail/validator-avail-grafana-add-data-source-3.png")} width="100%" height="100%"/>
+<img src="/img/avail/validator-avail-grafana-add-data-source-3.png" width="100%" height="100%"/>
 
-Set URL to http://localhost:9090, then test and save the connection
- <img src={useBaseUrl("img/avail/validator-avail-grafana-add-data-source-4.png")} width="100%" height="100%"/>
+Set URL to "localhost:9090", then test and save the connection
+<img src="/img/avail/validator-avail-grafana-add-data-source-4.png" width="100%" height="100%"/>
 
 Navigate back to your home page, on the top right in the menu select **Import dashboard**
- <img src={useBaseUrl("img/avail/validator-avail-grafana-add-dashboard.png")} width="100%" height="100%"/>
+<img src="/img/avail/validator-avail-grafana-add-dashboard.png" width="100%" height="100%"/>
 
-Import the [Avail Node Metrics](https://github.com/availproject/availproject.github.io/blob/main/static/grafana/Avail-Node-Metrics.json) file
- <img src={useBaseUrl("img/avail/validator-avail-grafana-add-dashboard-2.png")} width="100%" height="100%"/>
+Import the Avail Node Metrics file
+<img src="/img/avail/validator-avail-grafana-add-dashboard-2.png" width="100%" height="100%"/>
 
 You will have a new dashboard that opens and that you can use to monitor your node
- <img src={useBaseUrl("img/avail/validator-avail-grafana-add-dashboard-3.png")} width="100%" height="100%"/>
+<img src="/img/avail/validator-avail-grafana-add-dashboard-3.png" width="100%" height="100%"/>

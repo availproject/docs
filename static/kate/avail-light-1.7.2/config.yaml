@@ -1,5 +1,5 @@
 http_server_host = '127.0.0.1'
-http_server_port = '7000'
+http_server_port = 7000
 libp2p_port = '37000'
 libp2p_tcp_port_reuse = false
 libp2p_autonat_only_global_ips = false

@@ -1,4 +1,4 @@
-Raw Chainspec: https://availproject.github.io/assets/files/chainspec.raw-1905ee8ba4620c9cd6f1f378a84346eb.json
+Raw Chainspec: https://docs.availproject.org/assets/files/chainspec.raw-1905ee8ba4620c9cd6f1f378a84346eb.json
 
 Bootnodes:
 /dns/gateway-fullnode-001.kate.avail.tools/tcp/30333/p2p/12D3KooWB7mxRszUN9RJyQbttutEnEDtaUNMfr9SgvArPCfsDv2f

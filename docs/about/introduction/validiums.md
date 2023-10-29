@@ -9,7 +9,7 @@ keywords:
   - availability
   - scale
   - rollup
-image: https://availproject.github.io/img/avail/AvailDocs.png
+image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
 Due to the architecture of monolithic blockchains (such as Ethereum in
@@ -42,14 +42,14 @@ to join our early access program.
 
 Validiums are scaling solutions that are using off-chain computation and
 validity proofs, but data is not stored on Ethereum chain which significantly
-increases transactions throughput.  Validity proof can come in from of zero 
-knowledge proofs like _ZK-SNARK_ or _ZK-STARK_ in which one party can prove to 
-another party that the given statement is true while the prover avoids disclosure 
+increases transactions throughput. Validity proof can come in the form of zero
+knowledge proofs like _ZK-SNARK_ or _ZK-STARK_ in which one party can prove to
+another party that the given statement is true while the prover avoids disclosure
 of additional information apart from the fact that the statement is indeed true.
-Validity of all transactions is enforced using validity proofs while data availability 
-is kept off chain. User can withdraw funds by providing a Merkle proof which can prove 
-inclusion of the users withdrawal transaction and allow the on-chain contract to process 
-withdrawal. Validium interact with Ethereum with a collection of contracts including main 
-_attestation_ contract that stores state commitments (Merkle data roots) submitted by the 
+Validity of all transactions is enforced using validity proofs while data availability
+is kept off chain. User can withdraw funds by providing a Merkle proof which can prove
+inclusion of the users withdrawal transaction and allow the on-chain contract to process
+withdrawal. Validium interact with Ethereum with a collection of contracts including main
+_attestation_ contract that stores state commitments (Merkle data roots) submitted by the
 block produce and _verification_ contract which verifies the validity proof when making
 state transitions.

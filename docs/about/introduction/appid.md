@@ -9,7 +9,7 @@ keywords:
   - availability
   - scale
   - rollup
-image: https://availproject.github.io/img/avail/AvailDocs.png
+image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
 As a general purpose base layer, Avail is designed to support many
@@ -22,9 +22,10 @@ download _only_ the sections of a block that have data for that
 particular application.
 
 This has very important benefits, including:
-* Modular applications are largely unaffected by other uses of the
+
+- Modular applications are largely unaffected by other uses of the
   base layer at the same time.
-* Block sizes can increase without requiring applications to fetch
+- Block sizes can increase without requiring applications to fetch
   more data, because they don't fetch the whole block, only what's
   relevant to them.
 

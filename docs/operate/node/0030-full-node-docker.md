@@ -2,7 +2,7 @@
 id: docker
 title: How to Run a Full Node with Docker
 sidebar_label: Using Docker
-description: "This step-by-step guide will walk you through the process of setting up and running an Avail full node using Docker."
+description: 'This step-by-step guide will walk you through the process of setting up and running an Avail full node using Docker.'
 keywords:
   - docs
   - avail
@@ -11,42 +11,34 @@ keywords:
   - data availability
   - da
   - docker
-image: https://availproject.github.io/img/avail/AvailDocs.png
+image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
+
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 This guide provides step-by-step instructions for setting up and running a full node on the Avail network using Docker. Whether you're new to node operation or have prior experience, this guide is designed to make the setup process straightforward.
 
 :::note Before you start
 
-**Ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).**
-We recommend downloading the pre-compiled binary for speed and convenience.
+**Ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).** We recommend downloading the pre-compiled binary for speed and convenience.
 
 :::
 
-## Step 1: Download the Kate Testnet Chain Specification
+## Step 1: Launch Your Avail Node
 
-First, you'll need to download the `kate-chainspec.raw.json` Chainspec configuration file.
-
-```bash
-curl -L -o /mnt/avail/config/kate-chainspec.raw.json https://raw.githubusercontent.com/availproject/availproject.github.io/main/static/configs/kate/chainspec.raw.json
-```
-
-## Step 2: Launch Your Avail Node
-
-With the Chainspec configuration securely downloaded, you're now ready to launch your Avail node. To do so, navigate to the `/mnt/avail` directory and execute the following Docker command:
+To launch your Avail node, navigate to the `/mnt/avail` directory and execute the following Docker command:
 
 ```bash
 cd /mnt/avail
-sudo docker run -v $(pwd)/config/kate-chainspec.raw.json:/da/genesis/chainspec.raw.json -v $(pwd)/state:/da/state:rw -v $(pwd)/keystore:/da/keystore:rw -e DA_CHAIN=/da/genesis/chainspec.raw.json -e DA_NAME=kate-docker-avail-Node -p 0.0.0.0:30333:30333 -p 9615:9615 -p 9933:9933 -d --restart unless-stopped availj/avail:v1.6.2-rc1
+sudo docker run -v $(pwd)/state:/da/state:rw -v $(pwd)/keystore:/da/keystore:rw -e DA_CHAIN=kate -e DA_NAME=kate-docker-avail-Node -p 0.0.0.0:30333:30333 -p 9615:9615 -p 9933:9933 -d --restart unless-stopped availj/avail:v1.7.2
 ```
+
 > The Docker command performs several important steps:
 
-> - Mounts the downloaded Chainspec configuration to the Docker container.
 > - Maps the state and keystore directories, providing read-write permissions for data persistence.
-> - Specifies the Chainspec file and node name within the Docker container.
 > - Opens various ports for different functionalities, including P2P connections, metrics, and HTTP RPC.
 > - Utilizes the Avail image from Docker Hub and sets it to restart unless manually stopped.
+> - Using `DA_CHAIN` to specify the kate chainspec.
 
 <details>
 <summary>Sample output</summary>
@@ -84,9 +76,10 @@ You should see an output similar to the following:
 2023-08-21 08:30:05 🔍 Discovered new external address for our node: /ip4/13.53.42.153/tcp/30333/ws/p2p/12D3KooWEdgyAtH8ZCU8ScTx1hx5NWh4gmDGNcedtLxrJ1htSeBe2023-08-21 08:30:09 ⚙️  Syncing, target=#326624 (15 peers), best: #9406 (0x875e…c887), finalized #9317 (0x37b6…28ff), ⬇ 321.9kiB/s ⬆ 30.1kiB/s
 2023-08-21 08:30:14 ⚙️  Syncing 64.4 bps, target=#326624 (15 peers), best: #9728 (0xb4fe…e318), finalized #9317 (0x37b6…28ff), ⬇ 40.2kiB/s ⬆ 1.8kiB/s
 ```
+
 </details>
 
-## Step 3: Verify Node Functionality
+## Step 2: Verify Node Functionality
 
 ### Inspect Node Logs
 
@@ -94,7 +87,7 @@ To confirm that your node is operating as expected, inspect the Docker logs by r
 
 ```bash
 ubuntu:/mnt/avail# docker ps
-ubuntu:/mnt/avail# docker logs 5b3978de8f35  # 5b3978de8f35 is the container id 
+ubuntu:/mnt/avail# docker logs 5b3978de8f35  # 5b3978de8f35 is the container id
 ```
 
 ### Monitor Your Node

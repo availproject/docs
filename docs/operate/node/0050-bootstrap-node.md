@@ -2,15 +2,16 @@
 id: bootstrap
 title: How to Run a Bootstrap Node
 sidebar_label: Bootstrap Node
-description: "Learn how to run an Avail bootstrap node."
+description: 'Learn how to run an Avail bootstrap node.'
 keywords:
   - docs
   - avail
   - node
   - data availability
   - da
-image: https://availproject.github.io/img/avail/AvailDocs.png
+image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
+
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 This guide provides a step-by-step walkthrough for setting up a bootstrap node, which serves as an entry point for light clients in your network.
@@ -20,7 +21,7 @@ This guide provides a step-by-step walkthrough for setting up a bootstrap node, 
 **Ensure that you meet the [<ins>system requirements</ins>](/docs/operate/requirements.md).**
 We recommend downloading the pre-compiled binary for speed and convenience.
 
-It's advisable to deploy multiple bootstrap nodes. A good rule of thumb is to have at least three to five bootstrap nodes to kickstart a new network. 
+It's advisable to deploy multiple bootstrap nodes. A good rule of thumb is to have at least three to five bootstrap nodes to kickstart a new network.
 
 :::
 
@@ -29,7 +30,7 @@ It's advisable to deploy multiple bootstrap nodes. A good rule of thumb is to ha
 Navigate to the cloned project directory and compile the source code:
 
 ```bash
-cd avail-light-bootstrap              
+cd avail-light-bootstrap
 cargo build --release                 # Compile the project in release mode
 ```
 
@@ -51,11 +52,11 @@ nano config.yaml                      # Open the file in a text editor
 Populate the file with the following example configuration:
 
 ```yaml
-log_level: 'INFO'                     # Logging level
-log_format_json: false                # Log format
-secret_key: { seed: "unique_seed" }  # Secret key setting
-libp2p_port: 39000                    # libp2p port
-libp2p_identify_protocol: '/avail_kad/id/1.0.0'  # libp2p protocol
+log_level: 'INFO' # Logging level
+log_format_json: false # Log format
+secret_key: { seed: 'unique_seed' } # Secret key setting
+libp2p_port: 39000 # libp2p port
+libp2p_identify_protocol: '/avail_kad/id/1.0.0' # libp2p protocol
 ```
 
 For more advanced configurations, consult the [<ins>Configuration Reference</ins>](https://github.com/availproject/avail-light-bootstrap#config-reference).

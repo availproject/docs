@@ -10,7 +10,7 @@ keywords:
   - accounts
   - faucet
   - funding
-image: https://availproject.github.io/img/avail/AvailDocs.png
+image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
 You can use the Discord Faucet to get Avail (AVL) tokens on the Kate
@@ -24,7 +24,7 @@ testnet.
 
 Your address will be deposited 1 AVL token once the status changes to
 `Complete`.
-   
+
 :::note
 
 The verification step is required, and you can only use the command

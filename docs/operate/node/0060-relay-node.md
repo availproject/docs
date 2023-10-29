@@ -2,15 +2,16 @@
 id: relay
 title: How to Run a Relay Node
 sidebar_label: Relay Node
-description: "Learn how to run an Avail relay node."
+description: 'Learn how to run an Avail relay node.'
 keywords:
   - docs
   - avail
   - node
   - data availability
   - da
-image: https://availproject.github.io/img/avail/AvailDocs.png
+image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
+
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 This guide provides a step-by-step walkthrough for setting up a relay node, which can help resolve connectivity issues between network peers.
@@ -26,7 +27,7 @@ This guide provides a step-by-step walkthrough for setting up a relay node, whic
 Navigate to the project directory and compile the source code:
 
 ```bash
-cd avail-light-relay                 
+cd avail-light-relay
 cargo build --release                # Compile the project in release mode
 ```
 
@@ -54,11 +55,11 @@ To avoid conflicts between nodes, especially if they are running on the same mac
 Use the following example configuration:
 
 ```yaml
-log_level: 'INFO'                    # Logging level
-log_format_json: false               # Log format
-secret_key: { seed: "unique_seed" }  # Secret key setting
-libp2p_port: 39000                   # libp2p port
-libp2p_identify_protocol: '/avail_kad/id/1.0.0'  # libp2p protocol
+log_level: 'INFO' # Logging level
+log_format_json: false # Log format
+secret_key: { seed: 'unique_seed' } # Secret key setting
+libp2p_port: 39000 # libp2p port
+libp2p_identify_protocol: '/avail_kad/id/1.0.0' # libp2p protocol
 ```
 
 For more advanced configurations, consult the [<ins>Configuration Reference</ins>](https://github.com/availproject/avail-light-relay#config-reference).
