@@ -46,7 +46,15 @@ module.exports = {
             from: ['/en/latest', '/en/'],
           },
           {
-            to: '/build/quickstart',
+            to: '/category/api-reference/',
+            from: '/using-avail/communicating-with-avail',
+          },
+          {
+            to: '/category/become-a-validator/',
+            from: '/join-the-network/run-avail/validator-node-setup',
+          },
+          {
+            to: '/networks/',
             from: '/join-the-network/networks',
           },
           // Getting started
@@ -120,12 +128,22 @@ module.exports = {
           'Welcome to the Avail Project Documentation, the official documentation for Avail.',
       },
     ],
+    announcementBar: {
+      id: 'banner',
+      content: `
+        <div class="announcement-bar">
+            Deprecation Notice: The Kate Testnet is ending soon. Prepare for Avail's upcoming Incentivized Testnet and stay tuned for updates.
+            For any concerns, please contact the Avail team.
+        </div>
+      `,
+      textColor: '#ffffff',
+      isCloseable: true,
+    },
     colorMode: {
       defaultMode: 'light',
       disableSwitch: true,
       respectPrefersColorScheme: false,
     },
-
     footer: {
       style: 'dark',
       links: [
@@ -245,7 +263,7 @@ module.exports = {
       },
     },
     navbar: {
-      hideOnScroll: true,
+      hideOnScroll: false,
       logo: {
         alt: 'Avail logo',
         src: 'img/avail-logo.png',
@@ -255,7 +273,7 @@ module.exports = {
       },
       items: [
         {
-          label: 'Docs',
+          label: 'Navigate the Docs',
           position: 'left',
           items: [
             {
@@ -265,7 +283,7 @@ module.exports = {
               rel: null,
             },
             {
-              href: '/category/get-started/',
+              href: '/build/quickstart/',
               label: 'Get Started',
               target: '_self',
               rel: null,
@@ -273,6 +291,12 @@ module.exports = {
             {
               href: '/category/system-design/',
               label: 'System Design',
+              target: '_self',
+              rel: null,
+            },
+            {
+              href: '/networks/',
+              label: 'Network Info',
               target: '_self',
               rel: null,
             },
@@ -290,26 +314,9 @@ module.exports = {
             },
           ],
         },
-        /*
-        {
-          href: "/node/node-types/",
-          position: 'left',
-          label: 'Run a Node',
-        },
-        {
-          href: "/validators/node/binaries/",
-          position: 'left',
-          label: 'Maintainer Handbook',
-        },
-        {
-          href: "/api/quickstart/",
-          position: 'left',
-          label: 'API Reference',
-        },
-        */
         {
           href: 'https://blog.availproject.org/',
-          position: 'left',
+          position: 'right',
           label: 'Blog',
         },
         {

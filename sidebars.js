@@ -1,68 +1,28 @@
 module.exports = {
   avail: [
     'index',
-    'about/introduction',
     'build/quickstart',
+    'networks',
+    'operate/node/light-client',
     {
       type: 'category',
-      label: 'Get Started',
+      label: 'New User Guide',
       link: {
         type: 'generated-index',
       },
-      collapsed: false,
+      collapsed: true,
       items: ['about/accounts', 'about/explorer', 'about/faucet'],
     },
     {
       type: 'category',
-      label: 'System Design',
+      label: 'Operate a Node',
       link: {
         type: 'generated-index',
       },
       collapsed: true,
       items: [
-        'about/introduction/app-id',
-        'about/introduction/light-client',
-        'about/introduction/validiums',
-      ],
-    },
-    /*
-    {
-      type: "category",
-      label: "Build",
-      link: {
-        type: "generated-index",
-      },
-      collapsed: false,
-      items: [
-        "build/validium",
-        {
-          type: "category",
-          label: "Sovereign Rollup",
-          link: {
-            type: "generated-index",
-          },
-          collapsed: true,
-          items: [
-            "build/zk-rollup",
-            "build/op-rollup",
-          ],
-        },
-        "build/app-chains",
-        "build/volitions",
-      ],
-    },
-    */
-    {
-      type: 'category',
-      label: 'Operate',
-      link: {
-        type: 'generated-index',
-      },
-      collapsed: false,
-      items: [
         'operate/node-types',
         'operate/system-requirements',
-        'operate/node/light-client',
         {
           type: 'category',
           label: 'Run a Node',
@@ -116,7 +76,7 @@ module.exports = {
       link: {
         type: 'generated-index',
       },
-      collapsed: false,
+      collapsed: true,
       items: [
         {
           type: 'category',
@@ -132,7 +92,21 @@ module.exports = {
         'api/use-case-validiums',
       ],
     },
-    "explorations",
+    {
+      type: 'category',
+      label: 'System Design',
+      link: {
+        type: 'generated-index',
+      },
+      collapsed: true,
+      items: [
+        'about/introduction',
+        'about/introduction/app-id',
+        'about/introduction/light-client',
+        'about/introduction/validiums',
+      ],
+    },
+    'explorations',
     'faqs',
   ],
 };

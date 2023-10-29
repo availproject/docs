@@ -28,7 +28,7 @@ export const TutorialsCard = (props) => {
         </div>
       </div>
       <div className="tutorial-links col">
-        <span className="tutorial-title">Tutorials</span>
+        <span className="tutorial-title">Links</span>
         <ul className="list clear-list">
           {tutorialsInfo.map(({ title, link }, idx) => {
             return (
