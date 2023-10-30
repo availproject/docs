@@ -107,6 +107,7 @@ module.exports = {
       ],
     },
     'explorations',
+    'glossary',
     'faqs',
   ],
 };
