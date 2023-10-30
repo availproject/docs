@@ -12,49 +12,52 @@ keywords:
 image: https://availproject.github.io/img/avail/AvailDocs.png
 ---
 
+:::note Glossary as a Reference for Concepts
+
+While the Avail documentation is under development, the Glossary is being used to elaborate on key concepts.
+If you have any questions or concerns, please don't hesitate to contact the Avail team.
+
+:::
+
 ## App-Chain
 
-App-chains allow developers to optimize their applications by tailoring a chain to the specific needs of their use case, without constraints from a shared blockchain. They provide enhanced performance and scalability by functioning as independent chains, serving specific applications. App-chains simplify the development process by eliminating the need for developers to manage and maintain a validator set.
+App-chains allow developers to optimize their applications by tailoring a chain to the specific needs of their use case, without constraints from a shared blockchain. They provide enhanced performance and scalability by functioning as independent chains, serving specific applications. App-chains also simplify the development process by eliminating the need for developers to manage and maintain a validator set. Avail enables the creation of modular app-chain architectures that can be based on different layer 2 or 3 scaling solutions.
 
 ## AVL
 
-AVL is the native token of Avail. AVL token is currently using 18 decimal digits as regular ERC20 for its token precision. At the moment, the Minimum Validator Bond is 1000 AVL.
+AVL is the native token of the Avail network. Currently, there is no publicly available "AVL" token with monetary value; it is solely used for testnet purposes.
 
 ## Avail JS Apps
 
-The Avail JS Apps UI is a forked version of [Polkadot JS Apps UI](https://polkadot.js.org/apps/) repository for visualizing and interacting with the Avail network.
+The Avail JS Apps UI is a forked version of [<ins>Polkadot JS Apps UI</ins>](https://polkadot.js.org/apps/) that is used for visualizing and interacting with the Avail network.
 
 ## BABE
 
-BABE (Blind Assignment for Blockchain Extension), part of the Substrate framework, is the block production mechanism that Avail uses. Please refer to [the Polkadot Wiki](https://wiki.polkadot.network/docs/learn-consensus#block-production-babe) for more details.
+BABE (Blind Assignment for Blockchain Extension), part of the Substrate framework, is the block production mechanism that Avail uses. Please refer to the [<ins>Polkadot Wiki</ins>](https://wiki.polkadot.network/docs/learn-consensus#block-production-babe) for more details.
 
 ## Bonding
 
-Bonding is a process of locking or depositing tokens in order to participate in the operations of the Avail network. This includes participating in the consensus process, securing the network, and providing data availability services.
+Bonding is a process of locking or depositing tokens in order to participate in the operations of the Avail network. This includes participating in the consensus process and securing the network.
 
 ## Chilling
 
-Chilling is the act of stepping back from any nominating or validating. It can be done by a validator or nominator at any time, taking effect in the next era. It can also specifically mean removing a validator from the active validator set by another validator, disqualifying them from the set of electable candidates in the next NPoS cycle.
-
-## Client
-
-A client is a software application that allows users to interact with a blockchain network. Clients can be used to perform a variety of tasks, such as sending and receiving transactions, viewing the state of the network, and deploying and interacting with smart contracts.
+Chilling refers to the deliberate action of withdrawing from nominating or validating roles. Both validators and nominators can initiate chilling, which becomes effective in the subsequent era. Additionally, chilling can denote the exclusion of a validator from the active set by their peers, rendering them ineligible as candidates for the upcoming consensus cycle.
 
 ## Commission
 
-Commission in Avail is a fee that is paid to validators for verifying transactions, attestations, and providing data availability services. Commissions are typically paid in the native token of Avail, called AVL.
+Validators earn rewards for block production on the network. They set a commission rate, which is first deducted from their total rewards. The remaining rewards are then distributed to the nominators backing that validator based on this commission rate.
 
 ## Consensus
 
-Consensus refers to the mechanism by which nodes come to an agreement about what data on the blockchain can be verified as true and accurate. The consensus protocol determines how transactions are ordered and how new blocks are added to the chain.
+Consensus refers to the mechanism by which nodes come to an agreement about what data on the blockchain can be verified as true and accurate. The consensus protocol determines how transactions are ordered and how new blocks are added to the chain, which is [<ins>NPoS</ins>](#nominated-proof-of-stake) for Avail.
 
 ## Data Attestation
 
-Data attestation involves confirming the authenticity and integrity of data. In Avail, this process ensures that data on the chain is both accessible and accurate. An Avail block header incorporates two attestations: KZG polynomial commitments for the provided data and the Merkle tree root with data blobs as leaves. A supermajority of Avail's validators achieve finality on the header by signing a chain that includes the header, utilizing the [GRANDPA](#grandpa) protocol.
+Data attestation involves confirming the authenticity and integrity of data. In Avail, this process ensures that data on the chain is both accessible and accurate. An Avail block header incorporates two attestations: KZG polynomial commitments for the provided data and the Merkle tree root with data blobs as leaves. A supermajority of Avail's validators achieve finality on the header by signing a chain that includes the header, utilizing the [<ins>GRANDPA</ins>](#grandpa) protocol.
 
 ## Data Availability Committee (DAC)
 
-A data availability committee (DAC) is a set of nodes charged with storing copies of off-chain data and making it available on request. DACs feature in scaling solutions that increase throughput on a blockchain by processing transactions on a separate layer (i.e., off-chain scaling). Avail is more credibly neutral as a data availability layer than a DAC because it is a general-purpose data availability layer that exists as an independent chain, rather than a data availability layer for a specific Ethereum L2.
+A data availability committee (DAC) is a set of nodes charged with storing copies of off-chain data and making it available on request. DACs feature in scaling solutions that increase throughput on a blockchain by processing transactions on a separate layer (i.e., off-chain scaling). Avail is more credibly neutral as a data availability layer than a DAC because it is a general-purpose data availability layer that exists as an independent chain, rather than a data availability layer for a specific L2.
 
 ## Data Availability Sampling (DAS)
 
@@ -82,7 +85,9 @@ An Epoch refers to a period of time during which a specific set of validation no
 
 ## Execution
 
-Execution is how nodes on the blockchain process transactions to transition the blockchain between states. Avail uses optimistic and succinct systems (zk) to scale execution. This means that transactions can be executed off-chain and then verified on-chain using proofs of execution. This allows Avail to handle a large number of transactions without sacrificing security or decentralization.
+In traditional blockchains, execution refers to how nodes process transactions to transition the blockchain between states. However, Avail operates differently. As a modular base chain, Avail does not possess a general-purpose execution layer. Instead, execution occurs in other layers, such as rollups, and the resulting data is posted to Avail in its raw form, without undergoing execution on Avail itself.
+
+In Avail's context, "Consensus" carries a more specific meaning than in typical blockchains with integrated execution layers. For Avail, consensus signifies the network's agreement that data has been appropriately published. Explicitly, validator nodes in Avail do not execute transactions as a prerequisite for attesting to the validity of blocks. With a few exceptions, such as balance transfers, validators primarily attest to the correct packaging of published data within blocks. This streamlined approach is a primary reason Avail can accommodate larger block sizes. Since validators undertake less work per block, increasing block size has a reduced impact compared to other blockchains.
 
 ## Finality
 
@@ -123,25 +128,25 @@ Kad-DHT is a specific Distributed Hash Table (DHT) variant that organizes nodes 
 
 [<ins>libp2p</ins>](https://libp2p.io/) is an open-source modular network stack designed for constructing peer-to-peer (P2P) applications. It offers a flexible framework for data transfer across diverse transport protocols. Avail integrates libp2p to establish a decentralized network dedicated to data availability, ensuring that transaction data is efficiently stored and disseminated to validators and full nodes.
 
+## Light Client
+
+Light clients enable users to engage with a blockchain network without synchronizing the entire blockchain, preserving both decentralization and security. Typically, they retrieve only the blockchain headers, omitting the full block contents. Avail's light clients enhance this by employing Data Availability Sampling. This method ensures block content availability by downloading and verifying random segments of a block.
+
 ## Mainnet
 
-A mainnet is a blockchain network that is fully operational and open to the public. It is the "production" version of a blockchain network, and it is where real-world transactions and applications are deployed.
+A mainnet is a blockchain network that is fully operational and open to the public. It is the "production" version of a blockchain network, and it is where real-world transactions and applications are deployed. View the [Roadmap to Mainnet blog post](https://blog.availproject.org/road-to-mainnet-september-2023/) for more information on Avail's mainnet.
 
 ## Modular Blockchain
 
-Modular blockchains is one that focuses on handling a select few duties and outsources the rest to one or more separate layers.
+A modular blockchain specializes in managing specific tasks while delegating other responsibilities to distinct layers or components.
 
 ## Monolithic Blockchain
 
-A monolithic blockchain execute all of the core functions of a blockchain (Execution, Settlement, Ordering, Data Availability) inside a single blockchain.
+A monolithic blockchain encompasses all core functionalities (Execution, Settlement, Ordering, Data Availability) within a singular blockchain structure.
 
 ## Nominated Proof of Stake
 
 Nominated Proof of Stake (NPoS) is a consensus algorithm where users nominate validators to process blocks for them. These validators verify and append transactions to the blockchain. For their services, validators receive rewards in the form of the native tokens. They then commission a portion of these rewards to nominators based on a set commission rate. Avail uses NPoS as implemented within Substrate.
-
-## Node
-
-A node is a device that participates in a blockchain protocol by running its software.
 
 ## Oversubscribed
 
@@ -149,11 +154,13 @@ A node is a device that participates in a blockchain protocol by running its sof
 
 ## Scalability
 
-Scalability in Avail refers to the ability to increase the amount of data published by the chain without negatively impacting the participants and users of the chain. This is achieved through a modular design that separates data availability (DA) from execution. This allows for modular scaling of key constructs, as they can be optimized individually.
+Scalability within Avail pertains to the capacity to augment the volume of data disseminated by the chain, ensuring that the experience of its participants and users remains unaffected. Avail achieves this by adopting a modular approach, taking DA off-chain, which allows the main network to primarily focus on execution. This modular design facilitates the individual optimization of key constructs, enabling each component to be scaled according to its unique requirements.
 
 ## Settlement
 
-The "finality" that blockchains offer is a promise that the transactions that have been recorded in the chain's history are unchangeable (or "immutable"). The blockchain must be persuaded of a transaction's authenticity for this to occur. The chain must therefore validate transactions, check the accuracy of proofs, and resolve disagreements in order to perform the settlement function.
+In the context of Avail and modular blockchains, settlement refers to the process by which modular layers agree on the correct execution outcome of transaction data. This includes any necessary dispute resolution processes. Since Avail operates as a modular base chain, it merely receives and stores raw transaction data without executing it. This data can encompass a wide range, from valid transactions to potential spam.
+
+The actual execution of these transactions and the subsequent validation of their outcomes occur in other layers or systems. Once these layers reach an agreement on the outcome, the results are "settled." For instance, in the case of a validium, transaction data is published to Avail, sequencers then execute these transactions, and finally, proofs of these executions are posted to Ethereum for settlement. Different modular constructions might employ varying mechanisms or platforms for settlement, but the core principle remains the same: determining and agreeing upon the correct outcome of transactions.
 
 ## Slashing
 
