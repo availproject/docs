@@ -10,16 +10,16 @@ export const contentData = {
       ],
       tutorialsInfo: [
         {
-          title: 'Download the Binaries for Linux ARM64',
-          link: 'https://github.com/availproject/avail-light/releases/download/v1.7.2/avail-light-apple-arm64.tar.gz',
+          title: 'Download the Binaries',
+          link: 'https://github.com/availproject/avail-light/releases/tag/v1.7.2',
         },
         {
-          title: 'Download the Binaries for Linux x86_64',
-          link: 'https://github.com/availproject/avail-light/releases/download/v1.7.2/avail-light-linux-aarch64.tar.gz',
+          title: 'Run a Light Client',
+          link: '/operate/node/light-client/',
         },
         {
-          title: 'Download the Binaries for Apple ARM64',
-          link: 'https://github.com/availproject/avail-light/releases/download/v1.7.2/avail-light-apple-arm64.tar.gz',
+          title: 'Embed Your Light Client',
+          link: '/api/light-client/embedding-the-light-client/',
         },
       ],
     },
