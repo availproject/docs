@@ -89,10 +89,6 @@ In traditional blockchains, execution refers to how nodes process transactions t
 
 In Avail's context, "Consensus" carries a more specific meaning than in typical blockchains with integrated execution layers. For Avail, consensus signifies the network's agreement that data has been appropriately published. Explicitly, validator nodes in Avail do not execute transactions as a prerequisite for attesting to the validity of blocks. With a few exceptions, such as balance transfers, validators primarily attest to the correct packaging of published data within blocks. This streamlined approach is a primary reason Avail can accommodate larger block sizes. Since validators undertake less work per block, increasing block size has a reduced impact compared to other blockchains.
 
-## Finality
-
-Finality refers to the state of a block or transaction where it is considered to be irreversible. This means that once a block or transaction is finalized, it cannot be changed or reversed.
-
 ## Finality Gadget
 
 A finality gadget is a mechanism that ensures blockchain state finality by requiring validators' commitment through signed messages. Once sufficiently validated, the state is finalized and secure from malicious modifications.
@@ -146,7 +142,7 @@ Nominated Proof of Stake (NPoS) is a consensus algorithm where users nominate va
 
 ## Oversubscribed
 
-"Oversubscribed" refers to a situation where the number of nominators wishing to participate in the consensus process exceeds the available slots.
+Oversubscribed refers to a situation where the number of nominators wishing to participate in the consensus process exceeds the available slots.
 
 ## Scalability
 
@@ -180,7 +176,9 @@ A testnet is a simulated blockchain network that is used to test and debug block
 
 ## Validium
 
-Validiums store transaction data off the L1 (e.g. Ethereum). Validiums can inherit the benefits of Avail’s scalable and purpose-built module quite well. Instead of posting transaction data to a Data Availability Committee (or somewhere else), Validiums can post transaction data to Avail.
+Validiums are designed to store transaction data off the primary layer (L1), such as Ethereum. They can seamlessly leverage the benefits of Avail's scalable and specialized module. Rather than directing transaction data to a [<ins>DAC</ins>](#data-availability-committee-dac) or other alternatives, Validiums can commit this data to Avail.
+
+A layer 2 solution, like a rollup, can evolve into a Validium by choosing off-chain data storage over the main chain. This distinction is subtle, as a Validium isn't strictly a "layer 2" in the traditional sense; it doesn't post data to L1, introducing different trust considerations. However, in many contexts, it's still categorized as a layer 2 solution. Fundamentally, a Validium can be described as a rollup combined with off-chain data availability, akin to Avail's approach.
 
 ## Validator
 
