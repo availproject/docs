@@ -57,7 +57,7 @@ Data attestation involves confirming the authenticity and integrity of data. In 
 
 ## Data Availability Committee (DAC)
 
-A data availability committee (DAC) is a set of nodes charged with storing copies of off-chain data and making it available on request. DACs feature in scaling solutions that increase throughput on a blockchain by processing transactions on a separate layer (i.e., off-chain scaling). Avail is more credibly neutral as a data availability layer than a DAC because it is a general-purpose data availability layer that exists as an independent chain, rather than a data availability layer for a specific L2.
+A Data Availability Committee (DAC) consists of a group of nodes responsible for preserving copies of off-chain data and ensuring its accessibility upon demand. DACs can be integral to scaling solutions that enhance a blockchain's throughput by managing transactions on a distinct layer, commonly referred to as off-chain scaling. Unlike DACs, which often cater to specific Layer 2 (L2) solutions, Avail stands out as a universally applicable data availability layer. It operates as an autonomous chain, ensuring a more impartial and versatile approach to data availability.
 
 ## Data Availability Sampling (DAS)
 
@@ -69,7 +69,7 @@ A Distributed Hash Table (DHT) is a decentralized system offering a lookup servi
 
 ## Decoupling
 
-The concept behind a modular blockchain is that it can focus on a few tasks rather than attempting to perform all of them. Decoupling refers to the process of separating functions into modular layers or components.
+Decoupling in the context of blockchain refers to the strategic separation of distinct functionalities into independent modules or layers. By doing so, a modular blockchain can specialize and excel in specific tasks, rather than being burdened by the need to handle every function. This modular approach enhances efficiency, flexibility, and scalability, allowing each component to evolve and optimize independently.
 
 ## Equivocation
 
@@ -77,11 +77,11 @@ Equivocation is when a validator signs two or more conflicting blocks or message
 
 ## Era
 
-An Era is the number of sessions, which is the period that the validator set (and each validator's active nominator set) is recalculated and where rewards are paid out. Before the start of every new era in Avail, validators are selected for being part of the active validator set based on their stake. Other parameters are also checked for this selection, such as whether the validator was not producing blocks in the previous era due to being chilled or slashed. If a new validator stakes more tokens than the existing validators, or if there is a vacant seat in the active validator set because some existing validator was not producing blocks, the new validator replaces the existing one.
+An Era in Avail represents a predefined number of [<ins>sessions</ins>](#session) during which the validator set is determined and rewards are distributed. At the onset of each era, validators are chosen to be part of the active set based on their staked amount. The selection also considers other factors, such as a validator's performance in the previous era—specifically, if they were inactive due to being chilled or slashed. Should a new validator stake a higher amount than current validators, or if an active validator underperforms, they can be replaced in the active set for the upcoming era.
 
 ## Epoch
 
-An Epoch refers to a period of time during which a specific set of validation nodes is responsible for verifying transactions and adding them to the blockchain. The length of an epoch varies depending on the blockchain network. An epoch on the Avail network is approximately 20 seconds.
+An Epoch is a designated time frame during which a specific group of validation nodes undertakes the task of verifying transactions and appending them to the blockchain. The duration of an epoch can vary across different blockchain networks.
 
 ## Execution
 
@@ -104,10 +104,6 @@ Fraud proofs are cryptographic proofs employed to validate the legitimacy of a t
 ## GRANDPA
 
 GRANDPA (GHOST-based Recursive Ancestor Deriving Prefix Agreement), part of the Substrate framework, is the finality gadget Avail uses. Please refer to [the GRANDPA paper](https://github.com/w3f/consensus/blob/master/pdf/grandpa.pdf) for a full description of the protocol.
-
-## Host
-
-A host is a computer or server that runs a blockchain node. A blockchain node is a software application that helps to maintain and secure a blockchain network. Blockchain nodes store a copy of the blockchain ledger and verify transactions.
 
 ## KZG Commitments
 
@@ -155,6 +151,10 @@ Nominated Proof of Stake (NPoS) is a consensus algorithm where users nominate va
 ## Scalability
 
 Scalability within Avail pertains to the capacity to augment the volume of data disseminated by the chain, ensuring that the experience of its participants and users remains unaffected. Avail achieves this by adopting a modular approach, taking DA off-chain, which allows the main network to primarily focus on execution. This modular design facilitates the individual optimization of key constructs, enabling each component to be scaled according to its unique requirements.
+
+## Session
+
+In Substrate's framework, a session refers to a specific duration during which a fixed set of validators operate. Validators can enter or exit the set only at the transition between sessions.
 
 ## Settlement
 
