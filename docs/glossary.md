@@ -51,6 +51,10 @@ Validators earn rewards for block production on the network. They set a commissi
 
 Consensus refers to the mechanism by which nodes come to an agreement about what data on the blockchain can be verified as true and accurate. The consensus protocol determines how transactions are ordered and how new blocks are added to the chain, which is [<ins>NPoS</ins>](#nominated-proof-of-stake) for Avail.
 
+## Controller Account
+
+The controller account is tasked with managing staking activities and executing transactions on the network. This includes responsibilities like nominating validators, bonding and unbonding funds, and paying transaction fees. Given its active role, the controller key is used more frequently and is essential for the day-to-day operations of the account.
+
 ## Data Attestation
 
 Data attestation involves confirming the authenticity and integrity of data. In Avail, this process ensures that data on the chain is both accessible and accurate. An Avail block header incorporates two attestations: KZG polynomial commitments for the provided data and the Merkle tree root with data blobs as leaves. A supermajority of Avail's validators achieve finality on the header by signing a chain that includes the header, utilizing the [<ins>GRANDPA</ins>](#grandpa) protocol.
@@ -150,7 +154,7 @@ Scalability within Avail pertains to the capacity to augment the volume of data 
 
 ## Session
 
-In Substrate's framework, a session refers to a specific duration during which a fixed set of validators operate. Validators can enter or exit the set only at the transition between sessions.
+A session refers to a specific duration during which a fixed set of validators operate. Validators can enter or exit the set only at the transition between sessions.
 
 ## Settlement
 
@@ -184,6 +188,6 @@ A layer 2 solution, like a rollup, can evolve into a Validium by choosing off-ch
 
 An Avail validator is a full node that is responsible for verifying transactions and adding them to the blockchain.
 
-## Volitions
+## Volition
 
-Volition is a type of zero-knowledge rollup that allows developers to choose whether to store transaction data on the blockchain or off-chain.
+Volitions represent an advanced form of zero-knowledge rollups, offering developers the flexibility to decide the storage location for transaction data, be it on-chain or off-chain. This adaptability ensures that developers can optimize for both cost and DA based on the specific requirements of their application. In the context of Avail, volitions can leverage the platform's robust DA layer, ensuring that off-chain data remains easily accessible and verifiable, thereby enhancing the security and efficiency of decentralized applications.
