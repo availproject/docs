@@ -1,6 +1,6 @@
 ---
 id: faqs
-title: Frequently Asked Questions
+title: General Frequently Asked Questions
 sidebar_label: FAQs
 description: 'FAQs on Avail and the Avail ecosystem.'
 keywords:
