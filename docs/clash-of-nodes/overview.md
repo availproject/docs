@@ -30,15 +30,15 @@ Light clients are a testament to the decentralized nature of blockchain. They al
 
 If you're ready to take part in this groundbreaking testnet and haven't yet signed up, now is the time to step forward.
 
-- If you're a validator looking to participate in the incentivized testnet, please express your interest by completing the form below:
+- If you're a validator looking to participate in the incentivized testnet, please express your interest by completing the
   [<ins>Validator Interest Form</ins>](http://bit.ly/validatorsignup).
 
-- If you're interested in becoming a light client operator for the Clash of Nodes, let us know by signing up using the
+- If you're interested in becoming a light client operator, let us know by signing up using the
   [<ins>Light Client Operator Interest Form</ins>](https://docs.google.com/forms/d/e/1FAIpQLSeL6aXqz6vBbYEgD1cZKaQ4vwbN2o3Rxys-wKTuKySVR-oS8g/viewform).
 
 ### Recommended Hardware Requirements
 
-To ensure a stable and efficient operation of your node in the Clash of Nodes, the following hardware specifications are recommended:
+To ensure a stable and efficient operation of your node in the Clash of Nodes campaign, the following hardware specifications are recommended:
 
 | Specification        | Minimum Requirements       | Recommended for Validators |
 | -------------------- | -------------------------- | -------------------------- |
@@ -47,20 +47,22 @@ To ensure a stable and efficient operation of your node in the Clash of Nodes, t
 | **Disk Space**       | 20–40 GB                   | 40 GB SSD or more          |
 | **Operating System** | Ubuntu 20.04 LTS or higher | Ubuntu 20.04 LTS or higher |
 
-## Prepare Your Node
+### Prepare Your Node
 
 For instructions on setting up and running nodes on the Avail network, please refer to the following guides:
 
-| Node Type      | Guide Document                                                |
-| -------------- | ------------------------------------------------------------- |
-| Light Client   | [<ins>How to Run a Light Client</ins>](#light-client-guide)   |
-| Validator Node | [<ins>How to Become a Validator</ins>](#validator-node-guide) |
+| Node Type      | Guide Document                                                                  |
+| -------------- | ------------------------------------------------------------------------------- |
+| Light Client   | [<ins>How to Run a Light Client</ins>](/docs/operate/node/0010-light-client.md) |
+| Validator Node | [<ins>How to Become a Validator</ins>](/category/become-a-validator/)           |
 
-## Resources
+If you require more information on node types within the Avail network, please consult the
+[<ins>Node Types Comparison document</ins>](/docs/operate/node-types.md).
 
-| Resource                                                            | Description                                                                                                     |
-| ------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| [<ins>Challenges Overview</ins>](clash-of-nodes/challenges)         | Detailed information on active and upcoming challenges, including objectives, eligibility, and scoring details. |
-| [<ins>Frequently Asked Questions (FAQs)</ins>](clash-of-nodes/faqs) | Answers to common technical and program-related questions about the Clash of Nodes.                             |
-| [<ins>Validator Interest Form</ins>](http://bit.ly/validatorsignup) | A form for validators to express their interest in participating in the incentivized testnet.                   |
-| [<ins>Discord Community</ins>](#)                                   | Join the conversation and get support from the Avail team and community on Discord.                             |
+## Ready to Participate?
+
+| Resource                                                                  | Description                                                                                                     |
+| ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| [<ins>Challenges Overview</ins>](/docs/clash-of-nodes/challenges)         | Detailed information on active and upcoming challenges, including objectives, eligibility, and scoring details. |
+| [<ins>Frequently Asked Questions (FAQs)</ins>](/docs/clash-of-nodes/faqs) | Answers to common technical and program-related questions about the Clash of Nodes campaign.                    |
+| [<ins>Discord Community</ins>](https://discord.com/invite/y6fHnxZQX8)     | Join the conversation and get support from the Avail team and community on Discord.                             |
