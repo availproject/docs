@@ -53,7 +53,7 @@ If there are any unclear concepts about Avail, head over to the [<ins>glossary</
 If you're ready to take part in this groundbreaking testnet and haven't yet signed up, now is the time to step forward.
 
 - If you're a validator looking to participate in the incentivized testnet, please express your interest by completing the
-  [<ins>Validator Interest Form</ins>](http://bit.ly/validatorsignup).
+  [<ins>Validator Interest Form</ins>](https://docs.google.com/forms/d/e/1FAIpQLScvgXjSUmwPpUxf1s-MR2C2o5V79TSoud1dLPKVgeLiLFuyGQ/viewform).
 
 - If you're interested in becoming a light client operator, let us know by signing up using the
   [<ins>Light Client Operator Interest Form</ins>](https://docs.google.com/forms/d/e/1FAIpQLSeL6aXqz6vBbYEgD1cZKaQ4vwbN2o3Rxys-wKTuKySVR-oS8g/viewform).
