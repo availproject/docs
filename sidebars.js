@@ -3,6 +3,18 @@ module.exports = {
     'index',
     'build/quickstart',
     'networks',
+    {
+      type: 'category',
+      label: 'Clash of Nodes',
+      link: {
+        type: 'generated-index',
+      },
+      items: [
+        'clash-of-nodes/overview',
+        'clash-of-nodes/challenges',
+        'clash-of-nodes/faqs',
+      ],
+    },
     'operate/node/light-client',
     {
       type: 'category',

@@ -2,7 +2,6 @@
 id: node-types
 title: What are the Types of Nodes in the Avail Network?
 sidebar_label: Types of Nodes
-sidebar_position: 1
 description: Understand the various types of nodes in the Avail network and their unique functionalities.
 keywords:
   - docs
