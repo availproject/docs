@@ -1,7 +1,7 @@
 ---
 id: overview
-title: What is Clash of Nodes?
-sidebar_label: Overview
+title: Welcome to Clash of Nodes
+sidebar_label: Get Started
 description: 'An introductory guide and initial steps for participating in the Clash of Nodes campaign.'
 keywords:
   - docs
@@ -16,17 +16,35 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ## Objective
 
-Avail is rapidly advancing towards Mainnet readiness and we're calling on node operators to join the Clash of Nodes campaign. This campaign serves as the proving ground for the Avail network, offering participants a real-time look at the base layer that will underpin a new era of rollup-centric blockchain infrastructure.
+Avail is rapidly advancing towards Mainnet readiness and we're calling on node operators to join the Clash of Nodes campaign. This campaign serves as the proving ground for the Avail network, offering participants a real-time incentivized testnet environment that tests Avail as the base layer that will underpin a new era of rollup-centric blockchain infrastructure.
 
-### Who is Clash of Nodes For? A Campaign for Everyone
+## Who is Clash of Nodes For?
 
-#### Validators
+A campaign for everyone.
+
+### Light Clients
+
+Join the Clash of Nodes by running a light client and take part in Avail's mission to build a scalable blockchain infrastructure. Avail's light client functionality is uniquely designed to empower anyone, anywhere to participate in the network.
+
+### Validators
 
 The Clash of Nodes incentivized testnet is an opportunity for validators to engage with Avail's infrastructure in a simulated Mainnet environment. Participants will contribute to the network's resilience through a series of challenges, with the potential to earn rewards based on their performance and engagement.
 
-#### Light Clients
+## Key Campaign Concepts
 
-Join the Clash of Nodes by running a light client and take part in Avail's mission to build a scalable and interoperable blockchain infrastructure. Avail's light client functionality is uniquely designed to empower anyone, anywhere to participate in the network. With minimal resource requirements and a straightforward setup process, you can contribute significantly to the network's data availability and integrity, reinforcing Avail's commitment to a truly robust blockchain infrastructure.
+The following table serves as a quick reference to understand the various elements that make up the Clash of Nodes campaign.
+
+If there are any unclear concepts about Avail, head over to the [<ins>glossary</ins>](/docs/glossary.md) for definitions and explanations.
+
+| Concept                  | Description                                                                                                                                                                                                              |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Challenges**           | Tasks or objectives that participants complete to test and strengthen the network. Challenges are designed to assess performance, security, and reliability as they relate to the data availability guarantees of Avail. |
+| **Stages**               | Distinct phases of the campaign, each with its own set of challenges. Stages increase in complexity and are time-bound, guiding participants through the campaign's progression.                                         |
+| **Points**               | A scoring system that rewards participants for completing challenges. Points are tallied on a leaderboard, with potential rewards for top performers.                                                                    |
+| **Nominator Pools**      | Groups where participants collectively stake tokens to support a validator. This allows users to participate in network validation and earn rewards without running a full node.                                         |
+| **Rollapps**             | Decentralized applications that use Avail's data availability layer. They are key to testing the network's capacity for handling application data.                                                                       |
+| **DHT**                  | Distributed Hash Table, a system used by light clients for efficient data storage and retrieval, crucial for maintaining data availability and integrity.                                                                |
+| **Vector Functionality** | The network's capability to interact with other blockchains, enabling functionalities like cross-chain data verification and interoperability.                                                                           |
 
 ## Requirements to Participate
 
