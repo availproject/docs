@@ -16,7 +16,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ## Objective
 
-Avail is rapidly advancing towards Mainnet readiness and we're calling on node operators to join the Clash of Nodes campaign. This campaign serves as the proving ground for the Avail network, offering participants a real-time incentivized testnet environment that tests Avail as the base layer that will underpin a new era of rollup-centric blockchain infrastructure.
+Avail is rapidly advancing towards Mainnet readiness and we're calling on node operators to join the Clash of Nodes campaign. This campaign acts as an important proving ground for the Avail network, providing participants with an incentivized, real-time testnet environment. It's designed to rigorously test Avail's capabilities as the base layer poised to support a new generation of rollup-centric blockchain infrastructure.
 
 ## Who is Clash of Nodes For?
 
