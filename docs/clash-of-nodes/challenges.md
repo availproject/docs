@@ -12,8 +12,6 @@ keywords:
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
-## Welcome
-
 Embark on an exhilarating journey with the Clash of Nodes incentivized testnet, where a series of dynamic challenges await. Engage in rigorous network testing, vie for points, and vie for potential rewards.
 
 ## Active Challenges

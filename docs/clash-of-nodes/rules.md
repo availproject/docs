@@ -12,8 +12,6 @@ keywords:
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
-## Rules & Guidelines
-
 The Clash of Nodes is governed by the following rules and guidelines:
 
 ### 1. Challenges

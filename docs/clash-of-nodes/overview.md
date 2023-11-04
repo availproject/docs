@@ -85,6 +85,8 @@ If you require more information on node types within the Avail network, please c
 
 Below is a list of essential resources to help you navigate the campaign.
 
+<!--add link to main page, leaderboard, blog post -->
+
 | Resource                                                                  | Description                                                                                                     |
 | ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
 | [<ins>Challenges Overview</ins>](/docs/clash-of-nodes/challenges)         | Detailed information on active and upcoming challenges, including objectives, eligibility, and scoring details. |

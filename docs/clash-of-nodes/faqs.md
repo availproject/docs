@@ -55,4 +55,6 @@ Yes, the incentivized testnet is a critical step towards preparing for the mainn
 
 Audits are an essential part of our development process to ensure security and reliability. We will share the results of these audits with the community as soon as they are available and have been thoroughly reviewed.
 
+<!--
 ## Can I still participate even after the campaign starts?
+-->
