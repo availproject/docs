@@ -2,7 +2,7 @@
 id: overview
 title: What is Clash of Nodes?
 sidebar_label: Overview
-description: Understand the various types of nodes in the Avail network and their unique functionalities.
+description: 'An introductory guide and initial steps for participating in the Clash of Nodes campaign.'
 keywords:
   - docs
   - avail

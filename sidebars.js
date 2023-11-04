@@ -12,6 +12,7 @@ module.exports = {
       items: [
         'clash-of-nodes/overview',
         'clash-of-nodes/challenges',
+        'clash-of-nodes/rules',
         'clash-of-nodes/faqs',
       ],
     },
