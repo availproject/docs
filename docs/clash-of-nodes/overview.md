@@ -16,17 +16,21 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ## Objective
 
-Avail is rapidly advancing towards Mainnet, and we are extending an invitation node operators to participate in the incentivized testnet program, Clash of Nodes. This program is a precursor to the Avail Mainnet, providing a hands-on experience with the base layer that's being optimized for a future powered by rollups.
+Avail is rapidly advancing towards Mainnet readiness and we're calling on node operators to join the fray in our incentivized testnet program — Clash of Nodes. This pivotal program serves as the proving ground for the Avail network, offering participants a firsthand look at the base layer that will underpin a new era of rollup-centric blockchain infrastructure.
 
 ### A Campaign for Everyone
 
+#### Validators
+
 The Clash of Nodes incentivized testnet is an opportunity for validators to engage with Avail's infrastructure in a simulated Mainnet environment. Participants will contribute to the network's resilience through a series of challenges, with the potential to earn rewards based on their performance and engagement.
 
-Light clients are a testament to the decentralized nature of blockchain. They allow individuals to participate in the network without committing the resources typically required for a full node. With Avail, running a light client is designed to be straightforward, empowering anyone to contribute to the network's data availability and integrity.
+#### Light Clients
+
+Join the Clash of Nodes by running a light client and take part in Avail's mission to build a scalable and interoperable blockchain infrastructure. Avail's light client functionality is uniquely designed to empower anyone, anywhere to participate in the network. With minimal resource requirements and a straightforward setup process, you can contribute significantly to the network's data availability and integrity, reinforcing Avail's commitment to a truly robust blockchain infrastructure.
 
 ## Requirements to Participate
 
-### Show Your Interest
+### 1. Show Your Interest
 
 If you're ready to take part in this groundbreaking testnet and haven't yet signed up, now is the time to step forward.
 
@@ -36,7 +40,7 @@ If you're ready to take part in this groundbreaking testnet and haven't yet sign
 - If you're interested in becoming a light client operator, let us know by signing up using the
   [<ins>Light Client Operator Interest Form</ins>](https://docs.google.com/forms/d/e/1FAIpQLSeL6aXqz6vBbYEgD1cZKaQ4vwbN2o3Rxys-wKTuKySVR-oS8g/viewform).
 
-### Recommended Hardware Requirements
+### 2. Setup Your Environment
 
 To ensure a stable and efficient operation of your node in the Clash of Nodes campaign, the following hardware specifications are recommended:
 
@@ -47,7 +51,7 @@ To ensure a stable and efficient operation of your node in the Clash of Nodes ca
 | **Disk Space**       | 20–40 GB                   | 40 GB SSD or more          |
 | **Operating System** | Ubuntu 20.04 LTS or higher | Ubuntu 20.04 LTS or higher |
 
-### Prepare Your Node
+### 3. Deploy Your Node
 
 For instructions on setting up and running nodes on the Avail network, please refer to the following guides:
 
@@ -60,6 +64,8 @@ If you require more information on node types within the Avail network, please c
 [<ins>Node Types Comparison document</ins>](/docs/operate/node-types.md).
 
 ## Ready to Participate?
+
+Below is a list of essential resources to help you navigate the campaign.
 
 | Resource                                                                  | Description                                                                                                     |
 | ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
