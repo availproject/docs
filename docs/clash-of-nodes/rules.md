@@ -19,7 +19,7 @@ The Clash of Nodes is governed by the following rules and guidelines:
 
 ### 1. Terms and Conditions
 
-You must abid by the Terms and Conditions. Please find the associated Terms and Conditions **[<ins>here</ins>](/docs/clash-of-nodes/toc.md)**.
+You must adhere by the Terms and Conditions to participate in the Clash of Node campaign. Please find the associated Terms and Conditions **[<ins>here</ins>](/docs/clash-of-nodes/toc.md)**.
 
 ### 2. Challenges
 
