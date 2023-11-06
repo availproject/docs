@@ -1,5 +1,5 @@
 ---
-id: toc
+id: terms-and-conditions
 title: General Terms and Conditions for Avail's Testnet Incentive Programme
 sidebar_label: Terms & Conditions
 description: 'Rules and guidelines for the Clash of Nodes campaign.'

@@ -12,8 +12,8 @@ module.exports = {
       items: [
         'clash-of-nodes/overview',
         'clash-of-nodes/challenges',
-        'clash-of-nodes/rules',
-        'clash-of-nodes/toc',
+        'clash-of-nodes/rules-and-guidelines',
+        'clash-of-nodes/terms-and-conditions',
         'clash-of-nodes/faqs',
       ],
     },

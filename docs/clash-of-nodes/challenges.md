@@ -34,24 +34,17 @@ This will ensure a fair and enjoyable experience for all participants.
 
 :::
 
-## Active Challenges
+## List of Challenges
 
-Discover what's currently active:
+Discover the challenges that are currently active and prepare for the other ones:
 
 <!--Delroy to update real state of challenges -->
 
-| Challenge Name        | Category | Description                                                                                                          | **Start Date** | **End Date** | Who Can Participate | Scoring Metrics           | Status |
-| --------------------- | -------- | -------------------------------------------------------------------------------------------------------------------- | -------------- | ------------ | ------------------- | ------------------------- | :----: |
-| **Gladiator's Entry** | Basics   | Enter the fray by setting up as a validator. Your mission: author as many blocks as you can, outlasting your rivals. | **TBA**        | **TBA**      | Validators          | Number of blocks authored |   ✅   |
-
-## Preview the Next Active Phase
-
-Discover what will be active soon:
-
-| Challenge Name                  | Category        | Description                                                                                                    | **Start Date** | **End Date** | Who Can Participate | Scoring Metrics                                   | Status |
-| ------------------------------- | --------------- | -------------------------------------------------------------------------------------------------------------- | -------------- | ------------ | ------------------- | ------------------------------------------------- | :----: |
-| **Noble Warrior**               | Basics          | Show your valor by adhering to the noble principles of validation.                                             | **TBA**        | **TBA**      | Validators          | Negative points for: times offline, times slashed |   🔴   |
-| **Finding Yourself**            | Basics          | Establish your presence by registering and confirming your identity as a validator.                            | **TBA**        | **TBA**      | Anyone              | Identities added and verified                     |   🔴   |
-| **To The Stake**                | Staking/Rewards | Aim to amplify your validator backing by securing a greater number of nominations during the testnet marathon. | **TBA**        | **TBA**      | Validators          | Total amount staked                               |   🔴   |
-| **Magic Nomination Pools**      | Staking/Rewards | Are you able to create nomination pools and nominate a validator to the pool?                                  | **TBA**        | **TBA**      | Anyone              | Pools created, validators nominated               |   🔴   |
-| **Max Balance Transfer Points** | Basics          | Demonstrate your prowess by executing as many transfers as possible across the network.                        | **TBA**        | **TBA**      | Anyone              | Number of successful transfers                    |   🔴   |
+| Challenge Name                  | Category        | Description                                                                                                          | **Start Date**  | **End Date** | Who Can Participate | Scoring Metrics                                   | Status |
+| ------------------------------- | --------------- | -------------------------------------------------------------------------------------------------------------------- | --------------- | ------------ | ------------------- | ------------------------------------------------- | :----: |
+| **Gladiator's Entry**           | Basics          | Enter the fray by setting up as a validator. Your mission: author as many blocks as you can, outlasting your rivals. | **Nov 7, 2023** | **Ongoing**  | Validators          | Number of blocks authored                         |   ✅   |
+| **Noble Warrior**               | Basics          | Show your valor by adhering to the noble principles of validation.                                                   | **Nov 7, 2023** | **Ongoing**  | Validators          | Negative points for: times offline, times slashed |   🔴   |
+| **Finding Yourself**            | Basics          | Establish your presence by registering and confirming your identity as a validator.                                  | **Nov 7, 2023** | **Ongoing**  | Anyone              | Identities added and verified                     |   🔴   |
+| **To The Stake**                | Staking/Rewards | Aim to amplify your validator backing by securing a greater number of nominations during the testnet marathon.       | **TBA**         | **TBA**      | Validators          | Total amount staked                               |   🔴   |
+| **Magic Nomination Pools**      | Staking/Rewards | Are you able to create nomination pools and nominate a validator to the pool?                                        | **TBA**         | **TBA**      | Anyone              | Pools created, validators nominated               |   🔴   |
+| **Max Balance Transfer Points** | Basics          | Demonstrate your prowess by executing as many transfers as possible across the network.                              | **TBA**         | **TBA**      | Anyone              | Number of successful transfers                    |   🔴   |

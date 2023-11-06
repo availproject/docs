@@ -1,5 +1,5 @@
 ---
-id: rules
+id: rules-and-guidelines
 title: Clash of Nodes Rules & Guidelines
 sidebar_label: Rules & Guidelines
 description: 'Rules and guidelines for the Clash of Nodes campaign.'
