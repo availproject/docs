@@ -47,10 +47,6 @@ The duration of the Clash of Nodes campaign will be announced along with the lau
 
 The new incentivized testnet is being launched as it offers a fixed and improved testing ground with an incentive mechanism being tested out. This approach allows us to implement and evaluate changes more effectively than upgrading the existing Kate testnet.
 
-## Will this prepare for mainnet?
-
-Yes, the incentivized testnet is a critical step towards preparing for the mainnet. It allows us to test and refine our network in a controlled environment with real-world incentives.
-
 ## Are there audits taking place, and when can results be shared?
 
 Audits are an essential part of our development process to ensure security and reliability. We will share the results of these audits with the community as soon as they are available and have been thoroughly reviewed.
