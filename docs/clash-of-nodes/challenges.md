@@ -20,7 +20,7 @@ Prepare to engage in the first wave of challenges designed to test your mettle a
 
 :::caution Ensure you follow the rules and guidelines
 
-Please find the associated Terms and Conditions **[<ins>here</ins>](https://docs.google.com/document/d/1AGYVSarF6-oot_4zG0Re8TDCQ1Vb991nfP1yR8Iim_I/)**.
+Please find the associated Terms and Conditions **[<ins>here</ins>](/docs/clash-of-nodes/toc.md)**.
 
 Please also make sure to read and adhere to the established rules and guidelines for the Clash of Nodes campaign,
 available **[<ins>here</ins>](/docs/clash-of-nodes/rules.md)**.
