@@ -13,6 +13,7 @@ module.exports = {
         'clash-of-nodes/overview',
         'clash-of-nodes/challenges',
         'clash-of-nodes/rules',
+        'clash-of-nodes/toc',
         'clash-of-nodes/faqs',
       ],
     },

@@ -20,8 +20,10 @@ Prepare to engage in the first wave of challenges designed to test your mettle a
 
 :::caution Ensure you follow the rules and guidelines
 
-Please make sure to read and adhere to the established rules and guidelines for the Clash of Nodes campaign,
-available [<ins>here</ins>](/docs/clash-of-nodes/rules.md)
+Please find the associated Terms and Conditions **[<ins>here</ins>](/docs/clash-of-nodes/toc.md)**.
+
+Please also make sure to read and adhere to the established rules and guidelines for the Clash of Nodes campaign,
+available **[<ins>here</ins>](/docs/clash-of-nodes/rules.md)**.
 This will ensure a fair and enjoyable experience for all participants.
 
 :::

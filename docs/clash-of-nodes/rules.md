@@ -7,10 +7,16 @@ keywords:
   - docs
   - avail
   - node
-  - faqs
-  - question
+  - rules
+  - guidelines
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
+
+## Terms and Conditions
+
+Please find the associated Terms and Conditions **[<ins>here</ins>](/docs/clash-of-nodes/toc.md)**.
+
+## Rules and Guidelines
 
 The Clash of Nodes is governed by the following rules and guidelines:
 
@@ -32,6 +38,6 @@ Your challenge performance will translate into points, reflected on our public l
 
 ### 5. Updates
 
-This page is your central hub for all updates on stages and challenges. For the most current information, make it a habit to check in regularly.
+This section is your central hub for all updates on challenges. For the most current information, make it a habit to check in regularly.
 
 We're excited to have you join us for the Clash of Nodes. Your involvement not only bolsters Avail's robustness but also embodies the cooperative ethos of the blockchain community. Prepare for a journey of discovery, rivalry, and reward!
