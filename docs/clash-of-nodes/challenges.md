@@ -46,7 +46,7 @@ Discover what's currently active:
 
 ## Preview the Next Active Phase
 
-Discover the upcoming active:
+Discover what will be active soon:
 
 | Challenge Name                  | Category        | Description                                                                             | **Start Date** | **End Date** | Who Can Participate | Scoring Metrics                                   | Status |
 | ------------------------------- | --------------- | --------------------------------------------------------------------------------------- | -------------- | ------------ | ------------------- | ------------------------------------------------- | :----: |
