@@ -32,6 +32,6 @@ Your challenge performance will translate into points, reflected on our public l
 
 ### 5. Updates
 
-This page is your central hub for all updates on stages and challenges. For the most current information, make it a habit to check in regularly.
+This section is your central hub for all updates on challenges. For the most current information, make it a habit to check in regularly.
 
 We're excited to have you join us for the Clash of Nodes. Your involvement not only bolsters Avail's robustness but also embodies the cooperative ethos of the blockchain community. Prepare for a journey of discovery, rivalry, and reward!
