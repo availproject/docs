@@ -14,7 +14,7 @@ image: https://docs.availproject.org/img/avail/AvailDocs.png
 
 ## Terms and Conditions
 
-Please find the associated Terms and Conditions [<ins>here</ins>](https://docs.google.com/document/d/1AGYVSarF6-oot_4zG0Re8TDCQ1Vb991nfP1yR8Iim_I/edit).
+Please find the associated Terms and Conditions **[<ins>here</ins>](https://docs.google.com/document/d/1AGYVSarF6-oot_4zG0Re8TDCQ1Vb991nfP1yR8Iim_I/)**.
 
 ## Rules and Guidelines
 
