@@ -94,12 +94,16 @@ If you require more information on node types within the Avail network, please c
 
 ## Ready to Participate?
 
+Head over to the [<ins>Challenges page</ins>](/docs/clash-of-nodes/challenges.md) to start participating.
+
 Below is a list of essential resources to help you navigate the campaign.
 
-<!--add link to main page, leaderboard, blog post -->
+<!--add link to blog post -->
 
-| Resource                                                                  | Description                                                                                                     |
-| ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| [<ins>Challenges Overview</ins>](/docs/clash-of-nodes/challenges)         | Detailed information on active and upcoming challenges, including objectives, eligibility, and scoring details. |
-| [<ins>Frequently Asked Questions (FAQs)</ins>](/docs/clash-of-nodes/faqs) | Answers to common technical and program-related questions about the Clash of Nodes campaign.                    |
-| [<ins>Discord Community</ins>](https://discord.com/invite/y6fHnxZQX8)     | Join the conversation and get support from the Avail team and community on Discord.                             |
+| Resource                                                                            | Description                                                                                                     |
+| ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| [<ins>Challenges List</ins>](/docs/clash-of-nodes/challenges.md#list-of-challenges) | Detailed information on active and upcoming challenges, including objectives, eligibility, and scoring details. |
+| [<ins>FAQs</ins>](/docs/clash-of-nodes/faqs.md)                                     | Answers to common technical and program-related questions about the Clash of Nodes campaign.                    |
+| [<ins>Clash of Nodes Leaderboard</ins>](http://leaderboard.availproject.org/)       | The leaderboard for the Clash of Nodes, showing node rankings and statistics.                                   |
+| [<ins>Clash of Nodes Website</ins>](http://clash.availproject.org/)                 | The main website for the Clash of Nodes with general information and updates.                                   |
+| [<ins>Discord Community</ins>](https://discord.com/invite/y6fHnxZQX8)               | Join the conversation and get support from the Avail team and community on Discord.                             |
