@@ -13,7 +13,7 @@ keywords:
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
-You can use the Discord Faucet to get Avail (AVL) tokens on the Kate
+You can use the Discord Faucet to get Avail (AVL) tokens on the Goldberg
 testnet.
 
 1. Make sure you have already [Created an account](/about/accounts.md) to receive funds.

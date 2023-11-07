@@ -22,7 +22,7 @@ Before you can become an active validator, you need to bond your funds to your n
 
 ### Create Avail Accounts
 
-1.  Navigate to the Kate network explorer at [<ins>kate.avail.tools</ins>](https://kate.avail.tools/).
+1.  Navigate to the Goldberg network explorer at [<ins>goldberg.avail.tools</ins>](https://goldberg.avail.tools/).
 2.  Create a `stash` and a `controller` account. The `stash` account should ideally be a cold wallet, while the `controller` can be a hot wallet.
     > - The controller key is responsible for managing staking activities and executing transactions,
         including the payment of transaction fees.
@@ -91,7 +91,7 @@ result for the next step and **restart your node**.
 You must inform the network of your Session keys by signing and submitting the
 `setKeys` extrinsic. This action associates your validator with your Controller account.
 
-1. Navigate back to the **[<ins>Staking</ins>](https://kate.avail.tools/#/staking/actions)** tab.
+1. Navigate back to the **[<ins>Staking</ins>](https://goldberg.avail.tools/#/staking/actions)** tab.
 2. Click on `Set Session Key` and enter the hex-encoded result.
 3. Click `Set Session Key` and enter your password when prompted.
 
@@ -125,7 +125,7 @@ stake, the Avail blockchain will likely select it in the next epoch or two.
 To verify that your node is ready for possible selection at the end of
 the next era, follow these steps:
 
-1. Go to the **[<ins>Staking</ins>](https://kate.avail.tools/#/staking)** tab and
+1. Go to the **[<ins>Staking</ins>](https://goldberg.avail.tools/#/staking)** tab and
    select `Waiting` to see if your account appears.
 2. If your node has enough stake, it will be elected in the next era or two.
    > A new set of validators is chosen every **era**, based on the amount staked.

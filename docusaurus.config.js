@@ -128,12 +128,22 @@ module.exports = {
           'Welcome to the Avail Project Documentation, the official documentation for Avail.',
       },
     ],
+    announcementBar: {
+      id: 'banner',
+      content: `
+        <div class="announcement-bar">
+            Deprecation Notice: The Kate Testnet is ending soon. Prepare for Avail's upcoming Incentivized Testnet and stay tuned for updates.
+            For any concerns, please contact the Avail team.
+        </div>
+      `,
+      textColor: '#ffffff',
+      isCloseable: true,
+    },
     colorMode: {
       defaultMode: 'light',
       disableSwitch: true,
       respectPrefersColorScheme: false,
     },
-
     footer: {
       style: 'dark',
       links: [
@@ -303,6 +313,12 @@ module.exports = {
               rel: null,
             },
           ],
+        },
+        {
+          href: '/category/clash-of-nodes/',
+          position: 'left',
+          label: 'Clash of Nodes',
+          target: '_self',
         },
         {
           href: 'https://blog.availproject.org/',

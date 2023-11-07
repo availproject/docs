@@ -1,6 +1,6 @@
 ---
 id: faqs
-title: Frequently Asked Questions
+title: General Frequently Asked Questions
 sidebar_label: FAQs
 description: 'FAQs on Avail and the Avail ecosystem.'
 keywords:
@@ -12,9 +12,12 @@ keywords:
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
-## What is a light client?
+:::note Clash of Nodes FAQs
 
-Light clients allow users to interact with a blockchain network without having to sync the full blockchain while maintaining decentralization and security. Generally, they download the blockchain headers, but not the contents of each block. Avail (DA) light clients additionally verify that block contents are available by performing Data Availability Sampling, a technique where small random sections of a block are downloaded.
+For all questions and queries related to the Clash of Nodes campaign,
+please visit **[<ins>this page</ins>](/docs/clash-of-nodes/faqs.md)**.
+
+:::
 
 ## What is a popular use case of a light client?
 

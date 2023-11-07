@@ -46,7 +46,7 @@ There are two primary methods to run an Avail node, each with its own set of ins
 1. **[<ins>Using Binaries</ins>](/docs/operate/node/0020-full-node-binaries.md):** You can follow the instructions provided here for setting up an Avail node using binary releases. This method is suitable for users who prefer manual installation and configuration. For reference, you can also explore the [GitHub Releases](https://github.com/availproject/avail/releases) page for binary releases.
 
 2. **[<ins>Using Docker</ins>](/docs/operate/node/0030-full-node-docker.md):** Alternatively, if you're comfortable with Docker, you can pull Avail node images from the [DockerHub Repository](https://hub.docker.com/r/availj/avail/tags). Docker provides a convenient way to containerize and deploy Avail nodes.
-   > The Avail team offers official Docker images specifically designed for running nodes on the Kate testnet.
+   > The Avail team offers official Docker images specifically designed for running nodes on the Goldberg testnet.
 
 ## Setting Up Your Environment
 
@@ -60,10 +60,9 @@ Additionally, it's common practice to run nodes on cloud servers.
 
 Download the client binary and config file for the node you want to run:
 
-| Node Type        | Repository Name                                                       | Latest Release                                                                       |
-| ---------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| **Full Node**    | [<ins>avail</ins>](https://github.com/availproject/avail)             | [<ins>v1.7.2</ins>](https://github.com/availproject/avail/releases/tag/v1.7.2)       |
-| **Light Client** | [<ins>avail-light</ins>](https://github.com/availproject/avail-light) | [<ins>v1.7.2</ins>](https://github.com/availproject/avail-light/releases/tag/v1.7.2) |
+| Node Type     | Repository Name                                           | Latest Release                                                                     |
+| ------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| **Full Node** | [<ins>avail</ins>](https://github.com/availproject/avail) | [<ins>v1.8.0.0</ins>](https://github.com/availproject/avail/releases/tag/v1.8.0.0) |
 
 </TabItem>
 <TabItem value="source" label="Build from Source">
@@ -123,9 +122,9 @@ sudo usermod -aG docker $USER
 
 </details>
 
-| Node Type | Docker Repository Name                                                | Latest Version                                                                                                                                                        |
-| --------- | --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Full Node | [<ins>availj/avail</ins>](https://hub.docker.com/r/availj/avail/tags) | [<ins>v1.7.2</ins>](https://hub.docker.com/layers/availj/avail/v1.7.2/images/sha256-caa7ec656a26f24185f993cfb806066c16ad65ccbe0c8aea472bd099a976bd7e?context=explore) |
+| Node Type | Docker Repository Name                                                | Latest Version                                                                                                                                                            |
+| --------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Full Node | [<ins>availj/avail</ins>](https://hub.docker.com/r/availj/avail/tags) | [<ins>v1.8.0.0</ins>](https://hub.docker.com/layers/availj/avail/v1.8.0.0/images/sha256-0b350f9abd56a031af570f42b371a056665268926be62e41c781db60312fc2ca?context=explore) |
 
 </TabItem>
 </Tabs>

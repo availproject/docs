@@ -1,9 +1,22 @@
 module.exports = {
   avail: [
     'index',
-    'build/quickstart',
+    {
+      type: 'category',
+      label: 'Clash of Nodes',
+      link: {
+        type: 'generated-index',
+      },
+      items: [
+        'clash-of-nodes/overview',
+        'clash-of-nodes/challenges',
+        'clash-of-nodes/rules-and-guidelines',
+        'clash-of-nodes/terms-and-conditions',
+        'clash-of-nodes/faqs',
+      ],
+    },
     'networks',
-    'operate/node/light-client',
+    'build/quickstart',
     {
       type: 'category',
       label: 'New User Guide',
@@ -11,8 +24,14 @@ module.exports = {
         type: 'generated-index',
       },
       collapsed: true,
-      items: ['about/accounts', 'about/explorer', 'about/faucet'],
+      items: [
+        'about/accounts',
+        'about/identity',
+        'about/explorer',
+        'about/faucet',
+      ],
     },
+    'operate/node/light-client',
     {
       type: 'category',
       label: 'Operate a Node',
@@ -106,6 +125,8 @@ module.exports = {
         'about/introduction/validiums',
       ],
     },
+    'explorations',
+    'glossary',
     'faqs',
   ],
 };
