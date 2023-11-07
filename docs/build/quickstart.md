@@ -15,21 +15,6 @@ image: https://docs.availproject.org/img/avail/AvailDocs.png
 
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-<!--
-Construct any blockchain-based solution using Avail.
-
-## Construct Modular Solutions
-
-| Solution          | Guide                                       |
-|-------------------|---------------------------------------------|
-| Validium          | [<ins>How to Build a Validium using Avail</ins>](/build/validium.md) |
-| ZK-Rollup         | [<ins>How to Build a ZK-Rollup using Avail</ins>](/build/zk-rollup.md) |
-| Optimistic Rollup | [<ins>How to Build an Optimistic Rollup using Avail</ins>](/build/op-rollup.md) |
-| App-chain         | [<ins>How to Build an App-chain using Avail</ins>](/build/app-chain.md) |
-| Volition          | [<ins>How to Build a Volition using Avail</ins>](/build/volition.md) |
-
--->
-
 ## Avail API
 
 The Avail API offers a robust set of features that enable application developers to interact
@@ -113,35 +98,6 @@ The following table lists various code examples for interacting with the Avail n
 | Internal Operations                       | [<ins>Go</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/internal)                                                                                                                                                                                                                                                     |
 | Rust + & Substrate Examples               | Various [<ins>Rust</ins>](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/) examples like Data Availability Bridge Actor, Democracy External, etc.                                                                                                                                                                   |
 
-### Get Started with Kate Testnet
-
-The Kate Testnet is the official test network of the Avail Project.
-
-### Phase One: Laying the Groundwork
-
-The inaugural phase of Avail's testnet served as a sandbox for fundamental
-operations, including the execution of on-chain functions and the initiation
-of protocol governance. This phase was instrumental in setting the stage for
-more advanced testing scenarios.
-
-### Phase Two (Current): Expanding the Testing Ecosystem
-
-The second phase aims to provide a robust testing environment designed to foster
-increased participation from validators. Validators are crucial network participants
-who leverage their computing resources to validate transactions and fortify network
-security, often in exchange for token-based rewards.
-
-#### User Participation on the Testnet
-
-The Kate testnet offers a multitude of avenues for user engagement:
-
-- **Token Acquisition**: Users can obtain AVL testnet tokens to explore staking and
-  nomination functionalities.
-- **Blockchain Development**: Users have the freedom to develop modular blockchain applications
-  or chains that integrate with Avail's data layer.
-- **Network Roles**: Users can opt to join the testnet as either validators or light clients,
-  facilitating data verification processes.
-
 ---
 
 ### Try it Out
@@ -150,14 +106,5 @@ The Kate testnet offers a multitude of avenues for user engagement:
 | ------------------ | ----------------------------------------------------------- | ------------- | ------- | ------------------------ | ------------------------------------------------------------------------------------ |
 | Run a Light Client | [<ins>Guide</ins>](/docs/operate/node/0010-light-client.md) | No            | No      | Moderate                 | [<ins>v1.7.2</ins>](https://github.com/availproject/avail-light/releases/tag/v1.7.2) |
 | Become a Validator | [<ins>Guide</ins>](/category/become-a-validator/)           | Yes           | Yes     | Advanced                 | [<ins>v1.7.2</ins>](https://github.com/availproject/avail/releases/tag/v1.7.2)       |
-
-### Kate Testnet Details
-
-- **Explorer**: Navigate the blockchain with ease using our [<ins>Explorer</ins>](https://kate.avail.tools).
-- **Endpoints**:
-  - **RPC**: Connect directly via [<ins>RPC Endpoint</ins>](https://kate.avail.tools).
-  - **WebSocket**: For real-time updates, use [<ins>WebSocket Endpoint</ins>](wss://kate.avail.tools/ws).
-- **Chain Specifications**: Interested in the nitty-gritty? Check out the [<ins>chainspec.raw.json</ins>](https://kate.avail.tools/#/explorer/chainspec).
-- **Chain Info**: For a textual overview, refer to `chaininfo.txt`.
 
 ---

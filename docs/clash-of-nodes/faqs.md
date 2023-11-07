@@ -23,42 +23,38 @@ We are gearing up to open the incentivized testnet to all participants shortly. 
 
 Do not worry if you haven't received your invite yet. The testnet is structured to offer a multitude of challenges, many of which will be available for the entire duration of the testnet. We are committed to ensuring a balanced and equitable rollout. Stay tuned, as there will be ample opportunities for everyone to participate.
 
-## Has the incentivized testnet commenced?
+### Has the incentivized testnet commenced?
 
 No, the incentivized testnet has not yet started. We will announce the launch date soon, so please keep an eye out for updates.
 
-## Will the Kate network be utilized for the incentivized testnet?
+### Will the Kate network be utilized for the incentivized testnet?
 
 No, the Kate network will not be used for the incentivized testnet. A new network will be established specifically for the testnet activities.
 
-## Are there any restrictions on the telemetry dashboard available at telemetry.avail.tools?
+### Are there any restrictions on the telemetry dashboard available at telemetry.avail.tools?
 
 Yes, there are limitations to the telemetry dashboard at [<ins>telemetry.avail.tools</ins>](https://telemetry.avail.tools), including a cap at 1,000 entries. We are continuously working to improve the dashboard functionality.
 
-## What do I do if I'm on the Kate testnet?
+### What do I do if I'm on the Kate testnet?
 
 If you are currently on the Kate testnet, please stay tuned for detailed migration steps or instructions on how to reboot with new binaries for the upcoming incentivized testnet.
 
-## What are the migration steps, or do we have to reboot with new binaries?
+### What are the migration steps, or do we have to reboot with new binaries?
 
 Specific migration steps will be provided closer to the launch of the incentivized testnet. It may involve rebooting with new binaries, but we will ensure detailed guidance is available.
 
-## What are the participation criteria and where can I find them?
+### What are the participation criteria and where can I find them?
 
 The participation criteria for the incentivized testnet and Clash of Nodes campaign will be outlined in our official documentation and announcements. Please check our website and community channels for the latest information.
 
-## How long is the Clash of Nodes campaign?
+### How long is the Clash of Nodes campaign?
 
 The duration of the Clash of Nodes campaign will be announced along with the launch details. Keep an eye on our official channels for updates.
 
-## Why not just upgrade Kate instead of launching a new incentivized testnet?
+### Why not just upgrade Kate instead of launching a new incentivized testnet?
 
 The new incentivized testnet is being launched as it offers a fixed and improved testing ground with an incentive mechanism being tested out. This approach allows us to implement and evaluate changes more effectively than upgrading the existing Kate testnet.
 
-## Are there audits taking place, and when can results be shared?
+### Are there audits taking place, and when can results be shared?
 
 Audits are an essential part of our development process to ensure security and reliability. We will share the results of these audits with the community as soon as they are available and have been thoroughly reviewed.
-
-<!--
-## Can I still participate even after the campaign starts?
--->
