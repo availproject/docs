@@ -11,6 +11,10 @@ keywords:
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
+## Introduction
+
+This guide will walk you through the process of setting an on-chain identity on the Goldberg testnet.
+
 ## Reserve Funds for Identity Bonding
 
 To store personal information on-chain, users are required to lock a specific amount of funds as a bond. This bond is refundable upon the clearance of the identity.
