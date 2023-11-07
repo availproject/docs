@@ -13,7 +13,6 @@ image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
 <!-- Delroy to Update -->
-<!-- To confirm whether this should be a separate doc or part of general faqs doc -->
 
 ### When will I receive my invitation to the incentivized testnet?
 
@@ -25,7 +24,7 @@ Do not worry if you haven't received your invite yet. The testnet is structured 
 
 ### Has the incentivized testnet commenced?
 
-No, the incentivized testnet has not yet started. We will announce the launch date soon, so please keep an eye out for updates.
+Yes, the incentivized testnet has started, officially as of November 7, 2023. Please keep an eye out for updates.
 
 ### Will the Kate network be utilized for the incentivized testnet?
 
