@@ -15,6 +15,14 @@ image: https://docs.availproject.org/img/avail/AvailDocs.png
 <!-- Delroy to Update -->
 <!-- To confirm whether this should be a separate doc or part of general faqs doc -->
 
+### When will I receive my invitation to the incentivized testnet?
+
+We are gearing up to open the incentivized testnet to all participants shortly. The first to be invited will be our seasoned validators from the Kate Testnet, acknowledging their valuable contribution and support for Avail. Rest assured, your invitation is on its way, so keep an eye out for further announcements.
+
+### I haven't received my invitation, but I see some challenges have started. Why is that?
+
+Do not worry if you haven't received your invite yet. The testnet is structured to offer a multitude of challenges, many of which will be available for the entire duration of the testnet. We are committed to ensuring a balanced and equitable rollout. Stay tuned, as there will be ample opportunities for everyone to participate.
+
 ## Has the incentivized testnet commenced?
 
 No, the incentivized testnet has not yet started. We will announce the launch date soon, so please keep an eye out for updates.
