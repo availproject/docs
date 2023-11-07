@@ -26,10 +26,10 @@ Retrieve the necessary bond amounts by querying the [<ins>Chain state constants<
 Determine the bond amounts via the chain's interface by doing the following:
 
 1. Navigate to the "Developer" menu on the navbar and select "Chain state."
-2. Under the "Constants" tab, choose "identity" from the "selected constant query" menu to view the `basicDeposit: u128` value.
+2. Under the "Constants" tab, choose `identity` from the "selected constant query" menu. The `basicDeposit: u128` parameter will be the default.
 3. To add constants to the view, click the "plus" ("+") icon.
 
-Remember, each information field is limited to 32 bytes. Use a [<ins>UTF8 to bytes converter</ins>](https://onlinetools.com/utf8/convert-utf8-to-bytes) when manually entering data through the [<ins>Extrinsics UI</ins>](https://goldberg.avail.tools/#/extrinsics).
+Each information field is limited to 32 bytes. Use a [<ins>UTF8 to bytes converter</ins>](https://onlinetools.com/utf8/convert-utf8-to-bytes) when manually entering data through the [<ins>Extrinsics UI</ins>](https://goldberg.avail.tools/#/extrinsics).
 
 ## Set Your On-Chain Identity
 

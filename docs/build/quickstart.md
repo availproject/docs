@@ -36,8 +36,8 @@ If you're seeking more control over the configuration or are interested in runni
 | Action                                                                   | Tokens Needed | Staking | Technical Skill Required | Client Binary                                                                                |
 | ------------------------------------------------------------------------ | ------------- | ------- | ------------------------ | -------------------------------------------------------------------------------------------- |
 | [<ins>Run a Light Client</ins>](/docs/operate/node/0010-light-client.md) | No            | No      | Basic                    | [<ins>v1.7.3-rc3</ins>](https://github.com/availproject/avail-light/releases/tag/v1.7.3-rc3) |
-| [<ins>Run a Full Node</ins>](/category/full-node/)                       | No            | No      | Moderate                 | [<ins>v1.8.0.0-rc1</ins>](https://github.com/availproject/avail/releases/tag/v1.8.0.0-rc1)   |
-| [<ins>Become a Validator</ins>](/category/become-a-validator/)           | Yes           | Yes     | Advanced                 | [<ins>v1.8.0.0-rc1</ins>](https://github.com/availproject/avail/releases/tag/v1.8.0.0-rc1)   |
+| [<ins>Run a Full Node</ins>](/category/full-node/)                       | No            | No      | Moderate                 | [<ins>v1.8.0.0</ins>](https://github.com/availproject/avail/releases/tag/v1.8.0.0)           |
+| [<ins>Become a Validator</ins>](/category/become-a-validator/)           | Yes           | Yes     | Advanced                 | [<ins>v1.8.0.0</ins>](https://github.com/availproject/avail/releases/tag/v1.8.0.0)           |
 
 ---
 
