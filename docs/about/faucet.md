@@ -19,7 +19,7 @@ testnet.
 1. Make sure you have already [Created an account](/about/accounts.md) to receive funds.
 2. Join the [Avail Discord](https://discord.gg/y6fHnxZQX8) and
    complete the verification step.
-3. Navigate to the `#avail-faucet` channel and issue the following
+3. Navigate to the `#goldberg-faucet` channel and issue the following
    command: `/deposit <your address> `.
 
 Your address will be deposited 11 AVL token once the status changes to
