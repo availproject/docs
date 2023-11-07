@@ -41,14 +41,8 @@ These flags enable external RPC and WebSocket connections and set the default po
 Here's an example command to start your RPC node:
 
 ```bash
-./data-avail --base-path ~/avail-node/data \
-             --chain ~/avail-node/chainspec.raw.json \
-             --pruning archive \
-             --port 30333 \
-             --rpc-external --ws-external --rpc-port 9933 --ws-port 9944 --rpc-cors=all \
-             --bootnodes /dns/gateway-fullnode-002.testnet.avail.tools/tcp/30333/p2p/12D3KooWNuBaLtAGNxQbei7rUzpp8N8TF8k5kPsgKShAJgK4crkB \
-                         /dns/gateway-fullnode-001.testnet.avail.tools/tcp/30333/p2p/12D3KooWDgqCRtsJWKjckh2XHtRZbboVdgDJswsxoNmX8PMf59bV \
-                         /dns/gateway-fullnode-003.testnet.avail.tools/tcp/30333/p2p/12D3KooWBNy1vzragtwiummqXwry19h6dke68hybY6jVeEH4mAtT
+./data-avail -d ~/avail-node/data --chain goldberg --pruning archive \
+             --rpc-external --ws-external --rpc-port 9933 --ws-port 9944 --rpc-cors=all 
 ```
 
 :::info Firewall Configuration

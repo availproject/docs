@@ -46,35 +46,35 @@ sudo docker run -v $(pwd)/state:/da/state:rw -v $(pwd)/keystore:/da/keystore:rw 
 You should see an output similar to the following:
 
 ```shell
-2023-08-21 08:29:55 Avail Node
-2023-08-21 08:29:55 ✌️  version 1.6.2-bb4cc104b25
-2023-08-21 08:29:55 ❤️  by Anonymous, 2017-2023
-2023-08-21 08:29:55 📋 Chain specification: Avail Goldberg Testnet
-2023-08-21 08:29:55 🏷  Node name: goldberg-docker-avail-Node
-2023-08-21 08:29:55 👤 Role: FULL
-2023-08-21 08:29:55 💾 Database: RocksDb at /da/state/chains/Avail Testnet_116d7474-0481-11ee-bc2a-7bfc086be54e/db/full
-2023-08-21 08:29:55 ⛓  Native runtime: data-avail-11 (data-avail-0.tx1.au11)
-2023-08-21 08:30:04 🏷  Local node identity is: 12D3KooWEdgyAtH8ZCU8ScTx1hx5NWh4gmDGNcedtLxrJ1htSeBe
-2023-08-21 08:30:04 Prometheus metrics extended with avail metrics
-2023-08-21 08:30:04 💻 Operating system: linux
-2023-08-21 08:30:04 💻 CPU architecture: x86_64
-2023-08-21 08:30:04 💻 Target environment: gnu
-2023-08-21 08:30:04 💻 CPU: Intel(R) Xeon(R) Platinum 8175M CPU @ 2.50GHz
-2023-08-21 08:30:04 💻 CPU cores: 1
-2023-08-21 08:30:04 💻 Memory: 7835MB
-2023-08-21 08:30:04 💻 Kernel: 5.15.0-1040-aws
-2023-08-21 08:30:04 💻 Linux distribution: Debian GNU/Linux 11 (bullseye)
-2023-08-21 08:30:04 💻 Virtual machine: yes
-2023-08-21 08:30:04 📦 Highest known block at #9150
-2023-08-21 08:30:04 〽️ Prometheus exporter started at 127.0.0.1:9615
-2023-08-21 08:30:04 Running JSON-RPC HTTP server: addr=127.0.0.1:9933, allowed origins=["http://localhost:*", "http://127.0.0.1:*", "https://localhost:*", "https://127.0.0.1:*", "https://polkadot.js.org"]
-2023-08-21 08:30:04 Running JSON-RPC WS server: addr=127.0.0.1:9944, allowed origins=["http://localhost:*", "http://127.0.0.1:*", "https://localhost:*", "https://127.0.0.1:*", "https://polkadot.js.org"]
-2023-08-21 08:30:04 🏁 CPU score: 671.55 MiBs
-2023-08-21 08:30:04 🏁 Memory score: 4.47 GiBs
-2023-08-21 08:30:04 🏁 Disk score (seq. writes): 339.36 MiBs
-2023-08-21 08:30:04 🏁 Disk score (rand. writes): 62.48 MiBs
-2023-08-21 08:30:05 🔍 Discovered new external address for our node: /ip4/13.53.42.153/tcp/30333/ws/p2p/12D3KooWEdgyAtH8ZCU8ScTx1hx5NWh4gmDGNcedtLxrJ1htSeBe2023-08-21 08:30:09 ⚙️  Syncing, target=#326624 (15 peers), best: #9406 (0x875e…c887), finalized #9317 (0x37b6…28ff), ⬇ 321.9kiB/s ⬆ 30.1kiB/s
-2023-08-21 08:30:14 ⚙️  Syncing 64.4 bps, target=#326624 (15 peers), best: #9728 (0xb4fe…e318), finalized #9317 (0x37b6…28ff), ⬇ 40.2kiB/s ⬆ 1.8kiB/s
+2023-11-07 17:35:19 Avail Node    
+2023-11-07 17:35:19 ✌️  version 1.8.0-9c5f37b9230    
+2023-11-07 17:35:19 ❤️  by Anonymous, 2017-2023    
+2023-11-07 17:35:19 📋 Chain specification: Avail Goldberg Testnet    
+2023-11-07 17:35:19 🏷  Node name: fresh-fan-5502    
+2023-11-07 17:35:19 👤 Role: FULL    
+2023-11-07 17:35:19 💾 Database: RocksDb at /tmp/substrateCTFPb5/chains/avail_goldberg_testnet/db/full    
+2023-11-07 17:35:20 🔨 Initializing Genesis block/state (state: 0x6bc7…ec83, header-hash: 0x6f09…a7ae)    
+2023-11-07 17:35:20 👴 Loading GRANDPA authority set from genesis on what appears to be first startup.    
+2023-11-07 17:35:21 👶 Creating empty BABE epoch changes on what appears to be first startup.    
+2023-11-07 17:35:21 🏷  Local node identity is: 12D3KooWEEa9iNANi6PUeXGaDqTgTR9T5YcP3A69nwbT4VXnG5R1    
+2023-11-07 17:35:21 Prometheus metrics extended with avail metrics    
+2023-11-07 17:35:21 💻 Operating system: linux    
+2023-11-07 17:35:21 💻 CPU architecture: x86_64    
+2023-11-07 17:35:21 💻 Target environment: gnu    
+2023-11-07 17:35:21 💻 CPU: 13th Gen Intel(R) Core(TM) i7-13700K    
+2023-11-07 17:35:21 💻 CPU cores: 16    
+2023-11-07 17:35:21 💻 Memory: 31863MB    
+2023-11-07 17:35:21 💻 Kernel: 6.5.8-100.fc37.x86_64    
+2023-11-07 17:35:21 💻 Linux distribution: Fedora Linux 37 (Workstation Edition)    
+2023-11-07 17:35:21 💻 Virtual machine: no    
+2023-11-07 17:35:21 📦 Highest known block at #0    
+2023-11-07 17:35:21 〽️ Prometheus exporter started at 127.0.0.1:9615    
+2023-11-07 17:35:21 Running JSON-RPC server: addr=127.0.0.1:9944, allowed origins=["http://localhost:*", "http://127.0.0.1:*", "https://localhost:*", "https://127.0.0.1:*", "https://polkadot.js.org"]    
+2023-11-07 17:35:21 🏁 CPU score: 1.62 GiBs    
+2023-11-07 17:35:21 🏁 Memory score: 22.99 GiBs    
+2023-11-07 17:35:21 🏁 Disk score (seq. writes): 6.78 GiBs    
+2023-11-07 17:35:21 🏁 Disk score (rand. writes): 2.67 GiBs    
+2023-11-07 17:35:21 🔍 Discovered new external address for our node: /ip4/176.61.156.176/tcp/30333/ws/p2p/12D3KooWEEa9iNANi6PUeXGaDqTgTR9T5YcP3A69nwbT4VXnG5R1
 ```
 
 </details>

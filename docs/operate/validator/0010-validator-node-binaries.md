@@ -42,36 +42,42 @@ To run a validator node, you'll use the same command as the full node with the a
 For example:
 
 ```bash
-./data-avail --validator \
-    --port 30333 \
-    --base-path `pwd`/data \
-    --chain goldberg
+./data-avail --validator -d ./data --chain goldberg --name MyAvailNode
 ```
 
 The node will output the following when started:
 
-```
-2023-06-03 20:36:29 Avail Node
-2023-06-03 20:36:29 ✌️  version 1.6.0-99b85257d6b
-2023-06-03 20:36:29 ❤️  by Anonymous, 2017-2023
-2023-06-03 20:36:29 📋 Chain specification: Avail Goldberg Testnet
-2023-06-03 20:36:29 🏷  Node name: bewildered-distance-1229
-2023-06-03 20:36:29 👤 Role:Authority
-2023-06-03 20:36:29 💾 Database: RocksDb at /Users/thunder/code/avail/data/chains/Avail Testnet_6831251e-0222-11ee-a2c3-c90377335962/db/full
-2023-06-03 20:36:29 ⛓  Native runtime: data-avail-9 (data-avail-0.tx1.au11)
-2023-06-03 20:36:35 👶 Creating empty BABE epoch changes on what appears to be first startup.
-2023-06-03 20:36:35 🏷  Local node identity is: 12D3KooWPt7odw3aeq7azZDugXjNuUvQNPU58n1VRBzY1YBqsjkr
-2023-06-03 20:36:35 Prometheus metrics extended with avail metrics
-2023-06-03 20:36:35 💻 Operating system: macos
-2023-06-03 20:36:35 💻 CPU architecture: aarch64
-2023-06-03 20:36:35 📦 Highest known block at #0
-2023-06-03 20:36:35 〽️ Prometheus exporter started at 127.0.0.1:9615
-2023-06-03 20:36:35 Running JSON-RPC HTTP server: addr=127.0.0.1:9933, allowed origins=["http://localhost:*", "http://127.0.0.1:*", "https://localhost:*", "https://127.0.0.1:*", "https://polkadot.js.org"]
-2023-06-03 20:36:35 Running JSON-RPC WS server: addr=127.0.0.1:9944, allowed origins=["http://localhost:*", "http://127.0.0.1:*", "https://localhost:*", "https://127.0.0.1:*", "https://polkadot.js.org"]
-2023-06-03 20:36:35 🏁 CPU score: 724.71 MiBs
-2023-06-03 20:36:35 🏁 Memory score: 41.49 GiBs
-2023-06-03 20:36:35 🏁 Disk score (seq. writes): 1.91 GiBs
-2023-06-03 20:36:35 🏁 Disk score (rand. writes): 454.66 MiBs
+```bash
+2023-11-07 17:32:02 Avail Node    
+2023-11-07 17:32:02 ✌️  version 1.8.0-9c5f37b9230    
+2023-11-07 17:32:02 ❤️  by Anonymous, 2017-2023    
+2023-11-07 17:32:02 📋 Chain specification: Avail Goldberg Testnet    
+2023-11-07 17:32:02 🏷  Node name: abusive-foot-8197    
+2023-11-07 17:32:02 👤 Role: AUTHORITY    
+2023-11-07 17:32:02 💾 Database: RocksDb at /tmp/substratex6JdRn/chains/avail_goldberg_testnet/db/full    
+2023-11-07 17:32:03 🔨 Initializing Genesis block/state (state: 0x6bc7…ec83, header-hash: 0x6f09…a7ae)    
+2023-11-07 17:32:03 👴 Loading GRANDPA authority set from genesis on what appears to be first startup.    
+2023-11-07 17:32:03 👶 Creating empty BABE epoch changes on what appears to be first startup.    
+2023-11-07 17:32:03 🏷  Local node identity is: 12D3KooWFtjJFk9e5qS4jNWTPSUhTcpSLzeY25P3MeAhzDg6PHwd    
+2023-11-07 17:32:03 Prometheus metrics extended with avail metrics    
+2023-11-07 17:32:03 💻 Operating system: linux    
+2023-11-07 17:32:03 💻 CPU architecture: x86_64    
+2023-11-07 17:32:03 💻 Target environment: gnu    
+2023-11-07 17:32:03 💻 CPU: 13th Gen Intel(R) Core(TM) i7-13700K    
+2023-11-07 17:32:03 💻 CPU cores: 16    
+2023-11-07 17:32:03 💻 Memory: 31863MB    
+2023-11-07 17:32:03 💻 Kernel: 6.5.8-100.fc37.x86_64    
+2023-11-07 17:32:03 💻 Linux distribution: Fedora Linux 37 (Workstation Edition)    
+2023-11-07 17:32:03 💻 Virtual machine: no    
+2023-11-07 17:32:03 📦 Highest known block at #0    
+2023-11-07 17:32:03 〽️ Prometheus exporter started at 127.0.0.1:9615    
+2023-11-07 17:32:03 Running JSON-RPC server: addr=127.0.0.1:9944, allowed origins=["http://localhost:*", "http://127.0.0.1:*", "https://localhost:*", "https://127.0.0.1:*", "https://polkadot.js.org"]    
+2023-11-07 17:32:03 🏁 CPU score: 1.64 GiBs    
+2023-11-07 17:32:03 🏁 Memory score: 22.77 GiBs    
+2023-11-07 17:32:03 🏁 Disk score (seq. writes): 6.70 GiBs    
+2023-11-07 17:32:03 🏁 Disk score (rand. writes): 2.66 GiBs    
+2023-11-07 17:32:03 👶 Starting BABE Authorship worker    
+2023-11-07 17:32:04 🔍 Discovered new external address for our node: /ip4/176.61.156.176/tcp/30333/p2p/12D3KooWFtjJFk9e5qS4jNWTPSUhTcpSLzeY25P3MeAhzDg6PHwd  
 ```
 
 **Please take note that the role now displays as `Authority`, indicating that your node is operating as a validator node.**
@@ -92,7 +98,7 @@ User=avail
 Type=simple
 Restart=always
 RestartSec=120
-ExecStart=/home/avail/avail-node/data-avail --base-path /home/avail/avail-node/data --chain /home/avail/avail-node/chainspec.raw.json --port 30333 --validator --name MyAvailNode
+ExecStart=/home/avail/avail-node/data-avail -d /home/avail/avail-node/data --chain goldberg --validator --name MyAvailNode
 
 [Install]
 WantedBy=multi-user.target
