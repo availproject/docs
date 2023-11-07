@@ -45,7 +45,7 @@ For example:
 ./data-avail --validator \
     --port 30333 \
     --base-path `pwd`/data \
-    --chain kate
+    --chain goldberg
 ```
 
 The node will output the following when started:

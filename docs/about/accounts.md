@@ -27,7 +27,7 @@ Avail addresses are encoded in the [<ins>SS58 format</ins>](https://docs.substra
 
 ### Avail JS Apps: Your Interface to Avail
 
-[<ins>Avail JS Apps</ins>](https://kate.avail.tools/#/explorer), a fork of [<ins>Polkadot JS Apps</ins>](https://polkadot.js.org/apps/#/explorer), serves as your primary interface for the Avail network. Currently, its focus is solely on the Goldberg testnet, and as such, it is also referred to as the **Goldberg Testnet Explorer**. The scope of Avail JS Apps will expand as Avail matures into a production-ready network.
+[<ins>Avail JS Apps</ins>](https://goldberg.avail.tools/#/explorer), a fork of [<ins>Polkadot JS Apps</ins>](https://polkadot.js.org/apps/#/explorer), serves as your primary interface for the Avail network. Currently, its focus is solely on the Goldberg testnet, and as such, it is also referred to as the **Goldberg Testnet Explorer**. The scope of Avail JS Apps will expand as Avail matures into a production-ready network.
 
 Avail JS aims to offer functionalities similar to those found in the [<ins>Polkadot-JS UI guide</ins>](https://wiki.polkadot.network/docs/polkadotjs-ui), including but not limited to:
 
@@ -47,7 +47,7 @@ NEVER share your seed phrase with anyone and keep it in a secure and offline loc
 
 ### 1. Open the Explorer
 
-Navigate to the [Kate Avail Explorer](https://kate.avail.tools/).
+Navigate to the [Goldberg Avail Explorer](https://goldberg.avail.tools/).
 
 ### 2. Go to Accounts
 

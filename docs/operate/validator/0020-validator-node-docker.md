@@ -41,15 +41,15 @@ Run the following commands to launch your Avail node:
 ```bash
 cd /mnt/avail
 
-sudo docker run -v $(pwd)/state:/da/state:rw -v $(pwd)/keystore:/da/keystore:rw -e DA_CHAIN=kate -e DA_NAME=kate-docker-avail-Node -p 0.0.0.0:30333:30333 -p 9615:9615 -p 9933:9933 -d --restart unless-stopped availj/avail:v1.7.2
+sudo docker run -v $(pwd)/state:/da/state:rw -v $(pwd)/keystore:/da/keystore:rw -e DA_CHAIN=goldberg -e DA_NAME=goldberg-docker-avail-Node -p 0.0.0.0:30333:30333 -p 9615:9615 -p 9933:9933 -d --restart unless-stopped availj/avail:v1.7.2
 ```
 
 > The Docker command performs several important steps:
 
 > - Navigating to `/mnt/avail` to ensure we're in the correct directory.
 > - Mapping `/mnt/avail/state` to `/da/state` and granting read-write permissions to ensure data persistence, even if the container crashes.
-> - Using `DA_CHAIN` to specify the kate chainspec.
-> - Setting `DA_NAME` as the name of your node; in our example, it's `kate-docker-avail-Node`.
+> - Using `DA_CHAIN` to specify the goldberg chainspec.
+> - Setting `DA_NAME` as the name of your node; in our example, it's `goldberg-docker-avail-Node`.
 > - Utilizing port **`30333`** for public P2P connections, **`9615`** for the Prometheus metrics endpoint, and **`9933`** for the HTTP RPC port. For WebSocket, add port **`9944`**.
 > - Using an image from the Avail Docker Hub repository.
 > - Adding any desired node flags after the image name, such as `--rpc`.
@@ -69,7 +69,7 @@ ubuntu:/mnt/avail# docker logs 5b3978de8f35
 2023-08-21 08:29:55 ✌️  version 1.6.2-bb4cc104b25
 2023-08-21 08:29:55 ❤️  by Anonymous, 2017-2023
 2023-08-21 08:29:55 📋 Chain specification: Avail Goldberg Testnet
-2023-08-21 08:29:55 🏷  Node name: kate-docker-avail-Node
+2023-08-21 08:29:55 🏷  Node name: goldberg-docker-avail-Node
 2023-08-21 08:29:55 👤 Role: FULL
 2023-08-21 08:29:55 💾 Database: RocksDb at /da/state/chains/Avail Testnet_116d7474-0481-11ee-bc2a-7bfc086be54e/db/full
 2023-08-21 08:29:55 ⛓  Native runtime: data-avail-11 (data-avail-0.tx1.au11)

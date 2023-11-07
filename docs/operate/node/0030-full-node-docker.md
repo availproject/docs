@@ -30,7 +30,7 @@ To launch your Avail node, navigate to the `/mnt/avail` directory and execute th
 
 ```bash
 cd /mnt/avail
-sudo docker run -v $(pwd)/state:/da/state:rw -v $(pwd)/keystore:/da/keystore:rw -e DA_CHAIN=kate -e DA_NAME=kate-docker-avail-Node -p 0.0.0.0:30333:30333 -p 9615:9615 -p 9933:9933 -d --restart unless-stopped availj/avail:v1.7.2
+sudo docker run -v $(pwd)/state:/da/state:rw -v $(pwd)/keystore:/da/keystore:rw -e DA_CHAIN=goldberg -e DA_NAME=goldberg-docker-avail-Node -p 0.0.0.0:30333:30333 -p 9615:9615 -p 9933:9933 -d --restart unless-stopped availj/avail:v1.7.2
 ```
 
 > The Docker command performs several important steps:
@@ -38,7 +38,7 @@ sudo docker run -v $(pwd)/state:/da/state:rw -v $(pwd)/keystore:/da/keystore:rw 
 > - Maps the state and keystore directories, providing read-write permissions for data persistence.
 > - Opens various ports for different functionalities, including P2P connections, metrics, and HTTP RPC.
 > - Utilizes the Avail image from Docker Hub and sets it to restart unless manually stopped.
-> - Using `DA_CHAIN` to specify the kate chainspec.
+> - Using `DA_CHAIN` to specify the goldberg chainspec.
 
 <details>
 <summary>Sample output</summary>
@@ -50,7 +50,7 @@ You should see an output similar to the following:
 2023-08-21 08:29:55 ✌️  version 1.6.2-bb4cc104b25
 2023-08-21 08:29:55 ❤️  by Anonymous, 2017-2023
 2023-08-21 08:29:55 📋 Chain specification: Avail Goldberg Testnet
-2023-08-21 08:29:55 🏷  Node name: kate-docker-avail-Node
+2023-08-21 08:29:55 🏷  Node name: goldberg-docker-avail-Node
 2023-08-21 08:29:55 👤 Role: FULL
 2023-08-21 08:29:55 💾 Database: RocksDb at /da/state/chains/Avail Testnet_116d7474-0481-11ee-bc2a-7bfc086be54e/db/full
 2023-08-21 08:29:55 ⛓  Native runtime: data-avail-11 (data-avail-0.tx1.au11)

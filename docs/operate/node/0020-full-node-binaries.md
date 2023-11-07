@@ -29,7 +29,7 @@ We recommend downloading the pre-compiled binary for speed and convenience.
 All you need to do is run:
 
 ```bash
-./data-avail --base-path `pwd`/data --chain kate --name "MyKateNode"
+./data-avail --base-path `pwd`/data --chain goldberg --name "MyGoldbergNode"
 ```
 
 <details>
@@ -71,5 +71,5 @@ To compile the client source code, run the node:
 
 ```bash
 cargo build --release
-./target/release/data-avail --base-path `pwd`/data --chain kate --name "MyKateNode"
+./target/release/data-avail --base-path `pwd`/data --chain goldberg --name "MyGoldbergNode"
 ```

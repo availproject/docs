@@ -57,7 +57,7 @@ The client output should look like this:
 2023-06-04T02:56:31.892487Z  INFO avail_light::network::event_loop: Local node is listening on "/ip4/192.168.1.146/udp/37000/quic-v1"
 2023-06-04T02:56:31.892540Z  INFO avail_light::network::event_loop: Local node is listening on "/ip4/127.0.0.1/tcp/37000"
 2023-06-04T02:56:31.892745Z  INFO avail_light::network::event_loop: Local node is listening on "/ip4/192.168.1.146/tcp/37000"
-2023-06-04T02:56:42.220179Z  INFO avail_light::rpc: Connection established to the node: wss://kate-beta.avail.tools:443/ws <v1.6.0-99b85257d6b/data-avail/9>
+2023-06-04T02:56:42.220179Z  INFO avail_light::rpc: Connection established to the node: wss://goldberg.avail.tools:443/ws <v1.6.0-99b85257d6b/data-avail/9>
 2023-06-04T02:56:42.444576Z  INFO avail_light::light_client: Starting light client...
 2023-06-04T02:56:43.453935Z  INFO avail_light::subscriptions: Received finalized block header header.number=2074
 2023-06-04T02:56:43.455236Z  INFO avail_light::light_client: Processing finalized block block_number=2074 block_delay=0

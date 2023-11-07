@@ -15,7 +15,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ## Introduction
 
-The [<ins>Goldberg Testnet Explorer</ins>](https://kate.avail.tools/) serves as a powerful interface for interacting with the Avail network. Whether you're a developer, a validator, or an end-user, the explorer provides you with the tools to inspect network activities, manage accounts, and participate in governance. This guide will walk you through its key features.
+The [<ins>Goldberg Testnet Explorer</ins>](https://goldberg.avail.tools/) serves as a powerful interface for interacting with the Avail network. Whether you're a developer, a validator, or an end-user, the explorer provides you with the tools to inspect network activities, manage accounts, and participate in governance. This guide will walk you through its key features.
 
 ### Quick Navigation
 
