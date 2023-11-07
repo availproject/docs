@@ -53,9 +53,9 @@ Before diving into the examples, ensure you have a local Avail node running or c
 
 > Detailed instructions on how to execute these examples are available in the Avail GitHub repository:
 
-- [TypeScript Instructions](https://github.com/availproject/avail/blob/develop/examples/ts/README.md)
-- [Go Instructions](https://github.com/availproject/avail/blob/develop/examples/go/README.md)
-- [Rust Instructions](https://github.com/availproject/avail/blob/develop/avail-subxt/examples/README.md)
+- [<ins>TypeScript Instructions</ins>](https://github.com/availproject/avail/blob/develop/examples/ts/README.md)
+- [<ins>Go Instructions</ins>](https://github.com/availproject/avail/blob/develop/examples/go/README.md)
+- [<ins>Rust Instructions</ins>](https://github.com/availproject/avail/blob/develop/avail-subxt/examples/README.md)
 
 ### Sample Workflow
 
@@ -65,49 +65,49 @@ Follow these steps to understand a sample end-to-end flow of data availability i
 
 Before you can interact with the Avail network, you need to establish a connection to a node.
 
-| Language   | Example Link                                                                                             |
-| ---------- | -------------------------------------------------------------------------------------------------------- |
-| JavaScript | [Establishing Connection](https://github.com/availproject/avail/tree/develop/examples/ts/src/connect.ts) |
-| Go         | [Establishing Connection](https://github.com/availproject/avail/tree/old_develop/examples/go/connect)    |
-| Rust       | [Headers](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/headers.rs)        |
+| Language   | Example Link                                                                                                        |
+| ---------- | ------------------------------------------------------------------------------------------------------------------- |
+| JavaScript | [<ins>Establishing Connection</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/connect.ts) |
+| Go         | [<ins>Establishing Connection</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/connect)    |
+| Rust       | [<ins>Headers</ins>](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/headers.rs)        |
 
 #### Step 2: Submitting Data
 
 Once connected, the next step is to submit data to the network. This could be any blob of data that you want to make available.
 
-| Language   | Example Link                                                                                                       |
-| ---------- | ------------------------------------------------------------------------------------------------------------------ |
-| JavaScript | [Submitting Blob Data](https://github.com/availproject/avail/tree/develop/examples/ts/src/data_submit.ts)          |
-| Go         | [Submitting Blob Data](https://github.com/availproject/avail/tree/old_develop/examples/go/dataSubmit)              |
-| Rust       | [Submitting Blob Data](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/submit_data.rs) |
+| Language   | Example Link                                                                                                                  |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| JavaScript | [<ins>Submitting Blob Data</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/data_submit.ts)          |
+| Go         | [<ins>Submitting Blob Data</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/dataSubmit)              |
+| Rust       | [<ins>Submitting Blob Data</ins>](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/submit_data.rs) |
 
 #### Step 3: Dispatching Data Root (Optional)
 
 If you need to dispatch the data root, you can do so at this stage. This is optional and depends on your use case.
 
-| Language   | Example Link                                                                                                                                            |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| JavaScript | [Dispatching Data Root](https://github.com/availproject/avail/tree/develop/examples/ts/src/dispatch_data_root.ts)                                       |
-| Rust       | [Submit Data and Dispatch Data Root](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/submit_data_and_dispatch_data_root.rs) |
+| Language   | Example Link                                                                                                                                                       |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| JavaScript | [<ins>Dispatching Data Root</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/dispatch_data_root.ts)                                       |
+| Rust       | [<ins>Submit Data and Dispatch Data Root</ins>](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/submit_data_and_dispatch_data_root.rs) |
 
 #### Step 4: Querying Data and Proofs
 
 After submitting your data, you might want to query it to ensure it's been properly stored and is retrievable.
 
-| Language   | Example Link                                                                                                            |
-| ---------- | ----------------------------------------------------------------------------------------------------------------------- |
-| JavaScript | [Querying Data Proof](https://github.com/availproject/avail/tree/develop/examples/ts/src/query_proof_data.ts)           |
-| Go         | [Querying Data Proof](https://github.com/availproject/avail/tree/old_develop/examples/go/queryProofData)                |
-| Rust       | [Democracy External](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/democracy_external.rs) |
+| Language   | Example Link                                                                                                                       |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| JavaScript | [<ins>Querying Data Proof</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/query_proof_data.ts)           |
+| Go         | [<ins>Querying Data Proof</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/queryProofData)                |
+| Rust       | [<ins>Democracy External</ins>](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/democracy_external.rs) |
 
 #### Step 5: Monitoring and Metrics
 
 Finally, you can monitor the network and your data by listening for new blocks and other metrics.
 
-| Language   | Example Link                                                                                                        |
-| ---------- | ------------------------------------------------------------------------------------------------------------------- |
-| JavaScript | [Listening for New Blocks](https://github.com/availproject/avail/tree/develop/examples/ts/src/listen_new_blocks.ts) |
-| Go         | [Listening for New Blocks](https://github.com/availproject/avail/tree/old_develop/examples/go/listenNewBlocks)      |
+| Language   | Example Link                                                                                                                   |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| JavaScript | [<ins>Listening for New Blocks</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/listen_new_blocks.ts) |
+| Go         | [<ins>Listening for New Blocks</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/listenNewBlocks)      |
 
 ### API Examples
 
