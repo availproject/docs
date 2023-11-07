@@ -40,7 +40,7 @@ Discover the challenges that are currently active and prepare for the other ones
 
 > ### Status Legend
 
-- ✅ = Active
+- 🟢 = Active
 - 🟡 = Upcoming
 - ✔️ = Completed
 
@@ -48,9 +48,9 @@ Discover the challenges that are currently active and prepare for the other ones
 
 | Challenge Name                                                    | Category        | Description                                                                                                          | **Start Date**  | **End Date**     | Who Can Participate | Scoring Metrics                                   | Status |
 | ----------------------------------------------------------------- | --------------- | -------------------------------------------------------------------------------------------------------------------- | --------------- | ---------------- | ------------------- | ------------------------------------------------- | :----: |
-| **[<ins>Gladiator's Entry</ins>](/category/become-a-validator/)** | Basics          | Enter the fray by setting up as a validator. Your mission: author as many blocks as you can, outlasting your rivals. | **Nov 7, 2023** | **Ongoing**      | Validators          | Number of blocks authored                         |   ✅   |
-| **[<ins>Noble Warrior</ins>](/category/become-a-validator/)**     | Basics          | Show your valor by adhering to the noble principles of validation.                                                   | **Nov 7, 2023** | **Ongoing**      | Validators          | Negative points for: times offline, times slashed |   ✅   |
-| **[<ins>Finding Yourself</ins>](/about/identity/)**               | Basics          | Establish your presence by registering and confirming your identity on the network.                                  | **Nov 7, 2023** | **Ongoing**      | Anyone              | Identities added and verified                     |   ✅   |
+| **[<ins>Gladiator's Entry</ins>](/category/become-a-validator/)** | Basics          | Enter the fray by setting up as a validator. Your mission: author as many blocks as you can, outlasting your rivals. | **Nov 7, 2023** | **Ongoing**      | Validators          | Number of blocks authored                         |   🟢   |
+| **[<ins>Noble Warrior</ins>](/category/become-a-validator/)**     | Basics          | Show your valor by adhering to the noble principles of validation.                                                   | **Nov 7, 2023** | **Ongoing**      | Validators          | Negative points for: times offline, times slashed |   🟢   |
+| **[<ins>Finding Yourself</ins>](/about/identity/)**               | Basics          | Establish your presence by registering and confirming your identity on the network.                                  | **Nov 7, 2023** | **Ongoing**      | Anyone              | Identities added and verified                     |   🟢   |
 | **To The Stake**                                                  | Staking/Rewards | Aim to amplify your validator backing by securing a greater number of nominations during the testnet marathon.       | **Nov 9, 2023** | **Nov 30, 2023** | Validators          | Total amount staked                               |   🟡   |
 | **Magic Nomination Pools**                                        | Staking/Rewards | Are you able to create nomination pools and nominate a validator to the pool?                                        | **Nov 9, 2023** | **Ongoing**      | Anyone              | Pools created, validators nominated               |   🟡   |
 | **Max Balance Transfer Points**                                   | Basics          | Demonstrate your prowess by executing as many transfers as possible across the network.                              | **Nov 9, 2023** | **Ongoing**      | Anyone              | Number of successful transfers                    |   🟡   |
