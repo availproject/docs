@@ -24,7 +24,7 @@ We're carefully rolling out the campaign with a select group to ensure quality a
 
 :::
 
-:::caution Ensure you follow the rules & guidelines
+:::caution Ensure you agree to follow the associated T&Cs and campaign rules
 
 Please find the associated Terms and Conditions **[<ins>here</ins>](/docs/clash-of-nodes/toc.md)**.
 

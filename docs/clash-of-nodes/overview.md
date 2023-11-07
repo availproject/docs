@@ -47,6 +47,16 @@ If there are any unclear concepts about Avail, head over to the [<ins>glossary</
 
 ## Requirements to Participate
 
+:::caution Ensure you agree to follow the associated T&Cs and campaign rules
+
+Please find the associated Terms and Conditions **[<ins>here</ins>](/docs/clash-of-nodes/toc.md)**.
+
+Please also make sure to read and adhere to the established rules and guidelines for the Clash of Nodes campaign,
+available **[<ins>here</ins>](/docs/clash-of-nodes/rules.md)**.
+This will ensure a fair and enjoyable experience for all participants.
+
+:::
+
 ### 1. Show Your Interest
 
 If you're ready to take part in this groundbreaking testnet and haven't yet signed up, now is the time to step forward.
