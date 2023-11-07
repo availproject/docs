@@ -39,10 +39,7 @@ Modify the command line used for running your full node to include the `--valida
 For example:
 
 ```bash
-./data-avail --validator \
-    --port 30333 \
-    --base-path `pwd`/data \
-    --chain `pwd`/chainspec.raw.json
+./data-avail -d ./data --chain goldberg --validator --name MyAvailNode
 ```
 
 ## Step 4. Update Systemd Service File
