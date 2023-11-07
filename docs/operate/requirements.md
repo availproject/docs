@@ -60,10 +60,9 @@ Additionally, it's common practice to run nodes on cloud servers.
 
 Download the client binary and config file for the node you want to run:
 
-| Node Type        | Repository Name                                                       | Latest Release                                                                       |
-| ---------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| **Full Node**    | [<ins>avail</ins>](https://github.com/availproject/avail)             | [<ins>v1.7.2</ins>](https://github.com/availproject/avail/releases/tag/v1.7.2)       |
-| **Light Client** | [<ins>avail-light</ins>](https://github.com/availproject/avail-light) | [<ins>v1.7.2</ins>](https://github.com/availproject/avail-light/releases/tag/v1.7.2) |
+| Node Type     | Repository Name                                           | Latest Release                                                                             |
+| ------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| **Full Node** | [<ins>avail</ins>](https://github.com/availproject/avail) | [<ins>v1.8.0.0-rc1</ins>](https://github.com/availproject/avail/releases/tag/v1.8.0.0-rc1) |
 
 </TabItem>
 <TabItem value="source" label="Build from Source">
@@ -123,9 +122,9 @@ sudo usermod -aG docker $USER
 
 </details>
 
-| Node Type | Docker Repository Name                                                | Latest Version                                                                                                                                                        |
-| --------- | --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Full Node | [<ins>availj/avail</ins>](https://hub.docker.com/r/availj/avail/tags) | [<ins>v1.7.2</ins>](https://hub.docker.com/layers/availj/avail/v1.7.2/images/sha256-caa7ec656a26f24185f993cfb806066c16ad65ccbe0c8aea472bd099a976bd7e?context=explore) |
+| Node Type | Docker Repository Name                                                | Latest Version                                                                                                                                                                    |
+| --------- | --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Full Node | [<ins>availj/avail</ins>](https://hub.docker.com/r/availj/avail/tags) | [<ins>v1.8.0.0-rc1</ins>](https://hub.docker.com/layers/availj/avail/v1.8.0.0-rc1/images/sha256-c4b37d9578ba035e8f71fa157a467abbf28bd25523e58bf89332f732af8f0516?context=explore) |
 
 </TabItem>
 </Tabs>

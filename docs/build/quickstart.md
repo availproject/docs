@@ -1,6 +1,6 @@
 ---
 id: quickstart
-title: Get Starting Building with Avail
+title: Get Started with Avail
 sidebar_label: Quickstart
 description: 'Discover how to utilize Avail as a data availability layer.'
 keywords:
@@ -15,7 +15,33 @@ image: https://docs.availproject.org/img/avail/AvailDocs.png
 
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-## Avail API
+## Start Operating
+
+To run an Avail light client, simply run the following command:
+
+```bash
+curl -sL1 avail.sh | sh
+```
+
+or, with `wget`:
+
+```bash
+wget --https-only --secure-protocol=TLSv1_2 --quiet -O - avail.sh | sh
+```
+
+That's it!
+
+If you're seeking more control over the configuration or are interested in running a full node, check out the deployment guides below.
+
+| Action                                                                   | Tokens Needed | Staking | Technical Skill Required | Client Binary                                                                                |
+| ------------------------------------------------------------------------ | ------------- | ------- | ------------------------ | -------------------------------------------------------------------------------------------- |
+| [<ins>Run a Light Client</ins>](/docs/operate/node/0010-light-client.md) | No            | No      | Basic                    | [<ins>v1.7.3-rc3</ins>](https://github.com/availproject/avail-light/releases/tag/v1.7.3-rc3) |
+| [<ins>Run a Full Node</ins>](/category/full-node/)                       | No            | No      | Moderate                 | [<ins>v1.8.0.0-rc1</ins>](https://github.com/availproject/avail/releases/tag/v1.8.0.0-rc1)   |
+| [<ins>Become a Validator</ins>](/category/become-a-validator/)           | Yes           | Yes     | Advanced                 | [<ins>v1.8.0.0-rc1</ins>](https://github.com/availproject/avail/releases/tag/v1.8.0.0-rc1)   |
+
+---
+
+## Start Building
 
 The Avail API offers a robust set of features that enable application developers to interact
 seamlessly with the Avail network. This guide provides a curated list of example code snippets in
@@ -23,7 +49,9 @@ JavaScript/TypeScript, Rust, and Go. These examples cover essential tasks such a
 connection to a local node, querying data from the network, and executing transactions on the
 blockchain.
 
-Before diving into the examples, ensure you have a local Avail node running or configure your settings to align with an existing network. Detailed instructions on how to execute these examples are available in the Avail GitHub repository:
+Before diving into the examples, ensure you have a local Avail node running or configure your settings to align with an existing network.
+
+> Detailed instructions on how to execute these examples are available in the Avail GitHub repository:
 
 - [TypeScript Instructions](https://github.com/availproject/avail/blob/develop/examples/ts/README.md)
 - [Go Instructions](https://github.com/availproject/avail/blob/develop/examples/go/README.md)
@@ -97,14 +125,3 @@ The following table lists various code examples for interacting with the Avail n
 | Network Connection & Info                 | [<ins>TypeScript</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/connect.ts), [<ins>Go</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/connect)                                                                                                                                              |
 | Internal Operations                       | [<ins>Go</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/internal)                                                                                                                                                                                                                                                     |
 | Rust + & Substrate Examples               | Various [<ins>Rust</ins>](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/) examples like Data Availability Bridge Actor, Democracy External, etc.                                                                                                                                                                   |
-
----
-
-### Try it Out
-
-| Action             | Guide Link                                                  | Tokens Needed | Staking | Technical Skill Required | Client Binary                                                                        |
-| ------------------ | ----------------------------------------------------------- | ------------- | ------- | ------------------------ | ------------------------------------------------------------------------------------ |
-| Run a Light Client | [<ins>Guide</ins>](/docs/operate/node/0010-light-client.md) | No            | No      | Moderate                 | [<ins>v1.7.2</ins>](https://github.com/availproject/avail-light/releases/tag/v1.7.2) |
-| Become a Validator | [<ins>Guide</ins>](/category/become-a-validator/)           | Yes           | Yes     | Advanced                 | [<ins>v1.7.2</ins>](https://github.com/availproject/avail/releases/tag/v1.7.2)       |
-
----

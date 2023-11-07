@@ -28,9 +28,9 @@ This guide outlines how to set up an Avail light client.
 
 2. Download the latest pre-compiled binary.
 
-| Repository                                                            | Latest Release                                                                       |
-| --------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| [<ins>avail-light</ins>](https://github.com/availproject/avail-light) | [<ins>v1.7.2</ins>](https://github.com/availproject/avail-light/releases/tag/v1.7.2) |
+| Repository                                                            | Latest Release                                                                               |
+| --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| [<ins>avail-light</ins>](https://github.com/availproject/avail-light) | [<ins>v1.7.3-rc3</ins>](https://github.com/availproject/avail-light/releases/tag/v1.7.3-rc3) |
 
 ## Run the Pre-Built Release
 

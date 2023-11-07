@@ -11,7 +11,7 @@ export const contentData = {
       tutorialsInfo: [
         {
           title: 'Download the Binaries',
-          link: 'https://github.com/availproject/avail-light/releases/tag/v1.7.2',
+          link: 'https://github.com/availproject/avail-light/releases/tag/v1.7.3-rc3',
         },
         {
           title: 'Run a Light Client',
