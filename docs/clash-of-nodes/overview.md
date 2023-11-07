@@ -10,6 +10,7 @@ keywords:
   - data availability
   - da
 image: https://docs.availproject.org/img/avail/AvailDocs.png
+slug: /clash-of-nodes
 ---
 
 import useBaseUrl from '@docusaurus/useBaseUrl';
