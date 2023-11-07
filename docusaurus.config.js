@@ -315,6 +315,12 @@ module.exports = {
           ],
         },
         {
+          href: '/category/clash-of-nodes/',
+          position: 'left',
+          label: 'Clash of Nodes',
+          target: '_self',
+        },
+        {
           href: 'https://blog.availproject.org/',
           position: 'right',
           label: 'Blog',
