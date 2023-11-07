@@ -25,7 +25,12 @@ module.exports = {
         type: 'generated-index',
       },
       collapsed: true,
-      items: ['about/accounts', 'about/explorer', 'about/faucet'],
+      items: [
+        'about/accounts',
+        'about/identity',
+        'about/explorer',
+        'about/faucet',
+      ],
     },
     {
       type: 'category',
