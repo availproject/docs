@@ -1,8 +1,6 @@
 module.exports = {
   avail: [
     'index',
-    'build/quickstart',
-    'networks',
     {
       type: 'category',
       label: 'Clash of Nodes',
@@ -17,7 +15,8 @@ module.exports = {
         'clash-of-nodes/faqs',
       ],
     },
-    'operate/node/light-client',
+    'networks',
+    'build/quickstart',
     {
       type: 'category',
       label: 'New User Guide',
@@ -32,6 +31,7 @@ module.exports = {
         'about/faucet',
       ],
     },
+    'operate/node/light-client',
     {
       type: 'category',
       label: 'Operate a Node',

@@ -26,7 +26,7 @@ image: https://docs.availproject.org/img/avail/AvailDocs.png
 | **Node Version**         | **TBA**                                                                            | [<ins>v1.7.2</ins>](https://github.com/availproject/avail/releases/tag/v1.7.2)       | [<ins>v1.5.0-303f39d</ins>](https://github.com/availproject/avail/releases/tag/v1.5.0-303f39d) |
 | **Light Client Version** | **TBA**                                                                            | [<ins>v1.7.2</ins>](https://github.com/availproject/avail-light/releases/tag/v1.7.2) | [<ins>1.3.1</ins>](https://github.com/availproject/avail-light/releases/tag/v1.3.1)            |
 
-## Pioneering Blockchain Modularity: From Foundation to Incentivization
+## Pioneering Blockchain Modularity
 
 **The Goldberg Testnet is the latest test network of the Avail Project.**
 

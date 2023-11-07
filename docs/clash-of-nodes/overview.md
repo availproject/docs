@@ -57,6 +57,8 @@ This will ensure a fair and enjoyable experience for all participants.
 
 :::
 
+If you're new to Avail, check out the [<ins>New User</ins>](/category/new-user-guide/) and [<ins>Quickstart</ins>](/build/quickstart/) guides.
+
 ### 1. Show Your Interest
 
 If you're ready to take part in this groundbreaking testnet and haven't yet signed up, now is the time to step forward.
