@@ -14,11 +14,14 @@ image: https://docs.availproject.org/img/avail/AvailDocs.png
 
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-This guide outlines how to set up an Avail light client.
+This guide outlines how to set up an Avail light client. You can either:
 
-## Before you start
+1. [<ins>Run the light client on an existing network</ins>](#run-the-avail-light-client-on-an-existing-network)
+2. [<ins>Run the light client locally</ins>](#run-the-light-client-locally)
 
-1. Ensure you meet the hardware configuration requirements to set up an Avail light client.
+## Hardware requirements
+
+The Avail light client is designed to run on resource-constrained and low powered devices. However, we recommend the following configuration to set up your Avail light client.
 
 | Component                    | Minimum  | Recommended |
 | ---------------------------- | -------- | ----------- |
@@ -26,22 +29,26 @@ This guide outlines how to set up an Avail light client.
 | CPU (amd64/x86 architecture) | 2 core   | 4 core      |
 | Storage (SSD)                | 20-40 GB | 200-300 GB  |
 
-2. Download the latest pre-compiled binary.
+## Latest release
+
+You can find the latest release binary in the `avail-light` repository.
 
 | Repository                                                            | Latest Release                                                                               |
 | --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
 | [<ins>avail-light</ins>](https://github.com/availproject/avail-light) | [<ins>v1.7.3-rc3</ins>](https://github.com/availproject/avail-light/releases/tag/v1.7.3-rc3) |
 
-## Run the Pre-Built Release
+## Run the Avail light client on an existing network
 
-All you need to do is run:
+In this example, you will download the light client and connect to an existing public network.
 
-```bash
-./avail-light -c config.yaml
-```
+1. Download the latest Avail light client [<ins>release</ins>](https://github.com/availproject/avail-light/releases/). The light client is available pre-built for different architectures.
+2. If you prefer building the light client yourself, see [<ins>build the Avail light client from source</ins>](#build-the-avail-light-client-from-source).
+3. Run the light client with the following pre-defined configuration file:
+`./avail-light --network goldberg`
+4. If you want to supply your own [<ins>configuration file</ins>](https://github.com/availproject/avail-light#configuration-reference), use:
+`./avail-light --config config.yaml --network goldberg`
 
-> Refer to the [<ins>configuration reference</ins>](https://github.com/availproject/avail-light#configuration-reference) for configuration options. See the "Using Avail" section for guides on embedding the light client.
-
+That's it 🎉! You have successfully run the light client and connected to a public network. The light client should show output similar to the following:
 <details>
 <summary> Sample out </summary>
 
@@ -92,15 +99,36 @@ Once the build is complete, run:
 ```
 -->
 
-That's it 🎉
 
-You have successfully deployed an Avail light client.
+## Run the light client locally
+
+If you want to connect the Avail light client to a local network, you will need to run your own Avail node and your own Avail light client bootstrap node.
+
+1. Run the Avail [<ins>node</ins>](/docs/operate/node/0020-full-node-binaries.md). For local set-up, run the node in `dev` mode:
+`./data-avail --dev`
+2. Run a <ins>[bootstrap</ins>](/docs/operate/node/0050-bootstrap-node.md) node.
+3. Once the bootstrap node is running, use the following command to run your client:
+`./avail-light --network local`
+4. If you want to supply your own [<ins>configuration file</ins>](https://github.com/availproject/avail-light#configuration-reference), use:
+`./avail-light --config config.yaml --network local`
+
+## Build the Avail light client from source
+
+You can build the light client directly from source.
+
+```sh
+git clone https://github.com/availproject/avail-light.git
+cd avail-light
+cargo build --release
+```
+
+Find the resulting `avail-light` binary in the `target/release` directory.
 
 ## Next Steps
 
-### Monitor Your Node
+### Run a Relay node
 
-You can monitor the status of your node on the [<ins>Avail Telemetry</ins>](http://telemetry.avail.tools/) website.
+We provide an Avail light client relay node that can help you with running your light client from behing NAT and firewalls. Find more information on running a relay node [<ins>here</ins>](/docs/operate/node/0060-relay-node.md)
 
 ### Run a Full Node
 
