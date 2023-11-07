@@ -35,7 +35,7 @@ You can find the latest release binary in the `avail-light` repository.
 
 | Repository                                                            | Latest Release                                                                       |
 | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| [<ins>avail-light</ins>](https://github.com/availproject/avail-light) | [<ins>v1.7.2</ins>](https://github.com/availproject/avail-light/releases/tag/v1.7.2) |
+| [<ins>avail-light</ins>](https://github.com/availproject/avail-light) | [<ins>v1.7.3</ins>](https://github.com/availproject/avail-light/releases/tag/v1.7.3) |
 
 ## Run the Avail light client on an existing network
 
@@ -44,9 +44,9 @@ In this example, you will download the light client and connect to an existing p
 1. Download the latest Avail light client [<ins>release</ins>](https://github.com/availproject/avail-light/releases/). The light client is available pre-built for different architectures.
 2. If you prefer building the light client yourself, see [<ins>build the Avail light client from source</ins>](#build-the-avail-light-client-from-source).
 3. Run the light client with the following pre-defined configuration file:
-`./avail-light --network testnet`
+`./avail-light --network goldberg`
 4. If you want to supply your own [<ins>configuration file</ins>](https://github.com/availproject/avail-light#configuration-reference), use:
-`./avail-light --config config.yaml --network testnet`
+`./avail-light --config config.yaml --network goldberg`
 
 That's it 🎉! You have successfully run the light client and connected to a public network. The light client should show output similar to the following:
 <details>
