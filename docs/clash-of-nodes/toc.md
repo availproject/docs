@@ -12,7 +12,7 @@ keywords:
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
-The following document shall be deemed to form the terms and conditions (the "General Terms") for the Avail Testnet Incentive Programme between an "Eligible User" (as defined below) and Avail DIFC Limited (the "Company"), and be read and construed as part of the broader Avail Terms of Service (if any) in force from time to time ("Service Terms"), and shall be interpreted in the following order in case of discrepancy or ambiguity among the following documents;
+The following document shall be deemed to form the terms and conditions (the “General Terms”) for the Avail Testnet Incentive Programme between an “Eligible User” (as defined below) and Avail DIFC Limited (the “Company”), and be read and construed as part of the broader Avail Terms of Service (if any) in force from time to time (“Service Terms”), and shall be interpreted in the following order in case of discrepancy or ambiguity among the following documents;
 
 1. Service Terms (if any)
 2. General Terms
