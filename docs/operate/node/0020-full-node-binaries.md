@@ -41,7 +41,7 @@ The client output should look like this:
 2023-06-03 20:36:29 Avail Node
 2023-06-03 20:36:29 ✌️  version 1.6.0-99b85257d6b
 2023-06-03 20:36:29 ❤️  by Anonymous, 2017-2023
-2023-06-03 20:36:29 📋 Chain specification: Avail Kate Testnet
+2023-06-03 20:36:29 📋 Chain specification: Avail Goldberg Testnet
 2023-06-03 20:36:29 🏷  Node name: bewildered-distance-1229
 2023-06-03 20:36:29 👤 Role: FULL
 2023-06-03 20:36:29 💾 Database: RocksDb at /Users/thunder/code/avail/data/chains/Avail Testnet_6831251e-0222-11ee-a2c3-c90377335962/db/full

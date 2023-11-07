@@ -46,7 +46,7 @@ There are two primary methods to run an Avail node, each with its own set of ins
 1. **[<ins>Using Binaries</ins>](/docs/operate/node/0020-full-node-binaries.md):** You can follow the instructions provided here for setting up an Avail node using binary releases. This method is suitable for users who prefer manual installation and configuration. For reference, you can also explore the [GitHub Releases](https://github.com/availproject/avail/releases) page for binary releases.
 
 2. **[<ins>Using Docker</ins>](/docs/operate/node/0030-full-node-docker.md):** Alternatively, if you're comfortable with Docker, you can pull Avail node images from the [DockerHub Repository](https://hub.docker.com/r/availj/avail/tags). Docker provides a convenient way to containerize and deploy Avail nodes.
-   > The Avail team offers official Docker images specifically designed for running nodes on the Kate testnet.
+   > The Avail team offers official Docker images specifically designed for running nodes on the Goldberg testnet.
 
 ## Setting Up Your Environment
 

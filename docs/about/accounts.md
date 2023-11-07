@@ -17,7 +17,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 This guide will walk you through the process of creating and managing an Avail account, while also providing insights into the account specifications and formats.
 
-**[<ins>Skip to Creating an Account on the Kate Testnet</ins>](#creating-an-account-on-the-kate-testnet).**
+**[<ins>Skip to Creating an Account on the Goldberg Testnet</ins>](#creating-an-account-on-the-goldberg-testnet).**
 
 ### Address Specifications & Format
 
@@ -27,7 +27,7 @@ Avail addresses are encoded in the [<ins>SS58 format</ins>](https://docs.substra
 
 ### Avail JS Apps: Your Interface to Avail
 
-[<ins>Avail JS Apps</ins>](https://kate.avail.tools/#/explorer), a fork of [<ins>Polkadot JS Apps</ins>](https://polkadot.js.org/apps/#/explorer), serves as your primary interface for the Avail network. Currently, its focus is solely on the Kate testnet, and as such, it is also referred to as the **Kate Testnet Explorer**. The scope of Avail JS Apps will expand as Avail matures into a production-ready network.
+[<ins>Avail JS Apps</ins>](https://kate.avail.tools/#/explorer), a fork of [<ins>Polkadot JS Apps</ins>](https://polkadot.js.org/apps/#/explorer), serves as your primary interface for the Avail network. Currently, its focus is solely on the Goldberg testnet, and as such, it is also referred to as the **Goldberg Testnet Explorer**. The scope of Avail JS Apps will expand as Avail matures into a production-ready network.
 
 Avail JS aims to offer functionalities similar to those found in the [<ins>Polkadot-JS UI guide</ins>](https://wiki.polkadot.network/docs/polkadotjs-ui), including but not limited to:
 
@@ -43,7 +43,7 @@ Before creating an account, it's essential to understand [<ins>seed phrases</ins
 NEVER share your seed phrase with anyone and keep it in a secure and offline location. Anyone with access to your seed phrase can gain control of your account.
 :::
 
-## Creating an Account on the Kate Testnet
+## Creating an Account on the Goldberg Testnet
 
 ### 1. Open the Explorer
 
@@ -79,4 +79,4 @@ Always keep your JSON file in a secure and offline location. Losing this file an
 
 Congratulations on successfully creating and managing your Avail account! Remember to always safeguard your account details, JSON file, and seed phrase to ensure the security of your assets.
 
-Ready to explore further? Navigate to the next guide to learn [<ins>how to use the Kate Testnet Explorer</ins>](/docs/about/explorer.md) and get hands-on experience with the network.
+Ready to explore further? Navigate to the next guide to learn [<ins>how to use the Goldberg Testnet Explorer</ins>](/docs/about/explorer.md) and get hands-on experience with the network.

@@ -1,6 +1,6 @@
 ---
 id: explorer
-title: How to Use the Kate Testnet Explorer
+title: How to Use the Goldberg Testnet Explorer
 sidebar_label: Use the Explorer
 description: A comprehensive guide on using the Avail Explorer to interact with the Avail network.
 keywords:
@@ -15,7 +15,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ## Introduction
 
-The [<ins>Kate Testnet Explorer</ins>](https://kate.avail.tools/) serves as a powerful interface for interacting with the Avail network. Whether you're a developer, a validator, or an end-user, the explorer provides you with the tools to inspect network activities, manage accounts, and participate in governance. This guide will walk you through its key features.
+The [<ins>Goldberg Testnet Explorer</ins>](https://kate.avail.tools/) serves as a powerful interface for interacting with the Avail network. Whether you're a developer, a validator, or an end-user, the explorer provides you with the tools to inspect network activities, manage accounts, and participate in governance. This guide will walk you through its key features.
 
 ### Quick Navigation
 

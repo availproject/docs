@@ -49,7 +49,7 @@ You should see an output similar to the following:
 2023-08-21 08:29:55 Avail Node
 2023-08-21 08:29:55 ✌️  version 1.6.2-bb4cc104b25
 2023-08-21 08:29:55 ❤️  by Anonymous, 2017-2023
-2023-08-21 08:29:55 📋 Chain specification: Avail Kate Testnet
+2023-08-21 08:29:55 📋 Chain specification: Avail Goldberg Testnet
 2023-08-21 08:29:55 🏷  Node name: kate-docker-avail-Node
 2023-08-21 08:29:55 👤 Role: FULL
 2023-08-21 08:29:55 💾 Database: RocksDb at /da/state/chains/Avail Testnet_116d7474-0481-11ee-bc2a-7bfc086be54e/db/full

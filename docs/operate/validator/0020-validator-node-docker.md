@@ -29,7 +29,7 @@ Becoming a validator is a significant responsibility because mistakes or errors 
 
 :::info Onboarding
 
-Please join the [<ins>Avail Discord</ins>](https://discord.com/invite/y6fHnxZQX8) for up-to-date information on the Kate Testnet and
+Please join the [<ins>Avail Discord</ins>](https://discord.com/invite/y6fHnxZQX8) for up-to-date information on the Goldberg Testnet and
 validator onboarding.
 
 :::
@@ -68,7 +68,7 @@ ubuntu:/mnt/avail# docker logs 5b3978de8f35
 2023-08-21 08:29:55 Avail Node
 2023-08-21 08:29:55 ✌️  version 1.6.2-bb4cc104b25
 2023-08-21 08:29:55 ❤️  by Anonymous, 2017-2023
-2023-08-21 08:29:55 📋 Chain specification: Avail Kate Testnet
+2023-08-21 08:29:55 📋 Chain specification: Avail Goldberg Testnet
 2023-08-21 08:29:55 🏷  Node name: kate-docker-avail-Node
 2023-08-21 08:29:55 👤 Role: FULL
 2023-08-21 08:29:55 💾 Database: RocksDb at /da/state/chains/Avail Testnet_116d7474-0481-11ee-bc2a-7bfc086be54e/db/full
