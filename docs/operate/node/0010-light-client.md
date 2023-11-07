@@ -19,7 +19,9 @@ This guide outlines how to set up an Avail light client. You can either:
 1. [<ins>Run the light client on an existing network</ins>](#run-the-avail-light-client-on-an-existing-network)
 2. [<ins>Run the light client locally</ins>](#run-the-light-client-locally)
 
-## Hardware requirements
+## Requirements
+
+### Hardware Specifications
 
 The Avail light client is designed to run on resource-constrained and low powered devices. However, we recommend the following configuration to set up your Avail light client.
 
@@ -29,28 +31,38 @@ The Avail light client is designed to run on resource-constrained and low powere
 | CPU (amd64/x86 architecture) | 2 core   | 4 core      |
 | Storage (SSD)                | 20-40 GB | 200-300 GB  |
 
-## Latest release
+### Latest release
 
 You can find the latest release binary in the `avail-light` repository.
 
-| Repository                                                            | Latest Release                                                                               |
-| --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| [<ins>avail-light</ins>](https://github.com/availproject/avail-light) | [<ins>v1.7.3-rc3</ins>](https://github.com/availproject/avail-light/releases/tag/v1.7.3-rc3) |
+| Repository                                                            | Latest Release                                                                       |
+| --------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| [<ins>avail-light</ins>](https://github.com/availproject/avail-light) | [<ins>v1.7.3</ins>](https://github.com/availproject/avail-light/releases/tag/v1.7.3) |
 
-## Run the Avail light client on an existing network
+## Run on an Existing Network
 
 In this example, you will download the light client and connect to an existing public network.
 
 1. Download the latest Avail light client [<ins>release</ins>](https://github.com/availproject/avail-light/releases/). The light client is available pre-built for different architectures.
+
 2. If you prefer building the light client yourself, see [<ins>build the Avail light client from source</ins>](#build-the-avail-light-client-from-source).
+
 3. Run the light client with the following pre-defined configuration file:
-`./avail-light --network goldberg`
+
+```bash
+./avail-light --network goldberg
+```
+
 4. If you want to supply your own [<ins>configuration file</ins>](https://github.com/availproject/avail-light#configuration-reference), use:
-`./avail-light --config config.yaml --network goldberg`
+
+```bash
+./avail-light --config config.yaml --network goldberg
+```
 
 That's it 🎉! You have successfully run the light client and connected to a public network. The light client should show output similar to the following:
+
 <details>
-<summary> Sample out </summary>
+<summary> Sample output </summary>
 
 The client output should look like this:
 
@@ -80,39 +92,30 @@ The client output should look like this:
 
 </details>
 
-<!--
-## Option 2: Build From Source
-
-To compile the client source code, run:
-
-```bash
-cd avail-light
-cargo run
-```
-
-The client creates a default `config.yaml` file, initially unconnected to any network.
-
-Once the build is complete, run:
-
-```bash
-./avail-light -c config.yaml
-```
--->
-
-
-## Run the light client locally
+## Run Locally
 
 If you want to connect the Avail light client to a local network, you will need to run your own Avail node and your own Avail light client bootstrap node.
 
-1. Run the Avail [<ins>node</ins>](/docs/operate/node/0020-full-node-binaries.md). For local set-up, run the node in `dev` mode:
-`./data-avail --dev`
-2. Run a <ins>[bootstrap</ins>](/docs/operate/node/0050-bootstrap-node.md) node.
-3. Once the bootstrap node is running, use the following command to run your client:
-`./avail-light --network local`
-4. If you want to supply your own [<ins>configuration file</ins>](https://github.com/availproject/avail-light#configuration-reference), use:
-`./avail-light --config config.yaml --network local`
+1. Run the Avail [<ins>node</ins>](/docs/operate/node/binaries). For local set-up, run the node in `dev` mode:
 
-## Build the Avail light client from source
+   ```bash
+   ./data-avail --dev
+   ```
+
+2. Run a [<ins>bootstrap node</ins>](/operate/node/bootstrap).
+
+3. Once the bootstrap node is running, use the following command to run your client:
+
+   ```bash
+   ./avail-light --network local
+   ```
+
+4. If you want to supply your own [<ins>configuration file</ins>](https://github.com/availproject/avail-light#configuration-reference), use:
+   ```bash
+   ./avail-light --config config.yaml --network local
+   ```
+
+## Build From Source
 
 You can build the light client directly from source.
 
@@ -128,8 +131,8 @@ Find the resulting `avail-light` binary in the `target/release` directory.
 
 ### Run a Relay node
 
-We provide an Avail light client relay node that can help you with running your light client from behing NAT and firewalls. Find more information on running a relay node [<ins>here</ins>](/docs/operate/node/0060-relay-node.md)
+We provide an Avail light client relay node that can help you with running your light client from behing NAT and firewalls. Find more information on running a relay node [<ins>here</ins>](/docs/operate/node/0060-relay-node.md).
 
 ### Run a Full Node
 
-Consider running a full node by following the deployment guide [<ins>here</ins>](/docs/operate/node/0020-full-node-binaries.md)
+Consider running a full node by following the deployment guide [<ins>here</ins>](/docs/operate/node/0020-full-node-binaries.md).
