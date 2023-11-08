@@ -31,10 +31,10 @@ To run an RPC node, append the following flags to your startup command:
 - `--rpc-external`
 - `--ws-external`
 - `--rpc-port 9944`
-- `--ws-port 9933`
+- `--ws-port 9944`
 - `--rpc-cors=all`
 
-These flags enable external RPC and WebSocket connections and set the default ports to 9933 for HTTP and 9944 for WebSocket (WS).
+These flags enable external RPC and WebSocket connections and set the default port to 9944 for both HTTP and WebSocket (WS).
 
 ## Example Startup Command
 
@@ -42,11 +42,11 @@ Here's an example command to start your RPC node:
 
 ```bash
 ./data-avail -d ~/avail-node/data --chain goldberg --pruning archive \
-             --rpc-external --ws-external --rpc-port 9933 --ws-port 9944 --rpc-cors=all 
+             --rpc-external --ws-external --rpc-port 9944 --ws-port 9944 --rpc-cors=all
 ```
 
 :::info Firewall Configuration
-Make sure to add the RPC ports (9933 for HTTP and 9944 for WS) to your firewall's allowed list to ensure smooth communication.
+Make sure to add the RPC ports (9944) to your firewall's allowed list to ensure smooth communication.
 :::
 
 ## Testing Your RPC Node
@@ -54,5 +54,5 @@ Make sure to add the RPC ports (9933 for HTTP and 9944 for WS) to your firewall'
 You can verify that your RPC node is running correctly by executing a simple `curl` command. A functioning RPC node will return data, while a non-functioning one will return an error.
 
 ```bash
-curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "rpc_methods"}' http://127.0.0.1:9933/
+curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "rpc_methods"}' http://127.0.0.1:9944/
 ```

@@ -50,7 +50,7 @@ sudo docker run -v $(pwd)/state:/da/state:rw -v $(pwd)/keystore:/da/keystore:rw 
 > - Mapping `/mnt/avail/state` to `/da/state` and granting read-write permissions to ensure data persistence, even if the container crashes.
 > - Using `DA_CHAIN` to specify the goldberg chainspec.
 > - Setting `DA_NAME` as the name of your node; in our example, it's `goldberg-docker-avail-Node`.
-> - Utilizing port **`30333`** for public P2P connections, **`9615`** for the Prometheus metrics endpoint, and **`9933`** for the HTTP RPC port. For WebSocket, add port **`9944`**.
+> - Utilizing port **`30333`** for public P2P connections, **`9615`** for the Prometheus metrics endpoint, and **`9944`** for the HTTP RPC port. For WebSocket, add port **`9944`**.
 > - Using an image from the Avail Docker Hub repository.
 > - Adding any desired node flags after the image name, such as `--rpc`.
 
@@ -59,7 +59,7 @@ Inspect the Docker logs to verify that the node is functioning as expected.
 ```bash
 ubuntu:/mnt/avail# docker ps
 CONTAINER ID   IMAGE                     COMMAND            CREATED         STATUS         PORTS                                                                                                            NAMES
-5b3978de8f35   availj/avail:v1.6.2-rc1   "/entrypoint.sh"   6 minutes ago   Up 6 minutes   0.0.0.0:9615->9615/tcp, :::9615->9615/tcp, 0.0.0.0:9933->9933/tcp, 0.0.0.0:30333->30333/tcp, :::9933->9933/tcp   relaxed_wilson
+5b3978de8f35   availj/avail:v1.6.2-rc1   "/entrypoint.sh"   6 minutes ago   Up 6 minutes   0.0.0.0:9615->9615/tcp, :::9615->9615/tcp, 0.0.0.0:9944->9944/tcp, 0.0.0.0:30333->30333/tcp, :::9944->9944/tcp   relaxed_wilson
 ubuntu:/mnt/avail# docker logs 5b3978de8f35
 # 5b3978de8f35 is the container id
 ```

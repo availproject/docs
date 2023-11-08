@@ -80,7 +80,7 @@ Run the following command on your node machine:
 > Ensure the node is running with the default HTTP RPC port configured.
 
 ```shell
-curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "author_rotateKeys", "params":[]}' http://localhost:9933
+curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "author_rotateKeys", "params":[]}' http://localhost:9944
 ```
 
 The result is the concatenation of the four public keys. Save the hex-encoded
