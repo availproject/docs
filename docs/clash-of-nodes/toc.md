@@ -119,37 +119,37 @@ The following definitions and rules of interpretation apply in these General Ter
 
 4.1.4. Transfer Restrictions: Eligible Investor warrants not offer or sell any of the Testnet Points received or potentially entitled to in a manner contrary to the law of the jurisdiction relevant to his participation.
 
-### 6. General
+### 5. General
 
-#### 6.1. General Terms
+#### 5.1. General Terms
 
-6.1.1. Eligibility for and participation in the Testnet Programme is subject to legal capacity.
+5.1.1. Eligibility for and participation in the Testnet Programme is subject to legal capacity.
 
-6.1.2. No Prior Promises: Eligible User Acknowledges that he may receive Testnet Points for free and even where title to any rewards has not reasonably arisen in advance.
+5.1.2. No Prior Promises: Eligible User Acknowledges that he may receive Testnet Points for free and even where title to any rewards has not reasonably arisen in advance.
 
-6.1.3. Compliance: Eligible User is not a Prohibited Person or a U.S. Person as defined in Rule 902(k) of Regulation S under the U.S. Securities Act of 1933. The Eligible User commits not to use VPNs to circumvent restrictions.
+5.1.3. Compliance: Eligible User is not a Prohibited Person or a U.S. Person as defined in Rule 902(k) of Regulation S under the U.S. Securities Act of 1933. The Eligible User commits not to use VPNs to circumvent restrictions.
 
-#### 6.2. Discretionary Service
+#### 5.2. Discretionary Service
 
 6.2.1 The Testnet Programme is discretionary. The Company may entitle, in accordance with Clause 2.2. of these General Terms, the Eligible User to Testnet Points for completing tasks on a designated Testnet.
 
 6.2.2. The Company does not control the Avail Protocol and does not accept liability for its operation.
 
-### 7. Limitation of Liability:
+### 6. Limitation of Liability:
 
 THE USERS ATTENTION IS PARTICULARLY DRAWN TO THIS CLAUSE
 
-#### 7.1. No Liability:
+#### 6.1. No Liability:
 
-7.1.1. References to liability in this Clause 7 include every kind of liability arising under or in connection with the Eligible User’s participation in the Testnet Programme including liability in contract, tort (including negligence), misrepresentation, restitution or otherwise.
+6.1.1. References to liability in this Clause 7 include every kind of liability arising under or in connection with the Eligible User’s participation in the Testnet Programme including liability in contract, tort (including negligence), misrepresentation, restitution or otherwise.
 
-7.1.2. Company bears no liability for the inability of Eligible User to claim Testnet Points due to technical or other issues.
+6.1.2. Company bears no liability for the inability of Eligible User to claim Testnet Points due to technical or other issues.
 
-7.1.3. Disclaimer for third-party services: In the context of and strictly for the purpose of third-party verification services the Company may share information of the Eligible User with any such service provider..In this regard, Eligible User waives any claim against us regarding these services.
+6.1.3. Disclaimer for third-party services: In the context of and strictly for the purpose of third-party verification services the Company may share information of the Eligible User with any such service provider..In this regard, Eligible User waives any claim against us regarding these services.
 
-### 8. Data Protection
+### 7. Data Protection
 
-#### 8.1. Privacy and Data Collection
+#### 7.1. Privacy and Data Collection
 
 8.1.1. The Company may collect information to determine the activities undertaken by the Eligible User within the Testnet Programme and may display this on a public dashboard. The company may also collect transaction and identification information on any occasion throughout the duration of the Testnet Programme.
 
