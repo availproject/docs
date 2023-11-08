@@ -41,7 +41,7 @@ Run the following commands to launch your Avail node:
 ```bash
 cd /mnt/avail
 
-sudo docker run -v $(pwd)/state:/da/state:rw -v $(pwd)/keystore:/da/keystore:rw -e DA_CHAIN=goldberg -e DA_NAME=goldberg-docker-avail-Node -p 0.0.0.0:30333:30333 -p 9615:9615 -p 9933:9933 -d --restart unless-stopped availj/avail:v1.7.3
+sudo docker run -v $(pwd)/state:/da/state:rw -v $(pwd)/keystore:/da/keystore:rw -e DA_CHAIN=goldberg -e DA_NAME=goldberg-docker-avail-Node -p 0.0.0.0:30333:30333 -p 9615:9615 -p 9933:9933 -d --restart unless-stopped availj/avail:v1.8.0.0
 ```
 
 > The Docker command performs several important steps:
@@ -65,36 +65,36 @@ ubuntu:/mnt/avail# docker logs 5b3978de8f35
 ```
 
 ```bash
-2023-11-07 17:32:02 Avail Node    
-2023-11-07 17:32:02 ✌️  version 1.8.0-9c5f37b9230    
-2023-11-07 17:32:02 ❤️  by Anonymous, 2017-2023    
-2023-11-07 17:32:02 📋 Chain specification: Avail Goldberg Testnet    
-2023-11-07 17:32:02 🏷  Node name: abusive-foot-8197    
-2023-11-07 17:32:02 👤 Role: AUTHORITY    
-2023-11-07 17:32:02 💾 Database: RocksDb at /tmp/substratex6JdRn/chains/avail_goldberg_testnet/db/full    
-2023-11-07 17:32:03 🔨 Initializing Genesis block/state (state: 0x6bc7…ec83, header-hash: 0x6f09…a7ae)    
-2023-11-07 17:32:03 👴 Loading GRANDPA authority set from genesis on what appears to be first startup.    
-2023-11-07 17:32:03 👶 Creating empty BABE epoch changes on what appears to be first startup.    
-2023-11-07 17:32:03 🏷  Local node identity is: 12D3KooWFtjJFk9e5qS4jNWTPSUhTcpSLzeY25P3MeAhzDg6PHwd    
-2023-11-07 17:32:03 Prometheus metrics extended with avail metrics    
-2023-11-07 17:32:03 💻 Operating system: linux    
-2023-11-07 17:32:03 💻 CPU architecture: x86_64    
-2023-11-07 17:32:03 💻 Target environment: gnu    
-2023-11-07 17:32:03 💻 CPU: 13th Gen Intel(R) Core(TM) i7-13700K    
-2023-11-07 17:32:03 💻 CPU cores: 16    
-2023-11-07 17:32:03 💻 Memory: 31863MB    
-2023-11-07 17:32:03 💻 Kernel: 6.5.8-100.fc37.x86_64    
-2023-11-07 17:32:03 💻 Linux distribution: Fedora Linux 37 (Workstation Edition)    
-2023-11-07 17:32:03 💻 Virtual machine: no    
-2023-11-07 17:32:03 📦 Highest known block at #0    
-2023-11-07 17:32:03 〽️ Prometheus exporter started at 127.0.0.1:9615    
-2023-11-07 17:32:03 Running JSON-RPC server: addr=127.0.0.1:9944, allowed origins=["http://localhost:*", "http://127.0.0.1:*", "https://localhost:*", "https://127.0.0.1:*", "https://polkadot.js.org"]    
-2023-11-07 17:32:03 🏁 CPU score: 1.64 GiBs    
-2023-11-07 17:32:03 🏁 Memory score: 22.77 GiBs    
-2023-11-07 17:32:03 🏁 Disk score (seq. writes): 6.70 GiBs    
-2023-11-07 17:32:03 🏁 Disk score (rand. writes): 2.66 GiBs    
-2023-11-07 17:32:03 👶 Starting BABE Authorship worker    
-2023-11-07 17:32:04 🔍 Discovered new external address for our node: /ip4/176.61.156.176/tcp/30333/p2p/12D3KooWFtjJFk9e5qS4jNWTPSUhTcpSLzeY25P3MeAhzDg6PHwd  
+2023-11-07 17:32:02 Avail Node
+2023-11-07 17:32:02 ✌️  version 1.8.0-9c5f37b9230
+2023-11-07 17:32:02 ❤️  by Anonymous, 2017-2023
+2023-11-07 17:32:02 📋 Chain specification: Avail Goldberg Testnet
+2023-11-07 17:32:02 🏷  Node name: abusive-foot-8197
+2023-11-07 17:32:02 👤 Role: AUTHORITY
+2023-11-07 17:32:02 💾 Database: RocksDb at /tmp/substratex6JdRn/chains/avail_goldberg_testnet/db/full
+2023-11-07 17:32:03 🔨 Initializing Genesis block/state (state: 0x6bc7…ec83, header-hash: 0x6f09…a7ae)
+2023-11-07 17:32:03 👴 Loading GRANDPA authority set from genesis on what appears to be first startup.
+2023-11-07 17:32:03 👶 Creating empty BABE epoch changes on what appears to be first startup.
+2023-11-07 17:32:03 🏷  Local node identity is: 12D3KooWFtjJFk9e5qS4jNWTPSUhTcpSLzeY25P3MeAhzDg6PHwd
+2023-11-07 17:32:03 Prometheus metrics extended with avail metrics
+2023-11-07 17:32:03 💻 Operating system: linux
+2023-11-07 17:32:03 💻 CPU architecture: x86_64
+2023-11-07 17:32:03 💻 Target environment: gnu
+2023-11-07 17:32:03 💻 CPU: 13th Gen Intel(R) Core(TM) i7-13700K
+2023-11-07 17:32:03 💻 CPU cores: 16
+2023-11-07 17:32:03 💻 Memory: 31863MB
+2023-11-07 17:32:03 💻 Kernel: 6.5.8-100.fc37.x86_64
+2023-11-07 17:32:03 💻 Linux distribution: Fedora Linux 37 (Workstation Edition)
+2023-11-07 17:32:03 💻 Virtual machine: no
+2023-11-07 17:32:03 📦 Highest known block at #0
+2023-11-07 17:32:03 〽️ Prometheus exporter started at 127.0.0.1:9615
+2023-11-07 17:32:03 Running JSON-RPC server: addr=127.0.0.1:9944, allowed origins=["http://localhost:*", "http://127.0.0.1:*", "https://localhost:*", "https://127.0.0.1:*", "https://polkadot.js.org"]
+2023-11-07 17:32:03 🏁 CPU score: 1.64 GiBs
+2023-11-07 17:32:03 🏁 Memory score: 22.77 GiBs
+2023-11-07 17:32:03 🏁 Disk score (seq. writes): 6.70 GiBs
+2023-11-07 17:32:03 🏁 Disk score (rand. writes): 2.66 GiBs
+2023-11-07 17:32:03 👶 Starting BABE Authorship worker
+2023-11-07 17:32:04 🔍 Discovered new external address for our node: /ip4/176.61.156.176/tcp/30333/p2p/12D3KooWFtjJFk9e5qS4jNWTPSUhTcpSLzeY25P3MeAhzDg6PHwd
 2023-08-21 08:30:14 ⚙️  Syncing 64.4 bps, target=#326624 (15 peers), best: #9728 (0xb4fe…e318), finalized #9317 (0x37b6…28ff), ⬇ 40.2kiB/s ⬆ 1.8kiB/s
 ```
 
