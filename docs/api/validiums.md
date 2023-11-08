@@ -45,7 +45,8 @@ it is possible to initiate the dispatch of the data root by creating a dispatch 
 
 `destinationDomain` Destination domain 1000.
 
-`bridgeRouterEthAddress` Address of the main data availability router contract deployed on Sepolia network `0xbD824890A51ed8bda53F51F27303b14EFfEbC152`.
+`bridgeRouterEthAddress` Address of the main data availability router contract deployed on Sepolia network for Goldberg (`0x305222c4DdB86FfA9fa9Aa0A479705577E3c4d33`),
+for Kate`0xbD824890A51ed8bda53F51F27303b14EFfEbC152`.
 
 `header` Provided from the block when data is submitted.
 
@@ -68,7 +69,7 @@ Environment variables:
 ```dotenv
 AVAIL_RPC= # avail network websocket url
 SURI= # mnemonic
-DA_BRIDGE_ADDRESS= # main da bridge contract address deployed to Sepolia network in format 0x000000000000000000000000bD824890A51ed8bda53F51F27303b14EFfEbC152
+DA_BRIDGE_ADDRESS= # main da bridge contract address deployed to Sepolia test network in format (Kate) 0x000000000000000000000000bD824890A51ed8bda53F51F27303b14EFfEbC152 (Goldberg) 0x000000000000000000000000305222c4DdB86FfA9fa9Aa0A479705577E3c4d33
 DESTINATION_DOMAIN= # destination domain is 1000
 DATA= # data sending to avail
 ```
@@ -99,7 +100,7 @@ async function createApi(url) {
           description: 'Generate the data proof for the given `index`',
           params: [
             {
-              name: 'data_index',
+              name: 'transaction_index',
               type: 'u32',
             },
             {
@@ -164,7 +165,7 @@ async function createApi(url) {
         root: 'H256',
         proof: 'Vec<H256>',
         numberOfLeaves: 'Compact<u32>',
-        leaf_index: 'Compact<u32>',
+        leafIndex: 'Compact<u32>',
         leaf: 'H256',
       },
       Cell: {
@@ -319,7 +320,7 @@ DataProof: {
    root: 'H256',
    proof: 'Vec<H256>',
    numberOfLeaves: 'Compact<u32>',
-   leaf_index: 'Compact<u32>',
+   leafIndex: 'Compact<u32>',
    leaf: 'H256'
 }
 ```
@@ -330,7 +331,7 @@ DataProof: {
 
 `numberOfLeaves` Number of leaves in the original tree.
 
-`leaf_index` Index of the leaf the proof is for (starts from 0).
+`leafIndex` Index of the leaf the proof is for (starts from 0).
 
 `leaf` Leaf for which is the proof.
 
@@ -394,9 +395,8 @@ contract ValidiumContract is Ownable {
                     }
                 }
             }
-            // checks if the calculated root matches the expected root
-            // then, check if index was zeroed while calculating proof, else an invalid index was provided
-            isMember := and(eq(leaf, rootHash), iszero(index))
+        // checks if the calculated root matches the expected root
+            isMember := eq(leaf, rootHash)
         }
     }
 }
@@ -409,7 +409,7 @@ contract ValidiumContract is Ownable {
 By submitting proof to the verification contract it is possible to verify
 that data is available on Avail. Merkle proof is a list of hashes that can be used to prove
 that given leaf is a member of the Merkle tree. Example of submitting a proof to the verification contract
-deployed on Sepolia network (`0xA06386C65B1f56De57CE6aB9CeEB2552fa811529`) can be queried by calling data root membership function
+deployed on Sepolia network for Kate (`0xA06386C65B1f56De57CE6aB9CeEB2552fa811529`) and Goldberg (`0x67044689F7e274a4aC7b818FDea64Cb4604c6875`) can be queried by calling data root membership function
 `async function checkProof(sepoliaApi, blockNumber, proof, numberOfLeaves, leafIndex, leafHash);` where
 
 `sepoliaApi` Sepolia network api instance.
@@ -434,7 +434,7 @@ Environment variables:
 ```dotenv
 AVAIL_RPC= # avail websocket address
 INFURA_KEY= # rpc provider key if needed
-VALIDIUM_ADDRESS= # address of the verification contract, one such is deployed on Sepolia network 0xA06386C65B1f56De57CE6aB9CeEB2552fa811529
+VALIDIUM_ADDRESS= # address of the verification contract, one such is deployed on Sepolia network for Kate 0xA06386C65B1f56De57CE6aB9CeEB2552fa811529 or Goldberg 0x67044689F7e274a4aC7b818FDea64Cb4604c6875
 VALIDIYM_ABI_PATH= # path to abi file e.g. abi/ValidiumContract.json
 BLOCK_NUMBER= # number of the block for which to get Merkle proof
 BLOCK_HASH= # hash of the block for which to get Merkle proof
@@ -491,7 +491,7 @@ async function createApi(url) {
         root: 'H256',
         proof: 'Vec<H256>',
         numberOfLeaves: 'Compact<u32>',
-        leaf_index: 'Compact<u32>',
+        leafIndex: 'Compact<u32>',
         leaf: 'H256',
       },
     },
@@ -573,7 +573,7 @@ async function checkProof(
   console.log(`Data Root: ${hexlify(daHeader.root)}`);
   console.log(`Proof: ${daHeader.proof}`);
   console.log(`Leaf to prove: ${hexlify(daHeader.leaf)}`);
-  console.log(`Leaf index : ${daHeader.leaf_index}`);
+  console.log(`Leaf index : ${daHeader.leafIndex}`);
   console.log(`Number of leaves: ${daHeader.numberOfLeaves}`);
 
   const isDataAccepted = await checkProof(
@@ -581,7 +581,7 @@ async function checkProof(
     process.env.BLOCK_NUMBER,
     daHeader.proof,
     daHeader.numberOfLeaves,
-    daHeader.leaf_index,
+    daHeader.leafIndex,
     daHeader.leaf,
   );
   console.log('Data is: ' + (isDataAccepted ? 'available' : 'not available'));
