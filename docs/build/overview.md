@@ -15,6 +15,29 @@ image: https://docs.availproject.org/img/avail/AvailDocs.png
 
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
+## Avail-Powered Rollups
+
+Whether a Validium or Optimium, integrating with Avail enhances transaction processing by keeping data off-chain while ensuring its availability and validity. Avail's role as an optimized blockchain for data availability is central to this adaptation, offering a robust and modular design for diverse use cases.
+
+### System Operations
+
+- **Transaction Processing and Sequencing**: In the Layer 2 framework, transactions are processed, sequenced, and readied for submission to Avail.
+- **Data Submission to Avail**: This processed data is securely transferred to Avail, following a specific protocol designed for efficient and secure data handling.
+- **Configuration and Connection**: Layer 2 systems are configured for seamless integration with Avail, ensuring smooth data flow and interaction.
+- **Smart Contract Interaction**: Users engage with on-chain contracts, providing Merkle proofs for actions like withdrawals. These contracts interact with Avail to authenticate and process these transactions.
+
+### Attestation Bridge on Testnet
+
+- **Streamlined Verification with Attestation Bridge**: Currently available in testnet, Avail's Attestation Bridge simplifies the verification process on Ethereum. This bridge facilitates the direct posting of data availability attestations to the Ethereum blockchain, thereby easing the workload of the verification contract.
+- **Role of the Verification Contract**: With the Attestation Bridge in place, the verification contract's primary role is to check these on-chain attestations, ensuring data availability and integrity.
+
+### Interaction with Ethereum
+
+- **Verification Contract Functionality**: Situated on Ethereum, this contract plays a dual role—it verifies transaction accuracy and checks data availability, utilizing Avail's attestations.
+- **Layer 1 Contract Dynamics**: Validiums maintain a communicative relationship with Ethereum via dedicated contracts. The main attestation contract stores state commitments (Merkle data roots) from block producers. Parallelly, a verification contract handles state transition validity checks.
+
+---
+
 Monolithic blockchains are challenged by their inherent architecture, resulting in high operational costs and elevated transaction fees. Rollups, as a Layer 2 (L2) solution, address these issues by executing transactions off-chain and posting condensed results to the main chain. Avail, as a data availability layer, plays a crucial role in this modular architecture, ensuring the accessibility and integrity of off-chain data.
 
 ## Optimistic Rollups
@@ -64,18 +87,3 @@ Validiums and Optimiums represent a class of scalability solutions that prioriti
 Validiums and Optimiums introduce additional trust assumptions by not publishing data on L1. They rely on external data availability solutions.
 
 Avail, as a data availability layer, complements these solutions by providing a reliable off-chain data availability mechanism, ensuring the integrity and accessibility of transaction data.
-
-## Avail-Powered Rollups
-
-Whether a Validium or Optimium, integrating with Avail enhances transaction processing by keeping data off-chain while ensuring its availability and validity. Avail's role as an optimized blockchain for data availability is central to this adaptation, offering a robust and modular design for diverse use cases.
-
-### System Operations
-
-- **Transaction Processing and Sequencing**: Transactions are processed and sequenced in the Layer 2 environment, prepped for submission to Avail.
-- **Data Submission**: Processed data is securely transferred to Avail following established protocols.
-- **Configuration and Connection**: Seamless integration is achieved through tailored configurations linking Layer 2 systems with Avail.
-- **Smart Contract Interaction**: For activities like withdrawals, users provide Merkle proofs to on-chain contracts. These contracts collaborate with Avail to validate data and execute transactions.
-- **Data Availability and Validation**: The Avail team plans to implement an attestation bridge to simplify the verification process on Ethereum. This bridge will post data availability attestations directly to Ethereum, aiding the verification contract in ensuring data availability.
-  Interaction with Layer 1
-- **Verification Contract**: Deployed on Layer 1, this contract verifies the correctness of transactions and confirms data availability through Avail's attestations.
-- **L1 Contract Communication**: Validiums interface with L1 through specific contracts. The main attestation contract holds state commitments from block producers, while the verification contract oversees the validity of state transitions.

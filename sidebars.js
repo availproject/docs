@@ -33,12 +33,70 @@ module.exports = {
     },
     {
       type: 'category',
-      label: 'Build',
-      link: {
-        type: 'generated-index',
-      },
-      collapsed: true,
-      items: ['build/overview', 'build/quickstart'],
+      label: 'Build with Avail',
+      items: [
+        'build/overview',
+        {
+          type: 'category',
+          label: 'Validium',
+          link: {
+            type: 'generated-index',
+          },
+          collapsed: true,
+          items: [
+            {
+              type: 'link',
+              label: 'Validium Node',
+              href: 'https://github.com/availproject/validium-node',
+            },
+            {
+              type: 'link',
+              label: 'Validium Contracts',
+              href: 'https://github.com/availproject/validium-contracts',
+            },
+          ],
+        },
+        {
+          type: 'link',
+          label: 'Optimium',
+          href: 'https://github.com/availproject/op-evm',
+        },
+        {
+          type: 'category',
+          label: 'Adapters',
+          link: {
+            type: 'generated-index',
+          },
+          collapsed: true,
+          items: [
+            {
+              type: 'link',
+              label: 'Sovereign SDK',
+              href: 'https://github.com/availproject/sovereign-sdk/tree/main',
+            },
+            {
+              type: 'link',
+              label: 'Optimism SDK',
+              href: 'https://github.com/availproject/avail-op-stack-adapter',
+            },
+            {
+              type: 'link',
+              label: 'Rollkit',
+              href: 'https://github.com/rollkit/avail-da',
+            },
+            {
+              type: 'link',
+              label: 'Madara Starknet',
+              href: 'https://github.com/keep-starknet-strange/madara',
+            },
+          ],
+        },
+        {
+          type: 'link',
+          label: 'Volitions: Coming Soon',
+          href: 'https://github.com/availproject/',
+        },
+      ],
     },
     'operate/node/light-client',
     {
