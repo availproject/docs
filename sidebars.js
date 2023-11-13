@@ -31,6 +31,15 @@ module.exports = {
         'about/faucet',
       ],
     },
+    {
+      type: 'category',
+      label: 'Build',
+      link: {
+        type: 'generated-index',
+      },
+      collapsed: true,
+      items: ['build/overview', 'build/quickstart'],
+    },
     'operate/node/light-client',
     {
       type: 'category',
