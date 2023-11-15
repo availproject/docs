@@ -192,7 +192,6 @@ module.exports = {
         'about/introduction/validiums',
       ],
     },
-    'explorations',
     'glossary',
     'faqs',
   ],
