@@ -25,7 +25,6 @@ module.exports = {
       items: [
         'networks',
         'build/quickstart',
-        'operate/node/light-client',
         {
           type: 'category',
           label: 'New User Guide',
@@ -51,15 +50,28 @@ module.exports = {
       collapsed: true,
       items: [
         'operate/node-types',
-        'operate/system-requirements',
         {
           type: 'category',
-          label: 'Run a Node',
+          label: 'Run a Light Client',
           link: {
             type: 'generated-index',
           },
           collapsed: true,
           items: [
+            'about/introduction/light-client',
+            'operate/node/light-client',
+          ],
+        },
+        'operate/system-requirements',
+        {
+          type: 'category',
+          label: 'Run a Full Node',
+          link: {
+            type: 'generated-index',
+          },
+          collapsed: true,
+          items: [
+            'operate/system-requirements',
             {
               type: 'category',
               label: 'Full Node',
@@ -183,15 +195,6 @@ module.exports = {
           ],
         },
       ],
-    },
-    {
-      type: 'category',
-      label: 'System Design',
-      link: {
-        type: 'generated-index',
-      },
-      collapsed: true,
-      items: ['about/introduction/light-client'],
     },
     'glossary',
     'faqs',
