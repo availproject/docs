@@ -16,21 +16,87 @@ module.exports = {
         'clash-of-nodes/faqs',
       ],
     },
-    'networks',
-    'build/quickstart',
-    'operate/node/light-client',
     {
       type: 'category',
-      label: 'New User Guide',
+      label: 'Get Started',
+      link: {
+        type: 'generated-index',
+      },
+      items: [
+        'networks',
+        'build/quickstart',
+        'operate/node/light-client',
+        {
+          type: 'category',
+          label: 'New User Guide',
+          link: {
+            type: 'generated-index',
+          },
+          collapsed: true,
+          items: [
+            'about/accounts',
+            'about/identity',
+            'about/explorer',
+            'about/faucet',
+          ],
+        },
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Operate a Node',
       link: {
         type: 'generated-index',
       },
       collapsed: true,
       items: [
-        'about/accounts',
-        'about/identity',
-        'about/explorer',
-        'about/faucet',
+        'operate/node-types',
+        'operate/system-requirements',
+        {
+          type: 'category',
+          label: 'Run a Node',
+          link: {
+            type: 'generated-index',
+          },
+          collapsed: true,
+          items: [
+            {
+              type: 'category',
+              label: 'Full Node',
+              link: {
+                type: 'generated-index',
+              },
+              items: ['operate/node/binaries', 'operate/node/docker'],
+            },
+            'operate/node/rpc',
+            'operate/node/bootstrap',
+            'operate/node/relay',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Become a Validator',
+          link: {
+            type: 'generated-index',
+          },
+          collapsed: true,
+          items: [
+            'operate/validator/already-running-full-node',
+            {
+              type: 'category',
+              label: 'Run a Validator Node',
+              link: {
+                type: 'generated-index',
+              },
+              items: ['operate/validator/binaries', 'operate/validator/docker'],
+            },
+            'operate/validator/staking',
+            'operate/validator/backup',
+            'operate/validator/upgrade',
+            'operate/validator/monitor',
+            'operate/validator/chill',
+          ],
+        },
       ],
     },
     {
@@ -98,21 +164,9 @@ module.exports = {
           label: 'Volitions: Coming Soon',
           href: 'https://github.com/availproject/',
         },
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Operate a Node',
-      link: {
-        type: 'generated-index',
-      },
-      collapsed: true,
-      items: [
-        'operate/node-types',
-        'operate/system-requirements',
         {
           type: 'category',
-          label: 'Run a Node',
+          label: 'API Reference',
           link: {
             type: 'generated-index',
           },
@@ -120,63 +174,18 @@ module.exports = {
           items: [
             {
               type: 'category',
-              label: 'Full Node',
+              label: 'Light Client',
               link: {
                 type: 'generated-index',
               },
-              items: ['operate/node/binaries', 'operate/node/docker'],
+              items: [
+                'api/light-client/avail-light-client-overview',
+                'api/light-client/embedding-the-light-client',
+              ],
             },
-            'operate/node/rpc',
-            'operate/node/bootstrap',
-            'operate/node/relay',
+            'api/use-case-validiums',
           ],
         },
-        {
-          type: 'category',
-          label: 'Become a Validator',
-          link: {
-            type: 'generated-index',
-          },
-          collapsed: true,
-          items: [
-            'operate/validator/already-running-full-node',
-            {
-              type: 'category',
-              label: 'Run a Validator Node',
-              link: {
-                type: 'generated-index',
-              },
-              items: ['operate/validator/binaries', 'operate/validator/docker'],
-            },
-            'operate/validator/staking',
-            'operate/validator/backup',
-            'operate/validator/upgrade',
-            'operate/validator/monitor',
-            'operate/validator/chill',
-          ],
-        },
-      ],
-    },
-    {
-      type: 'category',
-      label: 'API Reference',
-      link: {
-        type: 'generated-index',
-      },
-      collapsed: true,
-      items: [
-        {
-          type: 'category',
-          label: 'Light Client',
-          link: {
-            type: 'generated-index',
-          },
-          items: [
-            'api/light-client/avail-light-client-overview',
-            'api/light-client/embedding-the-light-client',
-          ],
-        },
-        'api/use-case-validiums',
       ],
     },
     {
