@@ -104,34 +104,10 @@ module.exports = {
       label: 'Build with Avail',
       items: [
         'build/overview',
+        'about/introduction/app-id',
         {
           type: 'category',
-          label: 'Validium',
-          link: {
-            type: 'generated-index',
-          },
-          collapsed: true,
-          items: [
-            {
-              type: 'link',
-              label: 'Validium Node',
-              href: 'https://github.com/availproject/validium-node',
-            },
-            {
-              type: 'link',
-              label: 'Validium Contracts',
-              href: 'https://github.com/availproject/validium-contracts',
-            },
-          ],
-        },
-        {
-          type: 'link',
-          label: 'Optimium',
-          href: 'https://github.com/availproject/op-evm',
-        },
-        {
-          type: 'category',
-          label: 'Adapters',
+          label: 'Adapters for Rollups',
           link: {
             type: 'generated-index',
           },
@@ -160,9 +136,29 @@ module.exports = {
           ],
         },
         {
+          type: 'category',
+          label: 'Validium',
+          link: {
+            type: 'generated-index',
+          },
+          collapsed: true,
+          items: [
+            {
+              type: 'link',
+              label: 'Validium Node',
+              href: 'https://github.com/availproject/validium-node',
+            },
+            {
+              type: 'link',
+              label: 'Validium Contracts',
+              href: 'https://github.com/availproject/validium-contracts',
+            },
+          ],
+        },
+        {
           type: 'link',
-          label: 'Volitions: Coming Soon',
-          href: 'https://github.com/availproject/',
+          label: 'Optimium',
+          href: 'https://github.com/availproject/op-evm',
         },
         {
           type: 'category',
@@ -195,11 +191,7 @@ module.exports = {
         type: 'generated-index',
       },
       collapsed: true,
-      items: [
-        'about/introduction/app-id',
-        'about/introduction/light-client',
-        'about/introduction/validiums',
-      ],
+      items: ['about/introduction/light-client'],
     },
     'glossary',
     'faqs',
