@@ -1,6 +1,7 @@
 module.exports = {
   avail: [
     'index',
+    'about/introduction',
     {
       type: 'category',
       label: 'Clash of Nodes',
@@ -17,6 +18,7 @@ module.exports = {
     },
     'networks',
     'build/quickstart',
+    'operate/node/light-client',
     {
       type: 'category',
       label: 'New User Guide',
@@ -98,7 +100,6 @@ module.exports = {
         },
       ],
     },
-    'operate/node/light-client',
     {
       type: 'category',
       label: 'Operate a Node',
@@ -186,7 +187,6 @@ module.exports = {
       },
       collapsed: true,
       items: [
-        'about/introduction',
         'about/introduction/app-id',
         'about/introduction/light-client',
         'about/introduction/validiums',
