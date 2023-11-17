@@ -114,6 +114,9 @@ module.exports = {
     {
       type: 'category',
       label: 'Build with Avail',
+      link: {
+        type: 'generated-index',
+      },
       items: [
         'build/overview',
         'about/introduction/app-id',
