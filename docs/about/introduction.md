@@ -22,15 +22,15 @@ Avail's strengths lie in its innovative security approach, which allows light cl
 At its core, Avail prioritizes ordering and publishing transactions while enabling users to verify the availability of block data without needing to download entire blocks. Avail's data-agnostic nature is one of its defining features. It supports various execution environments, including EVM, WASM, and custom new runtimes, offering a versatile foundation for diverse blockchain applications.
 
 <details>
-<summary>Overview of L2 Scailability</summary>
-
-### Overview
+<summary>Overview of L2 scailability</summary>
 
 In traditional blockchain networks, full nodes execute all transactions, ensuring integrity and security. However, while secure, this model limits throughput and scalability due to its comprehensive processing requirements. Layer 2 (L2) solutions emerged to address these constraints, offering enhanced performance by shifting the bulk of transaction execution away from the main chain (Layer 1).
 
-Despite their advantages, L2 solutions face challenges in maintaining data availability and transaction integrity, especially in a manner that is both efficient and cost-effective. Rollups mitigate these challenges by executing transactions off-chain and then posting aggregated results back to the main chain. This approach significantly reduces the strain on Layer 1, leading to lower operational costs and reduced transaction fees, offering a more scalable solution for blockchain networks.
+Despite their advantages, L2 solutions face challenges in maintaining data availability and transaction integrity, especially in a manner that is both efficient and cost-effective. Rollups aim to mitigate these challenges by executing transactions off-chain and then posting aggregated results back to the main chain. This approach significantly reduces the strain on Layer 1, leading to lower operational costs and reduced transaction fees, offering a more scalable solution for blockchain networks.
 
-### Optimistic Rollups
+Rollups come in two primary forms:
+
+**Optimistic Rollups:**
 
 Optimistic Rollups operate on a principle of presumed validity, where transactions are assumed to be valid unless proven otherwise. Their lifecycle involves:
 
@@ -42,7 +42,7 @@ Optimistic Rollups operate on a principle of presumed validity, where transactio
    - **Challenge Successful**: The bond is forfeited, and the block is reversed.
    - **No Challenge**: The block is finalized if unchallenged.
 
-### ZK Rollups
+**ZK Rollups:**
 
 ZK Rollups require upfront cryptographic proofs of transaction validity, focusing on security and data integrity. Their lifecycle involves:
 
@@ -54,9 +54,32 @@ ZK Rollups require upfront cryptographic proofs of transaction validity, focusin
    - **State Recreation**: Users can recreate the state using main chain data.
    - **Sequencer Intervention**: Other sequencers can step in to restore state and continue operations.
 
+Still, there are constraints with data availability.
+
 </details>
 
 ## Data Availability
+
+<details>
+<summary>What is the data availability problem?</summary>
+
+The data availability problem is a critical issue in blockchain and distributed ledger technologies, centering on the necessity to make all transaction data publicly accessible and verifiable across the network. This challenge is integral to the blockchain's integrity and security.
+
+In blockchain systems, each block's transaction data requires verification by network nodes. The problem emerges when nodes strive to validate new blocks by downloading and verifying their transaction data. The crux of this issue is not just in publishing data but in ensuring its reliable distribution across the network, guaranteeing equal access to all participants.
+
+The data availability problem is particularly significant in L2 networks in due to several reasons:
+
+- **Off-Chain Transactions**: L2 solutions process transactions off the main chain to improve scalability. However, this can lead to challenges in verifying that all transaction data is complete and accurate, since it's not immediately recorded on the L1 blockchain.
+
+- **Security Dependence on Layer 1**: While L2 networks operate independently for transaction processing, they rely on L1 for security. Ensuring complete and accurate data transfer from L2 to L1 is vital for maintaining the integrity of the overall network.
+
+- **Resolution Mechanisms Dependence on Data**: L2 networks may use mechanisms like fraud proofs for dispute resolution. The effectiveness of these mechanisms hinges on the availability and accessibility of transaction data.
+
+- **Transparency and Trust Issues**: Transparency is a core principle of blockchain technology. In L2 networks, any compromise in data availability can lead to trust issues, as users may not be able to independently verify transactions.
+
+- **Increased Complexity in Verification**: The addition of L2 adds complexity in ensuring that data is accurately reported back to the main chain. This increases the risk of data availability issues, impacting the network's reliability.
+
+</details>
 
 ### Data Availability in Layer 2s
 
@@ -69,13 +92,13 @@ These methods emphasize the role of L2s in enhancing state management and intera
 
 ### Taking Layer 2 Data Off-Chain
 
-Validiums and Optimiums represent a class of scalability solutions that prioritize off-chain data availability while maintaining the integrity of transaction processing.
+Adaptations of rollups represent a class of scalability solutions that offer off-chain data availability while maintaining the integrity of transaction processing. These solutions are the following:
 
 - **Validiums: ZK Rollups + Off-Chain DA**
 - **Optimiums: Optimistic Rollups + Off-Chain DA**
 - **Volitions: ZK Rollups + Validiums**
 
-Moving data availability off-chain inherently incorporates additional trust dependencies due to their reliance on external data managers. Avail addresses this by providing a robust and reliable off-chain data availability mechanism. This integration significantly strengthens transaction data integrity and accessibility while minimizing reliance on trust-based data management, thus enhancing the overall security and efficiency of various scaling solutions.
+Moving data availability off-chain inherently incorporates additional trust dependencies due to their reliance on external data managers.
 
 <details>
 <summary>What are Validiums?</summary>
@@ -119,6 +142,8 @@ In both modes, the transaction integrity is maintained through zero-knowledge pr
 The interaction of Volitions with the Ethereum ecosystem is also facilitated through a comprehensive set of smart contracts. These contracts manage state commitments and validity proof verifications, ensuring the system remains secure, efficient, and seamlessly integrated with Ethereum, regardless of the chosen data availability mode.
 
 </details>
+
+Avail addresses these trust assumptions by providing a robust and reliable off-chain data availability mechanism. This integration significantly strengthens transaction data integrity and accessibility while minimizing reliance on trust-based data management, thus enhancing the overall security and efficiency of various scaling solutions.
 
 ## How Does Avail Work?
 
