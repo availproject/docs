@@ -48,7 +48,7 @@ export const contentData = {
     },
     {
       title: 'Use Avail as a Base Layer to Empower Innovation',
-      cardLink: '/category/api-reference/',
+      cardLink: '/category/build-with-avail/',
       blockInfo: [
         'Ecosystem Agnostic Modularity',
         'Robust Sovereign Chain Rollups',
@@ -57,10 +57,11 @@ export const contentData = {
       tutorialsInfo: [
         {
           title: 'Avail-Powered Validiums',
-          link: '/api/use-case-validiums',
+          link: '/category/validium/',
         },
         {
-          title: 'Avail-Powered Optimiums: Docs Coming Soon',
+          title: 'Avail-Powered Optimiums',
+          link: '/category/optimium/',
         },
         {
           title: 'Avail-Powered Volitions: Docs Coming Soon',

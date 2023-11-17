@@ -46,7 +46,7 @@ module.exports = {
             from: ['/en/latest', '/en/'],
           },
           {
-            to: '/category/api-reference/',
+            to: '/api/use-case-validiums/',
             from: '/using-avail/communicating-with-avail',
           },
           {

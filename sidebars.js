@@ -171,21 +171,31 @@ module.exports = {
           items: [
             {
               type: 'link',
-              label: 'Validium Node',
+              label: 'CDK-Based Validium Node',
               href: 'https://github.com/availproject/validium-node',
             },
             {
               type: 'link',
-              label: 'Validium Contracts',
+              label: 'CDK-Based Validium Contracts',
               href: 'https://github.com/availproject/validium-contracts',
             },
             'api/use-case-validiums',
           ],
         },
         {
-          type: 'link',
+          type: 'category',
           label: 'Optimium',
-          href: 'https://github.com/availproject/op-evm',
+          link: {
+            type: 'generated-index',
+          },
+          collapsed: true,
+          items: [
+            {
+              type: 'link',
+              label: 'OpEVM',
+              href: 'https://github.com/availproject/op-evm',
+            },
+          ],
         },
       ],
     },
