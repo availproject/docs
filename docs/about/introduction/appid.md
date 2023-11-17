@@ -1,7 +1,7 @@
 ---
 id: app-id
 title: What are Applications IDs?
-sidebar_label: Application IDs
+sidebar_label: App IDs
 description: Learn about Avail's data availability chain
 keywords:
   - docs

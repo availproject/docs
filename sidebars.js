@@ -15,23 +15,32 @@ module.exports = {
         'clash-of-nodes/faqs',
       ],
     },
-    'networks',
-    'build/quickstart',
+    'about/introduction',
     {
       type: 'category',
-      label: 'New User Guide',
+      label: 'Get Started',
       link: {
         type: 'generated-index',
       },
-      collapsed: true,
       items: [
-        'about/accounts',
-        'about/identity',
-        'about/explorer',
-        'about/faucet',
+        'networks',
+        'build/quickstart',
+        {
+          type: 'category',
+          label: 'New User Guide',
+          link: {
+            type: 'generated-index',
+          },
+          collapsed: true,
+          items: [
+            'about/accounts',
+            'about/identity',
+            'about/explorer',
+            'about/faucet',
+          ],
+        },
       ],
     },
-    'operate/node/light-client',
     {
       type: 'category',
       label: 'Operate a Node',
@@ -41,15 +50,28 @@ module.exports = {
       collapsed: true,
       items: [
         'operate/node-types',
-        'operate/system-requirements',
         {
           type: 'category',
-          label: 'Run a Node',
+          label: 'Run a Light Client',
           link: {
             type: 'generated-index',
           },
           collapsed: true,
           items: [
+            'about/introduction/light-client',
+            'operate/node/light-client',
+          ],
+        },
+        'operate/system-requirements',
+        {
+          type: 'category',
+          label: 'Run a Full Node',
+          link: {
+            type: 'generated-index',
+          },
+          collapsed: true,
+          items: [
+            'operate/system-requirements',
             {
               type: 'category',
               label: 'Full Node',
@@ -91,41 +113,89 @@ module.exports = {
     },
     {
       type: 'category',
-      label: 'API Reference',
-      link: {
-        type: 'generated-index',
-      },
-      collapsed: true,
+      label: 'Build with Avail',
       items: [
+        'build/overview',
+        'about/introduction/app-id',
         {
           type: 'category',
-          label: 'Light Client',
+          label: 'Adapters for Rollups',
           link: {
             type: 'generated-index',
           },
+          collapsed: true,
           items: [
-            'api/light-client/avail-light-client-overview',
-            'api/light-client/embedding-the-light-client',
+            {
+              type: 'link',
+              label: 'Sovereign SDK',
+              href: 'https://github.com/availproject/sovereign-sdk/tree/main',
+            },
+            {
+              type: 'link',
+              label: 'Optimism SDK',
+              href: 'https://github.com/availproject/avail-op-stack-adapter',
+            },
+            {
+              type: 'link',
+              label: 'Rollkit',
+              href: 'https://github.com/rollkit/avail-da',
+            },
+            {
+              type: 'link',
+              label: 'Madara Starknet',
+              href: 'https://github.com/keep-starknet-strange/madara',
+            },
           ],
         },
-        'api/use-case-validiums',
+        {
+          type: 'category',
+          label: 'Validium',
+          link: {
+            type: 'generated-index',
+          },
+          collapsed: true,
+          items: [
+            {
+              type: 'link',
+              label: 'Validium Node',
+              href: 'https://github.com/availproject/validium-node',
+            },
+            {
+              type: 'link',
+              label: 'Validium Contracts',
+              href: 'https://github.com/availproject/validium-contracts',
+            },
+          ],
+        },
+        {
+          type: 'link',
+          label: 'Optimium',
+          href: 'https://github.com/availproject/op-evm',
+        },
+        {
+          type: 'category',
+          label: 'API Reference',
+          link: {
+            type: 'generated-index',
+          },
+          collapsed: true,
+          items: [
+            {
+              type: 'category',
+              label: 'Light Client',
+              link: {
+                type: 'generated-index',
+              },
+              items: [
+                'api/light-client/avail-light-client-overview',
+                'api/light-client/embedding-the-light-client',
+              ],
+            },
+            'api/use-case-validiums',
+          ],
+        },
       ],
     },
-    {
-      type: 'category',
-      label: 'System Design',
-      link: {
-        type: 'generated-index',
-      },
-      collapsed: true,
-      items: [
-        'about/introduction',
-        'about/introduction/app-id',
-        'about/introduction/light-client',
-        'about/introduction/validiums',
-      ],
-    },
-    'explorations',
     'glossary',
     'faqs',
   ],
