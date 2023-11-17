@@ -8,7 +8,6 @@ keywords:
   - avail
   - node
   - networks
-  - kate
   - testnet
   - rpc
   - chainspec

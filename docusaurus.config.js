@@ -132,8 +132,7 @@ module.exports = {
       id: 'banner',
       content: `
         <div class="announcement-bar">
-            Deprecation Notice: The Kate Testnet is ending soon. Prepare for Avail's upcoming Incentivized Testnet and stay tuned for updates.
-            For any concerns, please contact the Avail team.
+            Deprecation Notice: The Kate Testnet is ending soon. Prepare for Avail's upcoming incentivized testnet and checkout the Clash of Nodes Campaign.
         </div>
       `,
       textColor: '#ffffff',
