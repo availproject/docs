@@ -116,7 +116,7 @@ Interactions between Validiums and Ethereum are orchestrated through a suite of 
 <details>
 <summary>What are Optimiums?</summary>
 
-Optimums are a direct adaptation of Optimistic rollups and also take data availability off-chain. They retain fraud-proof mechanisms for verification while boosting scalability.
+Optimium are a direct adaptation of Optimistic rollups and also take data availability off-chain. They retain fraud-proof mechanisms for verification while boosting scalability.
 
 At the heart of Optimiums lies the principle of assumed transaction validity. Transactions within this system are initially presumed to be valid. This assumption holds until proven otherwise, a process facilitated by fraud-proof mechanisms. These mechanisms are crucial in maintaining the integrity and reliability of the network. If a transaction is challenged and found to be fraudulent, it is reverted, ensuring the network's security and fidelity.
 
