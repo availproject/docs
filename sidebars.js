@@ -184,7 +184,7 @@ module.exports = {
         },
         {
           type: 'category',
-          label: 'Optimium',
+          label: 'Sovereign chains',
           link: {
             type: 'generated-index',
           },
