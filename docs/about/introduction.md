@@ -145,53 +145,6 @@ The interaction of Volitions with the Ethereum ecosystem is also facilitated thr
 
 Avail addresses these trust assumptions by providing a robust and reliable off-chain data availability mechanism. This integration significantly strengthens transaction data integrity and accessibility while minimizing reliance on trust-based data management, thus enhancing the overall security and efficiency of various scaling solutions.
 
-## How Does Avail Work?
-
-Avail redefines blockchain scalability by combining erasure coding, KZG polynomial commitments, and data availability sampling to deliver world-class data availability guarantees. It functions as a foundational (base) layer, offering scalable data hosting without transaction execution, specifically for rollups.
-
-### Transaction Lifecycle
-
-1. **Transaction Submission**
-2. **Data Extension and Erasure Coding**
-3. **Commitment Creation**
-4. **Block Propagation**
-5. **Light Client Network**
-6. **Proof Verification**
-
-### Starting with Transaction Submission
-
-As Avail's primary consumers, Rollups begin the process by submitting transactions to Avail. Each transaction carries a unique application ID, signifying its origin and purpose within the broader ecosystem.
-
-### Enhancing Data Reliability Through Erasure Coding
-
-Once transactions reach Avail, they transform erasure coding. This process extends the original data, adding redundancy layers and enhancing the information's reliability and integrity. Blocks are split into `n` original chunks and extended to `2n`, allowing any `n` out of `2n` chunks to reconstruct the original data. These chunks are arranged in an `n × m` matrix. This matrix is then extended to ensure redundancy, a critical feature for preventing data unavailability.
-
-> To combat the misconstruction of erasure-coded chunks, full nodes can create and propagate **fraud proofs**, ensuring that light clients can verify the authenticity of block headers.
-
-### Solidifying Data Integrity with Commitment Creation
-
-Avail takes the redundant data and applies KZG polynomial commitments to each block. These commitments serve as cryptographic proofs of the data's integrity, ensuring that what is stored is accurate and tamper-proof. The commitments are used to confirm the data's integrity before it is attested and transmitted to main chain via Avail’s data attestation bridge.
-
-> Block producers create a **Coded Merkle Tree (CMT)** Merkle tree from data chunks and include the root in the block header, facilitating swift and secure data verification by clients.
-
-> The CMT-based design features systematic erasure codes at each Merkle tree layer, leading to constant-sized commitments and logarithmically sized fraud proofs. This structure enables efficient data reconstruction and block integrity verification, even under the assumption of minimal honest full nodes.
-
-### Ensuring Consensus & Block Propagation
-
-Validators play a pivotal role in Avail's ecosystem. They receive the commitment-laden blocks, regenerate the commitments to verify their accuracy and reach a consensus on the block. Validators ensure that only verified and agreed-upon data is propagated through the network. This stage is vital for ensuring that the data, once validated, can be relayed via Avail’s data attestation bridge.
-
-### Light Clients: The Guardians of Data Availability Using DAS
-
-After block finalization, light clients play a crucial role in ensuring data integrity. They use Data Availability Sampling (DAS) to verify block data and detect any data withholding by validators. This process involves downloading random data samples and checking them against the Kate commitments and Merkle proofs. This approach allows light clients to authenticate specific data segments without requiring the full block.
-
-On the other side, full nodes use Kate commitments for two primary purposes: reconstructing the full data for network-wide verification or creating fraud proofs to challenge any discrepancies in the data. This dual mechanism of light clients and full nodes working in tandem also strengthens the overall security and reliability of the network.
-
-### Proof Verification: The Final Checkpoint
-
-The journey culminates with light clients performing proof verification. This process involves generating cell-level proofs from the data matrix, enabling light clients to efficiently and independently verify the state of the blockchain. This decentralized approach to verification underpins the security and integrity of the Avail ecosystem.
-
-> The settlement in Avail is primarily about ensuring data availability for rollups. The actual transaction execution and finality occur at the rollup layer, while Avail provides the necessary data infrastructure.
-
 ## System Design Overview
 
 By decoupling the data hosting, execution, and verification, Avail optimizes each component's efficiency and effectiveness as a direct result of modularity.
@@ -219,3 +172,72 @@ The Avail network comprises three types of nodes:
 ### Consensus
 
 Avail opts for a Nominated Proof-of-Stake (NPoS) consensus model for its scalability and energy efficiency benefits. Specifically, it employs Substrate's BABE/GRANDPA consensus, offering a blend of fast block production and provable finality.
+
+## How Does Avail Work?
+
+Avail redefines blockchain scalability by combining erasure coding, KZG polynomial commitments, and data availability sampling to deliver world-class data availability guarantees. It functions as a foundational (base) layer, offering scalable data hosting without transaction execution, specifically for rollups.
+
+### Transaction Lifecycle
+
+1. **Transaction Submission**
+2. **Data Extension and Erasure Coding**
+3. **Commitment Creation**
+4. **Block Propagation**
+5. **Light Client Network**
+6. **Proof Verification**
+
+### Starting with Transaction Submission
+
+As Avail's primary consumers, rollups begin the process by submitting transactions to Avail. Each transaction carries a unique [<ins>application ID</ins>](/about/introduction/appid.md) (or appID for short), signifying its origin and purpose within the broader ecosystem.
+
+### Enhancing Data Reliability Through Erasure Coding
+
+Once transactions reach Avail, they undergo a transformation through erasure coding. This process extends the original data, adding redundancy layers and enhancing the information's reliability and integrity. Blocks are split into `n` original chunks and extended to `2n`, allowing any `n` out of `2n` chunks to reconstruct the original data. These chunks are arranged in an `n × m` matrix. This matrix is then extended to ensure redundancy, a critical feature for preventing data unavailability.
+
+> To combat the misconstruction of erasure-coded chunks, full nodes can create and propagate **fraud proofs**, ensuring that light clients can verify the authenticity of block headers.
+
+### Solidifying Data Integrity with Commitment Creation
+
+Avail takes the redundant data and applies KZG polynomial commitments to each block. These commitments serve as cryptographic proofs of the data's integrity, ensuring that what is stored is accurate and tamper-proof. The commitments are used by [<ins>validators</ins>](#ensuring-consensus--block-propagation) to confirm the data's integrity before it is attested and transmitted to main chain via Avail’s [<ins>data attestation bridge</ins>](/glossary.md#data-attestation).
+
+> Block producers create a **Coded Merkle Tree (CMT)** Merkle tree from data chunks and include the root in the block header, facilitating swift and secure data verification by clients.
+
+> The CMT-based design features systematic erasure codes at each Merkle tree layer, leading to constant-sized commitments and logarithmically sized fraud proofs. This structure enables efficient data reconstruction and block integrity verification, even under the assumption of minimal honest full nodes.
+
+### Ensuring Consensus & Block Propagation
+
+Validators play a pivotal role in Avail's ecosystem. They receive the commitment-laden blocks, regenerate the commitments to verify their accuracy and reach a consensus on the block. Validators ensure that only verified and agreed-upon data is propagated through the network. This stage is vital for ensuring that the data, once validated, can be relayed via Avail’s data attestation bridge.
+
+### Light Clients: The Guardians of Data Availability Using DAS
+
+After block finalization, light clients play a crucial role in ensuring data integrity. They use [<ins>Data Availability Sampling (DAS)</ins>](/docs/glossary.md#data-availability-sampling-das) to verify block data and detect any data withholding by validators. This process involves downloading random data samples and checking them against the Kate commitments and Merkle proofs. This is what allows light clients to authenticate specific data segments without requiring the full block.
+
+> On the other side, full nodes use Kate commitments for two primary purposes: reconstructing the full data for network-wide verification or creating fraud proofs to challenge any discrepancies in the data. This dual mechanism of light clients and full nodes working in tandem also strengthens the overall security and reliability of the network.
+
+### Proof Verification: The Final Checkpoint
+
+The journey culminates with light clients performing proof verification. This process involves generating cell-level proofs from the data matrix, enabling light clients to efficiently and independently verify the state of the blockchain. This decentralized approach to verification underpins the security and integrity of the Avail ecosystem.
+
+> The settlement in Avail is primarily about ensuring data availability for rollups. The actual transaction execution and finality occur at the rollup layer, while Avail provides the necessary data infrastructure.
+
+## What's Next?
+
+With your foundational understanding of Avail, if you're new to the ecosystem, be sure to visit the [<ins>Getting Started</ins>](/category/get-started/) section.
+
+Additionally, consider experimenting with a light client. For this, the [<ins>Quickstart guide</ins>](/build/quickstart/) is great resource. To run an Avail light client, all you need to do is run one of the following commands:
+
+```bash
+curl -sL1 avail.sh | sh
+```
+
+or, with wget:
+
+```bash
+wget --https-only --secure-protocol=TLSv1_2 --quiet -O - avail.sh | sh
+```
+
+That's it!
+
+### Join the Clash of Nodes Campaign
+
+As you delve deeper into Avail's ecosystem, an exciting opportunity awaits. Avail is advancing the frontiers of modular blockchains, and we invite node operators to participate in the dynamic Clash of Nodes campaign. This campaign is a cornerstone in testing the capabilities of the Avail network, offering a real-time, incentivized testnet environment. It's a chance to be part of a community shaping the future of blockchain infrastructure. If you're ready to further your journey with Avail and engage in this innovative campaign, visit the [<ins>Clash of Nodes</ins>](/category/clash-of-nodes/) section in the documentation.
