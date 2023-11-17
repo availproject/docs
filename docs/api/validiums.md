@@ -1,7 +1,7 @@
 ---
 id: use-case-validiums
 title: Validium Reference
-sidebar_label: Validiums
+sidebar_label: Reference
 description: How to use Avail to build validiums
 keywords:
   - docs

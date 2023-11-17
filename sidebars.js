@@ -60,6 +60,17 @@ module.exports = {
           items: [
             'about/introduction/light-client',
             'operate/node/light-client',
+            {
+              type: 'category',
+              label: 'Reference',
+              link: {
+                type: 'generated-index',
+              },
+              items: [
+                'api/light-client/avail-light-client-overview',
+                'api/light-client/embedding-the-light-client',
+              ],
+            },
           ],
         },
         'operate/system-requirements',
@@ -168,34 +179,13 @@ module.exports = {
               label: 'Validium Contracts',
               href: 'https://github.com/availproject/validium-contracts',
             },
+            'api/use-case-validiums',
           ],
         },
         {
           type: 'link',
           label: 'Optimium',
           href: 'https://github.com/availproject/op-evm',
-        },
-        {
-          type: 'category',
-          label: 'API Reference',
-          link: {
-            type: 'generated-index',
-          },
-          collapsed: true,
-          items: [
-            {
-              type: 'category',
-              label: 'Light Client',
-              link: {
-                type: 'generated-index',
-              },
-              items: [
-                'api/light-client/avail-light-client-overview',
-                'api/light-client/embedding-the-light-client',
-              ],
-            },
-            'api/use-case-validiums',
-          ],
         },
       ],
     },
