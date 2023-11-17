@@ -14,9 +14,12 @@ image: https://docs.availproject.org/img/avail/AvailDocs.png
 
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-Avail represents a paradigm shift in blockchain technology, distinguishing itself as a **modular blockchain with a laser focus on data availability**. At its core, Avail prioritizes ordering and publishing transactions while enabling users to verify block data's availability without downloading entire blocks. This approach uniquely balances scalability with security, addressing core challenges faced by traditional blockchain systems.
+Avail is a **robust base layer with a laser focus on data availability**.
 
-Avail's data-agnostic nature is one of its defining features. It supports various execution environments, including EVM, WASM, and custom new runtimes, offering a versatile foundation for diverse blockchain applications. Avail's modular architecture enables the creation of a broad spectrum of designs, such as sovereign ZK or OP appchains, general-purpose rollups, sidechains, validiums, and more. Remarkably, these applications do not require establishing a new validator set.
+It is built to meet the needs of next-generation, trust-minimized applications and sovereign rollups.
+Avail's strengths lie in its innovative security approach, which allows light clients to easily verify data availability through sampling over a peer-to-peer network. Avail’s modular approach simplifies blockchain integration for developers, as they no longer need to worry about validator sets or tokenomics. With Avail's unparalleled data availability interface and powerful security capabilities, developers can create zero-knowledge or fraud-proof-based blockchain applications with greater efficiency and ease.
+
+At its core, Avail prioritizes ordering and publishing transactions while enabling users to verify the availability of block data without needing to download entire blocks. Avail's data-agnostic nature is one of its defining features. It supports various execution environments, including EVM, WASM, and custom new runtimes, offering a versatile foundation for diverse blockchain applications.
 
 <details>
 <summary>Overview of L2 Scailability</summary>
