@@ -97,6 +97,7 @@ Adaptations of rollups represent a class of scalability solutions that offer off
 - **Validiums: ZK Rollups + Off-Chain DA**
 - **Optimiums: Optimistic Rollups + Off-Chain DA**
 - **Volitions: ZK Rollups + Validiums**
+- **Sovereign Rollups: Independent Rollups with Custom DA and Security Models**
 
 Moving data availability off-chain inherently incorporates additional trust dependencies due to their reliance on external data managers.
 
@@ -140,6 +141,19 @@ The unique feature of Volitions lies in their dual-mode operation. Users can opt
 In both modes, the transaction integrity is maintained through zero-knowledge proofs, but the choice of data availability mode allows for a customizable balance between scalability, security, and cost-efficiency.
 
 The interaction of Volitions with the Ethereum ecosystem is also facilitated through a comprehensive set of smart contracts. These contracts manage state commitments and validity proof verifications, ensuring the system remains secure, efficient, and seamlessly integrated with Ethereum, regardless of the chosen data availability mode.
+
+</details>
+
+<details>
+<summary>What are Sovereign Rollups?</summary>
+
+Sovereign Rollups represent a distinct class of blockchain scaling solutions, where each rollup operates as a self-governing entity with its own validator set and consensus rules. Unlike traditional rollups tied to a specific main chain's security and data availability model, Sovereign Rollups maintain autonomy over these aspects.
+
+These rollups provide a unique combination of scalability and sovereignty, allowing them to tailor their infrastructure to specific use cases or community needs. By managing their own data availability, either on-chain or off-chain, Sovereign Rollups can optimize for performance, cost, and security as per their requirements.
+
+The key feature of Sovereign Rollups is their independence in decision-making regarding upgrades, tokenomics, and governance models. This autonomy enables a more flexible and adaptive approach to blockchain scalability, catering to diverse and evolving ecosystem needs.
+
+In Sovereign Rollups, the transaction integrity is usually maintained through customized consensus mechanisms or cryptographic proofs, and their interactions with main chains (if any) are defined by their unique governance protocols. This structure empowers them to operate as independent blockchains while still benefiting from the scalability features of rollup technology.
 
 </details>
 
