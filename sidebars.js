@@ -145,9 +145,19 @@ module.exports = {
               href: 'https://github.com/availproject/sovereign-sdk/tree/main',
             },
             {
-              type: 'link',
+              type: 'category',
               label: 'Optimism SDK',
-              href: 'https://github.com/availproject/avail-op-stack-adapter',
+              link: {
+                type: 'generated-index',
+              },
+              collapsed: true,
+              items: [
+                {
+                  type: 'link',
+                  label: 'OP Stack Adapter',
+                  href: 'https://github.com/availproject/avail-op-stack-adapter',
+                },
+              ],
             },
             {
               type: 'link',
@@ -184,7 +194,7 @@ module.exports = {
         },
         {
           type: 'category',
-          label: 'Sovereign chains',
+          label: 'Sovereign Rollups',
           link: {
             type: 'generated-index',
           },

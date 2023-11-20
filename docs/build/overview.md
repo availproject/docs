@@ -53,9 +53,9 @@ Avail's Attestation Bridge is available on testnet for Ethereum.
 - **Independent Data Verification**: Avail's light clients enable verification of data availability without relying on the majority of nodes.
 - **Data Sampling**: Light clients can sample from the blocks on Avail's blockchain using an AppId to validate data availability.
 
-## Rollup Architecture with Avail
+## Validium Architecture with Avail
 
-In the rollup model, transactions are collected by a sequencer, which batches them together. The sequencer's role extends beyond transaction ordering—it prepares a Merkle tree of transactions, where each leaf represents a transaction or a set of transactions. The root of this Merkle tree, known as the batch hash, is crucial for ensuring the integrity of the transaction batch and for constructing inclusion proofs.
+In the Validium model, transactions are collected by a sequencer, which batches them together. The sequencer's role extends beyond transaction ordering—it prepares a Merkle tree of transactions, where each leaf represents a transaction or a set of transactions. The root of this Merkle tree, known as the batch hash, is crucial for ensuring the integrity of the transaction batch and for constructing inclusion proofs.
 
 Avail comes into play as the recipient of this transaction data. Upon receiving the batched transactions, Avail executes erasure coding.
 
@@ -67,7 +67,19 @@ A Sequence Sender is responsible for communicating with L1. It takes the inclusi
 
 The L1 acts as the main layer for dispute resolution and finality. While it doesn’t store the transaction data itself, it retains the cryptographic commitments to the data. This ensures that if there's ever a dispute or need for verification, the proofs can be checked against the commitments to ascertain the validity of state transitions and the availability of data.
 
-This setup leverages L1's security while offloading the data-intensive work to Avail, which is optimized for handling vast amounts of data efficiently and securely. By doing so, rollup chains can significantly reduce their costs and improve scalability, all the while maintaining a high level of trust and security.
+This setup leverages L1's security while offloading the data-intensive work to Avail, which is optimized for handling vast amounts of data efficiently and securely. By doing so, Validium chains can significantly reduce their costs and improve scalability, all the while maintaining a high level of trust and security.
+
+## Optimium Architecture with Avail
+
+In the Optimium model, transactions are similarly aggregated by a sequencer. This sequencer organizes transactions into batches and computes a data root, a Merkle tree root representing the batch, crucial for integrity and proof of inclusion.
+
+Avail is integrated as a data availability layer. Once the sequencer sends transaction batches to Avail, it employs erasure coding to ensure data redundancy and integrity. Avail then generates KZG polynomial commitments and the data root, essential for confirming data availability.
+
+The next phase involves state computation of the system, executed on the rollup, depending on the chain’s architecture. Avail’s data availability solution ensures that the transaction data is readily accessible for any necessary computation or verification.
+
+A Sequence Sender, in this architecture, is responsible for submitting proofs to the main chain. These include the data root from Avail, ensuring that the data availability is anchored to the security of Ethereum or the corresponding L2.
+
+This architecture provides the dual benefits of the main chain's security for settlement and dispute resolution, and Avail's efficiency in handling data. By offloading data availability to Avail, Optimium chains can achieve higher scalability and efficiency while maintaining robust security and decentralization.
 
 ## DA Solution Suites
 
@@ -82,36 +94,3 @@ Driven by the core Avail team, the mission is twofold: to nurture innovative pro
 | Avail-Powered zkEVM-Based Validium  | A Validium based on the Polygon zkEVM stack that uses Avail instead of the native DAC for data availability. | - [<ins>validium-node</ins>](https://github.com/QEDK/validium-node) <br/> - [<ins>validium-contracts</ins>](https://github.com/QEDK/validium-contracts) |
 | DA Adapter for Optimism SDK         | An adapter facilitating Avail DA's integration with Optimism's Rollup SDK op-stack.                          | [<ins>avail-op-stack-adapter</ins>](https://github.com/availproject/avail-op-stack-adapter)                                                             |
 | DA Adapter for Rollkit              | An adapter designed for Rollkit's modular rollup framework that enables ABCI-compatible solutions.           | [<ins>rollkit-da-adapter</ins>](https://github.com/rollkit/rollkit/pull/1168)                                                                           |
-
-### OP Stack Adapter
-
-The OP Stack, instrumental for the development of L2 rollups and maintained by the [<ins>Optimism Collective</ins>](https://www.optimism.io/), is now extendable with Avail as an alternative data availability layer. Developers working with the OP Stack, which underpins solutions like OP Mainnet, can utilize Avail to address data availability concerns, enhancing the stack's scalability while simultaneously cutting down data handling costs.
-
-#### Transaction Lifecycle with Avail OP Stack
-
-- **Transaction Submission**: Transactions are sent to the sequencer.
-- **Batch Processing**: The `op-batcher` collects these transactions into batches.
-- **Data Availability with Avail**: The `op-avail` module sends the batch to Avail's blockchain.
-- **Transaction Reference Creation**: Avail returns a transaction reference to `op-avail`.
-- **Calldata Submission to Ethereum**: The `op-batcher` submits the transaction reference as calldata to Ethereum.
-
-#### Interoperability and Fault Proofing
-
-The Avail OP Stack will evolve to integrate Optimism's fault proof system and the OP Stack sequencer's decentralization efforts. The Avail data root will be posted to Ethereum through the Vector data attestation bridge, allowing for seamless verification of data availability consensus.
-
-### Arbitrum Orbit Chains
-
-Arbitrum Orbit Chains, leveraging the robust Arbitrum Nitro stack, stand to gain significant benefits by integrating with Avail's specialized data availability (DA) layer. This integration can lead to a transformative reduction in data handling costs and an elevation in security and decentralization.
-
-#### Transaction Lifecycle with Avail
-
-- **Transaction Batching**: Sequencers on Arbitrum Orbit Chains collect and organize transactions into batches.
-- **Data Availability**: Instead of relying on Ethereum, these batches can be submitted to Avail's DA layer.
-- **Data Processing**: Avail processes the transaction data with erasure encoding to ensure redundancy and creates a data root for each batch.
-
-#### Future Integration and Development
-
-- **Data Attestation**: The Vector Data Attestation Bridge will relay data roots to ensure that Avail's validators have verified the data's availability.
-- **Cost Efficiency**: By using Avail, Arbitrum Orbit Chains can operate at a fraction of the cost compared to traditional DA methods.
-
-### Polygon CDK-based Validium
