@@ -201,9 +201,21 @@ module.exports = {
           collapsed: true,
           items: [
             {
-              type: 'link',
+              type: 'category',
               label: 'OpEVM',
-              href: 'https://github.com/availproject/op-evm',
+              link: {
+                type: 'generated-index',
+              },
+              collapsed: true,
+              items: [
+                'build/op-stack/overview',
+                'build/op-stack/op-stack',
+                {
+                  type: 'link',
+                  label: 'OpEVM',
+                  href: 'https://github.com/availproject/op-evm',
+                },
+              ],
             },
           ],
         },
