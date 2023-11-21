@@ -140,9 +140,21 @@ module.exports = {
           collapsed: true,
           items: [
             {
-              type: 'link',
-              label: 'OP Stack Adapter',
-              href: 'https://github.com/availproject/avail-op-stack-adapter',
+              type: 'category',
+              label: 'OP Stack',
+              link: {
+                type: 'generated-index',
+              },
+              collapsed: true,
+              items: [
+                'build/op-stack/overview',
+                'build/op-stack/op-stack',
+                {
+                  type: 'link',
+                  label: 'OP Stack Adapter',
+                  href: 'https://github.com/availproject/avail-op-stack-adapter',
+                },
+              ],
             },
           ],
         },
@@ -191,23 +203,6 @@ module.exports = {
           collapsed: true,
           items: [
             {
-              type: 'category',
-              label: 'OpEVM',
-              link: {
-                type: 'generated-index',
-              },
-              collapsed: true,
-              items: [
-                'build/op-stack/overview',
-                'build/op-stack/op-stack',
-                {
-                  type: 'link',
-                  label: 'OpEVM',
-                  href: 'https://github.com/availproject/op-evm',
-                },
-              ],
-            },
-            {
               type: 'link',
               label: 'Sovereign SDK',
               href: 'https://github.com/availproject/sovereign-sdk/tree/main',
@@ -216,6 +211,11 @@ module.exports = {
               type: 'link',
               label: 'Rollkit',
               href: 'https://github.com/rollkit/avail-da',
+            },
+            {
+              type: 'link',
+              label: 'OpEVM',
+              href: 'https://github.com/availproject/op-evm',
             },
           ],
         },

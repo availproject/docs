@@ -1,7 +1,7 @@
 ---
 id: overview
 title: Building on the OP Stack with Avail
-sidebar_label: OP Stack
+sidebar_label: Overview
 description: 'Discover how to utilize Avail as a data availability layer.'
 keywords:
   - documentation
