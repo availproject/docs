@@ -1,7 +1,7 @@
 ---
 id: op-stack
 title: How to Use the OP Stack with Avail
-sidebar_label: How to Use the OP Stack
+sidebar_label: Use the OP Stack
 description: 'Discover how to utilize Avail as a data availability layer.'
 keywords:
   - documentation
@@ -63,11 +63,11 @@ Here’s an itemized list of what we’re about to do:
 
 ## Build the Source Code
 
-We’re going to be spinning up an EVM Rollup from the Avail-OP Stack source code. The OP Stack source code is split between two repositories, the **[Avail-OP-Stack Adapter](https://github.com/availproject/avail-op-stack-adapter) monorepo** and the **`[op-geth`](https://github.com/ethereum-optimism/op-geth)** repository.
+We’re going to be spinning up an EVM Rollup from the Avail-OP Stack source code. The OP Stack source code is split between two repositories, the **[<ins>Avail-OP-Stack Adapter</ins>](https://github.com/availproject/avail-op-stack-adapter) monorepo** and the **[<ins>op-geth</ins>](https://github.com/ethereum-optimism/op-geth)** repository.
 
 ### Build the Optimism Monorepo
 
-1. Clone the [Avail-OP-Stack Adapter](https://github.com/availproject/avail-optimism).
+1. Clone the [<ins>Avail-OP-Stack Adapter</ins>](https://github.com/availproject/avail-optimism).
 
    ```bash
    cd ~
@@ -95,7 +95,7 @@ We’re going to be spinning up an EVM Rollup from the Avail-OP Stack source cod
 
 ### Build `op-geth`
 
-1. Clone **`[op-geth`](https://github.com/ethereum-optimism/op-geth)** :
+1. Clone **[<ins>op-geth</ins>](https://github.com/ethereum-optimism/op-geth)** :
 
    ```bash
    cd ~
