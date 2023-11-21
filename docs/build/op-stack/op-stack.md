@@ -15,9 +15,9 @@ image: https://docs.availproject.org/img/avail/AvailDocs.png
 
 ## Introduction
 
-Embark on setting up your own Avail-Optimism chain. This guide targets Ethereum's Goerli testnet and Avail Goldberg testnet. Allocate 1-2 hours for this setup. For a detailed understanding, review the [Optimism Documentation](https://stack.optimism.io/docs/build/getting-started/#know-before-you-go).
+Embark on setting up your own Avail-Optimism chain. This guide targets Ethereum's Goerli testnet and Avail Goldberg testnet. For a detailed understanding, review the [Optimism Documentation](https://stack.optimism.io/docs/build/getting-started/#know-before-you-go).
 
-In this guide, you will:
+In this guide, you will conduct the following:
 
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
@@ -48,16 +48,16 @@ Ensure you have installed the following software.
   <tr>
     <td valign="top">
 
-| Software                                                      | Version                                                                                |
-| ------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| [Git](https://git-scm.com/)                                   | OS default                                                                             |
-| [Go](https://go.dev/)                                         | 1.20                                                                                   |
-| [Node](https://nodejs.org/en/)                                | 16.19.0                                                                                |
-| [Pnpm](https://pnpm.io/installation)                          | 8.5.6                                                                                  |
-| [Make](https://linux.die.net/man/1/make)                      | OS default                                                                             |
-| [jq](https://github.com/jqlang/jq)                            | OS default                                                                             |
-| [direnv](https://direnv.net/)                                 | Latest                                                                                 |
-| [Foundry](https://github.com/foundry-rs/foundry#installation) | Foundry will be installed locally within the project's environment, via `package.json` |
+| Software                                                                 | Version                                                                                |
+| ------------------------------------------------------------------------ | -------------------------------------------------------------------------------------- |
+| [<ins>Git</ins>](https://git-scm.com/)                                   | OS default                                                                             |
+| [<ins>Go</ins>](https://go.dev/)                                         | 1.20                                                                                   |
+| [<ins>Node</ins>](https://nodejs.org/en/)                                | 16.19.0                                                                                |
+| [<ins>Pnpm</ins>](https://pnpm.io/installation)                          | 8.5.6                                                                                  |
+| [<ins>Make</ins>](https://linux.die.net/man/1/make)                      | OS default                                                                             |
+| [<ins>jq</ins>](https://github.com/jqlang/jq)                            | OS default                                                                             |
+| [<ins>direnv</ins>](https://direnv.net/)                                 | Latest                                                                                 |
+| [<ins>Foundry</ins>](https://github.com/foundry-rs/foundry#installation) | Foundry will be installed locally within the project's environment, via `package.json` |
 
 </td>
 <td valign="top">
@@ -96,18 +96,18 @@ sudo apt install -y direnv
 
 ## Compile the Core Codebase
 
-Setting up the EVM Rollup requires compiling code from two critical repositories: the [Avail-OP-Stack Adapter monorepo](https://github.com/availproject/avail-op-stack-adapter) and the [op-geth repository](https://github.com/ethereum-optimism/op-geth).
+Setting up the EVM Rollup requires compiling code from two critical repositories: the [<ins>avail-op-stack-adapter monorepo</ins>](https://github.com/availproject/avail-op-stack-adapter) and the [<ins>op-geth repository</ins>](https://github.com/ethereum-optimism/op-geth).
 
 ### Building the Optimism Monorepo
 
-1. Clone and navigate to the Avail-OP-Stack Adapter:
+1. Clone and navigate to the Avail adapter:
 
    ```bash
    git clone https://github.com/availproject/avail-op-stack-adapter.git
    cd avail-op-stack-adapter
    ```
 
-2. Install modules (simultaneously start [building `op-geth`](#building-op-geth)):
+2. Install modules (simultaneously, you may start [<ins>building `op-geth`</ins>](#building-op-geth)):
 
    ```bash
    pnpm install
@@ -135,7 +135,7 @@ Setting up the EVM Rollup requires compiling code from two critical repositories
 
 ### Get Access to a Goerli Node
 
-For deploying to Goerli, access an L1 node using a provider like [Alchemy](https://www.alchemy.com/) or [run your own Goerli node](https://notes.ethereum.org/@launchpad/goerli).
+For deploying to Goerli, access an L1 node using a provider like [<ins>Alchemy</ins>](https://www.alchemy.com/) or [<ins>run your own Goerli node</ins>](https://notes.ethereum.org/@launchpad/goerli).
 
 ## Generate and Secure Keys
 
@@ -182,7 +182,7 @@ Record and securely store these key details. Fund `Admin`, `Proposer`, and `Batc
 
 ## Network Configuration and Setup
 
-After building the repositories, configure your chain settings in the [contracts-bedrock package](https://github.com/availproject/avail-optimism/tree/129032f15b76b0d2a940443a39433de931a97a44/packages/contracts-bedrock).
+After building the repositories, configure your chain settings in the [<ins>contracts-bedrock package</ins>](https://github.com/availproject/avail-optimism/tree/129032f15b76b0d2a940443a39433de931a97a44/packages/contracts-bedrock).
 
 1. Enter the Avail-OP-Stack monorepo:
 
