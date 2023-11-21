@@ -140,11 +140,6 @@ module.exports = {
           collapsed: true,
           items: [
             {
-              type: 'link',
-              label: 'Sovereign SDK',
-              href: 'https://github.com/availproject/sovereign-sdk/tree/main',
-            },
-            {
               type: 'category',
               label: 'Optimism SDK',
               link: {
@@ -216,6 +211,11 @@ module.exports = {
                   href: 'https://github.com/availproject/op-evm',
                 },
               ],
+            },
+            {
+              type: 'link',
+              label: 'Sovereign SDK',
+              href: 'https://github.com/availproject/sovereign-sdk/tree/main',
             },
           ],
         },
