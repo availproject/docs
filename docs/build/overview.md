@@ -1,7 +1,7 @@
 ---
 id: overview
 title: Build a Rollup With Avail
-sidebar_label: Avail-Powered Rollups
+sidebar_label: Overview
 description: 'Discover how to utilize Avail as a data availability layer.'
 keywords:
   - documentation
