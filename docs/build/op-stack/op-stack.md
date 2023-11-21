@@ -13,37 +13,7 @@ keywords:
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
-This guide is meant to help you kick off your Avail-OP Stack journey by taking you through the process of spinning up your very own avail-optimism chain on the Ethereum Goerli testnet as settlement layer and Avail kate testnet as Data Avalibility layer.
-
-:::note Know before you go
-
-Before we kick off, note that this is a relatively long tutorial! You should prepare to set aside an hour or two to get everything running. Checkout the [<ins>Optimism Documentation</ins>](https://stack.optimism.io/docs/build/getting-started/#know-before-you-go) before getting started.
-
-:::
-
-## Prerequisites
-
-You’ll need the following software installed to follow this tutorial:
-
-- **[Git](https://git-scm.com/)**
-- **[Go](https://go.dev/)**
-- **[Node](https://nodejs.org/en/)**
-- **[Pnpm](https://classic.yarnpkg.com/lang/en/docs/install/)**
-- **[Foundry](https://github.com/foundry-rs/foundry#installation)**
-- **[Make](https://linux.die.net/man/1/make)**
-- **[jq](https://github.com/jqlang/jq)**
-- **[direnv](https://direnv.net/)**
-
-This tutorial was checked on:
-
-| Software                | Version    | Installation command(s)                                                                                                                                                                      |
-| ----------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
-| Ubuntu                  | 20.04 LTS  |                                                                                                                                                                                              |
-| git, curl, jq, and make | OS default | sudo apt install -y git curl make jq                                                                                                                                                         |
-| Go                      | 1.20       | sudo apt updatewget https://go.dev/dl/go1.20.linux-amd64.tar.gztar xvzf go1.20.linux-amd64.tar.gzsudo cp go/bin/go /usr/bin/gosudo mv go /usr/libecho export GOROOT=/usr/lib/go >> ~/.bashrc |
-| Node                    | 16.19.0    | curl -fsSL https://deb.nodesource.com/setup_16.x                                                                                                                                             | sudo -E bash -sudo apt-get install -y nodejs npm |
-| pnpm                    | 8.5.6      | sudo npm install -g pnpm                                                                                                                                                                     |
-| Foundry                 | 0.2.0      | yarn install:foundry                                                                                                                                                                         |
+This guide will walk you through setting up your own avail-optimism chain on Ethereum's Goerli testnet and Avail Goldberg testnet. Set aside 1-2 hours for this process. Refer to the [<ins>Optimism Documentation</ins>](https://stack.optimism.io/docs/build/getting-started/#know-before-you-go) before getting started.
 
 ## What You'll Do
 
@@ -59,7 +29,36 @@ Here’s an itemized list of what we’re about to do:
 8. Run op-node
 9. Get some Goerli ETH on your L2
 10. Send some test transactions
-11. Celebrate!
+
+## Prerequisites
+
+Ensure you have installed the following software:
+
+- **[Git](https://git-scm.com/)**
+- **[Go](https://go.dev/)**
+- **[Node](https://nodejs.org/en/)**
+- **[Pnpm](https://classic.yarnpkg.com/lang/en/docs/install/)**
+- **[Foundry](https://github.com/foundry-rs/foundry#installation)**
+- **[Make](https://linux.die.net/man/1/make)**
+- **[jq](https://github.com/jqlang/jq)**
+- **[direnv](https://direnv.net/)**
+
+### Installation Commands
+
+> This tutorial was ran on Ubuntu 20.04 LTS
+
+```bash
+sudo apt install -y git curl make jq
+wget https://go.dev/dl/go1.20.linux-amd64.tar.gz
+tar xvzf go1.20.linux-amd64.tar.gz
+sudo cp go/bin/go /usr/bin/go
+sudo mv go /usr/lib
+echo export GOROOT=/usr/lib/go >> ~/.bashrc
+curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+sudo apt-get install -y nodejs npm
+sudo npm install -g pnpm
+yarn install:foundry
+```
 
 ## Build the Source Code
 
@@ -261,7 +260,7 @@ Once you’ve built both repositories, you’ll need head back to the Optimism M
     ```
     {
       "seed": "test test test test test test test test test test test avail",
-      "api_url": "wss://kate.avail.tools:443/ws",
+      "api_url": "wss://goldberg.avail.tools:443/ws",
       "app_id": 1
     }
     ```
