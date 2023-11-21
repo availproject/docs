@@ -1,7 +1,7 @@
 ---
 id: op-stack
-title: How to Use the OP Stack with Avail
-sidebar_label: Use the OP Stack
+title: How to Use Optimism with Avail
+sidebar_label: Use the Avail Adapter
 description: 'Discover how to utilize Avail as a data availability layer.'
 keywords:
   - documentation
@@ -15,7 +15,7 @@ image: https://docs.availproject.org/img/avail/AvailDocs.png
 
 ## Introduction
 
-Embark on setting up your own Avail-Optimism chain. This guide targets Ethereum's Goerli testnet and Avail Goldberg testnet. For a detailed understanding, review the [Optimism Documentation](https://stack.optimism.io/docs/build/getting-started/#know-before-you-go).
+Embark on setting up your own Avail-Optimism chain. This guide targets Ethereum's Goerli testnet and Avail Goldberg testnet. For a detailed understanding, review the [<ins>Optimism Documentation</ins>](https://stack.optimism.io/docs/build/getting-started/#know-before-you-go).
 
 In this guide, you will conduct the following:
 
@@ -27,7 +27,7 @@ In this guide, you will conduct the following:
   - [Get Access to a Goerli Node](#get-access-to-a-goerli-node)
 - [Generate and Secure Keys](#generate-and-secure-keys)
 - [Network Configuration and Setup](#network-configuration-and-setup)
-- [Smart Contract Deployment](#smart-contract-deployment)
+- [Core Contract Deployment](#core-contract-deployment)
 - [Initialize and Configure Geth](#initialize-and-configure-geth)
 - [Launch and Monitor Nodes](#launch-and-monitor-nodes)
   - [Running `op-geth`](#running-op-geth)
@@ -174,11 +174,11 @@ Use `cast wallet` in `contracts-bedrock` for key generation:
 
 Record and securely store these key details. Fund `Admin`, `Proposer`, and `Batcher` with Goerli ETH (2 ETH for `Admin`, 5 ETH for `Proposer`, 10 ETH for `Batcher`).
 
-**Note for Production**: Use secure hardware for key management in production environments.
+:::tip Note for Production
 
-- `Admin` — 2 ETH
-- `Proposer` — 5 ETH
-- `Batcher` — 10 ETH
+Use secure hardware for key management in production environments.
+
+:::
 
 ## Network Configuration and Setup
 
@@ -228,7 +228,7 @@ After building the repositories, configure your chain settings in the [<ins>cont
 
 10. Create `config.json` with necessary variables (`seed`, `api_url`, `app_id`).
 
-## Smart Contract Deployment
+## Core Contract Deployment
 
 Deploy essential L1 contracts for the chain’s functionality:
 
@@ -271,14 +271,14 @@ Running `op-geth` and `op-node` is essential for every node. `op-batcher` and `o
 
 Set the following environment variables:
 
-| Variable     | Value                                     |
-| ------------ | ----------------------------------------- |
-| SEQ_KEY      | Sequencer private key                     |
-| BATCHER_KEY  | Batcher private key (minimum 1 ETH)       |
-| PROPOSER_KEY | Proposer private key                      |
-| L1_RPC       | L1 node URL                               |
-| RPC_KIND     | L1 server type (e.g., alchemy, quicknode) |
-| L2OO_ADDR    | L2OutputOracleProxy address               |
+| Variable       | Value                                     |
+| -------------- | ----------------------------------------- |
+| `SEQ_KEY`      | Sequencer private key                     |
+| `BATCHER_KEY`  | Batcher private key (minimum 1 ETH)       |
+| `PROPOSER_KEY` | Proposer private key                      |
+| `L1_RPC`       | L1 node URL                               |
+| `RPC_KIND`     | L1 server type (e.g., alchemy, quicknode) |
+| `L2OO_ADDR`    | L2OutputOracleProxy address               |
 
 ### Running `op-geth`
 
