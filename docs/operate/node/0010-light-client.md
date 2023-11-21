@@ -19,19 +19,7 @@ This guide outlines how to set up an Avail light client. You can either:
 1. [<ins>Run the light client on an existing network</ins>](#run-the-avail-light-client-on-an-existing-network)
 2. [<ins>Run the light client locally</ins>](#run-the-light-client-locally)
 
-## Requirements
-
-### Hardware Specifications
-
-The Avail light client is designed to run on resource-constrained and low powered devices. However, we recommend the following configuration to set up your Avail light client.
-
-| Component                    | Minimum  | Recommended |
-| ---------------------------- | -------- | ----------- |
-| RAM                          | 4GB      | 8GB         |
-| CPU (amd64/x86 architecture) | 2 core   | 4 core      |
-| Storage (SSD)                | 20-40 GB | 200-300 GB  |
-
-### Latest release
+## Latest release
 
 You can find the latest release binary in the `avail-light` repository.
 

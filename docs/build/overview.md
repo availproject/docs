@@ -81,7 +81,7 @@ A Sequence Sender, in this architecture, is responsible for submitting proofs to
 
 This architecture provides the dual benefits of the main chain's security for settlement and dispute resolution, and Avail's efficiency in handling data. By offloading data availability to Avail, Optimium chains can achieve higher scalability and efficiency while maintaining robust security and decentralization.
 
-## Application IDs (AppId)
+## Application IDs (app_id)
 
 As a general purpose base layer, Avail is designed to support many
 modular chains at the same time, providing consensus and data
