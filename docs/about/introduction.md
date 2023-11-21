@@ -97,6 +97,7 @@ Adaptations of rollups represent a class of scalability solutions that offer off
 - **Validiums: ZK Rollups + Off-Chain DA**
 - **Optimiums: Optimistic Rollups + Off-Chain DA**
 - **Volitions: ZK Rollups + Validiums**
+- **Sovereign Rollups: Independent Rollups with Custom DA and Security Models**
 
 Moving data availability off-chain inherently incorporates additional trust dependencies due to their reliance on external data managers.
 
@@ -140,6 +141,19 @@ The unique feature of Volitions lies in their dual-mode operation. Users can opt
 In both modes, the transaction integrity is maintained through zero-knowledge proofs, but the choice of data availability mode allows for a customizable balance between scalability, security, and cost-efficiency.
 
 The interaction of Volitions with the Ethereum ecosystem is also facilitated through a comprehensive set of smart contracts. These contracts manage state commitments and validity proof verifications, ensuring the system remains secure, efficient, and seamlessly integrated with Ethereum, regardless of the chosen data availability mode.
+
+</details>
+
+<details>
+<summary>What are Sovereign Rollups?</summary>
+
+Sovereign Rollups represent a distinct class of blockchain scaling solutions, where each rollup operates as a self-governing entity with its own validator set and consensus rules. Unlike traditional rollups tied to a specific main chain's security and data availability model, Sovereign Rollups maintain autonomy over these aspects.
+
+These rollups provide a unique combination of scalability and sovereignty, allowing them to tailor their infrastructure to specific use cases or community needs. By managing their own data availability, either on-chain or off-chain, Sovereign Rollups can optimize for performance, cost, and security as per their requirements.
+
+The key feature of Sovereign Rollups is their independence in decision-making regarding upgrades, tokenomics, and governance models. This autonomy enables a more flexible and adaptive approach to blockchain scalability, catering to diverse and evolving ecosystem needs.
+
+In Sovereign Rollups, the transaction integrity is usually maintained through customized consensus mechanisms or cryptographic proofs, and their interactions with main chains (if any) are defined by their unique governance protocols. This structure empowers them to operate as independent blockchains while still benefiting from the scalability features of rollup technology.
 
 </details>
 
@@ -192,7 +206,7 @@ As Avail's primary consumers, rollups begin the process by submitting transactio
 
 ### Enhancing Data Reliability Through Erasure Coding
 
-Once transactions reach Avail, they undergo a transformation through erasure coding. This process extends the original data, adding redundancy layers and enhancing the information's reliability and integrity. Blocks are split into `n` original chunks and extended to `2n`, allowing any `n` out of `2n` chunks to reconstruct the original data. These chunks are arranged in an `n × m` matrix. This matrix is then extended to ensure redundancy, a critical feature for preventing data unavailability.
+Once transactions reach Avail, they are processed through erasure coding. This procedure adds redundancy, enhancing the data's reliability and integrity. Blocks are divided into `n` original chunks and extended to `2n`, allowing for reconstruction from any `n` out of `2n` chunks. While Avail incorporates mechanisms for fraud proofs, the primary reliance for data integrity is on the consensus of validators. Over 2/3 of the validators are required to be honest to reach a consensus, ensuring robust security for the erasure-coded data.
 
 > To combat the misconstruction of erasure-coded chunks, full nodes can create and propagate **fraud proofs**, ensuring that light clients can verify the authenticity of block headers.
 
@@ -206,11 +220,11 @@ Avail takes the redundant data and applies KZG polynomial commitments to each bl
 
 ### Ensuring Consensus & Block Propagation
 
-Validators play a pivotal role in Avail's ecosystem. They receive the commitment-laden blocks, regenerate the commitments to verify their accuracy and reach a consensus on the block. Validators ensure that only verified and agreed-upon data is propagated through the network. This stage is vital for ensuring that the data, once validated, can be relayed via Avail’s data attestation bridge.
+Validators play a pivotal role in Avail's ecosystem. They receive the commitment-laden blocks, regenerate the commitments to verify their accuracy and reach a consensus on the block, which requires agreement from at least two-thirds (super majority). Validators ensure that only verified and agreed-upon data is propagated through the network. They reach consensus This stage is vital for ensuring that the data, once validated, can be relayed via Avail’s data attestation bridge.
 
 ### Light Clients: The Guardians of Data Availability Using DAS
 
-After block finalization, light clients play a crucial role in ensuring data integrity. They use [<ins>Data Availability Sampling (DAS)</ins>](/docs/glossary.md#data-availability-sampling-das) to verify block data and detect any data withholding by validators. This process involves downloading random data samples and checking them against the Kate commitments and Merkle proofs. This is what allows light clients to authenticate specific data segments without requiring the full block.
+Light clients within Avail's ecosystem use [<ins>Data Availability Sampling (DAS)</ins>](/docs/glossary.md#data-availability-sampling-das) to verify block data integrity. They check KZG polynomial openings against the commitments in the block header for each sampled cell, enabling them to independently and instantly verify data availability. This method bypasses the need for reconstructing full KZG commitments or relying on fraud proofs, underpinning Avail's high security and data integrity standards maintained by decentralized verification. However, for more comprehensive data integrity checks, especially for row integrity within the data matrix, app clients perform KZG reconstruction. This approach is more optimal for verifying the integrity of entire rows than validating individual cells.
 
 > On the other side, full nodes use Kate commitments for two primary purposes: reconstructing the full data for network-wide verification or creating fraud proofs to challenge any discrepancies in the data. This dual mechanism of light clients and full nodes working in tandem also strengthens the overall security and reliability of the network.
 

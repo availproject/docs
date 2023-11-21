@@ -130,34 +130,31 @@ module.exports = {
       },
       items: [
         'build/overview',
-        'about/introduction/app-id',
+        //'about/introduction/app-id',
         {
           type: 'category',
-          label: 'Adapters for Rollups',
+          label: 'Optimium',
           link: {
             type: 'generated-index',
           },
           collapsed: true,
           items: [
             {
-              type: 'link',
-              label: 'Sovereign SDK',
-              href: 'https://github.com/availproject/sovereign-sdk/tree/main',
-            },
-            {
-              type: 'link',
-              label: 'Optimism SDK',
-              href: 'https://github.com/availproject/avail-op-stack-adapter',
-            },
-            {
-              type: 'link',
-              label: 'Rollkit',
-              href: 'https://github.com/rollkit/avail-da',
-            },
-            {
-              type: 'link',
-              label: 'Madara Starknet',
-              href: 'https://github.com/keep-starknet-strange/madara',
+              type: 'category',
+              label: 'OP Stack',
+              link: {
+                type: 'generated-index',
+              },
+              collapsed: true,
+              items: [
+                'build/op-stack/overview',
+                'build/op-stack/op-stack',
+                {
+                  type: 'link',
+                  label: 'OP Stack Adapter',
+                  href: 'https://github.com/availproject/avail-op-stack-adapter',
+                },
+              ],
             },
           ],
         },
@@ -170,26 +167,51 @@ module.exports = {
           collapsed: true,
           items: [
             {
-              type: 'link',
-              label: 'CDK-Based Validium Node',
-              href: 'https://github.com/availproject/validium-node',
+              type: 'category',
+              label: 'Polygon CDK',
+              link: {
+                type: 'generated-index',
+              },
+              collapsed: true,
+              items: [
+                {
+                  type: 'link',
+                  label: 'CDK-Based Validium Node',
+                  href: 'https://github.com/availproject/validium-node',
+                },
+                {
+                  type: 'link',
+                  label: 'CDK-Based Validium Contracts',
+                  href: 'https://github.com/availproject/validium-contracts',
+                },
+              ],
             },
             {
               type: 'link',
-              label: 'CDK-Based Validium Contracts',
-              href: 'https://github.com/availproject/validium-contracts',
+              label: 'Madara Starknet',
+              href: 'https://github.com/keep-starknet-strange/madara',
             },
             'api/use-case-validiums',
           ],
         },
         {
           type: 'category',
-          label: 'Optimium',
+          label: 'Sovereign Rollups',
           link: {
             type: 'generated-index',
           },
           collapsed: true,
           items: [
+            {
+              type: 'link',
+              label: 'Sovereign SDK',
+              href: 'https://github.com/availproject/sovereign-sdk/tree/main',
+            },
+            {
+              type: 'link',
+              label: 'Rollkit',
+              href: 'https://github.com/rollkit/avail-da',
+            },
             {
               type: 'link',
               label: 'OpEVM',
