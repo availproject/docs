@@ -141,7 +141,7 @@ module.exports = {
           items: [
             {
               type: 'category',
-              label: 'Optimism',
+              label: 'OP Stack',
               link: {
                 type: 'generated-index',
               },

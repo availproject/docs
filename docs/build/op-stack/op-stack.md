@@ -1,6 +1,6 @@
 ---
 id: op-stack
-title: How to Use Optimism with Avail
+title: How to Use the OP Stack with Avail
 sidebar_label: Use the Avail Adapter
 description: 'Discover how to utilize Avail as a data availability layer.'
 keywords:
