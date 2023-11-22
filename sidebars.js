@@ -168,7 +168,7 @@ module.exports = {
           items: [
             {
               type: 'category',
-              label: 'Polygon CDK',
+              label: 'Polygon zkEVM',
               link: {
                 type: 'generated-index',
               },
@@ -176,12 +176,12 @@ module.exports = {
               items: [
                 {
                   type: 'link',
-                  label: 'CDK-Based Validium Node',
+                  label: 'Validium Node',
                   href: 'https://github.com/availproject/validium-node',
                 },
                 {
                   type: 'link',
-                  label: 'CDK-Based Validium Contracts',
+                  label: 'Validium Contracts',
                   href: 'https://github.com/availproject/validium-contracts',
                 },
               ],
