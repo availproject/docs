@@ -21,17 +21,13 @@ In this guide, you will conduct the following:
 
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
-  - [Hardware Requirements for Node Deployment](#hardware-requirements-for-node-deployment)
-- [Deploying the Contracts](#deploying-the-contracts)
-- [Deploying the Node](#deploying-the-node)
-- [Real Prover Setup](#real-prover-setup)
-- [Configuring the Bridge](#configuring-the-bridge)
-
-:::info
-
-The zkEVM bridge service is a microservice that simplifies bridging between L1 and L2 by auto-claiming L1 transactions on L2 and generating necessary Merkle proofs. While optional for running a Validium, it enhances the ease of bridging transactions.
-
-:::
+  - [Hardware Requirements](#hardware-requirements)
+  - [Network Details](#network-details)
+- [Launch an Avail-Powered zkEVM](#launch-an-avail-powered-zkevm)
+  - [Deploy the Contracts](#deploy-the-contracts)
+  - [Deploy the Node](#deploy-the-node)
+  - [Setup the Prover](#setup-the-prover)
+  - [Configure the Bridge](#configure-the-bridge)
 
 ## Prerequisites
 
@@ -79,7 +75,7 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plu
   </tr>
 </table>
 
-### Hardware Requirements for Node Deployment
+### Hardware Requirements
 
 Both the real and mock provers are compatible exclusively with x86 architectures. They are not designed to operate on ARM architecture machines, including Apple Silicon devices, even within Dockerized environments.
 
@@ -88,7 +84,39 @@ Both the real and mock provers are compatible exclusively with x86 architectures
 | Mock Prover | 4-core CPU, 8GB RAM, 50 GB SSD     | 8-core CPU, 16GB RAM, 60 GB SSD     | r6a.xlarge             |
 | Real Prover | 96-core CPU, 768GB RAM, 120 GB SSD | 96-core CPU, 1000GB RAM, 140 GB SSD | r6a.24xlarge           |
 
-## Deploying the Contracts
+Running the Polygon zkEVM solution suite may lead to storage issues, primarily due to excessive Docker logs. To mitigate this, you can customize the Docker daemon's behavior by referring to the first answer [<ins>here</ins>](https://stackoverflow.com/a/59329638). Choose a configuration that best suits your needs.
+
+- For a devnet setup with limited state growth and Docker logs, we recommend a minimum disk size of approximately 50GB.
+- If you plan to run a real prover, it's advisable to allocate a minimum disk size of around 120GB for your devnet setup.
+- Keep in mind that these recommendations may vary based on your specific use case and requirements.
+
+:::tip Additional storage considerations
+
+In production environments with a high transaction volume, your storage requirements may increase significantly. It's recommended to utilize an EBS-like data storage solution to ensure scalability, allowing you to add more storage as needed.
+
+:::
+
+### Network Details
+
+Before diving into the setup, ensure you have the following network details:
+
+| Service        | URL                                    |
+| -------------- | -------------------------------------- |
+| Explorer       | http://zkevm-demo.avail.tools/         |
+| RPC            | http://zkevm-demo-rpc.avail.tools/     |
+| Bridge service | https://zkevm-demo-bridge.avail.tools/ |
+
+## Launch an Avail-Powered zkEVM
+
+:::caution Usage Disclaimer
+
+The prover and verifier components maintain their original security guarantees. However, please note that the data attestation verification during sequencing or any aspect of the `validium-node` related to data availability on Avail has not undergone an audit. Exercise caution when using this program. It is distributed without any warranty, nor an implied warranty of merchantability or fitness for a particular purpose.
+
+:::
+
+> Please be aware that some aspects of this guide may differ from the original source due to the unique nature of the Avail validium implementation. For zkEVM node-specific configurations and troubleshooting, refer to the [<ins>official Polygon documentation</ins>](https://wiki.polygon.technology/docs/zkevm/setup-zkevm/).
+
+### Deploy the Contracts
 
 1. Clone the `validium-contracts` repository and install dependencies:
 
@@ -116,33 +144,33 @@ Both the real and mock provers are compatible exclusively with x86 architectures
      - Fill in the following fields with the respective addresses that will control the contracts: `admin`, `zkEVMOwner`, `timelockAddress`, and `initialZkEVMDeployerOwner`.
      - Enter the private key for the deployer in the `deployerPvtKey` field.
 
-     ```json title="deployment/deploy_parameters.json"
-     {
-       "realVerifier": false,
-       "trustedSequencerURL": "http://zkevm-json-rpc:8123",
-       "networkName": "zkevm",
-       "version": "0.0.1",
-       "trustedSequencer": "0x123456789abcdef0123456789abcdef0123456789",
-       "chainID": 1001,
-       "trustedAggregator": "0xabcdef1234567890abcdef1234567890abcdef12",
-       "trustedAggregatorTimeout": 604799,
-       "pendingStateTimeout": 604799,
-       "forkID": 5,
-       "admin": "0x23456789abcdef0123456789abcdef0123456789",
-       "zkEVMOwner": "0x3456789abcdef0123456789abcdef0123456789",
-       "timelockAddress": "0x456789abcdef0123456789abcdef0123456789",
-       "minDelayTimelock": 3600,
-       "salt": "0x0000000000000000000000000000000000000000000000000000000000000000",
-       "initialZkEVMDeployerOwner": "0x56789abcdef0123456789abcdef0123456789",
-       "maticTokenAddress": "0x6789abcdef0123456789abcdef0123456789abcdef",
-       "daBridgeRouterAddress": "0x789abcdef0123456789abcdef0123456789abcdef",
-       "zkEVMDeployerAddress": "",
-       "deployerPvtKey": "your_deployer_private_key_here",
-       "maxFeePerGas": "",
-       "maxPriorityFeePerGas": "",
-       "multiplierGas": ""
-     }
-     ```
+       ```json title="deployment/deploy_parameters.json"
+       {
+         "realVerifier": false,
+         "trustedSequencerURL": "http://zkevm-json-rpc:8123",
+         "networkName": "zkevm",
+         "version": "0.0.1",
+         "trustedSequencer": "0x123456789abcdef0123456789abcdef0123456789",
+         "chainID": 1001,
+         "trustedAggregator": "0xabcdef1234567890abcdef1234567890abcdef12",
+         "trustedAggregatorTimeout": 604799,
+         "pendingStateTimeout": 604799,
+         "forkID": 5,
+         "admin": "0x23456789abcdef0123456789abcdef0123456789",
+         "zkEVMOwner": "0x3456789abcdef0123456789abcdef0123456789",
+         "timelockAddress": "0x456789abcdef0123456789abcdef0123456789",
+         "minDelayTimelock": 3600,
+         "salt": "0x0000000000000000000000000000000000000000000000000000000000000000",
+         "initialZkEVMDeployerOwner": "0x56789abcdef0123456789abcdef0123456789",
+         "maticTokenAddress": "0x6789abcdef0123456789abcdef0123456789abcdef",
+         "daBridgeRouterAddress": "0x789abcdef0123456789abcdef0123456789abcdef",
+         "zkEVMDeployerAddress": "",
+         "deployerPvtKey": "your_deployer_private_key_here",
+         "maxFeePerGas": "",
+         "maxPriorityFeePerGas": "",
+         "multiplierGas": ""
+       }
+       ```
 
 3. Execute deployment scripts on the Sepolia network:
 
@@ -164,7 +192,7 @@ Both the real and mock provers are compatible exclusively with x86 architectures
 To create a fresh set of contracts, you can either employ a new private key or increment the value of the `salt` parameter in your configuration. After making this change, simply re-execute the deployment commands to generate the new contract suite.
 :::
 
-## Deploying the Node
+### Deploy the Node
 
 :::caution Mock prover functionality
 
@@ -511,26 +539,7 @@ The Mock Prover does not generate any zero-knowledge proofs. Instead, it simply 
    make run
    ```
 
-5. Configure the real prover environment (if using real prover):
-
-   - Activate the `realVerifier` by setting `"realVerifier": true` in `deploy_parameters.json`.
-   - Follow the [zkevm-prover Setup Guide](https://github.com/0xPolygonHermez/zkevm-prover?tab=readme-ov-file#setup).
-   - Update `test.prover.config.json` accordingly:
-
-     ```json title="test.prover.config.json"
-     {
-       "runAggregatorClient": true,
-       "runAggregatorClientMock": false
-     }
-     ```
-
-6. Test the setup with transaction simulations (optional):
-
-   ```bash
-   make send-transfers
-   ```
-
-## Real Prover Setup
+### Setup the Prover
 
 1. To switch to the real verifier mode, modify the `deploy_parameters.json` file:
 
@@ -561,7 +570,9 @@ The Mock Prover does not generate any zero-knowledge proofs. Instead, it simply 
    "runAggregatorClientMock": false
    ```
 
-## Configuring the Bridge
+### Configure the Bridge
+
+The zkEVM bridge service is a microservice that simplifies bridging between L1 and L2 by auto-claiming L1 transactions on L2 and generating necessary Merkle proofs. While optional for running a Validium, it enhances the ease of bridging transactions.
 
 1. Clone the bridge repository:
 
@@ -658,3 +669,5 @@ The Mock Prover does not generate any zero-knowledge proofs. Instead, it simply 
    - **Generate Merkle Proofs**: Use the /merkle-proof endpoint to generate the necessary Merkle proofs for bridging transactions.
    - **Additional Endpoints**: The microservice provides other endpoints for various functionalities, such as detecting bridge transactions for specific accounts.
    - **Updating Code**: If you need to modify any part of the code, remember that each change necessitates a new build. To update and rerun the service, execute the `make build-docker && make run` commands.
+
+<!-- Add test transactions -->
