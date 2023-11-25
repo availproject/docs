@@ -1,7 +1,7 @@
 ---
 id: zkevm
 title: How to Use Polygon zkEVM with Avail
-sidebar_label: Use the Avail Adapter
+sidebar_label: Avail-Powered zkEVM Validium
 description: 'Discover how to utilize Avail as a data availability layer.'
 keywords:
   - documentation

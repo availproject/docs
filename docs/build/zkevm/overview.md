@@ -13,43 +13,45 @@ keywords:
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
-The OP Stack, instrumental for the development of L2 rollups and maintained by the [<ins>Optimism Collective</ins>](https://www.optimism.io/), is now extendable with Avail as an alternative data availability layer. Developers working with the OP Stack can utilize Avail to address data availability concerns, enhancing the stack's scalability while simultaneously cutting down data handling costs.
+## Using Polygon zkEVM with Avail in Validium
 
-## Transaction Lifecycle
+Polygon zkEVM, when combined with Avail in a Validium setup, provides a robust solution for scaling Ethereum applications. Here's an overview of this setup:
 
-### 1. Transaction Submission
+### Transaction Lifecycle
 
-- **Process**: Users send transactions to the Sequencer.
-- **Role**: The Sequencer temporarily holds the transactions before they are batched.
+1. **Transaction Submission**
 
-### 2. Batch Processing
+   - **Process**: Users initiate transactions by sending them to the Validium Sequencer.
+   - **Role**: The Sequencer temporarily holds these transactions before they are processed.
 
-- **Component**: `op-batcher`
-- **Function**: Collects transactions into batches for more efficient processing.
+2. **Batch Processing**
 
-### 3. Data Availability with Avail
+   - **Component**: `validium-batcher`
+   - **Function**: Transactions are grouped into batches to optimize processing efficiency.
 
-- **Component**: `op-avail`
-- **Function**: Sends the transaction batches to Avail's blockchain, ensuring data availability.
+3. **Data Availability with Avail**
 
-### 4. Transaction Reference Creation
+   - **Component**: `avail-validator`
+   - **Function**: Transaction batches are transmitted to Avail's blockchain, where they are validated and made available for further processing within the Validium environment.
 
-- **Outcome**: Avail returns a unique transaction reference to `op-avail`.
+4. **Proof Generation**
 
-### 5. Calldata Submission to Ethereum
+   - **Component**: `zkevm-prover`
+   - **Function**: A dedicated prover generates cryptographic proofs for the Validium network, ensuring the validity of transactions and data availability on Ethereum.
 
-- **Component**: `op-batcher`
-- **Action**: Submits the transaction reference from Avail as `calldata` to Ethereum.
+5. **Transaction Commitment to Ethereum**
 
-### 6. Verifier and Rollup Node Integration
+   - **Component**: `validium-bridge`
+   - **Action**: Validity proofs and transaction commitments are submitted to the Ethereum network, anchoring the Validium state on the Ethereum mainnet.
 
-- **Component**: `op-node`
-- **Function**: Queries data commitment from Ethereum and fetches L2 transaction data through `op-avail`, completing the data availability cycle for OP Stack transactions.
+6. **Verifier and Rollup Node Integration**
+   - **Component**: `validium-node`
+   - **Function**: The Validium node queries Ethereum for transaction data and commitments, maintaining data availability and enabling users to interact with the Validium chain securely.
 
-## Interoperability and Fault Proofing
+### Interoperability and Fault Tolerance
 
-The Avail OP Stack will evolve to integrate Optimism's fault proof system and the OP Stack sequencer's decentralization efforts. The Avail data root will be posted to Ethereum through the Vector data attestation bridge, allowing for seamless verification of data availability consensus.
+The combination of Polygon zkEVM and Avail in the Validium setup is designed to seamlessly integrate with Polygon's fault-tolerant system. This ensures the robustness of the Validium Sequencer while enabling efficient cross-chain communication and interoperability.
 
-## Developer Onboarding
+### Developer Onboarding
 
-Developers can start experimenting with the Avail OP Stack today by following the guide in the [Avail OP Stack](https://github.com/availproject/op-evm) repo. For support and updates, join the Avail Forum or Discord.
+Developers interested in leveraging Polygon zkEVM with Avail within the Validium framework can begin by referring to the comprehensive guide provided in the [Avail Validium GitHub repository](https://github.com/availproject/validium-contracts). For ongoing support and updates, developers are encouraged to join the Avail community forum or Discord channel.

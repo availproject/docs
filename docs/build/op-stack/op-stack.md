@@ -1,7 +1,7 @@
 ---
 id: op-stack
 title: How to Use the OP Stack with Avail
-sidebar_label: Use the Avail Adapter
+sidebar_label: Avail-Powered OP Stack Optimium
 description: 'Discover how to utilize Avail as a data availability layer.'
 keywords:
   - documentation
