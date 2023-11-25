@@ -186,6 +186,11 @@ module.exports = {
                   label: 'Validium Contracts',
                   href: 'https://github.com/availproject/validium-contracts',
                 },
+                {
+                  type: 'link',
+                  label: 'Validium Bridge',
+                  href: 'https://github.com/availproject/validium-bridge-service',
+                },
               ],
             },
             {
