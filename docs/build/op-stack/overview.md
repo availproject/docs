@@ -17,34 +17,33 @@ The OP Stack, instrumental for the development of L2 rollups and maintained by t
 
 ## Transaction Lifecycle
 
-### 1. Transaction Submission
+1. **Transaction Submission**
 
-- **Process**: Users send transactions to the Sequencer.
-- **Role**: The Sequencer temporarily holds the transactions before they are batched.
+   - **Process**: Users send transactions to the Sequencer.
+   - **Role**: The Sequencer temporarily holds the transactions before they are batched.
 
-### 2. Batch Processing
+2. **Batch Processing**
 
-- **Component**: `op-batcher`
-- **Function**: Collects transactions into batches for more efficient processing.
+   - **Component**: `op-batcher`
+   - **Function**: Collects transactions into batches for more efficient processing.
 
-### 3. Data Availability with Avail
+3. **Data Availability with Avail**
 
-- **Component**: `op-avail`
-- **Function**: Sends the transaction batches to Avail's blockchain, ensuring data availability.
+   - **Component**: `op-avail`
+   - **Function**: Sends the transaction batches to Avail's blockchain, ensuring data availability.
 
-### 4. Transaction Reference Creation
+4. **Transaction Reference Creation**
 
-- **Outcome**: Avail returns a unique transaction reference to `op-avail`.
+   - **Outcome**: Avail returns a unique transaction reference to `op-avail`.
 
-### 5. Calldata Submission to Ethereum
+5. **Calldata Submission to Ethereum**
 
-- **Component**: `op-batcher`
-- **Action**: Submits the transaction reference from Avail as `calldata` to Ethereum.
+   - **Component**: `op-batcher`
+   - **Action**: Submits the transaction reference from Avail as `calldata` to Ethereum.
 
-### 6. Verifier and Rollup Node Integration
-
-- **Component**: `op-node`
-- **Function**: Queries data commitment from Ethereum and fetches L2 transaction data through `op-avail`, completing the data availability cycle for OP Stack transactions.
+6. **Verifier and Rollup Node Integration**
+   - **Component**: `op-node`
+   - **Function**: Queries data commitment from Ethereum and fetches L2 transaction data through `op-avail`, completing the data availability cycle for OP Stack transactions.
 
 ## Interoperability and Fault Proofing
 

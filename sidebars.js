@@ -174,6 +174,8 @@ module.exports = {
               },
               collapsed: true,
               items: [
+                'build/zkevm/overview',
+                'build/zkevm/zkevm',
                 {
                   type: 'link',
                   label: 'Validium Node',
@@ -183,6 +185,11 @@ module.exports = {
                   type: 'link',
                   label: 'Validium Contracts',
                   href: 'https://github.com/availproject/validium-contracts',
+                },
+                {
+                  type: 'link',
+                  label: 'Validium Bridge',
+                  href: 'https://github.com/availproject/validium-bridge-service',
                 },
               ],
             },
