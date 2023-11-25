@@ -174,6 +174,8 @@ module.exports = {
               },
               collapsed: true,
               items: [
+                'build/zkevm/overview',
+                'build/zkevm/zkevm',
                 {
                   type: 'link',
                   label: 'Validium Node',
