@@ -574,6 +574,8 @@ The Mock Prover does not generate any zero-knowledge proofs. Instead, it simply 
 
 The zkEVM bridge service is a microservice that simplifies bridging between L1 and L2 by auto-claiming L1 transactions on L2 and generating necessary Merkle proofs. While optional for running a Validium, it enhances the ease of bridging transactions.
 
+> The Nomad DA bridge is only operational on Sepolia, limiting validium's data attestation to this chain. Alternatively, you can simulate data attestation and deploy on your preferred blockchain
+
 1. Clone the bridge repository:
 
    ```bash
