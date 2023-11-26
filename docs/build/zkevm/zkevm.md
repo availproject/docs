@@ -579,7 +579,7 @@ The zkEVM bridge service is a microservice that simplifies bridging between L1 a
 1. Clone the bridge repository:
 
    ```bash
-   git clone git@github.com:availproject/bridge.git
+   git clone git@github.com:availproject/validium-bridge-service.git
    cd bridge
    ```
 
