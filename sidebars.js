@@ -1,6 +1,7 @@
 module.exports = {
   avail: [
     'index',
+    'about/introduction',
     {
       type: 'category',
       label: 'Clash of Nodes',
@@ -15,7 +16,6 @@ module.exports = {
         'clash-of-nodes/faqs',
       ],
     },
-    'about/introduction',
     {
       type: 'category',
       label: 'Get Started',
@@ -35,6 +35,7 @@ module.exports = {
           items: [
             'about/accounts',
             'about/identity',
+            'about/balance-transfers',
             'about/explorer',
             'about/faucet',
           ],
