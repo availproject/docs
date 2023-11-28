@@ -34,10 +34,10 @@ module.exports = {
           collapsed: true,
           items: [
             'about/accounts',
-            'about/identity',
-            'about/balance-transfers',
             'about/explorer',
             'about/faucet',
+            'about/identity',
+            'about/balance-transfers',
           ],
         },
       ],
