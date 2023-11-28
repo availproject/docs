@@ -2,7 +2,7 @@
 id: identity
 title: How to Set an On-Chain Identity
 sidebar_label: Set Your Identity
-description: 'Learn how to set an on-chain identity on Avail.'
+description: 'Learn how to set an on-chain identity on the Goldberg testnet.'
 keywords:
   - docs
   - avail
