@@ -15,9 +15,21 @@ keywords:
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
+## Overview
+
 Balance transfers are a method for transferring funds from one account to another. This guide will walk you through the process using [<ins>Avail-JS UI</ins>](https://goldberg.avail.tools/). Before you begin, ensure you have [<ins>created an account</ins>](/about/accounts) and have [<ins>funds available</ins>](/about/faucet) for transfer.
 
-:::info Wallets supported
+:::info Clash of Nodes
+
+In the balance transfer challenge part of [<ins>Clash of Nodes</ins>](/category/clash-of-nodes/), participants must follow these guidelines:
+
+1. **Token Acquisition**: To participate in balance transfers, tokens must be acquired through the designated [<ins>faucet</ins>](/about/faucet).
+2. **Faucet Transfer Limit**: Participants can obtain tokens from the [<ins>faucet</ins>](/about/faucet) only once per day.
+3. **Regular Engagement**: Participants are encouraged to engage with the challenge daily. The daily acquisition of tokens from the faucet and subsequent transfers cultivate consistent participation.
+
+:::
+
+### Wallets Supported
 
 The following wallets currently support or are actively integrating with the Goldberg testnet and can be used for balance transfers:
 
