@@ -40,8 +40,6 @@ These third-party wallets have integrated or are integrating Avail and support a
 
 Please view the third-party content disclaimer [<ins>here</ins>](https://github.com/availproject/availproject.github.io/blob/main/CONTENT_DISCLAIMER.md).
 
-:::
-
 ## Transferring Funds Using Avail-JS
 
 1. To withdraw test AVL and send funds from your account, select "Transfer" in the Accounts menu, or click the "Send" button on the Accounts page adjacent to the account you wish to send from.
