@@ -16,8 +16,8 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 This guide outlines how to set up an Avail light client. You can either:
 
-1. [<ins>Run the light client on an existing network</ins>](#run-the-avail-light-client-on-an-existing-network)
-2. [<ins>Run the light client locally</ins>](#run-the-light-client-locally)
+1. [<ins>Run the light client on an existing network</ins>](#run-on-an-existing-network)
+2. [<ins>Run the light client locally</ins>](#run-locally)
 
 ## Latest release
 
