@@ -64,33 +64,33 @@ Nomination pools are a critical feature in Avail's consensus system, akin to tho
 
 Nomination pool activites are performed under "Staking".
 
-1. Navigate to "Network" and select "Staking" on the navbar.
+1. Navigate to 'Network' and select 'Staking' on the navbar.
 
    > By default, the Staking UI defaults to the Overview page, which shows you the number of validators, nomination pools, and other relevant staking statistics.
 
       <img src="/img/nomination-pools/1.png" width="200%" height="200%"/>
 
-2. Under "Staking" select "Pools" to view existing nomination pools. Here, you will see a list of pools, their state, points, claimable rewards, and other details.
+2. Under 'Staking', select 'Pools'. Here, you will see a list of active pools, their state, points, claimable rewards, and other details.
 
     <img src="/img/nomination-pools/2.png" width="200%" height="200%"/>
 
    :::info Joining a pool
 
-   To join a pool, click the "Join" button next to the pool you're interested in and follow the prompts
+   To join a pool, click the 'Join' button next to the pool you're interested in and follow the prompts.
 
    :::
 
-3. Under the "Pools" section, click on "+ Add pool" on the right-hand side to create a new nomination pool.
+3. Under the 'Pools' section, click on '+ Add pool' on the right-hand side to create a new nomination pool.
 
-<img src="/img/nomination-pools/3.png" width="200%" height="200%"/>
+   <img src="/img/nomination-pools/3.png" width="200%" height="200%"/>
 
-4. Fill in the initial value, description, and pool ID in the provided fields.
+4. Fill in the initial value, description, and pool ID in the provided fields. Select 'Create' once complete.
    <img src="/img/nomination-pools/4.png" width="200%" height="200%"/>
 
    > The 'pool id' field is a unique identifier for your pool.
    > In the 'description' field, provide a name for your pool. This metadata will serve as the name of your pool and be visible to other users who may wish to join.
 
-5. Click "Sign and Submit" to proceed with the creation of your nomination pool.
+5. Verify the transaction details and click on 'Sign and Submit' to proceed with the creation of your nomination pool.
 
 <img src="/img/nomination-pools/5.png" width="200%" height="200%"/>
 
