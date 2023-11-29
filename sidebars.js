@@ -38,6 +38,7 @@ module.exports = {
             'about/faucet',
             'about/identity',
             'about/balance-transfers',
+            'about/nomination-pools',
           ],
         },
       ],
