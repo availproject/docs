@@ -84,7 +84,7 @@ Nomination pool activites are performed under "Staking".
 
       <img src="/img/nomination-pools/1.png" width="200%" height="200%"/>
 
-2. Under 'Staking', select 'Pools'. Here, you will see a list of active pools, their state, points, claimable rewards, and other details.
+2. Under 'Staking', select 'Pools'. Here, you will see the [<ins>Staking Pool Dashboard</ins>](https://goldberg.avail.tools/#/staking/pools) which shows a list of active pools, their state, points, claimable rewards, and other details.
 
     <img src="/img/nomination-pools/2.png" width="200%" height="200%"/>
 
