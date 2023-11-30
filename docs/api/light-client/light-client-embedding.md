@@ -68,7 +68,7 @@ if response.status() == StatusCode::OK {
 
 ## Fetching the confidence for given block
 
-To fetch the confidence for specific block, which is already processed by application client, we can perform `GET` request on `/v1/confidece/{block_number}` endpoint.
+To fetch the confidence for specific block, which is already processed by application client, we can perform `GET` request on `/v1/confidence/{block_number}` endpoint.
 
 <Tabs groupId="examples">
 <TabItem value="curl" label="CURL">
