@@ -30,15 +30,14 @@ To launch your Avail node, navigate to the `/mnt/avail` directory and execute th
 
 ```bash
 cd /mnt/avail
-sudo docker run -v $(pwd)/state:/da/state:rw -v $(pwd)/keystore:/da/keystore:rw -e DA_CHAIN=goldberg -e DA_NAME=goldberg-docker-avail-Node -p 0.0.0.0:30333:30333 -p 9615:9615 -p 9944:9944 -d --restart unless-stopped availj/avail:v1.8.0.2
+sudo docker run -v $(pwd)/state:/da/state:rw -p 30333:30333 -p 9615:9615 -p 9944:9944 -d --restart unless-stopped availj/avail:v1.8.0.3 --chain goldberg --name "MyAweasomeInContainerAvailAnode" -d /da/state
 ```
 
 > The Docker command performs several important steps:
 
-> - Maps the state and keystore directories, providing read-write permissions for data persistence.
+> - Map the state directory, providing read-write permissions for data persistence.
 > - Opens various ports for different functionalities, including P2P connections, metrics, and HTTP RPC.
 > - Utilizes the Avail image from Docker Hub and sets it to restart unless manually stopped.
-> - Using `DA_CHAIN` to specify the goldberg chainspec.
 
 <details>
 <summary>Sample output</summary>
