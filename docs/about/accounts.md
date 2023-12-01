@@ -39,9 +39,8 @@ Avail JS aims to offer functionalities similar to those found in the [<ins>Polka
 
 Before creating an account, it's essential to understand [<ins>seed phrases</ins>](https://en.wikipedia.org/wiki/Cryptocurrency_wallet). During the account creation process, you'll receive a seed phrase—a series of words that can be used to recover your account.
 
-:::warning Seed Phrase Security
+> Seed Phrase Security
 NEVER share your seed phrase with anyone and keep it in a secure and offline location. Anyone with access to your seed phrase can gain control of your account.
-:::
 
 ## Creating an Account on the Goldberg Testnet
 
@@ -71,9 +70,8 @@ Upon completion, a JSON file containing your account information will be downloa
 
 The JSON file serves as a backup for your account and contains all the necessary information to recover it. It is encrypted with a password that you set during the account creation process.
 
-:::caution Backup and Recovery
+> Backup and Recovery
 Always keep your JSON file in a secure and offline location. Losing this file and your password could result in the loss of your assets.
-:::
 
 ## Next Steps
 
