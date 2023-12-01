@@ -25,10 +25,6 @@ testnet.
 Your address will be deposited 11 AVL token once the status changes to
 `Complete`. You may request AVL every 3 hours.
 
-:::note
-
-The verification step is required, and you can only use the command
+> The verification step is required, and you can only use the command
 once every few minutes. The faucet is not meant for obtaining large
 amounts of AVL (e.g. for validator bonding).
-
-:::
