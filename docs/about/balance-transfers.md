@@ -29,12 +29,11 @@ In the balance transfer challenge part of [<ins>Clash of Nodes</ins>](/category/
 
 :::
 
-### Wallets Supported
+:::tip Using SubWallet
 
-The following wallets currently support or are actively integrating with the Goldberg testnet and can be used for balance transfers:
+[<ins>SubWallet</ins>](https://www.subwallet.app/) currently supports the Goldberg testnet and can be used for balance transfers.
 
-- [<ins>Subwallet</ins>](https://www.subwallet.app/)
-- [<ins>Tailsman</ins>](https://www.talisman.xyz/)
+:::
 
 These third-party wallets have integrated or are integrating Avail and support a variety of features. You should do your own due diligence before using them. The official Avail core team cannot provide assistance for issues with these wallets or other non-native wallets.
 
