@@ -94,15 +94,19 @@ result for the next step and **restart your node**.
 docker ps
 ```
 
-You should an output similar to:
+You should have an output similar to:
 
 ```
 CONTAINER ID   IMAGE                   COMMAND            CREATED         STATUS         PORTS                                                                                                            NAMES
 da097bbeba75   availj/avail:v1.8.0.3   "/entrypoint.sh"   3 seconds ago   Up 3 seconds   0.0.0.0:9615->9615/tcp, :::9615->9615/tcp, 0.0.0.0:9944->9944/tcp, 0.0.0.0:30333->30333/tcp, :::9944->9944/tcp   musing_cartwright
 ```
 
-We need the `CONTAINER ID` from the output above:
+We need the `CONTAINER ID` from the output above. Then, you need to install curl in your image:
+```shell
+docker exec -i da097bbeba75 apt install curl -y
+```
 
+And then you can rotate your keys
 ```shell
 docker exec -i da097bbeba75 curl -sH "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "author_rotateKeys", "params":[]}' http://localhost:9944
 ```
