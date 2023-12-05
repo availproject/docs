@@ -22,7 +22,7 @@ testnet.
 3. Navigate to the `#goldberg-faucet` channel and issue the following
    command: `/deposit <your address> `.
 
-Your address will be deposited 11 AVL token once the status changes to
+Your address will be deposited 5 AVL token once the status changes to
 `Complete`. You may request AVL every 3 hours.
 
 :::note
