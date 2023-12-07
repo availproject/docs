@@ -25,7 +25,7 @@ In order to cover Avails concensus we must cover
 
 - **Nominated Proof of Stake (NPOS)** which focuses on who is allowed to take part in concensus
 - **GRANDPA** which focuses on what is the last and final change/block
-- **BABE** which focuses on who will propose the next chenge/block
+- **BABE** which focuses on who will propose the next change/block
 
 Lets dig deeper into Nominated Proof of Stake (NPOS) first.
 
@@ -45,11 +45,14 @@ In simple terms, within the Avail ecosystem, you can act as a nominator (or dele
 
 <img src={useBaseUrl("img/avail/nominator.png")} width="100%" height="100%" />
 
-Avail conducts an election using the Phragmén method. Your stake might support a single validator in one era.
+As a participant with a stake in the network, your contribution may be directed towards endorsing a single validator during a particular era. The illustration below highlights the
+potential scenario where your stake is utilized to back and support a specific validator within the given timeframe
 
 <img src={useBaseUrl("img/avail/nominator-elected-1.png")} width="100%" height="100%" />
 
-Or your stake might be distributed among several of the 16 nominated validators. In this example your stake was speard across 3.
+Alternatively, your stake may be diversified among multiple validators from the pool of 16 nominees. For instance, in the presented scenario, your stake has been distributed across
+three different validators. This diversification allows you to participate in supporting and securing multiple validators, contributing to the overall resilience and decentralization
+of the network.
 
 <img src={useBaseUrl("img/avail/nominator-elected-3.png")} width="100%" height="100%" />
 
