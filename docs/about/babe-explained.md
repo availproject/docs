@@ -67,9 +67,9 @@ combination of the block's hash and a random number derived from the VRF (Verifi
 produced. This adds an element of security and prevents potential attacks based on knowing in advance who the leader will be.
 
 **Adaptive Time Slot Duration**: BABE features an adaptive time slot duration, meaning that the length of each slot can be adjusted dynamically based on network conditions. This
-adaptability helps Polkadot handle variations in block production times more efficiently.
+adaptability helps Avail handle variations in block production times more efficiently.
 
 **Finalization**: While BABE is responsible for proposing and producing blocks, finalization of blocks is achieved through the GRANDPA consensus algorithm. GRANDPA is responsible
-for ensuring the overall security and consistency of the Polkadot relay chain.
+for ensuring the overall security and consistency of the Avail chain.
 
 By combining the block production capabilities of BABE with the finality assurance provided by GRANDPA, Avail achieves a high level of scalability and security.
