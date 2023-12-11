@@ -97,7 +97,7 @@ Below is a curated list of GitHub repositories that are actively tracking the va
 |                                                      | [Substrate](https://github.com/availproject/substrate)                                   | Fork of Substrate for Avail.                             |
 | **Explorations**                                     | [Avail Explorations](https://github.com/availproject/avail-explorations)                 | Experimental features and research.                      |
 |                                                      | [Avail Sovereign DA Adapter](https://github.com/availproject/avail-sovereign-da-adapter) | Data availability adapter for Sovereign Rollups.         |
-| **Tooling**                                          | [Availup](https://github.com/availproject/availup)                                       | CLI tool for Avail.                                      |
+| **Tooling**                                          | [CLI](https://github.com/availproject/cli)                                               | CLI tool for Avail.                                      |
 |                                                      | [Avail JS](https://github.com/availproject/avail-js)                                     | JavaScript library for Avail; Fork of PolkadotJS         |
 | **Contracts and Proofs**                             | [Op EVM Contracts](https://github.com/availproject/op-evm-contracts)                     | EVM contracts for Avail.                                 |
 |                                                      | [Poly Multiproof](https://github.com/availproject/poly-multiproof)                       | Multiproof contracts for Avail.                          |

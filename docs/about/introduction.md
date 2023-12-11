@@ -238,16 +238,18 @@ The journey culminates with light clients performing proof verification. This pr
 
 With your foundational understanding of Avail, if you're new to the ecosystem, be sure to visit the [<ins>Getting Started</ins>](/category/get-started/) section.
 
-Additionally, consider experimenting with a light client. For this, the [<ins>Quickstart guide</ins>](/build/quickstart/) is great resource. To run an Avail light client, all you need to do is run one of the following commands:
+Additionally, consider experimenting with a light client. For this, the [<ins>Quickstart guide</ins>](/build/quickstart/) is great resource. To run an Avail light client, all you need to do is install and use the Avail CLI.
+
+To install the CLI from `npm`, run the following command:
 
 ```bash
-curl -sL1 avail.sh | sh
+npm i -g @availproject/cli
 ```
 
-or, with wget:
+Then run:
 
 ```bash
-wget --https-only --secure-protocol=TLSv1_2 --quiet -O - avail.sh | sh
+avail lc up
 ```
 
 That's it!

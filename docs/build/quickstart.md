@@ -17,16 +17,16 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ## Start Operating
 
-To run an Avail light client, simply run the following command:
+To run an Avail light client, simply install the Avail CLI `npm` package:
 
 ```bash
-curl -sL1 avail.sh | sh
+npm i -g @availproject/cli
 ```
 
-or, with `wget`:
+Then, run:
 
 ```bash
-wget --https-only --secure-protocol=TLSv1_2 --quiet -O - avail.sh | sh
+avail lc up
 ```
 
 That's it!
