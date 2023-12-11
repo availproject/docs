@@ -40,7 +40,7 @@ Run the following commands to launch your Avail node:
 
 ```bash
 cd /mnt/avail
-sudo docker run -v $(pwd)/state:/da/state:rw -p 30333:30333 -p 9615:9615 -p 9944:9944 -d --restart unless-stopped availj/avail:v1.8.0.3 --chain goldberg --validator --name "MyAweasomeInContainerAvailAnode" -d /da/state
+sudo docker run -v $(pwd)/state:/da/state:rw -p 30333:30333 -p 9615:9615 -p 9944:9944 -d --restart unless-stopped availj/avail:v1.8.0.4 --chain goldberg --validator --name "MyAweasomeInContainerAvailAnode" -d /da/state
 ```
 
 > The Docker command performs several important steps:
