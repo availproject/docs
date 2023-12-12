@@ -278,13 +278,14 @@ After building the repositories, configure your chain settings in the [<ins>cont
 
 Deploy essential L1 contracts for the chain’s functionality:
 
-1. Create `avail-optimism` directory:
+1.  Navigate to `/avail-op-stack-adapter/packages/contracts-bedrock/deployments`, and Create `avail-optimism` directory:
 
    ```bash
-   mkdir deployments/avail-optimism
+   cd ~/avail-op-stack-adapter/packages/contracts-bedrock/deployments
+   mkdir avail-optimism
    ```
 
-2. Deploy contracts (can take up to 15 minutes):
+2. Navigate to `/avail-op-stack-adapter/packages/contracts-bedrock/`, and Deploy contracts (can take up to 15 minutes):
    ```bash
    forge script scripts/Deploy.s.sol:Deploy --private-key $PRIVATE_KEY --broadcast --rpc-url $ETH_RPC_URL
    forge script scripts/Deploy.s.sol:Deploy --sig 'sync()' --private-key $PRIVATE_KEY --broadcast --rpc-url $ETH_RPC_URL
@@ -429,7 +430,7 @@ In cases of database corruption indicated by `op-node` errors or failure to find
 To launch `op-node`, which acts as a consensus client, run:
 
 ```bash
-cd ~/optimism/op-node
+cd ~/avail-op-stack-adapter/op-node
 ./bin/op-node \
   --l2=http://localhost:9551 \
   --l2.jwt-secret=./jwt.txt \
@@ -460,7 +461,7 @@ To optimize synchronization and avoid network resource waste:
 `op-batcher` is crucial in publishing transactions from the Sequencer to L1. Ensure it has at least 1 Goerli ETH for operational continuity.
 
 ```bash
-cd ~/optimism/op-batcher
+cd ~/avail-op-stack-adapter/op-batcher
 ./bin/op-batcher \
   --l2-eth-rpc=http://localhost:9545 \
   --rollup-rpc=http://localhost:9547 \
@@ -486,7 +487,7 @@ Adjust the `--max-channel-duration=n` setting to balance transaction frequency o
 Finally, start `op-proposer` to propose new state roots:
 
 ```bash
-cd ~/optimism/op-proposer
+cd ~/avail-op-stack-adapter/op-proposer
 ./bin/op-proposer \
   --poll-interval=12s \
   --rpc.port=9560 \
@@ -503,7 +504,7 @@ To obtain ETH on your Rollup:
 1. Go to `contracts-bedrock`:
 
    ```bash
-   cd ~/optimism/packages/contracts-bedrock
+   cd ~/avail-op-stack-adapter/packages/contracts-bedrock
    ```
 
 2. Find the L1 standard bridge contract address:
