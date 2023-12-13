@@ -51,8 +51,8 @@ ZK Rollups require upfront cryptographic proofs of transaction validity, focusin
 3. **Assumption of Validity**: Proof of validity is demanded upfront, unlike Optimistic Rollups.
 4. **Data Availability**: While validity proofs are independent of data availability, the chain's security heavily depends on it.
 5. **Implications of Data Unavailability**:
-   - **State Recreation**: Users can recreate the state using main chain data.
-   - **Sequencer Intervention**: Other sequencers can step in to restore state and continue operations.
+   - **State Recreation**: Users can not recreate the state if data is not available.
+   - **Sequencer Intervention**: Other sequencers can step in to restore the state and continue operations.
 
 Still, there are constraints with data availability.
 
