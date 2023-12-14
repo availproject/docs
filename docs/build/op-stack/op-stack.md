@@ -278,14 +278,14 @@ After building the repositories, configure your chain settings in the [<ins>cont
 
 Deploy essential L1 contracts for the chain’s functionality:
 
-1.  Navigate to `/avail-op-stack-adapter/packages/contracts-bedrock/deployments`, and Create `avail-optimism` directory:
+1.  Navigate to `/avail-op-stack-adapter/packages/contracts-bedrock/deployments`, and create `avail-optimism` directory:
 
    ```bash
    cd ~/avail-op-stack-adapter/packages/contracts-bedrock/deployments
    mkdir avail-optimism
    ```
 
-2. Navigate to `/avail-op-stack-adapter/packages/contracts-bedrock/`, and Deploy contracts (can take up to 15 minutes):
+2. Navigate to `/avail-op-stack-adapter/packages/contracts-bedrock/` and the deploy contracts (this can take up to 15 minutes):
    ```bash
    forge script scripts/Deploy.s.sol:Deploy --private-key $PRIVATE_KEY --broadcast --rpc-url $ETH_RPC_URL
    forge script scripts/Deploy.s.sol:Deploy --sig 'sync()' --private-key $PRIVATE_KEY --broadcast --rpc-url $ETH_RPC_URL
