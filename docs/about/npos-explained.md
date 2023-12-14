@@ -1,7 +1,7 @@
 ---
 id: npos
 title: Overview of the Avail NPoS
-sidebar_label: NPoS Explained
+sidebar_label: NPoS
 description: Overview of the Avail NPoS
 keywords:
   - docs

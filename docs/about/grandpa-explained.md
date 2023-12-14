@@ -1,7 +1,7 @@
 ---
 id: grandpa
 title: GRANDPA
-sidebar_label: GRANDPA Explained
+sidebar_label: GRANDPA
 description: Overview of the Avail usage of GRANDPA
 keywords:
   - docs
@@ -13,7 +13,7 @@ image: https://docs.availproject.org/img/avail/AvailDocs.png
 
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-## GRANDPA Overview
+## Introduction
 
 GRANDPA, which stands for "GHOST-based Recursive ANcestor Deriving Prefix Agreement," is the consensus algorithms used by Avail. GRANDPA works in conjunction with another consensus
 algorithm called BABE (Blind Assignment for Blockchain Extension) to secure the overall network and ensure the finality of blocks on the Avail blockchain.

@@ -1,7 +1,7 @@
 ---
 id: babe
 title: BABE
-sidebar_label: BABE Explained
+sidebar_label: BABE
 description: Overview of the Avail usage of BABE
 keywords:
   - docs
@@ -13,7 +13,7 @@ image: https://docs.availproject.org/img/avail/AvailDocs.png
 
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-## BABE Overview
+## Introduction
 
 Blind Assignment for Blockchain Extension (BABE) serves as a block production engine, drawing inspiration from Ouroboros Praos, another proof-of-stake protocol. It functions
 autonomously, offering probabilistic finality, or it can be integrated with a finality mechanism like GRANDPA.
