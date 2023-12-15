@@ -300,7 +300,7 @@ module.exports = {
               rel: null,
             },
             {
-              href: '/category/run-a-node/',
+              href: '/category/operate-a-node/',
               label: 'Run a Node',
               target: '_self',
               rel: null,
