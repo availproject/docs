@@ -29,7 +29,7 @@ On Avail's explorer, you can observe the eras and epochs by navigating to the st
 
 ## BABE Block Production Process
 
-Every slot has the potential for both a primary and secondary author, also known as a "slot leader." These primary and secondary authors are also known as validatrs. The assignment of
+Each slot may have both a primary and a secondary author, chosen from amongst a set of active validators. The assignment of
 primary slot leaders is a random process. However, due to the inherent randomness, there are instances where slots may lack a designated leader. To maintain a consistent block time,
 BABE employs a round-robin system to designate secondary slot leaders.
 
