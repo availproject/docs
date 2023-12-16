@@ -33,7 +33,7 @@ Each slot may have both a primary and a secondary author, chosen from amongst a 
 primary slot leaders is a random process. However, due to the inherent randomness, there are instances where slots may lack a designated leader. To maintain a consistent block time,
 BABE employs a round-robin system to designate secondary slot leaders.
 
-The selection of primary leaders relies on the evaluation of a verifiable random function (VRF). Given the significance of random numbers in blockchain applications, it becomes
+The selection of primary authors is powered by a verifiable random function (VRF). Given the significance of random numbers in blockchain applications, it becomes
 crucial to establish a universally accepted form of randomness that remains untampered and beneficial for all parties involved. VRFs address this challenge by generating a
 pseudo-random number accompanied by a proof of its proper generation. These functions take various parameters, including a private key. The VRF considers an epoch random
 seed (pre-determined by all nodes), a slot number, and the author's private key. As each node possesses a unique private key, this ensures the generation of a distinct pseudo-random
