@@ -35,6 +35,10 @@ Avail JS aims to offer functionalities similar to those found in the [<ins>Polka
 - **Staking**: Engage in network staking and manage validators.
 - **Explorer**: Browse blockchain data, view block details, and monitor network activity.
 
+### SubWallet: Your User-friendly Wallet for Avail
+
+If you are looking for a more user-friendly alternative to Avail JS Apps, check out SubWallet. Available on both browser extension, mobile app and web dashboard, SubWallet is the comprehensive non-custodial wallet solution for Polkadot, Substrate and Ethereum ecosystems. With SubWallet, you can create and manage accounts, as well as stake on Avail Goldberg Testnet.
+
 ### Seed Phrases
 
 Before creating an account, it's essential to understand [<ins>seed phrases</ins>](https://en.wikipedia.org/wiki/Cryptocurrency_wallet). During the account creation process, you'll receive a seed phrase—a series of words that can be used to recover your account.
