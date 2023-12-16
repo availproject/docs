@@ -15,7 +15,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ## Introduction
 
-Blind Assignment for Blockchain Extension (BABE) serves as a block production engine, drawing inspiration from Ouroboros Praos, another proof-of-stake protocol. It functions
+Blind Assignment for Blockchain Extension (BABE) serves as a block production engine, drawing inspiration from [Ouroboros Praos](https://eprint.iacr.org/2017/573.pdf), another proof-of-stake protocol. It functions
 autonomously, offering probabilistic finality, or it can be integrated with a finality mechanism like GRANDPA.
 
 BABE operates on a slot-based algorithm, dividing time into eras, epochs, further segmented into slots. Within the Avail context, each slot lasts for twenty seconds, aligning with the
