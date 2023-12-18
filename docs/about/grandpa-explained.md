@@ -2,12 +2,12 @@
 id: grandpa
 title: GRANDPA
 sidebar_label: GRANDPA
-description: Overview of the Avail usage of GRANDPA
+description: The block finalization algorithm that powers Avail
 keywords:
   - docs
   - avail
   - grandpa
-  - concensus
+  - consensus
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
@@ -15,7 +15,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ## Introduction
 
-GRANDPA, which stands for "GHOST-based Recursive ANcestor Deriving Prefix Agreement," is the consensus algorithms used by Avail. GRANDPA works in conjunction with another consensus
+GRANDPA, which stands for "_**G**host-based **R**ecursive **AN**cestor **D**eriving **P**refix **A**greement_," is the consensus algorithms used by Avail. GRANDPA works in conjunction with another consensus
 GRANDPA in and of itself is a block finalization algorithm, and as such needs to be paired with block-authoring mechanisms like [Aura](https://paritytech.github.io/polkadot-sdk/master/sc_consensus_aura/index.html) or BABE (Avail uses BABE) to ensure a properly functioning blockchain.
 
 Finality in GRANDPA's context means that once a block is added to the blockchain, it is irreversible and cannot be reverted. This is in

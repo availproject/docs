@@ -2,12 +2,12 @@
 id: babe
 title: BABE
 sidebar_label: BABE
-description: Overview of the Avail usage of BABE
+description: The block author selection algorithm that powers Avail
 keywords:
   - docs
   - avail
   - BABE
-  - concensus
+  - consensus
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
@@ -15,7 +15,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ## Introduction
 
-Blind Assignment for Blockchain Extension (BABE) serves as a block production engine, drawing inspiration from [Ouroboros Praos](https://eprint.iacr.org/2017/573.pdf), another proof-of-stake protocol. It functions
+_**B**lind **A**ssignment for **B**lockchain **E**xtension_ (BABE) serves as a block production engine, drawing inspiration from [Ouroboros Praos](https://eprint.iacr.org/2017/573.pdf), another proof-of-stake protocol. It functions
 autonomously, offering probabilistic finality, or it can be integrated with a finality mechanism like GRANDPA.
 
 BABE operates on a slot-based algorithm, dividing time into eras, epochs, further segmented into slots. Within the Avail context, each slot lasts for twenty seconds, aligning with the
@@ -30,11 +30,11 @@ On Avail's explorer, you can observe the eras and epochs by navigating to the st
 ## BABE Block Production Process
 
 Each slot may have both a primary and a secondary author, chosen from amongst a set of active validators. The assignment of
-primary slot leaders is a random process. However, due to the inherent randomness, there are instances where slots may lack a designated leader. To maintain a consistent block time,
-BABE employs a round-robin system to designate secondary slot leaders.
+primary authors, aka slot leaders, is a random process governed by the VRF function. However, due to the way the function works, there may be instances where no validators qualify as the primary author. To maintain a consistent block time,
+BABE employs a round-robin system to designate secondary slot leaders, who produce new blocks without a designated leader.
 
-The selection of primary authors is powered by a verifiable random function (VRF). Given the significance of random numbers in blockchain applications, it becomes
-crucial to establish a universally accepted form of randomness that remains untampered and beneficial for all parties involved. VRFs address this challenge by generating a
+As we know, the selection of primary authors is powered by a verifiable random function (VRF). It thus becomes
+crucial to establish a universally accepted form of randomness that remains untampered and verifiable for all parties involved. VRFs address this challenge by generating a
 pseudo-random number accompanied by a proof of its proper generation. These functions take various parameters, including a private key. The VRF considers an epoch random
 seed (pre-determined by all nodes), a slot number, and the author's private key. As each node possesses a unique private key, this ensures the generation of a distinct pseudo-random
 value for each slot.
@@ -74,4 +74,4 @@ adaptability helps Avail handle variations in block production times more effici
 **Finalization**: While BABE is responsible for proposing and producing blocks, finalization of blocks is achieved through the GRANDPA consensus algorithm. GRANDPA is responsible
 for ensuring the overall security and consistency of the Avail chain.
 
-By combining the block production capabilities of BABE with the finality assurance provided by GRANDPA, Avail achieves a high level of scalability and security.
+While BABE is a powerful algorithm to select new block authors in a verifiably random way, Avail uses GRANDPA in addition to BABE to achieve deterministic chain finalization. In the next article, we will learn about GRANDPA, Avail's block finalization mechanism.
