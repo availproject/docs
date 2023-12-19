@@ -197,9 +197,21 @@ module.exports = {
               ],
             },
             {
-              type: 'link',
+              type: 'category',
               label: 'Madara Starknet',
-              href: 'https://github.com/keep-starknet-strange/madara',
+              link: {
+                type: 'generated-index',
+              },
+              collapsed: true,
+              items: [
+                'build/madara/overview',
+                'build/madara/madara',
+                {
+                  type: 'link',
+                  label: 'Madara Starknet',
+                  href: 'https://github.com/keep-starknet-strange/madara',
+                },
+              ],
             },
             'api/use-case-validiums',
           ],
