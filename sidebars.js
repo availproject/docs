@@ -74,7 +74,6 @@ module.exports = {
       collapsed: true,
       items: [
         'operate/node-types',
-        'operate/deployment-options',
         {
           type: 'category',
           label: 'Run a Light Client',
