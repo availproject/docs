@@ -24,6 +24,7 @@ module.exports = {
       link: {
         type: 'generated-index',
       },
+      collapsed: true,
       items: [
         {
           type: 'category',

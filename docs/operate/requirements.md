@@ -62,7 +62,7 @@ Download the client binary and config file for the node you want to run:
 
 | Node Type     | Repository Name                                           | Latest Release                                                                     |
 | ------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| **Full Node** | [<ins>avail</ins>](https://github.com/availproject/avail) | [<ins>v1.8.0.3</ins>](https://github.com/availproject/avail/releases/tag/v1.8.0.3) |
+| **Full Node** | [<ins>avail</ins>](https://github.com/availproject/avail) | [<ins>v1.8.0.4</ins>](https://github.com/availproject/avail/releases/tag/v1.8.0.4) |
 
 </TabItem>
 <TabItem value="source" label="Build from Source">
@@ -124,7 +124,7 @@ sudo usermod -aG docker $USER
 
 | Node Type | Docker Repository Name                                                | Latest Version                                                                                                                                                            |
 | --------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Full Node | [<ins>availj/avail</ins>](https://hub.docker.com/r/availj/avail/tags) | [<ins>v1.8.0.3</ins>](https://hub.docker.com/layers/availj/avail/v1.8.0.3/images/sha256-f721dd15c77389a3c94002e22a6abb06bf75dd93812328f09c4871621dc138ad?context=explore) |
+| Full Node | [<ins>availj/avail</ins>](https://hub.docker.com/r/availj/avail/tags) | [<ins>v1.8.0.4</ins>](https://hub.docker.com/layers/availj/avail/v1.8.0.4/images/sha256-f721dd15c77389a3c94002e22a6abb06bf75dd93812328f09c4871621dc138ad?context=explore) |
 
 </TabItem>
 </Tabs>

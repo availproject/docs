@@ -51,8 +51,8 @@ ZK Rollups require upfront cryptographic proofs of transaction validity, focusin
 3. **Assumption of Validity**: Proof of validity is demanded upfront, unlike Optimistic Rollups.
 4. **Data Availability**: While validity proofs are independent of data availability, the chain's security heavily depends on it.
 5. **Implications of Data Unavailability**:
-   - **State Recreation**: Users can recreate the state using main chain data.
-   - **Sequencer Intervention**: Other sequencers can step in to restore state and continue operations.
+   - **State Recreation**: Users can not recreate the state if data is not available.
+   - **Sequencer Intervention**: Other sequencers can step in to restore the state and continue operations.
 
 Still, there are constraints with data availability.
 
@@ -238,16 +238,18 @@ The journey culminates with light clients performing proof verification. This pr
 
 With your foundational understanding of Avail, if you're new to the ecosystem, be sure to visit the [<ins>Getting Started</ins>](/category/get-started/) section.
 
-Additionally, consider experimenting with a light client. For this, the [<ins>Quickstart guide</ins>](/build/quickstart/) is great resource. To run an Avail light client, all you need to do is run one of the following commands:
+Additionally, consider experimenting with a light client. For this, the [<ins>Quickstart guide</ins>](/build/quickstart/) is great resource. To run an Avail light client, all you need to do is install and use the Avail CLI.
+
+To install the CLI from `npm`, run the following command:
 
 ```bash
-curl -sL1 avail.sh | sh
+npm i -g @availproject/cli
 ```
 
-or, with wget:
+Then run:
 
 ```bash
-wget --https-only --secure-protocol=TLSv1_2 --quiet -O - avail.sh | sh
+avail lc up
 ```
 
 That's it!

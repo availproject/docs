@@ -13,8 +13,6 @@ keywords:
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
-## Using Polygon zkEVM with Avail in Validium
-
 Polygon zkEVM, when combined with Avail in a Validium setup, provides a robust solution for scaling Ethereum applications. Here's an overview of this setup:
 
 ### Transaction Lifecycle

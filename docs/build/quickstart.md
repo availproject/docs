@@ -17,16 +17,16 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ## Start Operating
 
-To run an Avail light client, simply run the following command:
+To run an Avail light client, simply install the Avail CLI `npm` package:
 
 ```bash
-curl -sL1 avail.sh | sh
+npm i -g @availproject/cli
 ```
 
-or, with `wget`:
+Then, run:
 
 ```bash
-wget --https-only --secure-protocol=TLSv1_2 --quiet -O - avail.sh | sh
+avail lc up
 ```
 
 That's it!
@@ -36,8 +36,8 @@ If you're seeking more control over the configuration or are interested in runni
 | Action                                                                   | Tokens Needed | Staking | Technical Skill Required | Client Binary                                                                        |
 | ------------------------------------------------------------------------ | ------------- | ------- | ------------------------ | ------------------------------------------------------------------------------------ |
 | [<ins>Run a Light Client</ins>](/docs/operate/node/0010-light-client.md) | No            | No      | Basic                    | [<ins>v1.7.4</ins>](https://github.com/availproject/avail-light/releases/tag/v1.7.4) |
-| [<ins>Run a Full Node</ins>](/category/full-node/)                       | No            | No      | Moderate                 | [<ins>v1.8.0.3</ins>](https://github.com/availproject/avail/releases/tag/v1.8.0.3)   |
-| [<ins>Become a Validator</ins>](/category/become-a-validator/)           | Yes           | Yes     | Advanced                 | [<ins>v1.8.0.3</ins>](https://github.com/availproject/avail/releases/tag/v1.8.0.3)   |
+| [<ins>Run a Full Node</ins>](/category/full-node/)                       | No            | No      | Moderate                 | [<ins>v1.8.0.4</ins>](https://github.com/availproject/avail/releases/tag/v1.8.0.4)   |
+| [<ins>Become a Validator</ins>](/category/become-a-validator/)           | Yes           | Yes     | Advanced                 | [<ins>v1.8.0.4</ins>](https://github.com/availproject/avail/releases/tag/v1.8.0.4)   |
 
 ---
 
