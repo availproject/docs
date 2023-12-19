@@ -1,7 +1,6 @@
 module.exports = {
   avail: [
     'index',
-    'about/introduction',
     {
       type: 'category',
       label: 'Clash of Nodes',
@@ -16,6 +15,9 @@ module.exports = {
         'clash-of-nodes/faqs',
       ],
     },
+    'about/introduction',
+    'networks',
+    'build/quickstart',
     {
       type: 'category',
       label: 'Learn about Avail',
@@ -40,29 +42,18 @@ module.exports = {
     },
     {
       type: 'category',
-      label: 'Get Started',
+      label: 'New User Guide',
       link: {
         type: 'generated-index',
       },
+      collapsed: true,
       items: [
-        'networks',
-        'build/quickstart',
-        {
-          type: 'category',
-          label: 'New User Guide',
-          link: {
-            type: 'generated-index',
-          },
-          collapsed: true,
-          items: [
-            'about/accounts',
-            'about/explorer',
-            'about/faucet',
-            'about/identity',
-            'about/balance-transfers',
-            'about/nomination-pools',
-          ],
-        },
+        'about/accounts',
+        'about/explorer',
+        'about/faucet',
+        'about/identity',
+        'about/balance-transfers',
+        'about/nomination-pools',
       ],
     },
     {
@@ -74,6 +65,7 @@ module.exports = {
       collapsed: true,
       items: [
         'operate/node-types',
+        'operate/deployment-options',
         {
           type: 'category',
           label: 'Run a Light Client',
@@ -218,9 +210,21 @@ module.exports = {
               ],
             },
             {
-              type: 'link',
+              type: 'category',
               label: 'Madara Starknet',
-              href: 'https://github.com/keep-starknet-strange/madara',
+              link: {
+                type: 'generated-index',
+              },
+              collapsed: true,
+              items: [
+                'build/madara/overview',
+                'build/madara/madara',
+                {
+                  type: 'link',
+                  label: 'Madara Starknet',
+                  href: 'https://github.com/keep-starknet-strange/madara',
+                },
+              ],
             },
             'api/use-case-validiums',
           ],
