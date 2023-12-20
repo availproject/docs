@@ -20,6 +20,29 @@ module.exports = {
     'build/quickstart',
     {
       type: 'category',
+      label: 'Learn about Avail',
+      link: {
+        type: 'generated-index',
+      },
+      collapsed: true,
+      items: [
+        {
+          type: 'category',
+          label: 'Consensus',
+          link: {
+            type: 'generated-index',
+          },
+          collapsed: true,
+          items: [
+        'about/babe',
+        'about/grandpa',
+        'about/npos',
+      ],
+    },
+    ]
+    },
+    {
+      type: 'category',
       label: 'New User Guide',
       link: {
         type: 'generated-index',
