@@ -122,10 +122,6 @@ The Avail Documentation is deployed across two distinct environments: **staging*
 
 The documentation utilizes [Algolia's DocSearch](https://docsearch.algolia.com/) to provide a powerful and user-friendly search experience. DocSearch is specifically designed to improve navigation in documentation websites, making it easier for users to find the information they need.
 
-### Plausible Analytics
-
-[Plausible Analytics](https://plausible.io/) is integrated into the platform to monitor user interactions. This helps in understanding user engagement and behavior, thereby aiding in the continuous improvement of the documentation.
-
 ### Translations
 
 | ❗ The documentation is currently undergoing reorganization and frequent updates in preparation for the Avail mainnet launch. Translation efforts will be prioritized once this is complete. |
