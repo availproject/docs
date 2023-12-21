@@ -8,7 +8,7 @@
     - [Quick Run](#quick-run)
     - [Setup Steps](#setup-steps)
 
-# How to Contribute to the Avail Documentation
+## Ways to Contribute to the Avail Documentation
 
 The Documentation team at Avail are the primary maintainers of the Avail Documentation and will review all issues and pull requests created in this repository. If you spot typos or grammar mistakes, please go ahead and submit a pull request with the fixes. For more significant changes, it's advisable to start with a GitHub issue to discuss it with the maintainers. We generally prefer pull requests over issues for suggesting changes to the Docs.
 
