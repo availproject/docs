@@ -2,12 +2,6 @@
 <img align="center" src="/static/img/avail-logo.png" width="250">
 </p>
 
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
-
 <div align="Center">
 <h1>Avail Project Developer Documentation</h1>
 <h3>The Essential Base Layer for Modern Blockchains</h3>
@@ -18,6 +12,12 @@
   Welcome to the Avail Project Developer Documentation, your go-to resource for all things related to data availability and modular blockchain development. Designed with a focus on community collaboration, this repository aims to provide the most accurate, comprehensive, and up-to-date information for anyone interested in learning about, contributing to, or maintaining projects within the Avail ecosystem.
 </p>
 
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+
 <!-- TOC -->
 
 - [Avail Overview](#avail-overview)
@@ -26,11 +26,9 @@
     - [Key Features](#key-features)
     - [Benefits for Validiums and Sovereign Rollups](#benefits-for-validiums-and-sovereign-rollups)
   - [High Availability and Scalability](#high-availability-and-scalability)
-  - [Key Repositories under availproject](#key-repositories-under-availproject)
+  - [Key Repositories](#key-repositories)
     - [Get Started](#get-started)
     - [Full List](#full-list)
-    - [Get Started](#get-started-1)
-    - [Full List](#full-list-1)
 - [Repository Overview](#repository-overview)
   - [Configuration Guide](#configuration-guide)
     - [Static-Site Generator](#static-site-generator)
@@ -72,21 +70,9 @@ Avail is a blockchain-based platform focused on creating a general-purpose data 
 
 Avail's light client network ensures high data availability through Data Availability Sampling. As more light clients join the network, Avail can support bigger blocks, unlocking significant scaling potential for blockchains.
 
-## Key Repositories under availproject
+## Key Repositories
 
 Below is a curated list of GitHub repositories that are actively tracking the various development efforts related to Avail.
-
-### Get Started
-
-| Repository Name & Link                                                                                                                                      | Description                                                                                    |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| [Reference Document](https://github.com/availproject/data-availability/blob/master/reference%20document/Data%20Availability%20-%20Reference%20Document.pdf) | Comprehensive document outlining the rationale, design decisions, and theoretical foundations. |
-| [Avail Node](https://github.com/availproject/avail)                                                                                                         | Repository for the Avail node implementation, built using Substrate.                           |
-| [Light Client](https://github.com/availproject/avail-light)                                                                                                 | Light client designed for verifying data availability proofs on Avail.                         |
-| [Explorer](https://github.com/availproject/avail-apps)                                                                                                      | Implementation repository for the Avail explorer, built using PolkadotJS Apps.                 |
-| [Tests](https://github.com/availproject/avail-test)                                                                                                         | Repository for end-to-end tests designed to validate Avail's functionalities.                  |
-
-### Full List
 
 ### Get Started
 
