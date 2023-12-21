@@ -34,12 +34,12 @@ module.exports = {
           },
           collapsed: true,
           items: [
-        'about/babe',
-        'about/grandpa',
-        'about/npos',
+            'about/consensus/babe',
+            'about/consensus/grandpa',
+            'about/consensus/npos',
+          ],
+        },
       ],
-    },
-    ]
     },
     {
       type: 'category',

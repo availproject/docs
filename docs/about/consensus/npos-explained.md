@@ -2,7 +2,7 @@
 id: npos
 title: Overview of the Avail NPoS
 sidebar_label: NPoS
-description: Avail's mechanism for establishing  distributed consensus 
+description: Avail's mechanism for establishing  distributed consensus
 keywords:
   - docs
   - avail
