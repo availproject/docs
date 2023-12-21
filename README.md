@@ -34,7 +34,6 @@
     - [Static-Site Generator](#static-site-generator)
     - [Deployments](#deployments)
     - [Algolia DocSearch](#algolia-docsearch)
-    - [Translations](#translations)
     - [Files and Folders](#files-and-folders)
   - [Contributing](#contributing)
   - [License](#license)
@@ -125,11 +124,6 @@ The Avail Documentation is deployed across two distinct environments: **staging*
 ### Algolia DocSearch
 
 The documentation utilizes [Algolia's DocSearch](https://docsearch.algolia.com/) to provide a powerful and user-friendly search experience. DocSearch is specifically designed to improve navigation in documentation websites, making it easier for users to find the information they need.
-
-### Translations
-
-| ❗ The documentation is currently undergoing reorganization and frequent updates in preparation for the Avail mainnet launch. Translation efforts will be prioritized once this is complete. |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 ### Files and Folders
 
