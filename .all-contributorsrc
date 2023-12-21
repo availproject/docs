@@ -1,4 +1,6 @@
 {
+  "projectName": "availproject.github.io",
+  "projectOwner": "availproject"
   "files": [
     "README.md"
   ],
@@ -21,6 +23,4 @@
   "skipCi": true,
   "repoType": "github",
   "repoHost": "https://github.com",
-  "projectName": "availproject.github.io",
-  "projectOwner": "availproject"
 }
