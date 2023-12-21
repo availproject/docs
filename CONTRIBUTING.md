@@ -1,16 +1,21 @@
-<div align="Center">
-<h1>Contribution Guidelines for Avail's docs</h1>
-</div>
+# Contribution Guidelines
 
-- [Ways to Contribute to the Avail Documentation](#how-to-contribute-to-the-avail-documentation)
-- [How to Contribute Changes via the Avail Documentation Website](#how-to-contribute-changes-via-the-avail-documentation-website)
-- [How to Locally Run the Avail Documentation](#how-to-locally-run-the-avail-documentation)
-  - [Quick Run](#quick-run)
-  - [Setup Steps](#setup-steps)
+The Documentation team at Avail are the primary maintainers of the Avail Documentation and will review all issues and pull requests created in this repository.
+
+<!-- TOC -->
+
+- [Contribution Guidelines](#contribution-guidelines)
+  - [Ways to Contribute to the Avail Documentation](#ways-to-contribute-to-the-avail-documentation)
+  - [How to Contribute Changes via the Avail Documentation Website](#how-to-contribute-changes-via-the-avail-documentation-website)
+  - [How to Locally Run the Avail Documentation](#how-to-locally-run-the-avail-documentation)
+    - [Quick Run](#quick-run)
+    - [Setup Steps](#setup-steps)
+  - [License](#license)
+  <!--/ TOC -->
 
 ## Ways to Contribute to the Avail Documentation
 
-The Documentation team at Avail are the primary maintainers of the Avail Documentation and will review all issues and pull requests created in this repository. If you spot typos or grammar mistakes, please go ahead and submit a pull request with the fixes. For more significant changes, it's advisable to start with a GitHub issue to discuss it with the maintainers. We generally prefer pull requests over issues for suggesting changes to the Docs.
+If you spot typos or grammar mistakes, please go ahead and submit a pull request with the fixes. For more significant changes, it's advisable to start with a GitHub issue to discuss it with the maintainers. We generally prefer pull requests over issues for suggesting changes to the Docs.
 
 | ❗ We are in the process of setting guidelines to ensure all new contributions continue to improve the Docs without compromising its quality. Please stay tuned. |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -22,7 +27,7 @@ Your contributions can significantly enrich the Docs in the following ways:
 
 2. **Technical Deep Dives**: Detailed explorations into specific components of Avail's architecture, such as its data availability layer, modularity, and consensus algorithms.
 
-3. **Use-Case Scenarios**: Articles that showcase real-world applications of Avail in solutions like Validiums, app-chains, and Sovereign Rollups.
+3. **Use-Case Scenarios**: Articles that showcase real-world applications of Avail in solutions like validiums, app-chains, and sovereign rollups.
 
 4. **Tooling**: Documentation or guides on tools that facilitate development, testing, or deployment on Avail. This could include IDE plugins, testing frameworks, or monitoring tools.
 
