@@ -3,12 +3,12 @@
 </div>
 
 - [How to Contribute to the Avail Documentation](#how-to-contribute-to-the-avail-documentation)
-   - [How to Contribute Changes via the Avail Documentation Website](#how-to-contribute-changes-via-the-avail-documentation-website)
-   - [How to Locally Run the Avail Documentation](#how-to-locally-run-the-avail-documentation)
-     - [Quick Run](#quick-run)
-     - [Setup Steps](#setup-steps)
+  - [How to Contribute Changes via the Avail Documentation Website](#how-to-contribute-changes-via-the-avail-documentation-website)
+  - [How to Locally Run the Avail Documentation](#how-to-locally-run-the-avail-documentation)
+    - [Quick Run](#quick-run)
+    - [Setup Steps](#setup-steps)
 
-## How to Contribute to the Avail Documentation
+# How to Contribute to the Avail Documentation
 
 The Documentation team at Avail are the primary maintainers of the Avail Documentation and will review all issues and pull requests created in this repository. If you spot typos or grammar mistakes, please go ahead and submit a pull request with the fixes. For more significant changes, it's advisable to start with a GitHub issue to discuss it with the maintainers. We generally prefer pull requests over issues for suggesting changes to the Docs.
 
@@ -40,7 +40,7 @@ Your contributions can significantly enrich the Docs in the following ways:
 
 > Note: This is a general overview and the actual repository may contain additional files and folders for specific functionalities.
 
-### How to Contribute Changes via the Avail Documentation Website
+## How to Contribute Changes via the Avail Documentation Website
 
 Contributing to the Avail Documentation is simple. You'll need a GitHub account and a basic understanding of Markdown syntax to get started.
 
@@ -56,9 +56,9 @@ Contributing to the Avail Documentation is simple. You'll need a GitHub account 
 9. **Additional Information**: Provide a concise summary of the changes you've made. Include screenshots or references if applicable.
 10. **Submit**: Click **Propose changes** to finalize your pull request. This will create a new branch in your fork.
 
-### How to Locally Run the Avail Documentation
+## How to Locally Run the Avail Documentation
 
-#### Quick Run
+### Quick Run
 
 For those who want to quickly install and start the Avail Documentation locally, you can follow these steps:
 
@@ -67,7 +67,7 @@ yarn
 yarn start
 ```
 
-#### Setup Steps
+### Setup Steps
 
 > **Prerequisites**:
 >
@@ -135,7 +135,7 @@ yarn start
 
 ## License
 
-The Avail Project Developer Documentation is licensed under the [MIT License](LICENSE) free software license.### How to Contribute Changes via the Avail Documentation Website
+The Avail Project Developer Documentation is licensed under the [MIT License](./LICENSE) free software license.### How to Contribute Changes via the Avail Documentation Website
 
 Contributing to the Avail Documentation is simple. You'll need a GitHub account and a basic understanding of Markdown syntax to get started.
 
