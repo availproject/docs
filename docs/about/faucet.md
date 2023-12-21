@@ -25,11 +25,11 @@ An automated faucet on Discord has been configured to distribute Avail tokens (A
 
 ## Account Verification Process
 
-To prevent spam and ensure a fair distribution of test tokens, Avail has introduced a mandatory verification process. This process links your wallet address to your Discord account. If you are not already a member of the Avail community, please join the [<ins>Avail Discord server</ins>](https://discord.gg/y6fHnxZQX8) first.
+To prevent spam and ensure a fair distribution of test tokens, Avail has introduced a mandatory verification process based on [<ins>Gitcoin Passport</ins>](https://passport.gitcoin.co/). This process links your wallet address to your Discord account. If you are not already a member of the Avail community, please join the [<ins>Avail Discord server</ins>](https://discord.gg/y6fHnxZQX8) first.
+
+If you attempt to use the faucet without prior verification, you will be prompted with a link to complete this necessary step. By following the provided link, you'll be guided to connect your Ethereum wallet and Discord account on the [<ins>designated verification website</ins>](https://gitcoin-faucet.vercel.app/).
 
 Follow these steps to complete the verification:
-
-> The same steps apply using mobile applications.
 
 1. Go to the [<ins>Avail Faucet Verification page</ins>](https://gitcoin-faucet.vercel.app/).
 
@@ -68,3 +68,5 @@ After completing the account verification process, you can obtain test AVL token
    Your wallet will receive 5 AVL tokens once the transaction status is marked as `Complete`. You can request AVL tokens every 3 hours.
 
    <p align="center"><img src="/img/faucet/8.png" alt="Transaction Complete" width="50%"/></p>
+
+If you encounter any issues, please feel free to reach out to the Avail team and greater community on Discord.
