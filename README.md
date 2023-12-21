@@ -29,6 +29,8 @@
   - [Key Repositories under availproject](#key-repositories-under-availproject)
     - [Get Started](#get-started)
     - [Full List](#full-list)
+    - [Get Started](#get-started-1)
+    - [Full List](#full-list-1)
 - [Repository Overview](#repository-overview)
   - [Configuration Guide](#configuration-guide)
     - [Static-Site Generator](#static-site-generator)
@@ -86,24 +88,51 @@ Below is a curated list of GitHub repositories that are actively tracking the va
 
 ### Full List
 
-| Category                                             | Repository Name                                                                          | Description                                              |
-| ---------------------------------------------------- | ---------------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| **Core Components**                                  | [Avail](https://github.com/availproject/avail)                                           | Main DA (Data Availability) Node for the Avail project.  |
-|                                                      | [Avail Core](https://github.com/availproject/avail-core)                                 | Core components for Avail's data availability layer.     |
-| **Light Clients**                                    | [Avail Light](https://github.com/availproject/avail-light)                               | Light client for Avail.                                  |
-|                                                      | [Avail Light Bootstrap](https://github.com/availproject/avail-light-bootstrap)           | Bootstrap for Avail Light client.                        |
-|                                                      | [Avail Light Relay](https://github.com/availproject/avail-light-relay)                   | Relay for Avail Light client.                            |
-| **Applications**                                     | [Avail Apps](https://github.com/availproject/avail-apps)                                 | Repository for applications built on Avail.              |
-| **Substrate (now part of Polkadot SDK) Integration** | [Go Substrate RPC Client](https://github.com/availproject/go-substrate-rpc-client)       | RPC client for Substrate integration.                    |
-|                                                      | [Substrate](https://github.com/availproject/substrate)                                   | Fork of Substrate for Avail.                             |
-| **Explorations**                                     | [Avail Explorations](https://github.com/availproject/avail-explorations)                 | Experimental features and research.                      |
-|                                                      | [Avail Sovereign DA Adapter](https://github.com/availproject/avail-sovereign-da-adapter) | Data availability adapter for Sovereign Rollups.         |
-| **Tooling**                                          | [CLI](https://github.com/availproject/cli)                                               | CLI tool for Avail.                                      |
-|                                                      | [Avail JS](https://github.com/availproject/avail-js)                                     | JavaScript library for Avail; Fork of PolkadotJS         |
-| **Contracts and Proofs**                             | [Op EVM Contracts](https://github.com/availproject/op-evm-contracts)                     | EVM contracts for Avail.                                 |
-|                                                      | [Poly Multiproof](https://github.com/availproject/poly-multiproof)                       | Multiproof contracts for Avail.                          |
-| **SDKs**                                             | [Sovereign SDK](https://github.com/availproject/sovereign-sdk)                           | SDK for Sovereign Rollups on Avail.                      |
-| **Proposals**                                        | [RFCs](https://github.com/availproject/RFCs)                                             | Repository for Avail Request for Comments and proposals. |
+### Get Started
+
+| Repository Name & Link                                                                                                                                      | Description                                                                                    |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| [Reference Document](https://github.com/availproject/data-availability/blob/master/reference%20document/Data%20Availability%20-%20Reference%20Document.pdf) | Comprehensive document outlining the rationale, design decisions, and theoretical foundations. |
+| [Avail Node](https://github.com/availproject/avail)                                                                                                         | Repository for the Avail node implementation, built using Substrate.                           |
+| [Light Client](https://github.com/availproject/avail-light)                                                                                                 | Light client designed for verifying data availability proofs on Avail.                         |
+| [Explorer](https://github.com/availproject/avail-apps)                                                                                                      | Implementation repository for the Avail explorer, built using PolkadotJS Apps.                 |
+| [Tests](https://github.com/availproject/avail-test)                                                                                                         | Repository for end-to-end tests designed to validate Avail's functionalities.                  |
+
+### Full List
+
+| Category            | Repository Name                                                                                  | Description                                              |
+| ------------------- | ------------------------------------------------------------------------------------------------ | -------------------------------------------------------- |
+| **Core Components** | [Avail](https://github.com/availproject/avail)                                                   | Main DA Node for the Avail project.                      |
+|                     | [Avail Core](https://github.com/availproject/avail-core)                                         | Core components for Avail's DA layer.                    |
+| **Light Client**    | [Avail Light](https://github.com/availproject/avail-light)                                       | Light client for Avail.                                  |
+|                     | [Avail Light Bootstrap](https://github.com/availproject/avail-light-bootstrap)                   | Bootstrap for Avail Light client.                        |
+|                     | [Avail Light Relay](https://github.com/availproject/avail-light-relay)                           | Relay for Avail Light client.                            |
+|                     | [Light Client Web](https://github.com/availproject/light-client-web)                             | Web version of Avail's light client.                     |
+|                     | [Avail Light Client Flutter App](https://github.com/availproject/avail-light-client-flutter-app) | Flutter app for Avail's light client.                    |
+|                     | [Avail LC Android Lib](https://github.com/availproject/avail-lc-android-lib)                     | Android library for Avail Light Client.                  |
+| **Applications**    | [Avail Apps](https://github.com/availproject/avail-apps)                                         | Repository for applications built on Avail.              |
+|                     | [Avail JS](https://github.com/availproject/avail-js)                                             | JavaScript library for Avail; Fork of PolkadotJS         |
+|                     | [Avail Staking Dashboard](https://github.com/availproject/avail-staking-dashboard)               | Dashboard for staking on Avail.                          |
+|                     | [Metamask Snap Avail](https://github.com/availproject/metamask-snap-avail)                       | Metamask Snap plugin for Avail.                          |
+| **Substrate**       | [Go Substrate RPC Client](https://github.com/availproject/go-substrate-rpc-client)               | RPC client for Substrate integration.                    |
+|                     | [Substrate](https://github.com/availproject/substrate)                                           | Fork of Substrate for Avail.                             |
+| **Explorations**    | [Avail Uncharted](https://github.com/availproject/avail-explorations)                            | Experimental features and research.                      |
+|                     | [Validium Node](https://github.com/availproject/validium-node)                                   | Polygon zkEVM Node implementation for Validium on Avail. |
+|                     | [Validium Contracts](https://github.com/availproject/validium-contracts)                         | Polygon zkEVM Contracts for Validium on Avail.           |
+|                     | [Validium Bridge Service](https://github.com/availproject/validium-bridge-service)               | Bridge service for Polygon zkEVM Validium on Avail.      |
+|                     | [Op EVM](https://github.com/availproject/op-evm)                                                 | OpEVM implementation on Avail.                           |
+|                     | [Op EVM Contracts](https://github.com/availproject/op-evm-contracts)                             | OpEVM contracts on Avail.                                |
+|                     | [Avail OP Stack Adapter](https://github.com/availproject/avail-op-stack-adapter)                 | DA Adapter for OP Stack.                                 |
+|                     | [Avail Sovereign DA Adapter](https://github.com/availproject/avail-sovereign-da-adapter)         | DA adapter for Sovereign SDK.                            |
+|                     | [Sovereign SDK](https://github.com/availproject/sovereign-sdk)                                   | SDK for Sovereign Rollups on Avail.                      |
+|                     | [Nomad Config](https://github.com/availproject/nomad-config)                                     | Configuration for Nomad in the Avail ecosystem.          |
+|                     | [Nomad Agents](https://github.com/availproject/nomad-agents)                                     | Agents for Nomad in the Avail ecosystem.                 |
+|                     | [ZkNFT](https://github.com/availproject/zknft)                                                   | Zero-Knowledge NFTs on Avail.                            |
+| **Tooling**         | [CLI](https://github.com/availproject/cli)                                                       | CLI tool for Avail.                                      |
+|                     | [AvailUp](https://github.com/availproject/availup)                                               | Standalone script for easy Avail network setup via CLI.  |
+|                     | [Avail Indexer](https://github.com/availproject/avail-indexer)                                   | Indexer for the Avail network.                           |
+| **Documents**       | [RFCs](https://github.com/availproject/RFCs)                                                     | Repository for Avail Request for Comments and proposals. |
+|                     | [Incident Reports](https://github.com/availproject/incident-reports)                             | Repository for incident reports in the Avail ecosystem.  |
 
 # Repository Overview
 
