@@ -5,7 +5,7 @@
 - [Ways to Contribute to the Avail Documentation](#how-to-contribute-to-the-avail-documentation)
 - [How to Contribute Changes via the Avail Documentation Website](#how-to-contribute-changes-via-the-avail-documentation-website)
 - [How to Locally Run the Avail Documentation](#how-to-locally-run-the-avail-documentation)
-    - [Quick Run](#quick-run)
+  - [Quick Run](#quick-run)
     - [Setup Steps](#setup-steps)
 
 ## Ways to Contribute to the Avail Documentation
