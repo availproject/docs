@@ -9,7 +9,7 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
-<h3>The Essential Base Layer for Modern Blockchains</h3>
+<h3>The Essential Platform for Modern Blockchains</h3>
 
 </div>
 
@@ -170,7 +170,7 @@ The Avail Project Developer Documentation is licensed under the [MIT License](LI
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
-Thanks goes to these wonderful contributors:
+Thanks to these wonderful contributors:
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
