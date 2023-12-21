@@ -34,11 +34,11 @@
     - [Static-Site Generator](#static-site-generator)
     - [Deployments](#deployments)
     - [Algolia DocSearch](#algolia-docsearch)
-    - [Plausible Analytics](#plausible-analytics)
     - [Translations](#translations)
     - [Files and Folders](#files-and-folders)
-  -[Contributing](#contributing)
-  -[License](#license)
+  - [Contributing](#contributing)
+  - [License](#license)
+  - [Contributors](#contributors)
 
 <!--/ TOC -->
 
@@ -154,25 +154,15 @@ This section provides an overview of the various files and folders in the Avail 
 
 Please check out our [Contributing Guide](./CONTRIBUTING.md) for a detailed primer on how to contribute to the Avail Documentation.
 
-## Contributors
-
-We are grateful to these amazing folks for their contributions to Avail's docs :)
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
 ## License
+
 The Avail Project Developer Documentation is licensed under the [MIT License](LICENSE) free software license.
 
-## Contributors ✨
+## Contributors
 
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
+Thanks goes to these wonderful contributors:
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
@@ -189,6 +179,3 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
-
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
-
