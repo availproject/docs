@@ -1,4 +1,26 @@
 {
   "projectName": "availproject.github.io",
   "projectOwner": "availproject"
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "staking4all",
+      "name": "staking4all",
+      "avatar_url": "https://avatars.githubusercontent.com/u/61656547?v=4",
+      "profile": "https://github.com/staking4all",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
 }
