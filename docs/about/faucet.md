@@ -51,9 +51,13 @@ If the connection is successful, you will be able to see your linked account on 
 
 4. You will then need to connect your Discord account. Click on "Connect Discord" and authorize the requested permissions.
 
+<p align="center"><img src="/img/faucet/4.png" alt="Connected Wallet" width="80%"/></p>
+
+Review the message prompt and click "Authorize".
+
    <p align="center"><img src="/img/faucet/5.png" alt="Discord Authorization" width="80%"/></p>
 
-Once verified, a confirmation message will be displayed. Ensure that your Discord account is connected as it will be used in the following steps. You will also be able to see your connected Discord account that is verified on the top right-hand corner of the page.
+Ensure that your Discord account is connected as it will be used in the following steps. You will also be able to see your connected Discord account that is verified on the top right-hand corner of the page.
 
 ## Obtaining Test AVL Tokens from Discord
 
