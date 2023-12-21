@@ -69,6 +69,10 @@ After completing the account verification process, you can obtain test AVL token
 
    <p align="center"><img src="/img/faucet/6.png" alt="Verification Confirmation" width="100%"/></p>
 
+   Should you attempt to use the faucet with an unverified Discord account or a different address, you will encounter the following message.
+
+   <p align="center"><img src="/img/faucet/9.png" alt="Verification Confirmation" width="100%"/></p>
+
    Your wallet will receive 5 AVL tokens once the transaction status is marked as `Complete`. You can request AVL tokens every 3 hours.
 
    <p align="center"><img src="/img/faucet/8.png" alt="Transaction Complete" width="50%"/></p>
