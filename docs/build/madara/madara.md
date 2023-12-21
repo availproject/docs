@@ -76,7 +76,9 @@ The Madara stack, being a StarkNet sequencer, has specific hardware requirements
 | Avail Node     | 4-core CPU, 8GB RAM, 50 GB SSD   | 8-core CPU, 16GB RAM, 100 GB SSD | m5a.large              |
 
 :::note
+
 The storage requirements can vary based on the volume of transactions and the length of the chain history you intend to maintain. For high-traffic networks, consider scaling your storage capacity accordingly.
+
 :::
 
 ## Launch an Avail-Powered Madara Validium
@@ -98,21 +100,21 @@ The storage requirements can vary based on the volume of transactions and the le
 
 1. Start the development chain:
 
-```bash
-./target/release/madara --dev
-```
+   ```bash
+   ./target/release/madara --dev
+   ```
 
 2. Purge the chain's state:
 
-```bash
-./target/release/madara purge-chain --dev
-```
+   ```bash
+   ./target/release/madara purge-chain --dev
+   ```
 
 3. Start with detailed logging:
 
-```bash
-RUST_BACKTRACE=1 ./target/release/madara -ldebug --dev
-```
+   ```bash
+   RUST_BACKTRACE=1 ./target/release/madara -ldebug --dev
+   ```
 
 4. Create a plain chain spec:
 

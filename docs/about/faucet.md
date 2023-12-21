@@ -67,4 +67,4 @@ After completing the account verification process, you can obtain test AVL token
 
    Your wallet will receive 5 AVL tokens once the transaction status is marked as `Complete`. You can request AVL tokens every 3 hours.
 
-   <p align="center"><img src="/img/faucet/8.png" alt="Transaction Complete" width="75%"/></p>
+   <p align="center"><img src="/img/faucet/8.png" alt="Transaction Complete" width="50%"/></p>
