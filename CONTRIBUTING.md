@@ -2,7 +2,7 @@
 <h1>Contribution Guidelines for Avail's docs</h1>
 </div>
 
-- [How to Contribute to the Avail Documentation](#how-to-contribute-to-the-avail-documentation)
+- [Ways to Contribute to the Avail Documentation](#how-to-contribute-to-the-avail-documentation)
 - [How to Contribute Changes via the Avail Documentation Website](#how-to-contribute-changes-via-the-avail-documentation-website)
 - [How to Locally Run the Avail Documentation](#how-to-locally-run-the-avail-documentation)
     - [Quick Run](#quick-run)
