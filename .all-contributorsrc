@@ -1,6 +1,4 @@
 {
-  "projectName": "availproject.github.io",
-  "projectOwner": "availproject"
   "files": [
     "README.md"
   ],
@@ -20,6 +18,8 @@
     }
   ],
   "contributorsPerLine": 7,
+  "projectName": "availproject.github.io",
+  "projectOwner": "availproject"
   "skipCi": true,
   "repoType": "github",
   "repoHost": "https://github.com",
