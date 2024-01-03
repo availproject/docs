@@ -22,7 +22,7 @@
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Thicccboi-regular', Arial, sans-serif;
   font-weight: 500;
   line-height: 1.6;
   color: #333;
@@ -30,6 +30,11 @@ body {
 
 p {
   color: #333333 !important;
+}
+
+code,
+pre {
+  font-family: 'Courier New', Courier, monospace;
 }
 
 @font-face {
@@ -1408,14 +1413,30 @@ p {
 }
 
 h1 {
-  font-size: 2.7rem; /* Adjust this value as needed */
+  font-size: 2.7rem;
+}
+
+.landing-page-h1 {
+  color: #383c4d;
+  font-family: 'Thicccboi-bold', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 64px;
+  text-align: center;
+  letter-spacing: -0.03em;
+  line-height: 100%;
+  width: 100%;
 }
 
 .landing-page-h1 a {
-  color: #4e6786;
   text-decoration: none;
+  transition: color 0.3s ease;
 }
 
+.landing-page-h1 a:hover {
+  color: #3a5074;
+}
+
+/* Responsive adjustments */
 @media (max-width: 768px) {
   .landing-page-h1 {
     font-size: 50px;
@@ -1424,7 +1445,7 @@ h1 {
 
 @media (max-width: 576px) {
   .landing-page-h1 {
-    font-size: 30px;
+    font-size: 35px;
   }
 }
 

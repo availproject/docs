@@ -12,8 +12,8 @@ function Home() {
             <section className="section container-fluid">
               <div className="row justify-content-between">
                 <h1 className="landing-page-h1">
-                  <a href="https://www.availproject.org/">Avail</a>{' '}
-                  Documentation Hub
+                  <a href="https://www.availproject.org/">avail</a> Developer
+                  Documentation
                 </h1>
               </div>
             </section>
