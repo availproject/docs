@@ -132,7 +132,7 @@ module.exports = {
       id: 'banner',
       content: `
         <div class="announcement-bar">
-            Deprecation Notice: The Kate Testnet is ending soon. Prepare for Avail's upcoming incentivized testnet and checkout the Clash of Nodes Campaign.
+            Check out the Avail incentivized testnet and the Clash of Nodes Campaign <a href="/category/clash-of-nodes/" style="text-decoration: underline;">here</a>!
         </div>
       `,
       textColor: '#ffffff',
