@@ -58,7 +58,7 @@ If the connection is successful, you will be able to see your linked account on 
    
    <p align="center"><img src="/img/faucet/5b.png" alt="Gitcoin passport submitted successfully" width="95%"/></p>
 
-7. Please note that you need a score of at least "20" to be verified. If your score is below 20, your screen will look something like this:
+7. Please note that you need a score of at least "20" to be verified. If your score is below 20, your screen will look something like this (however, see note below):
 
    <p align="center"><img src="/img/faucet/5c.png" alt="Gitcoin passport submission failed " width="85%"/></p>
 
@@ -67,6 +67,8 @@ If the connection is successful, you will be able to see your linked account on 
 9. Finally, click on the "Give role" button. This will give your linked Discord ID a role named `verified-faucet` that will allow you to use the faucet.
 
 Ensure that your Discord account is connected as it will be used in the following steps. You will also be able to see your connected Discord account that is verified on the top right-hand corner of the page.
+
+Note: We have received reports from users with more than 20 points that are still getting the error page on the verifier. In that case, please refresh your stamps at the bottom of the Passport page, reload the page, reload the verifier site and wait a bit. We are looking into the problem, thank you!
 
 ## Obtaining Test AVL Tokens from Discord
 
