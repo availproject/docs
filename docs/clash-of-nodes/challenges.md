@@ -36,13 +36,6 @@ This will ensure a fair and enjoyable experience for all participants.
 
 ## List of Challenges
 
-:::caution Faucet under maintenance
-
-The Goldberg Testnet Faucet is presently undergoing maintenance.
-As a result, some challenges are temporarily on hold. We appreciate your patience.
-
-:::
-
 Discover the challenges that are currently active and prepare for the other ones:
 
 > ### Status Legend
