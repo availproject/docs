@@ -24,7 +24,6 @@
   - [Static-Site Generator](#static-site-generator)
   - [Deployments](#deployments)
   - [Algolia DocSearch](#algolia-docsearch)
-  - [Files and Folders](#files-and-folders)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -100,25 +99,8 @@ Below is a curated list of GitHub repositories part of the Avail Project.
 
 ## Configuration Guide
 
-### Static-Site Generator
-
-The [Avail Developer Documentation](https://docs.availproject.org/) is built using [Docusaurus](https://docusaurus.io/), making it easy to serve and host its static files.
-
-### Deployments
-
-The Avail Docs are deployed across two distinct environments: **staging** and **prod**, each configured to run on different branches of the repository.
-
-- **Staging**: Operating from the `develop` branch and hosted on Digital Ocean, this environment acts as a testing ground for new changes. It facilitates quality assurance and verification before updates are pushed to Production. The staging site is available [<ins>here</ins>](https://docs-refresh-2-rjp2q.ondigitalocean.app/).
-
-- **Production (Prod)**: Running from the `main` branch, this live environment is hosted on GitHub Pages. It is manually deployed by the Avail Docs team and is accessible to end-users. Updates are made only after successful validation in the Staging environment.
-
-### Algolia DocSearch
-
-The documentation utilizes [Algolia's DocSearch](https://docsearch.algolia.com/) to provide a powerful and user-friendly search experience. DocSearch is specifically designed to improve navigation in documentation websites, making it easier for users to find the information they need.
-
-### Files and Folders
-
-This section provides an overview of the various files and folders in the Avail Documentation repository, explaining the purpose of each.
+<details>
+<summary>Files & Folders</summary>
 
 | Name                   | Purpose                                                                    |
 | ---------------------- | -------------------------------------------------------------------------- |
@@ -134,6 +116,24 @@ This section provides an overview of the various files and folders in the Avail 
 | `src/`                 | Contains source files for the project.                                     |
 | `static/`              | Contains static assets like images, CSS, and fonts.                        |
 | `yarn.lock`            | Yarn lock file to keep track of all package versions.                      |
+
+</details>
+
+### Static-Site Generator
+
+The [Avail Developer Documentation](https://docs.availproject.org/) is built using [Docusaurus](https://docusaurus.io/), making it easy to serve and host its static files.
+
+### Deployments
+
+The Avail Docs are deployed across two distinct environments: **staging** and **prod**, each configured to run on different branches of the repository.
+
+- **Staging**: Operating from the `develop` branch and hosted on Digital Ocean, this environment acts as a testing ground for new changes. It facilitates quality assurance and verification before updates are pushed to Production. The staging site is available [<ins>here</ins>](https://docs-refresh-2-rjp2q.ondigitalocean.app/).
+
+- **Production (Prod)**: Running from the `main` branch, this live environment is hosted on GitHub Pages. It is manually deployed by the Avail Docs team and is accessible to end-users. Updates are made only after successful validation in the Staging environment.
+
+### Algolia DocSearch
+
+The documentation utilizes [Algolia's DocSearch](https://docsearch.algolia.com/) to provide a powerful and user-friendly search experience. DocSearch is specifically designed to improve navigation in documentation websites, making it easier for users to find the information they need.
 
 ## Contributing
 
