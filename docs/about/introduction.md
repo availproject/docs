@@ -214,10 +214,6 @@ Once transactions reach Avail, they are processed through erasure coding. This p
 
 Avail takes the redundant data and applies KZG polynomial commitments to each block. These commitments serve as cryptographic proofs of the data's integrity, ensuring that what is stored is accurate and tamper-proof. The commitments are used by [<ins>validators</ins>](#ensuring-consensus--block-propagation) to confirm the data's integrity before it is attested and transmitted to main chain via Avail’s [<ins>data attestation bridge</ins>](/glossary.md#data-attestation).
 
-> Block producers create a **Coded Merkle Tree (CMT)** Merkle tree from data chunks and include the root in the block header, facilitating swift and secure data verification by clients.
-
-> The CMT-based design features systematic erasure codes at each Merkle tree layer, leading to constant-sized commitments and logarithmically sized fraud proofs. This structure enables efficient data reconstruction and block integrity verification, even under the assumption of minimal honest full nodes.
-
 ### Ensuring Consensus & Block Propagation
 
 Validators play a pivotal role in Avail's ecosystem. They receive the commitment-laden blocks, regenerate the commitments to verify their accuracy and reach a consensus on the block, which requires agreement from at least two-thirds (super majority). Validators ensure that only verified and agreed-upon data is propagated through the network. They reach consensus This stage is vital for ensuring that the data, once validated, can be relayed via Avail’s data attestation bridge.
