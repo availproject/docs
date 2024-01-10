@@ -84,7 +84,7 @@ The client output should look like this:
 
 If you want to connect the Avail light client to a local network, you will need to run your own Avail node and your own Avail light client bootstrap node.
 
-1. Run the Avail [<ins>node</ins>](/docs/operate/node/binaries). For local set-up, run the node in `dev` mode:
+1. Run the Avail [<ins>node</ins>](/operate/node/binaries). For local set-up, run the node in `dev` mode:
 
    ```bash
    ./data-avail --dev
