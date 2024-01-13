@@ -232,7 +232,7 @@ The journey culminates with light clients performing proof verification. This pr
 
 ## What's Next?
 
-With your foundational understanding of Avail, if you're new to the ecosystem, be sure to visit the [<ins>Getting Started</ins>](/category/get-started/) section.
+With your foundational understanding of Avail, if you're new to the ecosystem, be sure to visit the [<ins>New user guide</ins>](/category/new-user-guide/) section.
 
 Additionally, consider experimenting with a light client. For this, the [<ins>Quickstart guide</ins>](/build/quickstart/) is great resource. To run an Avail light client, all you need to do is install and use the Avail CLI.
 
