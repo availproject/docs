@@ -90,7 +90,6 @@ module.exports = {
             },
           ],
         },
-        'operate/system-requirements',
         {
           type: 'category',
           label: 'Run a Full Node',
