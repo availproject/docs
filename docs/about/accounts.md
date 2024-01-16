@@ -37,7 +37,7 @@ Avail JS aims to offer functionalities similar to those found in the [<ins>Polka
 
 ### SubWallet: Your User-friendly Wallet for Avail
 
-If you are looking for a more user-friendly alternative to Avail JS Apps, check out SubWallet. Available on both browser extension, mobile app and web dashboard, SubWallet is the comprehensive non-custodial wallet solution for Polkadot, Substrate and Ethereum ecosystems. With SubWallet, you can create and manage accounts, as well as stake on Avail Goldberg Testnet.
+If you are looking for a more user-friendly alternative to Avail JS Apps, check out [SubWallet](https://www.subwallet.app/). Available on both browser extension, mobile app and web dashboard, SubWallet is the comprehensive non-custodial wallet solution for Polkadot, Substrate and Ethereum ecosystems. With SubWallet, you can create and manage accounts, as well as stake on Avail Goldberg Testnet.
 
 ### Seed Phrases
 
@@ -45,6 +45,7 @@ Before creating an account, it's essential to understand [<ins>seed phrases</ins
 
 > Seed Phrase Security
 NEVER share your seed phrase with anyone and keep it in a secure and offline location. Anyone with access to your seed phrase can gain control of your account.
+
 
 ## Creating an Account on the Goldberg Testnet
 
