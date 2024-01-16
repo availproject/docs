@@ -98,7 +98,7 @@ You should an output similar to:
 
 ```
 CONTAINER ID   IMAGE                   COMMAND            CREATED         STATUS         PORTS                                                                                                            NAMES
-da097bbeba75   availj/avail:v1.8.0.4   "/entrypoint.sh"   3 seconds ago   Up 3 seconds   0.0.0.0:9615->9615/tcp, :::9615->9615/tcp, 0.0.0.0:9944->9944/tcp, 0.0.0.0:30333->30333/tcp, :::9944->9944/tcp   musing_cartwright
+da097bbeba75   availj/avail:v1.9.0.0   "/entrypoint.sh"   3 seconds ago   Up 3 seconds   0.0.0.0:9615->9615/tcp, :::9615->9615/tcp, 0.0.0.0:9944->9944/tcp, 0.0.0.0:30333->30333/tcp, :::9944->9944/tcp   musing_cartwright
 ```
 
 We need the `CONTAINER ID` from the output above:
