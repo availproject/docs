@@ -47,6 +47,38 @@ Before creating an account, it's essential to understand [<ins>seed phrases</ins
 NEVER share your seed phrase with anyone and keep it in a secure and offline location. Anyone with access to your seed phrase can gain control of your account.
 
 
+## Creating an Account with SubWallet
+
+You can follow the video instruction [here](https://www.youtube.com/watch?v=CJD-IU9u9Hg)
+
+### 1. Download and install SubWallet
+
+Go to SubWallet [download page](https://www.subwallet.app/download.html?lang=1) and select the platform that you prefer. Follow the instructions on each platform.
+
+### 2. Create a new account
+
+Open the SubWallet app, click `Create a new account`. Scroll down to read all sections in the Terms of Use and check the box "I understand". Press Continue. 
+<img src={useBaseUrl("img/avail/subwallet-create-account.png")} width="100%" height="100%" />
+<img src={useBaseUrl("img/avail/subwallet-terms-of-use.png")} width="100%" height="100%" />
+
+### 3. Create a master password
+
+Create a strong master password for all your accounts. This password is saved locally on your device only. Confirm your password, check the box "I understand" and press Continue.
+<img src={useBaseUrl("img/avail/subwallet-master-password.png")} width="100%" height="100%" />
+
+### 4. Receive your seed phrase
+
+Tap on all the checkboxes to confirm you understand the importance of your seed phrase. Check the box "Don't show again" and press Continue. Then save your seed phrase in a safe place and press "I have kept it somewhere safe".
+<img src={useBaseUrl("img/avail/subwallet-seed-terms.png")} width="100%" height="100%" />
+<img src={useBaseUrl("img/avail/subwallet-seed-save.png")} width="100%" height="100%" />
+
+### 4. Turn on the Avail Goldberg Testnet
+Select the button Customize your asset display and search for Avail, then toggle on the Avail Goldberg Testnet. You should be able to see your AVL in your wallet.
+
+<img src={useBaseUrl("img/avail/subwallet-customize-asset.png")} width="100%" height="100%" />
+<img src={useBaseUrl("img/avail/subwallet-turn-on-avail.png")} width="100%" height="100%" />
+<img src={useBaseUrl("img/avail/subwallet-view-avl.png")} width="100%" height="100%" />
+
 ## Creating an Account on the Goldberg Testnet
 
 ### 1. Open the Explorer
