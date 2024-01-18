@@ -12,6 +12,19 @@ module.exports = {
         'clash-of-nodes/challenges',
         'clash-of-nodes/rules-and-guidelines',
         'clash-of-nodes/terms-and-conditions',
+        {
+          type: 'category',
+          label: 'RollApps',
+          link: {
+            type: 'generated-index',
+          },
+          collapsed: true,
+          items: [
+            'clash-of-nodes/dymension/overview',
+            'clash-of-nodes/dymension/dymension',
+            'clash-of-nodes/dymension/migrate',
+          ],
+        },
         'clash-of-nodes/faqs',
       ],
     },
@@ -251,28 +264,6 @@ module.exports = {
               type: 'link',
               label: 'OpEVM',
               href: 'https://github.com/availproject/op-evm',
-            },
-          ],
-        },
-        {
-          type: 'category',
-          label: 'Rollups as a Service',
-          link: {
-            type: 'generated-index',
-          },
-          collapsed: true,
-          items: [
-            {
-              type: 'category',
-              label: 'DRAFT MODE: Dymension',
-              link: {
-                type: 'generated-index',
-              },
-              items: [
-                'build/dymension/overview',
-                'build/dymension/dymension',
-                'build/dymension/migrate',
-              ],
             },
           ],
         },
