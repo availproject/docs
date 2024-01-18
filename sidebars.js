@@ -254,6 +254,28 @@ module.exports = {
             },
           ],
         },
+        {
+          type: 'category',
+          label: 'Rollups as a Service',
+          link: {
+            type: 'generated-index',
+          },
+          collapsed: true,
+          items: [
+            {
+              type: 'category',
+              label: 'DRAFT MODE: Dymension',
+              link: {
+                type: 'generated-index',
+              },
+              items: [
+                'build/dymension/overview',
+                'build/dymension/dymension',
+                'build/dymension/migrate',
+              ],
+            },
+          ],
+        },
       ],
     },
     'glossary',
