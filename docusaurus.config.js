@@ -59,6 +59,10 @@ module.exports = {
           },
           // Getting started
           {
+            to: '/build/quickstart',
+            from: '/category/get-started',
+          },
+          {
             to: '/about/explorer',
             from: '/using-avail/getting-started/avail-explorer',
           },
