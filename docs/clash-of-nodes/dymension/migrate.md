@@ -43,15 +43,14 @@ This command will list the keys associated with your RollApp, including the Avai
 
 ## 4. Fund Your Avail Address
 
-With your Avail address in hand, head to the Avail faucet to secure the necessary funding for your RollApp on the Goldberg network.
-Follow the [<ins>faucet's instructions</ins>](/docs/about/faucet.md) to deposit testnet tokens into your Avail address.
+With your Avail address in hand, head to the Avail faucet to secure the necessary funding for your RollApp on the Goldberg network. Follow the [<ins>faucet guide instructions</ins>](/docs/about/faucet.md) to deposit testnet tokens into your Avail address.
 
 ## 5. Restart All Services
 
 Once the Avail address is funded and the network endpoint updated, you can restart all Roller services.
 This restart will initiate your RollApp on the Avail Goldberg network, completing the migration process.
 
-#### Post-Migration Verification
+### Post-Migration Verification
 
 After completing these steps, it's crucial to verify that your RollApp is functioning correctly on the Avail Goldberg network. Monitor your RollApp's performance and transactions to ensure that everything is operating as expected.
 

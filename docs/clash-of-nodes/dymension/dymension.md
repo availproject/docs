@@ -164,11 +164,11 @@ To fund these addresses, follow these steps in Dymension's Discord:
 
 ## 3. Fund Your Avail Account
 
-You'll also need to fund your Avail account using the Avail faucet available on the [<ins>official Avail Discord</ins>](https://discord.com/invite/availproject). The faucet requires meeting a mandatory threshold using the Gitcoin passport. If necessary, you can link your Avail account on your machine with the wallet you are using for this process.
+You'll also need to fund your Avail account using the Avail faucet available on the **[<ins>official Avail Discord</ins>](https://discord.com/invite/availproject)**.
 
-> Exercise caution when exporting your account's key for any reason. Always ensure the highest level of security and privacy when handling your key.
+For detailed guidance, visit the **[<ins>Avail Faucet Guide</ins>](/docs/about/faucet.md)** and follow the provided instructions.
 
-For detailed guidance, visit the [<ins>Avail Faucet Guide</ins>](/docs/about/faucet.md) and follow the provided instructions.
+> The faucet requires meeting a mandatory threshold using the Gitcoin passport. If necessary, you can link your Avail account on your machine with the wallet you are using for this process. Exercise caution when exporting your account's key for any reason. Always ensure the highest level of security and privacy when handling your key.
 
 ## 4. Register Your RollApp
 
@@ -196,7 +196,7 @@ roller run
 
 ## 6. Add Your RollApp to the Dymension Portal
 
-To register your RollApp on the Dymension Portal, follow the instructions in the README file of the [<ins>RollApp Registry repository</ins>](https://github.com/dymensionxyz/rollapp-registry) on GitHub. This process involves raising a pull request with the necessary details and configurations.
+To register your RollApp on the Dymension Portal, follow the instructions in the README file of the **[<ins>RollApp Registry repository</ins>](https://github.com/dymensionxyz/rollapp-registry)** on GitHub. This process involves raising a pull request with the necessary details and configurations.
 
 <p align="center"><img src="/img/dymension/rollapps-register.png" alt="Register RollApp" width="80%"/></p>
 
