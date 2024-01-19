@@ -45,6 +45,11 @@ Consult the [<ins>Dymension documentation</ins>](https://docs.dymension.xyz/) fo
 - [3. Fund Your Avail Account](#3-fund-your-avail-account)
 - [4. Register Your RollApp](#4-register-your-rollapp)
 - [5. Run Your RollApp](#5-run-your-rollapp)
+  - [Load Rollapp Services](#load-rollapp-services)
+  - [Enable Services](#enable-services)
+  - [Start Services](#start-services)
+  - [Verify Service Status](#verify-service-status)
+  - [Configure CORS (Optional)](#configure-cors-optional)
 - [6. Add Your RollApp to the Dymension Portal](#6-add-your-rollapp-to-the-dymension-portal)
 
 ## 0. Prerequisites
@@ -126,14 +131,14 @@ This approach offers more control and is suited for advanced users who are comfo
 
 ## 2. Fund Your RollApp Addresses
 
-Once you have initialized your RollApp, the system will provide you with several key addresses that require funding. These addresses are essential for various operations within your RollApp.
+After initializing your RollApp, you will receive several key addresses, including both Dymension and Avail addresses, which require funding for operational purposes.
 
 To fund these addresses, follow these steps in Dymension's Discord:
 
 1. **Access the froopyland-faucet and avail-faucet channels**: Navigate to the **`#froopyland-faucet`** channel in Dymension's Discord to fund your Dymension RollApp addresses, and to the **`#avail-faucet`** channel to fund your Avail address.
 
    :::note
-   Use only the **#froopyland-faucet** channel for Goldberg tokens. Avoid the **#dymension-faucet channel**, as it provides tokens for the old Dymension devnet.
+   Use only the **#froopyland-faucet** channel. Avoid the **#dymension-faucet channel**, as it provides tokens for the old Dymension devnet.
    :::
 
 2. **Fund the Addresses**: Use the following command format to request funds for each address:
@@ -184,15 +189,48 @@ roller tx register
 
 ## 5. Run Your RollApp
 
-With the RollApp now registered on the Dymension Hub, we're ready to start running the RollApp, leveraging Avail for data availability.
+With the RollApp now registered on the Dymension Hub, we're ready to start running the RollApp in production, leveraging Avail for data availability. We'll utilize `systemd` for managing services. To monitor you RollApp, follow the [<ins>Dymension guide</ins>](https://docs.dymension.xyz/build/production/monitor) to set up Prometheus and Grafana.
 
-Run the RollApp using the following command:
+### Load Rollapp Services
+
+First, load the necessary services with:
 
 ```bash
-roller run
+roller services load
 ```
 
-> Starting the RollApp can take up to an hour, initially showing 'starting...' as the status. Once it switches to 'active', this indicates successful integration with source IBC channels, essential for functions like token transfers to other ecosystems. The `roller run` command connects the RollApp with the Dymension Hub via IBC. During this process, a status table will display, giving you key details about the RollApp's operation and its IBC relayer connections. This output provides valuable insights into the RollApp's status and its network connectivity.
+You should see a confirmation message indicating the successful loading of services like 'sequencer', 'da-light-client', and 'relayer'.
+
+### Enable Services
+
+Enable the required services:
+
+```bash
+sudo systemctl enable sequencer
+sudo systemctl enable relayer
+```
+
+### Start Services
+
+Now, start the services:
+
+```bash
+sudo systemctl start sequencer
+sudo systemctl start relayer
+```
+
+### Verify Service Status
+
+Confirm that the services are up and running:
+
+```bash
+sudo systemctl status sequencer
+sudo systemctl status relayer
+```
+
+### Configure CORS (Optional)
+
+Edit `~/.roller/rollapp/config/config.toml` to set `cors_allowed_origins` as needed.
 
 ## 6. Add Your RollApp to the Dymension Portal
 
