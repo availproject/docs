@@ -53,13 +53,3 @@ This restart will initiate your RollApp on the Avail Goldberg network, completin
 ### Post-Migration Verification
 
 After completing these steps, it's crucial to verify that your RollApp is functioning correctly on the Avail Goldberg network. Monitor your RollApp's performance and transactions to ensure that everything is operating as expected.
-
-## 6. Add Your RollApp to the Dymension Portal
-
-To declare that your RollApp is now on Goldberg, you must register your RollApp on the Dymension Portal, follow the instructions in the README file of the [<ins>RollApp Registry repository</ins>](https://github.com/dymensionxyz/rollapp-registry) on GitHub. This process involves raising a pull request with the necessary details and configurations.
-
-<p align="center"><img src="/img/dymension/rollapps-register.png" alt="Register RollApp" width="80%"/></p>
-
-Look out for the gold Avail logo next to your RollApp on the [<ins>Dymension Portal</ins>](https://portal.dymension.xyz/rollapps), signaling your integration with the Goldberg testnet.
-
-<p align="center"><img src="/img/dymension/dy-portal-avail.png" alt="Avail RollApp Icon on Portal" width="90%"/></p>
