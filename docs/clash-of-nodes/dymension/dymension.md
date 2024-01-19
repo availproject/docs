@@ -45,11 +45,6 @@ Consult the [<ins>Dymension documentation</ins>](https://docs.dymension.xyz/) fo
 - [3. Fund Your Avail Account](#3-fund-your-avail-account)
 - [4. Register Your RollApp](#4-register-your-rollapp)
 - [5. Run Your RollApp](#5-run-your-rollapp)
-  - [Load Rollapp Services](#load-rollapp-services)
-  - [Enable Services](#enable-services)
-  - [Start Services](#start-services)
-  - [Verify Service Status](#verify-service-status)
-  - [Configure CORS (Optional)](#configure-cors-optional)
 - [6. Add Your RollApp to the Dymension Portal](#6-add-your-rollapp-to-the-dymension-portal)
 
 ## 0. Prerequisites
@@ -133,11 +128,11 @@ This approach offers more control and is suited for advanced users who are comfo
 
 After initializing your RollApp, you will receive several key addresses, including both Dymension and Avail addresses, which require funding for operational purposes.
 
-To fund these addresses, follow these steps in Dymension's Discord:
+To fund the the Dymension addresses, follow these steps in Dymension's Discord:
 
-1. **Access the froopyland-faucet and avail-faucet channels**: Navigate to the **`#froopyland-faucet`** channel in Dymension's Discord to fund your Dymension RollApp addresses, and to the **`#avail-faucet`** channel to fund your Avail address.
+1. **Access the Discord faucet channel**: Navigate to the **`#froopyland-faucet`** channel in Dymension's Discord to fund your Dymension RollApp addresses.
 
-   :::note
+   :::caution
    Use only the **#froopyland-faucet** channel. Avoid the **#dymension-faucet channel**, as it provides tokens for the old Dymension devnet.
    :::
 
@@ -149,15 +144,14 @@ To fund these addresses, follow these steps in Dymension's Discord:
 
    Replace `<dym-address>` with the actual addresses provided during initialization.
 
-3. **Example Commands**:
+   > **Example Commands**:
+   >
+   > ```bash
+   > $request SequencerAddressHere
+   > $request RelayerAddressHere
+   > ```
 
-   ```bash
-   $request SequencerAddressHere
-   $request RelayerAddressHere
-   $request DAAddressHere
-   ```
-
-4. **Checking Balance**:
+3. **Check Balance**:
 
    After funding the addresses, you can check the balance of each address to ensure the transaction was successful:
 
@@ -191,46 +185,46 @@ roller tx register
 
 With the RollApp now registered on the Dymension Hub, we're ready to start running the RollApp in production, leveraging Avail for data availability. We'll utilize `systemd` for managing services. To monitor you RollApp, follow the [<ins>Dymension guide</ins>](https://docs.dymension.xyz/build/production/monitor) to set up Prometheus and Grafana.
 
-### Load Rollapp Services
+1. **Load Rollapp Services**:
 
-First, load the necessary services with:
+   First, load the necessary services with:
 
-```bash
-roller services load
-```
+   ```bash
+   roller services load
+   ```
 
-You should see a confirmation message indicating the successful loading of services like 'sequencer', 'da-light-client', and 'relayer'.
+   You should see a confirmation message indicating the successful loading of services like 'sequencer', 'da-light-client', and 'relayer'.
 
-### Enable Services
+2. **Enable Services**:
 
-Enable the required services:
+   Enable the required services:
 
-```bash
-sudo systemctl enable sequencer
-sudo systemctl enable relayer
-```
+   ```bash
+   sudo systemctl enable sequencer
+   sudo systemctl enable relayer
+   ```
 
-### Start Services
+3. **Start Services**:
 
-Now, start the services:
+   Now, start the services:
 
-```bash
-sudo systemctl start sequencer
-sudo systemctl start relayer
-```
+   ```bash
+   sudo systemctl start sequencer
+   sudo systemctl start relayer
+   ```
 
-### Verify Service Status
+4. **Verify Service Status**:
 
-Confirm that the services are up and running:
+   Confirm that the services are up and running:
 
-```bash
-sudo systemctl status sequencer
-sudo systemctl status relayer
-```
+   ```bash
+   sudo systemctl status sequencer
+   sudo systemctl status relayer
+   ```
 
-### Configure CORS (Optional)
+5. **Configure CORS (Optional)**:
 
-Edit `~/.roller/rollapp/config/config.toml` to set `cors_allowed_origins` as needed.
+   Edit `~/.roller/rollapp/config/config.toml` to set `cors_allowed_origins` as needed.
 
 ## 6. Add Your RollApp to the Dymension Portal
 
