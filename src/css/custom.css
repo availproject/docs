@@ -1134,103 +1134,105 @@ a.disabled {
 ============================================================================= */
 
 pre {
-  background-color: #f5f5f5;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 10px 15px;
+  background-color: #fafafa;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  padding: 16px;
   overflow-x: auto;
+  font-family: 'Source Code Pro', monospace;
+  color: #333;
 }
 
 code {
-  background-color: #f5f5f5;
-  border-radius: 4px;
-  padding: 2px 4px;
-  font-size: 90%;
-  color: #c7254e;
-  border: 1px solid #ccc;
+  background-color: #fafafa;
+  border-radius: 6px;
+  padding: 3px 6px;
+  font-size: 95%;
+  color: #d14;
+  border: 1px solid #e1e4e8;
 }
 
 details[open] > summary::before {
-  border-color: #eee transparent transparent transparent;
+  border-color: #e1e4e8 transparent transparent transparent;
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 6px 6px 0 6px;
+  margin-right: 5px;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&display=swap');
+
 /* ==========================================================================
-  Tabs
-============================================================================= */
+   Tabs
+========================================================================== */
 
 .tabs-container {
   width: 100%;
 }
 
 [role='tablist'] {
-  border-bottom: 1px solid #434f5e;
+  border-bottom: 2px solid #dee2e6;
+  background-color: #f8f9fa;
 }
 
 [role='tab'] {
-  display: flex;
-  min-height: 24px;
+  display: inline-block;
+  min-height: 40px;
+  line-height: 40px;
+  padding: 0 25px;
+  margin-right: 10px;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
 }
 
 .tabs__item {
-  appearance: none;
-  border: 1px solid #bcc6d4;
-  border-radius: 8px;
   color: #31414e;
-  display: inline-flex;
-  flex-direction: column;
-  font-size: var(--ifm-h4-font-size);
-  font-weight: 700;
-  justify-content: center;
-  padding: 6px 10px;
-  margin: 0 6px 6px 0;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
   transition:
-    background-color 0.2s,
     color 0.2s,
-    opacity 0.2s,
-    border-color 0.2s,
-    box-shadow 0.2s;
-  opacity: 0.6;
-  background-color: #c8d4e8;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    background-color 0.2s;
 }
 
 .tabs__item:hover {
-  border-color: #4e6786;
-  opacity: 0.8;
-  background-color: #b3c2d9;
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  color: #0056b3;
 }
 
 .tabs__item.active {
-  background-color: #005471;
-  border-color: #4e6786;
-  opacity: 1;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-  color: #ffffff;
-  border-width: 2px;
+  border-bottom: 3px solid #0056b3;
+  color: #0056b3;
+  background-color: #ffffff;
+  box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .tabs {
   position: inherit;
   flex-wrap: wrap;
+  margin-bottom: -2px;
 }
 
 .tab-content {
   display: flex;
   flex-wrap: wrap;
-}
-
-.navbar__items--right > :last-child {
-  padding-right: 0;
-  width: 300px;
+  background-color: #ffffff;
+  padding: 20px;
+  border: 1px solid #dee2e6;
+  border-radius: 0 0 8px 8px;
 }
 
 @media (max-width: 768px) {
-  .navbar__items.navbar__items--right > :last-child {
-    padding-right: 0;
-    width: unset;
+  .tabs__item {
+    padding: 8px 15px;
+    font-size: 16px;
+    margin-right: 5px;
   }
 }
+
 /* ==========================================================================
   Search Bar
 ============================================================================= */
