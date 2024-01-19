@@ -36,16 +36,18 @@ Consult the [<ins>Dymension documentation</ins>](https://docs.dymension.xyz/) fo
 - [Introduction](#introduction)
   - [Key Steps to Participate](#key-steps-to-participate)
   - [Your Mission](#your-mission)
-- [Prerequisites](#prerequisites)
+- [0. Prerequisites](#0-prerequisites)
   - [Hardware Requirements](#hardware-requirements)
-- [Configuration Files Creation](#configuration-files-creation)
+- [1. Create Configuration Files](#1-create-configuration-files)
   - [Process Overview](#process-overview)
   - [Flags Breakdown](#flags-breakdown)
-  - [Address Funding for RollApp](#address-funding-for-rollapp)
-- [Fund Your Avail Account](#fund-your-avail-account)
-- [Register Your RollApp](#register-your-rollapp)
+- [2. Fund Your RollApp Addresses](#2-fund-your-rollapp-addresses)
+- [3. Fund Your Avail Account](#3-fund-your-avail-account)
+- [4. Register Your RollApp](#4-register-your-rollapp)
+- [5. Run Your RollApp](#5-run-your-rollapp)
+- [6. Add Your RollApp to the Dymension Portal](#6-add-your-rollapp-to-the-dymension-portal)
 
-## Prerequisites
+## 0. Prerequisites
 
 Ensure you have installed the following software.
 
@@ -69,7 +71,7 @@ Roller, as the engine for the Dymension RDK, has specific hardware requirements 
 | Memory (RAM)      | At least 16GB              |
 | Network Bandwidth | At least 100mbps           |
 
-## Configuration Files Creation
+## 1. Create Configuration Files
 
 Initializing your RollApp will create a `.roller` folder in your root directory. This folder contains essential files, including the Genesis file, which are crucial for starting your RollApp. Choose the method that best fits your expertise and requirements. The guided setup is recommended for ease of use, while the manual method offers more customization for experienced developers.
 
@@ -122,13 +124,18 @@ This approach offers more control and is suited for advanced users who are comfo
   </TabItem>
 </Tabs>
 
-### Address Funding for RollApp
+## 2. Fund Your RollApp Addresses
 
 Once you have initialized your RollApp, the system will provide you with several key addresses that require funding. These addresses are essential for various operations within your RollApp.
 
 To fund these addresses, follow these steps in Dymension's Discord:
 
-1. **Access the Froopyland-Faucet Channel**: Navigate to the `froopyland-faucet` channel in Dymension's Discord.
+1. **Access the froopyland-faucet and avail-faucet channels**: Navigate to the **`#froopyland-faucet`** channel in Dymension's Discord to fund your Dymension RollApp addresses, and to the **`#avail-faucet`** channel to fund your Avail address.
+
+   :::note
+   Use only the **#froopyland-faucet** channel for Goldberg tokens. Avoid the **#dymension-faucet channel**, as it provides tokens for the old Dymension devnet.
+   :::
+
 2. **Fund the Addresses**: Use the following command format to request funds for each address:
 
    ```bash
@@ -155,13 +162,41 @@ To fund these addresses, follow these steps in Dymension's Discord:
 
    Replace `<dym-address>` with the respective address you wish to check.
 
-## Fund Your Avail Account
+## 3. Fund Your Avail Account
 
-To obtain testnet tokens for Avail, visit the [<ins>Avail Faucet Guide</ins>](/docs/about/faucet.md) and follow the provided instructions.
+You'll also need to fund your Avail account using the Avail faucet available on the [<ins>official Avail Discord</ins>](https://discord.com/invite/availproject). The faucet requires meeting a mandatory threshold using the Gitcoin passport. If necessary, you can link your Avail account on your machine with the wallet you are using for this process.
 
-## Register Your RollApp
+> Exercise caution when exporting your account's key for any reason. Always ensure the highest level of security and privacy when handling your key.
 
-To register your RollApp, follow the instructions in the README file of the [<ins>RollApp Registry repository</ins>](https://github.com/dymensionxyz/rollapp-registry) on GitHub. This process involves raising a pull request with the necessary details and configurations.
+For detailed guidance, visit the [<ins>Avail Faucet Guide</ins>](/docs/about/faucet.md) and follow the provided instructions.
+
+## 4. Register Your RollApp
+
+After initializing and funding your RollApp accounts, the next step is to register your RollApp.
+
+To register, execute the following command using the previously generated addresses:
+
+```bash
+roller tx register
+```
+
+> This registration process introduces a dedicated namespace in the Dymension Hub for your RollApp, replacing the need for complex multi-sig smart contract management. Registration streamlines the integration with the Dymension ecosystem, enabling developers to use a simple command for setup. Once registered, the RollApp is recognized by the Dymension Hub, allowing Sequencers to publish state updates on-chain and enhancing the interoperability across different ecosystems.
+
+## 5. Run Your RollApp
+
+With the RollApp now registered on the Dymension Hub, we're ready to start running the RollApp, leveraging Avail for data availability.
+
+Run the RollApp using the following command:
+
+```bash
+roller run
+```
+
+> Starting the RollApp can take up to an hour, initially showing 'starting...' as the status. Once it switches to 'active', this indicates successful integration with source IBC channels, essential for functions like token transfers to other ecosystems. The `roller run` command connects the RollApp with the Dymension Hub via IBC. During this process, a status table will display, giving you key details about the RollApp's operation and its IBC relayer connections. This output provides valuable insights into the RollApp's status and its network connectivity.
+
+## 6. Add Your RollApp to the Dymension Portal
+
+To register your RollApp on the Dymension Portal, follow the instructions in the README file of the [<ins>RollApp Registry repository</ins>](https://github.com/dymensionxyz/rollapp-registry) on GitHub. This process involves raising a pull request with the necessary details and configurations.
 
 <p align="center"><img src="/img/dymension/rollapps-register.png" alt="Register RollApp" width="80%"/></p>
 
