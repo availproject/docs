@@ -63,9 +63,9 @@ An [<ins>ownership verification process</ins>](#ownership-verification) is manda
 
 Assuming your app is already registered in the Dymension registry, you will need to submit a new PR to amend the existing entry. The PR must include the following updates:
 
-- `"da": "Avail"`, _(If not already set, as most entries likely have `"da"` pre-set to `"Avail"`)_
-- `"goldberg": true`, _(Indicates the RollApp's utilization of the Goldberg testnet, distinguishing it from the previous dedicated Avail devnet for Dymension)_
-- `"availAddress": "<avail address of your RollApp>"`, _(Your RollApp's Avail address, retrievable via `roller keys list`)_
+- **`"da": "Avail"`**, _(If not already set, as most entries likely have `"da"` pre-set to `"Avail"`)_
+- **`"goldberg": true`**, _(Indicates the RollApp's utilization of the Goldberg testnet, distinguishing it from the previous dedicated Avail devnet for Dymension)_
+- **`"availAddress": "<avail address of your RollApp>"`**, _(Your RollApp's Avail address, retrievable via `roller keys list`)_
 
 As part of the PR submission, **a verification transaction using the sequencer is required to prove ownership of the RollApp**.
 
@@ -79,9 +79,9 @@ As part of the PR submission, **a verification transaction using the sequencer i
 
 2. **Export the Sequencer's Private Key**: Carefully export the private key of the `hub_sequencer` address. Remember to excerise caution as this is a sensitive operation.
 
-```bash
-roller keys export hub_sequencer
-```
+   ```bash
+   roller keys export hub_sequencer
+   ```
 
 3. **Import Key into any EVM Wallet**:
 
@@ -92,7 +92,7 @@ roller keys export hub_sequencer
 4. **Send the Verification Transaction**:
 
    - After importing the sequencer's address into your wallet, conduct a transaction by sending the specified amount to the designated verification address.
-   - Ensure the transaction details match the amount and destination address provided by the moderator.
+   - Ensure the transaction details match the amount and destination address **`0x1eB169bEC2725475153F493aAcDaad4E9CA1e32E`**.
 
 5. **Submit Proof of Transaction in PR**:
    - Visit the [<ins>explorer link</ins>](https://fl.dym.fyi/) and obtain the transaction ID of the completed transfer.
