@@ -231,7 +231,11 @@ With the RollApp now registered on the Dymension Hub, we're ready to start runni
 
 ## 6. Add Your RollApp to the Dymension Portal
 
-To register your RollApp on the Dymension Portal, follow the instructions in the README file of the **[<ins>RollApp Registry repository</ins>](https://github.com/dymensionxyz/rollapp-registry)** on GitHub. This process involves raising a pull request with the necessary details and configurations.
+To register your RollApp on the Dymension Portal, follow the instructions in the README file of the **[<ins>RollApp Registry repository</ins>](https://github.com/dymensionxyz/rollapp-registry)** on GitHub. This process involves raising a pull request with the necessary details and configurations. The PR must include the following configurations:
+
+- **`"da": "Avail"`**, _(If not already set, as most entries likely have `"da"` pre-set to `"Avail"`)_
+- **`"goldberg": true`**, _(Indicates the RollApp's utilization of the Goldberg testnet, distinguishing it from the previous dedicated Avail devnet for Dymension)_
+- **`"availAddress": "<avail address of your RollApp>"`**, _(Your RollApp's Avail address, retrievable via `roller keys list`)_
 
 <p align="center"><img src="/img/dymension/rollapps-register.png" alt="Register RollApp" width="80%"/></p>
 
