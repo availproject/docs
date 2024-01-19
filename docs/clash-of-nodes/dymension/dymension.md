@@ -18,7 +18,7 @@ import Tabs from '@theme/Tabs';
 
 ## Introduction
 
-We're thrilled to kick off the "Dymension RollApps" challenge as part of the innovative Clash of Nodes incentivized testnet. This collaboration between Dymension and Avail opens a new avenue for developers to deploy rollups with Avail as the data availability layer.
+We're thrilled to kick off the "Dymension RollApps" challenge as part of the innovative Clash of Nodes campaign. This collaboration between Dymension and Avail opens a new avenue for developers to deploy rollups with Avail as the data availability layer.
 
 ### Key Steps to Participate
 
@@ -44,6 +44,7 @@ Consult the [<ins>Dymension documentation</ins>](https://docs.dymension.xyz/) fo
 - [2. Fund Your RollApp Addresses](#2-fund-your-rollapp-addresses)
 - [3. Fund Your Avail Account](#3-fund-your-avail-account)
 - [4. Register Your RollApp](#4-register-your-rollapp)
+  - [Standard Registration](#standard-registration)
 - [5. Run Your RollApp](#5-run-your-rollapp)
 - [6. Add Your RollApp to the Dymension Portal](#6-add-your-rollapp-to-the-dymension-portal)
 
@@ -172,6 +173,8 @@ Avoid the `#dymension-faucet` channel on the Avail Discord and the `#avail-fauce
 ## 4. Register Your RollApp
 
 After initializing and funding your RollApp accounts, the next step is to register your RollApp.
+
+### Standard Registration
 
 To register, execute the following command using the previously generated addresses:
 
