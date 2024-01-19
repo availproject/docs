@@ -1,6 +1,6 @@
 ---
 id: dymension
-title: How to Use Dymension RollApps on Froopyland with Avail
+title: How to Deploy Dymension RollApps on Froopyland with Avail
 sidebar_label: Avail-Powered RollApps
 description: 'Discover how to utilize Avail as a data availability layer to build RollApps with Dymension.'
 keywords:
@@ -18,7 +18,32 @@ import Tabs from '@theme/Tabs';
 
 ## Introduction
 
-Embark on the journey of setting up your Dymension RollApp, utilizing Avail as the data availability layer. This guide is specifically designed for deploying in the Dymension ecosystem and integrating with the Avail Goldberg testnet. To fully grasp the intricacies of dYmension and its RollApps, make sure to delve into the [<ins>Dymension documentation</ins>](https://docs.dymension.xyz/).
+We're thrilled to kick off the "Dymension RollApps" challenge as part of the innovative Clash of Nodes incentivized testnet. This collaboration between Dymension and Avail opens a new avenue for developers to deploy rollups with Avail as the data availability layer.
+
+### Key Steps to Participate
+
+1. **Deploy on Avail's Goldberg Testnet**: Opt to post your rollup data to the Avail Goldberg Testnet, part of the Clash of Nodes.
+2. **Fund Your Account**: Use the Avail Goldberg faucet to acquire tokens for the Goldberg Incentivized Testnet.
+3. **Update Your Rollup Listing**: Ensure your rollup is listed correctly on the Dymension dashboard with a PR update.
+4. **Earn Points**: Your rollup accrues points on the Clash of Nodes leaderboard based on usage.
+
+### Your Mission
+
+Leverage Avail's modular solutions in the Dymension ecosystem. Your efforts not only boost your leaderboard rank but also advance blockchain technology.
+
+Consult the [<ins>Dymension documentation</ins>](https://docs.dymension.xyz/) for in-depth information on Dymension and RollApps. For data migration to the Avail Goldberg testnet, see the [<ins>migration guide</ins>](/clash-of-nodes/dymension/migrate/).
+
+- [Introduction](#introduction)
+  - [Key Steps to Participate](#key-steps-to-participate)
+  - [Your Mission](#your-mission)
+- [Prerequisites](#prerequisites)
+  - [Hardware Requirements](#hardware-requirements)
+- [Configuration Files Creation](#configuration-files-creation)
+  - [Process Overview](#process-overview)
+  - [Flags Breakdown](#flags-breakdown)
+  - [Address Funding for RollApp](#address-funding-for-rollapp)
+- [Fund Your Avail Account](#fund-your-avail-account)
+- [Register Your RollApp](#register-your-rollapp)
 
 ## Prerequisites
 
@@ -26,25 +51,12 @@ Ensure you have installed the following software.
 
 > Installation commands are based on Ubuntu 20.04 LTS:
 
-<table>
-  <tr>
-    <td valign="top">
-
-| Software       | Purpose                         |
-| -------------- | ------------------------------- |
-| **Roller CLI** | Deploying and managing RollApps |
-
-</td>
-<td valign="top">
+Install **Roller CLI** for deploying and managing RollApps:
 
 ```bash
 # Install Roller
 curl -L https://dymensionxyz.github.io/roller/install.sh | bash
 ```
-
-</td>
-  </tr>
-</table>
 
 ### Hardware Requirements
 
@@ -56,12 +68,6 @@ Roller, as the engine for the Dymension RDK, has specific hardware requirements 
 | SSD Disk Storage  | At least 100GB             |
 | Memory (RAM)      | At least 16GB              |
 | Network Bandwidth | At least 100mbps           |
-
-:::note
-
-These requirements are subject to continuous review and testing by the core team and community.
-
-:::
 
 ## Configuration Files Creation
 
@@ -153,14 +159,8 @@ To fund these addresses, follow these steps in Dymension's Discord:
 
 To obtain testnet tokens for Avail, visit the [<ins>Avail Faucet Guide</ins>](/docs/about/faucet.md) and follow the provided instructions.
 
-IMAGE
-
 ## Register Your RollApp
 
 To register your RollApp, follow the instructions in the README file of the [<ins>RollApp Registry repository</ins>](https://github.com/dymensionxyz/rollapp-registry) on GitHub. This process involves raising a pull request with the necessary details and configurations.
 
-IMAGE
-
 Look out for the gold Avail logo next to your RollApp, signaling your integration with the Goldberg testnet.
-
-IMAGE
