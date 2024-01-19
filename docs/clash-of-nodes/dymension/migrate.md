@@ -2,7 +2,7 @@
 id: migrate
 title: How to Use Migrate Your RollApp to Use Avail
 sidebar_label: Migrate Your RollApp
-description: 'Discover how to migrate your existing RollApp to Avail's Goldberg testnet.'
+description: 'Discover how to migrate your existing RollApp to the Avail Goldberg testnet.'
 keywords:
   - documentation
   - avail
