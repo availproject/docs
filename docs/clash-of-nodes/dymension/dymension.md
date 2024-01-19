@@ -163,4 +163,8 @@ To obtain testnet tokens for Avail, visit the [<ins>Avail Faucet Guide</ins>](/d
 
 To register your RollApp, follow the instructions in the README file of the [<ins>RollApp Registry repository</ins>](https://github.com/dymensionxyz/rollapp-registry) on GitHub. This process involves raising a pull request with the necessary details and configurations.
 
-Look out for the gold Avail logo next to your RollApp, signaling your integration with the Goldberg testnet.
+<p align="center"><img src="/img/dymension/rollapps-register.png" alt="Register RollApp" width="80%"/></p>
+
+Look out for the gold Avail logo next to your RollApp on the [<ins>Dymension Portal</ins>](https://portal.dymension.xyz/rollapps), signaling your integration with the Goldberg testnet.
+
+<p align="center"><img src="/img/dymension/dy-portal-avail.png" alt="Avail RollApp Icon on Portal" width="90%"/></p>
