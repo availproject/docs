@@ -54,18 +54,24 @@ This restart will initiate your RollApp on the Avail Goldberg network, completin
 
 After completing these steps, it's crucial to verify that your RollApp is functioning correctly on the Avail Goldberg network. Monitor your RollApp's performance and transactions to ensure that everything is operating as expected.
 
-## 6. Add Your RollApp to the Dymension Portal
+## 6. Update Your RollApp in the Dymension Registry
 
 :::info Prove RollApp Ownership
 
 An [<ins>ownership verification process</ins>](#ownership-verification) is mandatory for any PR submitted to the Dymension registry that modifies an existing app to switch to the Avail Incentivized Testnet. It verifies that the team modifying the registry entry is the actual owner of the RollApp. This process is not required for PRs that add completely new apps.
 :::
 
-If your existing RollApp is **not registered** on the Dymension registry, follow the instructions in the README file of the **[<ins>RollApp registry repository</ins>](https://github.com/dymensionxyz/rollapp-registry)**. This process involves raising a pull request with the necessary details and configurations.
+Assuming your app is already registered in the Dymension registry, you will need to submit a new PR to amend the existing entry. The PR must include the following updates:
+
+- `"da": "Avail"`, _(If not already set, as most entries likely have `"da"` pre-set to `"Avail"`)_
+- `"goldberg": true`, _(Indicates the RollApp's utilization of the Goldberg testnet, distinguishing it from the previous dedicated Avail devnet for Dymension)_
+- `"availAddress": "<avail address of your RollApp>"`, _(Your RollApp's Avail address, retrievable via `roller keys list`)_
+
+As part of the PR submission, **a verification transaction using the sequencer is required to prove ownership of the RollApp**.
 
 <p align="center"><img src="/img/dymension/rollapps-register.png" alt="Register RollApp" width="80%"/></p>
 
-As part of the PR submission, **a verification transaction using the sequencer is required to prove ownership of the RollApp**.
+> If your existing RollApp is **not registered** on the Dymension registry, follow the instructions in the README file of the **[<ins>RollApp registry repository</ins>](https://github.com/dymensionxyz/rollapp-registry)**. This process involves raising an initial pull request with the necessary details and configurations to register your RollApp.
 
 ### Ownership Verification
 
