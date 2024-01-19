@@ -130,42 +130,42 @@ After initializing your RollApp, you will receive several key addresses, includi
 
 To fund the the Dymension addresses, follow these steps in Dymension's Discord:
 
-1. **Access the Discord faucet channel**: Navigate to the **`#froopyland-faucet`** channel in Dymension's Discord to fund your Dymension RollApp addresses.
+i. **Access the Discord faucet channel**: Navigate to the **`#froopyland-faucet`** channel in Dymension's Discord to fund your Dymension RollApp addresses.
 
-   :::caution
-   Use only the **#froopyland-faucet** channel. Avoid the **#dymension-faucet channel**, as it provides tokens for the old Dymension devnet.
-   :::
+ii. **Fund the Addresses**: Use the following command format to request funds for each address:
 
-2. **Fund the Addresses**: Use the following command format to request funds for each address:
+```bash
+$request <dym-address>
+```
 
-   ```bash
-   $request <dym-address>
-   ```
+Replace `<dym-address>` with the actual addresses provided during initialization.
 
-   Replace `<dym-address>` with the actual addresses provided during initialization.
+> **Example Commands**:
+>
+> ```bash
+> $request SequencerAddressHere
+> $request RelayerAddressHere
+> ```
 
-   > **Example Commands**:
-   >
-   > ```bash
-   > $request SequencerAddressHere
-   > $request RelayerAddressHere
-   > ```
+iii. **Check Balance**:
 
-3. **Check Balance**:
+After funding the addresses, you can check the balance of each address to ensure the transaction was successful:
 
-   After funding the addresses, you can check the balance of each address to ensure the transaction was successful:
+```bash
+$balance <dym-address>
+```
 
-   ```bash
-   $balance <dym-address>
-   ```
-
-   Replace `<dym-address>` with the respective address you wish to check.
+Replace `<dym-address>` with the respective address you wish to check.
 
 ## 3. Fund Your Avail Account
 
 You'll also need to fund your Avail account using the Avail faucet available on the **[<ins>official Avail Discord</ins>](https://discord.com/invite/availproject)**.
 
 For detailed guidance, visit the **[<ins>Avail Faucet Guide</ins>](/docs/about/faucet.md)** and follow the provided instructions.
+
+:::caution
+Avoid the `#dymension-faucet` channel on the Avail Discord and the `#avail-faucet` channel on the Dymension Discord, as they provide tokens for an old devnet and not for the Goldberg network.
+:::
 
 > The faucet requires meeting a mandatory threshold using the Gitcoin passport. If necessary, you can link your Avail account on your machine with the wallet you are using for this process. Exercise caution when exporting your account's key for any reason. Always ensure the highest level of security and privacy when handling your key.
 
@@ -185,46 +185,46 @@ roller tx register
 
 With the RollApp now registered on the Dymension Hub, we're ready to start running the RollApp in production, leveraging Avail for data availability. We'll utilize `systemd` for managing services. To monitor you RollApp, follow the [<ins>Dymension guide</ins>](https://docs.dymension.xyz/build/production/monitor) to set up Prometheus and Grafana.
 
-1. **Load Rollapp Services**:
+i. **Load Rollapp Services**:
 
-   First, load the necessary services with:
+First, load the necessary services with:
 
-   ```bash
-   roller services load
-   ```
+```bash
+roller services load
+```
 
-   You should see a confirmation message indicating the successful loading of services like 'sequencer', 'da-light-client', and 'relayer'.
+You should see a confirmation message indicating the successful loading of services like 'sequencer', 'da-light-client', and 'relayer'.
 
-2. **Enable Services**:
+ii. **Enable Services**:
 
-   Enable the required services:
+Enable the required services:
 
-   ```bash
-   sudo systemctl enable sequencer
-   sudo systemctl enable relayer
-   ```
+```bash
+sudo systemctl enable sequencer
+sudo systemctl enable relayer
+```
 
-3. **Start Services**:
+iii. **Start Services**:
 
-   Now, start the services:
+Now, start the services:
 
-   ```bash
-   sudo systemctl start sequencer
-   sudo systemctl start relayer
-   ```
+```bash
+sudo systemctl start sequencer
+sudo systemctl start relayer
+```
 
-4. **Verify Service Status**:
+iv. **Verify Service Status**:
 
-   Confirm that the services are up and running:
+Confirm that the services are up and running:
 
-   ```bash
-   sudo systemctl status sequencer
-   sudo systemctl status relayer
-   ```
+```bash
+sudo systemctl status sequencer
+sudo systemctl status relayer
+```
 
-5. **Configure CORS (Optional)**:
+v. **Configure CORS (Optional)**:
 
-   Edit `~/.roller/rollapp/config/config.toml` to set `cors_allowed_origins` as needed.
+Edit `~/.roller/rollapp/config/config.toml` to set `cors_allowed_origins` as needed.
 
 ## 6. Add Your RollApp to the Dymension Portal
 
