@@ -146,7 +146,7 @@ For developers who previously ran RollApps and are looking to migrate to the Ava
 
       <p align="center"><img src="/img/dymension/dy-portal-avail.png" alt="Avail RollApp Icon on Portal" width="90%"/></p>
 
-     - **Notify Moderator of Verification**: After your PR is approved, **inform the moderator with whom you've been coordinating to confirm successful ownership verification of your RollApp and adherence to the RollApp criteria; your RollApp will not be recognized as part of the Clash of Nodes campaign until you do so**. Upon verification and PR merger, your app will be listed on the **[<ins>Clash of Nodes Leaderboard</ins>](https://leaderboard.availproject.org/)**.
+     - **Notify Moderator of Verification**: After your PR is approved, inform the moderator with whom you've been coordinating to confirm successful ownership verification of your RollApp and adherence to the RollApp criteria; **your RollApp will not be recognized as part of the Clash of Nodes campaign until you do so**. Upon verification and PR merger, your app will be listed on the **[<ins>Clash of Nodes Leaderboard</ins>](https://leaderboard.availproject.org/)**.
 
 </TabItem>
 <TabItem value="new" label="Create a New RollApp">
@@ -230,7 +230,7 @@ For developers who previously ran RollApps and are looking to migrate to the Ava
 
 1. **MANDATORY RollApp Verification**: A moderator will examine the RollApp's webpage to confirm that it is operational and functional. If the RollApp is not verifiable or if there are any uncertainties regarding its operation, a moderator will reach out to the development team for further clarification. The team may be asked to make necessary updates to the RollApp and resubmit for review. Clear instructions will be provided if this is the case.
 
-   After your PR is approved, **inform a moderator to confirm adherence to the RollApp criteria and verification process; your RollApp will not be recognized as part of the Clash of Nodes campaign until you do so**. Upon verification and PR merger, your app will be listed on the **[<ins>Clash of Nodes Leaderboard</ins>](https://leaderboard.availproject.org/)**.
+   After your PR is approved, inform a moderator to confirm adherence to the RollApp criteria and verification process; **your RollApp will not be recognized as part of the Clash of Nodes campaign until you do so**. Upon verification and PR merger, your app will be listed on the **[<ins>Clash of Nodes Leaderboard</ins>](https://leaderboard.availproject.org/)**.
 
    Look out for the gold Avail logo next to your RollApp on the **[<ins>Dymension Portal</ins>](https://portal.dymension.xyz/rollapps)**, signaling your integration with the Goldberg testnet. Once the PR is merged, the app will also appear on the **[<ins>Clash of Nodes Leaderboard</ins>](https://leaderboard.availproject.org/)**.
 
