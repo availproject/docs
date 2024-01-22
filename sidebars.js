@@ -13,6 +13,7 @@ module.exports = {
         'clash-of-nodes/rules-and-guidelines',
         'clash-of-nodes/terms-and-conditions',
         'clash-of-nodes/dymension',
+        'clash-of-nodes/karnot',
         'clash-of-nodes/faqs',
       ],
     },
