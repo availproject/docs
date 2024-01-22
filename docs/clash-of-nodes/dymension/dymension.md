@@ -140,7 +140,7 @@ For developers who previously ran RollApps and are looking to migrate to the Ava
        - After importing the sequencer's address into your wallet, conduct a transaction by sending the specified amount to the designated verification address.
        - Ensure the transaction details match the amount and destination address: **`0x1eB169bEC2725475153F493aAcDaad4E9CA1e32E`**.
 
-     - **Submit Proof of Transaction in PR**:
+     - **Submit Proof of Transaction to Moderator**:
 
        - Visit the **[<ins>Dymension explorer</ins>](https://fl.dym.fyi/)** and obtain the transaction ID link of the completed transfer. Depending on your wallet, you may need to retrieve the transaction ID link directly from its corresponding explorer.
        - **Please submit the URL to the moderator you are in contact with**. The moderator will verify the transaction using this link. Upon successful verification, the PR will be approved. Keep an eye on the **[<ins>Dymension Portal</ins>](https://portal.dymension.xyz/rollapps)** for the gold Avail logo next to your RollApp. This icon indicates successful integration with the Goldberg testnet.
