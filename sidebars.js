@@ -19,10 +19,7 @@ module.exports = {
             type: 'generated-index',
           },
           collapsed: true,
-          items: [
-            'clash-of-nodes/dymension/dymension',
-            'clash-of-nodes/dymension/migrate',
-          ],
+          items: ['clash-of-nodes/dymension/dymension'],
         },
         'clash-of-nodes/faqs',
       ],
