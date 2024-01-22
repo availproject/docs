@@ -12,7 +12,7 @@ module.exports = {
         'clash-of-nodes/challenges',
         'clash-of-nodes/rules-and-guidelines',
         'clash-of-nodes/terms-and-conditions',
-        'clash-of-nodes/dymension/dymension',
+        'clash-of-nodes/dymension',
         'clash-of-nodes/faqs',
       ],
     },
