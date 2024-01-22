@@ -39,7 +39,7 @@ For your project to qualify, it must meet these criteria:
 
 :::
 
-### How to Deploy an Appchain Using Karnot
+### How to Deploy an Appchain
 
 1. **Create an Appchain Instance**: To begin, create a new appchain instance. Detailed instructions can be found **[<ins>here</ins>](https://github.com/karnotxyz/madara-cli)**. This step involves setting up the environment and initializing your appchain using the Karnot CLI. **Ensure you select 'Avail' as the DA layer**. You will also need to fund your Avail account for your appchain. Visit the Avail faucet with your Avail address and follow the **[<ins>faucet guide instructions</ins>](/about/faucet)** to secure the necessary testnet tokens for the Goldberg network.
 
@@ -57,5 +57,7 @@ For your project to qualify, it must meet these criteria:
      "id": "942ff35e-f048-4d10-ae61-6cb970cad2f0"
    }
    ```
+
+   <p align="center"><img src="/img/karnot/karnot-pr.png" alt="Avail RollApp Icon on Portal" width="100%"/></p>
 
    This configuration file includes essential details about your appchain, such as its name, logo URL, RPC endpoint, explorer URL, metrics endpoint, and a unique identifier. Ensure all information is accurate and up-to-date to facilitate smooth registration and participation in the campaign. Once the PR is merged, the appchain will appear on the **[<ins>Clash of Nodes Leaderboard</ins>](https://leaderboard.availproject.org/)**.
