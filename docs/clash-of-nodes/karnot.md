@@ -1,8 +1,8 @@
 ---
 id: karnot
-title: DRAFT - How to Deploy App-Chains Rollups using Karnot
+title: How to Deploy App-Chains Rollups using Karnot
 sidebar_label: Karnot App-Chains
-description: 'Discover how to utilize the Avail Goldberg testnet as a DA layer to build RollApps with the Dymension Froopyland testnet.'
+description: 'Discover how to build app-chains with Karnot that utilize Avail as a DA layer.'
 keywords:
   - documentation
   - avail
@@ -41,9 +41,9 @@ For your project to qualify, it must meet these criteria:
 
 ### How to Deploy an App-Chain Using Karnot
 
-1. **Create an App-Chain Instance**: To begin, create a new app-chain instance. Detailed instructions can be found **[<ins>here</ins>](https://github.com/karnotxyz/madara-cli)**. This step involves setting up the environment and initializing your app-chain using the Karnot CLI.
+1. **Create an App-Chain Instance**: To begin, create a new app-chain instance. Detailed instructions can be found **[<ins>here</ins>](https://github.com/karnotxyz/madara-cli)**. This step involves setting up the environment and initializing your app-chain using the Karnot CLI. **Ensure you select 'Avail' as the DA layer**. You will also need to fund your Avail account for your app-chain. Visit the Avail faucet with your Avail address and follow the **[<ins>faucet guide instructions</ins>](/about/faucet)** to secure the necessary testnet tokens for the Goldberg network.
 
-[...]
+   > The faucet requires meeting a mandatory threshold using the Gitcoin passport. If necessary, you can link your Avail account on your machine with the wallet you are using for this process. Exercise caution when exporting your account's key for any reason.
 
 1. **Create a PR to Register Your App-Chain**: For your app-chain to be recognized in the Clash of Nodes campaign, you must register it by submitting a pull request in the **[<ins>avail-campaign-listing</ins>](https://github.com/karnotxyz/avail-campaign-listing)** repository. The PR should include a JSON configuration file named "listing.json" with the following structure:
 
@@ -58,4 +58,4 @@ For your project to qualify, it must meet these criteria:
    }
    ```
 
-   This configuration file includes essential details about your app-chain, such as its name, logo URL, RPC endpoint, explorer URL, metrics endpoint, and a unique identifier. Ensure all information is accurate and up-to-date to facilitate smooth registration and participation in the campaign.
+   This configuration file includes essential details about your app-chain, such as its name, logo URL, RPC endpoint, explorer URL, metrics endpoint, and a unique identifier. Ensure all information is accurate and up-to-date to facilitate smooth registration and participation in the campaign. Once the PR is merged, the app-chain will appear on the **[<ins>Clash of Nodes Leaderboard</ins>](https://leaderboard.availproject.org/)**.
