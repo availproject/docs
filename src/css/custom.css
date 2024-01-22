@@ -1328,6 +1328,7 @@ p {
   color: #d1e5ff;
   pointer-events: none;
 }
+
 .navbar__item svg {
   display: none;
 }
