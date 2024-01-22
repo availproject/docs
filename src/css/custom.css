@@ -1180,8 +1180,8 @@ details[open] > summary::before {
 
 [role='tab'] {
   display: inline-block;
-  min-height: 40px;
-  line-height: 40px;
+  min-height: 60px;
+  line-height: 60px;
   padding: 0 25px;
   margin-right: 10px;
   transition:
