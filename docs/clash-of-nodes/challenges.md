@@ -56,6 +56,6 @@ Discover the challenges that are currently active and prepare for the other ones
 | **[<ins>Magic Nomination Pools</ins>](/about/nomination-pools/)**      | Staking/Rewards | Are you able to create nomination pools and nominate validators?                                                     | Pool Creators       | Size of pool members                                                                             |   🟢   |
 | **[<ins>To The Stake</ins>](/operate/validator/staking/)**             | Staking/Rewards | Aim to amplify your validator backing by securing a greater number of nominations during the testnet marathon.       | Validators          | Total amount staked                                                                              |   🟢   |
 
-> \*\* **Note:** More than one transfer per day does not contribute to a higher score or greater impact in this challenge. The challenge is time bound and the focus is on maintaining consistency with one transfer each day.
-
 > \*\* **Note:** Migrating an established RollApp with (high) TVL to Avail for data availability does not confer any competitive advantage. The challenge is structured to ensure fairness, treating both newly launched RollApps and those with existing TVL and activity on equal footing.
+
+> \*\* **Note:** More than one transfer per day does not contribute to a higher score or greater impact in this challenge. The challenge is time bound and the focus is on maintaining consistency with one transfer each day.

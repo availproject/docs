@@ -228,7 +228,7 @@ For developers who previously ran RollApps and are looking to migrate to the Ava
 
    <p align="center"><img src="/img/dymension/rollapps-register.png" alt="Register RollApp" width="80%"/></p>
 
-1. **MANDATORY RollApp Verification**: When reviewing the RollApp, a moderator will examine the RollApp's webpage to confirm that it is operational and functional. The specific functionality is not the primary concern; it may replicate an existing service or feature. If the RollApp is not verifiable or if there are any uncertainties regarding its operation, a moderator will reach out to the development team for further clarification. The team may be asked to make necessary updates to the RollApp and resubmit for review. Clear instructions will be provided if this is the case.
+1. **MANDATORY RollApp Verification**: A moderator will examine the RollApp's webpage to confirm that it is operational and functional. The specific functionality is not the primary concern; it may replicate an existing service or feature. If the RollApp is not verifiable or if there are any uncertainties regarding its operation, a moderator will reach out to the development team for further clarification. The team may be asked to make necessary updates to the RollApp and resubmit for review. Clear instructions will be provided if this is the case.
 
    Upon successful verification, the PR will be merged.
 
