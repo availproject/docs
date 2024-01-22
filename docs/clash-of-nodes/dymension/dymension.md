@@ -50,6 +50,12 @@ For developers who previously ran RollApps and are looking to migrate to the Ava
 
 1. **Stop All Roller Services**: Before initiating the migration, ensure that all Roller services associated with your RollApp are halted. This is crucial to prevent any conflicts or data corruption during the transition.
 
+1. **To migrate from Celestia DA** run:
+
+```bash
+roller config set da avail
+```  
+
 1. **Update Avail Network Endpoint**: Run the following command, replacing `ROLLER_HOME_DIR` with your Roller home directory:
 
    ```bash
