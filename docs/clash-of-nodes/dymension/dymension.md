@@ -144,7 +144,7 @@ For developers who previously ran RollApps and are looking to migrate to the Ava
        - Visit the **[<ins>explorer link</ins>](https://fl.dym.fyi/)** and obtain the transaction ID of the completed transfer.
        - Please submit the URL in the PR description or comments when registering your RollApp. The moderator will verify the transaction using this link. Upon successful verification, the PR will be merged.
 
-     Look out for the gold Avail logo next to your RollApp on the [<ins>Dymension Portal</ins>](https://portal.dymension.xyz/rollapps), signaling your integration with the Goldberg testnet.
+     Look out for the gold Avail logo next to your RollApp on the **[<ins>Dymension Portal</ins>](https://portal.dymension.xyz/rollapps)**, signaling your integration with the Goldberg testnet. Once the PR is merged, the app will also appear on the **[<ins>Clash of Nodes Leaderboard</ins>](https://leaderboard.availproject.org/)**.
 
       <p align="center"><img src="/img/dymension/dy-portal-avail.png" alt="Avail RollApp Icon on Portal" width="90%"/></p>
 
@@ -232,7 +232,7 @@ For developers who previously ran RollApps and are looking to migrate to the Ava
 
    Upon successful verification, the PR will be merged.
 
-   Look out for the gold Avail logo next to your RollApp on the **[<ins>Dymension Portal</ins>](https://portal.dymension.xyz/rollapps)**, signaling your integration with the Goldberg testnet.
+   Look out for the gold Avail logo next to your RollApp on the **[<ins>Dymension Portal</ins>](https://portal.dymension.xyz/rollapps)**, signaling your integration with the Goldberg testnet. Once the PR is merged, the app will also appear on the **[<ins>Clash of Nodes Leaderboard</ins>](https://leaderboard.availproject.org/)**.
 
    <p align="center"><img src="/img/dymension/dy-portal-avail.png" alt="Avail RollApp Icon on Portal" width="90%"/></p>
 
