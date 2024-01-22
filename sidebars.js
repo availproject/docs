@@ -12,18 +12,7 @@ module.exports = {
         'clash-of-nodes/challenges',
         'clash-of-nodes/rules-and-guidelines',
         'clash-of-nodes/terms-and-conditions',
-        {
-          type: 'category',
-          label: 'RollApps',
-          link: {
-            type: 'generated-index',
-          },
-          collapsed: true,
-          items: [
-            'clash-of-nodes/dymension/dymension',
-            'clash-of-nodes/dymension/migrate',
-          ],
-        },
+        'clash-of-nodes/dymension/dymension',
         'clash-of-nodes/faqs',
       ],
     },
