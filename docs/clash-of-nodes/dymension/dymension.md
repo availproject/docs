@@ -73,79 +73,80 @@ For developers who previously ran RollApps and are looking to migrate to the Ava
    - **`"goldberg": true`**
    - **`"availAddress": "<avail address of your RollApp>"`**
 
-    <details>
-      <summary>Click for JSON Template</summary>
+     <details>
+     <summary>Click for JSON Template</summary>
 
-   ```json
-   {
-     "chainId": "your_chain_id",
-     "chainName": "Your Chain Name",
-     "rpc": "http://your.rpc.url:port",
-     "rest": "http://your.rest.url:port",
-     "bech32Prefix": "your_prefix",
-     "currencies": [
-       {
-         "displayDenom": "YOUR_TOKEN",
-         "baseDenom": "uYOUR_TOKEN",
-         "decimals": 18,
-         "logo": "/path/to/your/logo.png",
-         "type": "main"
-       }
-     ],
-     "coinType": 60,
-     "faucetUrl": "http://link.to.your.faucet",
-     "website": "http://link.to.your.website",
-     "logo": "/path/to/your/logo.png",
-     "ibc": {
-       "hubChannel": "your_hub_channel",
-       "channel": "your_channel",
-       "timeout": 172800000
-     },
-     "evm": {
-       "chainId": "your_evm_chain_id",
-       "rpc": "http://your.evm.rpc.url:port"
-     },
-     "type": "RollApp",
-     "da": "Avail",
-     "description": "Description of your RollApp",
-     "analytics": true,
-     "goldberg": true,
-     "availAddress": "Your RollApp's Avail address"
-   }
-   ```
-
-   </details>
-
-   **MANDATORY Ownership Verification**:
-
-   As part of the PR submission, **a verification transaction using the sequencer is required to prove ownership of the RollApp**.
-
-   - **Contact a Moderator**: Reach out to a moderator on the Avail Discord to obtain the specific amount needed for the verification transaction. This amount will be unique to each verification process to ensure authenticity.
-
-   - **Export the Sequencer's Private Key**: Carefully export the private key of the `hub_sequencer` address. Remember to excerise caution as this is a sensitive operation.
-
-     ```bash
-     roller keys export hub_sequencer
+     ```json
+     {
+       "chainId": "your_chain_id",
+       "chainName": "Your Chain Name",
+       "rpc": "http://your.rpc.url:port",
+       "rest": "http://your.rest.url:port",
+       "bech32Prefix": "your_prefix",
+       "currencies": [
+         {
+           "displayDenom": "YOUR_TOKEN",
+           "baseDenom": "uYOUR_TOKEN",
+           "decimals": 18,
+           "logo": "/path/to/your/logo.png",
+           "type": "main"
+         }
+       ],
+       "coinType": 60,
+       "faucetUrl": "http://link.to.your.faucet",
+       "website": "http://link.to.your.website",
+       "logo": "/path/to/your/logo.png",
+       "ibc": {
+         "hubChannel": "your_hub_channel",
+         "channel": "your_channel",
+         "timeout": 172800000
+       },
+       "evm": {
+         "chainId": "your_evm_chain_id",
+         "rpc": "http://your.evm.rpc.url:port"
+       },
+       "type": "RollApp",
+       "da": "Avail",
+       "description": "Description of your RollApp",
+       "analytics": true,
+       "goldberg": true,
+       "availAddress": "Your RollApp's Avail address"
+     }
      ```
 
-   - **Import Key into any EVM Wallet**:
+      </details>
 
-     - Open your wallet application, such as MetaMask.
-     - Select the option to import an account.
-     - Enter the sequencer's private key when prompted. Then, switch to that account; you should see the balance of your RollApp on the Dymension Hub.
+1. **Verify Your RollApp**:
 
-   - **Send the Verification Transaction**:
+   - **MANDATORY RollApp Verification**: A moderator will examine the RollApp's webpage to confirm that it is operational and functional. The specific functionality is not the primary concern; it may replicate an existing service or feature. If the RollApp is not verifiable or if there are any uncertainties regarding its operation, a moderator will reach out to the development team for further clarification. The team may be asked to make necessary updates to the RollApp and resubmit for review. Clear instructions will be provided if this is the case.
+   - **MANDATORY Ownership Verification**: As part of the PR submission, **a verification transaction using the sequencer is required to prove ownership of the RollApp**.
 
-     - After importing the sequencer's address into your wallet, conduct a transaction by sending the specified amount to the designated verification address.
-     - Ensure the transaction details match the amount and destination address: **`0x1eB169bEC2725475153F493aAcDaad4E9CA1e32E`**.
+     - **Contact a Moderator**: Reach out to a moderator on the Avail Discord to obtain the specific amount needed for the verification transaction. This amount will be unique to each verification process to ensure authenticity.
 
-   - **Submit Proof of Transaction in PR**:
-     - Visit the **[<ins>explorer link</ins>](https://fl.dym.fyi/)** and obtain the transaction ID of the completed transfer.
-     - Please submit the URL in the PR description or comments when registering your RollApp. The moderator will verify the transaction using this link. Upon successful verification, the PR will be merged.
+     - **Export the Sequencer's Private Key**: Carefully export the private key of the `hub_sequencer` address. Remember to excerise caution as this is a sensitive operation.
 
-   Look out for the gold Avail logo next to your RollApp on the [<ins>Dymension Portal</ins>](https://portal.dymension.xyz/rollapps), signaling your integration with the Goldberg testnet.
+       ```bash
+       roller keys export hub_sequencer
+       ```
 
-    <p align="center"><img src="/img/dymension/dy-portal-avail.png" alt="Avail RollApp Icon on Portal" width="90%"/></p>
+     - **Import Key into any EVM Wallet**:
+
+       - Open your wallet application, such as MetaMask.
+       - Select the option to import an account.
+       - Enter the sequencer's private key when prompted. Then, switch to that account; you should see the balance of your RollApp on the Dymension Hub.
+
+     - **Send the Verification Transaction**:
+
+       - After importing the sequencer's address into your wallet, conduct a transaction by sending the specified amount to the designated verification address.
+       - Ensure the transaction details match the amount and destination address: **`0x1eB169bEC2725475153F493aAcDaad4E9CA1e32E`**.
+
+     - **Submit Proof of Transaction in PR**:
+       - Visit the **[<ins>explorer link</ins>](https://fl.dym.fyi/)** and obtain the transaction ID of the completed transfer.
+       - Please submit the URL in the PR description or comments when registering your RollApp. The moderator will verify the transaction using this link. Upon successful verification, the PR will be merged.
+
+     Look out for the gold Avail logo next to your RollApp on the [<ins>Dymension Portal</ins>](https://portal.dymension.xyz/rollapps), signaling your integration with the Goldberg testnet.
+
+      <p align="center"><img src="/img/dymension/dy-portal-avail.png" alt="Avail RollApp Icon on Portal" width="90%"/></p>
 
 </TabItem>
 <TabItem value="new" label="Create a New RollApp">
@@ -174,62 +175,64 @@ For developers who previously ran RollApps and are looking to migrate to the Ava
 
 1. **Add Your RollApp to the Dymension Registry**: To register your RollApp on the Dymension Hub, follow the instructions in the README file of the **[<ins>RollApp Registry repository</ins>](https://github.com/dymensionxyz/rollapp-registry)** on GitHub.
 
-> This registration process introduces a dedicated namespace in the Dymension Hub for your RollApp. Once registered, the RollApp is recognized by the Dymension Hub, allowing Sequencers to publish state updates on-chain and enhancing the interoperability across different ecosystems.
+   > This registration process introduces a dedicated namespace in the Dymension Hub for your RollApp. Once registered, the RollApp is recognized by the Dymension Hub, allowing Sequencers to publish state updates on-chain and enhancing the interoperability across different ecosystems.
 
-This process involves raising a pull request with the necessary details and configurations. The PR must include the following Avail-specific configurations:
+   This process involves raising a pull request with the necessary details and configurations. The PR must include the following Avail-specific configurations:
 
-- **`"da": "Avail"`**
-- **`"goldberg": true`**
-- **`"availAddress": "<avail address of your RollApp>"`**
+   - **`"da": "Avail"`**
+   - **`"goldberg": true`**
+   - **`"availAddress": "<avail address of your RollApp>"`**
 
-  <details>
-  <summary>Click for JSON Template</summary>
+     <details>
+     <summary>Click for JSON Template</summary>
 
-  ```json
-  {
-    "chainId": "your_chain_id",
-    "chainName": "Your Chain Name",
-    "rpc": "http://your.rpc.url:port",
-    "rest": "http://your.rest.url:port",
-    "bech32Prefix": "your_prefix",
-    "currencies": [
-      {
-        "displayDenom": "YOUR_TOKEN",
-        "baseDenom": "uYOUR_TOKEN",
-        "decimals": 18,
-        "logo": "/path/to/your/logo.png",
-        "type": "main"
-      }
-    ],
-    "coinType": 60,
-    "faucetUrl": "http://link.to.your.faucet",
-    "website": "http://link.to.your.website",
-    "logo": "/path/to/your/logo.png",
-    "ibc": {
-      "hubChannel": "your_hub_channel",
-      "channel": "your_channel",
-      "timeout": 172800000
-    },
-    "evm": {
-      "chainId": "your_evm_chain_id",
-      "rpc": "http://your.evm.rpc.url:port"
-    },
-    "type": "RollApp",
-    "da": "Avail",
-    "description": "Description of your RollApp",
-    "analytics": true,
-    "goldberg": true,
-    "availAddress": "Your RollApp's Avail address"
-  }
-  ```
+     ```json
+     {
+       "chainId": "your_chain_id",
+       "chainName": "Your Chain Name",
+       "rpc": "http://your.rpc.url:port",
+       "rest": "http://your.rest.url:port",
+       "bech32Prefix": "your_prefix",
+       "currencies": [
+         {
+           "displayDenom": "YOUR_TOKEN",
+           "baseDenom": "uYOUR_TOKEN",
+           "decimals": 18,
+           "logo": "/path/to/your/logo.png",
+           "type": "main"
+         }
+       ],
+       "coinType": 60,
+       "faucetUrl": "http://link.to.your.faucet",
+       "website": "http://link.to.your.website",
+       "logo": "/path/to/your/logo.png",
+       "ibc": {
+         "hubChannel": "your_hub_channel",
+         "channel": "your_channel",
+         "timeout": 172800000
+       },
+       "evm": {
+         "chainId": "your_evm_chain_id",
+         "rpc": "http://your.evm.rpc.url:port"
+       },
+       "type": "RollApp",
+       "da": "Avail",
+       "description": "Description of your RollApp",
+       "analytics": true,
+       "goldberg": true,
+       "availAddress": "Your RollApp's Avail address"
+     }
+     ```
 
-  </details>
+     </details>
 
    <p align="center"><img src="/img/dymension/rollapps-register.png" alt="Register RollApp" width="80%"/></p>
 
-Upon successful verification, the PR will be merged.
+1. **MANDATORY RollApp Verification**: When reviewing the RollApp, a moderator will examine the RollApp's webpage to confirm that it is operational and functional. The specific functionality is not the primary concern; it may replicate an existing service or feature. If the RollApp is not verifiable or if there are any uncertainties regarding its operation, a moderator will reach out to the development team for further clarification. The team may be asked to make necessary updates to the RollApp and resubmit for review. Clear instructions will be provided if this is the case.
 
-Look out for the gold Avail logo next to your RollApp on the **[<ins>Dymension Portal</ins>](https://portal.dymension.xyz/rollapps)**, signaling your integration with the Goldberg testnet.
+   Upon successful verification, the PR will be merged.
+
+   Look out for the gold Avail logo next to your RollApp on the **[<ins>Dymension Portal</ins>](https://portal.dymension.xyz/rollapps)**, signaling your integration with the Goldberg testnet.
 
    <p align="center"><img src="/img/dymension/dy-portal-avail.png" alt="Avail RollApp Icon on Portal" width="90%"/></p>
 
