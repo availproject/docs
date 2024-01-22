@@ -121,7 +121,7 @@ For developers who previously ran RollApps and are looking to migrate to the Ava
    - **MANDATORY RollApp Verification**: A moderator will examine the RollApp's webpage to confirm that it is operational and functional. If the RollApp is not verifiable or if there are any uncertainties regarding its operation, a moderator will reach out to the development team for further clarification. The team may be asked to make necessary updates to the RollApp and resubmit for review. Clear instructions will be provided if this is the case.
    - **MANDATORY Ownership Verification**: As part of the PR submission, **a verification transaction using the sequencer is required to prove ownership of the RollApp**.
 
-     - **Contact a Moderator**: Reach out to a moderator on the Avail Discord to obtain the specific amount needed for the verification transaction. This amount will be unique to each verification process to ensure authenticity.
+     - **Create a Ticket #rollap-verification**: Navigate to the #rollap-verification channel on the Avail Discord and create a ticket. A moderator will provide a specific amount needed for the verification transaction. This amount will be unique to each verification process to ensure authenticity.
 
      - **Export the Sequencer's Private Key**: Carefully export the private key of the `hub_sequencer` address. Remember to excerise caution as this is a sensitive operation.
 
