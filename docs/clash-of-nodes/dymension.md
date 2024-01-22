@@ -18,7 +18,7 @@ import Tabs from '@theme/Tabs';
 
 ### Introduction
 
-The "Dymension RollApps" challenge, part of the groundbreaking **[<ins>Clash of Nodes campaign</ins>](/category/clash-of-nodes/)**, represents an exciting collaboration between Dymension and Avail. This guide offers developers comprehensive instructions to deploy rollups using Avail as the data availability (DA) layer on the Dymension Froopyland testnet.
+The "Dymension RollApps" challenge, part of the groundbreaking **[<ins>Clash of Nodes campaign</ins>](/category/clash-of-nodes/)**, represents an exciting collaboration between **[<ins>Dymension</ins>](https://dymension.xyz/)** and Avail. This guide offers developers comprehensive instructions to deploy rollups using Avail as the data availability (DA) layer on the Dymension Froopyland testnet.
 
 ### How to Participate
 
@@ -49,6 +49,8 @@ Ensure your RollApp aligns with these essential criteria:
 For developers who previously ran RollApps and are looking to migrate to the Avail Goldberg network, the following guide outlines how to do so.
 
 1. **Stop All Roller Services**: Before initiating the migration, ensure that all Roller services associated with your RollApp are halted. This is crucial to prevent any conflicts or data corruption during the transition.
+
+1. **Switch DA to Avail**: You must switch your DA configuration to use "avail".
 
 1. **Update Avail Network Endpoint**: Run the following command, replacing `ROLLER_HOME_DIR` with your Roller home directory:
 
