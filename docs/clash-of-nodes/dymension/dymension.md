@@ -1,7 +1,7 @@
 ---
 id: dymension
 title: How to Deploy Dymension RollApps with Avail
-sidebar_label: Avail-Powered RollApps
+sidebar_label: RollApps
 description: 'Discover how to utilize the Avail Goldberg testnet as a DA layer to build RollApps with the Dymension Froopyland testnet.'
 keywords:
   - documentation
@@ -16,27 +16,35 @@ image: https://docs.availproject.org/img/avail/AvailDocs.png
 
 import Tabs from '@theme/Tabs';
 
-## Introduction
+### Introduction
 
-The "Dymension RollApps" challenge, part of the groundbreaking Clash of Nodes campaign, represents an exciting collaboration between Dymension and Avail. This guide offers developers comprehensive instructions to deploy rollups using Avail as the data availability (DA) layer on the Dymension Froopyland testnet.
+The "Dymension RollApps" challenge, part of the groundbreaking **[<ins>Clash of Nodes campaign</ins>](/category/clash-of-nodes/)**, represents an exciting collaboration between Dymension and Avail. This guide offers developers comprehensive instructions to deploy rollups using Avail as the data availability (DA) layer on the Dymension Froopyland testnet.
 
-### Key Steps to Participate
+### How to Participate
+
+Key Steps to participating include the following:
 
 1. **Deploy on Avail's Goldberg Testnet**: Opt to post your rollup data to the Avail Goldberg Testnet, part of the Clash of Nodes.
 2. **Fund Your Account**: Use the Avail Goldberg faucet to acquire tokens for the Goldberg Incentivized Testnet.
 3. **Update Your Rollup Listing**: Ensure your rollup is listed correctly on the Dymension dashboard with a PR update.
 4. **Earn Points**: Your rollup accrues points on the Clash of Nodes leaderboard based on usage.
 
-### Your Mission
+:::info What Qualifies as an Avail-Powered RollApp?
 
-Leverage Avail's modular solutions in the Dymension ecosystem. Your efforts not only boost your leaderboard rank but also advance blockchain technology.
+Ensure your RollApp aligns with these essential criteria:
 
-Consult the [<ins>Dymension documentation</ins>](https://docs.dymension.xyz/) for in-depth information on Dymension and RollApps. For data migration to the Avail Goldberg testnet, see the [<ins>migration guide</ins>](/clash-of-nodes/dymension/migrate/).
+1. **Uses Avail**: Integrate Avail as the data availability solution.
+2. **Operational and Accessible**: The RollApp should be actively running and hosted in a publicly accessible environment, not confined to a private network.
+3. **Functionality**: It must be more than a bare node; the RollApp should possess operational features or capabilities.
+4. **Public Interface**: Provide a publicly accessible webpage for user interaction with the RollApp, or detailed instructions for its usage.
+5. **Passport Verification**: The team member managing the RollApp must have the "Passport verified" role within the community.
+
+:::
 
 <Tabs>
 <TabItem value="existing" label="Already Have a RollApp?">
 
-## How to Migrate an Existing RollApp
+### How to Migrate an Existing RollApp
 
 For developers who previously ran RollApps and are looking to migrate to the Avail Goldberg network, the following guide outlines how to do so.
 
@@ -129,10 +137,10 @@ For developers who previously ran RollApps and are looking to migrate to the Ava
    - **Send the Verification Transaction**:
 
      - After importing the sequencer's address into your wallet, conduct a transaction by sending the specified amount to the designated verification address.
-     - Ensure the transaction details match the amount and destination address **`0x1eB169bEC2725475153F493aAcDaad4E9CA1e32E`**.
+     - Ensure the transaction details match the amount and destination address: **`0x1eB169bEC2725475153F493aAcDaad4E9CA1e32E`**.
 
    - **Submit Proof of Transaction in PR**:
-     - Visit the [<ins>explorer link</ins>](https://fl.dym.fyi/) and obtain the transaction ID of the completed transfer.
+     - Visit the **[<ins>explorer link</ins>](https://fl.dym.fyi/)** and obtain the transaction ID of the completed transfer.
      - Submit this URL as part of your RollApp registration process in the PR description or comment section.
 
    Look out for the gold Avail logo next to your RollApp on the [<ins>Dymension Portal</ins>](https://portal.dymension.xyz/rollapps), signaling your integration with the Goldberg testnet.
@@ -142,21 +150,9 @@ For developers who previously ran RollApps and are looking to migrate to the Ava
 </TabItem>
 <TabItem value="new" label="Create a New RollApp">
 
-## How to Create a New RollApp
+### How to Create a New RollApp
 
-:::tip What Qualifies as an Avail-Powered RollApp?
-
-Ensure your RollApp aligns with these essential criteria:
-
-1. **Uses Avail**: Integrate Avail as the data availability solution.
-1. **Operational and Accessible**: The RollApp should be actively running and hosted in a publicly accessible environment, not confined to a private network.
-1. **Functionality**: It must be more than a bare node; the RollApp should possess operational features or capabilities.
-1. **Public Interface**: Provide a publicly accessible webpage for user interaction with the RollApp, or detailed instructions for its usage.
-1. **Passport Verification**: The team member managing the RollApp must have the "Passport verified" role within the community.
-
-:::
-
-1. **Create Configuration Files**: Navigate to the [<ins>official Dymension documentation</ins>](https://docs.dymension.xyz/build/quick-start/roller-quick/install) to install [<ins>roller</ins>](https://docs.dymension.xyz/build/roller/) and create a new RollApp instance. The guided setup is recommended for ease of use, while the manual method offers more customization for experienced developers. **In either case,ensure you select "Avail" as the DA layer**.
+1. **Create Configuration Files**: Navigate to the **[<ins>official Dymension documentation</ins>](https://docs.dymension.xyz/build/quick-start/roller-quick/install)** to install **[<ins>roller</ins>](https://docs.dymension.xyz/build/roller/)** and create a new RollApp instance. The guided setup is recommended for ease of use, while the manual method offers more customization for experienced developers. **In either case,ensure you select "Avail" as the DA layer**.
 
    > Upon initialization, you will receive the following addresses (take note of them):
    >
@@ -164,9 +160,9 @@ Ensure your RollApp aligns with these essential criteria:
    > - **Relayer `<network>`**: This address handles the relaying of IBC packets.
    > - **DA `<network>`**: This address is used to publish data on-chain to the DA network (in this case, Avail).
 
-1. **Fund Your RollApp Addresses**: To fund the the Dymension addresses, follow these steps in the official [<ins>Dymension documentation</ins>](https://docs.dymension.xyz/build/quick-start/roller-quick/initialize#address-funding).
+2. **Fund Your RollApp Addresses**: To fund the the Dymension addresses, follow these steps in the official **[<ins>Dymension documentation</ins>](https://docs.dymension.xyz/build/quick-start/roller-quick/initialize#address-funding)**.
 
-1. **Fund Your Avail Account**: You'll also need to fund your Avail account using the Avail faucet available on the **[<ins>official Avail Discord</ins>](https://discord.com/invite/availproject)**. For detailed guidance, visit the **[<ins>Avail Faucet Guide</ins>](/docs/about/faucet.md)** and follow the provided instructions.
+3. **Fund Your Avail Account**: You'll also need to fund your Avail account using the Avail faucet available on the **[<ins>official Avail Discord</ins>](https://discord.com/invite/availproject)**. For detailed guidance, visit the **[<ins>Avail Faucet Guide</ins>](/docs/about/faucet.md)** and follow the provided instructions.
 
    :::caution
    Avoid the **#dymension-faucet** channel on the Avail Discord and the **#avail-faucet** channel on the Dymension Discord, as they provide tokens for an old devnet and not for the Goldberg network.
@@ -174,7 +170,7 @@ Ensure your RollApp aligns with these essential criteria:
 
    > The faucet requires meeting a mandatory threshold using the Gitcoin passport. If necessary, you can link your Avail account on your machine with the wallet you are using for this process. Exercise caution when exporting your account's key for any reason.
 
-1. **Register Your RollApp**: After initializing and funding your RollApp accounts, the next step is to register your RollApp.
+4. **Register Your RollApp**: After initializing and funding your RollApp accounts, the next step is to register your RollApp.
    To register, execute the following command using the previously generated addresses:
 
    ```bash
@@ -183,9 +179,9 @@ Ensure your RollApp aligns with these essential criteria:
 
    > This registration process introduces a dedicated namespace in the Dymension Hub for your RollApp. Once registered, the RollApp is recognized by the Dymension Hub, allowing Sequencers to publish state updates on-chain and enhancing the interoperability across different ecosystems.
 
-1. **Run Your RollApp**: With the RollApp now registered on the Dymension Hub, we're ready to start running the RollApp in production, leveraging Avail for data availability. To do so, follow the [<ins>Dymension guide</ins>](https://docs.dymension.xyz/build/production/run).
+5. **Run Your RollApp**: With the RollApp now registered on the Dymension Hub, we're ready to start running the RollApp in production, leveraging Avail for data availability. To do so, follow the **[<ins>Dymension guide</ins>](https://docs.dymension.xyz/build/production/run)**.
 
-1. **Add Your RollApp to the Dymension Registry**: To register your RollApp on the Dymension Portal, follow the instructions in the README file of the **[<ins>RollApp Registry repository</ins>](https://github.com/dymensionxyz/rollapp-registry)** on GitHub. This process involves raising a pull request with the necessary details and configurations. The PR must include the following Avail-specific configurations:
+6. **Add Your RollApp to the Dymension Registry**: To register your RollApp on the Dymension Portal, follow the instructions in the README file of the **[<ins>RollApp Registry repository</ins>](https://github.com/dymensionxyz/rollapp-registry)** on GitHub. This process involves raising a pull request with the necessary details and configurations. The PR must include the following Avail-specific configurations:
 
    - **`"da": "Avail"`**
    - **`"goldberg": true`**
@@ -236,7 +232,7 @@ Ensure your RollApp aligns with these essential criteria:
 
    <p align="center"><img src="/img/dymension/rollapps-register.png" alt="Register RollApp" width="80%"/></p>
 
-   Look out for the gold Avail logo next to your RollApp on the [<ins>Dymension Portal</ins>](https://portal.dymension.xyz/rollapps), signaling your integration with the Goldberg testnet.
+   Look out for the gold Avail logo next to your RollApp on the **[<ins>Dymension Portal</ins>](https://portal.dymension.xyz/rollapps)**, signaling your integration with the Goldberg testnet.
 
    <p align="center"><img src="/img/dymension/dy-portal-avail.png" alt="Avail RollApp Icon on Portal" width="90%"/></p>
 
