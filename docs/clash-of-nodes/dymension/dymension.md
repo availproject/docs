@@ -118,7 +118,7 @@ For developers who previously ran RollApps and are looking to migrate to the Ava
 
 1. **Verify Your RollApp**:
 
-   - **MANDATORY RollApp Verification**: A moderator will examine the RollApp's webpage to confirm that it is operational and functional. The specific functionality is not the primary concern; it may replicate an existing service or feature. If the RollApp is not verifiable or if there are any uncertainties regarding its operation, a moderator will reach out to the development team for further clarification. The team may be asked to make necessary updates to the RollApp and resubmit for review. Clear instructions will be provided if this is the case.
+   - **MANDATORY RollApp Verification**: A moderator will examine the RollApp's webpage to confirm that it is operational and functional. If the RollApp is not verifiable or if there are any uncertainties regarding its operation, a moderator will reach out to the development team for further clarification. The team may be asked to make necessary updates to the RollApp and resubmit for review. Clear instructions will be provided if this is the case.
    - **MANDATORY Ownership Verification**: As part of the PR submission, **a verification transaction using the sequencer is required to prove ownership of the RollApp**.
 
      - **Contact a Moderator**: Reach out to a moderator on the Avail Discord to obtain the specific amount needed for the verification transaction. This amount will be unique to each verification process to ensure authenticity.
@@ -141,12 +141,12 @@ For developers who previously ran RollApps and are looking to migrate to the Ava
        - Ensure the transaction details match the amount and destination address: **`0x1eB169bEC2725475153F493aAcDaad4E9CA1e32E`**.
 
      - **Submit Proof of Transaction in PR**:
-       - Visit the **[<ins>explorer link</ins>](https://fl.dym.fyi/)** and obtain the transaction ID of the completed transfer.
-       - Please submit the URL in the PR description or comments when registering your RollApp. The moderator will verify the transaction using this link. Upon successful verification, the PR will be merged.
-
-     Look out for the gold Avail logo next to your RollApp on the **[<ins>Dymension Portal</ins>](https://portal.dymension.xyz/rollapps)**, signaling your integration with the Goldberg testnet. Once the PR is merged, the app will also appear on the **[<ins>Clash of Nodes Leaderboard</ins>](https://leaderboard.availproject.org/)**.
+       - Visit the **[<ins>explorer link</ins>](https://fl.dym.fyi/)** and obtain the transaction ID of the completed transfer. Or, you may need to obtain the "explorer link" from your wallet.
+       - **Please submit the URL to the moderator you are in contact with**. The moderator will verify the transaction using this link. Upon successful verification, the PR will be approved. Keep an eye on the **[<ins>Dymension Portal</ins>](https://portal.dymension.xyz/rollapps)** for the gold Avail logo next to your RollApp. This icon indicates successful integration with the Goldberg testnet.
 
       <p align="center"><img src="/img/dymension/dy-portal-avail.png" alt="Avail RollApp Icon on Portal" width="90%"/></p>
+
+     - **Notify Moderator of Verification**: After your PR is approved, **inform the moderator with whom you've been coordinating to confirm successful ownership verification of your RollApp and adherence to the RollApp criteria**. Upon verification and PR merger, your app will be listed on the **[<ins>Clash of Nodes Leaderboard</ins>](https://leaderboard.availproject.org/)**.
 
 </TabItem>
 <TabItem value="new" label="Create a New RollApp">
@@ -228,9 +228,9 @@ For developers who previously ran RollApps and are looking to migrate to the Ava
 
    <p align="center"><img src="/img/dymension/rollapps-register.png" alt="Register RollApp" width="80%"/></p>
 
-1. **MANDATORY RollApp Verification**: A moderator will examine the RollApp's webpage to confirm that it is operational and functional. The specific functionality is not the primary concern; it may replicate an existing service or feature. If the RollApp is not verifiable or if there are any uncertainties regarding its operation, a moderator will reach out to the development team for further clarification. The team may be asked to make necessary updates to the RollApp and resubmit for review. Clear instructions will be provided if this is the case.
+1. **MANDATORY RollApp Verification**: A moderator will examine the RollApp's webpage to confirm that it is operational and functional. If the RollApp is not verifiable or if there are any uncertainties regarding its operation, a moderator will reach out to the development team for further clarification. The team may be asked to make necessary updates to the RollApp and resubmit for review. Clear instructions will be provided if this is the case.
 
-   Upon successful verification, the PR will be merged.
+   After your PR is approved, **inform a moderator to confirm adherence to the RollApp criteria and verification process**. Upon verification and PR merger, your app will be listed on the **[<ins>Clash of Nodes Leaderboard</ins>](https://leaderboard.availproject.org/)**.
 
    Look out for the gold Avail logo next to your RollApp on the **[<ins>Dymension Portal</ins>](https://portal.dymension.xyz/rollapps)**, signaling your integration with the Goldberg testnet. Once the PR is merged, the app will also appear on the **[<ins>Clash of Nodes Leaderboard</ins>](https://leaderboard.availproject.org/)**.
 
