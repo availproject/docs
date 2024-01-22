@@ -1,7 +1,7 @@
 ---
 id: karnot
 title: DRAFT - How to Deploy App-Chains Rollups using Karnot
-sidebar_label: Rollups as a Service
+sidebar_label: Karnot App-Chains
 description: 'Discover how to utilize the Avail Goldberg testnet as a DA layer to build RollApps with the Dymension Froopyland testnet.'
 keywords:
   - documentation

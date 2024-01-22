@@ -1,7 +1,7 @@
 ---
 id: dymension
 title: How to Deploy Dymension RollApps with Avail
-sidebar_label: RollApps
+sidebar_label: Dymension RollApps
 description: 'Discover how to utilize the Avail Goldberg testnet as a DA layer to build RollApps with the Dymension Froopyland testnet.'
 keywords:
   - documentation
