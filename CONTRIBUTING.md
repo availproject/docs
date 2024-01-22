@@ -27,7 +27,7 @@ Your contributions can significantly enrich the Docs in the following ways:
 
 2. **Technical Deep Dives**: Detailed explorations into specific components of Avail's architecture, such as its data availability layer, modularity, and consensus algorithms.
 
-3. **Use-Case Scenarios**: Articles that showcase real-world applications of Avail in solutions like validiums, app-chains, and sovereign rollups.
+3. **Use-Case Scenarios**: Articles that showcase real-world applications of Avail in solutions like validiums, appchains, and sovereign rollups.
 
 4. **Tooling**: Documentation or guides on tools that facilitate development, testing, or deployment on Avail. This could include IDE plugins, testing frameworks, or monitoring tools.
 

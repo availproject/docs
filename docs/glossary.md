@@ -19,9 +19,9 @@ If you have any questions or concerns, please don't hesitate to contact the Avai
 
 :::
 
-## App-Chain
+## Appchain
 
-App-chains allow developers to optimize their applications by tailoring a chain to the specific needs of their use case, without constraints from a shared blockchain. They provide enhanced performance and scalability by functioning as independent chains, serving specific applications. App-chains also simplify the development process by eliminating the need for developers to manage and maintain a validator set. Avail enables the creation of modular app-chain architectures that can be based on different layer 2 or 3 scaling solutions.
+Appchains allow developers to optimize their applications by tailoring a chain to the specific needs of their use case, without constraints from a shared blockchain. They provide enhanced performance and scalability by functioning as independent chains, serving specific applications. Appchains also simplify the development process by eliminating the need for developers to manage and maintain a validator set. Avail enables the creation of modular appchain architectures that can be based on different layer 2 or 3 scaling solutions.
 
 ## AVL
 

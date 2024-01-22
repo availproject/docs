@@ -52,7 +52,7 @@ export const contentData = {
       blockInfo: [
         'Ecosystem Agnostic Modularity',
         'Robust Sovereign Chain Rollups',
-        'Optimized App-Chains',
+        'Optimized Appchains',
       ],
       tutorialsInfo: [
         {
