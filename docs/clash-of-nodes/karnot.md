@@ -1,6 +1,6 @@
 ---
 id: karnot
-title: How to Deploy Appchain Rollups using Karnot
+title: How to Deploy Appchains using Karnot
 sidebar_label: Karnot Appchains
 description: 'Discover how to build appchains with Karnot that utilize Avail as a DA layer.'
 keywords:
@@ -23,7 +23,7 @@ The "Karnot Appchain" challenge, part of the groundbreaking **[<ins>Clash of Nod
 To partake in the Karnot challenge, follow these key steps:
 
 1. **Deploy a Karnot App Chain**: Use the Karnot CLI for rapid deployment of your app chains.
-1. **Deploy on Avail's Goldberg Testnet**: Opt to post your rollup data to the Avail Goldberg testnet.
+1. **Deploy on Avail's Goldberg Testnet**: Opt to post your appchain data to the Avail Goldberg testnet.
 1. **Fund Your Account**: Use the Avail Goldberg faucet to acquire tokens for the Goldberg testnet.
 1. **List Your Appchain for Clash of Nodes**: Create a PR to list your app chain on the official repo for the Karnot CLI, following the specified JSON format.
 
@@ -58,6 +58,6 @@ For your project to qualify, it must meet these criteria:
    }
    ```
 
-   <p align="center"><img src="/img/karnot/karnot-pr.png" alt="Avail RollApp Icon on Portal" width="100%"/></p>
+   <p align="center"><img src="/img/karnot/karnot-pr.png" alt="Karnot PR Submission" width="100%"/></p>
 
    This configuration file includes essential details about your appchain, such as its name, logo URL, RPC endpoint, explorer URL, metrics endpoint, and a unique identifier. Ensure all information is accurate and up-to-date to facilitate smooth registration and participation in the campaign. Once the PR is merged, the appchain will appear on the **[<ins>Clash of Nodes Leaderboard</ins>](https://leaderboard.availproject.org/)**.
