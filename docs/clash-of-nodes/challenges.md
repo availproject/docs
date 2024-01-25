@@ -58,5 +58,3 @@ Discover the challenges that are currently active and prepare for the other ones
 | **[<ins>Max Balance Transfer Points</ins>](/about/balance-transfers)**     | Basics          | Demonstrate your prowess by executing as many transfers as possible across the network.                              | Anyone              | \*\*Showcase your consistent participation by executing one transfer per day across the network. |   ✔️   |
 
 > \*\* **Note:** Migrating an established RollApp with (high) TVL to Avail for data availability does not confer any competitive advantage. The challenge is structured to ensure fairness, treating both newly launched RollApps and those with existing TVL and activity on equal footing.
-
-> \*\* **Note:** More than one transfer per day does not contribute to a higher score or greater impact in this challenge. The challenge is time bound and the focus is on maintaining consistency with one transfer each day.
