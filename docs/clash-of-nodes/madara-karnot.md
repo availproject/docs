@@ -22,7 +22,7 @@ The "Madara | Karnot Appchain Challenge", part of the groundbreaking **[<ins>Cla
 
 To partake in the Madara | Karnot Appchain Challenge, follow these key steps:
 
-1. **Deploy a Madara Appchain**: Use the Madara CLI for rapid deployment. You can choose to host it yourself or request the Karnot team for hosting services.
+1. **Deploy a Madara Appchain**: Use the Karnot CLI for rapid deployment. You can choose to host it yourself or request the Karnot team for hosting services.
 2. **Deploy on Avail's Goldberg Testnet**: Opt to post your chain data to the Avail Goldberg testnet.
 3. **Fund Your Account**: Use the Avail Goldberg faucet to acquire tokens for the Goldberg testnet.
 4. **List Your Appchain for Clash of Nodes**: Create a PR to list your app chain on the official repo for the Karnot CLI, following the specified JSON format.
