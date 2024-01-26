@@ -43,7 +43,7 @@ For your project to qualify, it must meet these criteria:
 
 1. **Create a New Appchain Instance**: To begin, create a new appchain instance. Detailed instructions can be found **[<ins>here</ins>](https://github.com/karnotxyz/madara-cli)**. This step involves setting up the environment and initializing your appchain using the Karnot CLI. **Ensure you select 'Avail' as the DA layer**.
 
-> For help in creating an AppId, check out the [<ins>AppId guide</ins>](about/app-id).
+> For help in creating an AppId, check out the **[<ins>AppId guide</ins>](/about/app-ids)**.
 
 1. **Fund Your Avail Account**: You will also need to fund your Avail account for your appchain. Visit the Avail faucet with your Avail address and follow the **[<ins>faucet guide instructions</ins>](/about/faucet)** to secure the necessary testnet tokens for the Goldberg network.
 
