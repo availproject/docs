@@ -16,7 +16,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 ## Introduction
 
 :::note Before you start
-This chapter continues from the 'Basics' chapter, so be sure to read that one before proceeding with this one.
+This chapter continues from the 'Basics' page, so be sure to read that one before proceeding with this one.
 :::
 
 :::note
@@ -95,7 +95,7 @@ pwd
 From the [Releases Page](https://github.com/availproject/avail/releases) we grab the latest version and upack it
 
 :::note
-Make sure that you always grab the binary from the latest version. When this guide was released, the latest version was v1.8.0.3. Also, ensure that you grab the correct one for your operating system.
+Make sure that you always grab the binary from the latest version. When this guide was released, the latest version was v1.9.0.0. Also, ensure that you grab the correct one for your operating system.
 :::
 
 ```bash
@@ -230,19 +230,16 @@ To read more about Podman, check the [following page](https://podman.io/).
 To read more about SELinux, check the [following page](https://www.redhat.com/en/topics/linux/what-is-selinux).
 
 ```bash
-# Option 1: If you are using Docker with root user use this script
-docker run --restart on-failure -d -v /root/avail/node-data:/da/node-data -p 9944 -p 30333 docker.io/availj/avail:v1.8.0.3 --chain goldberg -d /da/node-data --validator --name MyAwesomeContainerNode
-
-# Option 2: If you are using Docker with non-root user use this script
+# Option 1: If you are using Docker with non-root user use this script
 sudo docker --restart on-failure run -d -v /root/avail/node-data:/da/node-data -p 9944 -p 30333 docker.io/availj/avail:v1.8.0.3 --chain goldberg -d /da/node-data --validator --name MyAwesomeContainerNode
 
-# Option 3: If you are using Docker on SELinux use this script
+# Option 2: If you are using Docker on SELinux use this script
 sudo docker --restart on-failure run -d  -v /root/avail/node-data:/da/node-data:z -p 9944 -p 30333 docker.io/availj/avail:v1.8.0.3 --chain goldberg -d /da/node-data --validator --name MyAwesomeContainerNode
 
-# Option 4: If you are using Podman use this script
+# Option 3: If you are using Podman use this script
 podman run -d -v /root/avail/node-data:/da/node-data -p 9944 -p 30333 docker.io/availj/avail:v1.8.0.3 --chain goldberg -d /da/node-data --validator --name MyAwesomeContainerNode
 
-# Option 5: If you are using Podman on SELinux use this script
+# Option 4: If you are using Podman on SELinux use this script
 podman run -d -v /root/avail/node-data:/da/node-data:z -p 9944 -p 30333 docker.io/availj/avail:v1.8.0.3 --chain goldberg -d /da/node-data --validator --name MyAwesomeContainerNode
 ```
 
@@ -291,5 +288,3 @@ As expected, the node is syncing new blocks. If these logs are new to you, head 
 ## What's Next
 
 This is where our story ends. We have a working node connected to the Goldberg chain and deployed on a cloud provider. If the system restarts or the Avail Node program suddenly ends, it will be automatically restarted, so there will be almost no downtime.
-
-In the next and last chapter we will generate the session keys and stake tokens.
