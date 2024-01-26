@@ -6,7 +6,7 @@ description: 'Learn how to generate unique application identifers for your Avail
 keywords:
   - docs
   - avail
-  - identifer
+  - identifier
   - appid
   - app
   - transaction
@@ -15,7 +15,7 @@ image: https://docs.availproject.org/img/avail/AvailDocs.png
 
 ## Introduction
 
-As a general purpose base layer, Avail is designed to support many
+As a general-purpose base layer, Avail is designed to support many
 modular chains at the same time, providing consensus and data
 availability to all of them simultaneously.
 
@@ -24,16 +24,16 @@ modular chain (or "application" in Avail terminology) to determine and
 download _only_ the sections of a block that have data for that
 particular application.
 
-This has very important benefits, including:
+This has significant benefits, including:
 
-- Modular applications are largely unaffected by other uses of the
+- Modular applications are mainly unaffected by other uses of the
   base layer at the same time.
 - Block sizes can increase without requiring applications to fetch
-  more data, because they don't fetch the whole block, only what's
+  more data because they don't fetch the whole block, only what's
   relevant to them.
 
 Data availability sampling is still done on the entire block,
-however--this is the process where clients sample very small parts of
+however--this is the process where clients sample tiny parts of
 the block at random to verify availability.
 
 If you'd like to learn how your idea could
@@ -52,15 +52,15 @@ Discord](https://discord.gg/S2XQJjHsZt). We'd love to chat.
    - Ensure you have the relevant extension installed and are logged in.
    - Select the account you wish to use for the AppId creation.
 
-1. **Input Application Name**: In the provided field, enter the name of your application. Make sure the name is unique and clearly identifies your app.
+1. **Input Application Name**: In the provided field, enter the name of your application. Make sure the name is unique and identifies your app.
 
-1. **Send Transaction**: After entering the application name, submit the transaction. This will involve a confirmation step through your browser extension.
+1. **Send Transaction**: Submit the transaction after entering the application name. This will involve a confirmation step through your browser extension.
 
 1. **Receive Your Application Id:**
    - Upon successful transaction completion, your AppId will be displayed.
    - Note down the Id for future reference.
 
-### Retriev an Existing AppId
+### Retrieve an Existing AppId
 
 1. **Access the Website**: Navigate to [Generator web application](https://app-id-gen.vercel.app/) in your web browser.
 
