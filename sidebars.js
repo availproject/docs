@@ -22,6 +22,23 @@ module.exports = {
     'build/quickstart',
     {
       type: 'category',
+      label: 'End-User Guide',
+      link: {
+        type: 'generated-index',
+      },
+      collapsed: true,
+      items: [
+        'about/accounts',
+        'about/explorer',
+        'about/faucet',
+        'about/identity',
+        'about/app-ids',
+        'about/balance-transfers',
+        'about/nomination-pools',
+      ],
+    },
+    {
+      type: 'category',
       label: 'Learn about Avail',
       link: {
         type: 'generated-index',
@@ -41,22 +58,6 @@ module.exports = {
             'about/consensus/npos',
           ],
         },
-      ],
-    },
-    {
-      type: 'category',
-      label: 'New User Guide',
-      link: {
-        type: 'generated-index',
-      },
-      collapsed: true,
-      items: [
-        'about/accounts',
-        'about/explorer',
-        'about/faucet',
-        'about/identity',
-        'about/balance-transfers',
-        'about/nomination-pools',
       ],
     },
     {
@@ -148,7 +149,6 @@ module.exports = {
       },
       items: [
         'build/overview',
-        //'about/introduction/app-id',
         {
           type: 'category',
           label: 'Optimium',
