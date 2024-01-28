@@ -14,7 +14,7 @@ image: https://docs.availproject.org/img/avail/AvailDocs.png
 
 :::caution Challenges Paused
 
-Performance on the Goldberg testnet has been impacted due to some nodes falling out of sync, leading to slower block finalization. The chain remains operational. The Avail team is actively resolving the network disruption. No action is required from validators at this stage. Public RPCs are rate-limited, and all Dymension and Karnot challenges are paused for the time being. A detailed Post Mortem will be shared soon. Stay updated with our latest announcements.
+You may experience performance disruptions on the Goldberg testnet. The chain remains operational. The Avail team is actively resolving the network disruption. No action is required from validators at this stage. Public RPCs are rate-limited, and the Dymension and Karnot challenges are paused for the time being. Stay updated with our latest announcements.
 
 :::
 
