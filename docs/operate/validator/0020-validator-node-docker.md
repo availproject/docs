@@ -40,7 +40,7 @@ Run the following commands to launch your Avail node:
 
 ```bash
 cd /mnt/avail
-sudo docker run -v $(pwd)/state:/da/state:rw -p 30333:30333 -p 9615:9615 -p 9944:9944 -d --restart unless-stopped availj/avail:v1.9.0.0 --chain goldberg --validator --name "MyAweasomeInContainerAvailAnode" -d /da/state
+sudo docker run -v $(pwd)/state:/da/state:rw -p 30333:30333 -p 9615:9615 -p 9944:9944 -d --restart unless-stopped availj/avail:v1.9.0.3 --chain goldberg --validator --name "MyAweasomeInContainerAvailAnode" -d /da/state
 ```
 
 > The Docker command performs several important steps:
@@ -58,7 +58,7 @@ Inspect the Docker logs to verify that the node is functioning as expected.
 ```bash
 ubuntu:/mnt/avail# docker ps
 CONTAINER ID   IMAGE                     COMMAND            CREATED         STATUS         PORTS                                                                                                            NAMES
-5b3978de8f35   availj/avail:v1.9.0.0   "/entrypoint.sh"   6 minutes ago   Up 6 minutes   0.0.0.0:9615->9615/tcp, :::9615->9615/tcp, 0.0.0.0:9944->9944/tcp, 0.0.0.0:30333->30333/tcp, :::9944->9944/tcp   relaxed_wilson
+5b3978de8f35   availj/avail:v1.9.0.3   "/entrypoint.sh"   6 minutes ago   Up 6 minutes   0.0.0.0:9615->9615/tcp, :::9615->9615/tcp, 0.0.0.0:9944->9944/tcp, 0.0.0.0:30333->30333/tcp, :::9944->9944/tcp   relaxed_wilson
 ubuntu:/mnt/avail# docker logs 5b3978de8f35
 # 5b3978de8f35 is the container id
 ```
