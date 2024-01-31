@@ -60,9 +60,9 @@ Additionally, it's common practice to run nodes on cloud servers.
 
 Download the client binary and config file for the node you want to run:
 
-| Node Type     | Repository Name                                           | Latest Release                                                                     |
-| ------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| **Full Node** | [<ins>avail</ins>](https://github.com/availproject/avail) | [<ins>v1.9.0.3</ins>](https://github.com/availproject/avail/releases/tag/v1.9.0.3) |
+| Node Type     | Repository Name                                           | Latest Release                                                                       |
+| ------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| **Full Node** | [<ins>avail</ins>](https://github.com/availproject/avail) | [<ins>v1.10.0.0</ins>](https://github.com/availproject/avail/releases/tag/v1.10.0.0) |
 
 </TabItem>
 <TabItem value="source" label="Build from Source">
@@ -122,9 +122,9 @@ sudo usermod -aG docker $USER
 
 </details>
 
-| Node Type | Docker Repository Name                                                | Latest Version                                                                                                                                                            |
-| --------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Full Node | [<ins>availj/avail</ins>](https://hub.docker.com/r/availj/avail/tags) | [<ins>v1.9.0.3</ins>](https://hub.docker.com/layers/availj/avail/v1.9.0.3/images/sha256-b9a6c11a456fa889784bfe168292ebfd2588793070895336150dbaaee0588ace?context=explore) |
+| Node Type | Docker Repository Name                                                | Latest Version                                                                                                                                                              |
+| --------- | --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Full Node | [<ins>availj/avail</ins>](https://hub.docker.com/r/availj/avail/tags) | [<ins>v1.10.0.0</ins>](https://hub.docker.com/layers/availj/avail/v1.10.0.0/images/sha256-a35bca617bc28a2cf858e1f36b403065a646ff2f34f37055c27f5db37bfa2076?context=explore) |
 
 </TabItem>
 </Tabs>
