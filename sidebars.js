@@ -242,7 +242,7 @@ module.exports = {
             {
               type: 'link',
               label: 'Sovereign SDK',
-              href: 'https://github.com/availproject/sovereign-sdk/tree/main',
+              href: 'https://github.com/Sovereign-Labs/sovereign-sdk',
             },
             {
               type: 'link',
