@@ -25,7 +25,7 @@ You can find the latest release binary in the `avail-light` repository.
 
 | Repository                                                            | Latest Release                                                                       |
 | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| [<ins>avail-light</ins>](https://github.com/availproject/avail-light) | [<ins>v1.7.5</ins>](https://github.com/availproject/avail-light/releases/tag/v1.7.5) |
+| [<ins>avail-light</ins>](https://github.com/availproject/avail-light) | [<ins>v1.7.6</ins>](https://github.com/availproject/avail-light/releases/tag/v1.7.6) |
 
 ## Run on an Existing Network
 
