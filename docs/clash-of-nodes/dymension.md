@@ -129,7 +129,7 @@ For developers who previously ran RollApps and are looking to migrate to the Ava
 
      - **Create a Ticket in #rollapp-verification**: Navigate to the #rollap-verification channel on the Avail Discord and create a ticket. A moderator will provide a specific amount needed for the verification transaction. This amount will be unique to each verification process to ensure authenticity.
 
-     - **Export the Sequencer's Private Key**: Carefully export the private key of the `hub_sequencer` address. Remember to excerise caution as this is a sensitive operation.
+     - **Export the Sequencer's Private Key**: Carefully export the private key of the `hub_sequencer` address. Remember to exercise caution as this is a sensitive operation.
 
        ```bash
        roller keys export hub_sequencer
@@ -168,7 +168,7 @@ For developers who previously ran RollApps and are looking to migrate to the Ava
    > - **Relayer `<network>`**: This address handles the relaying of IBC packets.
    > - **DA `<network>`**: This address is used to publish data on-chain to the DA network (in this case, Avail).
 
-1. **Fund Your RollApp Addresses**: To fund the the Dymension addresses, follow these steps in the official **[<ins>Dymension documentation</ins>](https://docs.dymension.xyz/build/quick-start/roller-quick/initialize#address-funding)**.
+1. **Fund Your RollApp Addresses**: To fund the Dymension addresses, follow these steps in the official **[<ins>Dymension documentation</ins>](https://docs.dymension.xyz/build/quick-start/roller-quick/initialize#address-funding)**.
 
 1. **Fund Your Avail Account**: You'll also need to fund your Avail account using the Avail faucet available on the **[<ins>official Avail Discord</ins>](https://discord.com/invite/availproject)**. For detailed guidance, visit the **[<ins>Avail Faucet Guide</ins>](/docs/about/faucet.md)** and follow the provided instructions.
 
