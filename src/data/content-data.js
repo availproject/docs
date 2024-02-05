@@ -33,15 +33,15 @@ export const contentData = {
       ],
       tutorialsInfo: [
         {
-          title: 'Already Running a Full Node?',
-          link: '/operate/validator/already-running-full-node/',
+          title: 'Run a Validator',
+          link: '/operate/validator/simple-node-deployment/',
         },
         {
-          title: 'Run a Validator Node',
-          link: '/category/run-a-validator-node/',
+          title: 'Stake Your Validator',
+          link: '/operate/validator/staking/',
         },
         {
-          title: 'Upgrade Your Validator Node',
+          title: 'Upgrade Your Validator',
           link: '/operate/validator/upgrade/',
         },
       ],
