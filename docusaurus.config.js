@@ -96,7 +96,7 @@ module.exports = {
             from: '/join-the-network/run-avail/full-node-setup',
           },
           {
-            to: '/operate/validator/binaries/',
+            to: '/operate/validator/simple-node-deployment/',
             from: '/join-the-network/run-avail/node-setup',
           },
           {
