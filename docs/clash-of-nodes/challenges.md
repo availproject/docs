@@ -12,6 +12,12 @@ keywords:
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
+:::caution Challenges Paused
+
+You may experience performance disruptions on the Goldberg testnet. The chain remains operational. The Avail team is actively resolving the network disruption. No action is required from validators at this stage. Public RPCs are rate-limited, and the Dymension and Karnot challenges are paused for the time being. Stay updated with our latest announcements.
+
+:::
+
 Embark on an exhilarating journey with the Clash of Nodes incentivized testnet, where a series of dynamic challenges await. Engage in rigorous network testing, vie for points, and vie for potential rewards.
 
 ## Before You Start
@@ -47,8 +53,8 @@ Discover the challenges that are currently active and prepare for the other ones
 
 | Challenge Name                                                             | Category        | Description                                                                                                          | Who Can Participate | Scoring Metrics                                                                                  | Status |
 | -------------------------------------------------------------------------- | --------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------ | :----: |
-| **[<ins>Dymension RollApps</ins>](/clash-of-nodes/dymension/)**            | Stacks/Apps     | Launch Avail-powered RollApps or migrate existing RollApps to utilize Avail as a DA layer.                           | Anyone              | \*\* TVL rise and user engagement metrics                                                        |   🟢   |
-| **[<ins>Madara - Karnot Appchains</ins>](/clash-of-nodes/madara-karnot/)** | Stacks/Apps     | Launch Avail-powered Starknet Appchains using Madara and Karnot.                                                     | Anyone              | Chain usage and user engagement metrics                                                          |   🟢   |
+| **[<ins>Dymension RollApps</ins>](/clash-of-nodes/dymension/)**            | Stacks/Apps     | Launch Avail-powered RollApps or migrate existing RollApps to utilize Avail as a DA layer.                           | Anyone              | \*\* TVL rise and user engagement metrics                                                        |   ⏸️   |
+| **[<ins>Madara - Karnot Appchains</ins>](/clash-of-nodes/madara-karnot/)** | Stacks/Apps     | Launch Avail-powered Starknet Appchains using Madara and Karnot.                                                     | Anyone              | Chain usage and user engagement metrics                                                          |   ⏸️   |
 | **[<ins>Gladiator's Entry</ins>](/category/become-a-validator/)**          | Basics          | Enter the fray by setting up as a validator. Your mission: author as many blocks as you can, outlasting your rivals. | Validators          | Number of blocks authored                                                                        |   🟢   |
 | **[<ins>Noble Warrior</ins>](/category/become-a-validator/)**              | Basics          | Show your valor by adhering to the noble principles of validation.                                                   | Validators          | Negative points for: times offline, times slashed                                                |   🟢   |
 | **Attacking the Treasury**                                                 | Attacks         | Discover and exploit potential vulnerabilities in the treasury or burn mechanism.                                    | Anyone              | Number of successes and failures reports                                                         |   🟢   |

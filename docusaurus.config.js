@@ -136,7 +136,7 @@ module.exports = {
       id: 'banner',
       content: `
         <div class="announcement-bar">
-            Check out the Avail incentivized testnet and the Clash of Nodes Campaign <a href="/category/clash-of-nodes/" style="text-decoration: underline;">here</a>!
+            You may experience performance issues with the Goldberg testnet. The Avail team is actively working on a resolution. Please stay tuned for updates.
         </div>
       `,
       textColor: '#ffffff',

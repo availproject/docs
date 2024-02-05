@@ -25,27 +25,25 @@ You can find the latest release binary in the `avail-light` repository.
 
 | Repository                                                            | Latest Release                                                                       |
 | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| [<ins>avail-light</ins>](https://github.com/availproject/avail-light) | [<ins>v1.7.4</ins>](https://github.com/availproject/avail-light/releases/tag/v1.7.4) |
+| [<ins>avail-light</ins>](https://github.com/availproject/avail-light) | [<ins>v1.7.6</ins>](https://github.com/availproject/avail-light/releases/tag/v1.7.6) |
 
 ## Run on an Existing Network
 
 In this example, you will download the light client and connect to an existing public network.
 
-1. Download the latest Avail light client [<ins>release</ins>](https://github.com/availproject/avail-light/releases/). The light client is available pre-built for different architectures.
+1. Download the latest Avail light client [<ins>release</ins>](https://github.com/availproject/avail-light/releases/). The light client is available pre-built for different architectures. If you prefer building the light client yourself, see [<ins>build the Avail light client from source</ins>](#build-from-source).
 
-2. If you prefer building the light client yourself, see [<ins>build the Avail light client from source</ins>](#build-the-avail-light-client-from-source).
+2. Run the light client with the following pre-defined configuration file:
 
-3. Run the light client with the following pre-defined configuration file:
+   ```bash
+   ./avail-light --network goldberg
+   ```
 
-```bash
-./avail-light --network goldberg
-```
+   If you want to supply your own configuration file (see [<ins>reference</ins>](https://github.com/availproject/avail-light#configuration-reference)), use:
 
-4. If you want to supply your own [<ins>configuration file</ins>](https://github.com/availproject/avail-light#configuration-reference), use:
-
-```bash
-./avail-light --config config.yaml --network goldberg
-```
+   ```bash
+   ./avail-light --config config.yaml --network goldberg
+   ```
 
 That's it 🎉! You have successfully run the light client and connected to a public network. The light client should show output similar to the following:
 
@@ -98,7 +96,8 @@ If you want to connect the Avail light client to a local network, you will need 
    ./avail-light --network local
    ```
 
-4. If you want to supply your own [<ins>configuration file</ins>](https://github.com/availproject/avail-light#configuration-reference), use:
+   If you want to supply your own configuration file (see [<ins>reference</ins>](https://github.com/availproject/avail-light#configuration-reference)), use:
+
    ```bash
    ./avail-light --config config.yaml --network local
    ```

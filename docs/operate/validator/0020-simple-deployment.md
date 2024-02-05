@@ -17,59 +17,54 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 :::note Before you start
 This chapter continues from the 'Basics' page, so be sure to read that one before proceeding with this one.
+Before trying anything, thoroughly read the chapter before doing any actual work.
 :::
 
-:::note
-Before trying anything, make sure that you fully read the chapter first before doing any actual work.
-:::
-
-The goal of this guide is to help you learn the basics of deploying your Avail Node either manually or by docker/podman.
-
-## Note Of Caution
+This guide aims to help you learn the basics of deploying your Avail Node manually or by docker/podman.
 
 ## Cloud Server
 
-Deploying long-lasting services is best done on a machine that is online more than 99% of the time and is dedicated solely to running that service. This means that your Avail Node should not be deployed on a personal computer; instead, running it on your homelab or a cloud provider is a better option.
+Deploying long-lasting services is best done on an online machine more than 99% of the time and is dedicated solely to running that service. This means that your Avail Node should not be deployed on a personal computer; running it on your Homelab or a cloud provider is a better option.
 
 There are many cloud providers to choose from. Here are some of them:
 
 - AWS
-- Microsfot Azure
+- Microsoft Azure
 - OVHCloud
 - DigitalOcean
 - Linode
 - Google Cloud Platform
 
-It's up to you to do your own research and pick one that will suite all your needs and requriements.
-If you already have a running server you can skip the the rest of this section and go straight to next one.
+It's up to you to research and pick one that will suit all your needs and requirements.
+If you already have a running server, you can skip the rest of this section and go straight to the next one.
 That said, Hetzner is used for this chapter and here are the steps on how to create a new instance there:
 
-First, create a project and name it appropriately
+First, create a project and name it appropriately.
 <img src="/img/hetzner/hetzner_new_project.png" width="300px" height="100%"/>
 
-Click on the 'Create Server' button and choose your desired location and image
+Click on the 'Create Server' button and choose your desired location and image.
 <img src="/img/hetzner/hetzner_location_image.png" width="100%" height="100%"/>
 
-For the type, SharedvCPU and CX21 (or anything stronger) will do the trick
+For the type, SharedvCPU and CX21 (or anything stronger) will do the trick.
 <img src="/img/hetzner/hetzner_type.png" width="100%" height="100%"/>
 
-Make sure that you have entered your SSH keys
+Make sure that you have entered your SSH keys.
 <img src="/img/hetzner/hetzner_ssh_keys.png" width="100%" height="100%"/>
 
-Finally, give it a good name
+Finally, give it a good name.
 <img src="/img/hetzner/hetzner_name.png" width="500px" height="100%"/>
 
-With the server created, you can copy the public IP and SSH in
+With the server created, you can copy the public IP and SSH in.
 <img src="/img/hetzner/hetzner_server_created.png" width="100%" height="100%"/>
 
 ```bash
 ssh root@65.21.XXX.XXX
 ```
 
-Hopefully, you are greeted with the welcome message
+Hopefully, you are greeted with the welcome message.
 <img src="/img/hetzner/hetzner_welcome_terminal.png" width="100%" height="100%"/>
 
-Before we continue with our deployment let's make sure that our system is up to date
+Before we continue with our deployment, let's make sure that our system is up to date.
 
 ```
 sudo apt update
@@ -78,7 +73,7 @@ sudo apt upgrade -y
 
 ## Bare Metal
 
-We have our server up and online. We updated all our dependencies and are now ready to do the actual work. In the home directory, let's create a folder where we are going to store our binary and all the data it will generate.
+We have our server up and online. We updated all our dependencies and are ready to do the work. Let's create a folder in the home directory to store our binary and all the data it will generate.
 
 ```bash
 mkdir avail && cd avail
@@ -92,10 +87,10 @@ pwd
 # Example output: `/root/avail`
 ```
 
-From the [Releases Page](https://github.com/availproject/avail/releases) we grab the latest version and upack it
+From the [Releases Page](https://github.com/availproject/avail/releases), we grab the latest version and unpack it.
 
 :::note
-Make sure that you always grab the binary from the latest version. When this guide was released, the latest version was v1.9.0.0. Also, ensure that you grab the correct one for your operating system.
+Make sure that you always grab the binary from the latest version. When this guide was released, the latest version was v1.10.0.0. Also, ensure that you hold the correct one for your operating system.
 :::
 
 ```bash
@@ -103,16 +98,15 @@ Make sure that you always grab the binary from the latest version. When this gui
 # wget is a command-line utility for downloading files from the internet.
 wget https://github.com/availproject/avail/releases/download/v1.9.0.0/x86_64-ubuntu-2204-data-avail.tar.gz
 
-# tar is a command-line utility for working with tarballs, which are compressed or uncompressed archives that can contain one or more files or directories.
-# The -x option is used to extract files from an archive, and the -f option specifies the archive file. When used together as tar -xf, it extracts the contents of the specified archive file.
+# tar is a command-line utility for working with tarballs, compressed or uncompressed archives containing one or more files or directories.
+# The -x option extracts files from an archive, and the -f option specifies the archive file. When used together as tar -xf, it removes the contents of the specified archive file.
 tar -xf x86_64-ubuntu-2204-data-avail.tar.gz
 
 # rm stands for "remove" in Linux and Unix-like operating systems. It is used to delete files or directories.
 rm amd64-ubuntu-2204-data-avail.tar.gz
 ```
 
-In order for our node to be run automatically even on restarts we will create a systemd service file for it. Systemd will run our node as deamon and manage it for us.
-To know more about systemd go [here](https://en.wikipedia.org/wiki/Systemd).
+We will create a system service file for our node to run automatically, even on restarts. Systemd will run our node as a daemon and manage it for us. To know more about systemd, go [here](https://en.wikipedia.org/wiki/Systemd).
 
 Let's create a file on `/etc/systemd/system/` and name it `avail.service`. If you are using a non-root user, you will need to execute this operation using the `sudo` command.
 

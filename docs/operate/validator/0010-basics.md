@@ -12,6 +12,7 @@ image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import Tabs from '@theme/Tabs';
 
 ## Introduction
 
@@ -38,61 +39,64 @@ Prebuild list:
 
 Once you have found your OS (or picked the generic one), execute the given command to obtain the needed Avail Node binary.
 
-#### Ubuntu 20.04
+<Tabs groupId="operating-systems">
+<TabItem value="ubuntu2004" label="Ubuntu 20.04">
 
 ```bash
 wget https://github.com/availproject/avail/releases/download/v1.9.0.0/x86_64-ubuntu-2004-data-avail.tar.gz && tar -xf ./x86_64-ubuntu-2004-data-avail.tar.gz
-
 ```
 
-#### Ubuntu 22.04
+</TabItem>
+<TabItem value="ubuntu2204" label="Ubuntu 22.04">
 
 ```bash
 wget https://github.com/availproject/avail/releases/download/v1.9.0.0/x86_64-ubuntu-2204-data-avail.tar.gz && tar -xf ./x86_64-ubuntu-2204-data-avail.tar.gz
-
 ```
 
-#### Ubuntu 23.10
+</TabItem>
+<TabItem value="ubuntu2310" label="Ubuntu 23.10">
 
 ```bash
 wget https://github.com/availproject/avail/releases/download/v1.9.0.0/x86_64-ubuntu-2310-data-avail.tar.gz && tar -xf ./x86_64-ubuntu-2310-data-avail.tar.gz
-
 ```
 
-#### Debian 11
+</TabItem>
+<TabItem value="debian11" label="Debian 11">
 
 ```bash
 wget https://github.com/availproject/avail/releases/download/v1.9.0.0/x86_64-debian-11-data-avail.tar.gz && tar -xf ./x86_64-debian-11-data-avail.tar.gz
-
 ```
 
-#### Debian 12
+</TabItem>
+<TabItem value="debian12" label="Debian 12">
 
 ```bash
 wget https://github.com/availproject/avail/releases/download/v1.9.0.0/x86_64-debian-12-data-avail.tar.gz && tar -xf ./x86_64-debian-12-data-avail.tar.gz
-
 ```
 
-#### Fedora 38
+</TabItem>
+<TabItem value="fedora38" label="Fedora 38">
 
 ```bash
 wget https://github.com/availproject/avail/releases/download/v1.9.0.0/x86_64-fedora-38-data-avail.tar.gz && tar -xf ./x86_64-fedora-38-data-avail.tar.gz
-
 ```
 
-#### Fedora 39
+</TabItem>
+<TabItem value="fedora39" label="Fedora 39">
 
 ```bash
 wget https://github.com/availproject/avail/releases/download/v1.9.0.0/x86_64-fedora-39-data-avail.tar.gz && tar -xf ./x86_64-fedora-39-data-avail.tar.gz
-
 ```
 
-#### Arch
+</TabItem>
+<TabItem value="arch" label="Arch">
 
 ```bash
 wget https://github.com/availproject/avail/releases/download/v1.9.0.0/x86_64-arch-data-avail.tar.gz && tar -xf ./x86_64-arch-data-avail.tar.gz
-
 ```
+
+</TabItem>
+</Tabs>
 
 ## Running Our First Network
 

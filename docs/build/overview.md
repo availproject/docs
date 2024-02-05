@@ -81,33 +81,6 @@ A Sequence Sender, in this architecture, is responsible for submitting proofs to
 
 This architecture provides the dual benefits of the main chain's security for settlement and dispute resolution, and Avail's efficiency in handling data. By offloading data availability to Avail, Optimium chains can achieve higher scalability and efficiency while maintaining robust security and decentralization.
 
-## Application IDs (app_id)
-
-As a general purpose base layer, Avail is designed to support many
-modular chains at the same time, providing consensus and data
-availability to all of them simultaneously.
-
-How does this work? Avail headers contain an index that allows a given
-modular chain (or "application" in Avail terminology) to determine and
-download _only_ the sections of a block that have data for that
-particular application.
-
-This has very important benefits, including:
-
-- Modular applications are largely unaffected by other uses of the
-  base layer at the same time.
-- Block sizes can increase without requiring applications to fetch
-  more data, because they don't fetch the whole block, only what's
-  relevant to them.
-
-Data availability sampling is still done on the entire block,
-however--this is the process where clients sample very small parts of
-the block at random to verify availability.
-
-If you'd like to learn how your idea could
-benefit from Avail, please [join our
-Discord](https://discord.gg/S2XQJjHsZt). We'd love to chat.
-
 ## DA Solution Suites
 
 Avail Uncharted is a core initiative within the Avail ecosystem dedicated to exploring uncharted territories in modular blockchain technology.
@@ -116,7 +89,7 @@ Driven by the core Avail team, the mission is twofold: to nurture innovative pro
 | Project                             | Description                                                                                                  | Repository                                                                                                                                              |
 | :---------------------------------- | :----------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Avail-Powered Optimistic EVM Rollup | A sovereign EVM-compatible optimistic rollup construction.                                                   | [<ins>op-evm</ins>](https://github.com/availproject/op-evm)                                                                                             |
-| DA Adapter for Sovereign SDK        | An adapter enabling modular sovereign rollups using the Sovereign Rollup SDK.                                | [<ins>sovereign-da-adapter</ins>](https://github.com/availproject/sovereign-sdk/tree/main)                                                              |
+| DA Adapter for Sovereign SDK        | An adapter enabling modular sovereign rollups using the Sovereign Rollup SDK.                                | [<ins>sovereign-da-adapter</ins>](https://github.com/Sovereign-Labs/sovereign-sdk)                                                                      |
 | DA Interface for Madara Starknet    | A unified DA interface allowing the Madara Starknet Sequencer to publish data onto Avail.                    | [<ins>madara-da-interface</ins>](https://github.com/keep-starknet-strange/madara/pull/1021)                                                             |
 | Avail-Powered zkEVM-Based Validium  | A Validium based on the Polygon zkEVM stack that uses Avail instead of the native DAC for data availability. | - [<ins>validium-node</ins>](https://github.com/QEDK/validium-node) <br/> - [<ins>validium-contracts</ins>](https://github.com/QEDK/validium-contracts) |
 | DA Adapter for Optimism SDK         | An adapter facilitating Avail DA's integration with Optimism's Rollup SDK op-stack.                          | [<ins>avail-op-stack-adapter</ins>](https://github.com/availproject/avail-op-stack-adapter)                                                             |
