@@ -16,6 +16,10 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 This guide offers a step-by-step walkthrough on how to stake your Avail validator.
 It covers essential steps such as bonding your funds, managing session keys, and initiating the validation process.
 
+:::note Before you start
+This chapter continues from the 'Session Keys' page, so be sure to read that one before proceeding with this one.
+:::
+
 ## Step 1: Prepare for Staking
 
 Before you can become an active validator, you need to bond your funds to your node. This involves creating two separate Avail accounts: a `stash` account for holding your funds and a `controller` account for managing staking actions.
@@ -37,9 +41,6 @@ Keep the majority of your funds in the `stash` account and only a minimal amount
 account to cover transaction fees.
 
 :::
-
-For validators participating in our testnet, contact the Avail team to have funds
-transferred.
 
 <img src="/img/avail/stash-controller-accounts.png" width="200%" height="200%"/>
 
@@ -64,53 +65,11 @@ Note: Withdrawing any bonded amount is subject to the duration of the unbonding 
 4. After filling in the required fields, click `Bond`. You will be prompted to enter your wallet password. Input your password and then click **Sign and Submit**.
 
 <img src="/img/avail/staking-bond-3.png" width="100%" height="100%"/>
-
-You should now be ready to generate your session keys. Note the
-**Session Key** button, in the next step we will generate a key to
-submit here. <img src="/img/avail/staking-bond-4.png" width="100%" height="100%"/>
-
-## Step 2: Manage Session Keys
-
-After your node is fully synced, you'll need to rotate and submit your session keys.
-
-### Rotating Session Keys
-
-Run the following command on your node machine:
-
-> Ensure the node is running with the default HTTP RPC port configured.
-
-#### Using Binaries:
-
-```shell
-curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "author_rotateKeys", "params":[]}' http://localhost:9944
-```
-
-The result is the concatenation of the four public keys. Save the hex-encoded
-result for the next step and **restart your node**.
-
-#### Using Docker:
-
-```shell
-docker ps
-```
-
-You should an output similar to:
-
-```
-CONTAINER ID   IMAGE                   COMMAND            CREATED         STATUS         PORTS                                                                                                            NAMES
-da097bbeba75   availj/avail:v1.10.0.0   "/entrypoint.sh"   3 seconds ago   Up 3 seconds   0.0.0.0:9615->9615/tcp, :::9615->9615/tcp, 0.0.0.0:9944->9944/tcp, 0.0.0.0:30333->30333/tcp, :::9944->9944/tcp   musing_cartwright
-```
-
-We need the `CONTAINER ID` from the output above:
-
-```shell
-docker exec -i da097bbeba75 curl -sH "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "author_rotateKeys", "params":[]}' http://localhost:9944
-```
+<img src="/img/avail/staking-bond-4.png" width="100%" height="100%"/>
 
 ### Submit Session Keys
 
-You must inform the network of your Session keys by signing and submitting the
-`setKeys` extrinsic. This action associates your validator with your Controller account.
+This action associates your session keys with your Stash account.
 
 1. Navigate back to the **[<ins>Staking</ins>](https://goldberg.avail.tools/#/staking/actions)** tab.
 2. Click on `Set Session Key` and enter the hex-encoded result.
@@ -136,8 +95,7 @@ to **Validate**. Make sure your node is fully synchronized before proceeding fur
 
 Your validator is now prepared to begin the validation process. If you wish to discontinue,
 you can click the stop icon. Please note that the Avail interface doesn't automatically verify
-if your node is synchronized; you'll need to confirm this manually. If your node has sufficient
-stake, the Avail blockchain will likely select it in the next epoch or two.
+if your node is synchronized; you'll need to confirm this manually.
 
 <img src="/img/avail/validator-ready.png" width="100%" height="100%"/>
 

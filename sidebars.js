@@ -123,15 +123,9 @@ module.exports = {
           },
           collapsed: true,
           items: [
-            'operate/validator/already-running-full-node',
-            {
-              type: 'category',
-              label: 'Run a Validator Node',
-              link: {
-                type: 'generated-index',
-              },
-              items: ['operate/validator/binaries', 'operate/validator/docker'],
-            },
+            'operate/validator/avail-node-basics',
+            'operate/validator/simple-node-deployment',
+            'operate/validator/session-keys',
             'operate/validator/staking',
             'operate/validator/backup',
             'operate/validator/upgrade',
