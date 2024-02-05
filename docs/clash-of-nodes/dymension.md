@@ -180,7 +180,7 @@ For developers who previously ran RollApps and are looking to migrate to the Ava
 
 1. **Run Your RollApp in Production**: After initializing and funding your RollApp accounts, we're ready to start running the RollApp in production, leveraging Avail for data availability. To do so, follow the **[<ins>Dymension guide</ins>](https://docs.dymension.xyz/build/production/run)**.
 
-1. **Add Your RollApp to the Dymension Registry**: To register your RollApp on the Dymension Hub, follow the instructions in the README file of the **[<ins>RollApp Registry repository</ins>](https://github.com/dymensionxyz/rollapp-registry)** on GitHub.
+1. **Add Your RollApp to the Dymension Registry**: To register your RollApp on the Dymension Hub, follow the instructions in the README file of the **[<ins>RollApp Registry repository</ins>](https://github.com/dymensionxyz/chain-registry)** on GitHub.
 
    > This registration process introduces a dedicated namespace in the Dymension Hub for your RollApp. Once registered, the RollApp is recognized by the Dymension Hub, allowing Sequencers to publish state updates on-chain and enhancing the interoperability across different ecosystems.
 
