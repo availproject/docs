@@ -1,0 +1,12 @@
+{
+    "introduction": "What is Avail",
+    "clash-of-nodes": "Clash of Nodes",
+    "networks": "Network Info",
+    "learn-about-avail": "Learn about Avail",
+    "end-user-guide": "End User Guide",
+    "operate-a-node": "Operate a Node",
+    "build-with-avail": "Build with Avail",
+    "appid": {
+        "display": "hidden"
+    }
+}

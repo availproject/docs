@@ -1,0 +1,55 @@
+---
+id: chill
+title: Chill Your Validator
+sidebar_label: Chill Your Validator
+description: 'Learn about how Chill & Slashing Affect an Avail validator.'
+keywords:
+  - docs
+  - avail
+  - node
+  - validator
+image: https://docs.availproject.org/img/avail/AvailDocs.png
+---
+
+# Chill Your Validator
+
+## Overview
+
+Two important concepts in Avail consensus are "Chill" and "Slashing". We will explore the conditions under which validators are chilled or slashed, the impact of these actions on validators and nominators.
+
+## Voluntary Chill
+
+Staking bonds can exist in three different states: validating, nominating, or chilled. Chilled which refers to neither validating nor nominating. If a staker wishes to temporarily pause their active involvement
+in staking while keeping their funds bonded, they have the option to "chill" their participation.
+
+To step back from active staking or active validating an account can either click "Stop" on the Network > Staking > Account actions page in Avail Apps or make use of the chill extrinsic in the staking pallet.
+By choosing to chill, the account or validator becomes inactive in the next era. It's important to note that the chill call must be signed by the controller account, not the stash.
+
+If you decide to voluntarily chill as a validator, your nominators will remain associated with your validator. However, while you are chilled, your bond will not be listed as an option for nominators to select.
+This means that any nominators making new nominations or revising existing ones will not be able to choose your validator.
+
+## Involuntary Chill
+
+In the event that a validator becomes unresponsive for an entire session, the validator bond will undergo involuntary chilling. This process restricts the validator from being chosen in the subsequent election,
+depending on the session in which the chilling occurred. However, a chilled validator has the ability to declare their intent to validate again at any time. If less than 10% of nodes go offline there is
+no slash for being unresponsive or offline.
+
+### Slashing
+
+Involuntary chilling can also occur as a consequence of slashing. However, in such a situation, the validator not only loses their nominations but also faces a potential loss of support. Consequently, even if
+the validator re-declares their intent to validate before session 5, there may not be enough nominations to reintegrate the node into the active set.
+
+Nominators have the opportunity to renominate a slashed validator through a display row available in Avail Apps in the "Account Actions".
+
+Slashing can occur under the following conditions
+
+- Equivocation is producing two blocks in the same slot. In GRANDPA, it is sending pre-vote or pre-commit messages for two chains that conflict with each other in the same round. This will slash
+  the validator and nominators.
+- If more than 10% of the validators go offline simultaneously and were chilled in an epoch, all of those validators will be slashed.
+
+The slashing will show immediately on [Avail Apps](https://testnet.avail.tools/#/staking/slashes) on the slash tab. However the financial slash is not applied at the time. The physical deduction from
+validator stake and nominator stake happens at a later stage. A governance proposal can be made to reverse the slash, this is why there is a delay in the physical deduction of coins. Without
+Governance intervention the physical coin deduction will happen a few days later.
+
+Example of a slash shown in Avail Apps:
+<img src="/img/avail/validator-slash.png" width="100%" height="100%"/>

@@ -1,0 +1,56 @@
+---
+id: overview
+title: Building on the OP Stack with Avail
+sidebar_label: Overview
+description: 'Discover how to utilize Avail as a data availability layer.'
+keywords:
+  - documentation
+  - avail
+  - develop
+  - build
+  - data availability
+  - da
+image: https://docs.availproject.org/img/avail/AvailDocs.png
+---
+
+# Building on the OP Stack with Avail
+
+The OP Stack, instrumental for the development of L2 rollups and maintained by the [<ins>Optimism Collective</ins>](https://www.optimism.io/), is now extendable with Avail as an alternative data availability layer. Developers working with the OP Stack can utilize Avail to address data availability concerns, enhancing the stack's scalability while simultaneously cutting down data handling costs.
+
+## Transaction Lifecycle
+
+1. **Transaction Submission**
+
+   - **Process**: Users send transactions to the Sequencer.
+   - **Role**: The Sequencer temporarily holds the transactions before they are batched.
+
+2. **Batch Processing**
+
+   - **Component**: `op-batcher`
+   - **Function**: Collects transactions into batches for more efficient processing.
+
+3. **Data Availability with Avail**
+
+   - **Component**: `op-avail`
+   - **Function**: Sends the transaction batches to Avail's blockchain, ensuring data availability.
+
+4. **Transaction Reference Creation**
+
+   - **Outcome**: Avail returns a unique transaction reference to `op-avail`.
+
+5. **Calldata Submission to Ethereum**
+
+   - **Component**: `op-batcher`
+   - **Action**: Submits the transaction reference from Avail as `calldata` to Ethereum.
+
+6. **Verifier and Rollup Node Integration**
+   - **Component**: `op-node`
+   - **Function**: Queries data commitment from Ethereum and fetches L2 transaction data through `op-avail`, completing the data availability cycle for OP Stack transactions.
+
+## Interoperability and Fault Proofing
+
+The Avail OP Stack will evolve to integrate Optimism's fault proof system and the OP Stack sequencer's decentralization efforts. The Avail data root will be posted to Ethereum through the Vector data attestation bridge, allowing for seamless verification of data availability consensus.
+
+## Developer Onboarding
+
+Developers can start experimenting with the Avail OP Stack today by following the guide in the [Avail OP Stack](https://github.com/availproject/op-evm) repo. For support and updates, join the Avail Forum or Discord.

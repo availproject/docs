@@ -1,0 +1,7 @@
+{
+    "node-types": "Types of Nodes",
+    "deployment-options": "Hosted Deployments ",
+    "run-a-light-client": "Run a Light Client",
+    "run-a-full-node": "Run a Full Node",
+    "become-a-validator": "Become a Validator"
+}

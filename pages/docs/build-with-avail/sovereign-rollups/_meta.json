@@ -1,0 +1,17 @@
+{
+    "Sovereign_SDK_Link": {
+        "title": "Sovereign SDK 🔗",
+        "href": "https://github.com/availproject/sovereign-sdk/tree/main",
+        "newWindow": true
+      },
+      "Rollkit": {
+        "title": "Rollkit 🔗",
+        "href": "https://github.com/rollkit/avail-da",
+        "newWindow": true
+      },
+      "OpEVM": {
+        "title": "OpEVM 🔗",
+        "href": "https://github.com/availproject/op-evm",
+        "newWindow": true
+      }
+}

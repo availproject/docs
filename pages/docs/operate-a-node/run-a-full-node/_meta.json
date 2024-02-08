@@ -1,0 +1,7 @@
+{
+    "requirements": "System Requirements",
+    "full-node": "Full Node",
+    "0040-rpc-node": "RPC Node",
+    "0050-bootstrap-node": "Bootstrap Node",
+    "0060-relay-node": "Relay Node"
+}

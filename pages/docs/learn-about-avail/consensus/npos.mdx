@@ -1,0 +1,74 @@
+---
+id: npos
+title: Overview of the Avail NPoS
+sidebar_label: NPoS
+description: Avail's mechanism for establishing  distributed consensus
+keywords:
+  - docs
+  - avail
+  - npos
+  - consensus
+image: https://docs.availproject.org/img/avail/AvailDocs.png
+---
+import Image from 'next/image'
+
+# NPoS
+
+## Introduction
+
+Before delving into Avail's consensus, it's crucial to grasp the concept of consensus and its role. Consensus serves as a method to reach agreement on a shared state. For the
+continuous progression of the blockchain's state, all nodes within the network must collectively agree and achieve consensus. This consensus mechanism is essential for decentralized
+networks, ensuring synchronization among nodes. In the absence of consensus in a decentralized blockchain network, there is no guarantee that the state acknowledged by one node
+aligns with the perspectives of other nodes. Consensus strives to establish an objective representation of the state within a network where participants hold subjective views.
+It is the mechanism through which nodes communicate, reach agreement, and collaboratively generate new blocks.
+
+In order to cover Avails concensus we must cover
+
+- **Nominated Proof of Stake (NPOS)** which focuses on who is allowed to take part in concensus
+- **GRANDPA** which focuses on what is the last and final change/block
+- **BABE** which focuses on who will propose the next change/block
+
+Lets dig deeper into Nominated Proof of Stake (NPOS) first.
+
+### Nominated Proof of Stake (NPOS)
+
+Nominated Proof of Stake (NPoS) represents a variation of Delegated Proof of Stake (DPoS), which functions as a consensus algorithm within blockchain networks to establish
+distributed consensus. DPoS entails a set of guidelines for selecting the validator set on blockchains. Instead of all token holders having eligibility to create and validate blocks,
+a specific number of validators, referred to as "delegates" or "witnesses," are chosen to produce blocks and validate transactions. Typically, token holders cast votes to elect these
+validators through a delegation process. In a DPoS system, token holders possess the authority to vote for their preferred delegates, who subsequently take turns producing blocks and
+validating transactions.
+
+The purpose of NPoS aligns with DPoS, aiming to select trustworthy validators for consensus execution. However, the selection mechanism differs. In NPoS, rather than a delegator
+choosing a single validator or specifying which validator their token supports, they nominate a predetermined quantity of validators they are comfortable seeing elected.
+This nomination process gives rise to the term "Nominate Proof of Stake," where the individual staking tokens is referred to as a nominator.
+
+In simple terms, within the Avail ecosystem, you can act as a nominator (or delegator/staker) and nominate up to 16 validators. You do not need to select all 16, you may select any qty under 16.
+
+<img src="/img/avail/nominator.png" width="100%" height="100%" />
+
+As a participant with a stake in the network, your contribution may be directed towards endorsing a single validator during a particular era. The illustration below highlights the
+potential scenario where your stake is utilized to back and support a specific validator within the given timeframe
+
+<img src="/img/avail/nominator-elected-1.png" width="100%" height="100%" />
+
+Alternatively, your stake may be diversified among multiple validators from the pool of 16 nominees. For instance, in the presented scenario, your stake has been distributed across
+three different validators. This diversification allows you to participate in supporting and securing multiple validators, contributing to the overall resilience and decentralization
+of the network.
+
+<img src="/img/avail/nominator-elected-3.png" width="100%" height="100%" />
+
+The goal is to utilize your tokens effectively, backing validators that enable the highest staking of AVL (Avail's native token) and bring the maximum number of validators online.
+
+### Nominated Proof of Stake (NPOS) validator work allocation
+
+In certain Proof of Stake (PoS) protocols, such as Tendermint, the likelihood of a validator being chosen for block production or network work allocation increases with the amount of
+stake they hold. Essentially, the higher the stake a validator possesses, the more opportunities they have to participate in key network activities. However, in Nominated Proof of Stake (NPoS),
+a different approach is taken, where all elected validators are treated on an equal footing. Regardless of their stake size or the quantity of nominators supporting them, NPoS
+ensures that every validator receives similar workloads without any preferential treatment based on stake size or the number of supporters.
+
+It's crucial to note that, in the NPoS model, the equality in workload distribution doesn't imply an identical chance of being elected for all validators. Validators with larger
+stakes and a higher number of nominators still hold a greater probability of being elected. The democratic nature of NPoS lies in the fact that once elected, all validators,
+irrespective of their individual stake size, share an equitable workload, fostering a fair and balanced participation framework within the network.
+
+Therefore, while the selection process may favor validators with more substantial stakes and broader support among nominators, the subsequent allocation of work is conducted
+impartially, ensuring that elected validators contribute to the network in a manner that aligns with the principles of fairness and inclusivity.

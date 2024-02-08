@@ -1,0 +1,10 @@
+{
+    "0000-already-running-full-node": "Already running a full node",
+    "run-a-validator-node": "Run a validator node",
+    "stake-your-validator": "Stake your validator",
+    "backup-your-validator": "Backup your validator",
+    "upgrade-your-validator": "Upgrade your validator",
+    "monitor-your-validator": "Monitor your validator",
+    "chill-your-validator": "Chill your validator"
+
+}
