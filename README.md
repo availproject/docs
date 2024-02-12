@@ -13,6 +13,8 @@
 
 </div>
 
+| ❗ We are in the process of putting out a comprehensive README following a docs migration. For contribution guidelines, check out the [Contributing Guide](./CONTRIBUTING.md)|
+
 <p align="left">
   Welcome to the Avail Project Developer Documentation, your go-to resource for all things related to data availability and modular blockchain development. Designed with a focus on community collaboration, this repository aims to provide the most accurate, comprehensive, and up-to-date information for anyone interested in learning about, contributing to, or maintaining projects within the Avail ecosystem.
 </p>
@@ -95,56 +97,6 @@ Below is a curated list of GitHub repositories part of the Avail Project.
 
 </details>
 
-## Configuration Guide
-
-<details>
-<summary>Files & Folders</summary>
-
-| Name                   | Purpose                                                                    |
-| ---------------------- | -------------------------------------------------------------------------- |
-| `LICENSE`              | Contains the license information for the project.                          |
-| `README.md`            | The main introduction file for the Avail Docs repository.                  |
-| `babel.config.js`      | Configuration file for Babel, a JavaScript compiler.                       |
-| `build/`               | Contains static content generated for deployment.                          |
-| `docusaurus.config.js` | Configuration file for website layout and other Docusaurus settings.       |
-| `docs/`                | Contains the Markdown files that make up the content of the documentation. |
-| `node_modules/`        | Contains all the npm packages and dependencies.                            |
-| `package.json`         | Specifies dependencies and scripts for the project.                        |
-| `sidebars.js`          | Used to modify the sidebar navigation.                                     |
-| `src/`                 | Contains source files for the project.                                     |
-| `static/`              | Contains static assets like images, CSS, and fonts.                        |
-| `yarn.lock`            | Yarn lock file to keep track of all package versions.                      |
-
-</details>
-
-### Static-Site Generator
-
-The [Avail Developer Documentation](https://docs.availproject.org/) is built using [Docusaurus](https://docusaurus.io/), making it easy to serve and host its static files.
-
 ## Contributing
 
 Please check out the [Contributing Guide](./CONTRIBUTING.md) for a detailed primer on how to contribute to the Avail documentation.
-
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
-
-Special thanks to these contributors:
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tbody>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/staking4all"><img src="https://avatars.githubusercontent.com/u/61656547?v=4?s=100" width="100px;" alt="staking4all"/><br /><sub><b>staking4all</b></sub></a><br /><a href="https://github.com/availproject/availproject.github.io/commits?author=staking4all" title="Documentation">📖</a></td>
-    </tr>
-  </tbody>
-</table>
-
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-## License
-
-The Avail Project Developer Documentation is licensed under the [MIT License](LICENSE) free software license.
