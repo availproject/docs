@@ -142,7 +142,7 @@ Setting up the EVM Rollup requires compiling code from two critical repositories
 
 ### Get Access to a Goerli Node
 
-For deploying to Goerli, access an L1 node using a provider like [<ins>Alchemy</ins>](https://www.alchemy.com/) or [<ins>run your own Goerli node</ins>](https://notes.ethereum.org/@launchpad/goerli).
+For deploying to Goerli, access an L1 node using a provider like [<ins>Alchemy</ins>](https://www.alchemy.com/dapps/goerli) or [<ins>run your own Goerli node</ins>](https://notes.ethereum.org/@launchpad/goerli).
 
 ## Generate and Secure Keys
 
@@ -155,10 +155,10 @@ Create four essential accounts with private keys:
 
 You can use `cast wallet` in the `contracts-bedrock` package for key generation:
 
-1. Navigate to `contracts-bedrock`:
+1. In the Avail adapter repo, navigate to the [<ins>contracts-bedrock package</ins>](https://github.com/availproject/avail-optimism/tree/129032f15b76b0d2a940443a39433de931a97a44/packages/contracts-bedrock):
 
    ```bash
-   cd avail-op-stack-adapter/packages/contracts-bedrock
+   cd ~/avail-op-stack-adapter/packages/contracts-bedrock
    ```
 
 2. Generate accounts:
@@ -197,7 +197,7 @@ You can use `cast wallet` in the `contracts-bedrock` package for key generation:
 
    Record and securely store these key details. You'll need to fund `Admin`, `Proposer`, and `Batcher` with Goerli ETH (2 ETH for `Admin`, 5 ETH for `Proposer`, 10 ETH for `Batcher`).
 
-<Callout>
+<Callout type="warning">
 NOTE FOR PRODUCTION<br/>
    Use secure hardware for key management in production environments.
    `cast wallet` is not designed for production deployments.
@@ -207,7 +207,7 @@ NOTE FOR PRODUCTION<br/>
 
 After building the repositories, configure your chain settings in the [<ins>contracts-bedrock package</ins>](https://github.com/availproject/avail-optimism/tree/129032f15b76b0d2a940443a39433de931a97a44/packages/contracts-bedrock).
 
-1. Navigate to `contracts-bedrock`:
+1. Ensure you are in the `contracts-bedrock` sub-directory:
 
    ```bash
    cd ~/avail-op-stack-adapter/packages/contracts-bedrock

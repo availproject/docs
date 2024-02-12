@@ -15,6 +15,7 @@ image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 import { Callout } from 'nextra/components'
 
+# How to Run a Full Node with Docker
 
 This guide provides step-by-step instructions for setting up and running a full node on the Avail network using Docker. Whether you're new to node operation or have prior experience, this guide is designed to make the setup process straightforward.
 
@@ -29,7 +30,7 @@ To launch your Avail node, navigate to the `/mnt/avail` directory and execute th
 
 ```bash
 cd /mnt/avail
-sudo docker run -v $(pwd)/state:/da/state:rw -p 30333:30333 -p 9615:9615 -p 9944:9944 -d --restart unless-stopped availj/avail:v1.8.0.4 --chain goldberg --name "MyAweasomeInContainerAvailAnode" -d /da/state
+sudo docker run -v $(pwd)/state:/da/state:rw -p 30333:30333 -p 9615:9615 -p 9944:9944 -d --restart unless-stopped availj/avail:v1.10.0.0 --chain goldberg --name "MyAweasomeInContainerAvailAnode" -d /da/state
 ```
 
 > The Docker command performs several important steps:
@@ -38,6 +39,7 @@ sudo docker run -v $(pwd)/state:/da/state:rw -p 30333:30333 -p 9615:9615 -p 9944
 > - Opens various ports for different functionalities, including P2P connections, metrics, and HTTP RPC.
 > - Utilizes the Avail image from Docker Hub and sets it to restart unless manually stopped.
 
+<br/>
 <details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
 <summary>Sample output</summary>
 
