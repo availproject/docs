@@ -3,6 +3,7 @@
     "explorer": "Use the Explorer",
     "faucet": "Get Testnet Tokens",
     "identity": "Set your Identity",
+    "app-id": "Generate an AppID",
     "balance-transfers": "Balance Transfers",
     "nomination-pools": "Nomination Pools"
 }

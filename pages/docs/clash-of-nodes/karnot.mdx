@@ -17,35 +17,40 @@ import { Callout } from 'nextra/components'
 
 ### Introduction
 
-The "Karnot Appchain" challenge, part of the groundbreaking **[<ins>Clash of Nodes campaign</ins>](/category/clash-of-nodes/)**, represents an exciting collaboration between **[<ins>Karnot</ins>](https://www.karnot.xyz/)** and Avail. This guide offers developers comprehensive instructions to deploy appchains using Avail as the data availability (DA) layer.
+The "Karnot Appchain" challenge, part of the groundbreaking **[<ins>Clash of Nodes campaign</ins>](/docs/clash-of-nodes)**, represents an exciting collaboration between **[<ins>Karnot</ins>](https://www.karnot.xyz/)** and Avail. This guide offers developers comprehensive instructions to deploy appchains using Avail as the data availability (DA) layer.
 
 ### How to Participate
 
-To partake in the Karnot challenge, follow these key steps:
+To partake in the Madara | Karnot Appchain Challenge, follow these key steps:
 
-1. **Deploy a Karnot App Chain**: Use the Karnot CLI for rapid deployment of your app chains.
-1. **Deploy on Avail's Goldberg Testnet**: Opt to post your appchain data to the Avail Goldberg testnet.
-1. **Fund Your Account**: Use the Avail Goldberg faucet to acquire tokens for the Goldberg testnet.
-1. **List Your Appchain for Clash of Nodes**: Create a PR to list your app chain on the official repo for the Karnot CLI, following the specified JSON format.
+1. **Deploy a Madara Appchain**: Use the Karnot CLI for rapid deployment. You can choose to host it yourself or request the Karnot team for hosting services.
+2. **Deploy on Avail's Goldberg Testnet**: Opt to post your chain data to the Avail Goldberg testnet.
+3. **Fund Your Account**: Use the Avail Goldberg faucet to acquire tokens for the Goldberg testnet.
+4. **List Your Appchain for Clash of Nodes**: Create a PR to list your app chain on the official repo for the Karnot CLI, following the specified JSON format.
 
 <Callout type="info">
 WHAT QUALIFIES AS AN AVAIL-POWERED APPCHAIN?<br/>
-For your project to qualify, it must meet these criteria:
+To partake in the Madara | Karnot Appchain Challenge, follow these key steps:
 
-1. **Uses Karnot & Avail**: Your appchain should be deployed using Karnot and must integrate Avail as the DA layer.
-1. **Operational and Accessible**: The appchain should be actively running and accessible to the public.
-1. **Functionality and Public Interface**: They must have operational features and a publicly accessible interface or usage instructions.
-1. **Compliance with Listing and Registration Requirements**: Follow the JSON format for appchain listing and include Avail-specific configurations in the campaign listing directory.
-1. **Community Engagement**: Engage with the community and adhere to the verification processes outlined in the respective documentation.
+1. **Deploy a Madara Appchain**: Use the Karnot CLI for rapid deployment. You can choose to host it yourself or request the Karnot team for hosting services.
+2. **Deploy on Avail's Goldberg Testnet**: Opt to post your chain data to the Avail Goldberg testnet.
+3. **Fund Your Account**: Use the Avail Goldberg faucet to acquire tokens for the Goldberg testnet.
+4. **List Your Appchain for Clash of Nodes**: Create a PR to list your app chain on the official repo for the Karnot CLI, following the specified JSON format.
 
 </Callout>
 
 
-### How to Deploy an Appchain
+### How to Deploy a Madara Appchain
 
-1. **Create an Appchain Instance**: To begin, create a new appchain instance. Detailed instructions can be found **[<ins>here</ins>](https://github.com/karnotxyz/madara-cli)**. This step involves setting up the environment and initializing your appchain using the Karnot CLI. **Ensure you select 'Avail' as the DA layer**. You will also need to fund your Avail account for your appchain. Visit the Avail faucet with your Avail address and follow the **[<ins>faucet guide instructions</ins>](/about/faucet)** to secure the necessary testnet tokens for the Goldberg network.
+1. **Create a New Appchain Instance**: To begin, create a new appchain instance. Detailed instructions can be found **[<ins>here</ins>](https://github.com/karnotxyz/madara-cli)**. This step involves setting up the environment and initializing your appchain using the Karnot CLI. **Ensure you select 'Avail' as the DA layer**.
+
+> For help in creating an AppId, check out the **[<ins>AppId guide</ins>](/docs/end-user-guide/app-id)**.
+
+1. **Fund Your Avail Account**: You will also need to fund your Avail account for your appchain. Visit the Avail faucet with your Avail address and follow the **[<ins>faucet guide instructions</ins>](/docs/end-user-guide/faucet)** to secure the necessary testnet tokens for the Goldberg network.
 
    > The faucet requires meeting a mandatory threshold using the Gitcoin passport. If necessary, you can link your Avail account on your machine with the wallet you are using for this process. Exercise caution when exporting your account's key for any reason.
+
+1. **If Needed, Host Your Appchain with Karnot**: Karnot provides comprehensive, ready-to-use services for appchains, including RPC, proof, cross-chain capabilities, and more. Fill out **[<ins>this form</ins>](https://forms.gle/8cYP2d3PqMDZc5oj7)** to request hosting services.
 
 1. **Create a PR to Register Your Appchain**: For your appchain to be recognized in the Clash of Nodes campaign, you must register it by submitting a pull request in the **[<ins>avail-campaign-listing</ins>](https://github.com/karnotxyz/avail-campaign-listing)** repository. The PR should include a JSON configuration file named "listing.json" with the following structure:
 
