@@ -14,7 +14,7 @@ image: https://docs.availproject.org/img/avail/AvailDocs.png
 
 # What is Avail?
 
-Avail is a **robust base layer with a laser focus on data availability** .
+Avail is a **robust base layer with a laser focus on data availability**.
 
 It is built to meet the needs of next-generation, trust-minimized applications and sovereign rollups.
 Avail's strengths lie in its innovative security approach, which allows light clients to easily verify data availability through sampling over a peer-to-peer network. Avail’s modular approach simplifies blockchain integration for developers, as they no longer need to worry about validator sets or tokenomics. With Avail's unparalleled data availability interface and powerful security capabilities, developers can create zero-knowledge or fraud-proof-based blockchain applications with greater efficiency and ease.
@@ -204,7 +204,7 @@ Avail redefines blockchain scalability by combining erasure coding, KZG polynomi
 
 ### Starting with Transaction Submission
 
-As Avail's primary consumers, rollups begin the process by submitting transactions to Avail. Each transaction carries a unique [<ins>application ID</ins>](/docs/appid.mdx) (or appID for short), signifying its origin and purpose within the broader ecosystem.
+As Avail's primary consumers, rollups begin the process by submitting transactions to Avail. Each transaction carries a unique [<ins>application ID</ins>](/docs/end-user-guide/app-id) (or appID for short), signifying its origin and purpose within the broader ecosystem.
 
 ### Enhancing Data Reliability Through Erasure Coding
 
@@ -214,7 +214,7 @@ Once transactions reach Avail, they are processed through erasure coding. This p
 
 ### Solidifying Data Integrity with Commitment Creation
 
-Avail takes the redundant data and applies KZG polynomial commitments to each block. These commitments serve as cryptographic proofs of the data's integrity, ensuring that what is stored is accurate and tamper-proof. The commitments are used by [<ins>validators</ins>](#ensuring-consensus--block-propagation) to confirm the data's integrity before it is attested and transmitted to main chain via Avail’s [<ins>data attestation bridge</ins>](/docs/glossary.mdx#data-attestation).
+Avail takes the redundant data and applies KZG polynomial commitments to each block. These commitments serve as cryptographic proofs of the data's integrity, ensuring that what is stored is accurate and tamper-proof. The commitments are used by [<ins>validators</ins>](#ensuring-consensus--block-propagation) to confirm the data's integrity before it is attested and transmitted to main chain via Avail’s [<ins>data attestation bridge</ins>](/docs/learn-about-avail/glossary#data-attestation).
 
 ### Ensuring Consensus & Block Propagation
 
@@ -222,7 +222,7 @@ Validators play a pivotal role in Avail's ecosystem. They receive the commitment
 
 ### Light Clients: The Guardians of Data Availability Using DAS
 
-Light clients within Avail's ecosystem use [<ins>Data Availability Sampling (DAS)</ins>](/docs/glossary.mdx#data-availability-sampling-das) to verify block data integrity. They check KZG polynomial openings against the commitments in the block header for each sampled cell, enabling them to independently and instantly verify data availability. This method bypasses the need for reconstructing full KZG commitments or relying on fraud proofs, underpinning Avail's high security and data integrity standards maintained by decentralized verification. However, for more comprehensive data integrity checks, especially for row integrity within the data matrix, app clients perform KZG reconstruction. This approach is more optimal for verifying the integrity of entire rows than validating individual cells.
+Light clients within Avail's ecosystem use [<ins>Data Availability Sampling (DAS)</ins>](/docs/learn-about-avail/glossary#data-availability-sampling-das) to verify block data integrity. They check KZG polynomial openings against the commitments in the block header for each sampled cell, enabling them to independently and instantly verify data availability. This method bypasses the need for reconstructing full KZG commitments or relying on fraud proofs, underpinning Avail's high security and data integrity standards maintained by decentralized verification. However, for more comprehensive data integrity checks, especially for row integrity within the data matrix, app clients perform KZG reconstruction. This approach is more optimal for verifying the integrity of entire rows than validating individual cells.
 
 > On the other side, full nodes use Kate commitments for two primary purposes: reconstructing the full data for network-wide verification or creating fraud proofs to challenge any discrepancies in the data. This dual mechanism of light clients and full nodes working in tandem also strengthens the overall security and reliability of the network.
 
@@ -234,9 +234,9 @@ The journey culminates with light clients performing proof verification. This pr
 
 ## What's Next?
 
-With your foundational understanding of Avail, if you're new to the ecosystem, be sure to visit the [<ins>New user guide</ins>](/docs/new-user-guide/accounts) section.
+With your foundational understanding of Avail, if you're new to the ecosystem, be sure to visit the [<ins>New user guide</ins>](/docs/end-user-guide/accounts) section.
 
-Additionally, consider experimenting with a light client. For this, the [<ins>Quickstart guide</ins>](/docs/quickstart) is great resource. To run an Avail light client, all you need to do is install and use the Avail CLI.
+Additionally, consider experimenting with a light client. For this, the [<ins>Quickstart guide</ins>](/docs/build-with-avail/quickstart) is great resource. To run an Avail light client, all you need to do is install and use the Avail CLI.
 
 To install the CLI from `npm`, run the following command:
 
