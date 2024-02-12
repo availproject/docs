@@ -173,16 +173,16 @@ const { origin } = request.nextUrl
         destination: `${origin}/docs/operate-a-node/become-a-validator`
       },
       {
-        source: "/operate/validator/already-running-full-node/",
-        destination: `${origin}/docs/operate-a-node/become-a-validator/0000-already-running-full-node`
+        source: "/operate/validator/avail-node-basics/",
+        destination: `${origin}/docs/operate-a-node/become-a-validator/0010-basics`
       },
       {
-        source: "/category/run-a-validator-node/",
-        destination: `${origin}/docs/operate-a-node/become-a-validator/run-a-validator-node`
+        source: "/operate/validator/simple-node-deployment/",
+        destination: `${origin}/docs/operate-a-node/become-a-validator/0020-simple-deployment`
       },
       {
-        source: "/operate/validator/binaries/",
-        destination: `${origin}/docs/operate-a-node/become-a-validator/run-a-validator-node/using-binaries`
+        source: "/operate/validator/session-keys/",
+        destination: `${origin}/docs/operate-a-node/become-a-validator/0030-session-keys`
       },
       {
         source: "/operate/validator/docker/",
