@@ -1,5 +1,5 @@
 <p align="center">
-<img align="center" src="/public/avail-logo.png" width="250">
+<img align="center" src="/public/img/avail-logo.png" width="250">
 </p>
 
 <div align="Center">
