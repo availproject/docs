@@ -47,7 +47,7 @@ export const IntroData = [
       links: [
         {
           topic: "Getting Started",
-          links: [{ link: "/docs/new-user-guide/explorer", placeholder: "Using the Explorer"}, {link: "/docs/new-user-guide/accounts", placeholder: "Managing Accounts"}, {link: "/docs/new-user-guide/faucet", placeholder: "Testnet Faucet"}],
+          links: [{ link: "/docs/end-user-guide/explorer", placeholder: "Using the Explorer"}, {link: "/docs/end-user-guide/accounts", placeholder: "Managing Accounts"}, {link: "/docs/end-user-guide/faucet", placeholder: "Testnet Faucet"}],
           textcolor: "3FBB80"
         },
         {

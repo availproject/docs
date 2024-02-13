@@ -73,6 +73,10 @@ const { origin } = request.nextUrl
         destination: `${origin}/docs/end-user-guide`
       },
       {
+        source: "/category/end-user-guide/",
+        destination: `${origin}/docs/end-user-guide`
+      },
+      {
         source: "/about/accounts/",
         destination: `${origin}/docs/end-user-guide/accounts`
       },
