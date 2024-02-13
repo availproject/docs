@@ -93,9 +93,10 @@ pwd
 
 From the [Releases Page](https://github.com/availproject/avail/releases), we grab the latest version and unpack it.
 
-:::note
+<Callout type="info">
 Make sure that you always grab the binary from the latest version. When this guide was released, the latest version was v1.10.0.0. Also, ensure that you hold the correct one for your operating system.
-:::
+</Callout>
+
 
 ```bash
 # Obtaning v.1.10.0.0 for Ubuntu 22.04
@@ -241,10 +242,10 @@ podman run -d -v /root/avail/node-data:/da/node-data -p 9944 -p 30333 docker.io/
 podman run -d -v /root/avail/node-data:/da/node-data:z -p 9944 -p 30333 docker.io/availj/avail:v1.8.0.3 --chain goldberg -d /da/node-data --validator --name MyAwesomeContainerNode
 ```
 
-:::note
+<Callout type="info">
 Make sure that you replace `/root/avail/node-data` with your own storage path. If your node-data is located in `/home/ubuntu/avail/node-data` than the flag should look like this:
 `-v /home/ubuntu/avail/node-data:/da/node-data`.
-:::
+</Callout>
 
 Let's break it down for clarity.
 
@@ -256,9 +257,9 @@ Let's break it down for clarity.
 
 We discussed what the command line arguments do in the previous chapter, so we won't repeat ourselves here.
 
-:::note
+<Callout type="info">
 Podman doesn't have the `--restart` flag, instead it utilizes Quadlets. To know more about how to setup a Quadlet following [this link](https://www.redhat.com/sysadmin/quadlet-podman)
-:::
+</Callout>
 
 To check for logs, we can run the following command:
 
