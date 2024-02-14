@@ -17,8 +17,7 @@ image: https://docs.availproject.org/img/avail/AvailDocs.png
 
 # How to Configure a Light Client
 
-The Avail light client is _heavily_ customizable with the most important parameters being exposed through its config file, the full config reference can be found [here](https://github.com/availproject/avail-light#config-reference). The default config files for both light and fat client mode of operations can be found below.
-
+The Avail light client is _heavily_ customisable with the most important parameters being exposed through its config file, the full config reference along with its default values can be found [here](https://github.com/availproject/avail-light#configuration-reference). 
 Light client config example:
 
 ```yaml
@@ -26,19 +25,16 @@ log_level = "info"
 http_server_host = "127.0.0.1"
 http_server_port = "7000"
 
-libp2p_port = "37000"
+port = "37000"
+ot_collector_endpoint = "http://0.0.0.0:4317"
 
-full_node_rpc = ["http://127.0.0.1:9933"]
 full_node_ws = ["ws://127.0.0.1:9944"]
 app_id = 0
 confidence = 92.0
 avail_path = "avail_path"
-prometheus_port = 9520
 # Set to actual bootstrap peer ID and multiaddress
 bootstraps = [["12D3KooWStAKPADXqJ7cngPYXd2mSANpdgh1xQ34aouufHA2xShz", "/ip4/127.0.0.1/tcp/39000"]]
 ```
-
-For monitoring purposes, **Prometheus** is used.
 
 ### Application client
 
