@@ -13,6 +13,9 @@ const withNextra = nextra({
 export default withNextra({
   distDir: './.next',
   reactStrictMode: true,
+  images: {
+    unoptimized: true,
+  },
   webpack(config) {
     const allowedSvgRegex = /components\/icons\/.+\.svg$/
     const fileLoaderRule = config.module.rules.find(rule =>
