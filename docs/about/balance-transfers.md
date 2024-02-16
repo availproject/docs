@@ -29,13 +29,23 @@ In the balance transfer challenge part of [<ins>Clash of Nodes</ins>](/category/
 
 :::
 
-:::tip Using SubWallet
+## Transferring Funds Using SubWallet
 
-[<ins>SubWallet</ins>](https://www.subwallet.app/) currently supports the Goldberg testnet and can be used for balance transfers.
+You can follow the video instruction [here](https://www.youtube.com/watch?v=30lHgMC_0d0)
 
-Please view the third-party content disclaimer [<ins>here</ins>](https://github.com/availproject/availproject.github.io/blob/main/CONTENT_DISCLAIMER.md).
+### 1. Select token AVL
 
-:::
+Open SubWallet app and select `Send tokens`. On the token tab, select AVL. Paste the recipient address and press Next.
+
+<img src={useBaseUrl("img/avail/subwallet-send-token.png")} width="100%" height="100%" />
+<img src={useBaseUrl("img/avail/subwallet-choose-avl.png")} width="100%" height="100%" />
+
+### 2. Transfer confirmation
+
+Enter amount and press Transfer. Then, double check transfer information and press Approve. Your transaction is completed.
+<img src={useBaseUrl("img/avail/subwallet-transfer.png")} width="100%" height="100%" />
+<img src={useBaseUrl("img/avail/subwallet-transfer-confirm.png")} width="100%" height="100%" />
+<img src={useBaseUrl("img/avail/subwallet-transfer-complete.png")} width="100%" height="100%" />
 
 ## Transferring Funds Using Avail-JS
 
