@@ -1,1 +1,24 @@
-# What is Avail Fusion?
+# Avail Fusion
+
+In discussions about Ethereum, it's crucial to distinguish between two distinct elements ETH, the asset, and Ethereum, the protocol.
+
+- While ETH as a cryptocurrency holds significant value, the development of the Ethereum protocol has encountered some delays for various reasons.
+- Projects like Eigenlayer are pioneering the use of ETH in services that operate independently of Ethereum's consensus mechanism or validator set. In a similar vein, Babylon Chain is creating a platform that allows the use of BTC (Bitcoin) across different blockchain networks.
+
+In the context of the Avail platform, a future update is planned to adjust consensus weights to enable the inclusion of staking tokens other than Avail's native AVL token. This strategy is inspired by the mesh security proposal by the Osmosis team, which aims to introduce shared security to their network.
+
+<img src="/img/avail-fusion/Avail-fusion-1.png" />
+
+The Avail team is developing a similar prototype, which will allow two types of tokens to be added to Avail’s staking pallet, thereby enhancing the crypto-economic security of its entire ecosystem:
+
+- **Established Cryptocurrencies**: Tokens like BTC, ETH, and SOL, among others.
+- **Emerging Rollup Tokens**: New tokens created on Avail, limited to a small percentage of the total stake to bootstrap their utility.
+
+This approach will progressively bolster Avail's cryptoeconomic security and marks one of the first instances where foreign tokens like ETH and BTC are utilized to power consensus on a different blockchain.
+
+Currently, the prototype being developed for Avail includes two main approaches:
+
+1. **Staking Module on Avail Blockchain**: This module will support multiple foreign tokens through the assets pallet in Substrate.
+2. **Staking Module for Asset Conversion**: This will enable the conversion of foreign assets to Avail’s native AVL token, maintaining a price conversion mapping at the time of conversion.
+
+The final selection between these approaches will be determined after careful consideration of economic risk modeling, inflation constraints, and other critical factors. This initiative represents a significant step in the integration and interoperability of various cryptocurrencies within the Avail ecosystem.

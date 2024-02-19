@@ -1,8 +1,10 @@
-# Avail Nexus?
+import { Callout } from "nextra/components";
+
+# Avail Nexus
 
 ## Story time
 
-*Before we dive into the nitty-gritty's of Avail Nexus, let us consider a scenario where a user named Alice has:*
+_Before we dive into the nitty-gritty's of Avail Nexus, let us consider a scenario where a user named Alice has:_
 
 - USDT on an OP Stack fork in her wallet.
 - She now wants to purchase a particular NFT on a Polygon CDK chain.
@@ -11,31 +13,30 @@
 To achieve her goal, she would need to go through the following steps:
 
 1. **Partial Swap of USDT for Arbitrum Orbit Token:**<br/>
-    On the OP Stack fork, use a decentralized exchange or a compatible platform to swap a desired portion of the USDT for the native token of the Arbitrum Orbit chain (e.g., ETH or another token supported on Arbitrum Orbit).
-    <br/>
+   On the OP Stack fork, use a decentralized exchange or a compatible platform to swap a desired portion of the USDT for the native token of the Arbitrum Orbit chain (e.g., ETH or another token supported on Arbitrum Orbit).
+   <br />
 2. **Cross-Chain Transfer to Arbitrum Orbit:**<br/>
-    Utilize a bridge supporting the transfer of assets between the OP Stack fork and Arbitrum Orbit to move the acquired native token and USDT to the Arbitrum Orbit chain.
-    <br/>
+   Utilize a bridge supporting the transfer of assets between the OP Stack fork and Arbitrum Orbit to move the acquired native token and USDT to the Arbitrum Orbit chain.
+   <br />
 3. **Swap USDT for ETH:**<br/>
-    On the Arbitrum Orbit chain, use Uniswap or a similar decentralized exchange to swap the USDT for ETH after paying fees.
-    <br/>
+   On the Arbitrum Orbit chain, use Uniswap or a similar decentralized exchange to swap the USDT for ETH after paying fees.
+   <br />
 4. **Cross-Chain Transfer to Polygon CDK:**<br/>
-    Initiate a cross-chain transfer using a bridge to move the acquired ETH from the Arbitrum Orbit chain to the Polygon CDK chain.
-    <br/>
+   Initiate a cross-chain transfer using a bridge to move the acquired ETH from the Arbitrum Orbit chain to the Polygon CDK chain.
+   <br />
 5. **Purchase NFT on Polygon CDK with ETH:**<br/>
-    On the Polygon CDK chain, use the transferred ETH to interact with the NFT smart contract and purchase the desired NFT.
-    <br/>
+   On the Polygon CDK chain, use the transferred ETH to interact with the NFT smart contract and purchase the desired NFT.
+   <br />
 6. **Cross-Chain Transfer to OP Stack Fork:**<br/>
-Initiate another cross-chain transfer to move the purchased NFT from the Polygon CDK chain back to the user's wallet on the OP Stack fork.
-<br/>
+   Initiate another cross-chain transfer to move the purchased NFT from the Polygon CDK chain back to the user's wallet on the OP Stack fork.
+   <br />
 
-<img src="/img/Alice-journey-2.png" width="100%" height="100%"/>
+<img src="/img/Alice-journey-2.png" width="100%" height="100%" />
 
 This is a fundamentally broken experience, and things will only get worse as we move towards a more modular future.
 Just as the Internet required a standardized yet flexible approach to connect disparate services seamlessly, the blockchain ecosystem now faces a crucial need for unified standards and interoperable solutions.
 
-
-***This is where Avail Nexus comes into play.***
+**_This is where Avail Nexus comes into play._**
 
 ## Introduction to Avail Nexus
 
@@ -50,9 +51,91 @@ Users of a rollup can perform 3 types of activities on a chain:
 
 - Across different L1 chains
 
+While Intra rollup transactions can be optimized for by the concerned rollup, and are often trivial, it
+becomes quite complicated to consolidate the latter two into a unified system.
 
+### Inter Rollup transactions
 
+Cross-rollup communications require bridges, and minimal trust is important for these bridges if it is to be comparable to the security that a monolithic chain offers.
+When the bridges are between rollups on the same DA Layer, then they are not crossing trust and security zones,
+as they all depend on the same consensus and economic security that dictates the ordering (with nuances),
+but for the bridges to be trustless, it is important for a rollup to know if the executions were done
+correctly, and it has to verify this statement itself so it does not have to trust someone else to provide
+these guarantees.
 
+**_Let us imagine the case of an NFT rollup wanting to confirm payment on a payments rollup._**
 
+<br />
+The cross-rollup communication would roughly look like this:
+<br />
 
+<img src="/img/avail-nexus/Payments-example-1.png" width="100%" height="100%" />
 
+The lines in red signify the flow of information from the payments rollup to the NFT rollup.
+Although this looks simple enough, the complexity blows up as more rollups join the ecosystem.
+
+The challenge becomes more pronounced when we recognize that each rollup may have unique state transition
+functions, with design choices tailored to its specific domain. And validation of executions might depend
+on game theory, incorporating fraud proofs, or validity proof systems relying on zero-knowledge proofs
+(zk proofs). Even within the zk rollups, the proof systems themselves may exhibit variation, ranging
+from Groth16 to PLONK.
+
+But here are a few things you need to consider about these challenges:
+
+- The rollups do not really need to know the details and what the state transition functions of other
+  rollups are but just need to be able to verify that the executions of these state transition functions
+  were performed faithfully.
+- Additionally, by verifying a single proof if they could essentially verify the validity of all
+  executions that could ever be relevant to them, that would be game-changing.
+- An enshrined settlement layer that enforces certain interfaces for cross-chain communication and events,
+  and behind it abstract domain-specific details of rollups, offers exactly that. The Avail Nexus is an
+  embodiment of this idea.
+  <br />
+
+<img src="/img/avail-nexus/Avail-nexus-1.png" width="100%" height="100%" />
+
+<Callout type="info">
+  **IMPORTANT POINT**
+  <br />
+  ZK proofs come with a very important property that they are concise.
+  Verification of a statement requires much fewer computational resources, than
+  arriving at the statement itself. In the context of blockchains, state
+  verification is much easier compared to arriving at a certain state by
+  performing state transition functions.
+</Callout>
+
+The Avail Nexus within its runtime verifies all validity proofs that are submitted to it on certain
+conditions being met and creates a single succinct proof of having done that. This proof is then submitted
+to the Avail base layer, which is verified by all nodes. <br/>
+Essentially it becomes an enshrined settlement layer. Any participating rollup can perform state
+verification on any other rollup by verifying this single succinct proof, and most importantly,
+through L1 bridges, this world could then have access to the world outside.
+
+<img src="/img/avail-nexus/Avail-nexus-2.png" width="100%" height="100%" />
+
+<Callout type="info">
+  **ANOTHER IMPORTANT POINT**
+  <br />
+  Avail Nexus itself is a zk rollup. Each aggregated proof is in the rollup
+  world a new block or a batch which is then published to Avail DA.
+</Callout>
+
+Going back to the example of NFT and payments, the implementation would now look like this:
+
+<br />
+
+<img src="/img/avail-nexus/Payments-example-2.png" width="100%" height="100%" />
+
+The parts in orange depict the flow of information between the two chains. The receipt root provided
+by the Avail Nexus depicts the root of a tree built over all events generated by all rollups in history.
+
+### Cross-chain transactions
+
+The rollups today on Ethereum bear the cost of using Ethereum as DA. They pay somewhere around $1300-$1600/MB today or even beyond when gas fees rise.
+Hence, we see that many chains today want to use Avail as the DA layer for their chains.
+This reduces their operating cost by 70-90%, depending on their construction choices and batch sizes.
+
+While we will keep seeing this trend over the next few months, practically speaking, if there are 100s of 
+rollups settling on Ethereum by themselves per block, Ethereum’s execution will not be able to scale again. 
+We would want Avail validators to keep having a bridge on Ethereum to be able to access the users and 
+liquidity there. But we will amortize the cost of bridging by doing it through the Nexus.
