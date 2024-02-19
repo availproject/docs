@@ -1,0 +1,58 @@
+# Avail Nexus?
+
+## Story time
+
+*Before we dive into the nitty-gritty's of Avail Nexus, let us consider a scenario where a user named Alice has:*
+
+- USDT on an OP Stack fork in her wallet.
+- She now wants to purchase a particular NFT on a Polygon CDK chain.
+- Let’s assume the Uniswap instance deployed on an Arbitrum Orbit chain has the best liquidity and slippage protection.
+
+To achieve her goal, she would need to go through the following steps:
+
+1. **Partial Swap of USDT for Arbitrum Orbit Token:**<br/>
+    On the OP Stack fork, use a decentralized exchange or a compatible platform to swap a desired portion of the USDT for the native token of the Arbitrum Orbit chain (e.g., ETH or another token supported on Arbitrum Orbit).
+    <br/>
+2. **Cross-Chain Transfer to Arbitrum Orbit:**<br/>
+    Utilize a bridge supporting the transfer of assets between the OP Stack fork and Arbitrum Orbit to move the acquired native token and USDT to the Arbitrum Orbit chain.
+    <br/>
+3. **Swap USDT for ETH:**<br/>
+    On the Arbitrum Orbit chain, use Uniswap or a similar decentralized exchange to swap the USDT for ETH after paying fees.
+    <br/>
+4. **Cross-Chain Transfer to Polygon CDK:**<br/>
+    Initiate a cross-chain transfer using a bridge to move the acquired ETH from the Arbitrum Orbit chain to the Polygon CDK chain.
+    <br/>
+5. **Purchase NFT on Polygon CDK with ETH:**<br/>
+    On the Polygon CDK chain, use the transferred ETH to interact with the NFT smart contract and purchase the desired NFT.
+    <br/>
+6. **Cross-Chain Transfer to OP Stack Fork:**<br/>
+Initiate another cross-chain transfer to move the purchased NFT from the Polygon CDK chain back to the user's wallet on the OP Stack fork.
+<br/>
+
+<img src="/img/Alice-journey-2.png" width="100%" height="100%"/>
+
+This is a fundamentally broken experience, and things will only get worse as we move towards a more modular future.
+Just as the Internet required a standardized yet flexible approach to connect disparate services seamlessly, the blockchain ecosystem now faces a crucial need for unified standards and interoperable solutions.
+
+
+***This is where Avail Nexus comes into play.***
+
+## Introduction to Avail Nexus
+
+Avail Nexus is a more structured component of Avail, outlining specific integration standards between rollups.
+This layer is pivotal in crafting a seamless user experience across multiple scenarios, whether users are engaging with a single rollup, navigating multiple rollups within Avail, or interacting with chains in external ecosystems.
+
+Users of a rollup can perform 3 types of activities on a chain:
+
+- Within the rollup (Intra Rollup)
+
+- Across rollup, but within the same DA layer (Inter Rollup)
+
+- Across different L1 chains
+
+
+
+
+
+
+
