@@ -3,11 +3,11 @@ export const IntroData = [
   {
     title: "Introduction",
     description:
-      "Avail is built to serve as the unification layer that connects users and liquidity across the rollup centric future.",
+      "Avail is a unification layer that allows modular execution layers to scale and interoperate in a trust minimized way.",
       links: [
         {
           topic: "Read more",
-          links: [{ link: "/docs/what-is-avail", textcolor: "3CA3FC", placeholder: "What is Avail? (Our vision)"}, 
+          links: [{ link: "/docs/what-is-avail", textcolor: "3CA3FC", placeholder: "What is Avail?"}, 
           {link: "/docs/what-is-avail/avail-da", textcolor: "3CA3FC", placeholder: "Avail DA"},
           {link: "/docs/what-is-avail/avail-nexus", textcolor: "3CA3FC", placeholder: "Avail Nexus"},
           {link: "/docs/what-is-avail/avail-fusion", textcolor: "3CA3FC", placeholder: "Avail Fusion"}
@@ -45,7 +45,7 @@ export const IntroData = [
   },
 
   {
-    title: "Using Avail",
+    title: "Using Avail DA",
     description:
       "Want to get up and running? Check out our resources below.",
       links: [
