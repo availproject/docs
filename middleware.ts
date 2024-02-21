@@ -21,6 +21,10 @@ const { origin } = request.nextUrl
       destination: `${origin}/docs/clash-of-nodes/karnot`,
     },
     {
+      source: '/clash-of-nodes/madara-karnot',
+      destination: `${origin}/docs/clash-of-nodes/karnot`,
+    },
+    {
         source: '/clash-of-nodes/challenges',
         destination: `${origin}/docs/clash-of-nodes/challenges`
       },
@@ -34,6 +38,10 @@ const { origin } = request.nextUrl
       },
       {
         source: '/clash-of-nodes/dymension',
+        destination: `${origin}/docs/clash-of-nodes/dymension`
+      },
+      {
+        source: '/clash-of-nodes/dymension/',
         destination: `${origin}/docs/clash-of-nodes/dymension`
       },
       {
@@ -92,6 +100,10 @@ const { origin } = request.nextUrl
         source: "/about/identity/",
         destination: `${origin}/docs/end-user-guide/identity`
       },
+    {
+        source: "/about/identity",
+        destination: `${origin}/docs/end-user-guide/identity`
+      },
       {
         source: "/about/app-ids/",
         destination: `${origin}/docs/end-user-guide/app-id`
@@ -101,7 +113,15 @@ const { origin } = request.nextUrl
         destination: `${origin}/docs/end-user-guide/balance-transfers`
       },
       {
+        source: "/about/balance-transfers",
+        destination: `${origin}/docs/end-user-guide/balance-transfers`
+      },
+      {
         source: "/about/nomination-pools/",
+        destination: `${origin}/docs/end-user-guide/nomination-pools`
+      },
+    {
+        source: "/about/nomination-pools",
         destination: `${origin}/docs/end-user-guide/nomination-pools`
       },
       {
@@ -176,6 +196,10 @@ const { origin } = request.nextUrl
         source: "/category/become-a-validator/",
         destination: `${origin}/docs/operate-a-node/become-a-validator`
       },
+    {
+        source: "/category/become-a-validator",
+        destination: `${origin}/docs/operate-a-node/become-a-validator`
+      },
       {
         source: "/operate/validator/avail-node-basics/",
         destination: `${origin}/docs/operate-a-node/become-a-validator/0010-basics`
@@ -194,6 +218,10 @@ const { origin } = request.nextUrl
       },
       {
         source: "/operate/validator/staking/",
+        destination: `${origin}/docs/operate-a-node/become-a-validator/stake-your-validator`
+      },
+      {
+        source: "/operate/validator/staking",
         destination: `${origin}/docs/operate-a-node/become-a-validator/stake-your-validator`
       },
       {
