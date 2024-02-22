@@ -6,7 +6,7 @@ const { origin } = request.nextUrl
   const redirects = [
     {
       source: '/about/introduction',
-      destination: `${origin}/docs/what-is-avail`,
+      destination: `${origin}/docs/introduction-to-avail`,
     },
     {
       source: '/category/clash-of-nodes',
