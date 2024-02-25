@@ -21,6 +21,42 @@ For all questions and queries related to the Clash of Nodes campaign,
 please visit **[<ins>this page</ins>](/docs/clash-of-nodes/faqs.mdx)**.
 </Callout>
 
+## What Problem does Avail solve?
+
+Avail is buiding the unification layer for web3, solving fundamental Scaling and User Experience problems. 
+Cross-ecosystem transactions are cumbersome and difficult, driving more fragmentation throughout an already fragmented ecosystem. 
+User adoption efforts need to be directed towards onboarding net-new users, instead of pulling them between existing communities.
+Avail addresses these issues from first principles, solving scalability with the first DA layer to anchor modular blockchains using cutting-edge 
+zero knowledge technology to ensure responsive and reliable data availability.
+Avail Nexus is a permissionless verification hub that will unify rollups (not just those built within the Avail ecosystem), leveraging Avail DA as the root of trust. 
+
+Then Avail Fusion will provide unified economic security, enabling fair and additive crypto economic security, securing the unification layer. 
+Together the Avail Stack will re-define the way rollups and blockchains communciate and co-ordinate across the blockchain ecosystem.
+
+## How does the technology work?
+
+Avail lays a foundation for a unified web3 experience by providing the fundamentals needed to connect chains across different ecosystems.
+Avail's use of ZK technology makes DA proof verification simple and scalable. It also provides a robust and permissionless intersection point for different chains to coordinate via responsive proof aggregation. Only a common DA layer can provide shared security over which inter-rollup trust minimized communication can work. Different chains can coordinate via Avail Nexus and leverage its sequencer selection mechanism for inclusion.
+Fusion Security takes the native assets of the most mature ecosystems such as BTC, ETH and others, and allows them to contribute to the Avail consensus and economic security. 
+
+The initial launch (Avail DA) will allow any developer to plug into the physical infrastructure maintained by the Avail validator network and harness cutting-edge zero knowledge and KZG Polynomial commitments to ensure immediate and reliable data integrity for their blockchains, paving the way for Nexus and a unified web3.
+
+## Who are Avail's users?
+
+Avail will primarily be used by blockchain developers. <br/>
+Secondary users of Avail will be anyone who benefits from the cross-chain functionality of Avail Nexus. These secondary users do not need to be aware they are using Avail in order to benefit from it.
+
+## What is the Avail token used for?
+
+Avail DA, Nexus, and Fusion Security will all be secured through AVL token staking.
+Both transaction and bridging fees are paid in AVL, ensuring a self-sustaining network with incentives aligned across all participants.
+
+## What is the Roadmap for development?
+    
+The initial release will see the launch of Avail DA, a production ready and purpose built DA leveraging ZK technology. 
+Next will be the launch of Avail Nexus, a permissionless verification hub that will unify rollups, leveraging Avail DA as the root of trust.
+Then comes Fusion Security to enable fair and additive crypto economic security.
+
 ## What is a popular use case of a light client?
 
 There are many use-cases which today rely on an intermediary to maintain a full node, such that end users of a blockchain do not communicate directly with the blockchain but instead through the intermediary. Light clients have until now not been a suitable replacement for this architecture because they lacked data availability guarantees. Avail solves this issue, thus enabling more applications to directly participate on the blockchain network without intermediaries. Although Avail does support full nodes, we expect most applications will not need to run one, or will need to run fewer.
@@ -50,3 +86,25 @@ In the future, we might use other polynomial commitment schemes, if that gives u
 No. Avail headers contain an index that allows a given application to determine and download only the sections of a block that have data for that application. Thus, they are largely unaffected by other chains using Avail at the same time or by block sizes.
 
 The only exception is data availability sampling. In order to verify that data is available (and due to the nature of erasure coding), clients sample small parts of the block at random, including possibly sections that contain data for other applications.
+
+## Who is behind Avail?
+
+Avail is led by former Polygon co-founder [Anurag Arjun](https://twitter.com/anuragarjun) and former Polygon research lead [Prabal Banerjee](https://twitter.com/prabalbanerjee). <br/>
+The [Avail team](https://www.availproject.org/aboutus) consists of more than 40 professionals with solid experience in their areas of expertise ranging from marketing to blockchain design and programming. 
+Many have proven track records in the Web3 space and a diverse background that forms the foundation of a solid team.
+
+## What Partnerships are in place?
+
+Avail has a strong list of strategic partnerships in place across different ecosystems including Starkware, Polygon zkEVM, Dymension and others. 
+New partnerships will be announced soon so follow us on X to keep up to date.
+
+## Is Avail DA the same as Celestia/EigenDA
+Avail is set up to provide a unification layer for web3 and it does this by using ZK technology on the DA layer. It's necessary that we use ZK 
+technology for Avail DA, as modular DAs which use an optimistic approach cannot achieve the same end user experience.
+Avail as a unification layer for web3 needs strong decentralization guarantees which you do not get when building a Data Availability Committee incentivising participation via re-staking.
+
+## Is Avail Fusion the same as restaking?
+
+Fusion Security takes learnings from Eigen's restaking and mesh security proposed by the Osmosis team. 
+It builds on these and will be one of the first instances where foreign tokens like ETH and BTC are utilized to power consensus on a different blockchain. 
+Something which was highlighted by the community as one of the shortcomings of restaking.

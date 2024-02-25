@@ -12,14 +12,17 @@ keywords:
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
-# What is Avail?
+# Avail DA
 
-Avail is a **robust base layer with a laser focus on data availability**.
+**Build with Avail DA, the validity proven data availablity layer unifying Web3**
 
-It is built to meet the needs of next-generation, trust-minimized applications and sovereign rollups.
-Avail's strengths lie in its innovative security approach, which allows light clients to easily verify data availability through sampling over a peer-to-peer network. Avail’s modular approach simplifies blockchain integration for developers, as they no longer need to worry about validator sets or tokenomics. With Avail's unparalleled data availability interface and powerful security capabilities, developers can create zero-knowledge or fraud-proof-based blockchain applications with greater efficiency and ease.
+Avail DA is built to meet the needs of next-generation, trust-minimized applications and sovereign rollups.
+It's strengths lie in its innovative security approach, which allows light clients to easily verify data availability through sampling over a 
+peer-to-peer network. Our modular approach simplifies blockchain integration for developers, as they no longer need to worry about validator
+sets or tokenomics. With Avail DA's unparalleled data availability interface and powerful security capabilities, developers can create 
+zero-knowledge or fraud-proof-based blockchain applications with greater efficiency and ease.
 
-At its core, Avail prioritizes ordering and publishing transactions while enabling users to verify the availability of block data without needing to download entire blocks. Avail's data-agnostic nature is one of its defining features. It supports various execution environments, including EVM, WASM, and custom new runtimes, offering a versatile foundation for diverse blockchain applications.
+At its core, Avail DA prioritizes ordering and publishing transactions while enabling users to verify the availability of block data without needing to download entire blocks. Avail DA's data-agnostic nature is one of its defining features. It supports various execution environments, including EVM, WASM, and custom new runtimes, offering a versatile foundation for diverse blockchain applications.
 
 <br/>
 <details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
@@ -159,11 +162,11 @@ In Sovereign Rollups, the transaction integrity is usually maintained through cu
 
 </details>
 
-Avail addresses these trust assumptions by providing a robust and reliable off-chain data availability mechanism. This integration significantly strengthens transaction data integrity and accessibility while minimizing reliance on trust-based data management, thus enhancing the overall security and efficiency of various scaling solutions.
+Avail DA addresses these trust assumptions by providing a robust and reliable off-chain data availability mechanism. This integration significantly strengthens transaction data integrity and accessibility while minimizing reliance on trust-based data management, thus enhancing the overall security and efficiency of various scaling solutions.
 
 ## System Design Overview
 
-By decoupling the data hosting, execution, and verification, Avail optimizes each component's efficiency and effectiveness as a direct result of modularity.
+By decoupling the data hosting, execution, and verification, Avail DA optimizes each component's efficiency and effectiveness as a direct result of modularity.
 
 ### Data Hosting and Ordering Layer (DA Layer)
 
@@ -179,19 +182,19 @@ The DR Layer serves as the adjudicating component where checkpoints or proofs su
 
 ### Network Participants
 
-The Avail network comprises three types of nodes:
+Avail DA comprises three types of nodes:
 
 - **Full Nodes**: These nodes download and verify the correctness of blocks but do not partake in the consensus process. Their role is essential for maintaining the network's integrity.
-- **Validator Nodes**: These nodes are central to Avail's consensus mechanism. They are responsible for generating blocks, deciding on transaction inclusion, and maintaining the order. Validator nodes are incentivized through consensus participation and are fundamental to the DA Layer's operations.
+- **Validator Nodes**: These nodes are central to Avail DA's consensus mechanism. They are responsible for generating blocks, deciding on transaction inclusion, and maintaining the order. Validator nodes are incentivized through consensus participation and are fundamental to the DA Layer's operations.
 - **Light Clients**: Operating with constrained resources, light clients rely on block headers to participate in the network. They can query full nodes for specific transactional data as required and are crucial for upholding a decentralized and accessible network.
 
 ### Consensus
 
-Avail opts for a Nominated Proof-of-Stake (NPoS) consensus model for its scalability and energy efficiency benefits. Specifically, it employs Substrate's BABE/GRANDPA consensus, offering a blend of fast block production and provable finality.
+Avail DA opts for a Nominated Proof-of-Stake (NPoS) consensus model for its scalability and energy efficiency benefits. Specifically, it employs Substrate's BABE/GRANDPA consensus, offering a blend of fast block production and provable finality.
 
-## How Does Avail Work?
+## How Does Avail DA Work?
 
-Avail redefines blockchain scalability by combining erasure coding, KZG polynomial commitments, and data availability sampling to deliver world-class data availability guarantees. It functions as a foundational (base) layer, offering scalable data hosting without transaction execution, specifically for rollups.
+Avail DA redefines blockchain scalability by combining erasure coding, KZG polynomial commitments, and data availability sampling to deliver world-class data availability guarantees. It functions as a foundational (base) layer, offering scalable data hosting without transaction execution, specifically for rollups.
 
 ### Transaction Lifecycle
 
@@ -204,39 +207,39 @@ Avail redefines blockchain scalability by combining erasure coding, KZG polynomi
 
 ### Starting with Transaction Submission
 
-As Avail's primary consumers, rollups begin the process by submitting transactions to Avail. Each transaction carries a unique [<ins>application ID</ins>](/docs/end-user-guide/app-id) (or appID for short), signifying its origin and purpose within the broader ecosystem.
+As Avail DA's primary consumers, rollups begin the process by submitting transactions to Avail DA. Each transaction carries a unique [<ins>application ID</ins>](/docs/end-user-guide/app-id) (or appID for short), signifying its origin and purpose within the broader ecosystem.
 
 ### Enhancing Data Reliability Through Erasure Coding
 
-Once transactions reach Avail, they are processed through erasure coding. This procedure adds redundancy, enhancing the data's reliability and integrity. Blocks are divided into `n` original chunks and extended to `2n`, allowing for reconstruction from any `n` out of `2n` chunks. While Avail incorporates mechanisms for fraud proofs, the primary reliance for data integrity is on the consensus of validators. Over 2/3 of the validators are required to be honest to reach a consensus, ensuring robust security for the erasure-coded data.
+Once transactions reach Avail DA, they are processed through erasure coding. This procedure adds redundancy, enhancing the data's reliability and integrity. Blocks are divided into `n` original chunks and extended to `2n`, allowing for reconstruction from any `n` out of `2n` chunks. While Avail DA incorporates mechanisms for fraud proofs, the primary reliance for data integrity is on the consensus of validators. Over 2/3 of the validators are required to be honest to reach a consensus, ensuring robust security for the erasure-coded data.
 
 > To combat the misconstruction of erasure-coded chunks, full nodes can create and propagate **fraud proofs**, ensuring that light clients can verify the authenticity of block headers.
 
 ### Solidifying Data Integrity with Commitment Creation
 
-Avail takes the redundant data and applies KZG polynomial commitments to each block. These commitments serve as cryptographic proofs of the data's integrity, ensuring that what is stored is accurate and tamper-proof. The commitments are used by [<ins>validators</ins>](#ensuring-consensus--block-propagation) to confirm the data's integrity before it is attested and transmitted to main chain via Avail’s [<ins>data attestation bridge</ins>](/docs/learn-about-avail/glossary#data-attestation).
+Avail DA takes the redundant data and applies KZG polynomial commitments to each block. These commitments serve as cryptographic proofs of the data's integrity, ensuring that what is stored is accurate and tamper-proof. The commitments are used by [<ins>validators</ins>](#ensuring-consensus--block-propagation) to confirm the data's integrity before it is attested and transmitted to main chain via Avail DA’s [<ins>data attestation bridge</ins>](/docs/learn-about-avail/glossary#data-attestation).
 
 ### Ensuring Consensus & Block Propagation
 
-Validators play a pivotal role in Avail's ecosystem. They receive the commitment-laden blocks, regenerate the commitments to verify their accuracy and reach a consensus on the block, which requires agreement from at least two-thirds (super majority). Validators ensure that only verified and agreed-upon data is propagated through the network. They reach consensus This stage is vital for ensuring that the data, once validated, can be relayed via Avail’s data attestation bridge.
+Validators play a pivotal role in Avail DA. They receive the commitment-laden blocks, regenerate the commitments to verify their accuracy and reach a consensus on the block, which requires agreement from at least two-thirds (super majority). Validators ensure that only verified and agreed-upon data is propagated through the network. They reach consensus This stage is vital for ensuring that the data, once validated, can be relayed via Avail DA’s data attestation bridge.
 
 ### Light Clients: The Guardians of Data Availability Using DAS
 
-Light clients within Avail's ecosystem use [<ins>Data Availability Sampling (DAS)</ins>](/docs/learn-about-avail/glossary#data-availability-sampling-das) to verify block data integrity. They check KZG polynomial openings against the commitments in the block header for each sampled cell, enabling them to independently and instantly verify data availability. This method bypasses the need for reconstructing full KZG commitments or relying on fraud proofs, underpinning Avail's high security and data integrity standards maintained by decentralized verification. However, for more comprehensive data integrity checks, especially for row integrity within the data matrix, app clients perform KZG reconstruction. This approach is more optimal for verifying the integrity of entire rows than validating individual cells.
+Light clients within Avail DA's ecosystem use [<ins>Data Availability Sampling (DAS)</ins>](/docs/learn-about-avail/glossary#data-availability-sampling-das) to verify block data integrity. They check KZG polynomial openings against the commitments in the block header for each sampled cell, enabling them to independently and instantly verify data availability. This method bypasses the need for reconstructing full KZG commitments or relying on fraud proofs, underpinning Avail DA's high security and data integrity standards maintained by decentralized verification. However, for more comprehensive data integrity checks, especially for row integrity within the data matrix, app clients perform KZG reconstruction. This approach is more optimal for verifying the integrity of entire rows than validating individual cells.
 
 > On the other side, full nodes use Kate commitments for two primary purposes: reconstructing the full data for network-wide verification or creating fraud proofs to challenge any discrepancies in the data. This dual mechanism of light clients and full nodes working in tandem also strengthens the overall security and reliability of the network.
 
 ### Proof Verification: The Final Checkpoint
 
-The journey culminates with light clients performing proof verification. This process involves generating cell-level proofs from the data matrix, enabling light clients to efficiently and independently verify the state of the blockchain. This decentralized approach to verification underpins the security and integrity of the Avail ecosystem.
+The journey culminates with light clients performing proof verification. This process involves generating cell-level proofs from the data matrix, enabling light clients to efficiently and independently verify the state of the blockchain. This decentralized approach to verification underpins the security and integrity of Avail DA.
 
-> The settlement in Avail is primarily about ensuring data availability for rollups. The actual transaction execution and finality occur at the rollup layer, while Avail provides the necessary data infrastructure.
+> The settlement in Avail DA is primarily about ensuring data availability for rollups. The actual transaction execution and finality occur at the rollup layer, while Avail provides the necessary data infrastructure.
 
 ## What's Next?
 
-With your foundational understanding of Avail, if you're new to the ecosystem, be sure to visit the [<ins>New user guide</ins>](/docs/end-user-guide/accounts) section.
+With your foundational understanding of Avail DA, if you're new to the ecosystem, be sure to visit the [<ins>End user guide</ins>](/docs/end-user-guide) section.
 
-Additionally, consider experimenting with a light client. For this, the [<ins>Quickstart guide</ins>](/docs/build-with-avail/quickstart) is great resource. To run an Avail light client, all you need to do is install and use the Avail CLI.
+Additionally, consider experimenting with a light client. For this, the [<ins>Quickstart guide</ins>](/docs/build-with-avail/quickstart) is great resource. To run an Avail DA light client, all you need to do is install and use the Avail CLI.
 
 To install the CLI from `npm`, run the following command:
 
@@ -254,4 +257,4 @@ That's it!
 
 ### Join the Clash of Nodes Campaign
 
-As you delve deeper into Avail's ecosystem, an exciting opportunity awaits. Avail is advancing the frontiers of modular blockchains, and we invite node operators to participate in the dynamic Clash of Nodes campaign. This campaign is a cornerstone in testing the capabilities of the Avail network, offering a real-time, incentivized testnet environment. It's a chance to be part of a community shaping the future of blockchain infrastructure. If you're ready to further your journey with Avail and engage in this innovative campaign, visit the [<ins>Clash of Nodes</ins>](/docs/clash-of-nodes/overview) section in the documentation.
+As you delve deeper into Avail's ecosystem, an exciting opportunity awaits. Avail is advancing the frontiers of modular blockchains, and we invite node operators to participate in the dynamic Clash of Nodes campaign. This campaign is a cornerstone in testing the capabilities of the Avail DA, offering a real-time, incentivized testnet environment. It's a chance to be part of a community shaping the future of blockchain infrastructure. If you're ready to further your journey with Avail and engage in this innovative campaign, visit the [<ins>Clash of Nodes</ins>](/docs/clash-of-nodes/overview) section in the documentation.
