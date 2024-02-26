@@ -6,7 +6,7 @@ const { origin } = request.nextUrl
   const redirects = [
     {
       source: '/about/introduction',
-      destination: `${origin}/docs/introduction`,
+      destination: `${origin}/docs/introduction-to-avail`,
     },
     {
       source: '/category/clash-of-nodes',
@@ -105,6 +105,10 @@ const { origin } = request.nextUrl
         destination: `${origin}/docs/end-user-guide/identity`
       },
       {
+        source: "/about/identity",
+        destination: `${origin}/docs/end-user-guide/identity`
+      },
+      {
         source: "/about/app-ids/",
         destination: `${origin}/docs/end-user-guide/app-id`
       },
@@ -121,6 +125,10 @@ const { origin } = request.nextUrl
         destination: `${origin}/docs/end-user-guide/nomination-pools`
       },
     {
+        source: "/about/nomination-pools",
+        destination: `${origin}/docs/end-user-guide/nomination-pools`
+      },
+      {
         source: "/about/nomination-pools",
         destination: `${origin}/docs/end-user-guide/nomination-pools`
       },
@@ -197,6 +205,10 @@ const { origin } = request.nextUrl
         destination: `${origin}/docs/operate-a-node/become-a-validator`
       },
     {
+        source: "/category/become-a-validator",
+        destination: `${origin}/docs/operate-a-node/become-a-validator`
+      },
+      {
         source: "/category/become-a-validator",
         destination: `${origin}/docs/operate-a-node/become-a-validator`
       },

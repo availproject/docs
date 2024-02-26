@@ -3,11 +3,15 @@ export const IntroData = [
   {
     title: "Introduction",
     description:
-      "Avail is a decentralized data availability layer tailor-made to serve the needs of next-generation, trust-minimized applications and rollups.",
+      "Learn about the infrastructure layer unifying web3.",
       links: [
         {
           topic: "Read more",
-          links: [{ link: "/docs/introduction", textcolor: "3CA3FC", placeholder: "What is Avail?"}],
+          links: [{ link: "/docs/introduction-to-avail", textcolor: "3CA3FC", placeholder: "Introduction to Avail"}, 
+          {link: "/docs/the-avail-trinity/avail-da", textcolor: "3CA3FC", placeholder: "Avail DA"},
+          {link: "/docs/the-avail-trinity/avail-nexus", textcolor: "3CA3FC", placeholder: "Avail Nexus"},
+          {link: "/docs/the-avail-trinity/avail-fusion", textcolor: "3CA3FC", placeholder: "Avail Fusion"}
+          ],
           textcolor: "2FB3EA"
         },
       ]
@@ -41,7 +45,7 @@ export const IntroData = [
   },
 
   {
-    title: "Using Avail",
+    title: "Using Avail DA",
     description:
       "Want to get up and running? Check out our resources below.",
       links: [
@@ -65,7 +69,7 @@ export const IntroData = [
   {
     title: "Concepts",
     description:
-    "Read up more on some of the core concepts powering Avail",
+    "Read up more on some of the core concepts powering Avail DA",
     links: [
       {
         links: [{ link: "/docs/learn-about-avail/consensus/babe", placeholder: "BABE"},{ link: "/docs/operate-a-node/become-a-validator/chill-your-validator", placeholder: "Chilling & Slashing"}],
