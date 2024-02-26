@@ -51,11 +51,29 @@ Secondary users of Avail will be anyone who benefits from the cross-chain functi
 Avail DA, Nexus, and Fusion Security will all be secured through AVL token staking.
 Both transaction and bridging fees are paid in AVL, ensuring a self-sustaining network with incentives aligned across all participants.
 
+## What about Avail’s Airdrop?
+    
+We don’t know anything about an airdrop.
+
 ## What is the Roadmap for development?
     
 The initial release will see the launch of Avail DA, a production ready and purpose built DA leveraging ZK technology. 
 Next will be the launch of Avail Nexus, a permissionless verification hub that will unify rollups, leveraging Avail DA as the root of trust.
 Then comes Fusion Security to enable fair and additive crypto economic security.
+
+## How can I get involved?
+
+- [Use Avail DA](https://docs.availproject.org/) for your chain
+- Run a [Validator](https://docs.availproject.org/docs/operate-a-node/become-a-validator)
+- Run a [light client](https://docs.availproject.org/docs/operate-a-node/run-a-light-client)
+- Join [Discord](https://discord.gg/y6fHnxZQX8)
+- Follow us on [X](https://twitter.com/AvailProject)
+- Join the [Avail Uncharted](https://github.com/availproject/avail-uncharted) Technical Contributor's programme
+
+## How do I get in touch if I have questions?
+
+- Partnerships → [partnerships@availproject.org](mailto:partnerships@availproject.org)
+- Technical questions → [Discord](https://discord.gg/y6fHnxZQX8) or [Forum](https://forum.availproject.org/)
 
 ## What is a popular use case of a light client?
 
@@ -98,13 +116,26 @@ Many have proven track records in the Web3 space and a diverse background that f
 Avail has a strong list of strategic partnerships in place across different ecosystems including Starkware, Polygon zkEVM, Dymension and others. 
 New partnerships will be announced soon so follow us on X to keep up to date.
 
-## Is Avail DA the same as Celestia/EigenDA
-Avail is set up to provide a unification layer for web3 and it does this by using ZK technology on the DA layer. It's necessary that we use ZK 
-technology for Avail DA, as modular DAs which use an optimistic approach cannot achieve the same end user experience.
-Avail as a unification layer for web3 needs strong decentralization guarantees which you do not get when building a Data Availability Committee incentivising participation via re-staking.
+## Is Avail DA the same as Celestia?
+
+Celestia is doing amazing work and they have helped move the industry forward. The level of responsiveness we need to enable a unified web3 ecosystem relies upon a validity proof based modular DA construction. Avail was designed from the ground up, leveraging first principles thinking to enable a unification layer for web3, and it achieves this by leveraging ZK technology on the DA layer and DAS. 
+
+## Is AvailDA same as EigenDA?
+
+Avail is building a unification layer for web3 which is why we needed to build Avail DA from the ground up. Eigen are doing great work, and their restaking model helped inspire our Fusion Security model, albeit with some important modifications for our use case.
+
+## Is Avail pivoting away from DA?
+
+We have always been building towards a unified web3. Avail DA has been the primary focus for the team so far, however it was built using 
+first principles thinking to identify how a modular DA layer could lay the foundation for a unified web3. The design choices that went into 
+building Avail DA were done so with the unification thesis in mind.
 
 ## Is Avail Fusion the same as restaking?
 
-Fusion Security takes learnings from Eigen's restaking and mesh security proposed by the Osmosis team. 
-It builds on these and will be one of the first instances where foreign tokens like ETH and BTC are utilized to power consensus on a different blockchain. 
-Something which was highlighted by the community as one of the shortcomings of restaking.
+The inspiration for Fusion came from:
+
+- Eigenlayer, that is pioneering the restaking of ETH in services that operate independently of Ethereum's consensus mechanism or full validator set
+- Babylon Chain, that is creating a platform that allows the use of BTC (Bitcoin) for security across different blockchain networks
+- Osmosis, that pioneered mesh security that allows a chain to borrow economic security from other chains
+
+Fusion is a construction that is similar to, but also different from these approaches. It borrows economic security from other assets, but penalizes both safety and liveness failures in the Avail consensus.
