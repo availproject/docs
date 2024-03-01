@@ -6,7 +6,7 @@ export default function Introduction() {
   
   return IntroData ? (
     <>
-      <div id="">
+      <div id="intro">
         <div className="mx-auto max-w-screen-lg px-8 py-16 sm:px-6 ">
           <div className="[column-fill:_balance] sm:columns-2 sm:gap-6 lg:columns-2 lg:gap-8">
             {IntroData.map((x, index) => {
