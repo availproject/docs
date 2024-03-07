@@ -15,7 +15,7 @@ image: https://docs.availproject.org/img/avail/AvailDocs.png
 import { Callout } from 'nextra/components'
 
 # Introduction to Avail Light Clients
-## Light Clients
+## Introduction
 
 Avail light client (LC) lets you interact with Avail DA without requiring a full node and without trust assumptions towards remote peers.
 This is accomplished by leveraging **Data Availability Sampling (DAS)** performed by the light client on every newly created block.
@@ -28,7 +28,7 @@ After successful block verification, **block confidence** is calculated for a nu
 
 Light client functionality is separated into two logical parts - the _light client_ and the _app client_. While the LC is primarily focused on DAS, the app client is used to perform data reconstruction.
 
-### Light client
+## Light client
 
 The **light client** mode of operation is active regardless of whether the app client is also active or not.
 Light client connects to an Avail node via a WebSocket connection and waits for a newly finalized block, with the header containing its KZG commitments.
