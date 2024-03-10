@@ -45,6 +45,8 @@ Optimistic Rollups operate on a principle of presumed validity, where transactio
 5. **Outcome**:
    - **Challenge Successful**: The bond is forfeited, and the block is reversed.
    - **No Challenge**: The block is finalized if unchallenged.
+6. **Implications of Data Unavailability**:
+   - **Data Withholding Attack**: Malicious proposer can propose an invalid state (ex. with all the assets on an address controlled by itself), which cannot be challanged because transaction data is required with current fraud proofs implementations. This means that they can steal all the funds inside validating bridge.
 
 **ZK Rollups:**
 
@@ -57,6 +59,7 @@ ZK Rollups require upfront cryptographic proofs of transaction validity, focusin
 5. **Implications of Data Unavailability**:
    - **State Recreation**: Users can not recreate the state if data is not available.
    - **Sequencer Intervention**: Other sequencers can step in to restore the state and continue operations.
+   - **Data Withholding Attack**: Malicious sequencer can withhold the data needed to reconstruct the state and effectively hold the funds in the validating bridge as a ransom. Invalid state cannot be proposed, as a proof of validity is required.
 
 Still, there are constraints with data availability.
 
