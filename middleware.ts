@@ -193,14 +193,6 @@ const { origin } = request.nextUrl
         destination: `${origin}/docs/operate-a-node/run-a-full-node/0040-rpc-node`
       },
       {
-        source: "/operate/node/bootstrap/",
-        destination: `${origin}/docs/operate-a-node/run-a-full-node/0050-bootstrap-node`
-      },
-      {
-        source: "/operate/node/relay/",
-        destination: `${origin}/docs/operate-a-node/run-a-full-node/0060-relay-node`
-      },
-      {
         source: "/category/become-a-validator/",
         destination: `${origin}/docs/operate-a-node/become-a-validator`
       },
