@@ -1,4 +1,5 @@
 {
     "requirements": "System Requirements",
-    "full-node": "Full Node"
+    "0020-full-node-binaries": "Using Binaries",
+    "0030-full-node-docker": "Using Docker"
 }

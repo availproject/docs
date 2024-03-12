@@ -1,8 +1,8 @@
 ---
-id: embedding-the-light-client
-title: How to Embed Your Light Client
-sidebar_label: Embed Your Light Client
-description: How to embed the light client into a dust application
+id: avail-light-client-reference
+title: API reference
+sidebar_label: Avail Light client API reference
+description: Avail Light client API reference
 keywords:
   - docs
   - avail
@@ -12,13 +12,48 @@ keywords:
   - light client
   - embedding
   - rust
+  - API
+  - reference
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 import { Tabs } from 'nextra/components'
 
-# How to Embed Your Light Client
+# Avail Light Client reference
 
-## Fetching the number of the latest block processed by light client
+## How to Configure a Light Client
+
+The Avail light client is _heavily_ customisable with the most important parameters being exposed through its config file, the full config reference along with its default values can be found [here](https://github.com/availproject/avail-light#configuration-reference). 
+Light client config example:
+
+```yaml
+log_level = "info"
+http_server_host = "127.0.0.1"
+http_server_port = "7000"
+
+port = "37000"
+ot_collector_endpoint = "http://0.0.0.0:4317"
+
+full_node_ws = ["ws://127.0.0.1:9944"]
+app_id = 0
+confidence = 92.0
+avail_path = "avail_path"
+# Set to actual bootstrap peer ID and multiaddress
+bootstraps = [["12D3KooWStAKPADXqJ7cngPYXd2mSANpdgh1xQ34aouufHA2xShz", "/ip4/127.0.0.1/tcp/39000"]]
+```
+
+### Application client
+
+The app client mode is used by individual apps to download, reconstruct and locally store relevant app data.
+Application data is primarily downloaded from the DHT, either by downloading individual block matrix rows or with per-cell approach, downloading relevant individual cells.
+RPC is (again) used as a fallback mechanisms, if DHT doesn't contain the data.
+
+Downloaded and reconstructed data is exposed through a HTTP endpoint, with port configured by the `http_server_port` parameter.
+
+App client mode is activated by setting the `app_id` to a value greater than `0`.
+
+## How to Embed Your Light Client
+
+### Fetching the number of the latest block processed by light client
 
 To fetch the number of the latest block processed by light client, we can perform `GET` request on `/v1/latest_block` endpoint.
 
@@ -65,7 +100,7 @@ if response.status() == StatusCode::OK {
 </Tabs.Tab>
 </Tabs>
 
-## Fetching the confidence for given block
+### Fetching the confidence for given block
 
 To fetch the confidence for specific block, which is already processed by application client, we can perform `GET` request on `/v1/confidence/{block_number}` endpoint.
 
@@ -117,14 +152,14 @@ if response.status() == StatusCode::OK {
 </Tabs.Tab>
 </Tabs>
 
-## Fetching decoded application data for given block
+### Fetching decoded application data for given block
 
 After data is verified, it can be fetched with `GET` request on `/v1/appdata/{block_number}` endpoint, by specifying `decode=true` query parameter.
 
 <Tabs items={['CURL', 'Rust']}>
 
 <Tabs.Tab>
-### JSON response
+#### JSON response
 
 ```sh
 curl "http://localhost:7000/v1/appdata/1?decode=true"
@@ -139,7 +174,7 @@ Response:
 }
 ```
 
-### Decoded extrinsic
+#### Decoded extrinsic
 
 ```sh
 curl -s "http://127.0.0.1:7000/v1/appdata/1?decode=true" | jq -r '.extrinsics[-1]' | base64 -d
@@ -190,7 +225,7 @@ if response.status() == StatusCode::OK {
 </Tabs.Tab>
 </Tabs>
 
-## Waiting for application data to be verified
+#### Waiting for application data to be verified
 
 If light client is still processing specific block, we can poll light client with `GET` request on `/v1/appdata/{block_number}` endpoint, and wait for data to become available.
 
@@ -274,11 +309,11 @@ Function `wait_for_appdata` will block until data is available or timeout is rea
 
 In case of error, endpoints will return response with `500 Internal Server Error` status code, and descriptive error message.
 
-### **GET** `/v1/mode`
+#### **GET** `/v1/mode`
 
 Retrieves the operating mode of the light client. Light client can operate in two different modes, `LightClient` or `AppClient`, depending on configuration of application ID.
 
-#### Responses
+##### Responses
 
 If operating mode is `LightClient` response is:
 
@@ -296,11 +331,11 @@ In case of `AppClient` mode, response is:
 {"AppClient": {app_id}}
 ```
 
-### **GET** `/v1/latest_block`
+#### **GET** `/v1/latest_block`
 
 Retrieves the latest block processed by the light client.
 
-#### Responses
+##### Responses
 
 > Status code: `200 OK`
 
@@ -308,7 +343,7 @@ Retrieves the latest block processed by the light client.
 {"latest_block":{block_number}}
 ```
 
-### **GET** `/v1/confidence/{block_number}`
+#### **GET** `/v1/confidence/{block_number}`
 
 Given a block number, it returns the confidence computed by the light client for that specific block.
 
@@ -316,7 +351,7 @@ Given a block number, it returns the confidence computed by the light client for
 
 - `block_number` - block number (required)
 
-#### Responses
+##### Responses
 
 In case when confidence is computed:
 
@@ -342,7 +377,7 @@ If confidence is not computed, and specified block is after the latest processed
 "Not found"
 ```
 
-### **GET** `/v1/appdata/{block_number}`
+#### **GET** `/v1/appdata/{block_number}`
 
 Given a block number, it retrieves the hex-encoded extrinsics for the specified block, if available. Alternatively, if specified by a query parameter, the retrieved extrinsic is decoded and returned as a base64-encoded string.
 
@@ -354,7 +389,7 @@ Given a block number, it retrieves the hex-encoded extrinsics for the specified 
 
 - `decode` - `true` if decoded extrinsics are requested (boolean, optional, default is `false`)
 
-#### Responses
+##### Responses
 
 If application data is available, and decode is `false` or unspecified:
 
@@ -393,7 +428,7 @@ If application data is not available, and specified block is not the latest bloc
 "Not found"
 ```
 
-### **GET** `/v1/status/{block_number}`
+#### **GET** `/v1/status/{block_number}`
 
 Retrieves the status of the latest block processed by the light client.
 
@@ -401,7 +436,7 @@ Retrieves the status of the latest block processed by the light client.
 
 - `block_number` - block number (required)
 
-#### Responses
+##### Responses
 
 If latest processed block exists, and `app_id` is configured (otherwise, `app_id` is not set):
 

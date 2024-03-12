@@ -149,6 +149,17 @@ const { origin } = request.nextUrl
         destination: `${origin}/docs/operate-a-node/run-a-light-client`
       },
       {
+        source: "/docs/operate-a-node/run-a-light-client/Reference",
+        destination: `${origin}/docs/operate-a-node/run-a-light-client/light-client-api-reference`
+      },
+      {
+        source: "/docs/operate-a-node/run-a-light-client/Reference/configure-a-light-client",
+        destination: `${origin}/docs/operate-a-node/run-a-light-client/light-client-api-reference`
+      },      {
+        source: "/docs/operate-a-node/run-a-light-client/Reference/embedding-the-light-client",
+        destination: `${origin}/docs/operate-a-node/run-a-light-client/light-client-api-reference`
+      },
+      {
         source: "/about/introduction/light-client/",
         destination: `${origin}/docs/operate-a-node/run-a-light-client/Overview`
       },
@@ -186,7 +197,15 @@ const { origin } = request.nextUrl
       },
       {
         source: "/operate/node/docker/",
-        destination: `${origin}/docs/operate-a-node/run-a-full-node/full-node/0030-full-node-docker`
+        destination: `${origin}/docs/operate-a-node/run-a-full-node/0030-full-node-docker`
+      },
+      {
+        source: "/docs/operate-a-node/run-a-full-node/full-node/0020-full-node-binaries",
+        destination: `${origin}/docs/operate-a-node/run-a-full-node/0020-full-node-binaries`
+      },
+      {
+        source: "/docs/operate-a-node/run-a-full-node/full-node/0030-full-node-docker",
+        destination: `${origin}/docs/operate-a-node/run-a-full-node/0030-full-node-docker`
       },
       {
         source: "/operate/node/rpc/",
