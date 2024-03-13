@@ -204,6 +204,14 @@ const { origin } = request.nextUrl
         destination: `${origin}/docs/operate-a-node/run-a-full-node/0020-full-node-binaries`
       },
       {
+        source:"/docs/operate-a-node/run-a-full-node/0020-full-node-binaries",
+        destination: `${origin}/docs/operate-a-node/run-a-full-node/full-node`
+      },
+      {
+        source:"/docs/operate-a-node/run-a-full-node/0030-full-node-docker",
+        destination: `${origin}/docs/operate-a-node/run-a-full-node/full-node`
+      },
+      {
         source: "/docs/operate-a-node/run-a-full-node/full-node/0030-full-node-docker",
         destination: `${origin}/docs/operate-a-node/run-a-full-node/0030-full-node-docker`
       },
