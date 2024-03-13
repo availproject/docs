@@ -27,6 +27,7 @@ While Avail diverges from conventional blockchain frameworks to concentrate on m
 | Light Clients   | Low                 | Interaction  | Minimal Storage       | Quick Queries, Low-resource Environments | End users in low-resource environments                                 |
 | Full Nodes      | Moderate            | Core         | Network Access        | Transaction Verification, Data Retrieval | Regular network participants, those involved in verification           |
 | Validator Nodes | Moderate            | Core         | Block Production      | Network Security, Governance             | Trusted entities, elected participants, staked node providers          |
+| RPC Nodes       | Moderate            | Gateway      | API Exposure          | Development, Remote Access               | Developers, entities requiring remote network access                   |
 
 ## Overview of Node Types
 
@@ -42,9 +43,9 @@ Full nodes maintain the blockchain's current state but do not store its entire h
 
 Validator nodes are specialized full nodes that participate in block production and network governance. They are staked to ensure network security and integrity.
 
-### Archive Nodes
+### RPC Nodes
 
-Archive nodes store the complete transaction history, making them valuable for auditing and historical data analysis. However, they require significant storage and computational resources.
+RPC nodes expose an API for remote interactions, serving as a gateway for developers and external clients to engage with the Avail network.
 
 ## Next Steps
 
