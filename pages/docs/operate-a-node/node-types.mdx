@@ -27,11 +27,7 @@ While Avail diverges from conventional blockchain frameworks to concentrate on m
 | Light Clients   | Low                 | Interaction  | Minimal Storage       | Quick Queries, Low-resource Environments | End users in low-resource environments                                 |
 | Full Nodes      | Moderate            | Core         | Network Access        | Transaction Verification, Data Retrieval | Regular network participants, those involved in verification           |
 | Validator Nodes | Moderate            | Core         | Block Production      | Network Security, Governance             | Trusted entities, elected participants, staked node providers          |
-| Archive Nodes   | High                | Auxiliary    | Historical Data       | Auditing, Compliance, Reference          | Institutions, researchers, those needing comprehensive historical data |
-| Pruned Nodes    | Variable            | Core         | Disk Space Efficiency | Limited Storage Environments             | Users with limited storage capacity                                    |
 | RPC Nodes       | Moderate            | Gateway      | API Exposure          | Development, Remote Access               | Developers, entities requiring remote network access                   |
-| Bootstrap Nodes | Low                 | Initial      | Network Entry         | Network Initialization                   | Early network participants                                             |
-| Relay Nodes     | Moderate            | Mediator     | Connectivity          | NAT Traversal; Firewall Bypass           | End users, businesses setting up private networks                      |
 
 ## Overview of Node Types
 
@@ -47,25 +43,9 @@ Full nodes maintain the blockchain's current state but do not store its entire h
 
 Validator nodes are specialized full nodes that participate in block production and network governance. They are staked to ensure network security and integrity.
 
-### Archive Nodes
-
-Archive nodes store the complete transaction history, making them valuable for auditing and historical data analysis. However, they require significant storage and computational resources.
-
-### Pruned Nodes
-
-Pruned nodes discard certain historical data to reduce storage requirements while still participating in network consensus. They maintain only the most recent state.
-
 ### RPC Nodes
 
 RPC nodes expose an API for remote interactions, serving as a gateway for developers and external clients to engage with the Avail network.
-
-### Bootstrap Nodes
-
-Bootstrap nodes serve as initial connection points for new nodes joining the network. They are essential for network stability and discovery as they help new nodes join the network, discover peers, and maintain connectivity.
-
-### Relay Nodes
-
-Relay nodes act as intermediaries to enable communication between peers that cannot establish a direct connection, often due to firewalls or NAT issues.
 
 ## Next Steps
 

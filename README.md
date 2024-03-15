@@ -66,8 +66,7 @@ Below is a curated list of GitHub repositories part of the Avail Project.
 | **Core Components** | [Avail](https://github.com/availproject/avail)                                                   | Main DA Node for the Avail project.                      |
 |                     | [Avail Core](https://github.com/availproject/avail-core)                                         | Core components for Avail's DA layer.                    |
 | **Light Client**    | [Avail Light](https://github.com/availproject/avail-light)                                       | Light client for Avail.                                  |
-|                     | [Avail Light Bootstrap](https://github.com/availproject/avail-light-bootstrap)                   | Bootstrap for Avail Light client.                        |
-|                     | [Avail Light Relay](https://github.com/availproject/avail-light-relay)                           | Relay for Avail Light client.                            |
+| Relay for Avail Light client.                            |
 |                     | [Light Client Web](https://github.com/availproject/light-client-web)                             | Web version of Avail's light client.                     |
 |                     | [Avail Light Client Flutter App](https://github.com/availproject/avail-light-client-flutter-app) | Flutter app for Avail's light client.                    |
 |                     | [Avail LC Android Lib](https://github.com/availproject/avail-lc-android-lib)                     | Android library for Avail Light Client.                  |

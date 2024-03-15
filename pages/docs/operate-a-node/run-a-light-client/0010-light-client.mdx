@@ -79,29 +79,6 @@ The client output should look like this:
 
 </details>
 
-## Run Locally
-
-If you want to connect the Avail light client to a local network, you will need to run your own Avail node and your own Avail light client bootstrap node.
-
-1. Run the Avail [<ins>node</ins>](/docs/operate-a-node/run-a-full-node/full-node/0020-full-node-binaries). For local set-up, run the node in `dev` mode:
-
-   ```bash
-   ./data-avail --dev
-   ```
-
-2. Run a [<ins>bootstrap node</ins>](/docs/operate-a-node/run-a-full-node/0050-bootstrap-node).
-
-3. Once the bootstrap node is running, use the following command to run your client:
-
-   ```bash
-   ./avail-light --network local
-   ```
-
-4. If you want to supply your own configuration file (see [<ins>reference</ins>](https://github.com/availproject/avail-light#configuration-reference)), use:
-   ```bash
-   ./avail-light --config config.yaml --network local
-   ```
-
 ## Build From Source
 
 You can build the light client directly from source.
@@ -115,10 +92,6 @@ cargo build --release
 Find the resulting `avail-light` binary in the `target/release` directory.
 
 ## Next Steps
-
-### Run a Relay node
-
-We provide an Avail light client relay node that can help you with running your light client from behing NAT and firewalls. Find more information on running a relay node [<ins>here</ins>](/docs/operate-a-node/run-a-full-node/0060-relay-node).
 
 ### Run a Full Node
 
