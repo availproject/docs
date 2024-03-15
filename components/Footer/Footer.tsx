@@ -91,16 +91,6 @@ export const Footer = () => {
                     label:'Full Node',
                     link:'https://github.com/availproject/avail'
                 },
-                {
-                    id:3,
-                    label:'Bootstrap Node',
-                    link:'https://github.com/availproject/avail-light-bootstrap'
-                },
-                {
-                    id:4,
-                    label:'Relay Node',
-                    link:'https://github.com/availproject/avail-light-relay'
-                },
             ]
         },
         {

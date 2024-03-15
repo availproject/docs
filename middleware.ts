@@ -149,6 +149,17 @@ const { origin } = request.nextUrl
         destination: `${origin}/docs/operate-a-node/run-a-light-client`
       },
       {
+        source: "/docs/operate-a-node/run-a-light-client/Reference",
+        destination: `${origin}/docs/operate-a-node/run-a-light-client/light-client-api-reference`
+      },
+      {
+        source: "/docs/operate-a-node/run-a-light-client/Reference/configure-a-light-client",
+        destination: `${origin}/docs/operate-a-node/run-a-light-client/light-client-api-reference`
+      },      {
+        source: "/docs/operate-a-node/run-a-light-client/Reference/embedding-the-light-client",
+        destination: `${origin}/docs/operate-a-node/run-a-light-client/light-client-api-reference`
+      },
+      {
         source: "/about/introduction/light-client/",
         destination: `${origin}/docs/operate-a-node/run-a-light-client/Overview`
       },
@@ -186,19 +197,27 @@ const { origin } = request.nextUrl
       },
       {
         source: "/operate/node/docker/",
-        destination: `${origin}/docs/operate-a-node/run-a-full-node/full-node/0030-full-node-docker`
+        destination: `${origin}/docs/operate-a-node/run-a-full-node/0030-full-node-docker`
+      },
+      {
+        source: "/docs/operate-a-node/run-a-full-node/full-node/0020-full-node-binaries",
+        destination: `${origin}/docs/operate-a-node/run-a-full-node/0020-full-node-binaries`
+      },
+      {
+        source:"/docs/operate-a-node/run-a-full-node/0020-full-node-binaries",
+        destination: `${origin}/docs/operate-a-node/run-a-full-node/full-node`
+      },
+      {
+        source:"/docs/operate-a-node/run-a-full-node/0030-full-node-docker",
+        destination: `${origin}/docs/operate-a-node/run-a-full-node/full-node`
+      },
+      {
+        source: "/docs/operate-a-node/run-a-full-node/full-node/0030-full-node-docker",
+        destination: `${origin}/docs/operate-a-node/run-a-full-node/0030-full-node-docker`
       },
       {
         source: "/operate/node/rpc/",
         destination: `${origin}/docs/operate-a-node/run-a-full-node/0040-rpc-node`
-      },
-      {
-        source: "/operate/node/bootstrap/",
-        destination: `${origin}/docs/operate-a-node/run-a-full-node/0050-bootstrap-node`
-      },
-      {
-        source: "/operate/node/relay/",
-        destination: `${origin}/docs/operate-a-node/run-a-full-node/0060-relay-node`
       },
       {
         source: "/category/become-a-validator/",
@@ -314,11 +333,19 @@ const { origin } = request.nextUrl
       },
       {
         source: "/glossary/",
-        destination: `${origin}/docs/learn-about-avail/glossary`
+        destination: `${origin}/docs/glossary`
+      },
+      {
+        source: "/docs/learn-about-avail/glossary",
+        destination: `${origin}/docs/glossary`
       },
       {
         source: "/faqs/",
-        destination: `${origin}/docs/learn-about-avail/faqs`
+        destination: `${origin}/docs/faqs`
+      },
+      {
+        source: "/docs/learn-about-avail/faqs",
+        destination: `${origin}/docs/faqs`
       }
   ];
 

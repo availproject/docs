@@ -29,8 +29,8 @@ This is the hardware configuration required to set up an Avail node:
 
 | Component                    | Minimum  | Recommended |
 | ---------------------------- | -------- | ----------- |
-| RAM                          | 4GB      | 8GB         |
-| CPU (amd64/x86 architecture) | 2 core   | 4 core      |
+| RAM                          | 8GB      | 16GB        |
+| CPU (amd64/x86 architecture) | 4 core   | 8 core      |
 | Storage (SSD)                | 20-40 GB | 200-300 GB  |
 
 > While we do not favor any operating system, more secure and stable Linux server distributions (like CentOS) should be preferred over desktop operating systems (like Mac OS and Windows). Also, the minimum storage requirements will change over time as the network grows.
@@ -77,8 +77,6 @@ Clone the node repository you would like to run:
 | Node Type                                                                              | Build Steps                                         |
 | -------------------------------------------------------------------------------------- | --------------------------------------------------- |
 | [<ins>**Full Node**</ins>](https://github.com/availproject/avail)                      | `cargo build --release -p data-avail`               |
-| [<ins>**Relay Node**</ins>](https://github.com/availproject/avail-light-relay)         | `cd avail-light-relay && cargo build --release`     |
-| [<ins>**Bootstrap Node**</ins>](https://github.com/availproject/avail-light-bootstrap) | `cd avail-light-bootstrap && cargo build --release` |
 
 The available Docker images are compatible exclusively with **Linux/amd64** or **x86_64** based CPUs.
 
