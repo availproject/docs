@@ -333,11 +333,19 @@ const { origin } = request.nextUrl
       },
       {
         source: "/glossary/",
-        destination: `${origin}/docs/learn-about-avail/glossary`
+        destination: `${origin}/docs/glossary`
+      },
+      {
+        source: "/docs/learn-about-avail/glossary",
+        destination: `${origin}/docs/glossary`
       },
       {
         source: "/faqs/",
-        destination: `${origin}/docs/learn-about-avail/faqs`
+        destination: `${origin}/docs/faqs`
+      },
+      {
+        source: "/docs/learn-about-avail/faqs",
+        destination: `${origin}/docs/faqs`
       }
   ];
 
