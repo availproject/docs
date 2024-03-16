@@ -160,7 +160,7 @@ const { origin } = request.nextUrl
         destination: `${origin}/docs/operate-a-node/run-a-light-client/light-client-api-reference`
       },
       {
-        source: "/about/introduction/light-client/",
+        source: "/about/introduction/light-client",
         destination: `${origin}/docs/operate-a-node/run-a-light-client/Overview`
       },
       {
