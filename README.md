@@ -13,7 +13,7 @@
 
 </div>
 
-> ℹ️ We are in the process of putting out a comprehensive README following a docs migration. For contribution guidelines, check out the [Contributing Guide](./CONTRIBUTING.md)
+> ℹ️ We are in the process of putting out a comprehensive README following a document migration. For contribution guidelines, check out the [Contributing Guide.](./CONTRIBUTING.md)
 
 <p align="left">
   Welcome to the Avail Project Developer Documentation, your go-to resource for all things related to data availability and modular blockchain development. Designed with a focus on community collaboration, this repository aims to provide the most accurate, comprehensive, and up-to-date information for anyone interested in learning about, contributing to, or maintaining projects within the Avail ecosystem.
@@ -32,7 +32,7 @@
 Avail provides a secure, trust-minimized base layer designed for high data availability, forming the cornerstone of next-generation, scalable applications. Its core features include:
 
 - **Data Blob Indexing**: Streamlines data indexing by associating transaction data with specific application IDs.
-- **Erasure Encoding**: Enhances data resilience, making it more challenging for nodes to withhold information.
+- **Erasure Encoding**: This enhances data resilience, making it more challenging for nodes to withhold information.
 - **KZG Polynomial Commitments**: Guarantees data presence in the block header.
 - **Decentralized Network of Validators**: Targets a network of up to 1,000 external validators to minimize centralization risks.
 - **Validity Proofs**: Enables light clients to instantly confirm state correctness and data availability upon finalization.
@@ -43,7 +43,7 @@ Start learning about Avail [<ins>here</ins>](https://docs.availproject.org/about
 
 ## Key Repositories
 
-Below is a curated list of GitHub repositories part of the Avail Project.
+Below is a curated list of GitHub repositories as part of the Avail Project.
 
 <details>
 <summary>Get Started</summary>
