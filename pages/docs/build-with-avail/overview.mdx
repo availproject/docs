@@ -20,6 +20,10 @@ import { Callout } from 'nextra/components'
 
 Integrating with Avail enhances transaction processing by keeping data off-chain while ensuring its availability and validity. Avail's role as an optimized blockchain for data availability is central to this adaptation, offering a robust and modular design for diverse use cases.
 
+<Callout type="info">
+If you are looking to build with Avail at a hackathon, you can check out a curated list of ideas on this [Notion doc](https://www.notion.so/avail-project/Avail-DA-Dev-Onboard-Hackathon-Edition-6ce01faa760b41b79b3ea7758a6265e5). 
+</Callout>
+
 ## System Operations
 
 - **Transaction Processing and Sequencing**: In the rollup framework, transactions are processed, sequenced, and readied for submission to Avail.
@@ -94,3 +98,5 @@ Driven by the core Avail team, the mission is twofold: to nurture innovative pro
 | Avail-Powered zkEVM-Based Validium  | A Validium based on the Polygon zkEVM stack that uses Avail instead of the native DAC for data availability. | - [<ins>validium-node</ins>](https://github.com/QEDK/validium-node) <br/> - [<ins>validium-contracts</ins>](https://github.com/QEDK/validium-contracts) |
 | DA Adapter for Optimism SDK         | An adapter facilitating Avail DA's integration with Optimism's Rollup SDK op-stack.                          | [<ins>avail-op-stack-adapter</ins>](https://github.com/availproject/avail-op-stack-adapter)                                                             |
 | DA Adapter for Rollkit              | An adapter designed for Rollkit's modular rollup framework that enables ABCI-compatible solutions.           | [<ins>rollkit-da-adapter</ins>](https://github.com/rollkit/rollkit/pull/1168)                                                                           |
+import { sortAndDeduplicateDiagnostics } from "typescript"
+
