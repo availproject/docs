@@ -3,7 +3,7 @@
     "madara": "Avail-Powered Madara Validium",
     "Madara_Starknet": {
         "title": "Madara Starknet 🔗",
-        "href": "https://github.com/availproject/sovereign-sdk/tree/main",
+        "href": "https://github.com/keep-starknet-strange/madara",
         "newWindow": true
       }
 }
