@@ -126,9 +126,9 @@ Optimium are a direct adaptation of Optimistic rollups and also take data availa
 
 At the heart of Optimiums lies the principle of assumed transaction validity. Transactions within this system are initially presumed to be valid. This assumption holds until proven otherwise, a process facilitated by fraud-proof mechanisms. These mechanisms are crucial in maintaining the integrity and reliability of the network. If a transaction is challenged and found to be fraudulent, it is reverted, ensuring the network's security and fidelity.
 
-The key distinction of Optimiums from their traditional counterparts is the off-chain storage of transaction data. This strategic shift markedly increases network efficiency and scalability by reducing the data load on the main Ethereum chain. However, this also introduces new data retrieval and verification considerations, which are adeptly handled through the fraud-proof system.
+The key distinction of Optimiums from their traditional counterparts is the off-chain storage of transaction data. This strategic shift markedly increases network efficiency and scalability by reducing the data load on the main Ethereum chain. However, this also introduces new data retrieval and verification considerations.
 
-In Optimiums, users can execute transactions and interact with the system seamlessly. Withdrawals are processed by submitting fraud proofs that validate the transaction's authenticity. These proofs serve as the cornerstone for ensuring that all operations within the network are legitimate and under the established rules.
+In Optimiums, users can execute transactions and interact with the system seamlessly. Fraud proofs serve as the cornerstone for ensuring that all operations within the network are legitimate and under the established rules. Withdrawals are processed by submitting Merkle proof to a proposed state root that proves the withdrawal transaction's inclusion on the L2 chain.
 
 The integration of Optimiums with the Ethereum main chain is managed via a set of specialized smart contracts. These contracts collectively oversee the transaction lifecycle, from submission to finalization, while ensuring that all data, though stored off-chain, remains accessible and verifiable as needed.
 
