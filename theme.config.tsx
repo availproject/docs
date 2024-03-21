@@ -29,7 +29,7 @@ const config: DocsThemeConfig = {
       </>
     ),
   },
-  docsRepositoryBase: "https://github.com/availproject/docs",
+  docsRepositoryBase: "https://github.com/availproject/docs/blob/main",
   chat: {
     link: "https://twitter.com/AvailProject",
     icon: (
