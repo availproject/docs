@@ -17,24 +17,32 @@ keywords:
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
 # Avail Light Client reference
 
-### Application client
+<Callout type="info">
+BEFORE WE START
+1. The indiviual behaviour of some methods may differ depending on which mode the light client is runnning in.
+This will be documented in the individual method descriptions.
+2. The `API-v2` is an improved version of `API-v1` with a focus on improving devex.
+In the near future, another upgrade to the light client API will remove versioning altogether.
+Any such changes will be documented here.
+3. The methods documented here were tested on a locally running instance of the Avail light client.
+They will however work with remotely hosted instances as well.
+</Callout>
 
-The app client mode is used by individual apps to download, reconstruct and locally store relevant app data.
-Application data is primarily downloaded from the DHT, either by downloading individual block matrix rows or with per-cell approach, downloading relevant individual cells.
-RPC is (again) used as a fallback mechanisms, if DHT doesn't contain the data.
+## API-v1
 
-Downloaded and reconstructed data is exposed through a HTTP endpoint, with port configured by the `http_server_port` parameter.
+### v1/latest_block
 
-App client mode is activated by setting the `app_id` to a value greater than `0`.
+Allows us to fetch the latest block processed by light client.
 
-## How to Embed Your Light Client
+*Params*:
+- None
 
-### Fetching the number of the latest block processed by light client
-
-To fetch the number of the latest block processed by light client, we can perform `GET` request on `/v1/latest_block` endpoint.
+*Response*:
+- Latest block number
 
 <Tabs items={['CURL', 'Rust']}>
 
@@ -42,16 +50,6 @@ To fetch the number of the latest block processed by light client, we can perfor
 ```sh
 curl "http://localhost:7000/v1/latest_block"
 ```
-
-<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
-<summary>Response:</summary>
-```json
-{
-  "latest_block": 10
-}
-```
-</details>
-
 </Tabs.Tab>
 
 <Tabs.Tab>
@@ -77,13 +75,35 @@ if response.status() == StatusCode::OK {
 }
 // ...error handling...
 ```
-
 </Tabs.Tab>
 </Tabs>
 
-### Fetching the confidence for given block
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary> Sample Response:</summary>
+```json
+{
+  "latest_block": 10
+}
+```
+</details>
 
-To fetch the confidence for specific block, which is already processed by application client, we can perform `GET` request on `/v1/confidence/{block_number}` endpoint.
+<Callout>
+The `localhost` namespace should allow you to access your local port where the Avail LC is running.
+If however you get no response, try replacing `localhost` with `127.0.0.1`.
+This is a known issue and we are looking into this.
+</Callout>
+
+### v1/confidence/&#123;block_number&#125;
+
+Allows us to fetch the confidence in % for a given block number.
+
+*Params*:
+- block number
+
+*Response*:
+- block number
+- confidence in %
+- serialised confidence
 
 <Tabs items={['CURL', 'Rust']}>
 
@@ -93,7 +113,7 @@ curl "http://localhost:7000/v1/confidence/1"
 ```
 
 <details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
-<summary>Response:</summary>
+<summary>Sample Response:</summary>
 
 ```json
 {
@@ -135,9 +155,45 @@ if response.status() == StatusCode::OK {
 </Tabs.Tab>
 </Tabs>
 
-### Fetching decoded application data for given block
+If confidence is not computed, and specified block is before the latest processed block:
 
-After data is verified, it can be fetched with `GET` request on `/v1/appdata/{block_number}` endpoint, by specifying `decode=true` query parameter.
+```json
+"Not synced"
+```
+
+If confidence is not computed, and specified block is after the latest processed block:
+
+```json
+"Not found"
+```
+
+### v1/appdata/&#123;block_number&#125;
+
+Given a block number, it retrieves the hex-encoded extrinsics for the specified block, if available. 
+Alternatively, if specified by a query parameter, the retrieved extrinsic is decoded and returned as 
+a base64-encoded string.
+
+*Params*:
+- `block_number` - block number (required)
+- `decode` - `true` if decoded extrinsics are requested (boolean, optional, default is `false`)
+
+*Response*:
+- If application data is available, and decode is `false` or unspecified:
+
+```json
+{
+  "block": 1,
+  "extrinsics": [
+    "0xc5018400d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d01308e88ca257b65514b7b44fc1913a6a9af6abc34c3d22761b0e425674d68df7de26be1c8533a7bbd01fdb3a8daa5af77df6d3fb0a67cde8241f461f4fe16f188000000041d011c6578616d706c65"
+  ]
+}
+```
+
+If application data is available, and decode is `true`:
+
+```json
+{ "block": 1, "extrinsics": ["ZXhhbXBsZQ=="] }
+```
 
 <Tabs items={['CURL', 'Rust']}>
 
@@ -147,30 +203,6 @@ After data is verified, it can be fetched with `GET` request on `/v1/appdata/{bl
 ```sh
 curl "http://localhost:7000/v1/appdata/1?decode=true"
 ```
-
-<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
-<summary>Response:</summary>
-
-```json
-{
-  "block": 46,
-  "extrinsics": ["ZXhhbXBsZQ=="]
-}
-```
-</details>
-
-#### Decoded extrinsic
-
-```sh
-curl -s "http://127.0.0.1:7000/v1/appdata/1?decode=true" | jq -r '.extrinsics[-1]' | base64 -d
-```
-
-Response:
-
-```json
-"example"
-```
-
 </Tabs.Tab>
 
 <Tabs.Tab>
@@ -206,200 +238,21 @@ if response.status() == StatusCode::OK {
 
 // ...error handling...
 ```
-
 </Tabs.Tab>
 </Tabs>
 
-#### Waiting for application data to be verified
-
-If light client is still processing specific block, we can poll light client with `GET` request on `/v1/appdata/{block_number}` endpoint, and wait for data to become available.
-
-<Tabs items={['CURL', 'Rust']}>
-
-<Tabs.Tab>
-```sh
-curl "http://localhost:7000/v1/appdata/2"
-```
-
-If response status code is `401` and body is:
-
-```json
-"Processing block"
-```
-
-we need to poll endpoint until data becomes available.
-
-</Tabs.Tab>
-
-<Tabs.Tab>
-
-```rust
-use avail_subxt::primitives::AppUncheckedExtrinsic;
-use serde::{Deserialize, Serialize};
-use anyhow::anyhow;
-use reqwest::StatusCode;
-
-#[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct ExtrinsicsData {
-    pub block: u32,
-    pub extrinsics: Vec<AppUncheckedExtrinsic>,
-}
-
-const POLLING_TIMEOUT: Duration = Duration::from_secs(120);
-const POLLING_INTERVAL: Duration = Duration::from_secs(1);
-const LIGHT_CLIENT_URL: &str = "http://localhost:7000";
-
-async fn wait_for_appdata(appdata_url: &str, block: u32) -> anyhow::Result<ExtrinsicsData> {
-    let appdata_url = format!("{LIGHT_CLIENT_URL}/v1/appdata/{block}");
-
-    let start_time = std::time::Instant::now();
-
-    loop {
-        if start_time.elapsed() >= POLLING_TIMEOUT {
-            return Err(anyhow!("Poll timeout exceeded"));
-        }
-
-        let response = reqwest::get(&appdata_url).await?;
-
-        match response.status() {
-            // If status is OK. response continues json representation of submitted data
-            StatusCode::OK => {
-                let text = &response.text().await?;
-                return Ok(serde_json::from_str(text)?);
-            }
-            // If it is not found, there is no data for given block and application
-            StatusCode::NOT_FOUND => {
-                return Ok(ExtrinsicsData {
-                    block,
-                    extrinsics: vec![],
-                })
-            }
-            // Wait for data to become available otherwise
-            _ => {
-                tokio::time::sleep(POLLING_INTERVAL).await;
-                continue;
-            }
-        }
-    }
-}
-
-```
-
-Function `wait_for_appdata` will block until data is available or timeout is reached.
-
-</Tabs.Tab>
-</Tabs>
-
-## API reference
-
-In case of error, endpoints will return response with `500 Internal Server Error` status code, and descriptive error message.
-
-#### **GET** `/v1/mode`
-
-Retrieves the operating mode of the light client. Light client can operate in two different modes, `LightClient` or `AppClient`, depending on configuration of application ID.
-
-##### Responses
-
-If operating mode is `LightClient` response is:
-
-> Status code: `200 OK`
-
-```json
-"LightClient"
-```
-
-In case of `AppClient` mode, response is:
-
-> Status code: `200 OK`
-
-```json
-{"AppClient": {app_id}}
-```
-
-#### **GET** `/v1/latest_block`
-
-Retrieves the latest block processed by the light client.
-
-##### Responses
-
-> Status code: `200 OK`
-
-```json
-{"latest_block":{block_number}}
-```
-
-#### **GET** `/v1/confidence/{block_number}`
-
-Given a block number, it returns the confidence computed by the light client for that specific block.
-
-> Path parameters:
-
-- `block_number` - block number (required)
-
-##### Responses
-
-In case when confidence is computed:
-
-> Status code: `200 OK`
-
-```json
-{ "block": 1, "confidence": 93.75, "serialised_confidence": "5232467296" }
-```
-
-If confidence is not computed, and specified block is before the latest processed block:
-
-> Status code: `400 Bad Request`
-
-```json
-"Not synced"
-```
-
-If confidence is not computed, and specified block is after the latest processed block:
-
-> Status code: `404 Not Found`
-
-```json
-"Not found"
-```
-
-#### **GET** `/v1/appdata/{block_number}`
-
-Given a block number, it retrieves the hex-encoded extrinsics for the specified block, if available. Alternatively, if specified by a query parameter, the retrieved extrinsic is decoded and returned as a base64-encoded string.
-
-> Path parameters:
-
-- `block_number` - block number (required)
-
-> Query parameters:
-
-- `decode` - `true` if decoded extrinsics are requested (boolean, optional, default is `false`)
-
-##### Responses
-
-If application data is available, and decode is `false` or unspecified:
-
-> Status code: `200 OK`
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
 
 ```json
 {
-  "block": 1,
-  "extrinsics": [
-    "0xc5018400d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d01308e88ca257b65514b7b44fc1913a6a9af6abc34c3d22761b0e425674d68df7de26be1c8533a7bbd01fdb3a8daa5af77df6d3fb0a67cde8241f461f4fe16f188000000041d011c6578616d706c65"
-  ]
+  "block": 46,
+  "extrinsics": ["ZXhhbXBsZQ=="]
 }
 ```
-
-If application data is available, and decode is `true`:
-
-> Status code: `200 OK`
-
-```json
-{ "block": 1, "extrinsics": ["ZXhhbXBsZQ=="] }
-```
+</details>
 
 If application data is not available, and specified block is the latest block:
-
-> Status code: `401 Unauthorized`
 
 ```json
 "Processing block"
@@ -407,104 +260,110 @@ If application data is not available, and specified block is the latest block:
 
 If application data is not available, and specified block is not the latest block:
 
-> Status code: `404 Not Found`
-
 ```json
 "Not found"
 ```
 
-#### **GET** `/v1/status/{block_number}`
+### v1/mode
+
+Retrieves the operating mode of the Avail light client. The Light client can operate in two different modes,
+`LightClient` or `AppClient`, depending on configuration of application ID(`app-id`) flag.
+
+*Params*:
+- None
+
+*Response*:
+- Operating mode
+
+
+If operating mode is `LightClient` response is:
+
+```json
+"LightClient"
+```
+
+In case of `AppClient` mode, response is:
+
+```json
+{"AppClient": {app_id}}
+```
+
+### v1/status
 
 Retrieves the status of the latest block processed by the light client.
 
-> Path parameters:
+*Params*:
+- None
 
-- `block_number` - block number (required)
+*Response*:
+- Latest block number
+- Confidence in %
+- App ID
 
-##### Responses
 
-If latest processed block exists, and `app_id` is configured (otherwise, `app_id` is not set):
 
-> Status code: `200 OK`
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
 
 ```json
-{ "block_num": 89, "confidence": 93.75, "app_id": 1 }
+{ 
+  "block_num": 89,
+  "confidence": 93.75,
+  "app_id": 1 
+}
 ```
+</details>
+
+
 
 If there are no processed blocks:
-
-> Status code: `404 Not Found`
 
 ```json
 "Not found"
 ```
 
-# API Version 2 reference
+## API-v2
 
-### **GET** `/v2/version`
+### v2/version
 
 Gets the version of the light client binary, and the version of the compatible network.
 
-Response:
+*Params*:
+- None
 
-```yaml
-HTTP/1.1 200 OK
-Content-Type: application/json
+*Response*:
+- Light Client version
+- Network version
 
-{
-  "version": "{version-string}",
-  "network_version": "{version-string}"
-}
+<Tabs items={['CURL']}>
+
+<Tabs.Tab>
+```sh
+curl "http://127.0.0.1:7000/v2/version"
 ```
+</Tabs.Tab>
+</Tabs>
 
-- **version** - the Avail Light Client version
-- **network_version** - Avail network version supported by the Avail Light Client
 
-### **GET** `/v2/status`
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary> Sample Response:</summary>
+```json
+{
+  "version":"v1.7.8",
+  "network_version":"1.10"
+}  
+```
+</details>
+
+
+### v2/status
 
 Gets current status and active modes of the light client.
 
-Response:
+*Params*:
+- None
 
-```yaml
-HTTP/1.1 200 OK
-Content-Type: application/json
-
-{
-  "modes": [
-    "light",
-    "app",
-    "partition"
-  ],
-  "app_id": {app-id}, // Optional
-  "genesis_hash": "{genesis-hash}",
-  "network": "{network}",
-  "blocks": {
-    "latest": {latest},
-    "available": { // Optional
-      "first": {first},
-      "last": {last}
-    },
-    "app_data": { // Optional
-      "first": {first},
-      "last": {last}
-    },
-    "historical_sync": { // Optional
-      "synced": false,
-      "available": { // Optional
-        "first": {first},
-        "last": {last}
-      },
-      "app_data": { // Optional
-        "first": {first},
-        "last": {last}
-      }
-    }
-  },
-  "partition": "{partition}" // Optional
-}
-```
-
+*Response*:
 - **modes** - active modes
 - **app_id** - if **app** mode is active, this field contains configured application ID
 - **genesis_hash** - genesis hash of the network to which the light client is connected
@@ -531,28 +390,68 @@ Content-Type: application/json
 - **available** - range of historical blocks with verified data availability (configured confidence has been achieved)
 - **app_data** - range of historical blocks with app data retrieved and verified
 
-### **GET** `/v2/blocks/{block_number}`
+<Tabs items={['CURL']}>
+
+<Tabs.Tab>
+```sh
+curl "http://127.0.0.1:7000/v2/status"
+```
+
+</Tabs.Tab>
+</Tabs>
+
+
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary> Sample Response:</summary>
+```json
+{
+  "modes":["light"],
+  "genesis_hash":"0x6f09966420b2608d1947ccfb0f2a362450d1fc7fd902c29b67c906eaa965a7ae",
+  "network":"wss://goldberg.avail.tools:443/ws/1.11.0-38304bb5126/data-avail/22",
+  "blocks":{
+    "latest":572269,
+    "available":{
+      "first":572068,
+      "last":572268
+    }
+  }
+}
+```
+</details>
+
+### v2/blocks/&#123;block_number&#125;
 
 Gets specified block status and confidence if applicable.
 
-- Use cases
+**Use cases:**
   - Polling the status of the block
   - Querying historical block statuses
 
-If **`block_number <= latest_block,`** then the block is either processed or skipped, and possible statuses are:
+*Params*:
+- `block_number` - block number (required)
 
-```yaml
-HTTP/1.1 200 OK
-Content-Type: application/json
+*Response*:
+- **status** - block status
+- **confidence** - data availability confidence, available if block processing is finished.
 
+
+<Tabs items={['CURL']}>
+<Tabs.Tab>
+```sh
+curl "http://127.0.0.1:7000/v2/blocks/672481"
+```
+</Tabs.Tab>
+</Tabs>
+
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary> Sample Response:</summary>
+```json
 {
-  "status": "unavailable|pending|verifying-header|verifying-confidence|verifying-data|finished",
-  "confidence": {confidence} // Optional
+  "status":"verifying-data",
+  "confidence":99.90234375
 }
 ```
-
-- **status** - block status
-- **confidence** - data availability confidence, available if block processing is finished
+</details>
 
 #### Status
 
@@ -569,18 +468,33 @@ Content-Type: application/json
 
 This status does not give information on what is available. In the case of web sockets messages are already pushed, similar to case of the frequent polling, so header and confidence will be available if **verifying-header** and **verifying-confidence** has been successful.
 
-If **block_number > latest_block,** block status cannot yet be derived and the response on this and other endpoints with `/v2/blocks/{block_number}` prefix is:
+> If **block_number > latest_block,** block status cannot yet be derived and the response on this and other endpoints with `/v2/blocks/{block_number}` prefix is:
 
 ```yaml
-HTTP/1.1 404 Not Found
+Not Found
 ```
 
-### **GET** `/v2/blocks/{block_number}/header`
+### /v2/blocks/&#123;block_number&#125;/header
 
-Gets the block header if it is available.
+Gets the header for a specifc block if available.
+
+*Params*:
+- `block_number` - block number (required)
+
+*Response*:
+
+dsdsd
+
+<Tabs items={['CURL']}>
+<Tabs.Tab>
+```sh
+curl "http://127.0.0.1:7000/v2/blocks/572481/header"
+```
+</Tabs.Tab>
+</Tabs>
+
 
 If **block_status = "verifying-confidence|verifying-data|finished"**, the header is available, and the response is:
-
 ```yaml
 HTTP/1.1 200 OK
 Content-Type: application/json
