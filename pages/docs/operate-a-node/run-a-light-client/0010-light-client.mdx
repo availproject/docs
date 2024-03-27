@@ -12,87 +12,232 @@ keywords:
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
-# How to Run an Avail Light Client
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
-This guide outlines how to set up an Avail light client. You can either:
+# How to Run the Avail Light Client
 
-1. [<ins>Run the light client on an existing network</ins>](#run-on-an-existing-network)
-2. [<ins>Run the light client locally</ins>](#run-locally)
+The guide outlines how to set up an Avail light client to connect with the  [goldberg testnet](/docs/end-user-guide/explorer). You can either:
+
+1. Use [Availup](https://github.com/availproject/availup) to run the light client.
+2. Download and run a pre-built binary.
+3. Build your Light client from source
+ 
 
 ## Latest release
 
-You can find the latest release binary in the `avail-light` repository.
+You can find the latest release binary in the [`avail-light`](https://github.com/availproject/avail-light) repository.
 
-| Repository                                                            | Latest Release                                                                       |
-| --------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| [<ins>avail-light</ins>](https://github.com/availproject/avail-light) | [<ins>v1.7.6</ins>](https://github.com/availproject/avail-light/releases/tag/v1.7.6) |
+<Callout type="info">
+RECOMMENDED VERSION <br/>
+You can find the latest release of the Avail LC from [our Github repo](https://github.com/availproject/avail-light). For now though we recommend most users to
+run [`v1.7.8`](https://github.com/availproject/avail-light/releases/tag/v1.7.8) of the Avail light client for maximal network support. <br/>
+We will keep this recommendation updated.
+</Callout>
 
-## Run on an Existing Network
+## Light client modes
 
-In this example, you will download the light client and connect to an existing public network.
+The Avail light client has two main modes of operation:
 
-1. Download the latest Avail light client [<ins>release</ins>](https://github.com/availproject/avail-light/releases/) that is compatible with your system. The light client is available pre-built for different architectures. If you prefer building the light client yourself, see [<ins>build the Avail light client from source</ins>](#build-from-source).
+1. **Light-client Mode**: The basic mode of operation and is always active no matter the mode selected. 
+If an `app_id` is not provided (or is = 0), this mode will commence. On each header received the client 
+does random sampling using two mechanisms:
 
-2.  Run the light client with the following pre-defined configuration file:
+  - *DHT* - client first tries to retrieve cells via Kademlia.
+  - *RPC* - if DHT retrieve fails, the client uses RPC calls to Avail nodes to retrieve the needed cells. 
+  The cells not already found in the DHT will be uploaded.
 
-   ```bash
-   ./avail-light-<light-client-binary-type> --network goldberg
-   ```
+  Once the data is received, light client verifies individual cells and calculates the confidence, 
+  which is then stored locally.
 
-3.  If you want to supply your own configuration file (see [<ins>reference</ins>](https://github.com/availproject/avail-light#configuration-reference)), use:
+2. **App-Specific Mode**: If an `app_id = 1` is given in the config file, the application client 
+(part of the light client) downloads all the relevant app data, reconstructs it and persists it locally. 
+Reconstructed data is then available to accessed via an HTTP endpoint.
 
-   ```bash
-   ./avail-light --config config.yaml --network goldberg
-   ```
+## Running the light client
 
-That's it 🎉! You have successfully run the light client and connected to a public network. The light client should show output similar to the following:
-<br/>
+<Tabs items={['availup','Run pre-built binary', 'Build from source']}>
+
+<Tabs.Tab>
+
+**[`availup`](https://github.com/availproject/availup)** is the recommended way of running the Avail light client for most users.
+`availup` is a shell wrapper that allows you to spin up your own instance of the Avail light client 
+with a simple `curl` command.
+
+<Callout type="info">
+To run the Avail LC using `availup`, make sure you have [`curl`](https://curl.se/) installed on your system. To check, quickly:
+
+```sh
+curl --version
+```
+</Callout>
+
+1. To spin up an Avail light client on the Goldberg testnet, run the following command in your terminal:
+
+```sh
+curl -sL1 avail.sh | sh -s -- --app_id 1 --network goldberg
+```
+
+2. You can pass additional flags to the script like:
+
+```sh
+curl -sL1 avail.sh | sh -s -- --upgrade y
+```
+
+Currently available flags are:
+
+- **network**: can be one of the following: [kate, goldberg, local]
+- **config**: path to the configuration file, availup will generate a config if this flag is not specified
+- **app_id**: application ID to run the light client (defaults to 0). Set `app_id` to 1 to run in app-specific mode.
+- **upgrade**: takes y and yes as valid arguments, indicating that the avail-light binary should be upgraded
+
+3. If everything goes well, the client output will look like this:
 
 <details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
 <summary> Sample output </summary>
 
-The client output should look like this:
+```shell
+2024-03-20T10:50:25.528628Z  INFO avail_light::light_client: Processing finalized block block_number=562690 block_delay=20
+2024-03-20T10:50:25.528706Z  INFO avail_light::light_client: Random cells generated: 10 block_number=562690 cells_requested=10
+2024-03-20T10:50:26.069497Z  INFO avail_light::network: Cells fetched from DHT block_number=562690 cells_total=10 cells_fetched=0 cells_verified=0 fetch_elapsed=540.755792ms proof_verification_elapsed=2.208µs
+2024-03-20T10:50:28.322706Z  INFO avail_light::network: Cells fetched from RPC block_number=562690 cells_total=10 cells_fetched=10 cells_verified=10 fetch_elapsed=2.232714917s proof_verification_elapsed=20.404208ms
+2024-03-20T10:50:28.322987Z  INFO avail_light::light_client: Confidence factor: 99.90234375 block_number=562690 confidence=99.90234375
+2024-03-20T10:50:28.323134Z  INFO avail_light::light_client: Sleeping for 14.61143875s seconds
+2024-03-20T10:50:28.323154Z  INFO avail_light::api::v2: Message published to clients topic=ConfidenceAchieved published=0 failed=0
+2024-03-20T10:50:28.859369Z  INFO avail_light::network::p2p::event_loop: Cell upload success rate for block 562690: 0/10. Duration: 0
+2024-03-20T10:50:41.535425Z  INFO avail_light::network::rpc::subscriptions: New justification at block no.: 562692, hash: 0x3b602253298ce9bec9b5b8f0c8767f14502ccaa17a003dfba77f9d90edeaf5da
+2024-03-20T10:50:41.709011Z  INFO avail_light::network::rpc::subscriptions: Header no.: 562692
+2024-03-20T10:50:41.709557Z  INFO avail_light::network::rpc::subscriptions: Number of matching signatures: 5/7 for block 562692, set_id 223
+2024-03-20T10:50:41.709574Z  INFO avail_light::network::rpc::subscriptions: Storing finality checkpoint at block 562692
+2024-03-20T10:50:41.709908Z  INFO avail_light::network::rpc::subscriptions: Sending finalized block 562692
+2024-03-20T10:50:41.709966Z  INFO avail_light::api::v2: Message published to clients topic=HeaderVerified published=0 failed=0
+2024-03-20T10:50:42.936699Z  INFO avail_light::light_client: Processing finalized block block_number=562691 block_delay=20
+2024-03-20T10:50:42.936761Z  INFO avail_light::light_client: Random cells generated: 10 block_number=562691 cells_requested=10
+2024-03-20T10:50:43.472932Z  INFO avail_light::network: Cells fetched from DHT block_number=562691 cells_total=10 cells_fetched=0 cells_verified=0 fetch_elapsed=536.136083ms proof_verification_elapsed=3.042µs
+2024-03-20T10:50:46.513570Z  INFO avail_light::network: Cells fetched from RPC block_number=562691 cells_total=10 cells_fetched=10 cells_verified=10 fetch_elapsed=3.022786041s proof_verification_elapsed=17.810542ms
+2024-03-20T10:50:46.513706Z  INFO avail_light::light_client: Confidence factor: 99.90234375 block_number=562691 confidence=99.90234375
+2024-03-20T10:50:46.513785Z  INFO avail_light::light_client: Sleeping for 15.195224667s seconds
+2024-03-20T10:50:46.513795Z  INFO avail_light::api::v2: Message published to clients topic=ConfidenceAchieved published=0 failed=0
+2024-03-20T10:50:47.056255Z  INFO avail_light::network::p2p::event_loop: Cell upload success rate for block 562691: 0/10. Duration: 0
+```
+</details>
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+  You can also download and run a pre-built binary of the Avail light client.
+  To do so:
+
+  1. Download the [recommended version of the binary](https://github.com/availproject/avail-light/releases/tag/v1.7.8) that is compatible with your operating system.
+
+  2. Move the `.tar` file into a convenient directory and extract it to reveal the `avail-light` binary.
+
+  3. Open a terminal in that location and run:
+   ```sh
+    ./avail-light-<light-client-binary-type> --network goldberg
+   ```
+  4. If everything goes well, the client output will look like this:
+
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary> Sample output </summary>
 
 ```shell
-2023-06-04T02:56:31.871284Z  INFO avail_light::telemetry: Metrics server on http://0.0.0.0:9520/metrics
-2023-06-04T02:56:31.884271Z  INFO avail_light::http: RPC running on http://127.0.0.1:7000
-2023-06-04T02:56:31.884386Z  INFO avail_light::network: Local peer id: PeerId("12D3KooWQ77VEayXfSPWcj6ucAGcjZRTL8ANmtjsuULoyToGSBoo"). Public key: Ed25519(PublicKey(compressed): d44de4113b372855a655f1675325379705aa7a273698194e8e6814dab7791a).
-2023-06-04T02:56:31.884605Z  INFO Server::run{addr=127.0.0.1:7000}: warp::server: listening on http://127.0.0.1:7000
-2023-06-04T02:56:31.892181Z  INFO avail_light::network::event_loop: Local node is listening on "/ip4/127.0.0.1/udp/37000/quic-v1"
-2023-06-04T02:56:31.892487Z  INFO avail_light: Bootstraping the DHT with bootstrap nodes...
-2023-06-04T02:56:31.892487Z  INFO avail_light::network::event_loop: Local node is listening on "/ip4/192.168.1.146/udp/37000/quic-v1"
-2023-06-04T02:56:31.892540Z  INFO avail_light::network::event_loop: Local node is listening on "/ip4/127.0.0.1/tcp/37000"
-2023-06-04T02:56:31.892745Z  INFO avail_light::network::event_loop: Local node is listening on "/ip4/192.168.1.146/tcp/37000"
-2023-06-04T02:56:42.220179Z  INFO avail_light::rpc: Connection established to the node: wss://goldberg.avail.tools:443/ws <v1.6.0-99b85257d6b/data-avail/9>
-2023-06-04T02:56:42.444576Z  INFO avail_light::light_client: Starting light client...
-2023-06-04T02:56:43.453935Z  INFO avail_light::subscriptions: Received finalized block header header.number=2074
-2023-06-04T02:56:43.455236Z  INFO avail_light::light_client: Processing finalized block block_number=2074 block_delay=0
-2023-06-04T02:56:43.456055Z  INFO avail_light::light_client: Random cells generated: 4 block_number=2074 cells_requested=4
-2023-06-04T02:56:43.617885Z  INFO avail_light::light_client: Number of cells fetched from DHT: 0 block_number=2074 cells_from_dht=0
-2023-06-04T02:56:43.820098Z  INFO avail_light::light_client: Number of cells fetched from RPC: 4 block_number=2074 cells_from_rpc=4
-2023-06-04T02:56:43.889260Z  INFO avail_light::light_client: Completed 4 verification rounds in 	433.968ms block_number=2074
-2023-06-04T02:56:43.889395Z  INFO avail_light::light_client: Confidence factor: 93.75 block_number=2074 confidence=93.75
-2023-06-04T02:56:43.889495Z  INFO avail_light::light_client: Partition cells received. Time elapsed: 	0ns block_number=2074 partition_retrieve_time_elapsed=0.0 partition_cells_fetched=4
-2023-06-04T02:56:44.050133Z  INFO avail_light::light_client: DHT PUT operation success rate: inf block_number=2074
-2023-06-04T02:56:44.050211Z  INFO avail_light::light_client: 4 cells inserted into DHT. Time elapsed: 	160.697ms block_number=2074 partition_dht_insert_time_elapsed=0.160697
+2024-03-20T10:50:25.528628Z  INFO avail_light::light_client: Processing finalized block block_number=562690 block_delay=20
+2024-03-20T10:50:25.528706Z  INFO avail_light::light_client: Random cells generated: 10 block_number=562690 cells_requested=10
+2024-03-20T10:50:26.069497Z  INFO avail_light::network: Cells fetched from DHT block_number=562690 cells_total=10 cells_fetched=0 cells_verified=0 fetch_elapsed=540.755792ms proof_verification_elapsed=2.208µs
+2024-03-20T10:50:28.322706Z  INFO avail_light::network: Cells fetched from RPC block_number=562690 cells_total=10 cells_fetched=10 cells_verified=10 fetch_elapsed=2.232714917s proof_verification_elapsed=20.404208ms
+2024-03-20T10:50:28.322987Z  INFO avail_light::light_client: Confidence factor: 99.90234375 block_number=562690 confidence=99.90234375
+2024-03-20T10:50:28.323134Z  INFO avail_light::light_client: Sleeping for 14.61143875s seconds
+2024-03-20T10:50:28.323154Z  INFO avail_light::api::v2: Message published to clients topic=ConfidenceAchieved published=0 failed=0
+2024-03-20T10:50:28.859369Z  INFO avail_light::network::p2p::event_loop: Cell upload success rate for block 562690: 0/10. Duration: 0
+2024-03-20T10:50:41.535425Z  INFO avail_light::network::rpc::subscriptions: New justification at block no.: 562692, hash: 0x3b602253298ce9bec9b5b8f0c8767f14502ccaa17a003dfba77f9d90edeaf5da
+2024-03-20T10:50:41.709011Z  INFO avail_light::network::rpc::subscriptions: Header no.: 562692
+2024-03-20T10:50:41.709557Z  INFO avail_light::network::rpc::subscriptions: Number of matching signatures: 5/7 for block 562692, set_id 223
+2024-03-20T10:50:41.709574Z  INFO avail_light::network::rpc::subscriptions: Storing finality checkpoint at block 562692
+2024-03-20T10:50:41.709908Z  INFO avail_light::network::rpc::subscriptions: Sending finalized block 562692
+2024-03-20T10:50:41.709966Z  INFO avail_light::api::v2: Message published to clients topic=HeaderVerified published=0 failed=0
+2024-03-20T10:50:42.936699Z  INFO avail_light::light_client: Processing finalized block block_number=562691 block_delay=20
+2024-03-20T10:50:42.936761Z  INFO avail_light::light_client: Random cells generated: 10 block_number=562691 cells_requested=10
+2024-03-20T10:50:43.472932Z  INFO avail_light::network: Cells fetched from DHT block_number=562691 cells_total=10 cells_fetched=0 cells_verified=0 fetch_elapsed=536.136083ms proof_verification_elapsed=3.042µs
+2024-03-20T10:50:46.513570Z  INFO avail_light::network: Cells fetched from RPC block_number=562691 cells_total=10 cells_fetched=10 cells_verified=10 fetch_elapsed=3.022786041s proof_verification_elapsed=17.810542ms
+2024-03-20T10:50:46.513706Z  INFO avail_light::light_client: Confidence factor: 99.90234375 block_number=562691 confidence=99.90234375
+2024-03-20T10:50:46.513785Z  INFO avail_light::light_client: Sleeping for 15.195224667s seconds
+2024-03-20T10:50:46.513795Z  INFO avail_light::api::v2: Message published to clients topic=ConfidenceAchieved published=0 failed=0
+2024-03-20T10:50:47.056255Z  INFO avail_light::network::p2p::event_loop: Cell upload success rate for block 562691: 0/10. Duration: 0
+```
+</details>
+</Tabs.Tab>
+
+
+<Tabs.Tab>
+
+   Building the Avail light client from source is a more advanced option that 
+   provides you with the maximum flexibility.
+   To do so:
+
+   1. Clone the Avail light-client repo and checkout to the specified version:
+   ```sh
+   git clone https://github.com/availproject/avail-light.git &&
+   cd avail-light &&
+   git checkout tags/v1.7.8
+   ```
+
+   2. Make sure your terminal is in the `avail-light` directory. Create a compiled binary by running:
+   ```sh
+   cargo build --release
+   ```
+
+   3. This will create a new directory named `target` within `avail-light`. Navigate to `target/release` and you will find the `avail-light` binary.
+   Run the binary using:
+   ```sh
+   ./avail-light --network goldberg
+   ```
+
+   4. If everything goes well, the client output will look like this:
+
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary> Sample output </summary>
+
+```shell
+2024-03-20T10:22:23.821042Z  INFO avail_light::api::v2: Message published to clients topic=HeaderVerified published=0 failed=0
+2024-03-20T10:22:23.854448Z  INFO avail_light::network: Cells fetched from RPC block_number=562606 cells_total=10 cells_fetched=10 cells_verified=10 fetch_elapsed=466.901875ms proof_verification_elapsed=10.431583ms
+2024-03-20T10:22:23.854573Z  INFO avail_light::light_client: Confidence factor: 99.90234375 block_number=562606 confidence=99.90234375
+2024-03-20T10:22:23.854635Z  INFO avail_light::light_client: Sleeping for 19.965855416s seconds
+2024-03-20T10:22:23.854643Z  INFO avail_light::api::v2: Message published to clients topic=ConfidenceAchieved published=0 failed=0
+2024-03-20T10:22:24.392198Z  INFO avail_light::network::p2p::event_loop: Cell upload success rate for block 562606: 0/10. Duration: 0
+2024-03-20T10:22:43.821867Z  INFO avail_light::light_client: Processing finalized block block_number=562607 block_delay=20
+2024-03-20T10:22:43.821955Z  INFO avail_light::light_client: Random cells generated: 10 block_number=562607 cells_requested=10
+2024-03-20T10:22:44.358772Z  INFO avail_light::network: Cells fetched from DHT block_number=562607 cells_total=10 cells_fetched=0 cells_verified=0 fetch_elapsed=536.778958ms proof_verification_elapsed=2.292µs
+2024-03-20T10:22:45.937348Z  INFO avail_light::network: Cells fetched from RPC block_number=562607 cells_total=10 cells_fetched=10 cells_verified=10 fetch_elapsed=1.56179875s proof_verification_elapsed=16.692791ms
+2024-03-20T10:22:45.938417Z  INFO avail_light::light_client: Confidence factor: 99.90234375 block_number=562607 confidence=99.90234375
+2024-03-20T10:22:45.938564Z  INFO avail_light::api::v2: Message published to clients topic=ConfidenceAchieved published=0 failed=0
+2024-03-20T10:22:46.473163Z  INFO avail_light::network::p2p::event_loop: Cell upload success rate for block 562607: 0/10. Duration: 0
+2024-03-20T10:22:46.527044Z  INFO avail_light::network::rpc::subscriptions: New justification at block no.: 562608, hash: 0xbea2a4b136c271b72314e2349577136bf7cdc7c732bc3909e280eb602b8af643
+2024-03-20T10:22:46.672163Z  INFO avail_light::network::rpc::subscriptions: Header no.: 562608
+2024-03-20T10:22:46.673730Z  INFO avail_light::network::rpc::subscriptions: Number of matching signatures: 5/7 for block 562608, set_id 223
+2024-03-20T10:22:46.673755Z  INFO avail_light::network::rpc::subscriptions: Storing finality checkpoint at block 562608
+2024-03-20T10:22:46.674002Z  INFO avail_light::network::rpc::subscriptions: Sending finalized block 562608
+2024-03-20T10:22:46.674087Z  INFO avail_light::api::v2: Message published to clients topic=HeaderVerified published=0 failed=0
+2024-03-20T10:22:46.674150Z  INFO avail_light::light_client: Sleeping for 19.998042125s seconds
 ```
 
 </details>
 
-## Build From Source
 
-You can build the light client directly from source.
+   <Callout type="info">
+   The exact '*binary type*' will differ from system to system. Take care to use the correct binary type for your system,
+   and take care to use the correct name of the binary in you terminal.
+   Alternatively, you could rename the binary to `avail-light` for convenience.
+   </Callout>
 
-```sh
-git clone https://github.com/availproject/avail-light.git
-cd avail-light
-cargo build --release
-```
+  </Tabs.Tab>
+</Tabs>
 
-Find the resulting `avail-light` binary in the `target/release` directory.
 
-## Next Steps
-
-### Run a Full Node
-
-Consider running a full node by following the deployment guide [<ins>here</ins>](/docs/operate-a-node/run-a-full-node/full-node/0020-full-node-binaries).
+## Final notes
+Please note that the Avail light client is ***heavily customisable***. The instructions in this page 
+were kept as simple as possible for initial convenience.
+You can customise the LC's behaviour by:
+1. Specifying a [number of different flags](https://github.com/availproject/avail-light?tab=readme-ov-file#options).
+2. Setting up a `config.yaml` file. You can find a full reference for the `config.yaml` file [in this README file](https://github.com/availproject/avail-light?tab=readme-ov-file#configuration-reference).
