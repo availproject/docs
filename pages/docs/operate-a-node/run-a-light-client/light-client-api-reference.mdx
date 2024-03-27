@@ -63,17 +63,19 @@ pub struct LatestBlock {
     pub latest_block: u32,
 }
 
-const LIGHT_CLIENT_URL: &str = "http://localhost:7000";
+const LIGHT_CLIENT_URL: &str = "http://127.0.0.1:7000";
 
-let latest_block_url = format!("{LIGHT_CLIENT_URL}/v1/latest_block");
-let response = reqwest::get(latest_block_url).await.unwrap();
+#[tokio::main]
+async fn main() {
+    let latest_block_url = format!("{LIGHT_CLIENT_URL}/v1/latest_block");
+    let response = reqwest::get(&latest_block_url).await.unwrap();
 
-if response.status() == StatusCode::OK {
-    let latest_block: LatestBlock =
-        serde_json::from_str(&response.text().await.unwrap()).unwrap();
-    println!("{latest_block:?}");
+    if response.status() == StatusCode::OK {
+        let latest_block: LatestBlock = serde_json::from_str(&response.text().await.unwrap()).unwrap();
+        println!("{latest_block:?}");
+    }
+    // ...error handling...
 }
-// ...error handling...
 ```
 </Tabs.Tab>
 </Tabs>
@@ -138,18 +140,23 @@ pub struct Confidence {
     pub serialised_confidence: Option<String>,
 }
 
-const LIGHT_CLIENT_URL: &str = "http://localhost:7000";
+const LIGHT_CLIENT_URL: &str = "http://127.0.0.1:7000";
 
-let block_number = 1;
-let confidence_url = format!("{LIGHT_CLIENT_URL}/v1/confidence/{block_number}");
-let response = reqwest::get(confidence_url).await.unwrap();
+#[tokio::main]
+async fn main() {
+    let block_number = 586959;
+    let confidence_url = format!("{LIGHT_CLIENT_URL}/v1/confidence/{block_number}");
+    let response = reqwest::get(&confidence_url).await.unwrap();
 
-if response.status() == StatusCode::OK {
-    let confidence: Confidence =
-        serde_json::from_str(&response.text().await.unwrap()).unwrap();
-    println!("{confidence:?}");
+    if response.status() == StatusCode::OK {
+        let confidence: Confidence =
+            serde_json::from_str(&response.text().await.unwrap()).unwrap();
+        println!("{confidence:?}");
+    } else {
+        eprintln!("Failed to get confidence: {}", response.status());
+    }
+    // ...error handling...
 }
-// ...error handling...
 ```
 
 </Tabs.Tab>
@@ -208,8 +215,7 @@ curl "http://localhost:7000/v1/appdata/1?decode=true"
 <Tabs.Tab>
 
 ```rust
-
-use base64::Engine as _;
+use base64::{engine::general_purpose::STANDARD as Base64Engine, Engine};
 use reqwest::StatusCode;
 use serde::{Deserialize, Serialize};
 
@@ -219,24 +225,29 @@ pub struct ExtrinsicsData {
     pub extrinsics: Vec<String>,
 }
 
-const LIGHT_CLIENT_URL: &str = "http://localhost:7000";
+const LIGHT_CLIENT_URL: &str = "http://127.0.0.1:7000";
 
-let block_number = 2;
-let confidence_url = format!("{LIGHT_CLIENT_URL}/v1/appdata/{block_number}?decode=true");
-let response = reqwest::get(confidence_url).await.unwrap();
+#[tokio::main]
+async fn main() {
+    let block_number = 592378;
+    let appdata_url = format!("{LIGHT_CLIENT_URL}/v1/appdata/{block_number}?decode=true");
+    let response = reqwest::get(&appdata_url).await.unwrap();
 
-if response.status() == StatusCode::OK {
-    let data: ExtrinsicsData =
-        serde_json::from_str(&response.text().await.unwrap()).unwrap();
+    if response.status() == StatusCode::OK {
+        let data: ExtrinsicsData = serde_json::from_str(&response.text().await.unwrap()).unwrap();
 
-    let decoded_bytes = engine::general_purpose::STANDARD
-        .decode(&data.extrinsics[0])
-        .unwrap();
-    let decoded_string = String::from_utf8(decoded_bytes).unwrap();
-    println!("{decoded_string:?}");
+        if let Some(encoded_extrinsic) = data.extrinsics.get(0) {
+            let decoded_bytes = Base64Engine.decode(encoded_extrinsic).unwrap();
+            let decoded_string = String::from_utf8(decoded_bytes).unwrap();
+            println!("{decoded_string:?}");
+        } else {
+            println!("No extrinsics found in the response.");
+        }
+    } else {
+        eprintln!("Failed to get appdata: {}", response.status());
+    }
+    // ...error handling...
 }
-
-// ...error handling...
 ```
 </Tabs.Tab>
 </Tabs>
@@ -275,6 +286,53 @@ Retrieves the operating mode of the Avail light client. The Light client can ope
 *Response*:
 - Operating mode
 
+<Tabs items={['CURL', 'Rust']}>
+
+<Tabs.Tab>
+#### JSON response
+
+```sh
+curl "http://localhost:7000/v1/mode"
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+```rust
+use reqwest::StatusCode;
+use serde::Deserialize;
+
+#[derive(Debug, Deserialize)]
+#[serde(untagged)]
+enum Mode {
+    LightClient,
+    AppClient { AppClient: u32 },
+}
+
+const LIGHT_CLIENT_URL: &str = "http://127.0.0.1:7000";
+
+#[tokio::main]
+async fn main() {
+    let mode_url = format!("{LIGHT_CLIENT_URL}/v1/mode");
+    let response = reqwest::get(&mode_url).await.unwrap();
+
+    if response.status() == StatusCode::OK {
+        let response_text = response.text().await.unwrap();
+        println!("Raw response: {}", response_text);
+
+        let mode: Mode = serde_json::from_str(&response_text).unwrap();
+        match mode {
+            Mode::LightClient => println!("Mode: LightClient"),
+            Mode::AppClient { AppClient: app_id } => println!("Mode: AppClient, App ID: {}", app_id),
+        }
+    } else {
+        eprintln!("Failed to get mode: {}", response.status());
+    }
+    // ...error handling...
+}
+```
+</Tabs.Tab>
+</Tabs>
 
 If operating mode is `LightClient` response is:
 
@@ -300,7 +358,64 @@ Retrieves the status of the latest block processed by the light client.
 - Confidence in %
 - App ID
 
+<Tabs items={['CURL', 'Rust']}>
 
+<Tabs.Tab>
+#### JSON response
+
+```sh
+curl "http://localhost:7000/v1/status"
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+```rust
+use reqwest::StatusCode;
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+enum StatusResponse {
+    NotFound(String),
+    Status {
+        block_num: u32,
+        confidence: f64,
+        app_id: u32,
+    },
+}
+
+const LIGHT_CLIENT_URL: &str = "http://127.0.0.1:7000";
+
+#[tokio::main]
+async fn main() {
+    let status_url = format!("{LIGHT_CLIENT_URL}/v1/status");
+    let response = reqwest::get(&status_url).await.unwrap();
+
+    if response.status() == StatusCode::OK {
+        let response_text = response.text().await.unwrap();
+        println!("Raw response: {}", response_text);
+
+        let status: StatusResponse = serde_json::from_str(&response_text).unwrap();
+        match status {
+            StatusResponse::NotFound(message) => println!("Status: {}", message),
+            StatusResponse::Status {
+                block_num,
+                confidence,
+                app_id,
+            } => println!(
+                "Block number: {}, Confidence: {}%, App ID: {}",
+                block_num, confidence, app_id
+            ),
+        }
+    } else {
+        eprintln!("Failed to get status: {}", response.status());
+    }
+    // ...error handling...
+}
+```
+</Tabs.Tab>
+</Tabs>
 
 <details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
 <summary>Sample Response:</summary>
@@ -313,8 +428,6 @@ Retrieves the status of the latest block processed by the light client.
 }
 ```
 </details>
-
-
 
 If there are no processed blocks:
 
@@ -335,11 +448,46 @@ Gets the version of the light client binary, and the version of the compatible n
 - Light Client version
 - Network version
 
-<Tabs items={['CURL']}>
+<Tabs items={['CURL', 'Rust']}>
 
 <Tabs.Tab>
 ```sh
 curl "http://127.0.0.1:7000/v2/version"
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```rust
+use reqwest::StatusCode;
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Serialize, Deserialize)]
+struct VersionResponse {
+    version: String,
+    network_version: String,
+}
+
+const LIGHT_CLIENT_URL: &str = "http://127.0.0.1:7000";
+
+#[tokio::main]
+async fn main() {
+    let version_url = format!("{LIGHT_CLIENT_URL}/v2/version");
+    let response = reqwest::get(&version_url).await.unwrap();
+
+    if response.status() == StatusCode::OK {
+        let response_text = response.text().await.unwrap();
+        println!("Raw response: {}", response_text);
+
+        let version_info: VersionResponse = serde_json::from_str(&response_text).unwrap();
+        println!(
+            "Light Client version: {}, Network version: {}",
+            version_info.version, version_info.network_version
+        );
+    } else {
+        eprintln!("Failed to get version: {}", response.status());
+    }
+    // ...error handling...
+}
 ```
 </Tabs.Tab>
 </Tabs>
@@ -390,13 +538,74 @@ Gets current status and active modes of the light client.
 - **available** - range of historical blocks with verified data availability (configured confidence has been achieved)
 - **app_data** - range of historical blocks with app data retrieved and verified
 
-<Tabs items={['CURL']}>
+<Tabs items={['CURL', 'Rust']}>
 
 <Tabs.Tab>
 ```sh
 curl "http://127.0.0.1:7000/v2/status"
 ```
+</Tabs.Tab>
 
+<Tabs.Tab>
+```rust
+use reqwest::StatusCode;
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Serialize, Deserialize)]
+struct StatusResponse {
+    modes: Vec<String>,
+    app_id: Option<u32>,
+    genesis_hash: String,
+    network: String,
+    blocks: Blocks,
+    partition: Option<Partition>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct Blocks {
+    latest: u32,
+    available: Range,
+    app_data: Option<Range>,
+    historical_sync: Option<HistoricalSync>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct Range {
+    first: u32,
+    last: u32,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct HistoricalSync {
+    synced: bool,
+    available: Range,
+    app_data: Range,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct Partition {
+    // Define fields as per your requirement
+}
+
+const LIGHT_CLIENT_URL: &str = "http://127.0.0.1:7000";
+
+#[tokio::main]
+async fn main() {
+    let status_url = format!("{LIGHT_CLIENT_URL}/v2/status");
+    let response = reqwest::get(&status_url).await.unwrap();
+
+    if response.status() == StatusCode::OK {
+        let response_text = response.text().await.unwrap();
+        println!("Raw response: {}", response_text);
+
+        let status_info: StatusResponse = serde_json::from_str(&response_text).unwrap();
+        println!("Status: {:?}", status_info);
+    } else {
+        eprintln!("Failed to get status: {}", response.status());
+    }
+    // ...error handling...
+}
+```
 </Tabs.Tab>
 </Tabs>
 
@@ -434,11 +643,75 @@ Gets specified block status and confidence if applicable.
 - **status** - block status
 - **confidence** - data availability confidence, available if block processing is finished.
 
+#### Status
 
-<Tabs items={['CURL']}>
+- **unavailable** - block will not be processed if
+  \
+  **latest_block - sync_depth > block_number**
+- **pending** - block will be processed at some point in the future if
+  \
+  **latest_block - sync_depth ≤ block_number ≤ latest_block**
+- **verifying-header** - block processing is started, and the header finality is being checked
+- **verifying-confidence** - block header is verified and available, confidence is being checked
+- **verifying-data** - confidence is achieved, and data is being fetched and verified (if configured)
+- **finished** - block header is available, confidence is achieved, and data is available (if configured)
+
+This status does not give information on what is available. In the case of web sockets messages are already
+pushed, similar to case of the frequent polling, so header and confidence will be available if 
+**verifying-header** and **verifying-confidence** has been successful.
+
+
+<Tabs items={['CURL', 'Rust']}>
 <Tabs.Tab>
 ```sh
 curl "http://127.0.0.1:7000/v2/blocks/672481"
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```rust
+use reqwest::StatusCode;
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+enum BlockResponse {
+    NotFound(String),
+    BlockStatus {
+        status: String,
+        confidence: Option<f64>,
+    },
+}
+
+const LIGHT_CLIENT_URL: &str = "http://127.0.0.1:7000";
+
+#[tokio::main]
+async fn main() {
+    let block_number = 672481; // Example block number
+    let block_url = format!("{LIGHT_CLIENT_URL}/v2/blocks/{block_number}");
+    let response = reqwest::get(&block_url).await.unwrap();
+
+    if response.status() == StatusCode::OK {
+        let response_text = response.text().await.unwrap();
+        println!("Raw response: {}", response_text);
+
+        let block_info: BlockResponse = serde_json::from_str(&response_text).unwrap();
+        match block_info {
+            BlockResponse::NotFound(message) => println!("Block status: {}", message),
+            BlockResponse::BlockStatus {
+                status,
+                confidence,
+            } => println!(
+                "Block status: {}, Confidence: {:?}",
+                status,
+                confidence.unwrap_or_default()
+            ),
+        }
+    } else {
+        eprintln!("Failed to get block status: {}", response.status());
+    }
+    // ...error handling...
+}
 ```
 </Tabs.Tab>
 </Tabs>
@@ -453,28 +726,13 @@ curl "http://127.0.0.1:7000/v2/blocks/672481"
 ```
 </details>
 
-#### Status
-
-- **unavailable** - block will not be processed if
-  \
-  **latest_block - sync_depth > block_number**
-- **pending** - block will be processed at some point in the future if
-  \
-  **latest_block - sync_depth ≤ block_number ≤ latest_block**
-- **verifying-header** - block processing is started, and the header finality is being checked
-- **verifying-confidence** - block header is verified and available, confidence is being checked
-- **verifying-data** - confidence is achieved, and data is being fetched and verified (if configured)
-- **finished** - block header is available, confidence is achieved, and data is available (if configured)
-
-This status does not give information on what is available. In the case of web sockets messages are already pushed, similar to case of the frequent polling, so header and confidence will be available if **verifying-header** and **verifying-confidence** has been successful.
-
 > If **block_number > latest_block,** block status cannot yet be derived and the response on this and other endpoints with `/v2/blocks/{block_number}` prefix is:
 
 ```yaml
 Not Found
 ```
 
-### /v2/blocks/&#123;block_number&#125;/header
+### v2/blocks/&#123;block_number&#125;/header
 
 Gets the header for a specifc block if available.
 
@@ -482,17 +740,6 @@ Gets the header for a specifc block if available.
 - `block_number` - block number (required)
 
 *Response*:
-
-dsdsd
-
-<Tabs items={['CURL']}>
-<Tabs.Tab>
-```sh
-curl "http://127.0.0.1:7000/v2/blocks/572481/header"
-```
-</Tabs.Tab>
-</Tabs>
-
 
 If **block_status = "verifying-confidence|verifying-data|finished"**, the header is available, and the response is:
 ```yaml
@@ -530,17 +777,135 @@ If **block_status = "unavailable|pending|verifying-header"**, header is not avai
 ```yaml
 HTTP/1.1 400 Bad Request
 ```
+<Tabs items={['CURL', 'Rust']}>
+<Tabs.Tab>
+```sh
+curl "http://127.0.0.1:7000/v2/blocks/592445/header"
+```
+</Tabs.Tab>
 
-### **GET** `/v2/blocks/{block_number}/data?fields=data,extrinsic`
+<Tabs.Tab>
+```rust
+use reqwest::{StatusCode, Client};
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Serialize, Deserialize)]
+struct BlockHeaderResponse {
+    hash: String,
+    parent_hash: String,
+    number: u32,
+    state_root: String,
+    extrinsics_root: String,
+    extension: Extension,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct Extension {
+    rows: u32,
+    cols: u32,
+    data_root: Option<String>,
+    commitments: Vec<String>,
+    app_lookup: AppLookup,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct AppLookup {
+    size: u32,
+    index: Vec<AppIndex>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct AppIndex {
+    app_id: Option<u32>,
+    start: u32,
+}
+
+const LIGHT_CLIENT_URL: &str = "http://127.0.0.1:7000";
+
+#[tokio::main]
+async fn main() {
+    let block_number = 592445; // Example block number
+    let client = Client::new();
+    let header_url = format!("{LIGHT_CLIENT_URL}/v2/blocks/{block_number}/header");
+    let response = client.get(header_url).send().await.unwrap();
+
+    match response.status() {
+        StatusCode::OK => {
+            let block_header: BlockHeaderResponse = response.json().await.unwrap();
+            println!("Block header: {:?}", block_header);
+        }
+        StatusCode::BAD_REQUEST => {
+            println!("Header not available for block {}", block_number);
+        }
+        _ => {
+            eprintln!("Failed to get block header: {}", response.status());
+        }
+    }
+    // ...error handling...
+}
+```
+</Tabs.Tab>
+</Tabs>
+
+### v2/blocks/&#123;block_number&#125;/data?fields=data,extrinsic
 
 Gets the block data if available. Query parameter `fields` specifies whether to return decoded data and encoded extrinsic (with signature). If `fields` parameter is omitted, response contains **hash** and **data**, while **extrinsic** is omitted.
 
 If **block_status = "finished"**, data is available and the response is:
 
-```yaml
-HTTP/1.1 200 OK
-Content-Type: application/json
+<Tabs items={['CURL', 'Rust']}>
+<Tabs.Tab>
+```sh
+curl "http://127.0.0.1:7000/v2/blocks/{block_number}/data?fields=data,extrinsic"
+```
+</Tabs.Tab>
 
+<Tabs.Tab>
+```rust
+use reqwest::{Client, StatusCode};
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Serialize, Deserialize)]
+struct BlockDataResponse {
+    data_transactions: Vec<DataTransaction>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct DataTransaction {
+    data: Option<String>,       // Base-64 encoded data (optional)
+    extrinsic: Option<String>,  // Base-64 encoded extrinsic (optional)
+}
+
+const LIGHT_CLIENT_URL: &str = "http://127.0.0.1:7000";
+
+#[tokio::main]
+async fn main() {
+    let block_number = 592445; // Example block number
+    let client = Client::new();
+    let data_url = format!("{LIGHT_CLIENT_URL}/v2/blocks/{block_number}/data?fields=data,extrinsic");
+    let response = client.get(&data_url).send().await.unwrap();
+
+    match response.status() {
+        StatusCode::OK => {
+            let block_data: BlockDataResponse = response.json().await.unwrap();
+            println!("Block data: {:?}", block_data);
+        }
+        StatusCode::BAD_REQUEST => {
+            println!("Data not available for block {}", block_number);
+        }
+        _ => {
+            eprintln!("Failed to get block data: {}", response.status());
+        }
+    }
+    // ...error handling...
+}
+```
+</Tabs.Tab>
+</Tabs>
+
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary> Sample Response:</summary>
+```yaml
 {
   "data_transactions": [
     {
@@ -550,14 +915,15 @@ Content-Type: application/json
   ]
 }
 ```
+</details>
 
 If **block_status** is not **“finished”**, or **app** mode is not enabled, data is not available and the response is:
 
 ```yaml
-HTTP/1.1 400 Bad Request
+Bad Request
 ```
 
-### POST `/v2/submit`
+### v2/submit
 
 Submits application data to the avail network.\
 In case of `data` transaction, data transaction is created, signed and submitted.\
@@ -598,22 +964,11 @@ If **app** mode is not active (or signing key is not configured and `data` is su
 HTTP/1.1 404 Not found
 ```
 
-### Errors
-
-In case of an error, endpoints will return a response with `500 Internal Server Error` status code, and descriptive error message:
-
-```yaml
-HTTP/1.1 500 Internal Server Error
-Content-Type: text/plain
-
-Internal Server Error
-```
-
 ## WebSocket API
 
 The Avail Light Client WebSocket API allows real-time communication between a client and a server over a persistent connection, enabling push notifications as an alternative to polling. Web socket API can be used on its own or in combination with HTTP API to enable different pull/push use cases.
 
-### POST `/v2/subscriptions`
+### v2/subscriptions
 
 Creates subscriptions for given topics. In case of reconnects, the user needs to subscribe again.
 
