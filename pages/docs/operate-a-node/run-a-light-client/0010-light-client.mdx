@@ -75,13 +75,13 @@ curl --version
 1. To spin up an Avail light client on the Goldberg testnet, run the following command in your terminal:
 
 ```sh
-curl -sL1 avail.sh | sh -s -- --app_id 1
+curl -sL1 avail.sh | sh -s -- --app_id 1 --network goldberg
 ```
 
 2. You can pass additional flags to the script like:
 
 ```sh
-curl -sL1 avail.sh | sh -s -- --network goldberg
+curl -sL1 avail.sh | sh -s -- --upgrade y
 ```
 
 Currently available flags are:
