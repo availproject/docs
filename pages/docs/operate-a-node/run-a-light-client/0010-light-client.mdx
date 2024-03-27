@@ -60,16 +60,22 @@ Reconstructed data is then available to accessed via an HTTP endpoint.
 
 <Tabs.Tab>
 
-**`availup`** is the recommended way of running the Avail light client for most users.
+**[`availup`](https://github.com/availproject/availup)** is the recommended way of running the Avail light client for most users.
 `availup` is a shell wrapper that allows you to spin up your own instance of the Avail light client 
 with a simple `curl` command.
 
-To run the Avail LC using `availup`, make sure you have [`curl`](https://curl.se/) installed on your system. 
-
-1. Then run the following command in your terminal:
+<Callout type="info">
+To run the Avail LC using `availup`, make sure you have [`curl`](https://curl.se/) installed on your system. To check, quickly:
 
 ```sh
-curl -sL1 avail.sh | sh
+curl --version
+```
+</Callout>
+
+1. To spin up an Avail light client on the Goldberg testnet, run the following command in your terminal:
+
+```sh
+curl -sL1 avail.sh | sh -s -- --app_id 1
 ```
 
 2. You can pass additional flags to the script like:

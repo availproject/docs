@@ -25,11 +25,29 @@ import { Callout } from 'nextra/components'
 BEFORE WE START
 1. The indiviual behaviour of some methods may differ depending on which mode the light client is runnning in.
 This will be documented in the individual method descriptions.
-2. The `API-v2` is an improved version of `API-v1` with a focus on improving devex.
-In the near future, another upgrade to the light client API will remove versioning altogether.
-Any such changes will be documented here.
+2. It is recommended to use `API-v2` over `API-v1`, although both are supported.
 3. The methods documented here were tested on a locally running instance of the Avail light client.
 They will however work with remotely hosted instances as well.
+</Callout>
+
+<Callout type="info">
+RUN RUST CODE SNIPPETS<br/>
+To run the Rust code snippets:
+
+1. Create a new Rust project:
+    ```sh
+    cargo new <project-name>
+    ```
+2. Add these dependencies to the `Cargo.toml` file:
+    ```toml
+    [dependencies]
+    reqwest = { version = "0.12", features = ["json"] }
+    serde = { version = "1.0", features = ["derive"] }
+    serde_json = "1.0"
+    tokio = { version = "1.36", features = ["full"] }
+    base64 = "0.22"
+    ```
+3. Paste the code snippets into the `main.rs` file, and run the project with `cargo run`.
 </Callout>
 
 ## API-v1
