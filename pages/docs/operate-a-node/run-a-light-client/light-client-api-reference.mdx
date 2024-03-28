@@ -65,7 +65,7 @@ Allows us to fetch the latest block processed by light client.
 
 <Tabs.Tab>
 ```sh
-curl "http://localhost:7000/v1/latest_block"
+curl "http://127.0.0.1:7000/v1/latest_block"
 ```
 </Tabs.Tab>
 
@@ -106,12 +106,6 @@ async fn main() {
 ```
 </details>
 
-<Callout>
-The `localhost` namespace should allow you to access your local port where the Avail LC is running.
-If however you get no response, try replacing `localhost` with `127.0.0.1`.
-This is a known issue and we are looking into this.
-</Callout>
-
 ### v1/confidence/&#123;block_number&#125;
 
 Allows us to fetch the confidence in % for a given block number.
@@ -128,7 +122,7 @@ Allows us to fetch the confidence in % for a given block number.
 
 <Tabs.Tab>
 ```sh
-curl "http://localhost:7000/v1/confidence/1"
+curl "http://127.0.0.1:7000/v1/confidence/1"
 ```
 
 <details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
@@ -225,7 +219,7 @@ If application data is available, and decode is `true`:
 #### JSON response
 
 ```sh
-curl "http://localhost:7000/v1/appdata/1?decode=true"
+curl "http://127.0.0.1:7000/v1/appdata/1?decode=true"
 ```
 </Tabs.Tab>
 
@@ -309,7 +303,7 @@ Retrieves the operating mode of the Avail light client. The Light client can ope
 #### JSON response
 
 ```sh
-curl "http://localhost:7000/v1/mode"
+curl "http://127.0.0.1:7000/v1/mode"
 ```
 </Tabs.Tab>
 
@@ -381,7 +375,7 @@ Retrieves the status of the latest block processed by the light client.
 #### JSON response
 
 ```sh
-curl "http://localhost:7000/v1/status"
+curl "http://127.0.0.1:7000/v1/status"
 ```
 </Tabs.Tab>
 
@@ -1049,3 +1043,209 @@ If app mode is not active (or signing key is not configured and `data` is submit
 Not found
 ```
 </details>
+
+## WebSocket API
+
+The Avail Light Client WebSocket API allows real-time communication between a client and a server over a 
+persistent connection. The Web socket API can be used on its own or in combination with HTTP API to enable different pull/push use cases.
+
+<Callout type="info">
+`HTTP` and `Websocket` are fundamentally different ways of communication. `HTTP` is a request-response protocol,
+where a connection persists for only so long as the request is being processed. In contrast, a websocket connection
+persists for as long as the client and server are connected. This allows for real-time communication between the two,
+and enables the client to fetch information from the server as soon as it is available, without having to
+poll the server for updates.
+</Callout>
+
+<Callout type="info">
+HOW TO CONNECT TO THE WEBSOCKET SERVER <br/>
+You cannot use `CURL` to send websocket commands, since `CURL` cannot maintain a persistent connection.
+Although there are a variety of librariries we can use, the following examples are using [wscat](https://github.com/websockets/wscat).
+
+To install `wscat`, simply run:
+```sh
+npm install -g wscat
+```
+</Callout>
+
+### v2/subscriptions
+
+The Avail LC Websocket API generates a unique `subscription_id` upon request. This ID is used to connect
+to the websocket server.
+The `v2/subscriptions` method creates subscriptions for given topics. In case of reconnects, the user needs to subscribe again.
+
+<Callout emoji= "😝">
+Ironically the only way to generate a subscription ID for a websocket connection is through an `http`
+method.
+</Callout>
+
+#### Topics
+
+- **header-verified** - header finality is verified and header is available
+- **confidence-achieved** - confidence is achieved
+- **data-verified** - block data is verified and available
+
+#### Data fields
+
+Filters **data-verified** message. Optional parameter used when encoded **extrinsic** is needed. If omitted, only decoded **data** is present in the message.
+
+Request:
+
+<Tabs items={['CURL', 'Rust']}>
+<Tabs.Tab>
+```sh
+curl -X POST "http://127.0.0.1:7000/v2/subscriptions" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "topics": ["header-verified", "confidence-achieved", "data-verified"],
+           "data_fields": ["data", "extrinsic"]
+         }'
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```rust
+use reqwest::{Client, StatusCode};
+use serde::{Deserialize, Serialize};
+use serde_json::json;
+
+#[derive(Debug, Serialize, Deserialize)]
+struct SubscriptionResponse {
+    subscription_id: String,
+}
+
+const LIGHT_CLIENT_URL: &str = "http://127.0.0.1:7000";
+
+#[tokio::main]
+async fn main() {
+    let client = Client::new();
+    let subscriptions_url = format!("{LIGHT_CLIENT_URL}/v2/subscriptions");
+    let topics = vec!["header-verified", "confidence-achieved", "data-verified"];
+    let data_fields = vec!["data", "extrinsic"];
+
+    let response = client.post(&subscriptions_url)
+        .header("Content-Type", "application/json")
+        .body(json!({ "topics": topics, "data_fields": data_fields }).to_string())
+        .send()
+        .await
+        .unwrap();
+
+    match response.status() {
+        StatusCode::OK => {
+            let subscription_response: SubscriptionResponse = response.json().await.unwrap();
+            println!("Subscription ID: {}", subscription_response.subscription_id);
+        }
+        _ => {
+            eprintln!("Failed to create subscription: {}", response.status());
+        }
+    }
+    // ...error handling...
+}
+```
+</Tabs.Tab>
+</Tabs>
+
+
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary> Sample Response:</summary>
+
+```yaml
+{
+  "subscription_id": "{subscription-id}"
+}
+```
+</details>
+
+### v2/ws/&#123;subscription-id&#125;
+
+You can use this method to actually connect to Avail Light Client web socket. Multiple connections are currently allowed.
+
+To connect to the Avail LC websocket API, you need:
+
+1. Access to a [running Light Client](/docs/operate-a-node/run-a-light-client/0010-light-client#running-the-light-client).
+2. A subscription ID generated using the [`v2/subscriptions`](#v2subscriptions) method.
+3. to run this wscat command in the terminal:
+```sh
+wscat -c ws://127.0.0.1:7000/v2/ws/{subscription-id}
+```
+
+Your terminal should look something like this:
+<br/>
+<img src="/img/websocket-connection.png" alt="Avail-fusion" width="100%"/>
+
+<Callout type="info">
+Please note that you will regularly receive information related to the topics you chose to subscribe to
+for as long as the `ws` connection persists, even if you don't actually send any messages.
+</Callout>
+
+Every request should contain unique **request_id** field, used to correlate request with response.
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary> **Subscription IDs vs Request IDs** </summary>
+
+Each time you use the [`v2/subscriptions`](#v2subscriptions) method, you will receive a unique **subscription_id**. 
+This ID is used to connect to the websocket server. 
+
+Each of these IDs will be of the [UUID4 format](https://www.uuidgenerator.net/version4).
+
+Coming to requests, every request you make to the websocket server should contain a **request_id** field,
+which will need to be a UUID4 value. You can choose to use a single, random UUID4 value to send all your requests,
+or you can use a unique UUID4 value for each request you send. The choice is yours.
+
+Using a sngle UUID4 value is simple, but using a unique UUID4 value for each request can help you 
+correlate each response with a unique request.
+
+The Avail LC API was designed with dev experience in mind, and this way you can choose the way that suits you best.
+</details>
+
+### v2/ws/version
+
+Request Avail Light Client version data.
+
+*Sample Request:*
+
+```json
+{"type":"version","request_id":"4a482bb0-3c22-475d-a2b8-af1c27aa2636"}
+```
+
+*Sample Response:*
+```json
+{"topic":"version","request_id":"4a482bb0-3c22-475d-a2b8-af1c27aa2636","message":{"version":"v1.7.8","network_version":"1.10"}}
+```
+
+### v2/ws/status
+
+Request current Avail Light Client status data.
+
+*Sample Request:*
+
+```json
+{"type":"status","request_id":"4a482bb0-3c22-475d-a2b8-af1c27aa2636"}
+```
+
+*Sample Response:*
+
+```json
+{"topic":"status","request_id":"4a482bb0-3c22-475d-a2b8-af1c27aa2636","message":{"modes":["light","app"],"app_id":1,"genesis_hash":"0x6f09966420b2608d1947ccfb0f2a362450d1fc7fd902c29b67c906eaa965a7ae","network":"wss://goldberg.avail.tools:443/ws/1.11.0-38304bb5126/data-avail/22","blocks":{"latest":597705,"available":{"first":596467,"last":597704},"app_data":{"first":596467,"last":597704}}}}
+```
+
+### v2/ws/submit
+
+Submits data transaction to the Avail.
+
+*Sample Request:*
+```json
+{"type":"submit","request_id":"4a482bb0-3c22-475d-a2b8-af1c27aa2636","message":{"data":"dGVzdAo="}}
+```
+
+*Sample Response:*
+```json
+ {"topic":"data-transaction-submitted","request_id":"4a482bb0-3c22-475d-a2b8-af1c27aa2636","message":{"block_number":597725,"block_hash":"0x84803b93bf96aea90fae8fcb21cae70d310783ae8e9c4f4e1d696cec2791c0e3","hash":"0x290efdc7856fd29ec406c610f79aaa3c8079c11f8338093efad739b454bef0ac","index":1}}
+```
+
+<Callout type="info">
+Please note that to submit any sort of data to Avail, you need to:
+
+1. Run the Avail light client in `app`mode.
+2. Configure an `identity.toml` file with the seed phrase of an account that has some `AVL` tokens.
+</Callout>
