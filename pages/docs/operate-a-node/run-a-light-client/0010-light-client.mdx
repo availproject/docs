@@ -31,7 +31,7 @@ You can find the latest release binary in the [`avail-light`](https://github.com
 <Callout type="info">
 RECOMMENDED VERSION <br/>
 You can find the latest release of the Avail LC from [our Github repo](https://github.com/availproject/avail-light). For now though we recommend most users to
-run [`v1.7.8`](https://github.com/availproject/avail-light/releases/tag/v1.7.8) of the Avail light client for maximal network support. <br/>
+run [`v1.7.9`](https://github.com/availproject/avail-light/releases/tag/v1.7.9) of the Avail light client for maximal network support. <br/>
 We will keep this recommendation updated.
 </Callout>
 
@@ -39,7 +39,7 @@ We will keep this recommendation updated.
 
 The Avail light client has two main modes of operation:
 
-1. **Light-client Mode**: The basic mode of operation and is always active no matter the mode selected. 
+1. **Light-client mode**: The basic mode of operation and is always active no matter the mode selected. 
 If an `app_id` is not provided (or is = 0), this mode will commence. On each header received the client 
 does random sampling using two mechanisms:
 
@@ -50,7 +50,7 @@ does random sampling using two mechanisms:
   Once the data is received, light client verifies individual cells and calculates the confidence, 
   which is then stored locally.
 
-2. **App-Specific Mode**: If an `app_id = 1` is given in the config file, the application client 
+2. **App-client mode**: If an `app_id > 0` is given in the config file, the application client 
 (part of the light client) downloads all the relevant app data, reconstructs it and persists it locally. 
 Reconstructed data is then available to accessed via an HTTP endpoint.
 
@@ -72,16 +72,16 @@ curl --version
 ```
 </Callout>
 
-1. To spin up an Avail light client on the Goldberg testnet, run the following command in your terminal:
+1. To spin up an Avail light client on the Goldberg testnet, just run this one command in your terminal:
 
 ```sh
-curl -sL1 avail.sh | sh -s -- --app_id 1 --network goldberg
+curl -sL1 avail.sh | sh
 ```
 
 2. You can pass additional flags to the script like:
 
 ```sh
-curl -sL1 avail.sh | sh -s -- --upgrade y
+curl -sL1 avail.sh | sh -s -- app_id 1
 ```
 
 Currently available flags are:
@@ -129,7 +129,7 @@ Currently available flags are:
   You can also download and run a pre-built binary of the Avail light client.
   To do so:
 
-  1. Download the [recommended version of the binary](https://github.com/availproject/avail-light/releases/tag/v1.7.8) that is compatible with your operating system.
+  1. Download the [recommended version of the binary](https://github.com/availproject/avail-light/releases/tag/v1.7.9) that is compatible with your operating system.
 
   2. Move the `.tar` file into a convenient directory and extract it to reveal the `avail-light` binary.
 
@@ -178,9 +178,9 @@ Currently available flags are:
 
    1. Clone the Avail light-client repo and checkout to the specified version:
    ```sh
-   git clone https://github.com/availproject/avail-light.git &&
-   cd avail-light &&
-   git checkout tags/v1.7.8
+   git clone https://github.com/availproject/avail-light.git
+   cd avail-light
+   git checkout tags/v1.7.9
    ```
 
    2. Make sure your terminal is in the `avail-light` directory. Create a compiled binary by running:

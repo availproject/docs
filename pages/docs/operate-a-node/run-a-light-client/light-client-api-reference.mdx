@@ -65,7 +65,7 @@ Allows us to fetch the latest block processed by light client.
 
 <Tabs.Tab>
 ```sh
-curl "http://localhost:7000/v1/latest_block"
+curl "http://127.0.0.1:7000/v1/latest_block"
 ```
 </Tabs.Tab>
 
@@ -106,12 +106,6 @@ async fn main() {
 ```
 </details>
 
-<Callout>
-The `localhost` namespace should allow you to access your local port where the Avail LC is running.
-If however you get no response, try replacing `localhost` with `127.0.0.1`.
-This is a known issue and we are looking into this.
-</Callout>
-
 ### v1/confidence/&#123;block_number&#125;
 
 Allows us to fetch the confidence in % for a given block number.
@@ -128,7 +122,7 @@ Allows us to fetch the confidence in % for a given block number.
 
 <Tabs.Tab>
 ```sh
-curl "http://localhost:7000/v1/confidence/1"
+curl "http://127.0.0.1:7000/v1/confidence/1"
 ```
 
 <details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
@@ -225,7 +219,7 @@ If application data is available, and decode is `true`:
 #### JSON response
 
 ```sh
-curl "http://localhost:7000/v1/appdata/1?decode=true"
+curl "http://127.0.0.1:7000/v1/appdata/1?decode=true"
 ```
 </Tabs.Tab>
 
@@ -309,7 +303,7 @@ Retrieves the operating mode of the Avail light client. The Light client can ope
 #### JSON response
 
 ```sh
-curl "http://localhost:7000/v1/mode"
+curl "http://127.0.0.1:7000/v1/mode"
 ```
 </Tabs.Tab>
 
@@ -381,7 +375,7 @@ Retrieves the status of the latest block processed by the light client.
 #### JSON response
 
 ```sh
-curl "http://localhost:7000/v1/status"
+curl "http://127.0.0.1:7000/v1/status"
 ```
 </Tabs.Tab>
 
