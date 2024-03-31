@@ -124,19 +124,6 @@ Allows us to fetch the confidence in % for a given block number.
 ```sh
 curl "http://127.0.0.1:7000/v1/confidence/1"
 ```
-
-<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
-<summary>Sample Response:</summary>
-
-```json
-{
-  "block": 1,
-  "confidence": 93.75,
-  "serialised_confidence": "5232467296"
-}
-```
-</details>
-
 </Tabs.Tab>
 
 <Tabs.Tab>
@@ -169,9 +156,19 @@ async fn main() {
     // ...error handling...
 }
 ```
-
 </Tabs.Tab>
 </Tabs>
+
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+
+```json
+{
+  "block": 1,
+  "confidence": 93.75,
+  "serialised_confidence": "5232467296"
+}
+```
 
 If confidence is not computed, and specified block is before the latest processed block:
 
@@ -184,6 +181,7 @@ If confidence is not computed, and specified block is after the latest processed
 ```json
 "Not found"
 ```
+</details>
 
 ### v1/appdata/&#123;block_number&#125;
 
@@ -194,24 +192,6 @@ a base64-encoded string.
 *Params*:
 - `block_number` - block number (required)
 - `decode` - `true` if decoded extrinsics are requested (boolean, optional, default is `false`)
-
-*Response*:
-- If application data is available, and decode is `false` or unspecified:
-
-```json
-{
-  "block": 1,
-  "extrinsics": [
-    "0xc5018400d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d01308e88ca257b65514b7b44fc1913a6a9af6abc34c3d22761b0e425674d68df7de26be1c8533a7bbd01fdb3a8daa5af77df6d3fb0a67cde8241f461f4fe16f188000000041d011c6578616d706c65"
-  ]
-}
-```
-
-If application data is available, and decode is `true`:
-
-```json
-{ "block": 1, "extrinsics": ["ZXhhbXBsZQ=="] }
-```
 
 <Tabs items={['CURL', 'Rust']}>
 
@@ -271,6 +251,23 @@ async fn main() {
   "block": 46,
   "extrinsics": ["ZXhhbXBsZQ=="]
 }
+```
+
+- If application data is available, and decode is `false` or unspecified:
+
+```json
+{
+  "block": 1,
+  "extrinsics": [
+    "0xc5018400d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d01308e88ca257b65514b7b44fc1913a6a9af6abc34c3d22761b0e425674d68df7de26be1c8533a7bbd01fdb3a8daa5af77df6d3fb0a67cde8241f461f4fe16f188000000041d011c6578616d706c65"
+  ]
+}
+```
+
+If application data is available, and decode is `true`:
+
+```json
+{ "block": 1, "extrinsics": ["ZXhhbXBsZQ=="] }
 ```
 </details>
 
@@ -1050,7 +1047,7 @@ The Avail Light Client WebSocket API allows real-time communication between a cl
 persistent connection. The Web socket API can be used on its own or in combination with HTTP API to enable different pull/push use cases.
 
 <Callout type="info">
-`HTTP` and `Websocket` are fundamentally different ways of communication. `HTTP` is a request-response protocol,
+`HTTP` and `Websocket` are twi different ways of communicating with a server. `HTTP` is a request-response protocol,
 where a connection persists for only so long as the request is being processed. In contrast, a websocket connection
 persists for as long as the client and server are connected. This allows for real-time communication between the two,
 and enables the client to fetch information from the server as soon as it is available, without having to
@@ -1165,9 +1162,14 @@ To connect to the Avail LC websocket API, you need:
 1. Access to a [running Light Client](/docs/operate-a-node/run-a-light-client/0010-light-client#running-the-light-client).
 2. A subscription ID generated using the [`v2/subscriptions`](#v2subscriptions) method.
 3. to run this wscat command in the terminal:
+
+<Tabs items={['wscat']}>
+<Tabs.Tab>
 ```sh
 wscat -c ws://127.0.0.1:7000/v2/ws/{subscription-id}
 ```
+</Tabs.Tab>
+</Tabs>
 
 Your terminal should look something like this:
 <br/>
@@ -1204,9 +1206,13 @@ Request Avail Light Client version data.
 
 *Sample Request:*
 
+<Tabs items={['json']}>
+<Tabs.Tab>
 ```json
 {"type":"version","request_id":"4a482bb0-3c22-475d-a2b8-af1c27aa2636"}
 ```
+</Tabs.Tab>
+</Tabs>
 
 *Sample Response:*
 ```json
@@ -1219,9 +1225,13 @@ Request current Avail Light Client status data.
 
 *Sample Request:*
 
+<Tabs items={['json']}>
+<Tabs.Tab>
 ```json
 {"type":"status","request_id":"4a482bb0-3c22-475d-a2b8-af1c27aa2636"}
 ```
+</Tabs.Tab>
+</Tabs>
 
 *Sample Response:*
 
@@ -1234,9 +1244,14 @@ Request current Avail Light Client status data.
 Submits data transaction to the Avail.
 
 *Sample Request:*
+
+<Tabs items={['json']}>
+<Tabs.Tab>
 ```json
 {"type":"submit","request_id":"4a482bb0-3c22-475d-a2b8-af1c27aa2636","message":{"data":"dGVzdAo="}}
 ```
+</Tabs.Tab>
+</Tabs>
 
 *Sample Response:*
 ```json
