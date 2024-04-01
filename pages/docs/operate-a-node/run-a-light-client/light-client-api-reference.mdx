@@ -933,22 +933,17 @@ Bad Request
 </details>
 
 <Callout type="info">
-The next few methods are used to submit data to the Avail network. But to use them, you need to configure
-an `identity.toml` file which will contain the seed phrase for an account that has some `AVL` tokens.
+The next few methods are used to submit data to the Avail network. But to use them:
 
-To do so:
+1. you need to configure an `identity.toml` file which will contain the seed phrase 
+for an account that has some `AVL` tokens. You can learn how to do that [here](/docs/operate-a-node/run-a-light-client/0010-light-client#setting-your-identity-using-identitytoml).
 
-1. create an `identity.toml` file anywhere in your system.
-2. Initialize a variable named `avail_secret_seed_phrase` like this:
-```toml
-avail_secret_seed_phrase = 'AvailDA rice is demon the pair best almond DA walnut solution walrus out tube there'
-```
-3. Pass this file to the light client using the `--identity` flag like this. This could look something like this:
+2. You will also need to run the Avail LC in app-client mode. The command to do all this will 
+look something like this:
+
 ```sh
-curl -sL1 avail.sh | sh -s -- --app_id 1 --identity identity.toml --network goldberg
+curl -sL1 avail.sh | bash -s -- --app_id 1 --identity identity.toml --network goldberg
 ```
-
-Please note this command worked for a system where the `identity.toml` file was in the same directory as the terminal.
 </Callout>
 
 ### v2/submit

@@ -54,6 +54,14 @@ does random sampling using two mechanisms:
 (part of the light client) downloads all the relevant app data, reconstructs it and persists it locally. 
 Reconstructed data is then available to accessed via an HTTP endpoint.
 
+<Callout type="info">
+Please note that each app/rollup running on Avail DA will have a unique `app_id`, which will be an integer `> 0`.
+When running in the App-client mode, the Avail LC will only download and verify data relevant to that specific `app_id`.
+
+The idea here was to give rollup developers the ability to verify data specifically for their rollup,
+with minimal overhead.
+</Callout>
+
 ## Running the light client (Linux, MacOS)
 
 <Tabs items={['availup','Run pre-built binary', 'Build from source']}>
@@ -78,24 +86,10 @@ curl --version
 curl -sL1 avail.sh | bash
 ```
 
-2. You can pass additional flags to the script like:
-
-```sh
-curl -sL1 avail.sh | bash -s -- app_id 1
-```
-
-Currently available flags are:
-
-- **network**: can be one of the following: [kate, goldberg, local]
-- **config**: path to the configuration file, availup will generate a config if this flag is not specified
-- **app_id**: application ID to run the light client (defaults to 0). Set `app_id` to 1 to run in app-specific mode.
-- **upgrade**: takes y and yes as valid arguments, indicating that the avail-light binary should be upgraded
-
-3. If everything goes well, the client output will look like this:
+2. If everything goes well, the client output will look like this:
 
 <details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
 <summary> Sample output </summary>
-
 ```shell
 2024-03-20T10:50:25.528628Z  INFO avail_light::light_client: Processing finalized block block_number=562690 block_delay=20
 2024-03-20T10:50:25.528706Z  INFO avail_light::light_client: Random cells generated: 10 block_number=562690 cells_requested=10
@@ -122,6 +116,9 @@ Currently available flags are:
 ```
 </details>
 
+3. If you want to read about all the different flags you can use to run the Avail LC 
+using `availup`, you can always check out [our Github repo](https://github.com/availproject/availup).
+
 </Tabs.Tab>
 
 <Tabs.Tab>
@@ -134,9 +131,56 @@ Currently available flags are:
   2. Move the `.tar` file into a convenient directory and extract it to reveal the `avail-light` binary.
 
   3. Open a terminal in that location and run:
-   ```sh
-    ./avail-light-<light-client-binary-type> --network goldberg
-   ```
+
+  <Tabs items={['Linux', 'MacOS']}>
+
+  <Tabs.Tab>
+  <Tabs items={['x86_64 or amd64' , 'arm64']}>
+
+  <Tabs.Tab>
+  For linux machines that run on `x86_64` based Intel or `amd64` based AMD processors, run:
+
+  ```sh
+  ./avail-light-linux-amd64.tar.gz --network goldberg
+  ```
+  </Tabs.Tab>
+
+  <Tabs.Tab>
+  For linux machines that run on `arm64` based processors, run:
+  
+  ```sh
+  ./avail-light-linux-arm64.tar.gz --network goldberg
+  ```
+  </Tabs.Tab>
+
+  </Tabs>
+  </Tabs.Tab>
+
+  <Tabs.Tab>
+  <Tabs items={['apple-x86_64' , 'apple-arm64']}>
+
+  <Tabs.Tab>
+  For MacOS machines that run on `x86_64` based Intel processors, run:
+
+  ```sh
+  ./avail-light-apple-x86_64.tar.gz --network goldberg
+  ```
+  </Tabs.Tab>
+
+  <Tabs.Tab>
+  For MacOS machines that run on newer `arm64` based M-series processors, run:
+
+  ```sh
+  ./avail-light-apple-arm64.tar.gz --network goldberg
+  ```
+  </Tabs.Tab>
+
+  </Tabs>
+
+  </Tabs.Tab>
+
+  </Tabs>
+
   4. If everything goes well, the client output will look like this:
 
 <details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
@@ -183,18 +227,22 @@ Currently available flags are:
    git checkout tags/v1.7.9
    ```
 
-   2. Make sure your terminal is in the `avail-light` directory. Create a compiled binary by running:
+   2. Make sure your terminal is in the `avail-light` directory. Create a compiled build by running:
    ```sh
    cargo build --release
    ```
 
-   3. This will create a new directory named `target` within `avail-light`. Navigate to `target/release` and you will find the `avail-light` binary.
-   Run the binary using:
+   3. This will create a new directory named `target` within `avail-light`. Navigate to `target/release` using:
+   ```sh
+   cd target/release
+   ```   
+   
+  4. Here you will find the `avail-light` build. Run the build using:
    ```sh
    ./avail-light --network goldberg
    ```
 
-   4. If everything goes well, the client output will look like this:
+  5. If everything goes well, the client output will look like this:
 
 <details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
 <summary> Sample output </summary>
@@ -224,14 +272,7 @@ Currently available flags are:
 
 </details>
 
-
-   <Callout type="info">
-   The exact '*binary type*' will differ from system to system. Take care to use the correct binary type for your system,
-   and take care to use the correct name of the binary in you terminal.
-   Alternatively, you could rename the binary to `avail-light` for convenience.
-   </Callout>
-
-  </Tabs.Tab>
+</Tabs.Tab>
 </Tabs>
 
 ## Running the light client (Windows)
@@ -242,49 +283,7 @@ without having to set up a seperate virtual machine or a dual-boot system.
 However, we realise that working with WSL might be inconvinient for some users. We have therefore also included
 instructions on how to run the Avail light client natively on Windows without having to go through any technical hassles.
 
-<Tabs items={['Without WSL' , 'With WSL']}>
-
-<Tabs.Tab>
-
-1. Go to the [releases page of the Avail light client repo](https://github.com/availproject/avail-light/releases/tag/v1.7.9), and download the
-`avail-light-windows-runner.zip` file.
-
-2. Right click the downloaded file and extract it to a convenient location.
-
-3. Then run the `availup.bat` file by double clicking it. This will start the Avail light client.
-
-4. If everything goes well, the client output will look like this:
-
-<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
-<summary> Sample output </summary>
-2024-03-20T10:22:23.821042Z  INFO avail_light::api::v2: Message published to clients topic=HeaderVerified published=0 failed=0
-2024-03-20T10:22:23.854448Z  INFO avail_light::network: Cells fetched from RPC block_number=562606 cells_total=10 cells_fetched=10 cells_verified=10 fetch_elapsed=466.901875ms proof_verification_elapsed=10.431583ms
-2024-03-20T10:22:23.854573Z  INFO avail_light::light_client: Confidence factor: 99.90234375 block_number=562606 confidence=99.90234375
-2024-03-20T10:22:23.854635Z  INFO avail_light::light_client: Sleeping for 19.965855416s seconds
-2024-03-20T10:22:23.854643Z  INFO avail_light::api::v2: Message published to clients topic=ConfidenceAchieved published=0 failed=0
-2024-03-20T10:22:24.392198Z  INFO avail_light::network::p2p::event_loop: Cell upload success rate for block 562606: 0/10. Duration: 0
-2024-03-20T10:22:43.821867Z  INFO avail_light::light_client: Processing finalized block block_number=562607 block_delay=20
-2024-03-20T10:22:43.821955Z  INFO avail_light::light_client: Random cells generated: 10 block_number=562607 cells_requested=10
-2024-03-20T10:22:44.358772Z  INFO avail_light::network: Cells fetched from DHT block_number=562607 cells_total=10 cells_fetched=0 cells_verified=0 fetch_elapsed=536.778958ms proof_verification_elapsed=2.292µs
-2024-03-20T10:22:45.937348Z  INFO avail_light::network: Cells fetched from RPC block_number=562607 cells_total=10 cells_fetched=10 cells_verified=10 fetch_elapsed=1.56179875s proof_verification_elapsed=16.692791ms
-2024-03-20T10:22:45.938417Z  INFO avail_light::light_client: Confidence factor: 99.90234375 block_number=562607 confidence=99.90234375
-2024-03-20T10:22:45.938564Z  INFO avail_light::api::v2: Message published to clients topic=ConfidenceAchieved published=0 failed=0
-2024-03-20T10:22:46.473163Z  INFO avail_light::network::p2p::event_loop: Cell upload success rate for block 562607: 0/10. Duration: 0
-2024-03-20T10:22:46.527044Z  INFO avail_light::network::rpc::subscriptions: New justification at block no.: 562608, hash: 0xbea2a4b136c271b72314e2349577136bf7cdc7c732bc3909e280eb602b8af643
-2024-03-20T10:22:46.672163Z  INFO avail_light::network::rpc::subscriptions: Header no.: 562608
-2024-03-20T10:22:46.673730Z  INFO avail_light::network::rpc::subscriptions: Number of matching signatures: 5/7 for block 562608, set_id 223
-2024-03-20T10:22:46.673755Z  INFO avail_light::network::rpc::subscriptions: Storing finality checkpoint at block 562608
-2024-03-20T10:22:46.674002Z  INFO avail_light::network::rpc::subscriptions: Sending finalized block 562608
-2024-03-20T10:22:46.674087Z  INFO avail_light::api::v2: Message published to clients topic=HeaderVerified published=0 failed=0
-2024-03-20T10:22:46.674150Z  INFO avail_light::light_client: Sleeping for 19.998042125s seconds
-</details>
-
-<Callout type="info">
-Please note that trying to download and run a precompiled binary via a `.zip` file might result in 
-windows warning you about the file being potentially harmful. You will need to bypass this warning to run the light client.
-</Callout>
-
-</Tabs.Tab>
+<Tabs items={['With WSL' , 'Without WSL' ]}>
 
 <Tabs.Tab>
 To install WSL on your Windows machine:
@@ -329,6 +328,7 @@ curl -sL1 avail.sh | bash
 
 <details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
 <summary> Sample output </summary>
+```shell
 2024-03-20T10:22:23.821042Z  INFO avail_light::api::v2: Message published to clients topic=HeaderVerified published=0 failed=0
 2024-03-20T10:22:23.854448Z  INFO avail_light::network: Cells fetched from RPC block_number=562606 cells_total=10 cells_fetched=10 cells_verified=10 fetch_elapsed=466.901875ms proof_verification_elapsed=10.431583ms
 2024-03-20T10:22:23.854573Z  INFO avail_light::light_client: Confidence factor: 99.90234375 block_number=562606 confidence=99.90234375
@@ -349,11 +349,80 @@ curl -sL1 avail.sh | bash
 2024-03-20T10:22:46.674002Z  INFO avail_light::network::rpc::subscriptions: Sending finalized block 562608
 2024-03-20T10:22:46.674087Z  INFO avail_light::api::v2: Message published to clients topic=HeaderVerified published=0 failed=0
 2024-03-20T10:22:46.674150Z  INFO avail_light::light_client: Sleeping for 19.998042125s seconds
+```
 </details>
 
 </Tabs.Tab>
 
+<Tabs.Tab>
+
+1. Go to the [releases page of the Avail light client repo](https://github.com/availproject/avail-light/releases/tag/v1.7.9), and download the
+`avail-light-windows-runner.zip` file.
+
+2. Right click the downloaded file and extract it to a convenient location.
+
+3. Then run the `availup.bat` file by double clicking it. This will start the Avail light client.
+
+4. If everything goes well, the client output will look like this:
+
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary> Sample output </summary>
+```shell
+2024-03-20T10:22:23.821042Z  INFO avail_light::api::v2: Message published to clients topic=HeaderVerified published=0 failed=0
+2024-03-20T10:22:23.854448Z  INFO avail_light::network: Cells fetched from RPC block_number=562606 cells_total=10 cells_fetched=10 cells_verified=10 fetch_elapsed=466.901875ms proof_verification_elapsed=10.431583ms
+2024-03-20T10:22:23.854573Z  INFO avail_light::light_client: Confidence factor: 99.90234375 block_number=562606 confidence=99.90234375
+2024-03-20T10:22:23.854635Z  INFO avail_light::light_client: Sleeping for 19.965855416s seconds
+2024-03-20T10:22:23.854643Z  INFO avail_light::api::v2: Message published to clients topic=ConfidenceAchieved published=0 failed=0
+2024-03-20T10:22:24.392198Z  INFO avail_light::network::p2p::event_loop: Cell upload success rate for block 562606: 0/10. Duration: 0
+2024-03-20T10:22:43.821867Z  INFO avail_light::light_client: Processing finalized block block_number=562607 block_delay=20
+2024-03-20T10:22:43.821955Z  INFO avail_light::light_client: Random cells generated: 10 block_number=562607 cells_requested=10
+2024-03-20T10:22:44.358772Z  INFO avail_light::network: Cells fetched from DHT block_number=562607 cells_total=10 cells_fetched=0 cells_verified=0 fetch_elapsed=536.778958ms proof_verification_elapsed=2.292µs
+2024-03-20T10:22:45.937348Z  INFO avail_light::network: Cells fetched from RPC block_number=562607 cells_total=10 cells_fetched=10 cells_verified=10 fetch_elapsed=1.56179875s proof_verification_elapsed=16.692791ms
+2024-03-20T10:22:45.938417Z  INFO avail_light::light_client: Confidence factor: 99.90234375 block_number=562607 confidence=99.90234375
+2024-03-20T10:22:45.938564Z  INFO avail_light::api::v2: Message published to clients topic=ConfidenceAchieved published=0 failed=0
+2024-03-20T10:22:46.473163Z  INFO avail_light::network::p2p::event_loop: Cell upload success rate for block 562607: 0/10. Duration: 0
+2024-03-20T10:22:46.527044Z  INFO avail_light::network::rpc::subscriptions: New justification at block no.: 562608, hash: 0xbea2a4b136c271b72314e2349577136bf7cdc7c732bc3909e280eb602b8af643
+2024-03-20T10:22:46.672163Z  INFO avail_light::network::rpc::subscriptions: Header no.: 562608
+2024-03-20T10:22:46.673730Z  INFO avail_light::network::rpc::subscriptions: Number of matching signatures: 5/7 for block 562608, set_id 223
+2024-03-20T10:22:46.673755Z  INFO avail_light::network::rpc::subscriptions: Storing finality checkpoint at block 562608
+2024-03-20T10:22:46.674002Z  INFO avail_light::network::rpc::subscriptions: Sending finalized block 562608
+2024-03-20T10:22:46.674087Z  INFO avail_light::api::v2: Message published to clients topic=HeaderVerified published=0 failed=0
+2024-03-20T10:22:46.674150Z  INFO avail_light::light_client: Sleeping for 19.998042125s seconds
+```
+</details>
+
+<Callout type="info">
+Please note that trying to download and run a precompiled binary via a `.zip` file might result in 
+windows warning you about the file being potentially harmful. You will need to bypass this warning to run the light client.
+</Callout>
+
+</Tabs.Tab>
+
 </Tabs>
+
+## Setting your identity using `identity.toml`
+
+Whenever you run an Avail LC, you will notice a file named `identity.toml` being created in the same 
+directory as the binary. This is a default file that contains a random `seed phrase` that represents your
+identity on the network.
+
+You can also set your own `seed phrase` by creating an `identity.toml` file, and passing it as an argument using the
+`--identity` flag.
+
+To do so:
+
+1. create an `identity.toml` file anywhere in your system.
+2. Initialize a variable named `avail_secret_seed_phrase` like this:
+```toml
+avail_secret_seed_phrase = 'AvailDA rice is demon the pair best almond DA walnut solution walrus out tube there'
+```
+3. Pass this file to the light client using the `--identity` flag like this. This could look something like this:
+```sh
+curl -sL1 avail.sh | bash -s -- --identity identity.toml
+```
+
+Please note this command worked for a system where the `identity.toml` file was in the same directory as the terminal.
+You will need to pass the full path to the `identity.toml` file if it is located elsewhere.
 
 ## Final notes
 Please note that the Avail light client is ***heavily customisable***. The instructions in this page 
