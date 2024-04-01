@@ -27,7 +27,7 @@ export const IntroData = [
         },
         {
           topic: "Run Avail",
-          links: [{ link: "/docs/operate-a-node/run-a-light-client", placeholder: "Run a Light Client"}, {link: "/docs/operate-a-node/run-a-full-node", placeholder: "Run a Full Node"}, {link: "/docs/operate-a-node/become-a-validator", placeholder: "Run a Validator"}],
+          links: [{ link: "/docs/operate-a-node/run-a-light-client/0010-light-client", placeholder: "Run a Light Client"}, {link: "/docs/operate-a-node/run-a-full-node", placeholder: "Run a Full Node"}, {link: "/docs/operate-a-node/become-a-validator", placeholder: "Run a Validator"}],
           textcolor: "3CA3FC"
         },
       ],
