@@ -1,0 +1,129 @@
+---
+id: nominating
+title: How to Nominate
+sidebar_label: Nominating (Staking)
+description: Comprehensive guide on how to nominate.
+keywords:
+  - docs
+  - avail
+  - explorer
+  - nominate
+  - staking
+  - delegating
+image: https://docs.availproject.org/img/avail/AvailDocs.png
+---
+import Image from 'next/image'
+
+# How to Nominate Validators
+
+## Introduction
+
+Avail nominating, also known as staking or delegating, is a fundamental process within the Avail network where AVL holders participate in securing the blockchain and earn rewards in return. 
+By nominating, AVL holders select trustworthy validators to represent their stake in the network, contributing to its security and governance. Validators are responsible for producing and 
+validating blocks, and their performance directly impacts the network's reliability. Nominating allows AVL holders to actively participate in the network's operations, while also earning 
+staking rewards for their contribution. It's essential to research and choose validators carefully, considering factors such as reputation, performance, and commission rates, to nominate 
+with confidence and maximize potential rewards.
+
+This guide will walk you through the process of nominating and managing your stake, while also providing insights into Avail nomination dynamics.
+
+
+### Network Information
+
+Before delving into the process of nominating, it's crucial to grasp several network dynamics that significantly influence your nominating decisions or provide insights into how the network 
+operates. When you visit the [<ins>Avail Staking Page</ins>](https://goldberg.avail.tools/#/staking), you'll encounter a list of active validators, accompanied by various icons and a legend. 
+Let's explore the significance of these icons and the legend to gain a deeper understanding of the information they convey.
+
+<img src="/img/nominating/stake-page-legend.png" width="100%" height="100%" />
+
+- **Next Session**: The "next session" is showing at that time the validator will be elected in the next session.
+
+- **Produced Blocks**: Display the quantity of blocks created by the validator for that epoch, is reset at teh start of every epoch.
+
+- **Online Message**: An online message indicates that a validator is online and an active check done by the network to determine if the validator is online. This icon is seen more where there is more valiators per epoch than the blocks procued per epoch. Once they produce a block this icon will be replaced with produced block icon.
+
+- **Nominating**: Should you have already nominated and have that wallet open, will display this ico next to the validators you have nominated.
+
+- **Oversubscribed**: The "Oversubscribed" status appears when a validator accumulates over 256 active nominations. Although a validator may have numerous nominators shared with other validators, Avail consensus ensures an optimal distribution of nominators during elections to maximize AVL staking across the network. However, there are cases where a validator exceeds the 256 active nominations limit. In such instances, only the top 256 wallets will receive rewards, while wallets in the red section will not be eligible for any rewards.
+
+- **Slashed**: Validators can be slashed for various reasons, including downtime, misbehavior, or other protocol violations. Slashing involves a penalty, which can result in a loss of part or all all supporters (includig yours) stake.
+
+- **Block Nominations**: Block nominations indicates the validator is not looking for more nominations and has therefore blocked any community nominations.
+
+- **Era Points**: Era points are a measure of a validator's contribution to the network over a specific period (era). Validators earn era points based on their performance, including producing and validating blocks, and these points influence their overall reputation and rewards. 
+
+
+### Nominating VS Nomination Pools
+Nominating and nomination pools are both integral parts of the staking process in blockchain networks like Avail. However, they serve slightly different purposes and involve distinct mechanisms:
+
+- **Nominating**: Nominating refers to the process of selecting validators to delegate one's stake to in order to participate in the network's consensus mechanism and earn rewards. When users nominate validators, they essentially entrust them with their tokens to contribute to the security and operation of the network. By nominating validators that perform well and uphold the network's integrity, users can earn staking rewards in return for their contribution.
+
+- **Nomination Pools**: On the other hand, nomination pools are collective pools of staked tokens contributed by multiple users who have chosen to nominate a specific validator set. These pools aggregate the stakes of individual nominators and delegate them to the chosen validator. The primary purpose of nomination pools is to increase the nominator's chances of receiving rewards by combining their stakes with others, thereby enhancing the collective weight behind the Pools nomination. In essence, nomination pools allow smaller stakeholders to pool their resources together to compete with larger stakeholders and increase their chances of being selected to validate transactions and earn rewards.
+
+To determine whether to nominate directly or join a nomination pool, it's essential to evaluate network information available on the [<ins>Staking Targets page</ins>](https://goldberg.avail.tools/#/staking/targets). This information is based on Avail Testnet, this is subject 
+to significant changes on the Avail Mainnet. However does provides valuable insights for making an informed decision. Key parameters to consider include the threshold and minimum nominated values:
+
+- **Threshold**: This represents the minimum AVL token value required for staking and is predetermined as part of the AVL network settings. It can be modified through a governance process. Atbthis moment on Avail Testnet this value is 0. However this is subject to change in Mainnet.
+
+- **Minimum Nominated**: This value is dynamic, recalculated every era based on the total staked percentage. As more stake enters the network, this value increases. To earn rewards, stakers must ensure their stake surpasses this minimum nominated threshold.
+
+If your stake amount is significantly larger than the threshold and minimum nominated amounts you can stake directly. If your stake is smaller, slightly above these values and you do not want to keep checking your stake it is then recommended to join a Nomination Pool
+
+<img src="/img/nominating/target-values-01.png" width="100%" height="100%" />
+
+
+### How to Nominate
+
+#### 1. Navigate to Staking Accounts Page
+Before beginning the nominating process, ensure you have a wallet containing AVL and have backed up the mnemonic phrase. As mentioned earlier, nominating involves staking or delegating on Avail.
+Start the nomination process by navigating to the [<ins>Avail Staking Accounts Page</ins>](https://goldberg.avail.tools/#/staking/actions). Click on the Nominator `+Nominator` button.
+
+<img src="/img/nominating/nominate-01.png" width="100%" height="100%" />
+
+
+#### 2. Select Wallet & Stake Amount
+You will need select the wallet you wish to nominate from, also the amount. On the amount always leave some AVL for fees, so only nominate 95%-98% of your tokens. Levaing 2%-5% for fees on nominating or any other tranactions you may want to perform.
+Also select where you would like your rewards to acrue to. You have the following options
+
+- **Stash Account (Increase the amount at stake):** This refers to a scenario where the user increases the amount of AVL (Avail token) at stake with their rewards in their stash account. This is like auto-compunding, your rewards are added to your stake and will increase your overall stake for the next era.
+
+- **Stash Account (Do not increase the amount at stake):** In contrast to the previous point, here users choose not to increase the amount of AVL at stake in their stash account. Yur rewards will be sent to this account but ot staked.
+
+- **Controller Account:** The controller account is separate from the stash account and is used to manage the nomination process. This is legacy and will be discontinued going forward.
+
+- **Specified Payment Account:** This refers to the account designated by the user to receive staking rewards. When nominating, users can specify a payment account where their rewards will be deposited. This account can be different from both the stash and controller accounts and allows for flexibility in managing staking rewards.
+
+<img src="/img/nominating/nominate-02.png" width="100%" height="100%" />
+
+Once you have selected you may click on `+Next` button.
+
+#### 3. Select Validators to Nominate
+You can now select up to 16 validators to nominate. It is important to note your stake will support one, or several or all validators. At time of election the Avail concensus will select the best combination. 
+More information about selection can be found on the [<ins>NPoS Page</ins>](https://docs.availproject.org/docs/learn-about-avail/consensus/npos). Once you have selected you can click on `Bond & Nominate`.
+
+<img src="/img/nominating/nominate-03.png" width="100%" height="100%" />
+
+
+#### 4. Sign & Submit Your Selection
+On the final steps you must enter your password and confirm by clicking on `Sign and Submit`.
+<img src="/img/nominating/nominate-04.png" width="100%" height="100%" />
+
+
+You will now see your stake in `Waiting`, your stake will become active if you selecd validators that will be elected when the next era starts.
+<img src="/img/nominating/nominate-05.png" width="100%" height="100%" />
+
+
+### How to Join a Nomination pool
+
+#### 1. Navigate to Nomination Pools
+To join a nomination pools navigate to the [<ins>Pools Page</ins>](https://goldberg.avail.tools/#/staking/pools). Select a pool to join where the existing members are less than the max members per pool. Click on `+Join` to enter a pool.
+<img src="/img/nominating/pool-01.png" width="100%" height="100%" />
+
+
+#### 2. Select Wallet & Stake Amount
+Select the wallet you want to join with, also the amount of AVL to stake with. Then click on `+Join`
+<img src="/img/nominating/pool-02.png" width="100%" height="100%" />
+
+### 3. Sign & Submit Your Selection
+On the final steps you must enter your password and confirm by clicking on `Sign and Submit`.
+<img src="/img/nominating/pool-03.png" width="100%" height="100%" />
+
