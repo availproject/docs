@@ -1,0 +1,59 @@
+import { Callout } from 'nextra/components'
+
+# The Avail light client challenge
+
+The Avail light client plays a crucial role in the Avail network by allowing anybody to verify the state
+of the network with minimal resources.
+The Avail light client challenge will run from 1st April 2024 to 8th April 2024. This guide serves
+to outline all the instructions and T&C to participate in the challenge.
+
+This challenge will be the last one as part of Avail's incentivized testnet program as we roll towards mainnet.
+We have partnered with Blobscriptions for this challenge. You can go to their website to sign up for the challenge.
+
+<Callout type="warning" emoji="⚠️">
+Please note that the Avail light client challenge is **NOT** a part of clash of nodes.
+Any points earned in this challenge will not be counted towards the clash of nodes leaderboard, and vice versa.
+</Callout>
+
+
+## What you will need
+
+1. A substrate wallet you can use to sign transactions. 
+For example: [PolkadotJS](https://polkadot.js.org/) or [Subwallet](https://www.subwallet.app/).
+
+2. Some `AVL` tokens if you don't have them. [You can use our faucet](https://faucet.avail.tools/) to get some.
+
+2. A computer with an internet connection.
+
+And that's it.
+
+<Callout type="info">
+Please note that the Avail light client was desgined from the ground up to be an efficient piece of software
+with minimal hardware requirments.
+You don't need a powerful system at all to participate in the challenge, just something that works.
+</Callout>
+
+## How to participate
+
+To participate in the challenge, you need to follow these steps:
+
+1. Run the Avail light client on your local machine with this simple `curl` command:
+
+```bash
+curl -sL1 avail.sh | bash
+```
+<Callout type="info">
+If this command does not work on your system, or you want to check out detailed instructions for
+running the LC, you can check out our
+[documentation](/docs/pages/docs/operate-a-node/run-a-light-client/light-client-api-reference.mdx).
+</Callout>
+
+2. The light client will log a random address when it first initializes. Make sure to note down this address.
+This is how it looks:
+
+<p align="center"><img src="/img/light-client-challenge.png" alt="Avail-light-client-address" width="90%"/></p>
+
+3. Once you have this address, go to blobscription's website and connect your substrate wallet. Use their
+interface to sign up for the challenge. <br/>
+A unique address pair consisting of your Substrate account and the light client address will be generated.
+They should be unique and neither can be reused. The rewards for the chalenge will be sent to the Substrate account address.
