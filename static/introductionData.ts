@@ -8,9 +8,9 @@ export const IntroData = [
         {
           topic: "Read more",
           links: [{ link: "/docs/introduction-to-avail", textcolor: "3CA3FC", placeholder: "Introduction to Avail"}, 
-          {link: "/docs/the-avail-trinity/avail-da", textcolor: "3CA3FC", placeholder: "Avail DA"},
-          {link: "/docs/the-avail-trinity/avail-nexus", textcolor: "3CA3FC", placeholder: "Avail Nexus"},
-          {link: "/docs/the-avail-trinity/avail-fusion", textcolor: "3CA3FC", placeholder: "Avail Fusion"}
+          {link: "/docs/introduction-to-avail/avail-da", textcolor: "3CA3FC", placeholder: "Avail DA"},
+          {link: "/docs/introduction-to-avail/avail-nexus", textcolor: "3CA3FC", placeholder: "Avail Nexus"},
+          {link: "/docs/introduction-to-avail/avail-fusion", textcolor: "3CA3FC", placeholder: "Avail Fusion"}
           ],
           textcolor: "2FB3EA"
         },
