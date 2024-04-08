@@ -5,6 +5,22 @@ export function middleware(request: NextRequest) {
 const { origin } = request.nextUrl
   const redirects = [
     {
+      source: '/docs/the-avail-trinity',
+      destination: `${origin}/docs/introduction-to-avail`,
+    },
+    {
+      source: '/docs/the-avail-trinity/avail-da',
+      destination: `${origin}/docs/introduction-to-avail/avail-da`,
+    },
+    {
+      source: '/docs/the-avail-trinity/avail-fusion',
+      destination: `${origin}/docs/introduction-to-avail/avail-fusion`,
+    },
+    {
+      source: '/docs/the-avail-trinity/avail-nexus',
+      destination: `${origin}/docs/introduction-to-avail/avail-nexus`,
+    },
+    {
       source: '/about/introduction',
       destination: `${origin}/docs/introduction-to-avail`,
     },
