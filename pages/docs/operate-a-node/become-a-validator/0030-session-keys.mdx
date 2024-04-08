@@ -66,7 +66,7 @@ podman exec -lit /bin/bash
 # Generate the Session keys
 curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "author_rotateKeys", "params":[]}' http://localhost:9944
 
-# Exit and restart containe
+# Exit and restart container
 exit
 
 # Option 1: Docker non-root
