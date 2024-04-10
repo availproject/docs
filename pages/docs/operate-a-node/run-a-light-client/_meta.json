@@ -2,6 +2,7 @@
     "Overview": "Overview",
     "0010-light-client": "Run Avail LC",
     "light-client-api-reference": "Light Client API Reference",
-    "light-client-challenge": "The Avail Light Client challenge"
-
+    "light-client-challenge": {
+        "display": "hidden"
+      }
 }
