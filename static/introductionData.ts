@@ -51,7 +51,7 @@ export const IntroData = [
       links: [
         {
           topic: "Getting Started",
-          links: [{ link: "/docs/end-user-guide/explorer", placeholder: "Using the Explorer"}, {link: "/docs/end-user-guide/accounts", placeholder: "Managing Accounts"}, {link: "/docs/end-user-guide/faucet", placeholder: "Testnet Faucet"}],
+          links: [{ link: "/docs/end-user-guide/explorer", placeholder: "Using the Explorer"}, {link: "/docs/end-user-guide/accounts", placeholder: "Set up an Avail wallet"}, {link: "/docs/end-user-guide/faucet", placeholder: "Testnet Faucet"}],
           textcolor: "3FBB80"
         },
         {
