@@ -4,7 +4,7 @@ import { Footer } from "./components/Footer/Footer";
 import { useRouter } from "next/router";
 
 const config: DocsThemeConfig = {
- banner: {
+  banner: {
     key: "Avail",
     text: (
       <>
