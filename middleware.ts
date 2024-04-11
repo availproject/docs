@@ -157,6 +157,10 @@ const { origin } = request.nextUrl
         destination: `${origin}/docs/operate-a-node/node-types`
       },
       {
+        source: "/join-the-network/node-types",
+        destination: `${origin}/docs/operate-a-node/node-types`
+      },
+      {
         source: "/operate/deployment-options/",
         destination: `${origin}/docs/operate-a-node/deployment-options`
       },
