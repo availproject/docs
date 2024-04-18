@@ -11,61 +11,116 @@ keywords:
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 import Image from 'next/image'
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
 # How to Create and Manage an Avail Account
 
 ## Introduction
 
-This guide will walk you through the process of creating and managing an Avail account, while also providing insights into the account specifications and formats.
-
-**[<ins>Skip to Creating an Account on the Goldberg Testnet</ins>](#creating-an-account-on-the-goldberg-testnet).**
-
-### Address Specifications & Format
-
-Built on the Substrate framework, Avail leverages its robust and flexible account system to provide users with a secure and efficient way to manage their digital assets and identity.
-
-Avail addresses are encoded in the [<ins>SS58 format</ins>](https://docs.substrate.io/reference/address-formats/), an enhanced version of [<ins>base-58 encoding</ins>](https://en.wikipedia.org/wiki/Binary-to-text_encoding). This format offers several advantages, such as shorter and more identifiable addresses and network-specific prefixes. For a detailed technical explainer, refer to the [<ins>Substrate documentation on Accounts, Addresses, and Keys</ins>](https://docs.substrate.io/learn/accounts-addresses-keys/).
-
-### Avail JS Apps: Your Interface to Avail
-
-[<ins>Avail JS Apps</ins>](https://goldberg.avail.tools/#/explorer), a fork of [<ins>Polkadot JS Apps</ins>](https://polkadot.js.org/apps/#/explorer), serves as your primary interface for the Avail network. Currently, its focus is solely on the Goldberg testnet, and as such, it is also referred to as the **Goldberg Testnet Explorer**. The scope of Avail JS Apps will expand as Avail matures into a production-ready network.
-
-Avail JS aims to offer functionalities similar to those found in the [<ins>Polkadot-JS UI guide</ins>](https://wiki.polkadot.network/docs/polkadotjs-ui), including but not limited to:
-
-- **Accounts**: Create, manage, and recover accounts.
-- **Staking**: Engage in network staking and manage validators.
-- **Explorer**: Browse blockchain data, view block details, and monitor network activity.
+This guide will walk you through two different ways of creating an account on Avail, while also providing insights into the account specifications and formats.
 
 ### Seed Phrases
 
 Before creating an account, it's essential to understand [<ins>seed phrases</ins>](https://en.wikipedia.org/wiki/Cryptocurrency_wallet). During the account creation process, you'll receive a seed phrase—a series of words that can be used to recover your account.
 
-> Seed Phrase Security
-NEVER share your seed phrase with anyone and keep it in a secure and offline location. Anyone with access to your seed phrase can gain control of your account.
+<Callout type="error" emoji="️🔥">
+SEED PHRASE SECURITY<br/>
 
-## Creating an Account on the Goldberg Testnet
+NEVER EVER share your seed phrase with anyone and keep it in a secure location. Anyone with access to your seed phrase can gain control of your account.
+</Callout>
 
-### 1. Open the Explorer
+## Creating an Account on Avail DA
 
-Navigate to the [Goldberg Avail Explorer](https://goldberg.avail.tools/).
+In this guide, we will walk you through two different ways of creating an account on the Goldberg testnet of Avail DA.
 
-### 2. Go to Accounts
+1. **Using a compatible wallet**: You can create an account on the Goldberg testnet by using wallets like
+[SubWallet](https://www.subwallet.app/), [Talisman](https://www.talisman.xyz/), [PolkadotJS](https://polkadot.js.org/) and others.
+This guide will be using Subwallet as an example.
 
-Once on the explorer, go to `Accounts -> Accounts` in the navigation bar.
+2. **Using the Goldberg Testnet Explorer**: Advanced users can also create an account on the Goldberg testnet straight from the explorer.
+
+<Tabs items={['Using Subwallet', 'Using PolkadotJS or Talisman' , 'Using the explorer']}>
+
+<Tabs.Tab>
+
+1. Go to [Subwallet.app](https://www.subwallet.app/) and install their browser extension. Once installed,
+you should se a few different options to get started. We will create an account from scratch, although you can import
+existing accounts too.
+<br/>
+<img src="/img/subwallet/subwallet_1.jpeg" width="100%" height="100%" />
+
+2. Subwallet will prompt you to set up a password to secure access to the accounts in the wallet. Please note that this password
+**DOES NOT** control the actual on-chain account, and is merely used to open the wallet extension.
+<br/>
+<img src="/img/subwallet/subwallet_2.jpeg" width="100%" height="100%" />
+
+3. Next, read through and agree with all of Subwallet's conditions to get the Seed Phrase of tour Avail account.
+<br/>
+<img src="/img/subwallet/subwallet_3.jpeg" width="100%" height="100%" />
+
+4. You will be shown your seed phrase. **Make sure to write it down and store it in a safe place**.
+<Callout type="warning" emoji="⚠️">
+Please note that this seed phrase is exposed only one time at the time of account creation by Subwallet.
+Make sure to store it in a safe place as it is the only way to recover your account.
+</Callout>
+<br/>
+<img src="/img/subwallet/subwallet_4.jpeg" width="100%" height="100%" />
+
+5. Open the `networks` menu from the top-right. You can configure which networks you want displayed by Subwallet from here.
+<br/>
+<img src="/img/subwallet/subwallet_5.jpeg" width="100%" height="100%" />
+
+6. Search for the Goldberg testnet either by name or by token symbol. Make sure the network is toggled on.
+<br/>
+<img src="/img/subwallet/subwallet_6.jpeg" width="100%" height="100%" />
+
+7. Next go to your extension's homepage and click on the `Get address` button.
+Again, search for the Goldberg testnet by name or token symbol, and click on the `copy address` button.
+<br/>
+<img src="/img/subwallet/subwallet_7.jpeg" width="100%" height="100%" />
+<br/>
+
+<Callout type="warning" emoji="⚠️">
+Please note that Avail DA is a modular blockchain built on top of the Substrate framework. due to how Substrate works,
+the exact on-chain address of your account may vary from one chain to another.
+Make sure to always double-check the address you are using. Avail addresses, for example will always begin with the number **`5`**.
+</Callout>
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. To start with setting up your PolkadotJS wallet, you can go to the [PolkadotJS extension homepage](https://polkadot.js.org/extension/) to get started.
+<img src="/img/polkadotjs.png" width="100%" height="100%" />
+
+2. To get started with Talisman, you can go to [Talisman's docs page](https://docs.talisman.xyz/talisman/start/installing-talisman) that will show you how to set
+up a wallet with Talisman.
+<img src="/img/talisman.png" width="100%" height="100%" />
+</Tabs.Tab>
+
+
+<Tabs.Tab>
+
+<Callout type="warning" emoji="⚠️">
+Please note that you won't be able to use the account created on the explorer to claim your rewards.
+</Callout>
+
+1. Navigate to the [Goldberg Avail Explorer](https://goldberg.avail.tools/).
+
+2. Once on the explorer, go to `Accounts -> Accounts` in the navigation bar.
+<br/>
 <img src="/img/avail/account.png" width="100%" height="100%" />
 
-### 3. Generate a New Account
+3. Click on the `+Account` button on the right-hand side to initiate the account creation process.
+<br/>
+<p align="center">
+<img src="/img/avail/add-account.png" width="75%" />
+</p>
 
-Click on the `+Account` button on the right-hand side to initiate the account creation process.
-<img src="/img/avail/add-account.png" width="100%" height="100%" />
+4. Follow the on-screen instructions to complete the account creation process. Make sure to securely store your seed phrase for future reference.
 
-### 4. Follow the Wizard
-
-Follow the on-screen instructions to complete the account creation process. Make sure to securely store your seed phrase for future reference.
-
-### 5. Download the JSON File
-
-Upon completion, a JSON file containing your account information will be downloaded to your file system. You may be prompted to grant browser permissions for the download.
+5. Upon completion, a JSON file containing your account information will be downloaded to your file system. You may be prompted to grant browser permissions for the download.
 
 #### What is the JSON File?
 
@@ -74,6 +129,8 @@ The JSON file serves as a backup for your account and contains all the necessary
 > Backup and Recovery
 Always keep your JSON file in a secure and offline location. Losing this file and your password could result in the loss of your assets.
 
+</Tabs.Tab>
+</Tabs>
 ## Next Steps
 
 Congratulations on successfully creating and managing your Avail account! Remember to always safeguard your account details, JSON file, and seed phrase to ensure the security of your assets.
