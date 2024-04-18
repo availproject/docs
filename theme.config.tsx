@@ -5,26 +5,20 @@ import { useRouter } from "next/router";
 
 const config: DocsThemeConfig = {
   banner: {
+    dismissible: false,
     key: "Avail",
     text: (
       <>
         <h4 className="my-0 sm:mr-5 !px-[5vw] !text-white text-center paragraph !text-sm w-full">
-          Avail is now backed by{" "}
+          Avail's Unification Drop is live,{" "}
           <a
             style={{ color: '#3DA3FC', textDecoration: 'underline' }}
-            href="https://blog.availproject.org/avail-raises-27m-to-accelerate-the-unification-of-web3/"
+            href="/docs/the-avail-token/avail-unification-drop"
           >
             {" "}
-            prominent investors
+            claim your genesis AVAIL now!
           </a>{" "}
-          to accelerate the{" "}
-          <a
-            style={{ color: '#3DA3FC', textDecoration: 'underline' }}
-            href="https://blog.availproject.org/the-avail-vision-accelerating-the-unification-of-web3/"
-          >
-            unification of web3
-          </a>{" "}
-          🎉🎉
+          🎉🎉🎉
         </h4>
       </>
     ),
