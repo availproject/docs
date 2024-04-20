@@ -30,8 +30,30 @@ This will be documented in the individual method descriptions.
 They will however work with remotely hosted instances as well.
 </Callout>
 
-<Callout type="info">
-How to run the Rust code snippets
+## Setting up the dev environment
+
+Set up your dev enviornment with `curl` and `Rust`:
+
+<Tabs items={['CURL', 'Rust']}>
+
+<Tabs.Tab>
+
+1. To use the Avail light client API with `curl`, you just need to have `curl` installed on your system. 
+You can check if it is installed by running:
+
+```sh
+curl --version
+```
+
+2. If this does not work, go to [curl's website](https://curl.se/) to install it on your system. 
+</Tabs.Tab>
+
+<Tabs.Tab>
+How to run the Rust code snippets:
+
+1. Make sure you have Rust and Cargo installed on your system before moving forward. You can check that by running:
+    ```sh
+
 
 1. Create a new Rust project:
     ```sh
@@ -47,7 +69,9 @@ How to run the Rust code snippets
     base64 = "0.22"
     ```
 3. Paste the code snippets into the `main.rs` file, and run the project with `cargo run`.
-</Callout>
+
+</Tabs.Tab>
+</Tabs>
 
 ## API-v1
 
