@@ -28,6 +28,8 @@ This will be documented in the individual method descriptions.
 2. It is recommended to use `API-v2` over `API-v1`, although both are supported.
 3. The methods documented here were tested on a locally running instance of the Avail light client.
 They will however work with remotely hosted instances as well.
+4. You can check out or docs for [instructions on running your own instance
+of the Avail light client](/docs/operate-a-node/run-a-light-client/0010-light-client)
 </Callout>
 
 ## Setting up the dev environment
@@ -51,9 +53,12 @@ curl --version
 <Tabs.Tab>
 How to run the Rust code snippets:
 
-1. Make sure you have Rust and Cargo installed on your system before moving forward. You can check that by running:
+1. Make sure you have [Rust](https://www.rust-lang.org) and [Cargo](https://crates.io/) installed on your system before moving forward. You can check that by running:
     ```sh
-
+    rustc --version && cargo --version
+    ```
+    If either of these don't work, you can check out [Rust's official installation guide](https://www.rust-lang.org/tools/install).
+     
 
 1. Create a new Rust project:
     ```sh
