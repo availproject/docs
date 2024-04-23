@@ -43,32 +43,40 @@ It's up to you to research and pick one that will suit all your needs and requir
 If you already have a running server, you can skip the rest of this section and go straight to the next one.
 That said, Hetzner is used for this chapter and here are the steps on how to create a new instance there:
 
-First, create a project and name it appropriately.
+1. First, create a project and name it appropriately.
+<br/>
 <img src="/img/hetzner/hetzner_new_project.png" width="300px" height="100%"/>
 
-Click on the 'Create Server' button and choose your desired location and image.
+2. Click on the 'Create Server' button and choose your desired location and image.
+<br/>
 <img src="/img/hetzner/hetzner_location_image.png" width="100%" height="100%"/>
 
-For the type, SharedvCPU and CX21 (or anything stronger) will do the trick.
+3. For the type, SharedvCPU and CX21 (or anything stronger) will do the trick.
+<br/>
 <img src="/img/hetzner/hetzner_type.png" width="100%" height="100%"/>
 
-Make sure that you have entered your SSH keys.
+4. Make sure that you have entered your SSH keys.
+<br/>
 <img src="/img/hetzner/hetzner_ssh_keys.png" width="100%" height="100%"/>
 
-Finally, give it a good name.
+5. Finally, give it a good name.
+<br/>
 <img src="/img/hetzner/hetzner_name.png" width="500px" height="100%"/>
 
-With the server created, you can copy the public IP and SSH in.
+6. With the server created, you can copy the public IP and SSH in.
+<br/>
 <img src="/img/hetzner/hetzner_server_created.png" width="100%" height="100%"/>
 
 ```bash
 ssh root@65.21.XXX.XXX
 ```
 
-Hopefully, you are greeted with the welcome message.
+7. Hopefully, you are greeted with the welcome message.
+<br/>
 <img src="/img/hetzner/hetzner_welcome_terminal.png" width="100%" height="100%"/>
+<br/>
 
-Before we continue with our deployment, let's make sure that our system is up to date.
+> Before we continue with our deployment, let's make sure that our system is up to date.
 
 ```
 sudo apt update
@@ -77,43 +85,52 @@ sudo apt upgrade -y
 
 ## Bare Metal
 
-We have our server up and online. We updated all our dependencies and are ready to do the work. Let's create a folder in the home directory to store our binary and all the data it will generate.
+We have our server up and online. We updated all our dependencies and are ready to do the work. 
+
+1. Let's create a folder in the home directory to store our binary and all the data it will generate.
 
 ```bash
 mkdir avail && cd avail
 mkdir node-data
 ```
 
-Depending on the user and operating system used, the path to our newly created folder can be `/root/avail` or `/home/ubuntu/avail` or any other variant. To get the full path, run this:"
+2. Depending on the user and operating system used, the path to our newly created folder can be `/root/avail` or `/home/ubuntu/avail` or any other variant. To get the full path, run this:"
 
 ```bash
 pwd
 # Example output: `/root/avail`
 ```
 
-From the [Releases Page](https://github.com/availproject/avail/releases), we grab the latest version and unpack it.
+3. From the [Releases Page](https://github.com/availproject/avail/releases), we grab the latest version and unpack it.
 
-<Callout type="info">
-Make sure that you always grab the binary from the latest version. When this guide was released, the latest version was v1.10.0.0. Also, ensure that you hold the correct one for your operating system.
+<Callout type="warning" emoji="⚠️">
+NODE VERSION FOR TURING<br/>
+Please note that the Avail node underwent major breaking changes while making upgrades to transition towards Turing.
+The **MINIMUM** version for Turing is `2.1.0`.
 </Callout>
 
-
 ```bash
-# Obtaning v.1.10.0.0 for Ubuntu 22.04
+# Obtaning v2.1.0.0-rc1 for Ubuntu 22.04
 # wget is a command-line utility for downloading files from the internet.
-wget https://github.com/availproject/avail/releases/download/v1.10.0.0/x86_64-ubuntu-2204-data-avail.tar.gz
+wget https://github.com/availproject/avail/releases/download/v2.1.0.0-rc1/x86_64-ubuntu-2204-avail-node.tar.gz
 
 # tar is a command-line utility for working with tarballs, compressed or uncompressed archives containing one or more files or directories.
 # The -x option extracts files from an archive, and the -f option specifies the archive file. When used together as tar -xf, it removes the contents of the specified archive file.
-tar -xf x86_64-ubuntu-2204-data-avail.tar.gz
+tar -xf /root/avail/x86_64-ubuntu-2204-avail-node.tar.gz
 
 # rm stands for "remove" in Linux and Unix-like operating systems. It is used to delete files or directories.
-rm x86_64-ubuntu-2204-data-avail.tar.gz
+rm -xf x86_64-ubuntu-2204-avail-node.tar.gz
 ```
 
 We will create a system service file for our node to run automatically, even on restarts. Systemd will run our node as a daemon and manage it for us. To know more about systemd, go [here](https://en.wikipedia.org/wiki/Systemd).
 
-Let's create a file on `/etc/systemd/system/` and name it `avail.service`. If you are using a non-root user, you will need to execute this operation using the `sudo` command.
+4. Create a seperate directory to store all your node data:
+
+```
+mkdir node-data
+```
+
+5. Let's create a file on `/etc/systemd/system/` and name it `avail.service`. If you are using a non-root user, you will need to execute this operation using the `sudo` command.
 
 For root users:
 
@@ -127,7 +144,7 @@ For non-root users:
 sudo touch /etc/systemd/system/avail.service
 ```
 
-Now open that file with your favorite text editor. If this is your first time using Linux first learn how to use [nano](https://www.howtogeek.com/42980/the-beginners-guide-to-nano-the-linux-command-line-text-editor/) before doing anything. Just like before, if you are on a non-root use you might need to execute the command using 'sudo'.
+6. Now open that file with your favorite text editor. If this is your first time using Linux first learn how to use [nano](https://www.howtogeek.com/42980/the-beginners-guide-to-nano-the-linux-command-line-text-editor/) before doing anything. Just like before, if you are on a non-root use you might need to execute the command using 'sudo'.
 
 For root users:
 
@@ -143,16 +160,20 @@ For non-root users:
 sudo nano /etc/systemd/system/avail.service
 ```
 
-Paste the following text and save it:
+7. Paste the following text and save it:
 
 ```
 [Unit]
 Description=Avail Node
 
 [Service]
-ExecStart=/root/avail/data-avail --chain goldberg -d /root/avail/node-data --validator --name MyAwesomeBareMetalNode
-Restart=on-failure
-RestartSec=5s
+Type=simple
+ExecStart=/root/avail/avail-node --chain turing --name {your-name-here} --validator -d /avail/node-data
+Restart=always
+RestartSec=3
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=avail-node
 
 [Install]
 WantedBy=multi-user.target
@@ -168,32 +189,43 @@ Let's let's break it down for clarity.
 
 We discussed what the command line arguments do in the previous chapter, so we won't repeat ourselves here.
 
-Now, let's enable the service file and start our deamon
+8. Now, let's enable the service file and start our deamon
 
 For root users:
 
 ```bash
-systemctl enable avail.service
-systemctl start avail.service
+systemctl daemon-reload
+systemctl start avail-node
+systemctl enable avail-node
 ```
 
 For non-root users:
 
 ```bash
-sudo systemctl enable avail.service
-sudo systemctl start avail.service
+sudo systemctl daemon-reload
+sudo systemctl start avail-node
+sudo systemctl enable avail-node
 ```
 
-- **systemctl enable**: This command is used to enable a service or a unit. When you enable a service, systemd creates symbolic links or other appropriate native configuration to start the service automatically when the system boots up.
-- **systemctl start**: This command is used to start a service or a unit immediately, without waiting for the system to reboot.
+9. You can check the status of your node by:
 
-To check for logs, we can run the following command:
+```bash
+systemctl status avail-node
+```
+
+10. To check for logs, we can run the following command:
 
 ```bash
 # -f Follow the journal
 # -n Number of journal entries to show
 # -u Show logs from the specified unit
 journalctl -f -n 1000 -u avail.service
+```
+
+or 
+
+```bash
+journalctl -u avail.service
 ```
 
 Output
@@ -209,37 +241,42 @@ As expected, the node is syncing new blocks. If these logs are new to you, head 
 
 ## Docker/Podman
 
-We have our server up and online. We updated all our dependencies and are now ready to do the actual work. In the home directory, let's create a folder where we are going to store all the data that the Avail Docker container will generate.
+We have our server up and online. We updated all our dependencies and are now ready to do the actual work. 
+
+1. In the home directory, let's create a folder where we are going to store all the data that the Avail Docker container will generate.
 
 ```bash
 mkdir avail && cd avail
 mkdir node-data
 ```
 
-Depending on the user and operating system used, the path to our newly created folder can be `/root/avail` or `/home/ubuntu/avail` or any other variant. To get the full path, run this:"
+Depending on the user and operating system used, the path to our newly created folder can be `/root/avail` or `/home/ubuntu/avail` or any other variant. 
+
+2. To get the full path, run this:"
 
 ```bash
 pwd
 # Example output: `/root/avail`
 ```
 
-Depending on your preferences, install Docker or Podman (or both) and execute one of the commands below. Don't execute all of them.
+3. Depending on your preferences, install Docker or Podman (or both) and execute one of the commands below. Don't execute all of them.
+
 To read more about Docker, check the [following page](https://www.docker.com/).
 To read more about Podman, check the [following page](https://podman.io/).
 To read more about SELinux, check the [following page](https://www.redhat.com/en/topics/linux/what-is-selinux).
 
 ```bash
 # Option 1: If you are using Docker with non-root user use this script
-sudo docker run --restart=on-failure -d -v /root/avail/node-data:/da/node-data -p 9944:9944 -p 30333:30333 docker.io/availj/avail:v1.8.0.3 --chain goldberg -d /da/node-data --validator --name MyAwesomeContainerNode
+sudo docker run --restart=on-failure -d -v /root/avail/node-data:/da/node-data -p 9944:9944 -p 30333:30333 docker.io/availj/avail:v1.8.0.3 --chain turing -d /da/node-data --validator --name MyAwesomeContainerNode
 
 # Option 2: If you are using Docker on SELinux use this script
-docker run --restart=on-failure -d -v /root/avail/node-data:/da/node-data:z -p 9944 -p 30333 docker.io/availj/avail:v1.8.0.3 --chain goldberg -d /da/node-data --validator --name MyAwesomeContainerNode
+docker run --restart=on-failure -d -v /root/avail/node-data:/da/node-data:z -p 9944 -p 30333 docker.io/availj/avail:v1.8.0.3 --chain turing -d /da/node-data --validator --name MyAwesomeContainerNode
 
 # Option 3: If you are using Podman use this script
-podman run -d -v /root/avail/node-data:/da/node-data -p 9944 -p 30333 docker.io/availj/avail:v1.8.0.3 --chain goldberg -d /da/node-data --validator --name MyAwesomeContainerNode
+podman run -d -v /root/avail/node-data:/da/node-data -p 9944 -p 30333 docker.io/availj/avail:v1.8.0.3 --chain turing -d /da/node-data --validator --name MyAwesomeContainerNode
 
 # Option 4: If you are using Podman on SELinux use this script
-podman run -d -v /root/avail/node-data:/da/node-data:z -p 9944 -p 30333 docker.io/availj/avail:v1.8.0.3 --chain goldberg -d /da/node-data --validator --name MyAwesomeContainerNode
+podman run -d -v /root/avail/node-data:/da/node-data:z -p 9944 -p 30333 docker.io/availj/avail:v1.8.0.3 --chain turing -d /da/node-data --validator --name MyAwesomeContainerNode
 ```
 
 <Callout type="info">
@@ -261,7 +298,7 @@ We discussed what the command line arguments do in the previous chapter, so we w
 Podman doesn't have the `--restart` flag, instead it utilizes Quadlets. To know more about how to setup a Quadlet following [this link](https://www.redhat.com/sysadmin/quadlet-podman)
 </Callout>
 
-To check for logs, we can run the following command:
+4. To check for logs, we can run the following command:
 
 ```bash
 # Option 1: If you are using Docker with root user use this script
@@ -286,4 +323,4 @@ As expected, the node is syncing new blocks. If these logs are new to you, head 
 
 ## What's Next
 
-This is where our story ends. We have a working node connected to the Goldberg chain and deployed on a cloud provider. If the system restarts or the Avail Node program suddenly ends, it will be automatically restarted, so there will be almost no downtime.
+This is where our story ends. We have a working node connected to the Turing chain and deployed on a cloud provider. If the system restarts or the Avail Node program suddenly ends, it will be automatically restarted, so there will be almost no downtime.
