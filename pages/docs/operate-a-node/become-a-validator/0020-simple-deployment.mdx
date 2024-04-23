@@ -195,22 +195,22 @@ For root users:
 
 ```bash
 systemctl daemon-reload
-systemctl start avail-node
-systemctl enable avail-node
+systemctl start avail.service
+systemctl enable avail.service
 ```
 
 For non-root users:
 
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl start avail-node
-sudo systemctl enable avail-node
+sudo systemctl start avail.service
+sudo systemctl enable avail.service
 ```
 
 9. You can check the status of your node by:
 
 ```bash
-systemctl status avail-node
+systemctl status avail.service
 ```
 
 10. To check for logs, we can run the following command:
