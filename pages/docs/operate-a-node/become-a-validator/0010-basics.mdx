@@ -31,76 +31,13 @@ Before trying anything, make sure that you fully read the chapter first before d
 
 ## Installation & Setup
 
-Our first step is to obtain the prebuilt binary for Avail Node. We offer a wide range of prebuilds, but in case you don't see your Linux flavor or architecture here, head to the FAQ chapter to learn how to build your own executable.
-
-Prebuild list:
-
-- Ubuntu: [20.04](#ubuntu-2004) [22.04](#ubuntu-2204) [23.10](#ubuntu-2310)
-- Debian: [11](#debian-11) [12](#debian-12)
-- Fedora: [38](#fedora-38) [39](#fedora-39)
-- Arch: [Latest](#arch)
+Our first step is to obtain the prebuilt binary for Avail Node. [We offer a wide range of prebuilds](https://github.com/availproject/avail/releases/tag/v2.1.0.0-rc1), but in case you don't see your Linux flavor or architecture here, head to the FAQ chapter to learn how to build your own executable.
 
 Once you have found your OS (or picked the generic one), execute the given command to obtain the needed Avail Node binary.
 
-<Tabs items={['Ubuntu 20.04', 'Ubuntu 22.04', 'Ubuntu 23.10', 'Debian 11', 'Debian 12', 'Fedora 38', 'Fedora 39', 'Arch']}>
-<Tabs.Tab>
-
 ```bash
-wget https://github.com/availproject/avail/releases/download/v1.9.0.0/x86_64-ubuntu-2004-data-avail.tar.gz && tar -xf ./x86_64-ubuntu-2004-data-avail.tar.gz
+wget https://github.com/availproject/avail/releases/download/<version-number>/<your-machine-specific-executable>.tar.gz && tar -xf ./<your-machine-specific-executable>.tar.gz
 ```
-
-</Tabs.Tab>
-
-<Tabs.Tab>
-
-```bash
-wget https://github.com/availproject/avail/releases/download/v1.9.0.0/x86_64-ubuntu-2204-data-avail.tar.gz && tar -xf ./x86_64-ubuntu-2204-data-avail.tar.gz
-```
-
-</Tabs.Tab>
-<Tabs.Tab>
-
-```bash
-wget https://github.com/availproject/avail/releases/download/v1.9.0.0/x86_64-ubuntu-2310-data-avail.tar.gz && tar -xf ./x86_64-ubuntu-2310-data-avail.tar.gz
-```
-
-</Tabs.Tab>
-<Tabs.Tab>
-
-```bash
-wget https://github.com/availproject/avail/releases/download/v1.9.0.0/x86_64-debian-11-data-avail.tar.gz && tar -xf ./x86_64-debian-11-data-avail.tar.gz
-```
-
-</Tabs.Tab>
-<Tabs.Tab>
-
-```bash
-wget https://github.com/availproject/avail/releases/download/v1.9.0.0/x86_64-debian-12-data-avail.tar.gz && tar -xf ./x86_64-debian-12-data-avail.tar.gz
-```
-
-</Tabs.Tab>
-<Tabs.Tab>
-
-```bash
-wget https://github.com/availproject/avail/releases/download/v1.9.0.0/x86_64-fedora-38-data-avail.tar.gz && tar -xf ./x86_64-fedora-38-data-avail.tar.gz
-```
-
-</Tabs.Tab>
-<Tabs.Tab>
-
-```bash
-wget https://github.com/availproject/avail/releases/download/v1.9.0.0/x86_64-fedora-39-data-avail.tar.gz && tar -xf ./x86_64-fedora-39-data-avail.tar.gz
-```
-
-</Tabs.Tab>
-<Tabs.Tab>
-
-```bash
-wget https://github.com/availproject/avail/releases/download/v1.9.0.0/x86_64-arch-data-avail.tar.gz && tar -xf ./x86_64-arch-data-avail.tar.gz
-```
-
-</Tabs.Tab>
-</Tabs>
 
 ## Running Our First Network
 
@@ -335,14 +272,14 @@ After running the node for a minute or two, stop it by pressing Ctrl+C and rerun
 
 Now stop the node with Ctrl+C and let's remove our storage: `rm ./node-data -r`.
 
-## Connecting Our Node to Goldberg
+## Connecting Our Node to Turing
 
-With all this preliminary knowledge ready to be used, we can now finally take the last step and connect our node to the Goldberg network. I will use the same name as before, KingMagnifico, but I suggest you choose one that you like.
+With all this preliminary knowledge ready to be used, we can now finally take the last step and connect our node to the Turing network. I will use the same name as before, KingMagnifico, but I suggest you choose one that you like.
 
 Before running our node, ensure that our storage folder is removed or empty, and that we don't have any previous nodes already running. With that said, let's finally do what we've been waiting for since the beginning:
 
 ```bash
-./data-avail --chain goldberg --name KingMagnifico --validator -d ./node-data
+./data-avail --chain turing --name KingMagnifico --validator -d ./node-data
 ```
 
 Output:
@@ -432,4 +369,4 @@ Once we see `💤 Idle`, we are done syncing, and our node has now fully caught 
 
 ## What's Next
 
-This is where our story ends. We have a working node connected to the Goldberg chain. It doesn't do much right now, certainly doesn't produce any blocks, but this is something that we will fix. Before that, let's discuss in the next chapter how to do a simple but effective deployment.
+This is where our story ends. We have a working node connected to the Turing chain. It doesn't do much right now, certainly doesn't produce any blocks, but this is something that we will fix. Before that, let's discuss in the next chapter how to do a simple but effective deployment.
