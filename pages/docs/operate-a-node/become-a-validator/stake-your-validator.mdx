@@ -28,25 +28,10 @@ Before you can become an active validator, you need to bond your funds to your n
 
 ### Create Avail Accounts
 
-1.  Navigate to the Goldberg network explorer at [<ins>goldberg.avail.tools</ins>](https://goldberg.avail.tools/).
-2.  Create a `stash` and a `controller` account. The `stash` account should ideally be a cold wallet, while the `controller` can be a hot wallet.
-    > - The controller key is responsible for managing staking activities and executing transactions,
-        including the payment of transaction fees.
-    > - The stash key primarily safeguards your funds and should ideally be stored in a cold wallet or
-        kept offline. It is not recommended to use the stash key for routine account activities like submitting
-        extrinsics.
-3.  Ensure both accounts have sufficient funds to cover transaction fees.
-
-<Callout>
-FUNDING ACCOUNTS<br/>
-Keep the majority of your funds in the `stash` account and only a minimal amount in the `controller`
-account to cover transaction fees.
-</Callout>
-
-For validators participating in our testnet, contact the Avail team to have funds
-transferred.
-
-<img src="/img/avail/stash-controller-accounts.png" width="200%" height="200%"/>
+1.  Navigate to the Avail network explorer at [<ins>https://explorer.avail.so/</ins>](https://explorer.avail.so/) and choose the correct network.
+2.  Create a `stash` account.
+<br/>
+<img src="/img/Screenshot 2024-04-23 at 15.35.55.png" width="200%" height="200%"/>
 
 ### Bond Your Funds
 
@@ -58,22 +43,14 @@ Note: Withdrawing any bonded amount is subject to the duration of the unbonding 
 
 1. Navigate to the **Staking** tab in the Explorer.
 2. Click on `Stash` to initiate the bonding process.
-   <img src="/img/avail/staking-bond-1.png" width="100%" height="100%"/>
+<br/>
+   <img src="/img/bonding-preference.png" width="100%" height="100%"/>
 
-3. Fill in the bonding preferences.
+3. Fill in the bonding preferences. Then click `Bond` and `Sign and Submit`.
 
-> - **Stash Account:** This is your designated Stash account.
-> - **Controller Account:** Choose your Controller account, which only requires a minimal amount of AVAIL to initiate and cease validation.
-> - **Value Bonded:** Specify the quantity of AVAIL tokens you wish to bond from your Stash account. You can stake any amount that exceeds the minimum requirement.
-> - **Payment Destination:** This is the account where your validation rewards will be sent. For more details, visit [this link](https://wiki.polkadot.network/docs/learn-staking#reward-distribution).
-
-4. After filling in the required fields, click `Bond`. You will be prompted to enter your wallet password. Input your password and then click **Sign and Submit**.
-
-<img src="/img/avail/staking-bond-3.png" width="100%" height="100%"/>
-
-You should now be ready to generate your session keys. Note the
-**Session Key** button, in the next step we will generate a key to
-submit here. <img src="/img/avail/staking-bond-4.png" width="100%" height="100%"/>
+<Callout type="warning" emoji="⚠️">
+You need at least 100,000 AVL to join waiting list.
+</Callout>
 
 ## Step 2: Manage Session Keys
 
@@ -118,7 +95,7 @@ docker exec -i da097bbeba75 curl -sH "Content-Type: application/json" -d '{"id":
 You must inform the network of your Session keys by signing and submitting the
 `setKeys` extrinsic. This action associates your validator with your Controller account.
 
-1. Navigate back to the **[<ins>Staking</ins>](https://goldberg.avail.tools/#/staking/actions)** tab.
+1. Navigate back to the **[<ins>Staking</ins>](https://explorer.avail.so/#/staking/actions)** tab.
 2. Click on `Set Session Key` and enter the hex-encoded result.
 3. Click `Set Session Key` and enter your password when prompted.
 
@@ -152,7 +129,7 @@ stake, the Avail blockchain will likely select it in the next epoch or two.
 To verify that your node is ready for possible selection at the end of
 the next era, follow these steps:
 
-1. Go to the **[<ins>Staking</ins>](https://goldberg.avail.tools/#/staking)** tab and
+1. Go to the **[<ins>Staking</ins>](https://explorer.avail.so/#/staking)** tab and
    select `Waiting` to see if your account appears.
 2. If your node has enough stake, it will be elected in the next era or two.
    > A new set of validators is chosen every **era**, based on the amount staked.
@@ -172,6 +149,9 @@ In addition, please check out the guide on validator monitoring available
 ## Next Steps
 
 Congratulations on successfully setting up your Avail Validator node!
+You should be seeing something like this:
+<br/>
+<img src="/img/congrats-turing.png" width="100%" height="100%"/>
 
 As you move forward, here are some essential actions to consider:
 
