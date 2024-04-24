@@ -1,1 +1,84 @@
-# Avail improvement proposals (AIPs)
+import { Steps } from 'nextra/components'
+
+# Template for Avail Improvement Proposals (AIPs)
+
+The AIP process helps coordinate proposals that improve the Avail network.
+In this post we discuss the AIP process and include an AIP template which you can fill out.
+For an overview of Avail's governance [go here](/docs/governance-on-avail/avail-governance).
+
+## AIP process
+ 
+<Steps>
+### Proposal 💡
+ 
+Follow the proposal template to post your idea/suggestion on the forum
+ 
+### AIP under discussion 🗣
+ 
+The AIP will be open to discussion on the forum if it follows the template and forum rules.
+
+### AIP rejected ❌
+
+Reasons for denying an AIP for discussion include being too unfocused, too broad, duplication of effort, being technically 
+unsound, not providing proper motivation or addressing backwards compatibility, or not in keeping with the Avail values and 
+community code of conduct.
+
+### AIP assigned 👨‍🔬
+
+If agreeable, the governance moderator assign the AIP a number and merge your pull request. The governance moderator will not unreasonably deny an AIP.
+
+### Technical Committee Review 🧐
+
+The governance facilitator marks a AIP as ready for and requesting Technical Committee Review.
+
+### Technical Committee Voting 🗳
+
+The 5 member technical committee assigns this status and sets a voting window for the TC to arrive at a consensus
+
+### Technical Committee Last Call ☢️
+
+Substantial unaddressed technical complaints will cause the AIP to revert to "*AIP under discussion*" 
+before the technical committee votes on it again.
+
+### AIP Queued for Execution ✅
+
+After a successful onchain voting by the Technical Committee, 
+the AIP will be queued for execution. A majority consensus will be required to queue the AIP for execution.
+
+An ATR will be posted by the Technical Committee outlining the final execution specs and timelines for the 
+community to track.
+
+</Steps>
+
+## Other statuses
+
+- **Stagnant**: Any AIP in review or voting that remains inactive for 6 months or more is moved to Stagnant. 
+Authors or the governance facilitators can resurrect a proposal from this state by moving it back to active. 
+If not resurrected, a proposal may stay forever in this status.
+
+- **Withdrawn**: The AIP Author(s) have withdrawn the proposed AIP before the Technical Committee Voting. 
+This state has finality and can no longer be resurrected using this AIP number. If the idea is pursued at a later date, 
+it is considered a new proposal.
+
+- **Ongoing**: A special status for AIPs designed to be continually updated and not reach a state of finality. 
+This status caters to dynamic AIPs that require ongoing updates.
+
+## AIP Template
+
+- **Metadata**: RFC 822 style headers containing metadata about the AIP, a short descriptive title (limited to a maximum of 44 words), a description (limited to a maximum of 140 words), and the author details.
+
+- **Technical Summary**: A multi-sentence (short paragraph) technical summary that provides a terse and human-readable version of the specification section. By reading the summary alone, someone should be able to grasp the essence of what the proposal entails.
+
+- **Motivation**: A motivation section is crucial for AIPs that seek to change the protocol. It should clearly explain why the existing protocol specification is insufficient.
+
+- **Technical Specification**: The technical specification should describe the syntax and semantics of any new feature. The specification should be detailed enough to enable competing, interoperable implementations for Avail.
+
+- **Rationale and Reasoning (Optional)**: The rationale elaborates on the specification by explaining the reasoning behind the design and the choices made during the design process. It should discuss alternative ideas that were considered and any related work.
+
+- **Backwards Compatibility (Ooptional)**: For AIPs introducing backwards incompatibilities, this section must describe these incompatibilities and their consequences. The AIP must explain how the author proposes to handle these incompatibilities. If the proposal does not introduce any backwards incompatibilities, this section can be omitted.
+
+- **Test Cases (Ooptional)**: Test cases are mandatory for AIPs affecting consensus changes. This section can be omitted for non-Core proposals.
+
+- **Security Considerations or Risks**: All AIPs must include a section discussing relevant security implications and considerations. This section should provide information critical for security discussions, expose risks, and be used throughout the proposal's life-cycle. AIP submissions lacking a "Security Considerations" section will be rejected.
+
+- **Copyright Waiver**: All AIPs must be in the public domain. The copyright waiver MUST link to the license file and use the following wording: Copyright and related rights waived via CC0.
