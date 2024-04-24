@@ -1,5 +1,6 @@
 {
     "requirements": "System Requirements",
     "full-node": "Run a full node",
-    "rpc-node": "Run an RPC node"
+    "rpc-node": "Run an RPC node",
+    "avail-node-api-reference": "Available Node API Reference"
 }
