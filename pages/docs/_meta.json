@@ -1,7 +1,10 @@
 {
     "introduction-to-avail": "Introduction to Avail",
     "the-avail-token": "The AVAIL Token",
-    "clash-of-nodes": "Clash of Nodes",
+    "governance-on-avail": "Governance on Avail",
+    "clash-of-nodes": {
+        "display": "hidden"
+    },
     "networks": "Network Info",
     "learn-about-avail": "Learn more about Avail",
     "end-user-guide": "End User Guide",
@@ -10,6 +13,9 @@
     "glossary": "Glossary",
     "faqs": "FAQs",
     "appid": {
+        "display": "hidden"
+    },
+    "archived-content": {
         "display": "hidden"
     }
 }
