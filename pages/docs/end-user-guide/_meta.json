@@ -5,5 +5,6 @@
     "identity": "Set your Identity",
     "app-id": "Generate an AppID",
     "balance-transfers": "Balance Transfers",
-    "nomination-pools": "Nomination Pools"
+    "nomination-pools": "Nomination Pools",
+    "nominating": "Nominate Validators"
 }
