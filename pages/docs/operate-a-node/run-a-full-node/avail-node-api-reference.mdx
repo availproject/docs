@@ -26,3 +26,67 @@ lkjnknjdsfdjknvdl;kndl;ndsfd
 </Tabs.Tab>
 
 </Tabs>
+
+## RPC methods
+
+### rpc_methods
+
+This method can be used to get a list of all the RPC methods supported by the Avail node.
+
+<Tabs items={['curl']}>
+
+<Tabs.Tab>
+```sh
+curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "rpc_methods"}' https://turing-rpc.avail.so/
+```
+</Tabs.Tab>
+</Tabs>
+
+### kate_queryRows
+
+Query rows based on their indices and block hashes.
+
+<Tabs items={['curl']}>
+<Tabs.Tab>
+```sh
+curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "kate_queryRows", "params": {"rows": [1, 2, 3], "at": "0xc28187c37c3b1f6bae93f83a4090648086782b69636050896224ee2ae5a0f6b9"}}' https://turing-rpc.avail.so/
+```
+</Tabs.Tab>
+</Tabs>
+
+
+### kate_queryProof
+
+Generate the kate proof for the given `cells`.
+
+<Tabs items={['curl']}>
+<Tabs.Tab>
+```sh
+curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "kate_queryProof", "params": {"cells": [{"row": 0, "col": 0}], "at": "0xc28187c37c3b1f6bae93f83a4090648086782b69636050896224ee2ae5a0f6b9"}}' https://turing-rpc.avail.so/
+```
+</Tabs.Tab>
+</Tabs>
+
+### kate_blockLength
+
+Get block length
+
+<Tabs items={['curl']}>
+<Tabs.Tab>
+```sh
+curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "kate_blockLength", "params": {"at": "0xc28187c37c3b1f6bae93f83a4090648086782b69636050896224ee2ae5a0f6b9"}}' https://turing-rpc.avail.so/
+```
+</Tabs.Tab>
+</Tabs>
+
+### kate_queryDataProof
+
+Generate the data proof for the given `transaction_index`.
+
+<Tabs items={['curl']}>
+<Tabs.Tab>
+```sh
+curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "kate_queryDataProof", "params": {"transaction_index": 1, "at": "0xf3d7edf0a7216dd4260b35ad06aa69c636da04c0849bc75eecae5d2588938506"}}' https://turing-rpc.avail.so/
+```
+</Tabs.Tab>
+</Tabs>
