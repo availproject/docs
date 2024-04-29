@@ -1,5 +1,4 @@
 {
-    "requirements": "System Requirements",
-    "full-node": "Run a full node",
-    "rpc-node": "Run an RPC node"
+    "overview": "Overview",
+    "full-node": "Run an Avail node"
 }

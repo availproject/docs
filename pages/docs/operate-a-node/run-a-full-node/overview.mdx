@@ -15,17 +15,9 @@ image: https://docs.availproject.org/img/avail/AvailDocs.png
 
 import { Callout } from 'nextra/components'
 
-# System Requirements
-## What You Need
+# Overview 
 
-To ensure a smooth experience, considering the following:
-
-1. **[<ins>Hardware Configuration</ins>](#hardware):** Verify that your hardware meets the Avail node's requirements.
-2. **[<ins>Methods to Run a Node</ins>](#methods-to-run-an-avail-node):** Familiarize yourself with the different Avail node types and the methods to run them.
-3. **[<ins>Prerequisites & Installation</ins>](#installation):** Ensure you have the necessary prerequisites and packages installed on your machine.
-4. **[<ins>Notable System Configuration</ins>](#notable-configurations):** Pay attention to system configuration details, including port settings and disk setup.
-
-## Hardware
+## System Requirements
 
 This is the hardware configuration required to set up an Avail node:
 
@@ -40,61 +32,23 @@ This is the hardware configuration required to set up an Avail node:
 
 ## Methods to Run an Avail Node
 
-There are two primary methods to run an Avail node, each with its own set of instructions:
+There are three primary methods to run an Avail node, each with its own set of instructions:
 
-1. **[<ins>Using Binaries</ins>](/docs/operate-a-node/run-a-full-node/full-node/0020-full-node-binaries.mdx):** You can follow the instructions provided here for setting up an Avail node using binary releases. This method is suitable for users who prefer manual installation and configuration. For reference, you can also explore the [GitHub Releases](https://github.com/availproject/avail/releases) page for binary releases.
+1. **Using Binaries:** You can follow the instructions provided in the next page for setting up an Avail node using binary releases.
+This method is suitable for users who prefer manual installation and configuration. 
+For reference, you can also explore the [GitHub Releases](https://github.com/availproject/avail/releases) page for 
+a list of binary releases.
 
-2. **[<ins>Using Docker</ins>](/docs/operate-a-node/run-a-full-node/full-node/0030-full-node-docker.mdx):** Alternatively, if you're comfortable with Docker, you can pull Avail node images from the [DockerHub Repository](https://hub.docker.com/r/availj/avail/tags). Docker provides a convenient way to containerize and deploy Avail nodes.
+2. **Building from source:** The Avail node is based on open-sourced code. Feel free to clone the repo
+and build it locally.
+
+2. **Using Docker:** Alternatively, if you're comfortable with Docker, you can pull Avail node images from the [DockerHub Repository](https://hub.docker.com/r/availj/avail/tags). Docker provides a convenient way to containerize and deploy Avail nodes.
    > The Avail team offers official Docker images specifically designed for running nodes on the Goldberg testnet.
 
-## Setting Up Your Environment
-
-The node deployment guides provide specific instructions tailored for Linux distributions with apt support, such as **Debian**.
-Additionally, it's common practice to run nodes on cloud servers.
-
-### Installation
-
-Download the client binary and config file for the node you want to run:
-
-| Node Type     | Repository Name                                           | Latest Release                                                                     |
-| ------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| **Full Node** | [<ins>avail</ins>](https://github.com/availproject/avail) | [<ins>v2.1.0.0-rc1</ins>](https://github.com/availproject/avail/releases/tag/v2.1.0.0-rc1) |
-
-#### Common Dependencies
-
-Before proceeding, install the required dependencies:
-
-1. The Rust toolchain: Go to [rust-lang.org/tools/install](https://www.rust-lang.org/tools/install) and follow the instructions to install the Rust toolchain onto your system.
-Verify Rust is installed on your system by running:
-```bash
-rustc --version
-```
-
-<Callout type="info">
-If the installation process seemed to go smoothly and the command above still doesn't work:
-1. Close your current terminal and try it in a new one.
-2. Alternatively, in your old terminal, run `source $HOME/.cargo/env` and then run `source $HOME/.cargo/env` again.
-</Callout>
-
-  If you encounter any issues with the Rust installation, refer to the [Rust installation guide](https://www.rust-lang.org/tools/install) for troubleshooting tips.
-2. Make sure your Linux distro is up-to-date by running:
-```bash
-sudo apt update && sudo apt upgrade
-```
-
-3. Install some common dependencies using:
-```bash
-sudo apt install make clang pkg-config libssl-dev build-essential git curl llvm libudev-dev cmake protobuf-compiler -y
-```
-
-Clone the node repository you would like to run:
-
-| Node Type                                                                              | Build Steps                                         |
-| -------------------------------------------------------------------------------------- | --------------------------------------------------- |
-| [<ins>**Full Node**</ins>](https://github.com/availproject/avail)                      | `cargo build --release -p data-avail`               |
+## Docker Installation
 
 The available Docker images are compatible exclusively with **Linux/amd64** or **x86_64** based CPUs.
-
+<br/>
 <details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
 <summary>Install Docker</summary>
 
@@ -125,7 +79,7 @@ sudo usermod -aG docker $USER
 
 | Node Type | Docker Repository Name                                                | Latest Version                                                                                                                                                            |
 | --------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Full Node | [<ins>availj/avail</ins>](https://hub.docker.com/r/availj/avail/tags) | [<ins>v1.10.0.0</ins>](https://hub.docker.com/layers/availj/avail/v1.10.0.0/images/sha256-a35bca617bc28a2cf858e1f36b403065a646ff2f34f37055c27f5db37bfa2076?context=explore) |
+| Full Node | [<ins>availj/avail</ins>](https://hub.docker.com/r/availj/avail/tags) | [<ins>v2.1.1.0-rc1</ins>](https://hub.docker.com/layers/availj/avail/v1.10.0.0/images/sha256-a35bca617bc28a2cf858e1f36b403065a646ff2f34f37055c27f5db37bfa2076?context=explore) |
 
 ### Notable Configurations
 
