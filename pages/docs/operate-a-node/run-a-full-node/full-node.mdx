@@ -9,10 +9,11 @@ import { Steps } from 'nextra/components'
 
 There are two main ways of running an Avail node:
 
-1. By building from source
-2. By running a pre-built binary.
+1. By running a pre-built binary.
+2. By building from source
+3. By running a pre-built image using Docker
 
-<Tabs items={['Run a pre-built binary' , 'Build from source']}>
+<Tabs items={['Run a pre-built binary' , 'Build from source' , 'Using Docker']}>
 
 
 <Tabs.Tab>
@@ -234,6 +235,96 @@ cargo run --release -- --name a-random-name --chain turing -d ./output
 
 </Tabs.Tab>
 
+<Tabs.Tab>
+
+<Callout type="info">
+
+1. This part of the guide assumes you have [Docker engine installed](https://docs.docker.com/engine/)
+on your system. 
+
+2. You can quickly check if it is installed by running:
+```bash
+docker run hello-world
+```
+
+3. It is recommended to run Docker without using the 'sudo' command.
+Check out [these post-installation instructions in Docker's docs](https://docs.docker.com/engine/install/linux-postinstall/) to do so.
+
+</Callout>
+
+To download and run an Avail node using Docker:
+
+1. Simply run the following command in your terminal:
+
+```bash
+docker run --restart=on-failure -d -v /root/avail/node-data:/da/node-data -p 9944:9944 -p 30333:30333 docker.io/availj/avail:v2.1.1.0-rc1 --chain turing -d ./output --name a-random-name
+```
+- -d runs the container in the background
+- -v  mounts a volume into the container
+- -p publishes containers port to the host machine
+
+2. To configure Docker specific flags you can refer to Docker's documentation,
+and you can check out the Additional configs section in this page to get more information
+on how to configure the Avail node.
+
+3. To a persistent output from the container, you can run:
+
+```bash
+docker logs -f <container_id>
+```
+
+4. After some time, your terminal output should look something like this:
+
+```bash
+2024-04-30 16:37:49 💤 Idle (11 peers), best: #143238 (0xde00…04e0), finalized #143236 (0x5624…13b1), ⬇ 1.0kiB/s ⬆ 2.3kiB/s    
+2024-04-30 16:37:54 💤 Idle (11 peers), best: #143238 (0xde00…04e0), finalized #143236 (0x5624…13b1), ⬇ 1.9kiB/s ⬆ 4.5kiB/s    
+2024-04-30 16:37:59 💤 Idle (11 peers), best: #143238 (0xde00…04e0), finalized #143236 (0x5624…13b1), ⬇ 2.9kiB/s ⬆ 4.2kiB/s    
+2024-04-30 16:38:00 ✨ Imported #143239 (0x43fb…a69f)    
+2024-04-30 16:38:04 💤 Idle (11 peers), best: #143239 (0x43fb…a69f), finalized #143237 (0xbb06…d3ec), ⬇ 5.1kiB/s ⬆ 3.7kiB/s    
+2024-04-30 16:38:09 💤 Idle (11 peers), best: #143239 (0x43fb…a69f), finalized #143237 (0xbb06…d3ec), ⬇ 2.3kiB/s ⬆ 4.8kiB/s    
+2024-04-30 16:38:14 💤 Idle (11 peers), best: #143239 (0x43fb…a69f), finalized #143237 (0xbb06…d3ec), ⬇ 1.7kiB/s ⬆ 4.4kiB/s    
+2024-04-30 16:38:19 💤 Idle (11 peers), best: #143239 (0x43fb…a69f), finalized #143237 (0xbb06…d3ec), ⬇ 3.9kiB/s ⬆ 7.0kiB/s    
+2024-04-30 16:38:20 ✨ Imported #143240 (0xc8dd…6b41)    
+2024-04-30 16:38:24 💤 Idle (11 peers), best: #143240 (0xc8dd…6b41), finalized #143237 (0xbb06…d3ec), ⬇ 4.7kiB/s ⬆ 8.1kiB/s    
+2024-04-30 16:38:29 💤 Idle (12 peers), best: #143240 (0xc8dd…6b41), finalized #143238 (0xde00…04e0), ⬇ 3.8kiB/s ⬆ 4.7kiB/s    
+2024-04-30 16:38:34 💤 Idle (12 peers), best: #143240 (0xc8dd…6b41), finalized #143238 (0xde00…04e0), ⬇ 2.2kiB/s ⬆ 5.0kiB/s    
+2024-04-30 16:38:39 💤 Idle (12 peers), best: #143240 (0xc8dd…6b41), finalized #143238 (0xde00…04e0), ⬇ 1.6kiB/s ⬆ 4.2kiB/s    
+2024-04-30 16:38:40 ✨ Imported #143241 (0x4d2c…e08a)    
+2024-04-30 16:38:40 ♻️  Reorg on #143241,0x4d2c…e08a to #143241,0x2b03…6360, common ancestor #143240,0xc8dd…6b41    
+2024-04-30 16:38:40 ✨ Imported #143241 (0x2b03…6360)    
+2024-04-30 16:38:44 💤 Idle (12 peers), best: #143241 (0x2b03…6360), finalized #143238 (0xde00…04e0), ⬇ 5.2kiB/s ⬆ 6.7kiB/s    
+2024-04-30 16:38:49 💤 Idle (12 peers), best: #143241 (0x2b03…6360), finalized #143239 (0x43fb…a69f), ⬇ 5.3kiB/s ⬆ 6.8kiB/s    
+2024-04-30 16:38:54 💤 Idle (12 peers), best: #143241 (0x2b03…6360), finalized #143239 (0x43fb…a69f), ⬇ 2.1kiB/s ⬆ 2.9kiB/s    
+2024-04-30 16:38:59 💤 Idle (12 peers), best: #143241 (0x2b03…6360), finalized #143239 (0x43fb…a69f), ⬇ 3.1kiB/s ⬆ 7.2kiB/s    
+2024-04-30 16:39:00 ✨ Imported #143242 (0x807a…e405)    
+2024-04-30 16:39:00 ♻️  Reorg on #143242,0x807a…e405 to #143242,0xbf6b…7cfb, common ancestor #143241,0x2b03…6360    
+2024-04-30 16:39:00 ✨ Imported #143242 (0xbf6b…7cfb)    
+2024-04-30 16:39:04 💤 Idle (12 peers), best: #143242 (0xbf6b…7cfb), finalized #143239 (0x43fb…a69f), ⬇ 6.1kiB/s ⬆ 6.8kiB/s    
+2024-04-30 16:39:09 💤 Idle (12 peers), best: #143242 (0xbf6b…7cfb), finalized #143240 (0xc8dd…6b41), ⬇ 23.1kiB/s ⬆ 31.6kiB/s    
+2024-04-30 16:39:14 💤 Idle (12 peers), best: #143242 (0xbf6b…7cfb), finalized #143240 (0xc8dd…6b41), ⬇ 12.6kiB/s ⬆ 62.3kiB/s    
+2024-04-30 16:39:19 💤 Idle (12 peers), best: #143242 (0xbf6b…7cfb), finalized #143240 (0xc8dd…6b41), ⬇ 15.7kiB/s ⬆ 52.6kiB/s    
+2024-04-30 16:39:20 ✨ Imported #143243 (0x1de9…4a0b)    
+2024-04-30 16:39:24 💤 Idle (12 peers), best: #143243 (0x1de9…4a0b), finalized #143240 (0xc8dd…6b41), ⬇ 16.7kiB/s ⬆ 43.6kiB/s    
+2024-04-30 16:39:29 💤 Idle (12 peers), best: #143243 (0x1de9…4a0b), finalized #143241 (0x2b03…6360), ⬇ 7.1kiB/s ⬆ 34.3kiB/s    
+2024-04-30 16:39:34 💤 Idle (12 peers), best: #143243 (0x1de9…4a0b), finalized #143241 (0x2b03…6360), ⬇ 1.9kiB/s ⬆ 3.3kiB/s    
+2024-04-30 16:39:39 💤 Idle (12 peers), best: #143243 (0x1de9…4a0b), finalized #143241 (0x2b03…6360), ⬇ 27.4kiB/s ⬆ 31.7kiB/s    
+2024-04-30 16:39:40 ✨ Imported #143244 (0xb05b…2158)    
+2024-04-30 16:39:44 💤 Idle (12 peers), best: #143244 (0xb05b…2158), finalized #143241 (0x2b03…6360), ⬇ 13.8kiB/s ⬆ 35.3kiB/s    
+2024-04-30 16:39:49 💤 Idle (12 peers), best: #143244 (0xb05b…2158), finalized #143242 (0xbf6b…7cfb), ⬇ 8.2kiB/s ⬆ 131.8kiB/s    
+2024-04-30 16:39:54 💤 Idle (12 peers), best: #143244 (0xb05b…2158), finalized #143242 (0xbf6b…7cfb), ⬇ 7.0kiB/s ⬆ 4.1kiB/s    
+2024-04-30 16:39:59 💤 Idle (12 peers), best: #143244 (0xb05b…2158), finalized #143242 (0xbf6b…7cfb), ⬇ 16.3kiB/s ⬆ 44.4kiB/s    
+2024-04-30 16:40:00 ✨ Imported #143245 (0xe42d…9b4f)    
+2024-04-30 16:40:00 ♻️  Reorg on #143245,0xe42d…9b4f to #143245,0x0b16…c2ac, common ancestor #143244,0xb05b…2158    
+2024-04-30 16:40:00 ✨ Imported #143245 (0x0b16…c2ac)    
+2024-04-30 16:40:04 💤 Idle (12 peers), best: #143245 (0x0b16…c2ac), finalized #143242 (0xbf6b…7cfb), ⬇ 20.5kiB/s ⬆ 40.6kiB/s    
+2024-04-30 16:40:09 💤 Idle (12 peers), best: #143245 (0x0b16…c2ac), finalized #143243 (0x1de9…4a0b), ⬇ 4.6kiB/s ⬆ 11.4kiB/s    
+2024-04-30 16:40:14 💤 Idle (12 peers), best: #143245 (0x0b16…c2ac), finalized #143243 (0x1de9…4a0b), ⬇ 52.3kiB/s ⬆ 88.3kiB/s    
+2024-04-30 16:40:19 💤 Idle (12 peers), best: #143245 (0x0b16…c2ac), finalized #143243 (0x1de9…4a0b), ⬇ 33.4kiB/s ⬆ 40.9kiB/s    
+2024-04-30 16:40:20 ✨ Imported #143246 (0x8289…0798)    
+```
+
+</Tabs.Tab>
+
 </Tabs>
 
 Your node will also appear on the [Avail Telemetry site](https://telemetry.avail.so/), listed under the "Node name" from the node command output.
@@ -249,7 +340,7 @@ using:
 ./avail-node --help
 ```
 
-Alternatively, you can check out this notion page.
+Alternatively, you can check out [this notion page](https://avail-project.notion.site/Commands-and-options-supported-by-the-Avail-node-838b7b1fb7cd496a869987e7b7a72fdc?pvs=74).
 
 <Callout type="info">
 Please note that the notion page may not always be updated.
