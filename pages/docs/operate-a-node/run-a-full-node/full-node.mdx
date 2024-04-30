@@ -1,12 +1,13 @@
 import { Tabs } from 'nextra/components'
 import { Callout } from 'nextra/components'
+import { Steps } from 'nextra/components'
 
 # How to Run an Avail node
 
 
-## How to run an Avail node without Docker
+## How to run an Avail node 
 
-There are two main ways of running an Avail node without Docker:
+There are two main ways of running an Avail node:
 
 1. By building from source
 2. By running a pre-built binary.
@@ -23,13 +24,22 @@ There you will see a lot of pre-built binaries for each version of the Avail nod
 You can do this using the GUI or by running the following command in your terminal:
 
 ```bash
-curl -L -O https://github.com/availproject/avail/releases/download/v2.1.1.0-rc1/your-system-specific-binary.tar.gz
+curl -L -O https://github.com/availproject/avail/releases/download/v2.1.1.0-rc1/<YOUR-SYSTEM-SPECIFIC-BINARY>.tar.gz
 ```
 3. Extract the downloaded file by opening a terminal in the location of the downloaded file and using the following command:
 
 ```bash
-tar -xzvf x86_64-ubuntu-2204-avail-node.tar.gz
+tar -xzvf <YOUR-SYSTEM-SPECIFIC-BINARY>.tar.gz
 ```
+
+> Your terminal should now look something like this:
+<br/>
+<p align="center">
+<img src="/img/node-binary-demo.png" alt="Extracted Avail node binary" width="95%"/>
+</p>
+
+- The file in red is what we downloaded to our system.
+- The file in green is the extracted binary.
 
 4. Once extracted, you will see a pre-built, executable binary named `avail-node` in the same directory.
 You can run this binary using the following command:
@@ -125,13 +135,19 @@ If you still encounter issues with Rust's installation, refer to the [Rust insta
 
 2. Make sure your Linux distro is up-to-date by running:
 ```bash
-sudo apt update && sudo apt upgrade
+apt update && apt upgrade
 ```
 
 3. Make sure some common dependencies are installed using:
 ```bash
-sudo apt install make clang pkg-config libssl-dev build-essential git curl llvm libudev-dev cmake protobuf-compiler -y
+apt install make clang pkg-config libssl-dev build-essential git curl llvm libudev-dev cmake protobuf-compiler -y
 ```
+
+<Callout type="info">
+Some of these commands might not work without being prefixed by 'sudo'.
+However, the 'sudo' command gives the terminal root access, so be careful
+when using it.
+</Callout>
 
 4. Clone the Avail node repo and move your terminal into it:
 
@@ -223,81 +239,19 @@ cargo run --release -- --name a-random-name --chain turing -d ./output
 Your node will also appear on the [Avail Telemetry site](https://telemetry.avail.so/), listed under the "Node name" from the node command output.
 Be sure to select the appropriate network tab at the top to view your node's status.
 
-## How to Run an Avail Node with Docker
 
-This guide provides step-by-step instructions for setting up and running a full node on the Avail network using Docker. Whether you're new to node operation or have prior experience, this guide is designed to make the setup process straightforward.
+## Additional configs
+
+The Avail node is a highly customizable piece of software. You can fetch a list of supported commands and flags
+using:
+
+```bash
+./avail-node --help
+```
+
+Alternatively, you can check out this notion page.
 
 <Callout type="info">
-BEFORE YOU START<br/>
-**Ensure that you meet the [<ins>system requirements</ins>](/docs/operate-a-node/run-a-full-node/requirements).** We recommend downloading the pre-compiled binary for speed and convenience.
+Please note that the notion page may not always be updated.
+The best way to reliably get the latest config options will be `./avail-node --help`.
 </Callout>
-
-### Step 1: Launch Your Avail Node
-
-To launch your Avail node, navigate to the `/mnt/avail` directory and execute the following Docker command:
-
-```bash
-cd /mnt/avail
-sudo docker run -v $(pwd)/state:/da/state:rw -p 30333:30333 -p 9615:9615 -p 9944:9944 -d --restart unless-stopped availj/avail:v1.10.0.0 --chain goldberg --name "MyAweasomeInContainerAvailAnode" -d /da/state
-```
-
-> The Docker command performs several important steps:
-
-> - Map the state directory, providing read-write permissions for data persistence.
-> - Opens various ports for different functionalities, including P2P connections, metrics, and HTTP RPC.
-> - Utilizes the Avail image from Docker Hub and sets it to restart unless manually stopped.
-
-<br/>
-<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
-<summary>Sample output</summary>
-
-You should see an output similar to the following:
-
-```shell
-2023-11-07 17:35:19 Avail Node
-2023-11-07 17:35:19 ✌️  version 1.8.0-9c5f37b9230
-2023-11-07 17:35:19 ❤️  by Anonymous, 2017-2023
-2023-11-07 17:35:19 📋 Chain specification: Avail Goldberg Testnet
-2023-11-07 17:35:19 🏷  Node name: fresh-fan-5502
-2023-11-07 17:35:19 👤 Role: FULL
-2023-11-07 17:35:19 💾 Database: RocksDb at /tmp/substrateCTFPb5/chains/avail_goldberg_testnet/db/full
-2023-11-07 17:35:20 🔨 Initializing Genesis block/state (state: 0x6bc7…ec83, header-hash: 0x6f09…a7ae)
-2023-11-07 17:35:20 👴 Loading GRANDPA authority set from genesis on what appears to be first startup.
-2023-11-07 17:35:21 👶 Creating empty BABE epoch changes on what appears to be first startup.
-2023-11-07 17:35:21 🏷  Local node identity is: 12D3KooWEEa9iNANi6PUeXGaDqTgTR9T5YcP3A69nwbT4VXnG5R1
-2023-11-07 17:35:21 Prometheus metrics extended with avail metrics
-2023-11-07 17:35:21 💻 Operating system: linux
-2023-11-07 17:35:21 💻 CPU architecture: x86_64
-2023-11-07 17:35:21 💻 Target environment: gnu
-2023-11-07 17:35:21 💻 CPU: 13th Gen Intel(R) Core(TM) i7-13700K
-2023-11-07 17:35:21 💻 CPU cores: 16
-2023-11-07 17:35:21 💻 Memory: 31863MB
-2023-11-07 17:35:21 💻 Kernel: 6.5.8-100.fc37.x86_64
-2023-11-07 17:35:21 💻 Linux distribution: Fedora Linux 37 (Workstation Edition)
-2023-11-07 17:35:21 💻 Virtual machine: no
-2023-11-07 17:35:21 📦 Highest known block at #0
-2023-11-07 17:35:21 〽️ Prometheus exporter started at 127.0.0.1:9615
-2023-11-07 17:35:21 Running JSON-RPC server: addr=127.0.0.1:9944, allowed origins=["http://localhost:*", "http://127.0.0.1:*", "https://localhost:*", "https://127.0.0.1:*", "https://polkadot.js.org"]
-2023-11-07 17:35:21 🏁 CPU score: 1.62 GiBs
-2023-11-07 17:35:21 🏁 Memory score: 22.99 GiBs
-2023-11-07 17:35:21 🏁 Disk score (seq. writes): 6.78 GiBs
-2023-11-07 17:35:21 🏁 Disk score (rand. writes): 2.67 GiBs
-2023-11-07 17:35:21 🔍 Discovered new external address for our node: /ip4/176.61.156.176/tcp/30333/ws/p2p/12D3KooWEEa9iNANi6PUeXGaDqTgTR9T5YcP3A69nwbT4VXnG5R1
-```
-
-</details>
-
-### Step 2: Verify Node Functionality
-
-#### Inspect Node Logs
-
-To confirm that your node is operating as expected, inspect the Docker logs by running the following:
-
-```bash
-ubuntu:/mnt/avail# docker ps
-ubuntu:/mnt/avail# docker logs 5b3978de8f35  # 5b3978de8f35 is the container id
-```
-
-#### Monitor Your Node
-
-You can monitor the status of your node on the [<ins>Avail Telemetry</ins>](http://telemetry.avail.tools/) website.
