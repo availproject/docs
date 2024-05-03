@@ -212,6 +212,14 @@ const { origin } = request.nextUrl
         destination: `${origin}/docs/operate-a-node/run-a-full-node/full-node`
       },
       {
+        source: "/docs/operate-a-node/run-a-full-node/requirements",
+        destination: `${origin}/docs/operate-a-node/run-a-full-node/overview`
+      },
+      {
+        source: "/docs/operate-a-node/run-a-full-node/rpc-node",
+        destination: `${origin}/docs/operate-a-node/run-a-full-node/full-node`
+      },
+      {
         source: "/operate/node/binaries/",
         destination: `${origin}/docs/operate-a-node/run-a-full-node/full-node/0020-full-node-binaries`
       },
