@@ -10,15 +10,15 @@ const config: DocsThemeConfig = {
     text: (
       <>
         <h4 className="my-0 sm:mr-5 !px-[5vw] !text-white text-center paragraph !text-sm w-full">
-          Avail's Unification Drop is live,{" "}
-          <a
+          Phase 1 of Avail's unification drop has now ended,{" "}
+          {/* <a
             style={{ color: '#3DA3FC', textDecoration: 'underline' }}
             href="/docs/the-avail-token/avail-unification-drop"
-          >
+          > */}
             {" "}
-            claim your genesis AVAIL now!
-          </a>{" "}
-          🎉🎉🎉
+            stay tuned for phase 2.
+          {/* </a>{" "} */}
+           {"  "}🫡🫡🫡
         </h4>
       </>
     ),
