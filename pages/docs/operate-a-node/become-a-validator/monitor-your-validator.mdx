@@ -23,6 +23,8 @@ designated endpoint, allowing you to observe information regarding your nodes be
 Avail project has made available a [public telemetry](http://telemetry.avail.tools/) for anyone to view the status of their nodes. This should not replace your own monitoring and alerts. However it is a key tool that anyone can use to view the status
 of their nodes at anytime.
 
+<br/>
+<br/>
 <img src="/img/avail/validator-avail-telemetry.png" width="100%" height="100%"/>
 
 Avail telemetry has been added to the chain specification file and should automatically send telemetry data to Avail [public telemetry](http://telemetry.avail.tools/). You can however also
@@ -151,28 +153,36 @@ sudo ufw allow 3000/tcp
 
 In your browser navigate to `http://<your validators ip address>:3000`. The default login username and password is admin/admin
 
+<br/>
 <img src="/img/avail/validator-avail-grafana.png" width="100%" height="100%"/>
 
 You will be asked to reset your password, please write it down or remember the password as you will need it for the next login.
 
 You will need to create a datasource. Navigate to **Home->Connections->Data sources**
 
+<br/>
 <img src="/img/avail/validator-avail-grafana-add-data-source.png" width="100%" height="100%"/>
 
 Click on **Add data source**
+<br/>
 <img src="/img/avail/validator-avail-grafana-add-data-source-2.png" width="100%" height="100%"/>
 
 Click on **Prometheus**
+<br/>
 <img src="/img/avail/validator-avail-grafana-add-data-source-3.png" width="100%" height="100%"/>
 
 Set URL to "localhost:9090", then test and save the connection
+<br/>
 <img src="/img/avail/validator-avail-grafana-add-data-source-4.png" width="100%" height="100%"/>
 
 Navigate back to your home page, on the top right in the menu select **Import dashboard**
+<br/>
 <img src="/img/avail/validator-avail-grafana-add-dashboard.png" width="100%" height="100%"/>
 
-Import the Avail Node Metrics file
+Import the [Avail Node Metrics file](https://github.com/availproject/availproject.github.io/blob/6ff2c1862ede87225a1b6ee296ea5762f56f4042/static/grafana/Avail-Node-Metrics.json)
+<br/>
 <img src="/img/avail/validator-avail-grafana-add-dashboard-2.png" width="100%" height="100%"/>
 
 You will have a new dashboard that opens and that you can use to monitor your node
+<br/>
 <img src="/img/avail/validator-avail-grafana-add-dashboard-3.png" width="100%" height="100%"/>
