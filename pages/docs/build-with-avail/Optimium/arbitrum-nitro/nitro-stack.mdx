@@ -1,13 +1,17 @@
 # Deploy Arbitrum Orbit with Avail DA
 
-Prerequisite :- Docker, Avail Account, Network :- arbSepolia, Hex
+## Prerequisites
+
+1. You need to have [docker](https://docs.docker.com/engine/) and [docker-compose](https://docs.docker.com/compose/) installed on your machine.
+2. An Avail account with some AVAIL tokens in it. You can refer to [our docs here](/docs/end-user-guide/accounts) to get started.
+3. This guide will use [Arbitrum's ArbSepolia](https://docs.arbitrum.io/build-decentralized-apps/public-chains#arbitrum-sepolia) and [Avail's Turing](/docs/networks) testnets.
 
 ### Step-1 :- Download avail nitro node docker image
 
 1. Download the avail-nitro-node image from docker hub:- [avail-nitro-node](https://hub.docker.com/layers/availrishabh/avail-nitro-node/latest/images/sha256-70564d74bb771549ab4869b23eaf9913663710340837b1f4fbc896f30ec87b3d?context=repo).
     
-    ```powershell
-    docker pull availrishabh/avail-nitro-node-dev:v1
+    ```bash
+    docker pull availrishabh/avail-nitro-node-dev:v2.3.1
     ```
     
 
@@ -26,16 +30,17 @@ Prerequisite :- Docker, Avail Account, Network :- arbSepolia, Hex
 2. Create `.env` file as per `.env.sample` and Set Rollup Creator Address and Devnet Private key
     
     ```bash
-    ROLLUP_CREATOR_ADDRESS="0x073Dde9B420099E187CA51d94067dDC21840CD8E"
+    ROLLUP_CREATOR_ADDRESS="0xADCBE5c221566FA6e6Ebf5BA08759c83177DfCDA"
     ```
     
-3. Set the config file `scripts/config.ts` with required configurations where `wasmModuleRoot` must be this based on your cpu arch.
+3. Set the config file `scripts/config.ts` with required configurations where `wasmModuleRoot`.
+   This must be based on your cpu arch.
     
     ```jsx
     // for amd64
-    wasmModuleRoot:'0x6e61421c8274c15c8ff7af458405a6d1868341ddde7a6096bac5c7fed01735a4'
+    wasmModuleRoot:'0xba5ff5ddc46b5c63fa02168819b8e236fa18b4b551f20eba378e3543477298bf'
     // for arm64
-    wasmModuleRoot:'0x520bcf26c0ee958bccdd6c27513ae8e8e083531e7ad22d7419d02b4c25e354f2'
+    wasmModuleRoot:'0x1cc4dd8f036f93e37b6c9fa4edfbefaf19cf893558e9358ad41ccb3804684092'
     ```
     
 4. Now deploy rollup contract using
@@ -99,7 +104,7 @@ Prerequisite :- Docker, Avail Account, Network :- arbSepolia, Hex
           "max-size": 90000,
           "enable": true,
           "parent-chain-wallet": {
-            "private-key": "**pkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpk**"
+            "private-key": "pkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpk"
           }
         },
         "staker": {
@@ -115,12 +120,12 @@ Prerequisite :- Docker, Avail Account, Network :- arbSepolia, Hex
         "avail": {
           "enable": true,
           "seed": "test test test test test test test test test test test avail",
-          "api-url": "wss://rpc-hex-devnet.avail.tools/ws",
+          "api-url": "wss://turing-rpc.avail.so/ws",
           "app-id": 1,
-    			"timeout":'100s',
-    			"vectorx": "0xbc281367e1F2dB1c3e92255AA2F040B1c642ec75",
+          "timeout":'100s',
+          "vectorx": "0xA712dfec48AF3a78419A8FF90fE8f97Ae74680F0",
           "arbSepolia-rpc": "wss://arb-sepolia.g.alchemy.com/v2/xxxxxxxxxx"
-    		}
+        }
       },
       "execution": {
         "forwarding-target": "",
@@ -134,7 +139,6 @@ Prerequisite :- Docker, Avail Account, Network :- arbSepolia, Hex
         }
       }
     }
-    
     ```
     
 3. Update `docker-compose` file of `orbit-setup-script`
