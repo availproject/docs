@@ -138,15 +138,19 @@ const { origin } = request.nextUrl
       },
       {
         source: "/about/nomination-pools/",
-        destination: `${origin}/docs/end-user-guide/nomination-pools`
+        destination: `${origin}/docs/stake-on-avail/nomination-pools`
       },
     {
         source: "/about/nomination-pools",
-        destination: `${origin}/docs/end-user-guide/nomination-pools`
+        destination: `${origin}/docs/stake-on-avail/nomination-pools`
       },
       {
-        source: "/about/nomination-pools",
-        destination: `${origin}/docs/end-user-guide/nomination-pools`
+        source: "/docs/end-user-guide/nomination-pools",
+        destination: `${origin}/docs/stake-on-avail/nomination-pools`
+      },
+      {
+        source: "/docs/stake-on-avail/join-a-pool",
+        destination: `${origin}/docs/stake-on-avail/nomination-pools`
       },
       {
         source: "/category/operate-a-node/",
