@@ -1,0 +1,44 @@
+# Stake on Avail
+
+## Introduction
+
+Avail nominating, also known as staking or delegating, is a fundamental process within 
+the Avail network where AVAIL holders participate in securing the blockchain and earn 
+rewards in return.
+
+By nominating, AVAIL holders select trustworthy validators to represent their stake in 
+the network, contributing to its security and governance.
+Validators are responsible for producing and validating blocks, and their performance 
+directly impacts the network's reliability.
+
+This guide will walk you through the process of nominating and managing your stake, while also providing insights into Avail nomination dynamics.
+
+## Different tools to stake on Avail
+
+To stake your AVAIL on the Avail DA network, you have a few different ways you can choose from:
+
+1. [The official Avail staking Dashboard](https://staking.avail.tools/#/overview)
+2. [The Avail Apps explorer](https://explorer.avail.so/#/staking) (make sure to verify the network you are on from the top-left corner)
+3. Staking UIs by external entities not related to Avail
+4. Directly submit extrinsics to Avail DA (if you're so inclined)
+
+For now this guide will focus on the Avail staking dashboard, although we do plan
+to add more instructions in the near future.
+
+## Direct nominating VS Nomination Pools
+Nominating and nomination pools are both integral parts of the staking process in blockchain networks like Avail DA. However, they serve slightly different purposes and involve distinct mechanisms:
+
+- **Direct nominating**: Nominating refers to the process of selecting one or more (max 16) validators to delegate one's stake to in order to participate in the network's consensus mechanism and earn rewards. When users nominate validators, they essentially entrust them with their tokens to contribute to the security and operation of the network. By nominating validators that perform well and uphold the network's integrity, users can earn staking rewards in return for their contribution.
+
+- **Nomination Pools**: On the other hand, nomination pools are collective pools of staked tokens contributed by multiple users who have chosen to nominate a specific validator set. These pools aggregate the stakes of individual nominators and delegate them to the chosen validator.
+The primary purpose of nomination pools is to increase the nominator's chances of receiving rewards by combining their stakes with others, thereby enhancing the collective weight behind the Pools nomination.<br/>
+In essence, nomination pools allow smaller stakeholders to pool their resources together to compete with larger stakeholders and increase their chances of being selected to validate transactions and earn rewards.
+
+To determine whether to nominate directly or join a nomination pool, it's essential to evaluate network information available on the [<ins>Staking Targets page</ins>](https://explorer.avail.so/#/staking/targets). This information is based on Avail Testnet, this is subject 
+to significant changes on the Avail Mainnet. However does provides valuable insights for making an informed decision. Key parameters to consider include the threshold and minimum nominated values:
+
+- **Threshold**: This represents the minimum AVAIL token value required for staking and is predetermined as part of the AVAIL network settings. It can be modified through a governance process. At this moment on Avail Testnet this value is 0. However this is subject to change in Mainnet.
+
+- **Minimum Nominated**: This value is dynamic, recalculated every era based on the total staked percentage. As more stake enters the network, this value increases. To earn rewards, stakers must ensure their stake surpasses this minimum nominated threshold.
+
+If your stake amount is significantly larger than the threshold and minimum nominated amounts you can stake directly. If your stake is smaller, slightly above these values and you do not want to keep checking your stake it is then recommended to join a Nomination Pool
