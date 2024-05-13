@@ -13,10 +13,12 @@ keywords:
   - stake
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
-import { Callout } from 'nextra/components'
 import Image from 'next/image'
+import { Steps } from 'nextra/components'
+import { Callout } from 'nextra/components'
+import { Tabs } from 'nextra/components'
 
-# How to Create Nomination Pools on Avail
+# Nomination Pools
 
 ## What Are Nomination Pools?
 
@@ -80,48 +82,106 @@ Each role is integral to the efficient operation and governance of the nominatio
 
 </details>
 
-## Create a Pool
+## How to join an existing nomination pool
 
-Nomination pool activites are performed under "Staking".
-
-1. Navigate to 'Network' and select 'Staking' on the navbar.
-
-   > By default, the Staking UI defaults to the Overview page, which shows you the number of validators, nomination pools, and other relevant staking statistics.
-
-      <br/>
-<img src="/img/nomination-pools/1.png" width="200%" height="200%"/>
-
-2. Under 'Staking', select 'Pools'. Here, you will see 
-the [<ins>Staking Pool Dashboard</ins>](https://explorer.avail.so/#/staking/pools), 
-which shows a list of active pools, their state, points, claimable rewards, and other details.
-
-    <br/>
-<img src="/img/nomination-pools/2.png" width="200%" height="200%"/>
 
 <Callout type="info">
-JOINING A POOL<br/>
-   To join a pool, click the 'Join' button next to the pool you're interested in and follow the prompts.
+PREREQUISITES<br/>
+The only prerequisite for joiniing a nomination pool on Avail DA is that you have an Avail DA
+compatible wallet with a minimum of 100 AVAIL in it.
 </Callout>
 
-3. Under the 'Pools' section, click on '+ Add pool' on the right-hand side to create a new nomination pool.
+<Steps>
 
-   <br/>
-<img src="/img/nomination-pools/3.png" width="200%" height="200%"/>
+### Navigate to the Staking Dashboard Page
 
-4. Fill in the initial value, description, and pool ID in the provided fields. Select 'Create' once complete.
-   <br/>
-<img src="/img/nomination-pools/4.png" width="200%" height="200%"/>
-
-   > The 'pool id' field is a unique identifier for your pool.
-   > In the 'description' field, provide a name for your pool. This metadata will serve as the name of your pool and be visible to other users who may wish to join.
-
-5. Verify the transaction details and click on 'Sign and Submit' to proceed with the creation of your nomination pool.
-
-   <br/>
-<img src="/img/nomination-pools/5.png" width="200%" height="200%"/>
-
-You should see your pool in the list of "All pool" and under the "Own pools" tab.
+Go to the [staking dashboard page](https://staking.avail.tools/), and connect your wallet
+by clicking on the `connect` button on the top right. The dashboard supports a variety
+of different options.
 <br/>
+<img src="/img/direct-nomination/direct-nomination-1.png" width="100%" height="100%" />
+
+### Configure your pool selections
+
+Go to the `Pools` tab from the left sidebar, and click on the `Ready to Join Pool` button.
+You have a few choices to configure your pool withdrawl settings:
+
+1. `Allow Withdraw`: Allow the pool admins to withdraw rewards to your account.
+2. `Allow Compound`: Allow the pool admins to restake your rewards.
+3. `Permissioned`: Only you can perform `1` & `2`.
+
+<br/>
+<img src="/img/nomination-pool/nomination-pool-1.png" width="100%" height="100%" />
+
+### Join the pool
+
+Once you have configured your settings, you can join the pool with any amount ≥ 100 AVAIL. Simply
+click on `Join Pool` and approve the transaction.
+
+<Callout type="info">
+Please note that this tutorial showed you how to join a recommended nomination pool on Avail by clicking on the `Ready to Join Pool` button.
+You can view a list of all available pools by going to [staking.avail.tools/#/pools](https://staking.avail.tools/#/pools)
+and clicking on `All Pools`.<br/>
+There you can check out a list of all available pools on Avail DA and join the one that you want.
+</Callout>
+
+</Steps>
+
+
+## Create a new nomination pool
+
+<Callout type="info">
+PREREQUISITES<br/>
+The only prerequisite for creating a new nomination pool on Avail DA is that you have an Avail DA
+compatible wallet with a minimum of 10000 AVAIL in it.
+</Callout>
+
+<Steps>
+
+### Get set up as before
+
+Go to [staking.avail.tools/#/pools](https://staking.avail.tools/#/pools) and make sure you have connected a wallet
+to the website that has sufficient funds to create a pool.
+
+### Name your pool
+
+Click on `Create Pool` and enter a name for your pool. This name will be visible to all users.
+<br/>
+<img src="/img/ready-to-join-pool/ready-to-join-pool-0.png" width="100%" height="100%" />
+
+### Nominate validators for your pool
+
+You can nominate upto 16 validators for your pool, with a few different options to come up with your list.
+This is very similar to how validators are selected for direct nomination. You can check out the
+[docs here](/docs/stake-on-avail/direct-nomination#choose-your-validators) for reference.
+
+### Delegate roles for your pool
+
+A nomination pool on Avail DA has 4 different roles. You can read about them [up in the page](#roles-within-a-pool), under the
+`Pool Administration` block.
+You can delegate all the roles except the Depositor to addresses of your choices, which will always be the address that
+created the pool.
+
+### Enter the bond amount
+
+Enter the amount of AVAIL you want to bond to the pool. 10000 AVAIL is the minimum amount needed to create the 
+pool, and other users can deposit more AVAIL to the pool to join it.
+
+### Create the pool
+
+One everything is done, take a good look at the summary and click on the `Create Pool` button.
+Approve the transaction that pops up.
+<br/>
+<img src="/img/ready-to-join-pool/ready-to-join-pool-1.png" width="100%" height="100%" />
+
+<Callout type="info">
+As the pool owner you will have the privilege of setting various parameters for the pool once it is created,
+which will affect the rewards distribution and the pool's overall performance.<br/>
+Read below for more information on the same.
+</Callout>
+
+</Steps>
+
 
 <details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
 <summary>Setting Pool Commissions</summary>
@@ -183,21 +243,3 @@ Members of a nomination pool on Avail have the flexibility to leave the pool at 
 - It is advisable to keep members informed about the status of their unbonding requests and any actions they need to take to complete the withdrawal.
 
 </details>
-
-## How to Join a Nomination pool
-
-### 1. Navigate to Nomination Pools
-To join a nomination pools navigate to the [<ins>Pools Page</ins>](https://explorer.avail.so/#/staking/pools). Select a pool to join where the existing members are less than the max members per pool. Click on `+Join` to enter a pool.
-<br/>
-<img src="/img/nominating/pool-01.png" width="100%" height="100%" />
-
-
-### 2. Select Wallet & Stake Amount
-Select the wallet you want to join with, also the amount of AVAIL to stake with. Then click on `+Join`
-<br/>
-<img src="/img/nominating/pool-02.png" width="100%" height="100%" />
-
-### 3. Sign & Submit Your Selection
-On the final steps you must enter your password and confirm by clicking on `Sign and Submit`.
-<br/>
-<img src="/img/nominating/pool-03.png" width="100%" height="100%" />
