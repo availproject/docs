@@ -1,41 +1,39 @@
-# Building on the Arbitrum Nitro stack with Avail
+# Building on the Arbitrum Nitro stack with Avail DA
 
-## What is nitro
+## What is Nitro?
 
-Nitro is designed by Arbitrum, a software stack to build optimistic rollup, powering two major market cap chains - arbitrum one and arbitrum nova.
+Nitro is designed by Arbitrum, a software stack to build optimistic rollups, powering Arbitrum One and Arbitrum Nova.
 These chains are Optimistic L2 protocols that inherit Ethereum-level security.
 
 You can read more about Nitro in:
 1. [The Nitro whitepaper on github](https://github.com/OffchainLabs/nitro/blob/master/docs/Nitro-whitepaper.pdf)
 2. [Arbitrum docs.](https://docs.arbitrum.io/how-arbitrum-works/inside-arbitrum-nitro)
 
-## What is Arbitrum Orbit integration with Avail DA
+## Arbitrum Orbit integration with Avail DA
 
-Chains created using Arbitrum Nitro Stack can be an L2 settling over ethereum or an L3 settling to any ethereum L2. 
-The current nitro stack allows developers to deploy an orbit chain with Arbitrum One or Arbitrum Anytrust as DA layer.
-With the new Avail DA integration in nitro stack, a developer gets one more data availability provider option which
-can be enabled from node configuration.
+Arbitrum Orbit chains can integrate with Avail DA using a number of different configurations. You can read more about
+them [in our blog](https://blog.availproject.org/avail-ecosystem-series-arbitrum-orbit-chains/).
 
-Transaction Lifecycle
+Let’s take a look at the transaction Lifecycle:
 
 1. **Transaction Submission**
     - **Process**: Users send transactions to the Sequencer.
     - **Role**: The Sequencer temporarily holds the transactions before they are batched.
 2. **Batch Processing**
     - **Component**: `Sequencer`
-    - **Function**: Collects and order transactions into batches for more efficient processing.
+    - **Function**: Collects and orders transactions into batches for more efficient processing.
 
 3. **Batch Submission on Avail**
     - **component**: `arbnode/batch-poster`
-    - **Process**: Sequencer post a batch of L2 transaction onto the underlying data availability provider
+    - **Process**: Sequencer posts a batch of L2 transactions onto the underlying data availability provider.
 
 4. **BlobPointer Reference Creation**
     - **Outcome**: Avail returns a unique transaction reference with Merkle proof of 
     batch submission.
 
-5. **BlobPointer Submission to Settlement layer ( Arbitrum one, ethereum etc.)**
+5. **BlobPointer Submission to Settlement layer ( Arbitrum One, Ethereum etc.)**
     - **Process**: BlobPointer with Avail header byte(0x0a) is being sent over 
-    to `sequencerInbox` rollup contract for on-chain da verification over Avail 
+    to `sequencerInbox` rollup contract for on-chain DA verification over Avail 
     bridge and batch addition to canonical chain.
     - **component:** [`SequncerInbox.sol`](https://github.com/availproject/nitro-contracts/blob/data-availability-verification-v2.3.1/src/bridge/SequencerInbox.sol#L587)
 
