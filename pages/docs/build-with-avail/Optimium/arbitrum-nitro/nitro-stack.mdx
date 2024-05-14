@@ -8,7 +8,7 @@
 
 ### Step-1 :- Download avail nitro node docker image
 
-1. Download the avail-nitro-node image from docker hub:- [avail-nitro-node](https://hub.docker.com/layers/availrishabh/avail-nitro-node/latest/images/sha256-70564d74bb771549ab4869b23eaf9913663710340837b1f4fbc896f30ec87b3d?context=repo).
+1. Download the avail-nitro-node image from docker hub:- [avail-nitro-node-dev](https://hub.docker.com/repository/docker/availrishabh/avail-nitro-node-dev/tags).
     
     ```bash
     docker pull availrishabh/avail-nitro-node-dev:v2.3.1
@@ -17,7 +17,7 @@
 
 ### Step-2 :- Deploy Rollup Contracts
 
-1. Download the nitro-contract with Avail DA :- Clone the [nitro-contracts](https://github.com/availproject/nitro-contracts.git)
+1. Download the nitro-contract with Avail DA :- Clone the [nitro-contracts](https://github.com/availproject/nitro-contracts/tree/data-availability-verification-v2.3.1)
     
     ```bash
     git clone https://github.com/availproject/nitro-contracts.git
@@ -63,7 +63,7 @@
     cd orbit-setup-script
     ```
     
-2. Add the `nodeConfig.json` in `./config`
+2. Add the `nodeConfig.json` in `./config`, and update the file with the correct values as highlighted below:
     
     ```json
     {
@@ -104,14 +104,14 @@
           "max-size": 90000,
           "enable": true,
           "parent-chain-wallet": {
-            "private-key": "pkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpk"
+            "private-key": "<Insert your private key here>"
           }
         },
         "staker": {
           "enable": true,
           "strategy": "MakeNodes",
           "parent-chain-wallet": {
-            "private-key": "pkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpkpk"
+            "private-key": "<Insert your private key here>"
           }
         },
         "dangerous": {
@@ -119,12 +119,12 @@
         },
         "avail": {
           "enable": true,
-          "seed": "test test test test test test test test test test test avail",
+          "seed": "Enter a seed phrase here",
           "api-url": "wss://turing-rpc.avail.so/ws",
           "app-id": 1,
           "timeout":'100s',
           "vectorx": "0xA712dfec48AF3a78419A8FF90fE8f97Ae74680F0",
-          "arbSepolia-rpc": "wss://arb-sepolia.g.alchemy.com/v2/xxxxxxxxxx"
+          "arbSepolia-rpc": "<Enter an arbSepolia RPC here>"
         }
       },
       "execution": {
@@ -139,6 +139,7 @@
         }
       }
     }
+
     ```
     
 3. Update `docker-compose` file of `orbit-setup-script`
@@ -146,7 +147,7 @@
     ```json
     ...
     nitro:
-      image: avail-nitro-node-dev
+      image: avail-nitro-node-dev:v2.3.1
       ports:
     ...
     ```
