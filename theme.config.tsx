@@ -5,12 +5,11 @@ import { useRouter } from "next/router";
 
 const config: DocsThemeConfig = {
   banner: {
-    dismissible: false,
     key: "Avail",
     text: (
       <>
         <h4 className="my-0 sm:mr-5 !px-[5vw] !text-white text-center paragraph !text-sm w-full">
-          Phase 1 of Avail's unification drop has ended. Phase 2 now begins,{" "}  👉👉 {"  "}
+          All phases of Avail's unification drop have now ended,{" "}  👉👉 {"  "}
           { <a
             style={{ color: '#3DA3FC', textDecoration: 'underline' }}
             href="/docs/the-avail-token/avail-unification-drop"
