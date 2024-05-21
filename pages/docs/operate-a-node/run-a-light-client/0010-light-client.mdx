@@ -17,7 +17,7 @@ import { Callout } from 'nextra/components'
 
 # How to Run the Avail Light Client
 
-The guide outlines how to set up an Avail light client to connect with the  [goldberg testnet](/docs/end-user-guide/explorer). You can either:
+The guide outlines how to set up an Avail light client to connect with the [Avail Explorer](/docs/end-user-guide/explorer). You can either:
 
 1. Use [Availup](https://github.com/availproject/availup) to run the light client.
 2. Download and run a pre-built binary.
@@ -80,7 +80,7 @@ curl --version
 ```
 </Callout>
 
-1. To spin up an Avail light client on the Goldberg testnet, just run this one command in your terminal:
+1. To spin up an Avail light client on the Turing testnet, just run this one command in your terminal:
 
 ```sh
 curl -sL1 avail.sh | bash
@@ -141,7 +141,7 @@ using `availup`, you can always check out [our Github repo](https://github.com/a
   For linux machines that run on `x86_64` based Intel or `amd64` based AMD processors, run:
 
   ```sh
-  ./avail-light-linux-amd64 --network goldberg
+  ./avail-light-linux-amd64 --network turing
   ```
   </Tabs.Tab>
 
@@ -149,7 +149,7 @@ using `availup`, you can always check out [our Github repo](https://github.com/a
   For linux machines that run on `arm64` based processors, run:
   
   ```sh
-  ./avail-light-linux-arm64 --network goldberg
+  ./avail-light-linux-arm64 --network turing
   ```
   </Tabs.Tab>
 
@@ -163,7 +163,7 @@ using `availup`, you can always check out [our Github repo](https://github.com/a
   For MacOS machines that run on `x86_64` based Intel processors, run:
 
   ```sh
-  ./avail-light-apple-x86_64 --network goldberg
+  ./avail-light-apple-x86_64 --network turing
   ```
   </Tabs.Tab>
 
@@ -171,7 +171,7 @@ using `availup`, you can always check out [our Github repo](https://github.com/a
   For MacOS machines that run on newer `arm64` based M-series processors, run:
 
   ```sh
-  ./avail-light-apple-arm64 --network goldberg
+  ./avail-light-apple-arm64 --network turing
   ```
   </Tabs.Tab>
 
@@ -239,7 +239,7 @@ using `availup`, you can always check out [our Github repo](https://github.com/a
    
   4. Here you will find the `avail-light` build. Run the build using:
    ```sh
-   ./avail-light --network goldberg
+   ./avail-light --network turing
    ```
 
   5. If everything goes well, the client output will look like this:
@@ -278,9 +278,9 @@ using `availup`, you can always check out [our Github repo](https://github.com/a
 ## Running the light client (Windows)
 
 [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/en-us/windows/wsl/about) is a Windows feature that allows you to run a Linux distribution directly on Windows,
-without having to set up a seperate virtual machine or a dual-boot system.
+without having to set up a separate virtual machine or a dual-boot system.
 
-However, we realise that working with WSL might be inconvinient for some users. We have therefore also included
+However, we realise that working with WSL might be inconvenient for some users. We have therefore also included
 instructions on how to run the Avail light client natively on Windows without having to go through any technical hassles.
 
 <Tabs items={['Without WSL' , 'With WSL' ]}>
@@ -348,14 +348,14 @@ wsl --list --online
 ```sh
 wsl --install ubuntu
 ```
-This step will promt you to enter a username and password for your local Ubuntu installation.
+This step will prompt you to enter a username and password for your local Ubuntu installation.
 
-5. Once inside the Ubuntu terminal, run the following command to install the required depdendencies:
+5. Once inside the Ubuntu terminal, run the following command to install the required dependencies:
 ```sh
 sudo apt install build-essential && sudo apt install clang
 ```
 <Callout type="info">
-It is also highly recommended to updgrade all your dependencies to their latest recommended versions whenever
+It is also highly recommended to upgrade all your dependencies to their latest recommended versions whenever
 you set up a new Linux machine. You can do that by running:
 
 ```sh
