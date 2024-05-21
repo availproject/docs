@@ -67,8 +67,9 @@ Contributing to the Avail Documentation is simple. You'll need a GitHub account 
 For those who want to quickly install and start the Avail Documentation locally, you can follow these steps:
 
 ```bash
-yarn
-yarn start
+npm i
+npm run build
+npm start
 ```
 
 ### Setup Steps
@@ -86,13 +87,13 @@ yarn start
 2. **Clone Your Fork**
 
    ```bash
-   git clone git@github.com:availproject/availproject.github.io.git
+   git clone git@github.com:availproject/docs.git
    ```
 
 3. **Navigate to the Repository**
 
    ```bash
-   cd availproject.github.io
+   cd docs
    ```
 
 4. **Add Upstream Remote**
@@ -100,7 +101,7 @@ yarn start
    > Refer to [GitHub Docs: Configuring a remote for a fork](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/configuring-a-remote-for-a-fork).
 
    ```bash
-   git remote add upstream https://github.com/availproject/availproject.github.io
+   git remote add upstream https://github.com/availproject/docs
    ```
 
 5. **Sync Your Fork**
@@ -108,15 +109,15 @@ yarn start
    > See [GitHub Docs: Syncing a fork](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/syncing-a-fork).
 
    ```bash
-   git checkout master
+   git checkout main
    git fetch upstream
-   git merge upstream/master
+   git merge upstream/main
    ```
 
 6. **Install Dependencies**
 
    ```bash
-   pnpm install
+   npm install
    ```
 
    The site is built using Nextra.
@@ -124,7 +125,7 @@ yarn start
 7. **Run the Docs Locally**
 
    ```bash
-   pnpm run dev
+   npm run dev
    ```
 
   This will start a local dev derver at `http://localhost:3000` on your machine. 
