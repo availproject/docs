@@ -84,6 +84,30 @@ Contributing to the Avail Documentation is simple. You'll need a GitHub account 
 
   This will start a local dev derver at `http://localhost:3000` on your machine.
 
+## Push changes and create PR
+
+Once you are done with all the changes, save all you files and run:
+
+1. ```bash
+   git add .
+   ```
+   
+   to stage all the changes.
+
+2. ```bash
+   git commit -m "Your commit message"
+   ```
+
+   to commit the changes with ann appropriate commit message.
+
+3. Once you have committed all the changes, push the changes to your forked repository by running:
+
+   ```bash
+   git push origin main
+   ```
+
+   Now you can use the Github UI to create a PR from your forked repository to the `staging` branch of the upstream repository.
+
 ## License
 
 The Avail Project Developer Documentation is licensed under the [MIT License](./LICENSE) free software license.### How to Contribute Changes via the Avail Documentation Website.
