@@ -2,48 +2,10 @@
 
 The Documentation team at Avail are the primary maintainers of the Avail Documentation and will review all issues and pull requests created in this repository.
 
+| ℹ️ Please make sure to create an issue outlining your feedback/content request for the docs before creating a PR.
+PRs created without approval will be rejected. We are open to technical articles on a wide variety of topics related to Avail and Web3 in general. If you have something in mind, please feel free to jump in with an issue on the repo.|
 <!-- TOC -->
 
-- [Contribution Guidelines](#contribution-guidelines)
-  - [Ways to Contribute to the Avail Documentation](#ways-to-contribute-to-the-avail-documentation)
-  - [How to Contribute Changes via the Avail Documentation Website](#how-to-contribute-changes-via-the-avail-documentation-website)
-  - [How to Locally Run the Avail Documentation](#how-to-locally-run-the-avail-documentation)
-    - [Quick Run](#quick-run)
-    - [Setup Steps](#setup-steps)
-  - [License](#license)
-  <!--/ TOC -->
-
-## Ways to Contribute to the Avail Documentation
-
-If you spot typos or grammar mistakes, please go ahead and submit a pull request with the fixes. For more significant changes, it's advisable to start with a GitHub issue to discuss it with the maintainers. We generally prefer pull requests over issues for suggesting changes to the Docs.
-
-| ❗ We are in the process of setting guidelines to ensure all new contributions continue to improve the Docs without compromising its quality. Please stay tuned. |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-
-Before making a contribution, please consult any existing issues or initiate a new discussion to ensure alignment with the documentation's objectives.
-Your contributions can significantly enrich the Docs in the following ways:
-
-1. **General Overviews**: Introductory articles that provide a comprehensive understanding of Avail's data availability layer and modular approach to blockchains.
-
-2. **Technical Deep Dives**: Detailed explorations into specific components of Avail's architecture, such as its data availability layer, modularity, and consensus algorithms.
-
-3. **Use-Case Scenarios**: Articles that showcase real-world applications of Avail in solutions like validiums, appchains, and sovereign rollups.
-
-4. **Tooling**: Documentation or guides on tools that facilitate development, testing, or deployment on Avail. This could include IDE plugins, testing frameworks, or monitoring tools.
-
-5. **Third-Party Services and Deployments**: Information on external services, deployments, and implementations that integrate with Avail. This could include oracles, data analytics platforms, liquidity providers, as well as infrastructure solutions that provide Avail-based infrastructure.
-
-6. **Community Contributions**: Lists of active Avail communities, educational resources, or upcoming events that enrich the ecosystem.
-
-7. **Governance & Economics**: Insights into the governance model and tokenomics that underpin Avail's network.
-
-8. **Security Practices**: Guidelines and resources for ensuring the security and integrity of applications, smart contracts, and general infrastructure on Avail.
-
-9. **Troubleshooting Guides**: Solutions to common challenges, FAQs, and other resources that assist both newcomers and experienced users.
-
-10. **Emerging Technologies**: Articles on upcoming features, advancements, or experimental technologies in the Avail pipeline. For instance, contributions could explore the impact of "Dank Sharding" on Avail's scalability, transaction costs, and its enablement of new decentralized applications.
-
-> Note: This is a general overview and the actual repository may contain additional files and folders for specific functionalities.
 
 ## How to Contribute Changes via the Avail Documentation Website
 
@@ -62,33 +24,22 @@ Contributing to the Avail Documentation is simple. You'll need a GitHub account 
 
 ## How to Locally Run the Avail Documentation
 
-### Quick Run
-
-For those who want to quickly install and start the Avail Documentation locally, you can follow these steps:
-
-```bash
-npm i
-npm run build
-npm start
-```
-
-### Setup Steps
-
 > **Prerequisites**:
 >
 > - [Node.js](https://nodejs.org/en/download/) (version >= 16.14.1)
 > - [pnpm](https://pnpm.io/installation) 
 >   **Note for macOS Users**: Xcode and Command Line Tools are required.
 
-1. **Fork the Repository**
+1. **Fork the repository**
 
    > See [GitHub Docs: Fork a repo](https://help.github.com/en/articles/fork-a-repo) for guidance.
 
-2. **Clone Your Fork**
+2. **Clone your fork**
 
    ```bash
-   git clone git@github.com:availproject/docs.git
+   git clone https://github.com/Genesis3800/docs.git
    ```
+   This will create a repo named `docs` in your current directory.
 
 3. **Navigate to the Repository**
 
@@ -104,6 +55,8 @@ npm start
    git remote add upstream https://github.com/availproject/docs
    ```
 
+   | ℹ️ You can check if the upstream was added correctly by running `git remote -v`.|
+
 5. **Sync Your Fork**
 
    > See [GitHub Docs: Syncing a fork](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/syncing-a-fork).
@@ -117,7 +70,7 @@ npm start
 6. **Install Dependencies**
 
    ```bash
-   npm install
+   pnpm install
    ```
 
    The site is built using Nextra.
@@ -125,7 +78,7 @@ npm start
 7. **Run the Docs Locally**
 
    ```bash
-   npm run dev
+   pnpm run dev
    ```
 
   This will start a local dev derver at `http://localhost:3000` on your machine. 
