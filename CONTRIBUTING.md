@@ -4,7 +4,6 @@ The Documentation team at Avail are the primary maintainers of the Avail Documen
 
 > ℹ️ Please make sure to create an issue outlining your feedback/content request for the docs before creating a PR.
 > PRs created without approval will be closed. We are open to technical articles on a wide variety of topics related to Avail and Web3 in general. If you have something in mind, please feel free to jump in with an issue on the repo.
-<!-- TOC -->
 
 ## How to Contribute Changes via the Avail Documentation Website
 
@@ -17,7 +16,9 @@ Contributing to the Avail Documentation is simple. You'll need a GitHub account 
 5. **Initiate Pull Request**: Scroll to the bottom and click on **Create pull request**.
 6. **Title Your PR**: Give your pull request a descriptive title. For example, if you're editing the "Getting Started" page, you could title it _Update /docs/getting-started.md_.
 7. **Describe Changes**: In the pull request description, specify the issue your changes resolve.
+
    > See [GitHub Docs on Linking a Pull Request to an Issue](https://docs.github.com/en/free-pro-team@latest/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword) for guidance.
+
 8. **Additional Information**: Provide a concise summary of the changes you've made. Include screenshots or references if applicable.
 9. **Submit**: Click **Propose changes** to finalize your pull request. This will create a new branch in your fork.
 
@@ -38,6 +39,7 @@ Contributing to the Avail Documentation is simple. You'll need a GitHub account 
    ```bash
    git clone https://github.com/Genesis3800/docs.git
    ```
+
    This will create a repo named `docs` in your current directory.
 
 3. **Navigate to the Repository**
@@ -80,8 +82,8 @@ Contributing to the Avail Documentation is simple. You'll need a GitHub account 
    pnpm run dev
    ```
 
-  This will start a local dev derver at `http://localhost:3000` on your machine. 
+  This will start a local dev derver at `http://localhost:3000` on your machine.
 
 ## License
 
-The Avail Project Developer Documentation is licensed under the [MIT License](./LICENSE) free software license.### How to Contribute Changes via the Avail Documentation Website
+The Avail Project Developer Documentation is licensed under the [MIT License](./LICENSE) free software license.### How to Contribute Changes via the Avail Documentation Website.
