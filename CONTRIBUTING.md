@@ -2,10 +2,9 @@
 
 The Documentation team at Avail are the primary maintainers of the Avail Documentation and will review all issues and pull requests created in this repository.
 
-| ℹ️ Please make sure to create an issue outlining your feedback/content request for the docs before creating a PR.
-PRs created without approval will be rejected. We are open to technical articles on a wide variety of topics related to Avail and Web3 in general. If you have something in mind, please feel free to jump in with an issue on the repo.|
+> ℹ️ Please make sure to create an issue outlining your feedback/content request for the docs before creating a PR.
+> PRs created without approval will be closed. We are open to technical articles on a wide variety of topics related to Avail and Web3 in general. If you have something in mind, please feel free to jump in with an issue on the repo.
 <!-- TOC -->
-
 
 ## How to Contribute Changes via the Avail Documentation Website
 
@@ -55,7 +54,7 @@ Contributing to the Avail Documentation is simple. You'll need a GitHub account 
    git remote add upstream https://github.com/availproject/docs
    ```
 
-   | ℹ️ You can check if the upstream was added correctly by running `git remote -v`.|
+   > ℹ️ You can check if the upstream was added correctly by running `git remote -v`
 
 5. **Sync Your Fork**
 
