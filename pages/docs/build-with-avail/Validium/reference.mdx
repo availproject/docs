@@ -73,7 +73,7 @@ VectorX is a Zero-Knowledge bridge that bridges a batches of data roots every 36
 After successfully bridging the data root to the Ethereum network,
 it is possible to prove that data is available on the Avail network by submitting a Merkle proof to the verification contract.
 Proof is available only when the block in which the transaction is included is committed to the VectorX contract,
-one such is deployed to the Sepolia network (`0xe542db219a7e2b29c7aeaeace242c9a2cd528f96`).
+one such is deployed to the Sepolia network ([`0xe542db219a7e2b29c7aeaeace242c9a2cd528f96`](https://sepolia.etherscan.io/address/0xe542db219a7e2b29c7aeaeace242c9a2cd528f96)).
  Once the range is committed to the VectorX contract, which
 can be checked by calling `https://turing-bridge-api.fra.avail.so/avl/head` that returns `start` and `end` block range that is available on the VectorX contract,
 fetching proof can be done via bridge api http call
@@ -102,28 +102,28 @@ class ProofData {
 }
 ```
 
-`dataRootProof` Merkle proof of batched data root items (does not contain the leaf hash, nor the root).
+- `dataRootProof` Merkle proof of batched data root items (does not contain the leaf hash, nor the root).
 
-`leafProof` Merkle proof of items for the leaf (does not contain the leaf hash, nor the root).
+- `leafProof` Merkle proof of items for the leaf (does not contain the leaf hash, nor the root).
 
-`rangeHash` Header rang hash of the items batch.
+- `rangeHash` Header rang hash of the items batch.
 
-`dataRootIndex` Index of the data root in the commitment tree.
+- `dataRootIndex` Index of the data root in the commitment tree.
 
-`blobRoot` Root hash of generated blob merkle sub-tree.
+- `blobRoot` Root hash of generated blob merkle sub-tree.
 
-`bridgeRoot` Root hash of generated bridge merkle sub-tree.
+- `bridgeRoot` Root hash of generated bridge merkle sub-tree.
 
-`numberOfLeaves` Number of leaves in the original tree.
+- `numberOfLeaves` Number of leaves in the original tree.
 
-`leaf` Leaf for which is the proof.
+- `leaf` Leaf for which is the proof.
 
-`leafIndex` Index of the leaf the proof is for (starts from 0).
+- `leafIndex` Index of the leaf the proof is for (starts from 0).
 
 By submitting proof to the verification contract it is possible to verify
 that data is available on Avail. Merkle proof is a list of hashes that can be used to prove
 that given leaf is a member of the Merkle tree. Example of submitting a proof to the verification contract
-deployed on Sepolia network for Turing (`0x967F7DdC4ec508462231849AE81eeaa68Ad01389`) can be done by calling `verifyBlobLeaf` function.
+deployed on Sepolia network for Turing ([`0x967F7DdC4ec508462231849AE81eeaa68Ad01389`](https://sepolia.etherscan.io/address/0x967F7DdC4ec508462231849AE81eeaa68Ad01389)) can be done by calling `verifyBlobLeaf` function.
 This will call deployed contracts function `verificationContract.verifyBlobLeaf(merkleProofInput)`
 and return `true` or `false` depending on the provided proof.
 
