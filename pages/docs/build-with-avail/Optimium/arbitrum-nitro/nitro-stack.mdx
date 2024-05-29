@@ -1,40 +1,46 @@
 # Deploy Arbitrum Orbit with Avail DA
 
-## Prerequisites
+### Prerequisites
 
 1. You need to have [docker](https://docs.docker.com/engine/) and [docker-compose](https://docs.docker.com/compose/) installed on your machine.
 2. An Avail account with some AVAIL tokens in it. You can refer to [our docs here](/docs/end-user-guide/accounts) to get started.
-3. This guide will use [Arbitrum's ArbSepolia](https://docs.arbitrum.io/build-decentralized-apps/public-chains#arbitrum-sepolia) and [Avail's Turing](/docs/networks) testnets.
+3. At least 1 ETH over Arbsepolia Testnet. You can follow [Step 1](https://docs.arbitrum.io/launch-orbit-chain/orbit-quickstart#step-1-acquire-arbitrum-testnet-eth-and-the-native-token-for-orbit-chains-with-custom-gas-tokens) on Arbitrum Orbit Doc for acquiring testnet $ETH
+4. This guide will use [Arbitrum's ArbSepolia](https://docs.arbitrum.io/build-decentralized-apps/public-chains#arbitrum-sepolia) and [Avail's Turing](/docs/networks) testnets.
 
-### Step-1 :- Download avail nitro node docker image
+> This guide is based on [Arbitrum Orbit Quickstart](https://docs.arbitrum.io/launch-orbit-chain/orbit-quickstart)
 
-1. Download the avail-nitro-node image from docker hub:- [avail-nitro-node-dev](https://hub.docker.com/repository/docker/availrishabh/avail-nitro-node-dev/tags).
+## 1. Download avail nitro node docker image
+
+### Step-1: Download the [avail-nitro-node](https://hub.docker.com/repository/docker/availrishabh/avail-nitro-node-dev/tags) image from docker hub
     
     ```bash
     docker pull availrishabh/avail-nitro-node-dev:v2.3.1
     ```
     
 
-### Step-2 :- Deploy Rollup Contracts
+## 2. Deploy Rollup Contracts
 
-1. Download the nitro-contract with Avail DA :- Clone the [nitro-contracts](https://github.com/availproject/nitro-contracts/tree/data-availability-verification-v2.3.1)
+### Step-1: Download the [nitro-contract](https://github.com/availproject/nitro-contracts/tree/data-availability-verification-v2.3.1) with Avail DA 
     
     ```bash
     git clone https://github.com/availproject/nitro-contracts.git
     cd nitro-contracts
-    git checkout data-availability-verifiaction-v2.3.1
+    git checkout avail-develop-v2.3.1
     yarn install
     yarn build
     ```
     
-2. Create `.env` file as per `.env.sample` and Set Rollup Creator Address and Devnet Private key
+### Step-2: Create `.env` file
+    Create a copy of `.env.sample` as `.env` file and Set Rollup Creator Address at `ROLLUP_CREATOR_ADDRESS` and Private key of well funded ArbSepolia accout in `DEVNET_PRIVKEY`
     
     ```bash
     ROLLUP_CREATOR_ADDRESS="0xADCBE5c221566FA6e6Ebf5BA08759c83177DfCDA"
+    DEVNET_PRIVKEY="<--Private-key-->"
     ```
     
-3. Set the config file `scripts/config.ts` with required configurations where `wasmModuleRoot`.
-   This must be based on your cpu arch.
+### Step-3: Create `.script/config.ts` file
+  
+  Create a copy of `scripts/config.ts.example` as  `scripts/config.ts` and set this config file with required configurations where `wasmModuleRoot` must be this based on your cpu arch
     
     ```jsx
     // for amd64
@@ -42,34 +48,85 @@
     // for arm64
     wasmModuleRoot:'0x1cc4dd8f036f93e37b6c9fa4edfbefaf19cf893558e9358ad41ccb3804684092'
     ```
+
+    ```jsx
+    config = {
+      rollupConfig: {
+      confirmPeriodBlocks: ethers.BigNumber.from('45818'),
+      extraChallengeTimeBlocks: ethers.BigNumber.from('200'),
+      stakeToken: ethers.constants.AddressZero,
+      baseStake: ethers.utils.parseEther('0.0001'),
+      wasmModuleRoot:
+        '0x1cc4dd8f036f93e37b6c9fa4edfbefaf19cf893558e9358ad41ccb3804684092',
+      owner: '0x1234123412341234123412341234123412341234',
+      loserStakeEscrow: ethers.constants.AddressZero,
+      chainId: ethers.BigNumber.from('20121999'),
+      chainConfig:
+        '{"chainId":20121999,"homesteadBlock":0,"daoForkBlock":null,"daoForkSupport":true,"eip150Block":0,"eip150Hash":"0x0000000000000000000000000000000000000000000000000000000000000000","eip155Block":0,"eip158Block":0,"byzantiumBlock":0,"constantinopleBlock":0,"petersburgBlock":0,"istanbulBlock":0,"muirGlacierBlock":0,"berlinBlock":0,"londonBlock":0,"clique":{"period":0,"epoch":0},"arbitrum":{"EnableArbOS":true,"AllowDebugPrecompiles":false,"DataAvailabilityCommittee":false,"InitialArbOSVersion":10,"InitialChainOwner":"0xd41996ED89bb5BF7dBfB181D8D93E8067446200B","GenesisBlockNum":0}}',
+      genesisBlockNum: ethers.BigNumber.from('0'),
+      sequencerInboxMaxTimeVariation: {
+        delayBlocks: ethers.BigNumber.from('5760'),
+        futureBlocks: ethers.BigNumber.from('12'),
+        delaySeconds: ethers.BigNumber.from('86400'),
+        futureSeconds: ethers.BigNumber.from('3600'),
+      },
+    },
+    },
+    validators: [
+      '0x1234123412341234123412341234123412341234',
+    ],
+    batchPosters: ['0x1234123412341234123412341234123412341234',],
+    batchPosterManager: '0x1234123412341234123412341234123412341234'
+
+    ```
+
+  The below table provides a brief description of each of these configuration parameters. We recommend sticking to the defaults; to learn more about customizing your Orbit chain's deployment configuration, visit [**How (and when) to customize your Orbit chain's deployment config**](https://docs.arbitrum.io/launch-orbit-chain/how-tos/customize-deployment-configuration):
+
+  | Parameter | Description |
+  | --- | --- |
+  | Chain ID(chainID) | A unique integer identifier that represents your chain's network. Your Chain ID can be submitted to chain indexes like http://chainlist.org/. For devnets, this is randomly generated for each deployment - don't worry about it for now. |
+  | Challenge period (confirmPeriodBlocks) | The amount of time that your Orbit chain's nodes have to dispute the current state of the chain before it's confirmed (and ultimately finalized) on the underlying L2 chain (e.g. Arbitrum Sepolia). Note that this refers to the number of blocks on the underlying L1 chain (e.g. Ethereum's Sepolia chain). |
+  | Stake token(stakeToken) | The token that your chain's validators must stake in order to participate in your chain. This is hardcoded to $ETH for now, but future versions of Orbit chains will let you specify an arbitrary ERC-20 token contract here. |
+  | Base stake(baseStacke) | The amount of your configured Stake token that your chain's validators must stake in order to participate in your chain. Should be greater than 0. |
+  | Owner(owner) | The administrative Ethereum address that will deploy, own, and update your chain's base contracts. This will default to your connected wallet's address. This needs to be a standard Ethereum wallet account - an EOA, not a contract address. Note that you'll have to specify this wallet's private key within a local JSON file later. |
+  | Gas token | The address of the ERC-20 token on the parent chain that is intended to be used as the native gas token on the Orbit chain. This token must already be deployed natively on the parent chain and is bridged to the Orbit chain during chain deployment. This feature is only supported on AnyTrust chains currently, and more information around token restrictions can be found https://docs.arbitrum.io/launch-orbit-chain/how-tos/customize-deployment-configuration. |
+  | Validators | Your chain's validators are responsible for validating the integrity of transactions and posting assertions of the current state of your Orbit chain to its base chain. Add the address in the list which you want to be added to an allow-list in your chain’s base contract  |
+  | Batch Poster | Your batch poster address is responsible for posting batches of transactions from your Orbit chain to its base contracts on its base chain. Added the address which you want to act as batch-poster for your orbit chain |
+
+  > When we say "base contracts" and "base chain", we're referring to your Orbit chain's L2 contracts and the L2 chain that they're deployed to, respectively. We'll use these terms throughout the rest of this guide.
+
     
-4. Now deploy rollup contract using
+### Step-4: Deploy your chain's base contracts to Arbitrum Sepolia!
     
     ```bash
-    yarn run deploy-eth-rollup —-network arbSepolia
+    yarn run deploy-eth-rollup --network arbSepolia
     ```
-    
-5. You will get to see this way of addresses:
+  You will get to see your chain’s base contracts addresses, which will be need in next step to fill in `nodeConfig.json` 
 <br/>
 <img src="/img/nitro-stack.png" alt="nitro-stack" width="100%"/>
-    
+  <br/>
+  Before proceeding, let's briefly review what just happened:
+  - You submitted a deployment transaction to an Orbit "factory" smart contract on the Arbitrum testnet, the public L2 chain that your local Orbit chain will settle transactions to.
+- This Orbit smart contract then initialized your Orbit chain's base contracts with the values that you specified in the previous step, and deployed these base contracts to the Arbitrum testnet.
 
-### Step-3 :- Spin up the chain using orbit-setup-script
+Your Orbit chain's base contracts are responsible for facilitating the exchange of information between your chain's node(s) and its base chain's nodes. This includes the batch posting of transactions from your Orbit chain to its base chain, the staking of tokens by your Orbit chain's validators the challenge mechanism, bridging mechanisms, and more.
 
-1. Download orbit-setup-script:- Clone [orbit-setup-script](https://github.com/OffchainLabs/orbit-setup-script.git)
+## 3. Spin up the chain using orbit-setup-script
+
+### Step-1: Download [orbit-setup-script](https://github.com/OffchainLabs/orbit-setup-script.git)
     
     ```bash
     git clone https://github.com/OffchainLabs/orbit-setup-script.git
     cd orbit-setup-script
     ```
     
-2. Add the `nodeConfig.json` in `./config`, and update the file with the correct values as highlighted below:
-    
+### Step-2: Add the `nodeConfig.json` in `./config`
+  This is the nodeConfig.json file, encapsulating your chain's node configuration. It is crucial as it contains the private keys for your validator and batch poster, essential for signing transactions for RBlocks and batch postings to your chain's base contracts on the L2 chain.
     ```json
     {
       "chain": {
-        "info-json": "[{\"chain-id\":555371422,\"parent-chain-id\":421614,\"parent-chain-is-arbitrum\":true,\"chain-name\":\"My Arbitrum L3 Chain\",\"chain-config\":{\"homesteadBlock\":0,\"daoForkBlock\":null,\"daoForkSupport\":true,\"eip150Block\":0,\"eip150Hash\":\"0x0000000000000000000000000000000000000000000000000000000000000000\",\"eip155Block\":0,\"eip158Block\":0,\"byzantiumBlock\":0,\"constantinopleBlock\":0,\"petersburgBlock\":0,\"istanbulBlock\":0,\"muirGlacierBlock\":0,\"berlinBlock\":0,\"londonBlock\":0,\"clique\":{\"period\":0,\"epoch\":0},\"arbitrum\":{\"EnableArbOS\":true,\"AllowDebugPrecompiles\":false,\"DataAvailabilityCommittee\":false,\"InitialArbOSVersion\":11,\"GenesisBlockNum\":0,\"MaxCodeSize\":24576,\"MaxInitCodeSize\":49152,\"InitialChainOwner\":\"0xd41996ED89bb5BF7dBfB181D8D93E8067446200B\"},\"chainId\":555371422},\"rollup\":{\"bridge\":\"0x1F4f5F72376a163B2e39db27d73CA029145d16f1\",\"inbox\":\"0x909f9B9aE47e28E4e37C06E47d848a6f49C3ed63\",\"sequencer-inbox\":\"0x4a063a85c0198887e6bA499a50e2226f8AE9F43b\",\"rollup\":\"0xC067884D8ED8EC03cB913e901A05C60532f63C02\",\"validator-utils\":\"0xB11EB62DD2B352886A4530A9106fE427844D515f\",\"validator-wallet-creator\":\"0xEb9885B6c0e117D339F47585cC06a2765AaE2E0b\",\"deployed-at\":27754620}}]",
-        "name": "My Arbitrum L3 Chain"
+        "info-json": "[{\"chain-id\":<Insert your chain-id>,\"parent-chain-id\":421614,\"parent-chain-is-arbitrum\":true,\"chain-name\":\"<Insert chain name>\",\"chain-config\":{\"homesteadBlock\":0,\"daoForkBlock\":null,\"daoForkSupport\":true,\"eip150Block\":0,\"eip150Hash\":\"0x0000000000000000000000000000000000000000000000000000000000000000\",\"eip155Block\":0,\"eip158Block\":0,\"byzantiumBlock\":0,\"constantinopleBlock\":0,\"petersburgBlock\":0,\"istanbulBlock\":0,\"muirGlacierBlock\":0,\"berlinBlock\":0,\"londonBlock\":0,\"clique\":{\"period\":0,\"epoch\":0},\"arbitrum\":{\"EnableArbOS\":true,\"AllowDebugPrecompiles\":false,\"DataAvailabilityCommittee\":false,\"InitialArbOSVersion\":11,\"GenesisBlockNum\":0,\"MaxCodeSize\":24576,\"MaxInitCodeSize\":49152,\"InitialChainOwner\":\"<Insert chain owner address>\"},\"chainId\":<Insert chain id>},\"rollup\":{\"bridge\":\"<Bridge proxy address>\",\"inbox\":\"<Inbox address>\",\"sequencer-inbox\":\"<Sequencer inbox address>\",\"rollup\":\"<Rollup proxy address>\",\"validator-utils\":\"<Validator until address>\",\"validator-wallet-creator\":\"<Validator wallet creator address>\",\"deployed-at\":<Insert deployed-at block number>}}]",
+        "name": "<Insert chain name>"
       },
       "parent-chain": {
         "connection": {
@@ -119,12 +176,12 @@
         },
         "avail": {
           "enable": true,
-          "seed": "Enter a seed phrase here",
-          "api-url": "wss://turing-rpc.avail.so/ws",
-          "app-id": 1,
-          "timeout":'100s',
+          "seed": "<Enter your seed phrase here>",
+          "avail-api-url": "wss://turing-rpc.avail.so/ws",
+          "app-id": "<Enter your avail app id>",
+          "timeout":"100s",
           "vectorx": "0xA712dfec48AF3a78419A8FF90fE8f97Ae74680F0",
-          "arbSepolia-rpc": "<Enter an arbSepolia RPC here>"
+          "arbSepolia-rpc": "<Enter an arbSepolia wss url here>"
         }
       },
       "execution": {
@@ -141,8 +198,20 @@
     }
 
     ```
-    
-3. Update `docker-compose` file of `orbit-setup-script`
+    Update these detailes based on your chain's configuration and base contract addresses  
+    - chain.chain-id
+    - chain.chain-name
+    - chain.InitialChainOwner
+    - chain.chainId
+    - chain.rollup
+    - chain.name
+    - node.batch-poster.parent-chain-wallet.private-key
+    - node.staker.parent-chain-wallet.private-key
+    - node.avail.seed
+    - node.avail.app-id
+    - node.avail.arbSepolia-rpc
+
+### Step-3: Update `docker-compose` file of `orbit-setup-script`
     
     ```json
     ...
@@ -152,7 +221,7 @@
     ...
     ```
     
-4. Run your chain
+### Step-4: Run your chain
     
     ```bash
     cd orbit-setup-script
