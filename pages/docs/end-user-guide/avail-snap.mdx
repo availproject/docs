@@ -1,0 +1,50 @@
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+import { Steps } from 'nextra/components'
+
+# Use Avail DA with Metamask
+
+## Introduction
+
+Metamask is one of the most popular wallets for Ethereum and other EVM-compatible blockchains out there.
+Metamask snaps is an open source system that allows developers to create a custom '*snap*'
+that can be installed into a user's Metamask wallet to extend it's functionality for different chains.
+
+You can check out [Metamask docs](https://docs.metamask.io/snaps/) and the [snaps repo](https://docs.metamask.io/snaps/) for more information.
+
+## Using the Avail snap
+
+<Steps>
+### Search for the Avail snap
+
+Go to [snaps.metamask.io](https://snaps.metamask.io/) and search for the Avail snap.
+<br/>
+<div align="center">
+<img src="/img/placeholder-image.png" width="80%" height="80%"/>
+</div>
+ 
+### Install the Avail snap
+
+Click on '_Add to Metamask_' and click on '_Confirm_' to add the snap to your wallet
+<br/>
+<div align="center">
+<img src="/img/avail-snap/install-snap.png" width="50%" height="50%"/>
+</div>
+
+### Use the Avail snap
+
+<Callout type="info">
+  The Avail snap generates an address for you based on the seed phrase embedded into your
+  Metamask wallet. Thus, if you transfer the same wallet to a new system and install
+  the Avail snap again, you will derive the same address.
+</Callout>
+
+Go to [http://localhost:3000/](http://localhost:3000/), which is a UI interface that
+allows you to use the Avail snap. For now the snap only allows you to send and receive Avail
+tokens, but more features will be added in the future.
+<br/>
+<div align="center">
+<img src="/img/avail-snap/snap-homepage.png" width="100%" height="100%"/>
+</div>
+
+</Steps>
