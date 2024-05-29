@@ -1,0 +1,75 @@
+---
+id: interacting-with-Avail
+title: How to interact with Avail
+sidebar_label: Interact
+description: 'Discover how to interact with Avail as a data availability layer.'
+keywords:
+  - documentation
+  - avail
+  - develop
+  - build
+  - data availability
+  - da
+image: https://docs.availproject.org/img/avail/AvailDocs.png
+---
+import { Callout } from 'nextra/components'
+
+# How to get started interacting with Avail
+
+## Overview
+
+Interaction with Avail Network is the most important thing that developers can start doing to get started in this great journey of modularism. There are multiple ways to start interacting and in this tutorial, we will check out all of them. We will be running a Turing testnet and will be ineracting with tools like Avail-js, Avail-Subxt and similar.
+
+First thing to do is to run an Avail Node. To learn more on how to run a node, check out the documentation [<ins>here</ins>](/docs/operate-a-node/run-a-full-node/full-node).
+
+## Generating an AppId  
+
+### What is an AppId?
+
+As a general-purpose base layer, Avail is designed to support many modular chains at the same time, providing consensus and data availability to all of them simultaneously. Avail headers contain an index that allows a given modular chain (or "application" in Avail terminology) to determine and download only the sections of a block that have data for that particular application.
+
+### How to generate a new AppId
+
+1. **Access the Website**: Open your web browser and go to the [<ins>Generator web application</ins>](https://app-id-gen.vercel.app/).
+
+1. **Account Detection / Selection**:
+   - The website will automatically detect any accounts linked via browser extensions.
+   - Ensure you have the relevant extension installed and are logged in.
+   - Select the account you wish to use for the AppId creation.
+
+1. **Input Application Name**: In the provided field, enter the name of your application. Make sure the name is unique and identifies your app.
+
+1. **Send Transaction**: Submit the transaction after entering the application name. This will involve a confirmation step through your browser extension.
+
+1. **Receive Your Application Id:**
+   - Upon successful transaction completion, your AppId will be displayed.
+   - Note down the Id for future reference.
+
+For more information on AppId, check out the documentation [<ins>here</ins>](/docs/end-user-guide/app-id).
+## Optimium Architecture with Avail
+
+In the Optimium model, transactions are similarly aggregated by a sequencer. This sequencer organizes transactions into batches and computes a data root, a Merkle tree root representing the batch, crucial for integrity and proof of inclusion.
+
+Avail is integrated as a data availability layer. Once the sequencer sends transaction batches to Avail, it employs erasure coding to ensure data redundancy and integrity. Avail then generates KZG polynomial commitments and the data root, essential for confirming data availability.
+
+The next phase involves state computation of the system, executed on the rollup, depending on the chain’s architecture. Avail’s data availability solution ensures that the transaction data is readily accessible for any necessary computation or verification.
+
+A Sequence Sender, in this architecture, is responsible for submitting proofs to the main chain. These include the data root from Avail, ensuring that the data availability is anchored to the security of Ethereum or the corresponding L2.
+
+This architecture provides the dual benefits of the main chain's security for settlement and dispute resolution, and Avail's efficiency in handling data. By offloading data availability to Avail, Optimium chains can achieve higher scalability and efficiency while maintaining robust security and decentralization.
+
+## DA Solution Suites
+
+Avail Uncharted is a core initiative within the Avail ecosystem dedicated to exploring uncharted territories in modular blockchain technology.
+Driven by the core Avail team, the mission is twofold: to nurture innovative projects and to cultivate a close-knit collaboration with the community.
+
+| Project                             | Description                                                                                                  | Repository                                                                                                                                              |
+| :---------------------------------- | :----------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Avail-Powered Optimistic EVM Rollup | A sovereign EVM-compatible optimistic rollup construction.                                                   | [<ins>op-evm</ins>](https://github.com/availproject/op-evm)                                                                                             |
+| DA Adapter for Sovereign SDK        | An adapter enabling modular sovereign rollups using the Sovereign Rollup SDK.                                | [<ins>sovereign-da-adapter</ins>](https://github.com/Sovereign-Labs/sovereign-sdk)                                                              |
+| DA Interface for Madara Starknet    | A unified DA interface allowing the Madara Starknet Sequencer to publish data onto Avail.                    | [<ins>madara-da-interface</ins>](https://github.com/keep-starknet-strange/madara/pull/1021)                                                             |
+| Avail-Powered zkEVM-Based Validium  | A Validium based on the Polygon zkEVM stack that uses Avail instead of the native DAC for data availability. | - [<ins>validium-node</ins>](https://github.com/QEDK/validium-node) <br/> - [<ins>validium-contracts</ins>](https://github.com/QEDK/validium-contracts) |
+| DA Adapter for Optimism SDK         | An adapter facilitating Avail DA's integration with Optimism's Rollup SDK op-stack.                          | [<ins>avail-op-stack-adapter</ins>](https://github.com/availproject/avail-op-stack-adapter)                                                             |
+| DA Adapter for Rollkit              | An adapter designed for Rollkit's modular rollup framework that enables ABCI-compatible solutions.           | [<ins>rollkit-da-adapter</ins>](https://github.com/rollkit/rollkit/pull/1168)                                                                           |
+import { sortAndDeduplicateDiagnostics } from "typescript"
+
