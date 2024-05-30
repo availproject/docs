@@ -1,3 +1,5 @@
+import { Callout } from 'nextra/components'
+
 # Deploy Arbitrum Orbit with Avail DA
 
 ### Prerequisites
@@ -7,9 +9,11 @@
 3. At least 1 ETH over Arbsepolia Testnet. You can follow [Step 1](https://docs.arbitrum.io/launch-orbit-chain/orbit-quickstart#step-1-acquire-arbitrum-testnet-eth-and-the-native-token-for-orbit-chains-with-custom-gas-tokens) on Arbitrum Orbit Doc for acquiring testnet $ETH
 4. This guide will use [Arbitrum's ArbSepolia](https://docs.arbitrum.io/build-decentralized-apps/public-chains#arbitrum-sepolia) and [Avail's Turing](/docs/networks) testnets.
 
-> This guide is based on [Arbitrum Orbit Quickstart](https://docs.arbitrum.io/launch-orbit-chain/orbit-quickstart)
+<Callout type="info">
+This guide is based on [Arbitrum Orbit Quickstart](https://docs.arbitrum.io/launch-orbit-chain/orbit-quickstart)
+</Callout>
 
-## 1. Download avail nitro node docker image
+## Download avail nitro node docker image
 
 ### Step-1: Download the [avail-nitro-node](https://hub.docker.com/repository/docker/availrishabh/avail-nitro-node-dev/tags) image from docker hub
     
@@ -18,7 +22,7 @@
     ```
     
 
-## 2. Deploy Rollup Contracts
+## Deploy Rollup Contracts
 
 ### Step-1: Download the [nitro-contract](https://github.com/availproject/nitro-contracts/tree/data-availability-verification-v2.3.1) with Avail DA 
     
@@ -93,7 +97,9 @@
   | Validators | Your chain's validators are responsible for validating the integrity of transactions and posting assertions of the current state of your Orbit chain to its base chain. Add the address in the list which you want to be added to an allow-list in your chain’s base contract  |
   | Batch Poster | Your batch poster address is responsible for posting batches of transactions from your Orbit chain to its base contracts on its base chain. Added the address which you want to act as batch-poster for your orbit chain |
 
-  > When we say "base contracts" and "base chain", we're referring to your Orbit chain's L2 contracts and the L2 chain that they're deployed to, respectively. We'll use these terms throughout the rest of this guide.
+<Callout type="info">
+When we say "base contracts" and "base chain", we're referring to your Orbit chain's L2 contracts and the L2 chain that they're deployed to, respectively. We'll use these terms throughout the rest of this guide.
+</Callout>
 
     
 ### Step-4: Deploy your chain's base contracts to Arbitrum Sepolia!
@@ -111,7 +117,7 @@
 
 Your Orbit chain's base contracts are responsible for facilitating the exchange of information between your chain's node(s) and its base chain's nodes. This includes the batch posting of transactions from your Orbit chain to its base chain, the staking of tokens by your Orbit chain's validators the challenge mechanism, bridging mechanisms, and more.
 
-## 3. Spin up the chain using orbit-setup-script
+## Spin up the chain using orbit-setup-script
 
 ### Step-1: Download [orbit-setup-script](https://github.com/OffchainLabs/orbit-setup-script.git)
     
@@ -198,18 +204,28 @@ Your Orbit chain's base contracts are responsible for facilitating the exchange 
     }
 
     ```
-    Update these detailes based on your chain's configuration and base contract addresses  
-    - chain.chain-id
-    - chain.chain-name
-    - chain.InitialChainOwner
-    - chain.chainId
-    - chain.rollup
-    - chain.name
-    - node.batch-poster.parent-chain-wallet.private-key
-    - node.staker.parent-chain-wallet.private-key
-    - node.avail.seed
-    - node.avail.app-id
-    - node.avail.arbSepolia-rpc
+
+<Callout type="info">
+    Make sure to update these params based on your chain's configuration and base contract addresses  
+
+  <details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+  <summary>
+  List of params to be configured
+  </summary>
+    - `chain.chain-id`
+    - `chain.chain-name`
+    - `chain.InitialChainOwner`
+    - `chain.chainId`
+    - `chain.rollup`
+    - `chain.name`
+    - `node.batch-poster.parent-chain-wallet.private-key`
+    - `node.staker.parent-chain-wallet.private-key`
+    - `node.avail.seed`
+    - `node.avail.app-id`
+    - `node.avail.arbSepolia-rpc`
+
+  </details>
+</Callout>
 
 ### Step-3: Update `docker-compose` file of `orbit-setup-script`
     
