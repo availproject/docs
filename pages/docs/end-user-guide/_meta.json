@@ -4,5 +4,6 @@
     "faucet": "Get Testnet Tokens",
     "identity": "Set your Identity",
     "app-id": "Generate an AppID",
-    "balance-transfers": "Balance Transfers"
+    "balance-transfers": "Balance Transfers",
+    "vectorx": "Bridge AVAIL to Ethereum"
 }
