@@ -117,13 +117,13 @@ In OP Avail,  L2 transaction data are written to Avail instead of Ethereum. The 
 Avail’s modular blockchain has been designed to provide affordable, decentralized, scalable and secure data availability services for other blockchains built on top. Through Avail's unique combination of features, the Avail network is able to effectively and efficiently solve the [data availability problem](https://blog.availproject.org/data-availability-what-is-it/).
 
 ### Validity proofs
-
+<br/>
 <img src="/img/avail/avail-validity-proofs.png" width="100%" height="100%" />
 
 Blockchain nodes need data availability guarantees when committing new blocks to a blockchain. Avail use KZG commitments so that developers and users don’t need to trust Avail that data is available, they can verify it for themselves. 
 
 ### Erasure coding
-
+<br/>
 <img src="/img/avail/avail-erasure-coding.png" width="100%" height="100%" />
 
 Erasure coding is a method for protecting data. It’s widely used across computer systems and is the reason why you can still use a CD with scratches on it. Data that’s sent to Avail is made redundant, and separated into chunks (cells) which is stored in an extended data matrix. This helps make the data on Avail more tamper proof and resilient, making it much harder for malicious nodes to suppress any data within the system. 
@@ -131,7 +131,7 @@ Erasure coding is a method for protecting data. It’s widely used across comput
 By using erasure coding, in conjunction with the validity proofs mentioned above, Avail provides blockchain developers, and their users, with high data integrity guarantees and added redundancy to ensure the data they send to Avail remains safe and secure. If you’re considering using the Avail network for something other than data availability, it’s important to note that [data availability is not data storage](https://blog.availproject.org/data-availability-is-not-data-storage/). While they share some similarities, the two use cases are very different.
 
 ### Light Clients and Data Availability Sampling (DAS)
-
+<br/>
 <img src="/img/avail/avail-das.png" width="100%" height="100%" />
 
 Avail’s light client is a light piece of software that enables you to interact with the Avail blockchain easily without requiring a full-node. Avail light clients can run almost anywhere providing data availability guarantees to blockchain nodes and users, improving network decentralization and end-user verification.
@@ -143,7 +143,7 @@ In its final form, Avail will have a P2P network made up of multiple light clien
 Light Clients can also be done in a more targeted way. If you enable `application-mode` in your light clients, which is as simple as setting an `app-id > 0` then, you can use the light client to sample and fetch data for just your application.
 
 ### Expandable Blockspace
-
+<br/>
 <img src="/img/avail/avail-blockspace.png" width="100%" height="100%" />
 
 
