@@ -25,7 +25,7 @@ export default function Introduction() {
                     x.links.map((z, index) => {
                       return (
                         <div key={index} className="flex flex-col px-5 py-2  space-y-2">
-                          <h2 className={`text-xl text-[#4E6786] font-thicccboisemibold`}>{z.topic}</h2>
+                         <h2 className={`text-xl text-[#4E6786] font-thicccboisemibold`}>{'topic' in z ? z.topic : ''}</h2>
                           <div className="pb-2">
                             {z.links.map((l, index) => {
                               return (
