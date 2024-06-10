@@ -354,11 +354,12 @@ After configuring the L1 layer, focus shifts to establishing the L2 infrastructu
 
    ```bash
    go run cmd/main.go genesis l2 \
-       --deploy-config ../packages/contracts-bedrock/deploy-config/avail-optimism.json \
-       --deployment-dir ../packages/contracts-bedrock/deployments/avail-optimism/ \
-       --outfile.l2 genesis.json \
-       --outfile.rollup rollup.json \
-       --l1-rpc=$L1_RPC
+   --deploy-config ../packages/contracts-bedrock/deploy-config/devnetL1-template.json \
+   --l1-deployments ../packages/contracts-bedrock/deployments/artifact.json \
+   --outfile.l2 genesis.json \
+   --outfile.rollup rollup.json \
+   --l1-rpc $L1_RPC_URL \
+   --l2-allocs ../packages/contracts-bedrock/deploy-config/statedump.json
    ```
 
    You'll find the newly created `genesis.json` and `rollup.json` in the `op-node` package.
