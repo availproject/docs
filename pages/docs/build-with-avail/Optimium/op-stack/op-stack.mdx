@@ -329,6 +329,13 @@ mkdir avail-optimism
 CONTRACT_ADDRESSES_PATH=deployments/artifact.json DEPLOY_CONFIG_PATH=deploy-config/devnetL1-template.json STATE_DUMP_PATH=deploy-config/statedump.json forge script scripts/L2Genesis.s.sol:L2Genesis --sig 'runWithStateDump()' --chain <YOUR_L2_CHAINID>
 ```
 
+> If you see a nondescript error that includes `EvmError: Revert` and Script
+> failed then you likely need to change the `IMPL_SALT` environment variable.
+> This variable determines the addresses of various smart contracts that are
+> deployed via `CREATE2`. If the same `IMPL_SALT` is used to deploy the same
+> contracts twice, the second deployment will fail. You can generate a new
+> `IMPL_SALT` by running direnv allow anywhere in the Avail Optimism Monorepo.
+
 ## Setting Up L2 Configuration
 
 After configuring the L1 layer, focus shifts to establishing the L2 infrastructure. This involves generating three key files:
