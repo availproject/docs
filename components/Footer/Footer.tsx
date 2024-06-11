@@ -152,7 +152,7 @@ export const Footer = () => {
             <img src={footerMobile.back} width={'100%'} alt={'Footer Back Design'}/>
             <div className={footerStyle.footer}>
                 <div>
-                    <img src={"/avail_logo.png"} width={'112px'} alt='avail logo'/>
+                    <img src={"/avail_logo_new.png"} width={'112px'} alt='avail logo'/>
                     <p>The essential base layer for modern blockchains.</p>
                     <div>
                         <Link href={ROUTES.DISCORD} target='_blank' aria-label='dicord'>
