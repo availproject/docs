@@ -43,7 +43,7 @@ export default function Header(){
         <>
             <header className={headerStyle.header}>
                 <Link href={"/"}>
-                    <img src={'/avail_logo.png'} alt='avail-logo' className={headerStyle.logo}/>
+                    <img src={'/avail_logo_new.png'} alt='avail-logo' className={headerStyle.logo}/>
                 </Link>
                 <nav>
                 {
