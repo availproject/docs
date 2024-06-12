@@ -229,6 +229,11 @@ a base64-encoded string.
 ```sh
 curl "http://127.0.0.1:7000/v1/appdata/1?decode=true"
 ```
+To get a decoded extrinsic with plain appdata:
+
+```sh
+curl -s "http://127.0.0.1:7000/v1/appdata/1?decode=true" | jq -r '.extrinsics[-1]' | base64 -d
+```
 </Tabs.Tab>
 
 <Tabs.Tab>
@@ -297,7 +302,14 @@ If application data is available, and decode is `true`:
 ```json
 { "block": 1, "extrinsics": ["ZXhhbXBsZQ=="] }
 ```
+
+if application data is available, decode is `true`, and the base64 extrinsic is decoded
+```json
+"example"
+```
+
 </details>
+
 
 If application data is not available, and specified block is the latest block:
 
@@ -531,7 +543,7 @@ async fn main() {
 <summary> Sample Response:</summary>
 ```json
 {
-  "version":"v1.8.1",
+  "version":"v1.9.0",
   "network_version":"1.10"
 }  
 ```
