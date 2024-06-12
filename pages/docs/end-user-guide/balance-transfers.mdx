@@ -2,7 +2,7 @@
 id: balance-transfers
 title: How to Perform Balance Transfers on Avail
 sidebar_label: Balance Transfers
-description: 'Learn how to perform balance transfers on the Goldberg testnet.'
+description: 'Learn how to perform balance transfers on the Avail Network.'
 keywords:
   - docs
   - avail
@@ -22,21 +22,6 @@ import { Callout } from 'nextra/components'
 
 Balance transfers are a method for transferring funds from one account to another. This guide will walk you through the process using [<ins>Avail-JS UI</ins>](https://explorer.avail.so/). Before you begin, ensure you have [<ins>created an account</ins>](/docs/end-user-guide/accounts) and have [<ins>funds available</ins>](/docs/end-user-guide/faucet) for transfer.
 
-<Callout type="info">
-CLASH OF NODES<br/>
-In the balance transfer challenge part of Clash of Nodes, participants must follow these guidelines:
-
-1. **Token Acquisition**: To participate in balance transfers, tokens must be acquired through the designated [<ins>faucet</ins>](/docs/end-user-guide/faucet).
-2. **Faucet Transfer Limit**: Participants can obtain tokens from the [<ins>faucet</ins>](/docs/end-user-guide/faucet) only once per day.
-3. **Regular Engagement**: Participants are encouraged to engage with the challenge daily. The daily acquisition of tokens from the faucet and subsequent transfers cultivate consistent participation.
-</Callout>
-
-<Callout>
-USING SUBWALLET<br/>
-[<ins>SubWallet</ins>](https://www.subwallet.app/) currently supports the Goldberg testnet and can be used for balance transfers.
-
-Please view the third-party content disclaimer [<ins>here</ins>](https://github.com/availproject/availproject.github.io/blob/main/CONTENT_DISCLAIMER.md).
-</Callout>
 
 ## Transferring Funds Using Avail-JS
 
@@ -48,7 +33,7 @@ Please view the third-party content disclaimer [<ins>here</ins>](https://github.
 
 <Callout type="info">
 MINIMUM BALANCE<br/>
-On Avail, similar to other Substrate-based chains, an account must hold a minimum balance to stay active. This minimum, known as the Existential Deposit (ED), is set at **0.00001 AVAIL on the Goldberg testnet**. The ED helps prevent blockchain bloat from accounts with tiny or zero balances, thereby maintaining network efficiency and low fees. If an account's balance falls below this threshold, it gets deactivated, and the remaining balance is removed. Reactivating the account requires a deposit larger than the ED, but this won't restore the lost funds.
+On Avail, similar to other Substrate-based chains, an account must hold a minimum balance to stay active. This minimum, known as the Existential Deposit (ED), is set at **0.000001 AVAIL on the Avail Network**. The ED helps prevent blockchain bloat from accounts with tiny or zero balances, thereby maintaining network efficiency and low fees. If an account's balance falls below this threshold, it gets deactivated, and the remaining balance is removed. Reactivating the account requires a deposit larger than the ED, but this won't restore the lost funds.
 </Callout>
 
 4. When you are ready to execute your transaction, enter your password and click on the "Sign and Submit" button.

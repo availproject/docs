@@ -31,7 +31,7 @@ Before trying anything, make sure that you fully read the chapter first before d
 
 ## Installation & Setup
 
-Our first step is to obtain the prebuilt binary for Avail Node. [We offer a wide range of prebuilds](https://github.com/availproject/avail/releases/tag/v2.2.2.0-rc1), but in case you don't see your Linux flavor or architecture here, head to the FAQ chapter to learn how to build your own executable.
+Our first step is to obtain the prebuilt binary for Avail Node. [We offer a wide range of prebuilds](https://github.com/availproject/avail/releases/tag/v2.2.3.0-rc1), but in case you don't see your Linux flavor or architecture here, head to the FAQ chapter to learn how to build your own executable.
 
 Once you have found your OS (or picked the generic one), execute the given command to obtain the needed Avail Node binary.
 
@@ -44,13 +44,13 @@ wget https://github.com/availproject/avail/releases/download/<version-number>/<y
 With the binary ready in our working directory, it's time to run it and see what we get.
 
 ```bash
-./data-avail
+./avail-node
 ```
 
 Output:
 
 ```
-Error: Input("Please specify which chain you want to run, e.g. --chain goldberg")
+Error: Input("Please specify which chain you want to run, e.g. --chain turing")
 ```
 
 Yikes, an error. This is okay; by default, our node doesn't know which chain (network) it should connect to. To fix this, we will provide one, but not the recommended one, not yet.
@@ -58,15 +58,15 @@ Yikes, an error. This is okay; by default, our node doesn't know which chain (ne
 Instead, we are going to run a development network:
 
 ```bash
-./data-avail --chain dev
+./avail-node --chain dev
 ```
 
 Output:
 
 ```bash
 2023-11-27 16:26:31 Avail Node
-2023-11-27 16:26:31 ✌️  version 1.8.3-6d8aff28012
-2023-11-27 16:26:31 ❤️  by Anonymous, 2017-2023
+2023-11-27 16:26:31 ✌️  version 2.1.4-9d88dbf7b4f
+2023-11-27 16:26:31 ❤️  by Avail Project <info@availproject.org>, 2017-2024
 2023-11-27 16:26:31 📋 Chain specification: Avail Development Network
 2023-11-27 16:26:31 🏷  Node name: cagey-owl-5997
 2023-11-27 16:26:31 👤 Role: FULL
@@ -124,7 +124,7 @@ The last line, `👤 Role: FULL`, reveals that our node is in Full mode, meaning
 To change our node's name, use the `--name` flag. Before proceeding, make sure to stop your node with `Ctrl-C`. Now, let's rerun it with a more appealing name:
 
 ```bash
-./data-avail --chain dev --name KingMagnifico
+./avail-node --chain dev --name KingMagnifico
 ```
 
 Output:
@@ -146,7 +146,7 @@ To run our node in validator mode, add the `--validator` flag along with the oth
 Stop your node again with Ctrl+C and rerun it with the `--validator` flag::
 
 ```bash
-./data-avail --chain dev --name KingMagnifico --validator
+./avail-node --chain dev --name KingMagnifico --validator
 ```
 
 Output:
@@ -177,7 +177,7 @@ Our node is operating in validator mode, but the network expects validator 'Alic
 Let's stop our node again with Ctrl+C and rerun it with the `--alice` flag:
 
 ```bash
-./data-avail --chain dev --name KingMagnifico --validator --alice
+./avail-node --chain dev --name KingMagnifico --validator --alice
 ```
 
 Output:
@@ -222,7 +222,7 @@ Although we've used several flags to run a development network, there's an easie
 Stop the node again with Ctrl+C and rerun it with the `--dev` flag:
 
 ```bash
-./data-avail --dev --name KingMagnifico
+./avail-node --dev --name KingMagnifico
 ```
 
 Output:
@@ -242,14 +242,14 @@ Output:
 
 And we get the same result.
 
-### Temporary and Persistante Storage
+### Temporary and Persistent Storage
 
 When our node runs a network, it needs to store network-related data. By not specifying a location, it stores the data in a default location, which is often not what we want.
 
 Using the `--tmp` flag makes it use a different location each time we run our network. This is implied when using `--dev` and is useful when we don't care about preserving our state. To make our storage persistent through runs, we can use the `-d` flag.
 
 ```bash
-./data-avail --dev --name KingMagnifico -d ./node-data
+./avail-node --dev --name KingMagnifico -d ./node-data
 ```
 
 Output
@@ -279,7 +279,7 @@ With all this preliminary knowledge ready to be used, we can now finally take th
 Before running our node, ensure that our storage folder is removed or empty, and that we don't have any previous nodes already running. With that said, let's finally do what we've been waiting for since the beginning:
 
 ```bash
-./data-avail --chain turing --name KingMagnifico --validator -d ./node-data
+./avail-node --chain turing --name KingMagnifico --validator -d ./node-data
 ```
 
 Output:
@@ -288,10 +288,10 @@ Output:
 2023-11-27 17:24:41 Avail Node
 2023-11-27 17:24:41 ✌️  version 1.8.3-6d8aff28012
 2023-11-27 17:24:41 ❤️  by Anonymous, 2017-2023
-2023-11-27 17:24:41 📋 Chain specification: Avail Goldberg Testnet
+2023-11-27 17:24:41 📋 Chain specification: Avail Turing Testnet
 2023-11-27 17:24:41 🏷  Node name: KingMagnifico
 2023-11-27 17:24:41 👤 Role: AUTHORITY
-2023-11-27 17:24:41 💾 Database: RocksDb at ./node-data/chains/avail_goldberg_testnet/db/full
+2023-11-27 17:24:41 💾 Database: RocksDb at ./node-data/chains/avail_turing_testnet/db/full
 ```
 
 Okay, so far so good. Our role is `AUTHORITY`, which means that we are running in validator mode. Our name is clearly the correct one, KingMagnifico, and our database location is correct. Let's see the next few log lines:
