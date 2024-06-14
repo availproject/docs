@@ -308,7 +308,7 @@ const { origin } = request.nextUrl
         destination: `${origin}/docs/build-with-avail`
       },
       {
-        source: "/build/overview/",
+        source: "build/overview",
         destination: `${origin}/docs/build-with-avail/overview`
       },
       {
