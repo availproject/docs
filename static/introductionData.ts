@@ -1,7 +1,7 @@
 
 export const IntroData = [
   {
-    title: "Introduction",
+    title: "Brand new to Avail?",
     description:
       "Learn about the infrastructure layer unifying web3.",
       links: [
@@ -17,63 +17,64 @@ export const IntroData = [
       ]
   },
   {
-    title: "Join the Network",
+    title: "Want to run an Avail node?",
     description:
-      "Ways to join the Avail Networks!",
+      "Check out our guides on all the different ways to do so",
       links: [
         {
-          links: [{ link: "/docs/networks", placeholder: "Avail Networks"}, {link: "/docs/operate-a-node/node-types", placeholder: "Types of Nodes"}],
-          textcolor: "3CA3FC"
-        },
+          links: [{ link: "/docs/operate-a-node/run-a-light-client/0010-light-client", placeholder: "Run an Avail Light Client"}, {link: "/docs/operate-a-node/run-a-full-node", placeholder: "Run an Avail Node"}, {link: "/docs/operate-a-node/become-a-validator", placeholder: "Become an Avail Validator"}],
+          textcolor: "3FBB80"
+        }
+      ]
+  },
+  {
+    title: "Start using Avail DA now",
+    description:
+      "Simple guides for end users to get started on the network",
+      links: [
         {
-          topic: "Run Avail",
-          links: [{ link: "/docs/operate-a-node/run-a-light-client/0010-light-client", placeholder: "Run a Light Client"}, {link: "/docs/operate-a-node/run-a-full-node", placeholder: "Run a Full Node"}, {link: "/docs/operate-a-node/become-a-validator", placeholder: "Run a Validator"}],
-          textcolor: "3CA3FC"
+          topic: "Getting Started",
+          links: [{link: "/docs/end-user-guide/accounts", placeholder: "Set up an Avail wallet"}, { link: "/docs/end-user-guide/explorer", placeholder: "Start using the Avail Explorer"}],
+          textcolor: "FE8B6C"
         },
       ],
   },
   {
-    title: "FAQ's",
+    title: "BUILD on Avail DA!",
+    description:
+    "Start building now!",
+    links: [
+      {
+        topic: "Getting Started",
+        links: [{ link: "/docs/networks", placeholder: "Network info "},{ link: "/docs/end-user-guide/faucet", placeholder: "Testnet faucet"}],
+        textcolor: "25C4CE"
+      },
+      {
+        topic: "Build on Avail DA",
+        links: [{ link: "/docs/build-with-avail/overview", placeholder: "Overview"},{ link: "/docs/build-with-avail/interacting-with-Avail", placeholder: "Interact with Avail DA"}],
+        textcolor: "FE8B6C"
+      },
+    ],
+  },
+  {
+    title: "Stake your AVAIL",
+    description:
+    "Stake on Avail DA for a secure network and steady returns",
+    links: [
+      {
+        links: [{ link: "/docs/stake-on-avail/overview", placeholder: "Overview"}, { link: "/docs/stake-on-avail/direct-nomination", placeholder: "Direct nomination"}, { link: "/docs/stake-on-avail/nomination-pools", placeholder: "Nomination pools"},],
+        textcolor: "3CA3FC"
+      },
+    ],
+  },
+  {
+    title: "FAQs",
     description:
     "Have doubts? Check out answers to some common questions we get",
     links: [
       {
         links: [{ link: "/docs/learn-about-avail/faqs", placeholder: "FAQs"}],
         textcolor: "3CA3FC"
-      },
-    ],
-  },
-
-  {
-    title: "Using Avail DA",
-    description:
-      "Want to get up and running? Check out our resources below.",
-      links: [
-        {
-          topic: "Getting Started",
-          links: [{ link: "/docs/end-user-guide/explorer", placeholder: "Using the Explorer"}, {link: "/docs/end-user-guide/accounts", placeholder: "Set up an Avail wallet"}, {link: "/docs/end-user-guide/faucet", placeholder: "Testnet Faucet"}],
-          textcolor: "3FBB80"
-        },
-        {
-          topic: "Use Cases & Examples", 
-          links: [{ link: "/docs/build-with-avail/overview", placeholder: "Rollups"}, {link: "/docs/build-with-avail/Validium/zkevm", placeholder: "zkEVMs"}, {link: "/docs/build-with-avail/Validium", placeholder: "Validiums"}],
-          textcolor: "FE8B6C"
-        },
-        {
-          topic: "Core SDKs & APIs",
-          links: [{link: "/docs/operate-a-node/run-a-light-client/Overview", placeholder: "Light Client Overview"}, {link: "/docs/operate-a-node/run-a-light-client/Reference/embedding-the-light-client", placeholder: "Embedding the Light Client"}],
-          textcolor: "DE60E8"
-        },
-      ],
-  },
-  {
-    title: "Concepts",
-    description:
-    "Read up more on some of the core concepts powering Avail DA",
-    links: [
-      {
-        links: [{ link: "/docs/learn-about-avail/consensus/babe", placeholder: "BABE"},{ link: "/docs/operate-a-node/become-a-validator/chill-your-validator", placeholder: "Chilling & Slashing"}],
-        textcolor: "25C4CE"
       },
     ],
   },
