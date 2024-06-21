@@ -22,7 +22,7 @@ export const IntroData = [
       "Check out our guides on all the different ways to do so",
       links: [
         {
-          links: [{ link: "/docs/operate-a-node/run-a-light-client/0010-light-client", placeholder: "Run an Avail Light Client"}, {link: "/docs/operate-a-node/run-a-full-node", placeholder: "Run an Avail Node"}, {link: "/docs/operate-a-node/become-a-validator", placeholder: "Become an Avail Validator"}],
+          links: [{ link: "/docs/operate-a-node/node-types", placeholder: "Overview"}, { link: "/docs/operate-a-node/run-a-light-client/0010-light-client", placeholder: "Run an Avail Light Client"}, {link: "/docs/operate-a-node/run-a-full-node", placeholder: "Run an Avail Node"}, {link: "/docs/operate-a-node/become-a-validator", placeholder: "Become an Avail Validator"}],
           textcolor: "3FBB80"
         }
       ]
