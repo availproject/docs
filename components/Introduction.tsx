@@ -13,7 +13,7 @@ export default function Introduction() {
               return (
                 <div
                   key={index}
-                  className="transform transition-transform duration-3 hover:scale-95 mb-8 card_background sm:break-inside-avoid rounded-2xl border-solid border border-[#212123]"
+                  className="transform transition-transform duration-3 hover:scale-[.99] mb-8 card_background sm:break-inside-avoid rounded-2xl border-solid border border-[#212123]"
                 >
                   <h3 className="text-xl md:text-3xl font-SpaceGrotesk text-black px-5 pt-5 opacity-90 font-thicccboibold">
                     {x.title}
@@ -30,18 +30,19 @@ export default function Introduction() {
                             {z.links.map((l, index) => {
                               return (
                                 <>
-                                  <div key={index}
+                                  <Link
+                                      href={l.link} key={index}
                                     className={`flex flex-row justify-between items-center`}
                                   >
-                                    <Link
-                                      href={l.link}
+                                    <div
+    
                                       className={`text-2xl hover:underline  font-thicccboibold`}
                                       style={{ color: `#${z.textcolor || '000'}` }}
                                     >
                                       {l.placeholder}
-                                    </Link>
-                                    <FaArrowRight />
-                                  </div>
+                                    </div>
+                                    <FaArrowRight className="transform transition-transform duration-3 hover:scale-110 " />
+                                  </Link>
                                 </>
                               );
                             })}
