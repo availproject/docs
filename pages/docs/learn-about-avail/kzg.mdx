@@ -14,7 +14,7 @@ A KZG (Kate-Zaverucha-Goldberg) commitment is a type of polynomial commitment sc
 
 Blobs in Avail are stored in a matrix, where any data corresponding to an app id is stored as `(start_cell, length)`, with traversal being done in an RC manner. Data for each row in the corresponding matrix is committed using the KZG polynomial commitment scheme in Avail, and also erasure coded \( 2n \) rows where \( n \) is the number of rows (usually 256) in a blob of data.
 
-A special property of KZG commitment is that if, let's say, a polynomial \( P_1 \) is constructed using \( N \) points, and if those \( N \) points are erasure coded, the resulting points also lie on the same polynomial. This property of KZG is exploited to create a linkability between the commitment and erasure coding done, hence giving a cryptographic guarantee that erasure coding itself was done correctly. This property makes Avail a validity proof-based design.
+A special property of KZG commitment is that if, let's say, a polynomial \( P1 \) is constructed using \( N \) points, and if those \( N \) points are erasure coded, the resulting points also lie on the same polynomial. This property of KZG is exploited to create a linkability between the commitment and erasure coding done, hence giving a cryptographic guarantee that erasure coding itself was done correctly. This property makes Avail a validity proof-based design.
 
 ## ![How blob is stored and secured using KZG in Avail](./kzg.png)
 
