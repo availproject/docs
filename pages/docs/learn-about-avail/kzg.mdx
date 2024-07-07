@@ -49,12 +49,12 @@ Before we start, let’s see the elements we have:
 #### Step 1: Keygen
 
 - Sample random $\tau \in F_p$
-- $\text{gp} = (g, g^{\tau}, g^{\tau^2}, \ldots, g^{\tau^d})$
+- $\textit{gp} = (g, g^{\tau}, g^{\tau^2}, \ldots, g^{\tau^d})$
 - delete $\tau$ (trusted setup)
 
 #### Step 2: Commit
 
-- $\text{commit} (\text{gp}, f) \rightarrow \text{com}_f$
+- $\text{commit} (\textit{gp}, f) \rightarrow \text{com}_f$
 - $f(x) = f_0 + f_1 x + f_2 x^2 + \ldots + f_d x^d$
 - $\text{com}_f = g^{f(\tau)}$
   $= g^{f_0 + f_1 \tau + f_2 \tau^2 + \ldots + f_d \tau^d}$
@@ -62,9 +62,9 @@ Before we start, let’s see the elements we have:
 
 #### Step 3: Proof
 
-- $\text{eval}(\text{gp}, f, u) \rightarrow v, \pi$: where $u$ is a random point the verifier chooses.
+- $\text{eval}(\textit{gp}, f, u) \rightarrow v, \pi$: where $u$ is a random point the verifier chooses.
   - $f(x) - f(u) = (x - u) q(x)$ as $u$ is a root of $f(x) - f(u)$
-  - Compute $q(x)$ and $\pi = g^{q(\tau)}$ computed using $\text{gp}$ elements.
+  - Compute $q(x)$ and $\pi = g^{q(\tau)}$ computed using $\textit{gp}$ elements.
 
 #### Step 4: Verify
 
