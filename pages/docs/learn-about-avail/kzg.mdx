@@ -20,7 +20,26 @@ A special property of KZG commitment is that if, let's say, a polynomial \( P1 \
 
 ### KZG Poly-commit scheme
 
-A KZG polynomial commitment scheme allows a prover to commit to a polynomial so that they can later reveal and prove properties about the polynomial (like its value at certain points) without revealing the entire polynomial. This is particularly useful in scenarios where the polynomial represents some private data or computation.
+#### What is a commitment ?
+
+A commitment is a cryptographic concept used to ensure the integrity and confidentiality of data in various cryptographic protocols. It is often used in scenarios where one party wants to commit to a chosen value while keeping it hidden from others, and later reveal the value in a way that proves it was not altered.
+The commitment scheme involves two main phases:
+
+1. **Commit Phase**: The committer chooses a value and generates a commitment using a commitment function. The commitment is then sent to the verifier. The commitment hides the chosen value but binds the committer to it.
+
+2. **Reveal Phase**: The committer later reveals the chosen value and the randomness used in the commitment function. The verifier can then check that the revealed value matches the commitment.
+
+A commitment scheme should have two key properties:
+
+1. **Binding**: It should be infeasible for the committer to change the committed value after the commitment has been made. This ensures the integrity of the commitment.
+
+2. **Hiding**: It should be infeasible for the verifier to learn anything about the committed value before it is revealed. This ensures the confidentiality of the commitment.
+
+Commitments are widely used in cryptographic protocols such as zero-knowledge proofs, secure multiparty computation, and blockchain technologies to ensure data integrity and privacy.
+
+#### A KZG polynomial commitment scheme
+
+Allows a prover to commit to a polynomial so that they can later reveal and prove properties about the polynomial (like its value at certain points) without revealing the entire polynomial. This is particularly useful in scenarios where the polynomial represents some private data or computation.
 
 Before we start, let’s see the elements we have:
 
@@ -55,19 +74,6 @@ Before we start, let’s see the elements we have:
   - Challenge: only know $g^{\tau - u}$ and $g^{q(\tau)}$
   - Solution: pairings - $e(com_f / g^v, g) = e(g^{\tau - u}, \pi)$
     $= e(g, g)^{f(\tau) - f(u)} = e(g, g)^{(\tau - u)q(\tau)}$
-
----
-
-### Achieving Zero-Knowledge
-
-The plain KZG is not ZK. For example, $com_f = g^{f(\tau)}$ is deterministic.
-
-To achieve Zero Knowledge, we mask the commitment with randomizers.
-
-- Commit: $com_f = g^{f(\tau) + r\eta}$
-- Evaluate: (where $r$ and $r'$ are both randomizers)
-  $f(x) + ry - f(u) = (x - u)(q(x) + r'y) + y(r - r'(\tau - u))$
-  $\pi = g^{q(\tau) + r'\eta}, g^{r - r'(\tau - u)}$
 
 ---
 
