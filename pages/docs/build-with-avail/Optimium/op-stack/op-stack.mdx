@@ -31,16 +31,16 @@ Ensure you have installed the following software.
   <tr>
     <td valign="top">
 
-| Software                                                                 | Version                                                                                |
-| ------------------------------------------------------------------------ | -------------------------------------------------------------------------------------- |
-| [<ins>Git</ins>](https://git-scm.com/)                                   | OS default                                                                             |
-| [<ins>Go</ins>](https://go.dev/)                                         | 1.20                                                                                   |
-| [<ins>Node</ins>](https://nodejs.org/en/)                                | 16.19.0                                                                                |
-| [<ins>Pnpm</ins>](https://pnpm.io/installation)                          | 8.5.6                                                                                  |
-| [<ins>Make</ins>](https://linux.die.net/man/1/make)                      | OS default                                                                             |
-| [<ins>jq</ins>](https://github.com/jqlang/jq)                            | OS default                                                                             |
-| [<ins>direnv</ins>](https://direnv.net/)                                 | Latest                                                                                 |
-| [<ins>Foundry</ins>](https://github.com/foundry-rs/foundry#installation) | Foundry will be installed locally within the project's environment, via `package.json` |
+| Software                                                                 | Version    |
+| ------------------------------------------------------------------------ | ---------- |
+| [<ins>Git</ins>](https://git-scm.com/)                                   | OS default |
+| [<ins>Go</ins>](https://go.dev/)                                         | 1.21       |
+| [<ins>Node</ins>](https://nodejs.org/en/)                                | ^20        |
+| [<ins>Pnpm</ins>](https://pnpm.io/installation)                          | 8.5.6      |
+| [<ins>Make</ins>](https://linux.die.net/man/1/make)                      | OS default |
+| [<ins>jq</ins>](https://github.com/jqlang/jq)                            | OS default |
+| [<ins>direnv</ins>](https://direnv.net/)                                 | Latest     |
+| [<ins>Foundry</ins>](https://github.com/foundry-rs/foundry#installation) | ^0.2.0     |
 
 </td>
 <td valign="top">
@@ -79,15 +79,15 @@ sudo apt install -y direnv
 
 ## Compile the Core Codebase
 
-Setting up the EVM Rollup requires compiling code from two critical repositories: the [<ins>optimism-plasma-avail monorepo</ins>](https://github.com/availproject/optimism-plasma-avail) and the [<ins>op-geth repository</ins>](https://github.com/ethereum-optimism/op-geth).
+Setting up the EVM Rollup requires compiling code from two critical repositories: the [<ins>optimism-Alt-DA-Avail monorepo</ins>](https://github.com/availproject/optimism-Alt-DA-Avail) and the [<ins>op-geth repository</ins>](https://github.com/ethereum-optimism/op-geth).
 
 ### Build the Adapter Source
 
 1. Clone and navigate to the Avail adapter:
 
    ```bash
-   git clone https://github.com/availproject/optimism-plasma-avail.git
-   cd optimism-plasma-avail
+   git clone https://github.com/availproject/optimism-Alt-DA-Avail.git
+   cd optimism-Alt-DA-Avail
    git submodule update --init --recursive
    ```
 
@@ -135,7 +135,7 @@ You can use `cast wallet` in the `contracts-bedrock` package for key generation:
 1. In the Avail adapter repo, navigate to the [<ins>contracts-bedrock package</ins>](https://github.com/availproject/avail-optimism/tree/129032f15b76b0d2a940443a39433de931a97a44/packages/contracts-bedrock):
 
    ```bash
-   cd ~/optimism-plasma-avail/packages/contracts-bedrock
+   cd ~/optimism-Alt-DA-Avail/packages/contracts-bedrock
    ```
 
 2. Generate accounts:
@@ -189,7 +189,7 @@ After building the repositories, configure your chain settings in the [<ins>cont
 1. Ensure you are in the `contracts-bedrock` sub-directory:
 
    ```bash
-   cd ~/optimism-plasma-avail/packages/contracts-bedrock
+   cd ~/optimism-Alt-DA-Avail/packages/contracts-bedrock
    ```
 
 2. Activate the environment with `direnv`:
@@ -204,94 +204,94 @@ After building the repositories, configure your chain settings in the [<ins>cont
 
 Deploy essential L1 contracts for the chain’s functionality:
 
-1. Update `/optimism-plasma-avail/packages/contracts-bedrock/deploy-config` and update file `devnetL1-template.json` by referencing the following configs ( addresses will vary for each user, the following is a demo-config deployed for sepolia L1):
+1. Update `/optimism-Alt-DA-Avail/packages/contracts-bedrock/deploy-config` and update file `devnetL1-template.json` by referencing the following configs ( addresses will vary for each user, the following is a demo-config deployed for sepolia L1):
 
 ```
 {
+   "finalSystemOwner": "0xfd1D2e729aE8eEe2E146c033bf4400fE75284301",
+  "superchainConfigGuardian": "0xfd1D2e729aE8eEe2E146c033bf4400fE75284301",
+  "l1StartingBlockTag": "0x48f520cf4ddaf34c8336e6e490632ea3cf1e5e93b0b2bc6e917557e31845371b",
   "l1ChainID": 11155111,
-  "l2ChainID": 901,
+  "l2ChainID": 11155420,
   "l2BlockTime": 2,
-  "maxSequencerDrift": 300,
-  "sequencerWindowSize": 200,
-  "channelTimeout": 120,
-  "p2pSequencerAddress": "0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc",
-  "batchInboxAddress": "0xff00000000000000000000000000000000000901",
-  "batchSenderAddress": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
-  "cliqueSignerAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
-  "l1UseClique": true,
-  "l1StartingBlockTag": "earliest",
-  "l2OutputOracleSubmissionInterval": 10,
-  "l2OutputOracleStartingTimestamp": 0,
+  "l1BlockTime": 12,
+  "maxSequencerDrift": 600,
+  "sequencerWindowSize": 3600,
+  "channelTimeout": 300,
+  "p2pSequencerAddress": "0x57CACBB0d30b01eb2462e5dC940c161aff3230D3",
+  "batchInboxAddress": "0xff00000000000000000000000000000011155420",
+  "batchSenderAddress": "0x8F23BB38F531600e5d8FDDaAEC41F13FaB46E98c",
+  "l2OutputOracleSubmissionInterval": 120,
   "l2OutputOracleStartingBlockNumber": 0,
-  "l2OutputOracleProposer": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
-  "l2OutputOracleChallenger": "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
-  "l2GenesisBlockGasLimit": "0x1c9c380",
-  "l1BlockTime": 3,
-  "baseFeeVaultRecipient": "0x14dC79964da2C08b23698B3D3cc7Ca32193d9955",
-  "l1FeeVaultRecipient": "0x23618e81E3f5cdF7f54C3d65f7FBc0aBf5B21E8f",
-  "sequencerFeeVaultRecipient": "0xa0Ee7A142d267C1f36714E4a8F75612F20a79720",
+  "l2OutputOracleStartingTimestamp": 1690493568,
+  "l2OutputOracleProposer": "0x49277EE36A024120Ee218127354c4a3591dc90A9",
+  "l2OutputOracleChallenger": "0xfd1D2e729aE8eEe2E146c033bf4400fE75284301",
+  "finalizationPeriodSeconds": 12,
+  "proxyAdminOwner": "0xfd1D2e729aE8eEe2E146c033bf4400fE75284301",
+  "baseFeeVaultRecipient": "0xfd1D2e729aE8eEe2E146c033bf4400fE75284301",
+  "l1FeeVaultRecipient": "0xfd1D2e729aE8eEe2E146c033bf4400fE75284301",
+  "sequencerFeeVaultRecipient": "0xfd1D2e729aE8eEe2E146c033bf4400fE75284301",
   "baseFeeVaultMinimumWithdrawalAmount": "0x8ac7230489e80000",
   "l1FeeVaultMinimumWithdrawalAmount": "0x8ac7230489e80000",
   "sequencerFeeVaultMinimumWithdrawalAmount": "0x8ac7230489e80000",
   "baseFeeVaultWithdrawalNetwork": 0,
   "l1FeeVaultWithdrawalNetwork": 0,
   "sequencerFeeVaultWithdrawalNetwork": 0,
-  "proxyAdminOwner": "0xa0Ee7A142d267C1f36714E4a8F75612F20a79720",
-  "finalSystemOwner": "0xa0Ee7A142d267C1f36714E4a8F75612F20a79720",
-  "superchainConfigGuardian": "0xa0Ee7A142d267C1f36714E4a8F75612F20a79720",
-  "finalizationPeriodSeconds": 2,
-  "fundDevAccounts": true,
-  "l2GenesisBlockBaseFeePerGas": "0x1",
-  "gasPriceOracleOverhead": 2100,
-  "gasPriceOracleScalar": 1000000,
-  "gasPriceOracleBaseFeeScalar": 1368,
-  "gasPriceOracleBlobBaseFeeScalar": 810949,
   "enableGovernance": true,
   "governanceTokenSymbol": "OP",
   "governanceTokenName": "Optimism",
-  "governanceTokenOwner": "0xa0Ee7A142d267C1f36714E4a8F75612F20a79720",
+  "governanceTokenOwner": "0xfd1D2e729aE8eEe2E146c033bf4400fE75284301",
+  "l2GenesisBlockGasLimit": "0x1c9c380",
+  "l2GenesisBlockBaseFeePerGas": "0x3b9aca00",
   "eip1559Denominator": 50,
-  "eip1559DenominatorCanyon": 250,
   "eip1559Elasticity": 6,
-  "l1GenesisBlockTimestamp": "0x64c811bf",
   "l2GenesisRegolithTimeOffset": "0x0",
-  "l2GenesisDeltaTimeOffset": null,
-  "l2GenesisCanyonTimeOffset": "0x0",
   "systemConfigStartBlock": 0,
-  "requiredProtocolVersion": "0x0000000000000000000000000000000000000000000000000000000000000000",
-  "recommendedProtocolVersion": "0x0000000000000000000000000000000000000000000000000000000000000000",
-  "faultGameAbsolutePrestate": "0x03c7ae758795765c6664a5d39bf63841c71ff191e9189522bad8ebff5d4eca98",
-  "faultGameMaxDepth": 50,
-  "faultGameClockExtension": 0,
-  "faultGameMaxClockDuration": 1200,
-  "faultGameGenesisBlock": 0,
-  "faultGameGenesisOutputRoot": "0xDEADBEEFDEADBEEFDEADBEEFDEADBEEFDEADBEEFDEADBEEFDEADBEEFDEADBEEF",
-  "faultGameSplitDepth": 14,
+  "requiredProtocolVersion": "0x0000000000000000000000000000000000000004000000000000000000000001",
+  "recommendedProtocolVersion": "0x0000000000000000000000000000000000000004000000000000000000000001",
+  "fundDevAccounts": true,
+  "faultGameAbsolutePrestate": "0x03e69d3de5155f4a80da99dd534561cbddd4f9dd56c9ecc704d6886625711d2b",
+  "faultGameMaxDepth": 73,
+  "faultGameClockExtension": 10800,
+  "faultGameMaxClockDuration": 302400,
+  "faultGameGenesisBlock": 9496192,
+  "faultGameGenesisOutputRoot": "0x63b1cda487c072b020a57c1203f7c2921754005cadbd54bed7f558111b8278d8",
+  "faultGameSplitDepth": 30,
   "faultGameWithdrawalDelay": 604800,
-  "preimageOracleMinProposalSize": 10000,
-  "preimageOracleChallengePeriod": 120,
-  "proofMaturityDelaySeconds": 12,
-  "disputeGameFinalityDelaySeconds": 6,
+  "preimageOracleMinProposalSize": 126000,
+  "preimageOracleChallengePeriod": 86400,
+  "proofMaturityDelaySeconds": 604800,
+  "disputeGameFinalityDelaySeconds": 302400,
   "respectedGameType": 0,
-  "useFaultProofs": false,
+  "useFaultProofs": true,
   "usePlasma": true,
   "daCommitmentType": "GenericCommitment",
   "daChallengeWindow": 160,
   "daResolveWindow": 160,
   "daBondSize": 1000000,
-  "daResolverRefundPercentage": 0
+  "daResolverRefundPercentage": 0,
+  "cliqueSignerAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+  "l1UseClique": true,
+  "gasPriceOracleOverhead": 2100,
+  "gasPriceOracleScalar": 1000000,
+  "gasPriceOracleBaseFeeScalar": 1368,
+  "gasPriceOracleBlobBaseFeeScalar": 810949,
+  "eip1559DenominatorCanyon": 250,
+  "l1GenesisBlockTimestamp": "0x64c811bf",
+  "l2GenesisDeltaTimeOffset": null,
+  "l2GenesisCanyonTimeOffset": "0x0"
 }
 
 ```
 
-2.  Navigate to `/optimism-plasma-avail/packages/contracts-bedrock/deployments`, and create `avail-optimism` directory:
+2.  Navigate to `/optimism-Alt-DA-Avail/packages/contracts-bedrock/deployments`, and create `avail-optimism` directory:
 
 ```bash
-cd ~/optimism-plasma-avail/packages/contracts-bedrock/deployments
+cd ~/optimism-Alt-DA-Avail/packages/contracts-bedrock/deployments
 mkdir avail-optimism
 ```
 
-3. Navigate to `/optimism-plasma-avail/packages/contracts-bedrock/` and the deploy contracts (this can take up to 15 minutes):
+3. Navigate to `/optimism-Alt-DA-Avail/packages/contracts-bedrock/` and the deploy contracts (this can take up to 15 minutes):
    ```bash
    DEPLOYMENT_OUTFILE=deployments/artifact.json \
    DEPLOY_CONFIG_PATH=deploy-config/devnetL1-template.json \
@@ -322,7 +322,7 @@ After configuring the L1 layer, focus shifts to establishing the L2 infrastructu
 1. Navigate to the `op-node` directory:
 
    ```bash
-   cd ~/optimism-plasma-avail/op-node
+   cd ~/optimism-Alt-DA-Avail/op-node
    ```
 
 2. Run the following command, ensuring you replace `<RPC>` with your specific L1 RPC URL. This generates the `genesis.json` and `rollup.json` files:
@@ -452,7 +452,7 @@ In cases of database corruption indicated by `op-node` errors or failure to find
 To launch `op-node`, which acts as a consensus client, run:
 
 ```bash
-cd ~/optimism-plasma-avail/op-node
+cd ~/optimism-Alt-DA-Avail/op-node
 ./bin/op-node \
   --l2=http://localhost:8551 \
   --l2.jwt-secret=./jwt.txt \
@@ -485,7 +485,7 @@ To optimize synchronization and avoid network resource waste:
 `op-batcher` is crucial in publishing transactions from the Sequencer to L1. Ensure it has at least 1 Sepolia ETH for operational continuity.
 
 ```bash
-cd ~/optimism-plasma-avail/op-batcher
+cd ~/optimism-Alt-DA-Avail/op-batcher
 ./bin/op-batcher \
   --l2-eth-rpc=http://localhost:8545 \
   --rollup-rpc=http://localhost:8547 \
@@ -513,7 +513,7 @@ Adjust the `--max-channel-duration=n` setting to balance transaction frequency o
 Finally, start `op-proposer` to propose new state roots:
 
 ```bash
-cd ~/optimism-plasma-avail/op-proposer
+cd ~/optimism-Alt-DA-Avail/op-proposer
 ./bin/op-proposer \
   --poll-interval=12s \
   --rpc.port=9560 \
@@ -530,7 +530,7 @@ To obtain ETH on your Rollup:
 1. Go to `contracts-bedrock`:
 
    ```bash
-   cd ~/optimism-plasma-avail/packages/contracts-bedrock
+   cd ~/optimism-Alt-DA-Avail/packages/contracts-bedrock
    ```
 
 2. Find the L1 standard bridge contract address:
