@@ -16,7 +16,11 @@ Blobs in Avail are stored in a matrix, where any data corresponding to an app id
 
 A special property of KZG commitment is that if, let's say, a polynomial \( P1 \) is constructed using \( N \) points, and if those \( N \) points are erasure coded, the resulting points also lie on the same polynomial. This property of KZG is exploited to create a linkability between the commitment and erasure coding done, hence giving a cryptographic guarantee that erasure coding itself was done correctly. This property makes Avail a validity proof-based design.
 
-## ![How blob is stored and secured using KZG in Avail](./kzg.png)
+<br/>
+<p align="center">
+<img src="/img/kzg.png" width="70%" height="70%"/>
+</p>
+
 
 ### KZG Poly-commit scheme
 

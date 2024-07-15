@@ -1,5 +1,5 @@
 {
   "consensus": "Consensus",
   "eip-4844": "EIP-4844 & Avail",
-  "kzg": "Erasure Coding and KZG Commitment"
+  "kzg": "Erasure Coding and KZG Commitments"
 }
