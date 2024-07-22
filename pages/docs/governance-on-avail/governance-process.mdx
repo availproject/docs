@@ -1,0 +1,100 @@
+import { Steps } from 'nextra/components'
+
+# Governance Process
+
+## Avail Improvement Proposal (AIP)
+
+The Avail Improvement Proposal (AIP) is a standard format for community members to propose changes to the Avail network. 
+
+Anyone can propose changes to the Avail stack, including the consensus and data availability layers, the peer-to-peer layer, and the interface layer that dictates how rollups communicate with Avail.
+
+AIPs are submitted, discussed and moderated on the [Avail Community Forum](https://forum.availproject.org/).
+
+### Creating an AIP
+
+Please create an AIP following the template below:
+
+- **Metadata**: RFC 822 style headers containing metadata about the AIP, a short descriptive title (max. 44 words), a description (max. 140 words), and the author details.
+
+- **Technical Summary**: A short technical summary providing a human-readable version of the specification section. By reading the summary alone, someone should be able to grasp what the proposal entails.
+
+- **Motivation**: A clear explanation of why the existing protocol specification is insufficient.
+
+- **Technical Specification**: The technical specification should describe the syntax and semantics of any new feature. It should include all relevant code, github pull requests (if any) and other details important for execution. The specification should be detailed enough to enable competing, interoperable implementations for Avail.
+
+- **Rationale and Reasoning (Optional)**: The rationale elaborates on the specification by explaining the reasoning behind the design and the choices made during the design process. It could discuss alternative ideas that were considered and link to any related work.
+
+- **Backwards Compatibility (Optional)**: For AIPs introducing backwards incompatibilities, this section must describe these incompatibilities and their consequences. The AIP must explain how the author proposes to handle these incompatibilities. If the proposal does not introduce any backwards incompatibilities, this section can be omitted.
+
+- **Test Cases (Optional)**: AIPs affecting consensus changes require test cases. This section can be omitted for non-core proposals.
+
+- **Security Considerations or Risks**: Please discuss relevant security implications and considerations. This section should provide critical information relating to security, expose potential risks, and be used throughout the proposal's life-cycle. AIPs without a "Security Considerations" section will be rejected.
+
+- **Copyright Waiver**: All AIPs must be in the public domain. The copyright waiver MUST link to the license file and use the following wording: Copyright and related rights waived via CC0.
+
+### Submitting an AIP
+
+Once an AIP has been created, it is submitted by the proposer on the Governance section of the Avail Forum. 
+
+The following statuses will be assigned to monitor the progress of an AIP through the governance process. These status will be added to the AIP entries on the forum:
+
+1. **Proposal under discussion**: Proposals which follow the AIP template and forum guidelines will be open to discussion.
+
+2. **AIP Not Assigned**: An AIP may not be assigned. This is likely to happen when the AIP is too unfocused, broad, a duplication of effort, being technically unsound, not providing proper motivation or addressing backwards compatibility, or not in keeping with Avail's governance values and [community code of conduct](https://forum.availproject.org/faq).
+
+3. **Technical Committee Review**: This status will be assigned by the governance facilitator when the AIP is ready for Technical Committee Review.
+
+> After successful onchain voting by the Technical Committee, the AIP will be queued for execution. 
+
+4. **AIP Executed**: An ATR will be posted by the Technical Committee outlining the final execution specs and timelines for the community to track.
+
+
+#### Other Statuses:
+
+**Stagnant**: Any AIP in review or voting that remains inactive for 6 months or more is moved to Stagnant. Authors or the governance facilitators can resurrect a proposal from this state by moving it back to active. If not resurrected, a proposal may stay forever in this status.
+
+**Withdrawn**: The AIP Author(s) have withdrawn the proposed AIP before the Technical Committee Voting. This state has finality and can no longer be resurrected using this AIP number. If the idea is pursued at a later date, it is considered a new proposal.
+
+**Ongoing**: A special status for AIPs designed to be continually updated and not reach a state of finality. This status caters to dynamic AIPs that require ongoing updates.
+
+## Avail Transparency Report
+
+Avail Transparency Reports (ATR) are simple summaries of upcoming or executed changes made to the Avail Network.
+
+ATRs include:
+
+- The proposed changes
+- Code (where necessary)
+- Potential merits to the network
+- Resources (If any)
+
+ATRs will be posted on the Avail Community Forum under the ATR sub-category in the Governance section. 
+
+> *Given the sensitivity of emergency changes, ATRs will be posted for community transparency on the forum after the changes have been made.*
+
+## Technical Committee
+
+The Technical Committee consists of 7 members which can perform both Emergency and Regular actions. For on-chain actions to be deployed, they must be signed for on-chain by 5/7 Technical Committee members. The Technical Committee will have more members from the community and will introduce voting parameters in the upcoming Governance phases.
+
+The composition of the Technical Committee takes into account several parameters such as member responsiveness, technical competence, social connections, reputation, OpSec practices, geographic diversity and voice from different work streams.
+
+The technical committee members are:
+
+| **Committee Member**     | **Workstream**  | **Address**                                       |
+| ------------------------ | --------------- | --------------------------------------------------|
+| **Anurag**               | Founder         | 5HQrpJz56YGbbrdx2zuHnHswgG4DtDXHXuRdzcHmwWjV6ZCj  | 
+| **Prabal**               | Founder         | 5HpXW1Hf8Y9TQ2nkPXDRJts4TCAhJkSLaSLg3b5PyGSFstce  |
+| **Marko**                | Node management | 5D58at8TNNJTMhk9uSGDC1mMibifh8wBtg7ZA7kbXmYKhnVP  |
+| **Jakub**                | Engineering     | 5G22uXJAhBjsyD4G3faNsrV8hCrbbeQYwq8v9jXQG5uLzNCc  | 
+| **Toufeeq**              | Substrate       | 5CoVaWrZnaV3BSeUJCA8Ca3SPMJDtjT1zPvZkzovkxJU7dkr  |
+| **Piyush**               | Engineering     | 5FWvYmrz6ZupPjG6PMJhm3XPmhf8QLUELUbudH8oEtDwfn2n  |
+| **Palak**                | Strategy        | 5EEwFNeCahA19W99mX3Fedh3q9b9G6MADZzv1myQi2VW6daq  |
+
+### Technical Committee Values
+
+- **Secure**: The safety and security of the users should always be the top priority for the Technical Committee, and its decisions should reflect that commitment.
+- **Transparent**: The Technical Committee is committed to transparency and accountability in its actions and decision-making processes. To this end, Avail Transparency Reports (ATRs) are published on the community forum to inform the community of the Committee's activities and upcoming changes.
+- **Lean**: The goal for the initial phase of community governance is to be agile and easy for the community to understand and participate in.
+- **Fair**: The Committee is responsible for ensuring that all proposals submitted are evaluated fairly and without bias. This is essential to maintaining trust and confidence in the Committee and its decision-making processes whilst keeping social consensus as decentralized as possible.
+
+In addition to upholding these core values, the Technical Committee seeks to work with the community to identify areas for improvement and implement upgrades.
