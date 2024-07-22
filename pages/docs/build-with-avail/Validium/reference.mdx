@@ -70,6 +70,9 @@ Ethereum network it is possible to query for the proof and check the data inclus
 
 When DA transaction is included in the finalized Avail block, it will be bridged via VectorX bridge to the Ethereum network.
 VectorX is a Zero-Knowledge bridge that bridges a batches of data roots every 360 Avail blocks to the Ethereum network.
+Data root is computed in every block using `keccak256` hashing function and it consist of 2 sub-tries,
+blob sub-trie which is a merkle trie of all the DA extrinsics in the block and bridge sub-trie which is a merkle trie of all the bridge extrinsics.
+Final data root is computed hashing sub-trie roots as `keccak256(blobRoot, bridgeRoot)`.
 After successfully bridging the data root to the Ethereum network,
 it is possible to prove that data is available on the Avail network by submitting a Merkle proof to the verification contract.
 Proof is available only when the block in which the transaction is included is committed to the VectorX contract,
