@@ -1,0 +1,61 @@
+
+import { Callout, Steps } from 'nextra/components'
+
+# Bridge AVAIL to Ethereum using the VectorX bridge
+
+## Introduction
+
+The Avail team has been hard at work in partnership with [Succint labs](https://succinct.xyz/)
+to develop a trust-minimized bridge between Avail DA and Ethereum.
+
+> Enter VectorX.
+
+VectorX uses zkSNARKs to enable an efficient and trust-minimized bridge to pass arbitrary messages
+between Avail DA and Ethereum, which enables use cases like token bridging.
+You can read about VectorX in more detail on [Succint's blog](https://blog.succinct.xyz/vector-x/).
+
+This is a non-technical tutorial focussed on actually using the bridge via a convinient web interface built by Avail.
+
+## Using the Bridge
+
+<Steps>
+
+### Go to the official `avail-bridge` UI
+
+Go to [bridge.avail.so/](https://bridge.avail.so/), and then connect an Avail wallet,
+and an EVM wallet to the website.
+
+<Callout type="info">
+Please note that this is required because Avail DA and Ethereum use two different address formats.
+The funds on Ethereum will be claimable only by the EVM address you connect here.
+</Callout>
+<br/>
+<div align="center">
+    <img src="/img/bridge-ui/ui.png" width="80%" height="80%"/>
+</div>
+
+### Initiate the bridging, and wait!
+
+Bridging AVAIL from Avail DA to Ethereum typically takes 1-2 hours.
+You can check the `Transactions` tab in the UI to see the status of your transaction.
+Wait for the transaction status to change to `Claim Ready`.
+<br/>
+<div align="center">
+        <img src="/img/bridge-ui/claim-ready.png" width="80%" height="80%"/>
+</div>
+
+### Claim your funds
+
+You will need to manually claim `AVAIL` on Ethereum with the same EVM address you connected earlier. used in `step 1`.
+Click on `Claim Ready` and approve the transaction in your wallet.
+Your AVAIL tokens on Ethereum mainnet will then be transferred to your account.
+<br/>
+<div align="center">
+        <img src="/img/bridge-ui/previous-history.png" width="80%" height="80%"/>
+</div>
+
+</Steps>
+
+<Callout type="info">
+This exact process can be reversed to bridge AVAIL from Ethereum to Avail DA.
+</Callout>
