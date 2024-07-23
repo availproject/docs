@@ -31,7 +31,7 @@ Before trying anything, make sure that you fully read the chapter first before d
 
 ## Installation & Setup
 
-Our first step is to obtain the prebuilt binary for Avail Node. [We offer a wide range of prebuilds](https://github.com/availproject/avail/releases/tag/v2.2.3.0-rc1), but in case you don't see your Linux flavor or architecture here, head to the FAQ chapter to learn how to build your own executable.
+Our first step is to obtain the prebuilt binary for Avail Node. [We offer a wide range of prebuilds](https://github.com/availproject/avail/releases/tag/v2.2.4.1), but in case you don't see your Linux flavor or architecture here, head to the FAQ chapter to learn how to build your own executable.
 
 Once you have found your OS (or picked the generic one), execute the given command to obtain the needed Avail Node binary.
 
@@ -50,7 +50,7 @@ With the binary ready in our working directory, it's time to run it and see what
 Output:
 
 ```
-Error: Input("Please specify which chain you want to run, e.g. --chain turing")
+Error: Input("Please specify which chain you want to run, e.g. --chain mainnet")
 ```
 
 Yikes, an error. This is okay; by default, our node doesn't know which chain (network) it should connect to. To fix this, we will provide one, but not the recommended one, not yet.
@@ -279,7 +279,7 @@ With all this preliminary knowledge ready to be used, we can now finally take th
 Before running our node, ensure that our storage folder is removed or empty, and that we don't have any previous nodes already running. With that said, let's finally do what we've been waiting for since the beginning:
 
 ```bash
-./avail-node --chain turing --name KingMagnifico --validator -d ./node-data
+./avail-node --chain mainnet --name KingMagnifico --validator -d ./node-data
 ```
 
 Output:
