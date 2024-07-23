@@ -109,9 +109,9 @@ Please note that the Avail node underwent major breaking changes while making up
 </Callout>
 
 ```bash
-# Obtaning v2.2.3.0-rc1 for Ubuntu 22.04
+# Obtaning 2.2.4.1 for Ubuntu 22.04
 # wget is a command-line utility for downloading files from the internet.
-wget https://github.com/availproject/avail/releases/download/v2.2.3.0-rc1/x86_64-ubuntu-2204-avail-node.tar.gz
+wget https://github.com/availproject/avail/releases/download/v2.2.4.1/x86_64-ubuntu-2204-avail-node.tar.gz
 
 # tar is a command-line utility for working with tarballs, compressed or uncompressed archives containing one or more files or directories.
 # The -x option extracts files from an archive, and the -f option specifies the archive file. When used together as tar -xf, it removes the contents of the specified archive file.
@@ -167,7 +167,7 @@ Description=Avail Node
 
 [Service]
 Type=simple
-ExecStart=/root/avail/avail-node --chain turing --name {your-name-here} --validator -d /avail/node-data
+ExecStart=/root/avail/avail-node --chain mainnet --name {your-name-here} --validator -d /avail/node-data
 Restart=always
 RestartSec=3
 StandardOutput=syslog
@@ -266,16 +266,16 @@ To read more about SELinux, check the [following page](https://www.redhat.com/en
 
 ```bash
 # Option 1: If you are using Docker with non-root user use this script
-sudo docker run --restart=on-failure -d -v /root/avail/node-data:/da/node-data -p 9944:9944 -p 30333:30333 docker.io/availj/avail:v1.8.0.3 --chain turing -d /da/node-data --validator --name MyAwesomeContainerNode
+sudo docker run --restart=on-failure -d -v /root/avail/node-data:/da/node-data -p 9944:9944 -p 30333:30333 docker.io/availj/avail:v1.8.0.3 --chain mainnet -d /da/node-data --validator --name MyAwesomeContainerNode
 
 # Option 2: If you are using Docker on SELinux use this script
-docker run --restart=on-failure -d -v /root/avail/node-data:/da/node-data:z -p 9944 -p 30333 docker.io/availj/avail:v1.8.0.3 --chain turing -d /da/node-data --validator --name MyAwesomeContainerNode
+docker run --restart=on-failure -d -v /root/avail/node-data:/da/node-data:z -p 9944 -p 30333 docker.io/availj/avail:v1.8.0.3 --chain mainnet -d /da/node-data --validator --name MyAwesomeContainerNode
 
 # Option 3: If you are using Podman use this script
-podman run -d -v /root/avail/node-data:/da/node-data -p 9944 -p 30333 docker.io/availj/avail:v1.8.0.3 --chain turing -d /da/node-data --validator --name MyAwesomeContainerNode
+podman run -d -v /root/avail/node-data:/da/node-data -p 9944 -p 30333 docker.io/availj/avail:v1.8.0.3 --chain mainnet -d /da/node-data --validator --name MyAwesomeContainerNode
 
 # Option 4: If you are using Podman on SELinux use this script
-podman run -d -v /root/avail/node-data:/da/node-data:z -p 9944 -p 30333 docker.io/availj/avail:v1.8.0.3 --chain turing -d /da/node-data --validator --name MyAwesomeContainerNode
+podman run -d -v /root/avail/node-data:/da/node-data:z -p 9944 -p 30333 docker.io/availj/avail:v1.8.0.3 --chain mainnet -d /da/node-data --validator --name MyAwesomeContainerNode
 ```
 
 <Callout type="info">
