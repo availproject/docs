@@ -1,6 +1,7 @@
 {
     "introduction-to-avail": "Introduction to Avail",
     "the-avail-token": "The AVAIL Token",
+    "governance-on-avail": "Avail Governance V1",
     "clash-of-nodes": {
         "display": "hidden"
     },
@@ -8,7 +9,7 @@
     "learn-about-avail": "Learn more about Avail",
     "end-user-guide": "End User Guide",
     "stake-on-avail": "Stake on Avail",
-    "build-with-avail": "Build on Avail",
+    "build-with-avail": "Build with Avail",
     "operate-a-node": "Run a Node on Avail",
     "glossary": "Glossary",
     "faqs": "FAQs",
