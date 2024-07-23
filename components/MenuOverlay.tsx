@@ -21,7 +21,7 @@ export const MenuOverlay:FC<MenuOverlayProps> = ({routes, overlayHandler}) => {
     return (
         <div className={menuOverlayStyle.overlay}>
             <div className={menuOverlayStyle.close}>
-                <img src={"/avail_logo.png"} alt="avail logo" />
+                <img src={"/avail_logo_new.png"} alt="avail logo" />
                 <img src={"/hamburger.png"} alt="close navbar" onClick={overlayHandler}/>
             </div>
             <ul>
