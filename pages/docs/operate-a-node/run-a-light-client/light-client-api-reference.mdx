@@ -662,7 +662,7 @@ async fn main() {
 {
   "modes":["light"],
   "genesis_hash":"0x6f09966420b2608d1947ccfb0f2a362450d1fc7fd902c29b67c906eaa965a7ae",
-  "network":"wss://goldberg.avail.tools:443/ws/1.11.0-38304bb5126/data-avail/22",
+  "network":"wss://goldberg.avail.tools:443/ws/1.11.1-38304bb5126/data-avail/22",
   "blocks":{
     "latest":572269,
     "available":{
@@ -980,7 +980,7 @@ for an account that has some `AVAIL` tokens. You can learn how to do that [here]
 look something like this:
 
 ```sh
-curl -sL1 avail.sh | bash -s -- --app_id 1 --identity identity.toml --network goldberg
+curl -sL1 avail.sh | bash -s -- --app_id 1 --identity identity.toml --network mainnet
 ```
 </Callout>
 
@@ -1269,7 +1269,7 @@ Request current Avail Light Client status data.
 *Sample Response:*
 
 ```json
-{"topic":"status","request_id":"4a482bb0-3c22-475d-a2b8-af1c27aa2636","message":{"modes":["light","app"],"app_id":1,"genesis_hash":"0x6f09966420b2608d1947ccfb0f2a362450d1fc7fd902c29b67c906eaa965a7ae","network":"wss://goldberg.avail.tools:443/ws/1.11.0-38304bb5126/data-avail/22","blocks":{"latest":597705,"available":{"first":596467,"last":597704},"app_data":{"first":596467,"last":597704}}}}
+{"topic":"status","request_id":"4a482bb0-3c22-475d-a2b8-af1c27aa2636","message":{"modes":["light","app"],"app_id":1,"genesis_hash":"0x6f09966420b2608d1947ccfb0f2a362450d1fc7fd902c29b67c906eaa965a7ae","network":"wss://goldberg.avail.tools:443/ws/1.11.1-38304bb5126/data-avail/22","blocks":{"latest":597705,"available":{"first":596467,"last":597704},"app_data":{"first":596467,"last":597704}}}}
 ```
 
 ### v2/ws/submit

@@ -1,3 +1,5 @@
+import { Callout } from 'nextra/components'
+
 # Stake on Avail
 
 ## Introduction
@@ -12,6 +14,7 @@ Validators are responsible for producing and validating blocks, and their perfor
 directly impacts the network's reliability.
 
 This guide will walk you through the process of nominating and managing your stake, while also providing insights into Avail nomination dynamics.
+
 
 ## Different tools to stake on Avail
 
@@ -42,3 +45,14 @@ to significant changes on the Avail Mainnet. However does provides valuable insi
 - **Minimum Nominated**: This value is dynamic, recalculated every era based on the total staked percentage. As more stake enters the network, this value increases. To earn rewards, stakers must ensure their stake surpasses this minimum nominated threshold.
 
 If your stake amount is significantly larger than the threshold and minimum nominated amounts you can stake directly. If your stake is smaller, slightly above these values and you do not want to keep checking your stake it is then recommended to join a Nomination Pool
+
+## Staking Reward Payout Lifecycle
+
+If you have staked your AVAIL in the network, you will only start earning rewards in the **next** [era](/docs/glossary#era), and not in the era you staked in. The stake is used to increase the number of tokens held by your nominated validators, increasing their chance of being selected by the election algorithm for block production during a specific era. An era is a period of 24 hours during which an active set of validators is producing blocks and performing other actions on the chain. Hence your stake only becomes active in the next era after which you've staked.
+
+Here is the lifecycle of your stake when you stake in _Era N_:
+
+- **Era N**: Stake is placed
+- **Era N+1**: Stake becomes active
+- **Era N+2**: Rewards start accruing
+- **Era N+3**: First rewards payout
