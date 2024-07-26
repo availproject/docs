@@ -35,16 +35,21 @@ This guide is based on [Arbitrum Orbit Quickstart](https://docs.arbitrum.io/laun
     ```
     
 ### Step-2: Create `.env` file
-    Create a copy of `.env.sample` as `.env` file and Set Rollup Creator Address at `ROLLUP_CREATOR_ADDRESS` and Private key of well funded ArbSepolia accout in `DEVNET_PRIVKEY`
+    Create a copy of `.env.sample` as `.env` file and edit the following:
     
+    - Set Rollup Creator Address `0xADCBE5c221566FA6e6Ebf5BA08759c83177DfCDA` at `ROLLUP_CREATOR_ADDRESS` 
     ```bash
     ROLLUP_CREATOR_ADDRESS="0xADCBE5c221566FA6e6Ebf5BA08759c83177DfCDA"
+    ```
+
+    - Add the private key of a well funded ArbSepolia account in `DEVNET_PRIVKEY`
+    ```bash
     DEVNET_PRIVKEY="<--Private-key-->"
     ```
     
 ### Step-3: Create `.script/config.ts` file
   
-  Create a copy of `scripts/config.ts.example` as  `scripts/config.ts` and set this config file with required configurations where `wasmModuleRoot` must be this based on your cpu arch
+  Create a copy of `scripts/config.ts.example` as  `scripts/config.ts` and set this config file with required configurations where `wasmModuleRoot` must be this based on your CPU architecture.
     
     ```jsx
     // for amd64
@@ -52,6 +57,13 @@ This guide is based on [Arbitrum Orbit Quickstart](https://docs.arbitrum.io/laun
     // for arm64
     wasmModuleRoot:'0x1cc4dd8f036f93e37b6c9fa4edfbefaf19cf893558e9358ad41ccb3804684092'
     ```
+<Callout emoji="⚠️" type="info">
+If you're not sure what CPU architecture you're using, you can find it by entering the following in your terminal:
+```bash
+  uname -m
+```
+</Callout>
+
 
     ```jsx
     config = {
@@ -84,7 +96,11 @@ This guide is based on [Arbitrum Orbit Quickstart](https://docs.arbitrum.io/laun
 
     ```
 
-  The below table provides a brief description of each of these configuration parameters. We recommend sticking to the defaults; to learn more about customizing your Orbit chain's deployment configuration, visit [**How (and when) to customize your Orbit chain's deployment config**](https://docs.arbitrum.io/launch-orbit-chain/how-tos/customize-deployment-configuration):
+  The below table provides a brief description of each of these configuration parameters.
+  
+   **We recommend sticking to the defaults (the config provided above)**.
+  
+  To learn more about customizing your Orbit chain's deployment configuration, visit [**How (and when) to customize your Orbit chain's deployment config**](https://docs.arbitrum.io/launch-orbit-chain/how-tos/customize-deployment-configuration):
 
   | Parameter | Description |
   | --- | --- |
@@ -250,3 +266,23 @@ Your Orbit chain's base contracts are responsible for facilitating the exchange 
 # Hurray!
 
 **Congratulations,** Your local Orbit chain with Avail DA is now running.
+
+#### Appendix A: Logging
+Run this command in the root directory of your orbit setup script repo to view your chain's logs:
+```bash
+docker-compose logs -f nitro
+```
+
+#### Appendix B: Depositing ETH/native token
+If you need to deposit more ETH (or native tokens) into your Orbit chain account, run this command on the base directory of the setup script, replacing `0xYourPrivateKey` with the private key of the originating account, and `<AMOUNT>` with the amount to send:
+
+Using Arbitrum Sepolia:
+```bash
+PRIVATE_KEY="0xYourPrivateKey" L2_RPC_URL="https://sepolia-rollup.arbitrum.io/rpc" L3_RPC_URL="http://localhost:8449"
+AMOUNT="<AMOUNT>" yarn run deposit
+```
+
+#### Appendix C: Troubleshooting
+You may see error getting latest batch count in your node's output logs (from Appendix A). This is usually safe to ignore. It's usually displayed when your Orbit chain's base contract deployment isn't yet finalized on the L1 chain. This finalization can take 15-20 minutes, but don't worry - the deployment doesn't need to be L1-finalized in order for your chain to function properly.
+
+Learn more about customizing and using your Orbit chain from the [Arbitrum Orbit Docs](https://docs.arbitrum.io/launch-orbit-chain/orbit-gentle-introduction). 
