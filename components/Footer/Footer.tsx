@@ -117,18 +117,55 @@ export const Footer = () => {
             subLinks:[
                 {
                     id:1,
-                    label:'About Us',
-                    link:"https://www.availproject.org/ecosystem"
+                    label:'About',
+                    isInternal:true,
+                    link:ROUTES.ECOSYSTEM
                 },
                 {
                     id:2,
-                    label:'Blog',
-                    link:ROUTES.BLOG
+                    label:'Team',
+                    inActive:true,
+                    link:ROUTES.DEVELOPERS
                 },
                 {
                     id:3,
                     label:'Careers',
-                    link:"https://wellfound.com/company/avail-6/jobs"
+                    link:ROUTES.CAREERS
+                },
+                {
+                    id:4,
+                    label:'Partners',
+                    inActive:true,
+                    link:ROUTES.HOMEPAGE
+                },
+                {
+                    id:5,
+                    label:'Community',
+                    link:ROUTES.COMMUNITY
+                },
+                {
+                    id:6,
+                    label:'Privacy Policy',
+                    isInternal:true,
+                    link:'https://avail-project.notion.site/Privacy-Policy-e5f47df2f3a64055a7966bbaabe9a2eb'
+                },
+                {
+                    id:7,
+                    label:'Terms',
+                    isInternal:true,
+                    link:"https://avail-project.notion.site/"
+                },
+                {
+                    id:8,
+                    label:'Brand Assets',
+                    isInternal:true,
+                    link:"/brand"
+                },
+                {
+                    id:8,
+                    label:'Forum',
+                    isInternal:true,
+                    link:"https://forum.availproject.org/"
                 }
             ]
         },
