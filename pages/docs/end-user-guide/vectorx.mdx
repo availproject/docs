@@ -16,6 +16,41 @@ You can read about VectorX in more detail on [Succinct's blog](https://blog.succ
 
 This is a non-technical tutorial focussed on actually using the bridge via a convinient web interface built by Avail.
 
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+     <summary>Frequently Asked Questions (FAQs)</summary>
+
+1. Will my bridged tokens automatically appear in my wallet on the other side?
+        - No.<br/>
+        Your funds will take a couple of hours to bridge, following which you need to go to the bridge UI once again and manually
+        claim your AVAIL tokens on the other side.
+
+2. Which chain should I claim from?
+        - The Avail bridge UI currently only supports bridging AVAIL tokens between Avail DA and Ethereum.
+        If you initiate the bridging process from Avail DA and want to claim your AVAIL tokens on Ethereum, you need to go to `Transactions` tab and claim AVAIL by
+        making sure your EVM wallet is connected to **Ethereum mainnet**, and clicking the `Claim Ready` button.
+        Conversely, if you initiate the bridging process from Ethereum and want to claim your AVAIL tokens on Avail DA, 
+        make sure your Avail wallet is connected to **Avail DA mainnet**, and click the `Claim Ready` button.
+
+3. I am not able to claim tokens even though a lot of time has passed?
+        - Please note that while users may be facing some bugs in the bridge UI, user funds are 100% safe will
+        be claimable soon. We are working on brushing up the UI and will fix all the bugs soon.
+
+4. Will I need funds on the chain where I am claiming my tokens?
+        - Yes, since you're effectively executing a transaction on the chain where you're claiming your tokens.
+        This means if you're bridging from Avail DA to Ethereum, you will need some ETH on Ethereum mainnet.
+        On the other hand, if you're bridging from Ethereum to Avail DA, you will need some AVAIL on Avail DA mainnet.
+
+5. What if I have submitted a `claim` transaction on the wrong network?
+        - We have received some reports of an edge-case where it is possible for users to sign the claim transaction
+        on an EVM network like `Avalanche` through our UI. Please note that this is a bug, and users should
+        only sign transactions on Avail DA or Ethereum mainnet.
+        If you have signed a transaction on the wrong network, you might need to clear the bridge UI's cache data
+        in your browser.
+        You can find instructions on how to clear cache for a particular website [in this blog](https://support.breezechms.com/hc/en-us/articles/4402756658839-Google-Chrome-Clearing-Cache-and-Cookies-for-Specific-Sites).
+
+</details>
+
 ## Using the Bridge
 
 <Callout type="warning">
