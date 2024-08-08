@@ -18,7 +18,7 @@ This guide is based on [Arbitrum Orbit Quickstart](https://docs.arbitrum.io/laun
 ### Step-1: Download the [avail-nitro-node](https://hub.docker.com/repository/docker/availrishabh/avail-nitro-node-dev/tags) image from docker hub
     
     ```bash
-    docker pull availrishabh/avail-nitro-node-dev:v2.3.1
+    docker pull availj/avail-nitro-node:v1.0.0-upstream-v2.3.1
     ```
     
 
@@ -29,7 +29,7 @@ This guide is based on [Arbitrum Orbit Quickstart](https://docs.arbitrum.io/laun
     ```bash
     git clone https://github.com/availproject/nitro-contracts.git
     cd nitro-contracts
-    git checkout avail-develop-v2.3.1
+    git checkout deprecated-avail-nitro-contracts-v1.2.1
     yarn install
     yarn build
     ```
@@ -53,9 +53,9 @@ This guide is based on [Arbitrum Orbit Quickstart](https://docs.arbitrum.io/laun
     
     ```jsx
     // for amd64
-    wasmModuleRoot:'0xba5ff5ddc46b5c63fa02168819b8e236fa18b4b551f20eba378e3543477298bf'
+    wasmModuleRoot:'0xc3d6717b86468b20ed2d74fa4484571b51595d56294d154b0fac19d55b599e09'
     // for arm64
-    wasmModuleRoot:'0x1cc4dd8f036f93e37b6c9fa4edfbefaf19cf893558e9358ad41ccb3804684092'
+    wasmModuleRoot:'0x30d81f66d40dbb88484524cbce0982ee9adee944d9416c283313560efd5af958'
     ```
 <Callout emoji="⚠️" type="info">
 If you're not sure what CPU architecture you're using, you can find it by entering the following in your terminal:
@@ -73,7 +73,7 @@ If you're not sure what CPU architecture you're using, you can find it by enteri
       stakeToken: ethers.constants.AddressZero,
       baseStake: ethers.utils.parseEther('0.0001'),
       wasmModuleRoot:
-        '0x1cc4dd8f036f93e37b6c9fa4edfbefaf19cf893558e9358ad41ccb3804684092',
+        '0x30d81f66d40dbb88484524cbce0982ee9adee944d9416c283313560efd5af958',
       owner: '0x1234123412341234123412341234123412341234',
       loserStakeEscrow: ethers.constants.AddressZero,
       chainId: ethers.BigNumber.from('20121999'),
@@ -248,7 +248,7 @@ Your Orbit chain's base contracts are responsible for facilitating the exchange 
     ```json
     ...
     nitro:
-      image: avail-nitro-node-dev:v2.3.1
+      image: availj/avail-nitro-node:v1.0.0-upstream-v2.3.1
       ports:
     ...
     ```
