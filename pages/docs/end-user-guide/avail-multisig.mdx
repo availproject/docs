@@ -1,0 +1,116 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Set up a multisig wallet on Avail DA
+
+You can use the [avail-apps](https://explorer.avail.so/#/accounts) explorer to set up and start using a multisig wallet on Avail DA.
+This guide will show you how to do so.
+
+<Callout type="info">  
+**PREReQUISITES** <br/>
+The only prerequisite is that you have access to two or more Avail DA accounts.
+Refer to our docs on [setting up an Avail wallet](/docs/end-user-guide/accounts) for moredetails if needed
+</Callout>
+
+
+## Create a multisig wallet on Avail DA
+
+<Steps>
+
+### Start setting up the multisig
+
+Go to [avail-apps](https://explorer.avail.so/#/accounts), and click on `Multisig`. This will give you a UI interface
+that will allow you to configure your multisig wallet.
+<br/>
+<img src="/img/multisig/multisig-pic-1.png" width="100%" height="100%" />
+
+<Callout type="info">
+DOUBLE CHECK<br/>
+Please note that a multisig account created on one network won't be created automatically on another. This
+tutorial is based on he Turing testnet, but will work just as well for Avail DA mainnet too.
+</Callout>
+
+### configure the multisig
+
+1. Select all the signatories you want to include in the multisig wallet.
+2. Select the `threshold` value for the multisig. It represents the minimum number of addresses that need to approve a transaction
+for it to be executed. A `threshold` value of `2` in our case would mean that any `2` of the `3` signatories can perform
+a transaction from the multisig.
+3. Choose an appropriate name for the multisig.
+4. Click on `Create`.
+<br/>
+<img src="/img/multisig/multisig-pic-2.png" width="100%" height="100%" />
+
+</Steps>
+
+<Callout type="info">
+The next steps will take you through using your multisig wallet for the first time. Please send some tokens to
+the multisig's address before proceeding.
+</Callout>
+
+## Use a multisig wallet on Avail DA
+
+<Steps>
+
+### Create a transaction to transfer funds
+
+You should now be able to see your new multisig account created under a seperate category on the
+[accounts page](https://explorer.avail.so/#/accounts). Click on `send` to start creating a new transaction.
+Enter the recipient and the amount to transfer, and click on `Make Transfer`.
+
+<br/>
+<img src="/img/multisig/multisig-pic-3.png" width="100%" height="100%" />
+
+### Sign and submit the transaction
+
+You will now be able to sign a `balances.transferKeepAlive` transaction from the multisig account.
+This extrinsic allows you to transfer funds from one account to another.
+
+1. A transaction for a multisig can only be created via an approved signatory. Choose one from the `multisig signatory`
+dropdown.
+
+<Callout type="warning">
+PLEASE NOTE<br/>
+You can only sign a transaction for the multisig from the signatory accounts you have access to.
+If you don't have access to an authorised signatory, you can't create, approve, or reject a transaction
+for the multisig.
+</Callout>
+
+2. Copy the hexadecimal value of the `multisig call data`. This value will be needed later on.
+
+3. Make sure that the `sign and submit` on the bottom-left option is checked. Finally, click on the `Sign and Submit`
+button on the bottom right.
+
+<br/>
+<img src="/img/multisig/multisig-pic-4.png" width="100%" height="100%" />
+
+### Execute the transaction
+
+You will now see a pink icon next to your multisig wallet that indicates a pending transaction. Click on 'View Pending Transactions'
+to take a look.
+
+<br/>
+<img src="/img/multisig/multisig-pic-7-1.png" width="100%" height="100%" />
+
+
+1. Our `threshold` value was set at `2`, and we already have one approval in form of the signatory that originally created
+the transaction.
+
+2. Thus, an approval by just one more authorised signatory will execute the transaction that will
+transfer <br/>`10 AVAIL` to the recipient.
+
+3. Paste the `multisig call data` you copied in the second step into the empty column.
+
+4. Click on `Approve`.
+
+<br/>
+<img src="/img/multisig/multisig-pic-7-2.png" width="100%" height="100%" />
+
+5. Click on `Sign and Submit`.
+
+<br/>
+<img src="/img/multisig/multisig-pic-7.png" width="100%" height="100%" />
+
+6. Depending on how you have connected the signatory account to the `avail-apps` UI (ledger seed phrase, wallet extension),
+you might have different transaction approval interfaces. But once you approve it, funds should be successfully transferred from the multisig wallet.
+
+</Steps>
