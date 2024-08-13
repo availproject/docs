@@ -84,9 +84,9 @@ a transaction from the multisig.
 **BUT WHAT OF OTHER SIGNATORIES?**<br/>
 An obvious question that pops up is how will other signatories import the multisig wallet into the avail-apps
 explorer on their own machine?<br/>
-Due to the way the `multisig` pallet works on Avail DA, a multisig derived from the same set of addresses
+Due to the way the `multisig` pallet works on Avail DA, a multisig derived from the same set of addresses and the same `threshold` value
 will always have the same address.
-Thus, all signatories can simply create a multisig on their machine with addresses of all the other signatories to derive the same '*multisig address*'.
+Thus, all signatories can simply create a multisig on their machine with addresses of all the other signatories along with a constant `threshold value` to derive the same '*multisig address*'.
 Alternatively, a single json file with all signatories can be created and shared among all signatories.
 </Callout>
 
