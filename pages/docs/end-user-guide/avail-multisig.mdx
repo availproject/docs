@@ -1,0 +1,213 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Set up a multisig wallet on Avail DA
+
+You can use the [avail-apps](https://explorer.avail.so/#/accounts) explorer to set up and start using a multisig wallet on Avail DA.
+This guide will show you how to do so.
+
+<Callout type="info">  
+**PREREQUISITES** <br/>
+The only prerequisite is that you have access to one or more Avail DA accounts.
+Refer to our docs on [setting up an Avail wallet](/docs/end-user-guide/accounts) for more details if needed
+</Callout>
+
+
+## Create a multisig wallet on Avail DA
+
+<Steps>
+
+### Import the signatory accounts
+
+You need to import into the explorer all the accounts you want added as signatories to the multisig.
+
+There are two ways to do this:
+
+<Tabs items={['Via address book', 'Import a json file']}>
+
+<Tabs.Tab>
+1. Go to the [`addresses`](https://explorer.avail.so/#/addresses) page of the explorer.
+2. Click on `Add contact` and save any addresses you want.
+</Tabs.Tab>
+
+<Tabs.Tab>
+1. Create a json file with all the Avail DA addresses you want to import.
+The syntax is as follows:
+
+```json
+[
+    "add1",
+    "add2",
+    "add3"
+]
+```
+
+2. Save the file. This will be of use later.
+
+<Callout type="info">
+This method is suitable if you have a large number of addresses to import.
+</Callout>
+
+</Tabs.Tab>
+
+</Tabs>
+
+### Start setting up the multisig
+
+Go to the [accounts page of the avail-apps explorer](https://explorer.avail.so/#/accounts), and click on `Multisig`. This will give you a UI interface
+that will allow you to configure your multisig wallet.
+<br/>
+<img src="/img/multisig/multisig-pic-1.png" width="100%" height="100%" />
+
+<Callout type="info">
+DOUBLE CHECK<br/>
+Please note that a multisig account created on one network won't be created automatically on another. This
+tutorial is based on he Turing testnet, but will work just as well for Avail DA mainnet too.
+</Callout>
+
+### Configure the multisig
+
+1. Select all the signatories you want to include in the multisig wallet.
+You can do so either by:
+    - Importing addresses from your address book, or,
+    - by uploading the json file outlined in `step 1`.
+2. Select the `threshold` value for the multisig. It represents the minimum number of addresses that need to approve a transaction
+for it to be executed. A `threshold` value of `2` in our case would mean that any `2` of the `3` signatories can perform
+a transaction from the multisig.
+3. Choose an appropriate name for the multisig.
+4. Click on `Create`.
+<br/>
+<img src="/img/multisig/multisig-pic-2.png" width="100%" height="100%" />
+
+</Steps>
+
+<Callout type="info">
+**BUT WHAT OF OTHER SIGNATORIES?**<br/>
+An obvious question that pops up is how will other signatories import the multisig wallet into the avail-apps
+explorer on their own machine?<br/>
+Due to the way the `multisig` pallet works on Avail DA, a multisig derived from the same set of addresses and the same `threshold` value
+will always have the same address.
+Thus, all signatories can simply create a multisig on their machine with addresses of all the other signatories along with a constant `threshold value` to derive the same '*multisig address*'.
+Alternatively, a single json file with all signatories can be created and shared among all signatories.
+</Callout>
+
+<Callout type="info">
+The next steps will take you through using your multisig wallet for the first time. Please send some tokens to
+the multisig's address before proceeding.
+</Callout>
+
+## Use a multisig wallet on Avail DA
+
+<Steps>
+
+### Create a transaction to transfer funds
+
+You should now be able to see your new multisig account created under a seperate category on the
+[accounts page](https://explorer.avail.so/#/accounts). Click on `send` to start creating a new transaction.
+Enter the recipient and the amount to transfer, and click on `Make Transfer`.
+
+<br/>
+<img src="/img/multisig/multisig-pic-3.png" width="100%" height="100%" />
+
+### Sign and submit the transaction
+
+You will now be able to sign a `balances.transferKeepAlive` transaction from the multisig account.
+This extrinsic allows you to transfer funds from one account to another.
+
+1. A transaction for a multisig can only be created via an approved signatory. Choose one from the `multisig signatory`
+dropdown.
+
+<Callout type="warning">
+PLEASE NOTE<br/>
+You can only sign a transaction for the multisig from the signatory accounts you have access to.
+If you don't have access to an authorised signatory, you can't create, approve, or reject a transaction
+for the multisig.
+</Callout>
+
+2. Copy the hexadecimal value of the `multisig call data`. This value will be needed later on.
+
+3. Make sure that the `sign and submit` on the bottom-left option is checked. Finally, click on the `Sign and Submit`
+button on the bottom right.
+
+<br/>
+<img src="/img/multisig/multisig-pic-4.png" width="100%" height="100%" />
+
+### Approve and/or execute the transaction
+
+Now that a transaction has been created, other signatories have the choice to either:
+
+1. Approve the transaction, or,
+2. Reject the transaction.
+
+
+You will see a pink icon next to your multisig wallet that indicates a pending transaction. Click on 'View Pending Transactions' to take a look.
+Click on `approval type` to simply approve or reject the transaction.
+
+<br/>
+<img src="/img/multisig/multisig-pic-7-1.png" width="100%" height="100%" />
+
+
+1. Our `threshold` value was set at `2`, and we already have one approval in form of the signatory that originally created
+the transaction.
+
+2. Thus, an approval by just one more authorised signatory will execute the transaction that will
+transfer <br/>`10 AVAIL` to the recipient.
+
+But what if you simply want to approve the transaction without executing it? Avail DA's multisig implementation
+allows for this functionality too.
+Let us say you are the final signatory whose approval will mean the transaction has enough approvals
+to beexecuted.<br/>
+But you don't want to execute the transaction just yet. 
+
+*You only want to approve it, and let some other signatory execute it later on.*
+
+<Tabs items={['Approve', 'Approve and Execute']}>
+
+<Tabs.Tab>
+
+1. If a signatory wants to approve the transaction without executing it, they don't need the `multisig call data` value.
+
+2. Make sure the `multisig message with call` button is unchecked, and click on `Approve`.
+
+3. Then, click on `Sign and Submit` and execute the transaction.
+
+<br/>
+<img src="/img/multisig/multisig-pic-7-1-1.png" width="100%" height="100%" />
+
+<Callout type="info">
+**POINTS TO NOTE**<br/>
+1. After the `threshold` value of minimum number of approvals has been met, any signatory can execute the transaction.
+2. You cannot execute the transaction without the `multisig call data` value.
+</Callout>
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+3. Paste the `multisig call data` you copied in the second step into the empty column.
+
+4. Click on `Approve`.
+
+<br/>
+<img src="/img/multisig/multisig-pic-7-2.png" width="100%" height="100%" />
+
+5. Click on `Sign and Submit`.
+
+<br/>
+<img src="/img/multisig/multisig-pic-7.png" width="100%" height="100%" />
+
+6. Depending on how you have connected the signatory account to the `avail-apps` UI (ledger seed phrase, wallet extension),
+you might have different transaction approval interfaces. But once you approve it, funds should be successfully transferred from the multisig wallet.
+
+<Callout type="info">
+Needless to say, you will, as a signatory, be able to execute the transaction only if you are the last signatory required to meet the `threshold` value.
+</Callout>
+
+</Tabs.Tab>
+</Tabs>
+
+</Steps>
+{/* 
+## 2nd way to use a multisig wallet on Avail DA (for advanced users)
+
+Let us go through the same process as before, i.e., executing a transaction from our multisig wallet
+to transfer funds, but using the `extrinsics` tab instead. */}
