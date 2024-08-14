@@ -1,0 +1,4 @@
+{
+    "chain_getBlockHash": "chain_getBlockHash",
+    "da_submit_data": "da_submit_data"
+}
