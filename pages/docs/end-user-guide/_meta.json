@@ -5,6 +5,8 @@
     "identity": "Set your Identity",
     "app-id": "Generate an AppID",
     "balance-transfers": "Balance Transfers",
-    "avail-snap": "Use Avail DA with Metamask"
-    "ledger-avail": "How to use a ledger wallet on Avail DA"
+    "vectorx": "Bridge AVAIL to Ethereum",
+    "ledger-avail": "Use a ledger wallet on Avail DA",
+    "avail-snap": "Use Avail DA with Metamask",
+    "avail-multisig": "Set up a multisig wallet on Avail DA"
 }
