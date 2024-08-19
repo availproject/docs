@@ -1,0 +1,126 @@
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# v2/status
+
+Gets current status and active modes of the light client.
+
+*Params*:
+- None
+
+*Response*:
+- **modes** - active modes
+- **app_id** - if **app** mode is active, this field contains configured application ID
+- **genesis_hash** - genesis hash of the network to which the light client is connected
+- **network** - network host, version and spec version light client is currently con
+- **blocks** - state of processed blocks
+- **partition** - if configured, displays partition which light client distributes to the peer to peer network
+
+#### Modes
+
+- **light** - data availability sampling mode, the light client performs random sampling and calculates confidence
+- **app** - light client fetches, verifies, and stores application-related data
+- **partition** - light client fetches configured block partition and publishes it to the DHT
+
+#### Blocks
+
+- **latest** - block number of the latest [finalized](https://docs.substrate.io/learn/consensus/) block received from the node
+- **available** - range of blocks with verified data availability (configured confidence has been achieved)
+- **app_data** - range of blocks with app data retrieved and verified
+- **historical_sync** - state for historical blocks syncing up to configured block (ommited if historical sync is not configured)
+
+#### Historical sync
+
+- **synced** - `true` if there are no historical blocks left to sync
+- **available** - range of historical blocks with verified data availability (configured confidence has been achieved)
+- **app_data** - range of historical blocks with app data retrieved and verified
+
+<Tabs items={['CURL', 'Rust']}>
+
+<Tabs.Tab>
+```sh
+curl "http://127.0.0.1:7000/v2/status"
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```rust
+use reqwest::StatusCode;
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Serialize, Deserialize)]
+struct StatusResponse {
+    modes: Vec<String>,
+    app_id: Option<u32>,
+    genesis_hash: String,
+    network: String,
+    blocks: Blocks,
+    partition: Option<Partition>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct Blocks {
+    latest: u32,
+    available: Range,
+    app_data: Option<Range>,
+    historical_sync: Option<HistoricalSync>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct Range {
+    first: u32,
+    last: u32,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct HistoricalSync {
+    synced: bool,
+    available: Range,
+    app_data: Range,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct Partition {
+    // Define fields as per your requirement
+}
+
+const LIGHT_CLIENT_URL: &str = "http://127.0.0.1:7000";
+
+#[tokio::main]
+async fn main() {
+    let status_url = format!("{LIGHT_CLIENT_URL}/v2/status");
+    let response = reqwest::get(&status_url).await.unwrap();
+
+    if response.status() == StatusCode::OK {
+        let response_text = response.text().await.unwrap();
+        println!("Raw response: {}", response_text);
+
+        let status_info: StatusResponse = serde_json::from_str(&response_text).unwrap();
+        println!("Status: {:?}", status_info);
+    } else {
+        eprintln!("Failed to get status: {}", response.status());
+    }
+    // ...error handling...
+}
+```
+</Tabs.Tab>
+</Tabs>
+
+
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary> Sample Response:</summary>
+```json
+{
+  "modes":["light"],
+  "genesis_hash":"0x6f09966420b2608d1947ccfb0f2a362450d1fc7fd902c29b67c906eaa965a7ae",
+  "network":"wss://goldberg.avail.tools:443/ws/1.11.1-38304bb5126/data-avail/22",
+  "blocks":{
+    "latest":572269,
+    "available":{
+      "first":572068,
+      "last":572268
+    }
+  }
+}
+```
+</details>

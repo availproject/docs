@@ -1,0 +1,92 @@
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# v2/submit
+
+Submits application data to the avail network.\
+In case of `data` transaction, data transaction is created, signed and submitted.\
+In case of `extrinsic`, externaly created and signed transaction is submitted. 
+
+Only one field is allowed per request.\
+Both `data` and `extrinsic` has to be encoded using base64 encoding.
+
+*Params:*
+- base64 encoded data or extrinsic
+
+*Response:*
+- **block_number** - block number where transaction is included
+- **block_hash** - block hash where transaction is included
+- **hash** - transaction hash
+- **index** - transaction index in the block
+
+<Tabs items={['CURL', 'Rust']}>
+<Tabs.Tab>
+```sh
+curl -XPOST 127.0.0.1:7000/v2/submit --header "Content-Type: application/json" --data '{"data":"dGVzdAo="}'
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```rust
+use reqwest::{Client, StatusCode};
+use serde::{Deserialize, Serialize};
+use serde_json::json;
+
+#[derive(Debug, Serialize, Deserialize)]
+struct SubmitResponse {
+    block_number: u32,
+    block_hash: String,
+    hash: String,
+    index: u32,
+}
+
+const LIGHT_CLIENT_URL: &str = "http://127.0.0.1:7000";
+
+#[tokio::main]
+async fn main() {
+    let client = Client::new();
+    let submit_url = format!("{LIGHT_CLIENT_URL}/v2/submit");
+    let data = "dGVzdAo="; // Example base64 encoded data
+
+    let response = client.post(&submit_url)
+        .header("Content-Type", "application/json")
+        .body(json!({ "data": data }).to_string())
+        .send()
+        .await
+        .unwrap();
+
+    match response.status() {
+        StatusCode::OK => {
+            let submit_response: SubmitResponse = response.json().await.unwrap();
+            println!("Submit response: {:?}", submit_response);
+        }
+        StatusCode::NOT_FOUND => {
+            println!("App mode not active or signing key not configured.");
+        }
+        _ => {
+            eprintln!("Failed to submit data: {}", response.status());
+        }
+    }
+    // ...error handling...
+}
+```
+</Tabs.Tab>
+</Tabs>
+
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary> Sample Response:</summary>
+
+```yaml
+{
+  "block_number": {block-number},
+  "block_hash": "{block-hash}",
+  "hash": "{transaction-hash}",
+  "index": {transaction-index}
+}
+```
+If app mode is not active (or signing key is not configured and `data` is submitted) response is:
+
+```yaml
+Not found
+```
+</details>

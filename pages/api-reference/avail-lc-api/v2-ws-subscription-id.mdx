@@ -1,0 +1,49 @@
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# v2/ws/&#123;subscription-id&#125;
+
+You can use this method to actually connect to Avail Light Client web socket. Multiple connections are currently allowed.
+
+To connect to the Avail LC websocket API, you need:
+
+1. Access to a [running Light Client](/docs/operate-a-node/run-a-light-client/0010-light-client#running-the-light-client).
+2. A subscription ID generated using the [`v2/subscriptions`](#v2subscriptions) method.
+3. to run this wscat command in the terminal:
+
+<Tabs items={['wscat']}>
+<Tabs.Tab>
+```sh
+wscat -c ws://127.0.0.1:7000/v2/ws/{subscription-id}
+```
+</Tabs.Tab>
+</Tabs>
+
+Your terminal should look something like this:
+<br/>
+<img src="/img/websocket-connection.png" alt="Avail-fusion" width="100%"/>
+
+<Callout type="info">
+Please note that you will regularly receive information related to the topics you chose to subscribe to
+for as long as the `ws` connection persists, even if you don't actually send any messages.
+</Callout>
+
+Every request should contain unique **request_id** field, used to correlate request with response.
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary> **Subscription IDs vs Request IDs** </summary>
+
+Each time you use the [`v2/subscriptions`](#v2subscriptions) method, you will receive a unique **subscription_id**. 
+This ID is used to connect to the websocket server. 
+
+Each of these IDs will be of the [UUID4 format](https://www.uuidgenerator.net/version4).
+
+Coming to requests, every request you make to the websocket server should contain a **request_id** field,
+which will need to be a UUID4 value. You can choose to use a single, random UUID4 value to send all your requests,
+or you can use a unique UUID4 value for each request you send. The choice is yours.
+
+Using a sngle UUID4 value is simple, but using a unique UUID4 value for each request can help you 
+correlate each response with a unique request.
+
+The Avail LC API was designed with dev experience in mind, and this way you can choose the way that suits you best.
+</details>

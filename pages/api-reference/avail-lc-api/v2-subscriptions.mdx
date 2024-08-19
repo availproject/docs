@@ -1,0 +1,109 @@
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# WebSocket API
+
+The Avail Light Client WebSocket API allows real-time communication between a client and a server over a 
+persistent connection. The Web socket API can be used on its own or in combination with HTTP API to enable different pull/push use cases.
+
+<Callout type="info">
+`HTTP` and `Websocket` are twi different ways of communicating with a server. `HTTP` is a request-response protocol,
+where a connection persists for only so long as the request is being processed. In contrast, a websocket connection
+persists for as long as the client and server are connected. This allows for real-time communication between the two,
+and enables the client to fetch information from the server as soon as it is available, without having to
+poll the server for updates.
+</Callout>
+
+<Callout type="info">
+HOW TO CONNECT TO THE WEBSOCKET SERVER <br/>
+You cannot use `CURL` to send websocket commands, since `CURL` cannot maintain a persistent connection.
+Although there are a variety of librariries we can use, the following examples are using [wscat](https://github.com/websockets/wscat).
+
+To install `wscat`, simply run:
+```sh
+npm install -g wscat
+```
+</Callout>
+
+## v2/subscriptions
+
+The Avail LC Websocket API generates a unique `subscription_id` upon request. This ID is used to connect
+to the websocket server.
+The `v2/subscriptions` method creates subscriptions for given topics. In case of reconnects, the user needs to subscribe again.
+
+### Topics
+
+- **header-verified** - header finality is verified and header is available
+- **confidence-achieved** - confidence is achieved
+- **data-verified** - block data is verified and available
+
+### Data fields
+
+Filters **data-verified** message. Optional parameter used when encoded **extrinsic** is needed. If omitted, only decoded **data** is present in the message.
+
+Request:
+
+<Tabs items={['CURL', 'Rust']}>
+<Tabs.Tab>
+```sh
+curl -X POST "http://127.0.0.1:7000/v2/subscriptions" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "topics": ["header-verified", "confidence-achieved", "data-verified"],
+           "data_fields": ["data", "extrinsic"]
+         }'
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```rust
+use reqwest::{Client, StatusCode};
+use serde::{Deserialize, Serialize};
+use serde_json::json;
+
+#[derive(Debug, Serialize, Deserialize)]
+struct SubscriptionResponse {
+    subscription_id: String,
+}
+
+const LIGHT_CLIENT_URL: &str = "http://127.0.0.1:7000";
+
+#[tokio::main]
+async fn main() {
+    let client = Client::new();
+    let subscriptions_url = format!("{LIGHT_CLIENT_URL}/v2/subscriptions");
+    let topics = vec!["header-verified", "confidence-achieved", "data-verified"];
+    let data_fields = vec!["data", "extrinsic"];
+
+    let response = client.post(&subscriptions_url)
+        .header("Content-Type", "application/json")
+        .body(json!({ "topics": topics, "data_fields": data_fields }).to_string())
+        .send()
+        .await
+        .unwrap();
+
+    match response.status() {
+        StatusCode::OK => {
+            let subscription_response: SubscriptionResponse = response.json().await.unwrap();
+            println!("Subscription ID: {}", subscription_response.subscription_id);
+        }
+        _ => {
+            eprintln!("Failed to create subscription: {}", response.status());
+        }
+    }
+    // ...error handling...
+}
+```
+</Tabs.Tab>
+</Tabs>
+
+
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary> Sample Response:</summary>
+
+```yaml
+{
+  "subscription_id": "{subscription-id}"
+}
+```
+</details>
