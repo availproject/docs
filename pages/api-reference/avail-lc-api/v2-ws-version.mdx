@@ -1,0 +1,21 @@
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# v2/ws/version
+
+Request Avail Light Client version data.
+
+*Sample Request:*
+
+<Tabs items={['json']}>
+<Tabs.Tab>
+```json
+{"type":"version","request_id":"4a482bb0-3c22-475d-a2b8-af1c27aa2636"}
+```
+</Tabs.Tab>
+</Tabs>
+
+*Sample Response:*
+```json
+{"topic":"version","request_id":"4a482bb0-3c22-475d-a2b8-af1c27aa2636","message":{"version":"v1.7.10","network_version":"1.10"}}
+```

@@ -1,0 +1,28 @@
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# v2/ws/submit
+
+Submits data transaction to the Avail.
+
+*Sample Request:*
+
+<Tabs items={['json']}>
+<Tabs.Tab>
+```json
+{"type":"submit","request_id":"4a482bb0-3c22-475d-a2b8-af1c27aa2636","message":{"data":"dGVzdAo="}}
+```
+</Tabs.Tab>
+</Tabs>
+
+*Sample Response:*
+```json
+ {"topic":"data-transaction-submitted","request_id":"4a482bb0-3c22-475d-a2b8-af1c27aa2636","message":{"block_number":597725,"block_hash":"0x84803b93bf96aea90fae8fcb21cae70d310783ae8e9c4f4e1d696cec2791c0e3","hash":"0x290efdc7856fd29ec406c610f79aaa3c8079c11f8338093efad739b454bef0ac","index":1}}
+```
+
+<Callout type="info">
+Please note that to submit any sort of data to Avail, you need to:
+
+1. Run the Avail light client in `app`mode.
+2. Configure an `identity.toml` file with the seed phrase of an account that has some `AVAIL` tokens.
+</Callout>

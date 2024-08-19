@@ -1,4 +1,19 @@
 {
     "chain_getBlockHash": "chain_getBlockHash",
-    "da_submit_data": "da_submit_data"
+
+    "da-create-application-key": "Create a new App ID on Avail DA",
+    "da-submit-data": "Submit new data to Avail DA",
+    "da-submit-block-length-proposal": "Submit a proposal for a new block length",
+    "da-set-application-key": "Replace an existing App ID on Avail DA",
+    "da-set-submit-data-fee-modifier": "Configure new fee modifier values",
+    "balances-transfer-keep-alive": "Transfer funds while ensuring min balance for sender",
+    "balances-transfer-allow-death": "Transfer funds without ensuring min balance for sender",
+    "balances-transfer-all": "Transfer all funds from one account to another",
+    "staking-bond": "Stake bond",
+    "staking-bond-extra": "Stake bond extra",
+    "staking-chill": "Stake chill",
+    "staking-chill-other": "Stake chill other",
+    "staking-nominate": "Stake nominate",
+    "staking-unbond": "Stake unbond",
+    "staking-validate": "Stake validate"
 }

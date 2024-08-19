@@ -1,0 +1,117 @@
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# v2/blocks/&#123;block_number&#125;/header
+
+Gets the header for a specifc block if available.
+
+*Params*:
+- `block_number` - block number (required)
+
+*Response*:
+
+If **block_status = "verifying-confidence|verifying-data|finished"**, the header is available, and the response is:
+```yaml
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "hash": "{hash}",
+  "parent_hash": "{parent-hash}",
+  "number": {number},
+  "state_root": "{state-root}",
+  "extrinsics_root": "{extrinsics-root}",
+  "extension": {
+    "rows": {rows},
+    "cols": {cols},
+    "data_root": "{data-root}", // Optional
+    "commitments": [
+      "{commitment}", ...
+    ],
+    "app_lookup": {
+      "size": {size},
+      "index": [
+        {
+          "app_id": {app-id},
+          "start": {start}
+        }
+      ]
+    }
+  }
+}
+```
+
+If **block_status = "unavailable|pending|verifying-header"**, header is not available and response is:
+
+```yaml
+HTTP/1.1 400 Bad Request
+```
+<Tabs items={['CURL', 'Rust']}>
+<Tabs.Tab>
+```sh
+curl "http://127.0.0.1:7000/v2/blocks/592445/header"
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```rust
+use reqwest::{StatusCode, Client};
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Serialize, Deserialize)]
+struct BlockHeaderResponse {
+    hash: String,
+    parent_hash: String,
+    number: u32,
+    state_root: String,
+    extrinsics_root: String,
+    extension: Extension,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct Extension {
+    rows: u32,
+    cols: u32,
+    data_root: Option<String>,
+    commitments: Vec<String>,
+    app_lookup: AppLookup,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct AppLookup {
+    size: u32,
+    index: Vec<AppIndex>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct AppIndex {
+    app_id: Option<u32>,
+    start: u32,
+}
+
+const LIGHT_CLIENT_URL: &str = "http://127.0.0.1:7000";
+
+#[tokio::main]
+async fn main() {
+    let block_number = 592445; // Example block number
+    let client = Client::new();
+    let header_url = format!("{LIGHT_CLIENT_URL}/v2/blocks/{block_number}/header");
+    let response = client.get(header_url).send().await.unwrap();
+
+    match response.status() {
+        StatusCode::OK => {
+            let block_header: BlockHeaderResponse = response.json().await.unwrap();
+            println!("Block header: {:?}", block_header);
+        }
+        StatusCode::BAD_REQUEST => {
+            println!("Header not available for block {}", block_number);
+        }
+        _ => {
+            eprintln!("Failed to get block header: {}", response.status());
+        }
+    }
+    // ...error handling...
+}
+```
+</Tabs.Tab>
+</Tabs>
