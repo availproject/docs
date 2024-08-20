@@ -63,11 +63,12 @@ On failure, a reason of failure is returned. On Success, SubmitDataFeeModifierSe
 ```js
 import { BN, DispatchFeeModifier, Keyring, SDK, WaitFor } from "https://raw.githubusercontent.com/availproject/avail/main/avail-deno/src/sdk.ts";
 
-const providerEndpoint = "ws://127.0.0.1:9944";
+const providerEndpoint = "wss://turing-rpc.avail.so/ws";
 const sdk = await SDK.New(providerEndpoint);
 
-// Input
-const account = new Keyring({ type: "sr25519" }).addFromUri("//Alice");
+const Alice = "This is a random seed phrase please do not use it";
+ 
+const account = new Keyring({ type: "sr25519" }).addFromUri(Alice);
 const modifier = { weightMaximumFee: new BN("10").pow(new BN("18")), weightFeeDivider: 20 } as DispatchFeeModifier;
 
 const result = await sdk.tx.dataAvailability.setSubmitDataFeeModifier(modifier, WaitFor.BlockInclusion, account);
@@ -123,10 +124,10 @@ use core::str::FromStr;
 
 #[tokio::main]
 async fn main() -> Result<(), String> {
-	let sdk = SDK::new("ws://127.0.0.1:9944").await.unwrap();
+	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
 
-	// Input
-	let secret_uri = SecretUri::from_str("//Alice").unwrap();
+	let Alice = "This is a random seed phrase please do not use it";
+	let secret_uri = SecretUri::from_str(Alice).unwrap();
 	let account = Keypair::from_uri(&secret_uri).unwrap();
 
 	let modifier = DispatchFeeModifier {
