@@ -1,10 +1,9 @@
 import { Callout, Steps, Tabs } from 'nextra/components'
 
-# dataAvailability_createApplicationKey
+# Create a new App ID on Avail DA
 
-Extrinsic to create a new application key on Avail DA.
 
-### Setting up the dev environment
+## Setting up the dev environment
 
 We have included examples of signing this extrinsic using the `avail-deno` and `avail-rust` SDKs.
 
@@ -42,7 +41,9 @@ tokio = { version = "1.38.0", features = ["full"] }
 </Tabs.Tab>
 </Tabs>
 
-### Running the code
+## Running the code
+
+Name of node-level extrinsic being called: `dataAvailability_createApplicationKey`
 
 <Tabs items={['avail-deno', 'avail-rust']}>
 <Tabs.Tab>
@@ -65,11 +66,12 @@ On failure, a reason of failure is returned. On Success, ApplicationKeyCreated e
 ```js
 import { Keyring, SDK, WaitFor } from "https://raw.githubusercontent.com/availproject/avail/main/avail-deno/src/sdk.ts";
 
-const providerEndpoint = "ws://127.0.0.1:9944";
+const providerEndpoint = "wss://turing-rpc.avail.so/ws";
 const sdk = await SDK.New(providerEndpoint);
 
-// Input
-const account = new Keyring({ type: "sr25519" }).addFromUri("//Alice");
+const Alice = "This is a random seed phrase please do not use it";
+ 
+const account = new Keyring({ type: "sr25519" }).addFromUri(Alice);
 const key = "MyAwesomeKey";
 
 const result = await sdk.tx.dataAvailability.createApplicationKey(key, WaitFor.BlockInclusion, account);
@@ -122,10 +124,10 @@ use core::str::FromStr;
 
 #[tokio::main]
 async fn main() -> Result<(), String> {
-	let sdk = SDK::new("ws://127.0.0.1:9944").await.unwrap();
+	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
 
-	// Input
-	let secret_uri = SecretUri::from_str("//Alice").unwrap();
+	let Alice = "This is a random seed phrase please do not use it";
+	let secret_uri = SecretUri::from_str(Alice).unwrap();
 	let account = Keypair::from_uri(&secret_uri).unwrap();
 	let key = String::from("MyAwesomeKey").as_bytes().to_vec();
 	let key = Key { 0: key };

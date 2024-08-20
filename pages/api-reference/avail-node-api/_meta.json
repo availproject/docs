@@ -1,14 +1,31 @@
 {
     "chain_getBlockHash": "chain_getBlockHash",
 
+    "Data availability pallet": {
+        "type": "separator",
+        "title": "Data availability pallet"
+     },
+
     "da-create-application-key": "Create a new App ID on Avail DA",
     "da-submit-data": "Submit new data to Avail DA",
     "da-submit-block-length-proposal": "Submit a proposal for a new block length",
     "da-set-application-key": "Replace an existing App ID on Avail DA",
     "da-set-submit-data-fee-modifier": "Configure new fee modifier values",
+
+    "Balances pallet": {
+        "type": "separator",
+        "title": "Balances pallet"
+     },
+
     "balances-transfer-keep-alive": "Transfer funds while ensuring min balance for sender",
     "balances-transfer-allow-death": "Transfer funds without ensuring min balance for sender",
     "balances-transfer-all": "Transfer all funds from one account to another",
+
+    "Staking pallet": {
+        "type": "separator",
+        "title": "Staking pallet"
+     },
+
     "staking-bond": "Stake bond",
     "staking-bond-extra": "Stake bond extra",
     "staking-chill": "Stake chill",
