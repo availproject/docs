@@ -7,6 +7,8 @@ Name of node-level extrinsic being called: `dataAvailability_submitData`
 <Tabs items={['avail-deno', 'avail-rust']}>
 <Tabs.Tab>
 
+### Parameters
+
 | parameter | type          | optional | description                                     |
 | --------- | ------------- | -------- | ----------------------------------------------- |
 | data      | string        | false    | data to be submitted                            |
@@ -14,6 +16,11 @@ Name of node-level extrinsic being called: `dataAvailability_submitData`
 | account   | KeyringPair   | false    | account that will send and sign the transaction |
 | options   | SignerOptions | true     | used to overwrite existing signer options       |
 
+### Return value
+
+On failure, a reason of failure is returned. On Success, DataSubmitted event, transaction data, transaction hash and block hash is returned.
+
+### Minimal example
 
 1. Inside `da_submitData.ts`, paste the following code:
 
@@ -73,6 +80,12 @@ TxHash=0x5ce5b90b30b640cc34a2301da591c4f1526726e5c732f5615166d24fd60313cc, Block
 | key       | Key         | false    | name of the application key                     |
 | waitFor   | WaitFor     | false    | wait for block inclusion or finalization        |
 | account   | KeyringPair | false    | account that will send and sign the transaction |
+
+### Return value
+
+On failure, a reason of failure is returned. On Success, DataSubmitted event, transaction data, transaction hash and block hash is returned.
+
+### Minimal Example
 
 1. Inside `src/main.rs`, paste the following code:
 
