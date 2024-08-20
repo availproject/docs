@@ -2,46 +2,6 @@ import { Callout, Steps, Tabs } from 'nextra/components'
 
 # staking_bondExtra
 
-### Setting up the dev environment
-
-We have included examples of signing this extrinsic using the `avail-deno` and `avail-rust` SDKs.
-
-<Tabs items={['avail-deno', 'avail-rust']}>
-
-<Tabs.Tab>
-
-1. Make sure `deno-js` is installed on your system. You can refer to [Deno's docs](https://docs.deno.com/runtime/manual/) for the same.
-
-2. Create a new Deno JS project by running `deno init` in a directory of your choice, and create a new file named `da_submitData.ts`
-in the project.
-
-</Tabs.Tab>
-
-<Tabs.Tab>
-
-1. Make sure `rust` and cargo are installed on your system. You can refer to [Rustlang's docs](https://www.rust-lang.org/tools/install) for the same.
-
-2. Create a new Rust project by running `cargo init`.
-
-3. Paste the following into your `Cargo.toml` file:
-
-```toml
-[workspace]
-
-[package]
-name = "da-submit-data"
-edition = "2021"
-
-[dependencies]
-avail-rust = { git = "https://github.com/availproject/avail" }
-tokio = { version = "1.38.0", features = ["full"] }
-```
-
-</Tabs.Tab>
-</Tabs>
-
-### Running the code
-
 <Tabs items={['avail-deno', 'avail-rust']}>
 <Tabs.Tab>
 

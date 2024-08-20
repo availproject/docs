@@ -1,63 +1,19 @@
 import { Callout, Steps, Tabs } from 'nextra/components'
 
-# dataAvailability_submitData
+# Submit new data to Avail DA
 
-Extrinsic to submit new data to Avail DA.
-
-### Parameters
-
-- `data` (String) -  Data to be submitted
-- `waitFor` (Boolean)- Wait for block inclusion or finalization
-- `account` (KeyringPair)- account that will send and sign the transaction
-
-### Response
-
-On failure, a reason of failure is returned.
-On Success, DataSubmitted event, transaction data, transaction hash and block hash is returned.
-
-### Setting up the dev environment
-
-We have included examples of signing this extrinsic using the `avail-deno` and `avail-rust` SDKs.
+Name of node-level extrinsic being called: `dataAvailability_submitData`
 
 <Tabs items={['avail-deno', 'avail-rust']}>
-
 <Tabs.Tab>
 
-1. Make sure `deno-js` is installed on your system. You can refer to [Deno's docs](https://docs.deno.com/runtime/manual/) for the same.
+| parameter | type          | optional | description                                     |
+| --------- | ------------- | -------- | ----------------------------------------------- |
+| data      | string        | false    | data to be submitted                            |
+| waitFor   | WaitFor       | false    | wait for block inclusion or finalization        |
+| account   | KeyringPair   | false    | account that will send and sign the transaction |
+| options   | SignerOptions | true     | used to overwrite existing signer options       |
 
-2. Create a new Deno JS project by running `deno init` in a directory of your choice, and create a new file named `da_submitData.ts`
-in the project.
-
-</Tabs.Tab>
-
-<Tabs.Tab>
-
-1. Make sure `rust` and cargo are installed on your system. You can refer to [Rustlang's docs](https://www.rust-lang.org/tools/install) for the same.
-
-2. Create a new Rust project by running `cargo init`.
-
-3. Paste the following into your `Cargo.toml` file:
-
-```toml
-[workspace]
-
-[package]
-name = "da-submit-data"
-edition = "2021"
-
-[dependencies]
-avail-rust = { git = "https://github.com/availproject/avail" }
-tokio = { version = "1.38.0", features = ["full"] }
-```
-
-</Tabs.Tab>
-</Tabs>
-
-### Running the code
-
-<Tabs items={['avail-deno', 'avail-rust']}>
-
-<Tabs.Tab>
 
 1. Inside `da_submitData.ts`, paste the following code:
 
@@ -90,10 +46,33 @@ Deno.exit();
 ```bash
 deno run --allow-net da_submitData.ts
 ```
+<br/>
+
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+
+```bash
+2024-08-20 23:11:26 PORTABLEREGISTRY: Unable to determine runtime Call type, cannot inspect sp_runtime::generic::unchecked_extrinsic::UncheckedExtrinsic
+2024-08-20 23:11:26        API/INIT: RPC methods not decorated: chainSpec_v1_chainName, chainSpec_v1_genesisHash, chainSpec_v1_properties
+2024-08-20 23:11:26        API/INIT: avail/37: Not decorating unknown runtime apis: 0x7915d720c2769ac8/2, 0x537dc9ebb965e7c0/4, 0x7f4c771cd72fb1da/1, KateApi/1, 0x28ac62e78c1baeac/1, 0xfbc577b9d747efd6/1
+Data=53616d706c652064617461206265696e67207375626d69747465642e2e2e2e2e2e
+Who=5CqgQkrDcdg5QrtuxT3H7WszrqgrBMhdwRbmMVXQzc4VSiEg, DataHash=0xdb10b83f02707eff828e95e4cb534871d6e1ca9fb10eb9ccc12795e9abf6f931
+TxHash=0x5ce5b90b30b640cc34a2301da591c4f1526726e5c732f5615166d24fd60313cc, BlockHash=0x86544212bfdf7578881acfafb148f2b6a154098568644c66a7a14ed3099bb342
+```
+</details>
+
 
 </Tabs.Tab>
 
 <Tabs.Tab>
+
+### Parameters
+
+| parameter | type        | optional | description                                     |
+| --------- | ----------- | -------- | ----------------------------------------------- |
+| key       | Key         | false    | name of the application key                     |
+| waitFor   | WaitFor     | false    | wait for block inclusion or finalization        |
+| account   | KeyringPair | false    | account that will send and sign the transaction |
 
 1. Inside `src/main.rs`, paste the following code:
 
@@ -136,6 +115,18 @@ async fn main() -> Result<(), String> {
 ```bash
 cargo run
 ```
+<br/>
+
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```bash
+    Finished dev [unoptimized + debuginfo] target(s) in 13.93s
+     Running `target/debug/da-submit-data`
+Who=5CqgQkrDcdg5QrtuxT3H7WszrqgrBMhdwRbmMVXQzc4VSiEg, DataHash=0xdb10b83f02707eff828e95e4cb534871d6e1ca9fb10eb9ccc12795e9abf6f931
+TxData=BoundedVec([83, 97, 109, 112, 108, 101, 32, 100, 97, 116, 97, 32, 98, 101, 105, 110, 103, 32, 115, 117, 98, 109, 105, 116, 116, 101, 100, 46, 46, 46, 46, 46, 46])
+TxHash=0xbfdf581618f28ef707147ea47a56483c6214dbaa83c53a6cc307073e3b8b578b, BlockHash=0xbee81b96a4e86dbc1a668da466416f6648c0025a7fc0d428ecae71d504290c62
+```
+</details>
 
 </Tabs.Tab>
 </Tabs>
