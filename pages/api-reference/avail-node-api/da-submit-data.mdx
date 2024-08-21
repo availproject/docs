@@ -4,7 +4,63 @@ import { Callout, Steps, Tabs } from 'nextra/components'
 
 Name of node-level extrinsic being called: `dataAvailability_submitData`
 
-<Tabs items={['avail-deno', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-deno', 'avail-rust']}>
+
+<Tabs.Tab>
+
+### Parameters
+
+| parameter | type          | optional | description                                     |
+| --------- | ------------- | -------- | ----------------------------------------------- |
+| data      | string        | false    | data to be submitted                            |
+| waitFor   | WaitFor       | false    | wait for block inclusion or finalization        |
+| account   | KeyringPair   | false    | account that will send and sign the transaction |
+| options   | SignerOptions | true     | used to overwrite existing signer options       |
+
+### Return value
+
+On failure, a reason of failure is returned. On Success, DataSubmitted event, transaction data, transaction hash and block hash is returned.
+
+### Minimal example
+
+1. Inside `da_submitData.ts`, paste the following code:
+
+```typescript
+import { SDK } from "../../src/sdk"
+import { Keyring } from "@polkadot/api"
+import { WaitFor } from "../../src/sdk/transactions"
+
+const main = async () => {
+  const providerEndpoint = "ws://127.0.0.1:9944"
+  const sdk = await SDK.New(providerEndpoint)
+
+  // Input
+  const account = new Keyring({ type: "sr25519" }).addFromUri("//Alice")
+  const data = "My Awesome Data"
+
+  const result = await sdk.tx.dataAvailability.submitData(data, WaitFor.BlockInclusion, account)
+  if (result.isErr) {
+    console.log(result.reason)
+    process.exit(1)
+  }
+
+  console.log("Data=" + result.txData.data)
+  console.log("Who=" + result.event.who + ", DataHash=" + result.event.dataHash)
+  console.log("TxHash=" + result.txHash + ", BlockHash=" + result.blockHash)
+
+  process.exit()
+}
+main()
+```
+
+2. Run the code using:
+
+```bash
+node da_submitData.ts
+```
+
+</Tabs.Tab>
+
 <Tabs.Tab>
 
 ### Parameters
