@@ -31,11 +31,10 @@ import { Keyring } from "@polkadot/api"
 import { WaitFor } from "../../src/sdk/transactions"
 
 const main = async () => {
-  const providerEndpoint = "ws://127.0.0.1:9944"
-  const sdk = await SDK.New(providerEndpoint)
+const providerEndpoint = "wss://turing-rpc.avail.so/ws";
+const sdk = await SDK.New(providerEndpoint);
 
-  // Input
-  const account = new Keyring({ type: "sr25519" }).addFromUri("//Alice")
+const Alice = "This is a random seed phrase please do not use it";
   const data = "My Awesome Data"
 
   const result = await sdk.tx.dataAvailability.submitData(data, WaitFor.BlockInclusion, account)
