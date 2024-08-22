@@ -2,9 +2,55 @@ import { Callout, Steps, Tabs } from 'nextra/components'
 
 # Create a new App ID on Avail DA
 
-Name of node-level extrinsic being called: `dataAvailability_createApplicationKey`
+Raw name of extrinsic: `dataAvailability_createApplicationKey`
 
-<Tabs items={['avail-deno', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-deno', 'avail-rust']}>
+<Tabs.Tab>
+
+### Parameters
+
+| parameter | type          | optional | description                                     |
+| --------- | ------------- | -------- | ----------------------------------------------- |
+| key       | string        | false    | name of the application key                     |
+| waitFor   | WaitFor       | false    | wait for block inclusion or finalization        |
+| account   | KeyringPair   | false    | account that will send and sign the transaction |
+| options   | SignerOptions | true     | used to overwrite existing signer options       |
+
+### Return value
+
+On failure, a reason of failure is returned. On Success, ApplicationKeyCreated event, transaction hash and block hash is returned.
+
+### Minimal Example
+
+```js
+import { SDK } from "../../src/sdk"
+import { Keyring } from "@polkadot/api"
+import { WaitFor } from "../../src/sdk/transactions"
+
+const main = async () => {
+  const providerEndpoint = "ws://127.0.0.1:9944"
+  const sdk = await SDK.New(providerEndpoint)
+
+  // Input
+  const account = new Keyring({ type: "sr25519" }).addFromUri("//Alice")
+  const key = "MyAwesomeKey"
+
+  const result = await sdk.tx.dataAvailability.createApplicationKey(key, WaitFor.BlockInclusion, account)
+  if (result.isErr) {
+    console.log(result.reason)
+    process.exit(1)
+  }
+
+  console.log("Key=" + result.event.key + ", Owner=" + result.event.owner + ", Id=" + result.event.id)
+  console.log("TxHash=" + result.txHash + ", BlockHash=" + result.blockHash)
+
+  process.exit()
+}
+main()
+```
+
+</Tabs.Tab>
+
 <Tabs.Tab>
 
 ### Parameters

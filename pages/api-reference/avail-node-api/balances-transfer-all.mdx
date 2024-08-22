@@ -2,7 +2,56 @@ import { Callout, Steps, Tabs } from 'nextra/components'
 
 # dataAvailability_transferAll
 
-<Tabs items={['avail-deno', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-deno', 'avail-rust']}>
+<Tabs.Tab>
+
+### Parameters
+
+| parameter | type          | optional | description                                      |
+| --------- | ------------- | -------- | ------------------------------------------------ |
+| dest      | string        | false    | account that will receive funds                  |
+| keepAlive | boolean       | false    | if set to false it will reap the account as well |
+| waitFor   | WaitFor       | false    | wait for block inclusion or finalization         |
+| account   | KeyringPair   | false    | account that will send and sign the transaction  |
+| options   | SignerOptions | true     | used to overwrite existing signer options        |
+
+### Return value
+
+On failure, a reason of failure is returned. On Success, TransferEvent event, KilledAccount (optionally) event, transaction hash and block
+hash is returned.
+
+### Minimal Example
+
+```js
+import { Keyring } from "@polkadot/api"
+import { SDK } from "../../src/sdk/"
+import { WaitFor } from "../../src/sdk/transactions"
+
+const main = async () => {
+  const providerEndpoint = "ws://127.0.0.1:9944"
+  const sdk = await SDK.New(providerEndpoint)
+
+  // Input
+  const account = new Keyring({ type: "sr25519" }).addFromUri("//Alice")
+  const dest = "5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw" // Eve
+  const keepAlive = true
+
+  const result = await sdk.tx.balances.transferAll(dest, keepAlive, WaitFor.BlockInclusion, account)
+  if (result.isErr) {
+    console.log(result.reason)
+    process.exit(1)
+  }
+
+  console.log("From=" + result.event.from + ", To=" + result.event.to + ", Amount=" + result.event.amount)
+  console.log("MaybeKilled=" + result.event2?.account)
+  console.log("TxHash=" + result.txHash + ", BlockHash=" + result.blockHash)
+
+  process.exit()
+}
+main()
+```
+
+</Tabs.Tab>
 <Tabs.Tab>
 
 #### Parameters
