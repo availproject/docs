@@ -2,7 +2,56 @@ import { Callout, Steps, Tabs } from 'nextra/components'
 
 # staking_validate
 
-<Tabs items={['avail-deno', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-deno', 'avail-rust']}>
+<Tabs.Tab>
+
+### Parameters
+
+| parameter  | type          | optional | description                                           |
+| ---------- | ------------- | -------- | ----------------------------------------------------- |
+| commission | number        | false    | how much validator charge nominators in 0 - 100 range |
+| blocked    | boolean       | false    | whether or not this validator accepts nominations     |
+| waitFor    | WaitFor       | false    | wait for block inclusion or finalization              |
+| account    | KeyringPair   | false    | account that will send and sign the transaction       |
+| options    | SignerOptions | true     | used to overwrite existing signer options             |
+
+### Return value
+
+On failure, a reason of failure is returned. On Success, ValidatorPrefsSet event, transaction hash and block hash is returned.
+
+### Minimal Example
+
+```js
+import { SDK } from "../../src/sdk"
+import { Keyring } from "@polkadot/api"
+import { WaitFor } from "../../src/sdk/transactions"
+
+const main = async () => {
+  const providerEndpoint = "ws://127.0.0.1:9944"
+  const sdk = await SDK.New(providerEndpoint)
+
+  // Input
+  const account = new Keyring({ type: "sr25519" }).addFromUri("//Alice")
+  const commission = 5 // 5%
+  const blocked = false
+
+  const result = await sdk.tx.staking.validate(commission, blocked, WaitFor.BlockInclusion, account)
+  if (result.isErr) {
+    console.log(result.reason)
+    process.exit(1)
+  }
+
+  console.log(
+    "Stash=" + result.event.stash + ", Commission=" + result.event.commission + ", Blocked=" + result.event.blocked,
+  )
+  console.log("TxHash=" + result.txHash + ", BlockHash=" + result.blockHash)
+
+  process.exit()
+}
+main()
+```
+
+</Tabs.Tab>
 <Tabs.Tab>
 
 #### Parameters
