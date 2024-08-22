@@ -191,6 +191,10 @@ export function middleware(request: NextRequest) {
       destination: `${origin}/docs/operate-a-node/run-a-light-client/light-client-api-reference`
     },
     {
+      source: "/docs/operate-a-node/run-a-light-client/light-client-api-reference",
+      destination: `${origin}/api-reference/avail-lc-api`
+    },
+    {
       source: "/about/introduction/light-client",
       destination: `${origin}/docs/operate-a-node/run-a-light-client/Overview`
     },
