@@ -21,7 +21,7 @@ curl "https://api.lightclient.mainnet.avail.so/v1/appdata/1?decode=true"
 To get a decoded extrinsic with plain appdata:
 
 ```sh
-curl -s "http://127.0.0.1:7000/v1/appdata/1?decode=true" | jq -r '.extrinsics[-1]' | base64 -d
+curl -s "https://api.lightclient.mainnet.avail.so/v1/appdata/1?decode=true" | jq -r '.extrinsics[-1]' | base64 -d
 ```
 </Tabs.Tab>
 
@@ -38,7 +38,7 @@ pub struct ExtrinsicsData {
     pub extrinsics: Vec<String>,
 }
 
-const LIGHT_CLIENT_URL: &str = "http://127.0.0.1:7000";
+const LIGHT_CLIENT_URL: &str = "https://api.lightclient.mainnet.avail.so";
 
 #[tokio::main]
 async fn main() {
