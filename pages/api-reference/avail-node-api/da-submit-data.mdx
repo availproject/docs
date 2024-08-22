@@ -2,7 +2,7 @@ import { Callout, Steps, Tabs } from 'nextra/components'
 
 # Submit new data to Avail DA
 
-Name of node-level extrinsic being called: `dataAvailability_submitData`
+Raw name of extrinsic: `dataAvailability_submitData`
 
 <Tabs items={['avail-js', 'avail-deno', 'avail-rust']}>
 
@@ -31,15 +31,16 @@ For instructions, [check out our docs here](/api-reference/avail-node-api#settin
 1. Inside `da_submitData.ts`, paste the following code:
 
 ```typescript
-import { SDK } from "../../src/sdk"
 import { Keyring } from "@polkadot/api"
-import { WaitFor } from "../../src/sdk/transactions"
+import { SDK } from "avail-js-sdk"
+import { WaitFor } from "avail-js-sdk/sdk/transactions"
 
 const main = async () => {
-const providerEndpoint = "wss://turing-rpc.avail.so/ws";
-const sdk = await SDK.New(providerEndpoint);
+  const providerEndpoint = "ws://127.0.0.1:9944"
+  const sdk = await SDK.New(providerEndpoint)
 
-const Alice = "This is a random seed phrase please do not use it";
+  const Alice = "This is a random seed phrase please do not use it";
+  const account = new Keyring({ type: "sr25519" }).addFromUri(Alice)
   const data = "My Awesome Data"
 
   const result = await sdk.tx.dataAvailability.submitData(data, WaitFor.BlockInclusion, account)
