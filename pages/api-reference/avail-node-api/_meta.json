@@ -1,0 +1,29 @@
+{
+    "Data availability pallet": {
+        "type": "separator",
+        "title": "Data availability pallet"
+     },
+
+    "da-create-application-key": "Create a new App ID on Avail DA",
+    "da-submit-data": "Submit new data to Avail DA",
+
+    "Balances pallet": {
+        "type": "separator",
+        "title": "Balances pallet"
+     },
+
+    "balances-transfer-keep-alive": "Transfer funds while ensuring min balance for sender",
+    "balances-transfer-allow-death": "Transfer funds without ensuring min balance for sender",
+    "balances-transfer-all": "Transfer all funds from one account to another",
+
+    "Staking pallet": {
+        "type": "separator",
+        "title": "Staking pallet"
+     },
+
+    "staking-bond": "Bond AVAIL tokens on Avail DA",
+    "staking-nominate": "Nominate staked AVAIL tokens to one or more validators",
+    "staking-unbond": "Unbond AVAIL tokens from Avail DA",
+    "staking-validate": "Become a validator on Avail DA",
+    "staking-chill": "Stop validating on Avail DA"
+}
