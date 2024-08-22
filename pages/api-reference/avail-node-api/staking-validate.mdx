@@ -1,6 +1,8 @@
 import { Callout, Steps, Tabs } from 'nextra/components'
 
-# staking_validate
+# Become a validator on Avail DA
+
+Raw name of extrinsic: `staking_validate`
 
 <Tabs items={['avail-js', 'avail-deno', 'avail-rust']}>
 <Tabs.Tab>
@@ -22,16 +24,17 @@ On failure, a reason of failure is returned. On Success, ValidatorPrefsSet event
 ### Minimal Example
 
 ```js
-import { SDK } from "../../src/sdk"
 import { Keyring } from "@polkadot/api"
-import { WaitFor } from "../../src/sdk/transactions"
+import { SDK } from "avail-js-sdk"
+import { WaitFor } from "avail-js-sdk/sdk/transactions"
+import { BN } from "@polkadot/util"
 
 const main = async () => {
-  const providerEndpoint = "ws://127.0.0.1:9944"
+  const providerEndpoint = "wss://turing-rpc.avail.so/ws";
   const sdk = await SDK.New(providerEndpoint)
 
-  // Input
-  const account = new Keyring({ type: "sr25519" }).addFromUri("//Alice")
+  const Alice = 'This is a random seed phrase please do not use it';
+  const account = new Keyring({ type: "sr25519" }).addFromUri(Alice)
   const commission = 5 // 5%
   const blocked = false
 
