@@ -1,0 +1,32 @@
+{
+    "API-V1": {
+        "type": "separator",
+        "title": "API-V1"
+     },
+    "v1-latest-block": "Fetch the latest block",
+    "v1-confidence": "Fetch the confidence of a specific block",
+    "v1-appdata": "Fetch the appdata of a specific block",
+    "v1-mode": "Fetch the operating mode of the light client instance",
+    "v1-status": "Fetch the status of the latest block processed by the light client",
+
+    "API-V2": {
+        "type": "separator",
+        "title": "API-V2"
+    },
+    "v2-version": "Fetch the latest block",
+    "v2-status": "Fetch current status and active modes of the light client",
+    "v2-blocks": "Fetch specified block status and confidence if applicable",
+    "v2-blocks-header": "Fetch the header for a specifc block if available",
+    "v2-blocks-header-datafields": "Fetch block data if available",
+    "v2-submit": "Submit data to Avail DA",
+
+    "Websocket API": {
+        "type": "separator",
+        "title": "Websocket API"
+    },
+    "v2-subscriptions": "Get started with the Websocket Avail LC API",
+    "v2-ws-subscription-id": "Initiate a Websocket connection to the Avail LC API",
+    "v2-ws-version": "Request Avail Light Client version data",
+    "v2-ws-status": "Request current Avail Light Client status data",
+    "v2-ws-submit": "Submit data to Avail DA"
+}

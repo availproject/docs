@@ -225,7 +225,6 @@ export const Footer = () => {
                 }
                 </div>
             </div>
-            <img src={footerMobile.front} width={'100%'} alt={'Footer Front Design'}/>
         </footer>
     )
 }
