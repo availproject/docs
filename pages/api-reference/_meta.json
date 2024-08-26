@@ -1,0 +1,7 @@
+{
+  "avail-node-api": "Avail node API reference",
+  "---": {
+    "type": "separator"
+  },
+  "avail-lc-api": "Avail light client API reference"
+}
