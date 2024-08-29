@@ -22,257 +22,29 @@ In order to verify data availability on Ethereum it is necessary
 to first submit data to Avail as a data submission transaction. Data
 submitted this way will be included in Avail blocks, but not
 interpreted or executed in any way. The submission can be done using
-`Polkadot-JS` which is a collection of tools for communication with
-chains based on Substrate (which is now part of the Polkadot SDK).
+`avail-js-sdk` which is a collection of tools for communication withAvail chain.
 
-Complete example can be found on [github](https://github.com/availproject/avail/blob/main/examples/deno/validium.ts).
+Complete example can be found on [github](https://github.com/availproject/avail/blob/example/main/avail-js/examples/node-examples/src/validium.ts).
 
-Example of sending data to Avail:
+To submit the data to Avail, extrinsic `availApi.tx.dataAvailability.submitData(data);` should be created with the `data` that will be submitted.
+Once the transaction is included in an Avail block and block finalized the `data root` is generated for this block, and bridged to the
+Ethereum network. Bridging to avail network is done every 360 Avail blocks and the commitment included in the VectorX contract.
+VectorX is an implementation of zero-knowledge proof circuits for Vector, Avail's Data Attestation Bridge in [SP1](https://github.com/succinctlabs/sp1-vector).
 
-```typescript
-/**
- * Submitting data to Avail as a transaction.
- *
- * @param availApi api instance
- * @param data payload to send
- * @param account that is sending transaction
- * @returns {Promise<unknown>}
- */
-async function submitData(availApi, data, account) {
-    return await new Promise<ISubmittableResult>((res) => {
-        console.log("Sending transaction...")
-        availApi.tx.dataAvailability.submitData(data).signAndSend(account, {nonce: -1}, (result: ISubmittableResult) => {
-            console.log(`Tx status: ${result.status}`)
-            if (result.isError) {
-                console.log(`Tx failed!`);
-                res(result)
-            }
-            if (result.isInBlock) {
-                console.log("Transaction in block, waiting for block finalization...")
-            }
-            if (result.isFinalized) {
-                console.log(`Tx finalized.`)
-                res(result)
-            }
-        })
-    });
-}
-```
 
-Function `submitData` receives `availApi` api instance, `data` that will be submitted,
-and the `account` which is sending the transaction. In order to create account
-it is necessary to create _keyring_ _pair_ for the account that wants to send the data.
-This can be done with `keyring.addFromUri(secret)` which creates keyring pair via suri
-(the secret can be a hex string, mnemonic phrase or a string).
-After creating keyring pair, it is possible to submit data in a transaction to the Avail network with
-`availApi.tx.dataAvailability.submitData(data);`. Once the transaction is included in an Avail block, and bridged to the
-Ethereum network it is possible to query for the proof and check the data inclusion.
+Deployed VectorX contract for Turing testnet on the Sepolia testnet: `0xe542db219a7e2b29c7aeaeace242c9a2cd528f96`.
 
-When DA transaction is included in the finalized Avail block, it will be bridged via VectorX bridge to the Ethereum network.
-VectorX is a Zero-Knowledge bridge that bridges a batches of data roots every 360 Avail blocks to the Ethereum network.
-After successfully bridging the data root to the Ethereum network,
-it is possible to prove that data is available on the Avail network by submitting a Merkle proof to the verification contract.
-Proof is available only when the block in which the transaction is included is committed to the VectorX contract,
-one such is deployed to the Sepolia network ([`0xe542db219a7e2b29c7aeaeace242c9a2cd528f96`](https://sepolia.etherscan.io/address/0xe542db219a7e2b29c7aeaeace242c9a2cd528f96)).
- Once the range is committed to the VectorX contract, which
-can be checked by calling `https://turing-bridge-api.fra.avail.so/avl/head` that returns `start` and `end` block range that is available on the VectorX contract,
-fetching proof can be done via bridge api http call
- `https://turing-bridge-api.fra.avail.so/eth/proof/<blockHash>?index=<transactionIndex>`
-where path param `blockHash` is a hash of the finalized block in which
-the data is included and a query param `index` is index of the transaction in the block.
-This http endpoint returns a json object that can be used to prove that data is available on the Avail network.
-Example:
+Deployed VectorX contract for Avail mainnet on the Ethereum network: `0x02993cdC11213985b9B13224f3aF289F03bf298d`.
 
-```typescript
-const proofResponse: ProofData = await fetch(BRIDGE_API_URL + "/eth/proof/" + result.finalized + "?index=" + result.txIndex);
-```
-
-Returned data:
-
-``` typescript
-class ProofData {
-    dataRootProof: Array<string>
-    leafProof: string
-    rangeHash: string
-    dataRootIndex: number
-    blobRoot: string
-    bridgeRoot: string
-    leaf: string
-    leafIndex: number
-}
-```
-
-- `dataRootProof` Merkle proof of batched data root items (does not contain the leaf hash, nor the root).
-
-- `leafProof` Merkle proof of items for the leaf (does not contain the leaf hash, nor the root).
-
-- `rangeHash` Header rang hash of the items batch.
-
-- `dataRootIndex` Index of the data root in the commitment tree.
-
-- `blobRoot` Root hash of generated blob merkle sub-tree.
-
-- `bridgeRoot` Root hash of generated bridge merkle sub-tree.
-
-- `numberOfLeaves` Number of leaves in the original tree.
-
-- `leaf` Leaf for which is the proof.
-
-- `leafIndex` Index of the leaf the proof is for (starts from 0).
+When the data root is bridged to the Ethereum network, it is possible to query for the inclusion proof using the `bridge-api`
+deployed for Turing testnet `https://turing-bridge-api.fra.avail.so` and mainnet `https://bridge-api.avail.so`.
+Detail documentation can be found ([here](https://github.com/availproject/bridge-api/blob/main/README.md)) .
 
 By submitting proof to the verification contract it is possible to verify
 that data is available on Avail. Merkle proof is a list of hashes that can be used to prove
-that given leaf is a member of the Merkle tree. Example of submitting a proof to the verification contract
-deployed on Sepolia network for Turing ([`0x967F7DdC4ec508462231849AE81eeaa68Ad01389`](https://sepolia.etherscan.io/address/0x967F7DdC4ec508462231849AE81eeaa68Ad01389)) can be done by calling `verifyBlobLeaf` function.
+that given leaf is a member of the Merkle tree. Example of submitting a proof to the bridge verification contract
+deployed on Sepolia network for Turing ([`0x967F7DdC4ec508462231849AE81eeaa68Ad01389`](https://sepolia.etherscan.io/address/0x967F7DdC4ec508462231849AE81eeaa68Ad01389))
+and Ethereum mainnet ([`0x054fd961708d8e2b9c10a63f6157c74458889f0a`](https://etherscan.io/address/0x054fd961708d8e2b9c10a63f6157c74458889f0a))
+can be done by calling `verifyBlobLeaf` function.
 This will call deployed contracts function `verificationContract.verifyBlobLeaf(merkleProofInput)`
 and return `true` or `false` depending on the provided proof.
-
-Input params for the `verifyBlobLeaf` function:
-
-```
-struct MerkleProofInput {
-        // proof of inclusion for the data root
-        bytes32[] dataRootProof;
-        // proof of inclusion of leaf within blob/bridge root
-        bytes32[] leafProof;
-        // abi.encodePacked(startBlock, endBlock) of header range commitment on VectorX
-        bytes32 rangeHash;
-        // index of the data root in the commitment tree
-        uint256 dataRootIndex;
-        // blob root to check proof against, or reconstruct the data root
-        bytes32 blobRoot;
-        // bridge root to check proof against, or reconstruct the data root
-        bytes32 bridgeRoot;
-        // leaf being proven
-        bytes32 leaf;
-        // index of the leaf in the blob/bridge root tree
-        uint256 leafIndex;
-    }
-```
-<Callout type="info">
-EXAMPLE OF GETTING THE PROOF AND CHECKING IT WITH VERIFICATION CONTRACT FUNCTION USING `POLKADOT-JS` AND `ETHERS.JS`.<br/>
-
-<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
-  <summary>
-    Submit Proof Example
-  </summary>
-
-```typescript
-import {ApiPromise, Keyring, WsProvider} from "https://deno.land/x/polkadot@0.2.45/api/mod.ts";
-import {API_EXTENSIONS, API_RPC, API_TYPES} from "./api_options.ts";
-import {ISubmittableResult} from "https://deno.land/x/polkadot@0.2.45/types/types/extrinsic.ts";
-import {ethers} from "npm:ethers@5.4";
-
-import ABI from './abi/availbridge.json' with {type: "json"};
-
-const AVAIL_RPC = "ws://127.0.0.1:9944";
-const SURI = "//Alice";
-const BRIDGE_ADDRESS = ""; // deployed bridge address
-const DATA = ""; // data to send
-const BRIDGE_API_URL = ""; // bridge api url
-const ETH_PROVIDER_URL = ""; // eth provider url
-const availApi = await ApiPromise.create({
-    provider: new WsProvider(AVAIL_RPC),
-    rpc: API_RPC,
-    types: API_TYPES,
-    signedExtensions: API_EXTENSIONS,
-});
-const account = new Keyring({type: "sr25519"}).addFromUri(SURI);
-
-/**
- *  ProofData represents a response from the api that holds proof for
- *  the blob verification.
- */
-class ProofData {
-    dataRootProof: Array<string>
-    leafProof: string
-    rangeHash: string
-    dataRootIndex: number
-    blobRoot: string
-    bridgeRoot: string
-    leaf: string
-    leafIndex: number
-}
-
-/**
- * Submitting data to Avail as a transaction.
- *
- * @param availApi api instance
- * @param data payload to send
- * @param account that is sending transaction
- * @returns {Promise<unknown>}
- */
-async function submitData(availApi, data, account) {
-    return await new Promise<ISubmittableResult>((res) => {
-        console.log("Sending transaction...")
-        availApi.tx.dataAvailability.submitData(data).signAndSend(account, {nonce: -1}, (result: ISubmittableResult) => {
-            console.log(`Tx status: ${result.status}`)
-            if (result.isError) {
-                console.log(`Tx failed!`);
-                res(result)
-            }
-            if (result.isInBlock) {
-                console.log("Transaction in block, waiting for block finalization...")
-            }
-            if (result.isFinalized) {
-                console.log(`Tx finalized.`)
-                res(result)
-            }
-        })
-    });
-}
-
-let result = await submitData(availApi, DATA, account);
-if (result.isFinalized) {
-    console.log(`DA transaction in finalized block: ${result.blockNumber}, transaction index: ${result.txIndex}`);
-}
-
-// wait until the chain head on the Ethereum network is updated with the block range
-// in which the Avail DA transaction is included.
-while (true) {
-    let getHeadRsp = await fetch(BRIDGE_API_URL + "/avl/head");
-    if (getHeadRsp.status != 200) {
-        console.log("Something went wrong fetching the head.");
-        break;
-    }
-    let headRsp = await getHeadRsp.json();
-    let blockNumber: number = result.blockNumber.toNumber();
-    let lastCommittedBlock: number = headRsp.data.end;
-    if (lastCommittedBlock >= blockNumber) {
-        console.log("Fetching the blob proof.")
-        const proofResponse = await fetch(BRIDGE_API_URL + "/eth/proof/" + result.status.asFinalized + "?index=" + result.txIndex);
-        if (proofResponse.status != 200) {
-            console.log("Something went wrong fetching the proof.")
-            console.log(proofResponse)
-            break;
-        }
-        let proof: ProofData = await proofResponse.json();
-        console.log("Proof fetched:")
-        console.log(proof);
-        // call the deployed contract verification function with the inclusion proof.
-        const provider = new ethers.providers.JsonRpcProvider(ETH_PROVIDER_URL);
-        const contractInstance = new ethers.Contract(BRIDGE_ADDRESS, ABI, provider);
-        const isVerified = await contractInstance.verifyBlobLeaf([
-            proof.dataRootProof,
-            proof.leafProof,
-            proof.rangeHash,
-            proof.dataRootIndex,
-            proof.blobRoot,
-            proof.bridgeRoot,
-            proof.leaf,
-            proof.leafIndex]
-        );
-        console.log(`Blob validation is: ${isVerified}`)
-        break;
-    }
-
-    console.log("Waiting to bridge inclusion commitment. This can take a while...")
-    // wait for 1 minute to check again
-    await new Promise(f => setTimeout(f, 60*1000));
-}
-
-Deno.exit(0);
-```
-
-</details>
-</Callout>
