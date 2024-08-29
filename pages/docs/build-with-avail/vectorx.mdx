@@ -5,16 +5,16 @@ import { Callout } from 'nextra/components'
 ## Verify data availability on Ethereum
 
 In order to verify data availability on Ethereum it is necessary
-to first submit data to Avail as a data submission transaction. Data
-submitted this way will be included in Avail blocks, but not
-interpreted or executed in any way. The submission can be done using
-`avail-js-sdk` which is a collection of tools for communication withAvail chain.
+to first submit data to Avail DA as a data submission(DA) transaction. Data
+submitted this way will be included in Avail DA's blocks, but not
+interpreted or executed in any way. 
+You can submit data to Avail DA in a variety of ways, but we recommend using our dedicated SDKs. \
+You can check out examples on how to submit new data to Avail DA in our [API reference](/api-reference/avail-node-api/da-submit-data). \
+You can check out a complete example on submitting data and verifying the data blob inclusion [on our github](https://github.com/availproject/avail/blob/main/avail-js/examples/node-examples/src/validium.ts).
 
-Complete example can be found on [github](https://github.com/availproject/avail/blob/example/main/avail-js/examples/node-examples/src/validium.ts).
-
-To submit the data to Avail, extrinsic `availApi.tx.dataAvailability.submitData(data);` should be created with the `data` that will be submitted.
-Once the transaction is included in an Avail block and block finalized the `data root` is generated for this block, and bridged to the
-Ethereum network. Bridging to avail network is done every 360 Avail blocks and the commitment included in the VectorX contract.
+To submit new data to Avail DA, you need to sign the extrinsic `dataAvailability.submitData(data)` with the `data` being passed as a param.
+Once the transaction is included in an Avail block and block finalized a `data root` is generated for this block, and bridged to
+Ethereum. Bridging to avail network is done every 360 Avail blocks and the commitment included in the VectorX contract.
 VectorX is an implementation of zero-knowledge proof circuits for Vector, Avail's Data Attestation Bridge in [SP1](https://github.com/succinctlabs/sp1-vector).
 
 
