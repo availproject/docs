@@ -12,6 +12,10 @@ export function middleware(request: NextRequest) {
 
   const redirects = [
     {
+      source: '/docs/the-avail-token/avail-unification-drop',
+      destination: `${origin}/docs/archived-content/the-avail-token/avail-unification-drop-content`,
+    },
+    {
       source: '/docs/the-avail-trinity',
       destination: `${origin}/docs/introduction-to-avail`,
     },

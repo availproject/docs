@@ -18,18 +18,18 @@ This guide is based on [Arbitrum Orbit Quickstart](https://docs.arbitrum.io/laun
 ### Step-1: Download the [avail-nitro-node](https://hub.docker.com/repository/docker/availj/avail-nitro-node/tags) image from docker hub
     
     ```bash
-    docker pull availj/avail-nitro-node:v2.0.0-upstream-v3.1.0
+    docker pull availj/avail-nitro-node:v2.1.0-upstream-v3.1.1
     ```
     
 
 ## Deploy Rollup Contracts
 
-### Step-1: Download the [avail-nitro-contracts](https://github.com/availproject/nitro-contracts/tree/avail-nitro-contracts-v2-upstream-v2.0.0) with Avail DA 
+### Step-1: Download the [avail-nitro-contracts](https://github.com/availproject/nitro-contracts) with Avail DA 
     
     ```bash
     git clone https://github.com/availproject/nitro-contracts.git
     cd nitro-contracts
-    git checkout avail-nitro-contracts-v2-upstream-v2.0.0
+    git checkout v2.1.0-upstream-v2.1.0
     yarn install
     yarn build
     ```
@@ -39,7 +39,7 @@ This guide is based on [Arbitrum Orbit Quickstart](https://docs.arbitrum.io/laun
     
     - Set Rollup Creator Address at `ROLLUP_CREATOR_ADDRESS` 
     ```bash
-    ROLLUP_CREATOR_ADDRESS="0x190802C89e7ECa67Ac6BF4349c911b22b5A1CC6A"
+    ROLLUP_CREATOR_ADDRESS="0xE917553b67f630C3982236B6A1d7844B1021B909"
     ```
 
     - Add the private key of a well funded ArbSepolia account in `DEVNET_PRIVKEY`
@@ -60,7 +60,7 @@ This guide is based on [Arbitrum Orbit Quickstart](https://docs.arbitrum.io/laun
         stakeToken: ethers.constants.AddressZero,
         baseStake: ethers.utils.parseEther('0.0001'),
         wasmModuleRoot:
-          '0xd8b154a320ab9ce634118c73130e4d95d14d8b340c75c0d3cc548780ed0cce74',
+          '0x3f3b4da7b5c231e6faf91ff723d235728b05c9074f2ae3cc4b3e54dd5139d34f',
         owner: '0x1234123412341234123412341234123412341234',
         loserStakeEscrow: ethers.constants.AddressZero,
         chainId: ethers.BigNumber.from('20121999'),
@@ -236,7 +236,7 @@ Your Orbit chain's base contracts are responsible for facilitating the exchange 
     ```json
     ...
     nitro:
-      image: availj/avail-nitro-node:v2.0.0-upstream-v3.1.0
+      image: availj/avail-nitro-node:v2.1.0-upstream-v3.1.1
       ports:
     ...
     ```
@@ -294,40 +294,48 @@ The following information may be useful to those building on Arbitrum. We list t
 
 |  | [Arbitrum Sepolia](https://sepolia.arbiscan.io/) | [Base Sepolia](https://sepolia.basescan.org/) |
 | --- | --- | --- |
-| RollupCreator | `0x190802C89e7ECa67Ac6BF4349c911b22b5A1CC6A`| `0x87abE0f6F41aE4abE48F2f83c09fcb91538FF899` |
-| SequencerInbox | `0xcA663C6061cF4A8ff0Cd31C0604f90db471d5b46` | `0x917AdaD2aBA138E8FB5c313FfdE862f0d48aDb20` |
-| AvailDABridge | `0x8D2eD57F45e7bB7dbFd7865534Fb5950d58b88B6` | `0xC2D175EBFEcd3A738De4756Eb75BAAaCc4DaD4F9` |
-| Bridge | `0x57b8386be1F860dd6889b862Ae5e81c27539DFa4` | `0x60f896A7D8E5502C2E33cbbb209cc80FcF3edf77` |
-| Inbox | `0x46877a11140AC70ce69B7A6297D1D32355C407AF` | `0x782812c52D1C6c226347282B7F92e68B1663e954` |
-| RollupEventInbox | `0x279d25716Dd13ad225Ad70dfBBBda0A869904BeF` | `0x67b464a5D6C374D5CD266aE0346c164733373cFd` |
-| Outbox | `0xAD03Ef9E7D61AD0b6FD7fa2F22dE2cD01d05889f` | `0x2ba471471255d2085d4bc432a3fE37d2Fdb3f75F` |
-| ERC20SequencerInbox | `0xc16937f9B033A69d12250287f5F3571309D8ae6A` | `0x90DdefD7A1f815a10731eD6C49b790775085F3b2` |
-| ERC20Bridge | `0xb8aF881C34C312ce69D980e023C0c48c7ca98eF8` | `0xd3A8c9ee3C2A755F6046496f8508F5171D54709D` |
-| ERC20RollupEventInbox | `0x8D6B58A4427d842F261437dA8B45A24fE6F2629B` | `0xcBACEDC8FBA961109B89E467992Ad4A629035E89` |
-| ERC20Inbox | `0xB8600aD95a183857405AfB77790Bed1d49aC18A5` | `0xDf92E1ABbC2EC42c3C6Ad6549c20a9dbf323c523` |
-| ERC20Outbox | `0xd646d10E57908Ef7Dd0bee6221201e9a0D95738c` | `0x9c81b24779451282De845bb5D8a36A9463CCf4b4` |
-| BridgeCreator | `0x042e0010aD430F0295D1015488d942D57AA5979D` | `0xeB87997fE837B3826048618CD2Cc54eFd321f2Df` |
-| OneStepProver0 | `0x6Ce949f63A3F4ffb2D87c1d9903a8FC42517681F` | `0x06DA25D69e5a0A73AA20A6Cdb9eA7920B20ca610` |
-| OneStepProverMemory | `0x408933137F305dD7e18d1d9434e6671C7638ff38` | `0x48666da73e1673CF9927DFc332D7fC0B2405ba9e` |
-| OneStepProverMath | `0x480aCfdD3ffD8dEC1125ea3Df534fD9E52eb198f` | `0x594CF7eB15fcebd0A8e9F6dbA5a8a6EAe9D60c04` |
-| OneStepProverHostlo | `0x29CB47B076a27F0022532bCdB596C9861034DeB6` | `0x68c46bb6df0F6a5942b055f354Cd2b0451068C9A` |
-| OneStepProofEntry | `0x7654af2b0084817BB168F18c2C29a8dddfCA5fF9` | `0x7EFFd164F6C5f3f5D9475B8dcc308C1EF1396D65` |
-| ChallengeManager | `0x17e679CCbE2dc97e94777145dF6Fb2f72f269C81` | `0x7e8A6EC95b039396dCD363a155827302B2D1727E` |
-| RollupAdminLogic | `0x3b190a59750168cD3034A4dAeEd34Adf17c22A81` | `0xC7337308C3226b3266955E114F89FbC7811c3ecb` |
-| RollupUserLogic | `0xA848f8DA8EA631987C79aFf6AE22BdF93Bfc9d4b` | `0x4BeC73A5EB24603255a271B8A791F26C451E0A9f` |
-| UpgradeExecutor | `0x703E58535AbA4a5729Dfe1b94a5C2CB4e865B5D1` | `0x37a7C4ebEebe714c434441D294C37c9596DAD463` |
-| ValidatorUtils | `0x4B9ECCeD1F6c54Ef8246F5EeFf351813feBE6EE4` | `0xc733DC7e2d62092B8aEb849Ea2587094902aE4C1` |
-| ValidatorWalletCreator | `0x31E30031E9e9e3bF93Ab6225838c4Ad487311011` | `0x88a5A6A54fd4F8e690Da38B483465A4f7E596e0c` |
-| DeployHelper | `0x8A6b8F93D3E2020Baac0a8c4001bdbA0bdAC252D` | `0xaD61D7f3b974f9502b77fa85cA18E9Ca37246271` |
+| RollupCreator | `0xE917553b67f630C3982236B6A1d7844B1021B909`| `0x66667c90de1E169e705F248614c72076aA1a2240` |
+| Bridge | `0x4A9722A440506469CcA933969f790923Ac59A0A5` | `0x6a7a97E34E6D75724BB58C0d8EFF8cEB27b23A56` |
+| AvailDABridge | `0x5EE5FAd194260bF039b32DEe0bC3D809989A3d00` | `0x36cE36dc5BE3E89F6B25315d8346503B307546A6` |
+| SequencerInbox | `0xA04d516D245D1E11Eb7cF8D38Ec1540A25c2DCB5` | `0x7C44660caB5b6d330cd38a9468F3F84F2f175E9C` |
+| Inbox | `0x790d2BCD12Fa25db147fc033515CBCEc89d89E20` | `0x48dCee9af45842A905FDE5ff5a502EFd06862E49` |
+| RollupEventInbox | `0x62F82278559e8aBdCe222D1A4c2D45dFD6D8C26E` | `0x1cd6c66A1C6b260147909bbd3211Fb9f4424A480` |
+| Outbox | `0xdd414356a4D573865D78D0C5E05d62686c14E376` | `0xdB991f2943CD1A3c17FDb5b78434F4b7331bFb37` |
+| ERC20Bridge | `0x6582b333408D8eF71a951a77E61a263857cd570C` | `0x3d238cf78f740E94753254f9B6339ACaa66c1574` |
+| ERC20SequencerInbox | `0xA878d9432DaCCb14A94EAcB8f6158954e538874a` | `0xE6Cb93cA92f1C65D5709059456ad232721A87c02` |
+| ERC20Inbox | `0x7484e03fF084Fd9C1Bc30de40D7A2ed4acb22AFC` | `0xa5E5c409f39e929087DFbb182C29FE8350Ad1bC8` |
+| ERC20RollupEventInbox | `0xE26d16aAb33950C7bEEcf0F46C161bAc0495dB00` | `0x09Cb2789481759613886b5747c5fE49FAb7c4650` |
+| ERC20Outbox | `0xC313E4F98C525b555A972a564A01bdB76D69BA10` | `0xa183436DAb3ea069010912e0beBB4c734A4aD90c` |
+| BridgeCreator | `0xe188683D96b82a3A1314424E5e9c438461667EdE` | `0xE6DeCD823d1480069348931833F97C3810ea7Ea5` |
+| OneStepProver0 | `0x6404d3539B6d37ebc9AC50d7f528Ee8168ece5cC` | `0x6032313a93F78b9Db91885E6d83e40626f371052` |
+| OneStepProverMemory | `0x71FF43aeb6E788B855410447Bbc1F71916Bb98Ec` | `0x5AFee8C856386Ac18E56CdA14470637e13C1D47b` |
+| OneStepProverMath | `0xcCe345C15E7a9AA7784601e28811671cf41bF711` | `0x91EF8ffce4AbB1b256662A6a6C4C7051534aD575` |
+| OneStepProverHostlo | `0x65DCCc4bA7836B743D2370A5fbea8Ef3263789d9` | `0x49Fb114B5c708eF2a5aa6Ba413da55E5F07389C4` |
+| OneStepProofEntry | `0x7452e148a7faffac053f442080DE8f305d0C8642` | `0xd0A9C68313233C568AD19B55FECac9148245Fb76` |
+| ChallengeManager | `0x1c8285a7BFc8E5F4960aB105ca0E595Ce80858b2` | `0x71BF09F4787187b3c62dA0a89c893Ca5687ffef0` |
+| RollupAdminLogic | `0x0922ce6b911B420EBC5851943Adfba40587B6852` | `0x488088F12D354b2bEe8c5d5C27Dd266f0b70c5eb` |
+| RollupUserLogic | `0x256E8dD36893f00E6C0c1B1099561b8322692B91` | `0x3A12b3eB213CAb423324400D49Ec7d61c903ac20` |
+| UpgradeExecutor | `0x0c78cDc973de62ae83D99cEe87D8bD45d5Cd2084` | `0x2F6DdA8EA7b41186c1C00980fF1b96df23E4D442` |
+| ValidatorUtils | `0x0911837C1cdC5b5C6ACDBc887Be223A05c3c6FDD` | `0xCa56EB65F0C84e2BeCCd6A42Ff2ADAC5e362705e` |
+| ValidatorWalletCreator | `0x367Ad15A9aDFF8C2D1D51892F2d717bF2B86a3aD` | `0xD3E785B544bf85f124fa0f3aC557127882Ed2f09` |
+| DeployHelper | `0xD58aa678074840c5A74c29d85A493723c4f48e8c` | `0xaD98D017aA12d0a7A265d4BFAfd289CE9968943f` |
 | VectorX | `0xA712dfec48AF3a78419A8FF90fE8f97Ae74680F0` | `0x13cBE46E168460a101c07efb6Ab7B9ec637F02aA` |
 | Avail Bridge | `0x420953898afC97147675F793a90d3793b974698b` | `0xBC3071f9dE256B3b9C6304731F28C98f102425De` |
 | Avail Bridge Proxy | `0xa3e9e20875b7A7461C4829663497F7c2baB9E13b` | `0x9378F9E35ff46a131406FEb7a226F7da4395DB48` |
 
 ## Previous Releases
 
+### v2.1.0-upstream-v3.1.0
+* nitro-node: [avail-nitro-node:v2.1.0-upstream-v3.1.0](https://hub.docker.com/repository/docker/availj/avail-nitro-node/tags)
+* nitro-contracts: [avail-nitro-contracts:v2.1.0-upstream-v2.0.0](https://github.com/availproject/nitro-contracts/releases/tag/v2.1.0-upstream-v2.0.0)
+* Rollup creator address: 
+  * Arbitrum Sepolia: `0x9673b69f55808c4eB56b4e5E29ec1aE85e7f20f4`
+  * Base Sepolia: `0xfB3b37b5685340169de1BcEc5d607912eBbB6668`
+* wasm module root: `0x29e13d2cf8e8e44b8306703e845e0b9ee732f5144da4666a0079e9f50aec21aa`
+
 ### v2.0.0-upstream-v2.3.1
-* nitro-node: [availj/avail-nitro-node:v2.0.0-upstream-v2.3.1](https://hub.docker.com/repository/docker/availj/avail-nitro-node/tags)
-* nitro-contracts: [avail-nitro-contracts:v2.0.0-upstream-v1.2.1](https://github.com/availproject/nitro-contracts/tree/avail-nitro-contracts-v2-upstream-v1.2.1)
+* nitro-node: [avail-nitro-node:v2.0.0-upstream-v2.3.1](https://hub.docker.com/repository/docker/availj/avail-nitro-node/tags)
+* nitro-contracts: [avail-nitro-contracts:v2.0.0-upstream-v1.2.1](https://github.com/availproject/nitro-contracts/releases/tag/v2.0.0-upstream-v1.2.1)
 * Rollup creator address: 
   * Arbitrum Sepolia: `0x364DE2F72f1496Fdf02c133A5fe60e6a079f2178`
   * Base Sepolia: `0x246A71eefDBd543D015dbE8CAe52263103d49315`
@@ -337,8 +345,8 @@ The following information may be useful to those building on Arbitrum. We list t
 <Callout type="warning">
 The previous release of v1 is not recommended for install any more, but we will continue supporting it until a migration path from v1 to current release is provided.
 </Callout>
-* nitro-node: [availj/avail-nitro-node:v1.0.0-upstream-v2.3.1](https://hub.docker.com/repository/docker/availj/avail-nitro-node/tags)
-* nitro-contracts: [avail-nitro-contracts:v1.0.0-upstream-v1.2.1](https://github.com/availproject/nitro-contracts/tree/avail-nitro-contracts-v1-upstream-v1.2.1)
+* nitro-node: [avail-nitro-node:v1.0.0-upstream-v2.3.1](https://hub.docker.com/repository/docker/availj/avail-nitro-node/tags)
+* nitro-contracts: [avail-nitro-contracts:v1.0.0-upstream-v1.2.1](https://github.com/availproject/nitro-contracts/releases/tag/v1.0.0-upstream-v1.2.1)
 * Rollup creator address: 
   * Arbitrum Sepolia: `0xADCBE5c221566FA6e6Ebf5BA08759c83177DfCDA`
 * wasm module root:
