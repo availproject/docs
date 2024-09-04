@@ -1,0 +1,12 @@
+{
+    "GET API": {
+        "type": "separator",
+        "title": "REST API"
+     },
+    "liveness": "Check liveness of server",
+    "versions": "API versions supported on the server",
+    "eth-head": "Get current Ethereum head",
+    "avail-head": "Get current Avail head",
+    "merkle-proof": "Get Merkle proof for a block",
+    "storage-proof" : "Get storage proof for a block"
+}
