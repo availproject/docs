@@ -2,6 +2,11 @@ import { Callout } from 'nextra/components'
 
 # VectorX
 
+VectorX is the implementation of Avail's the Data attestation bridge that is used to bridge
+data from Avail to the EVM compatible chains in form of data roots commitments. It is implemented as a
+zero-knowledge proof circuits in SP1. SP1 is the most feature completed zero-knowledge virtual machine
+that can prove execution of arbitrary Rust and any other LLVM compiled languages.
+
 ## Verify data availability on Ethereum
 
 In order to verify data availability on Ethereum it is necessary
@@ -15,18 +20,19 @@ You can check out a complete example on submitting data and verifying the data b
 To submit new data to Avail DA, you need to sign the extrinsic `dataAvailability.submitData(data)` with the `data` being passed as a param.
 Once the transaction is included in an Avail block and block finalized a `data root` is generated for this block, and bridged to
 Ethereum. Bridging to avail network is done every 360 Avail blocks and the commitment included in the VectorX contract.
+This way DA transaction becomes a part of the Avail's block `data-root` and the data root is a part of the 360 blocks commitment that is stored on the VectorX contract.
 VectorX is an implementation of zero-knowledge proof circuits for Vector, Avail's Data Attestation Bridge in [SP1](https://github.com/succinctlabs/sp1-vector).
-
 
 Deployed VectorX contract for Turing testnet on the Sepolia testnet: `0xe542db219a7e2b29c7aeaeace242c9a2cd528f96`.
 
 Deployed VectorX contract for Avail mainnet on the Ethereum network: `0x02993cdC11213985b9B13224f3aF289F03bf298d`.
 
-When the data root is bridged to the Ethereum network, it is possible to query for the inclusion proof using the `bridge-api`
+When the data root is bridged to the Ethereum network, it is possible to query for the inclusion proof(Merkle proof) using the `bridge-api` service
 deployed for Turing testnet `https://turing-bridge-api.fra.avail.so` and mainnet `https://bridge-api.avail.so`.
+Bridge API is a service that provides all necessary endpoints and allows easy integration of the bridge.
 Detail documentation can be found ([here](https://github.com/availproject/bridge-api/blob/main/README.md)) .
 
-By submitting proof to the verification contract it is possible to verify
+By submitting a Merkle proof to the verification contract it is possible to verify
 that data is available on Avail. Merkle proof is a list of hashes that can be used to prove
 that given leaf is a member of the Merkle tree. Example of submitting a proof to the bridge verification contract
 deployed on Sepolia network for Turing ([`0x967F7DdC4ec508462231849AE81eeaa68Ad01389`](https://sepolia.etherscan.io/address/0x967F7DdC4ec508462231849AE81eeaa68Ad01389))
