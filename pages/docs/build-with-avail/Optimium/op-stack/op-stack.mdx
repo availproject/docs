@@ -45,6 +45,13 @@ Ensure you have installed the following software.
 </td>
 <td valign="top">
 
+##### Use the following releases while following the guide:
+
+- op-node/v1.9.1
+- op-proposer/v1.9.1
+- op-batcher/v1.9.1
+- op-geth v1.101408.0
+
 ```bash
 # Install Git
 sudo apt install -y git curl make jq
@@ -333,14 +340,15 @@ mkdir avail-optimism
 CONTRACT_ADDRESSES_PATH=deployments/artifact.json DEPLOY_CONFIG_PATH=deploy-config/getting-started.json STATE_DUMP_PATH=deploy-config/statedump.json forge script scripts/L2Genesis.s.sol:L2Genesis --sig 'runWithStateDump()' --chain <YOUR_L2_CHAINID>
 ```
 
-> 
+>
 
 <Callout emoji="⚠️" type="warning">
 
-If you see a nondescript error that includes `EvmError: Revert` and Script failed then you likely need to change the `IMPL_SALT` environment variable. This variable determines the addresses of various smart contracts that are deployed via `CREATE2`. 
+If you see a nondescript error that includes `EvmError: Revert` and Script failed then you likely need to change the `IMPL_SALT` environment variable. This variable determines the addresses of various smart contracts that are deployed via `CREATE2`.
 
 If the same `IMPL_SALT` is used to deploy the same
-contracts twice, the second deployment will fail.  
+contracts twice, the second deployment will fail.
+
 > You can generate a new `IMPL_SALT` by running `direnv reload` anywhere in the Avail Optimism Monorepo.
 
 </Callout>
