@@ -331,8 +331,8 @@ mkdir avail-optimism
    ```bash
    DEPLOYMENT_OUTFILE=deployments/artifact.json \
    DEPLOY_CONFIG_PATH=deploy-config/getting-started.json \
-   forge script scripts/Deploy.s.sol:Deploy  --broadcast --private-key $GS_ADMIN_PRIVATE_KEY \
-   --rpc-url $L1_RPC_URL
+   forge script scripts/deploy/Deploy.s.sol:Deploy  --broadcast --private-key $GS_ADMIN_PRIVATE_KEY \
+   --rpc-url $L1_RPC_URL --slow
    ```
 4. L2 Allocs
 
