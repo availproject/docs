@@ -102,17 +102,15 @@ sudo apt install -y direnv
   </tr>
 </table>
 
-## Compile the Core Codebase
-
-Setting up the EVM Rollup requires compiling code from two critical repositories: the [<ins>optimism-Alt-DA-Avail monorepo</ins>](https://github.com/availproject/optimism-Alt-DA-Avail) and the [<ins>op-geth repository</ins>](https://github.com/ethereum-optimism/op-geth).
-
 ### Build the Adapter Source
 
 1. Clone and navigate to the Avail adapter:
 
    ```bash
-   git clone https://github.com/availproject/optimism-Alt-DA-Avail.git
-   cd optimism-Alt-DA-Avail
+   git clone https://github.com/ethereum-optimism/optimism.git
+   cd optimism
+   git fetch --tag --all
+   git checkout v1.9.1
    git submodule update --init --recursive
    ```
 
@@ -135,6 +133,8 @@ Setting up the EVM Rollup requires compiling code from two critical repositories
    ```bash
    git clone https://github.com/ethereum-optimism/op-geth.git
    cd op-geth
+   git fetch --tag --all
+   git checkout v1.101408.0
    ```
 
 2. Compile `op-geth`:
