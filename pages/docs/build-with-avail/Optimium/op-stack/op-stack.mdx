@@ -45,13 +45,6 @@ Ensure you have installed the following software.
 </td>
 <td valign="top">
 
-##### Use the following releases while following the guide:
-
-- op-node/v1.9.1
-- op-proposer/v1.9.1
-- op-batcher/v1.9.1
-- op-geth v1.101408.0
-
 ```bash
 # Install Git
 sudo apt install -y git curl make jq
@@ -83,6 +76,41 @@ sudo apt install -y direnv
 </td>
   </tr>
 </table>
+
+##### Use the following releases while following the guide:
+
+- op-node/v1.9.1
+- op-proposer/v1.9.1
+- op-batcher/v1.9.1
+- op-geth v1.101408.0
+
+## Setup Avail DA-server
+
+#### Run avail-da server ( manually ).
+
+1. Navigate to
+
+```
+git clone https://github.com/availproject/avail-alt-da-server.git
+cd avail-alt-da-server
+
+```
+
+2. Build Avail DA Server:
+   ` make da-server`
+
+3. Run your DA sidecar:
+   `./bin/avail-da-server ./cmd/avail  --addr=localhost --port=8000 --avail.rpc=<WS url to an avail node> --avail.seed=<> --avail.appid=<>`
+
+#### Run using docker
+
+- Copy `.env.example` to `.env`. Fill the values inside.
+
+- Run the following commands:
+  ```
+  docker-compose build
+  docker-compose up
+  ```
 
 ### Build the Adapter Source
 
@@ -395,34 +423,6 @@ After configuring the L1 layer, focus shifts to establishing the L2 infrastructu
    ```
 
 These steps ensure the L2 layer is correctly configured and ready for integration with the L1 components, paving the way for a fully functional EVM Rollup on the Avail-OP Stack.
-
-## Setup Avail DA-server
-
-#### Run avail-da server ( manually ).
-
-1. Navigate to
-
-```
-git clone https://github.com/availproject/avail-alt-da-server.git
-cd avail-alt-da-server
-
-```
-
-2. Build Avail DA Server:
-   ` make da-server`
-
-3. Run your DA sidecar:
-   `./bin/avail-da-server ./cmd/avail  --addr=localhost --port=8000 --avail.rpc=<WS url to an avail node> --avail.seed=<> --avail.appid=<>`
-
-#### Run using docker
-
-- Copy `.env.example` to `.env`. Fill the values inside.
-
-- Run the following commands:
-  ```
-  docker-compose build
-  docker-compose up
-  ```
 
 ## Initialize and Configure Geth
 
