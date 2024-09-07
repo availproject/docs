@@ -229,82 +229,111 @@ After building the repositories, configure your chain settings in the [<ins>cont
 
 Deploy essential L1 contracts for the chain’s functionality:
 
-1. Update `/optimism-Alt-DA-Avail/packages/contracts-bedrock/deploy-config` and update file `devnetL1-template.json` by referencing the following configs ( addresses will vary for each user, the following is a demo-config deployed for sepolia L1):
+1. Update `/optimism-Alt-DA-Avail/packages/contracts-bedrock/deploy-config` and update file `getting_started.json`.
+
+```
+cd packages/contracts-bedrock
+./scripts/getting-started/config.sh
+```
+
+2. Add the following at the bottom of the config generated:
+
+```
+ "useAltDA": true,
+  "daCommitmentType": "GenericCommitment",
+  "daChallengeWindow": 160,
+  "daResolveWindow": 160,
+  "daBondSize": 1000000,
+  "daResolverRefundPercentage": 0
+```
+
+Example config ( for reference purpose ):
 
 ```
 {
-   "finalSystemOwner": "0xfd1D2e729aE8eEe2E146c033bf4400fE75284301",
-  "superchainConfigGuardian": "0xfd1D2e729aE8eEe2E146c033bf4400fE75284301",
-  "l1StartingBlockTag": "0x48f520cf4ddaf34c8336e6e490632ea3cf1e5e93b0b2bc6e917557e31845371b",
+{
+  "l1StartingBlockTag": "0x2c9f156ae1cc024817b920b41c102b23b5a7526e16220c517078341f9890e8bd",
+
   "l1ChainID": 11155111,
   "l2ChainID": 11155420,
   "l2BlockTime": 2,
   "l1BlockTime": 12,
+
   "maxSequencerDrift": 600,
   "sequencerWindowSize": 3600,
   "channelTimeout": 300,
-  "p2pSequencerAddress": "0x57CACBB0d30b01eb2462e5dC940c161aff3230D3",
-  "batchInboxAddress": "0xff00000000000000000000000000000011155420",
-  "batchSenderAddress": "0x8F23BB38F531600e5d8FDDaAEC41F13FaB46E98c",
+
+  "p2pSequencerAddress": "0x15cb6e5fa6a7134F3f6f5a9130F70c1344162b77",
+  "batchInboxAddress": "0xff00000000000000000000000000000000042069",
+  "batchSenderAddress": "0x5bd31d51C4041108c238473f27BF5f72311b1bcF",
+
   "l2OutputOracleSubmissionInterval": 120,
   "l2OutputOracleStartingBlockNumber": 0,
-  "l2OutputOracleStartingTimestamp": 1690493568,
-  "l2OutputOracleProposer": "0x49277EE36A024120Ee218127354c4a3591dc90A9",
-  "l2OutputOracleChallenger": "0xfd1D2e729aE8eEe2E146c033bf4400fE75284301",
+  "l2OutputOracleStartingTimestamp": 1725740628,
+
+  "l2OutputOracleProposer": "0x07B4c44290fD2Fba85d7924Fbf4A6499661bBe53",
+  "l2OutputOracleChallenger": "0x79A953eAc59e40B3c7567a4cfc446c4B4912722f",
+
   "finalizationPeriodSeconds": 12,
-  "proxyAdminOwner": "0xfd1D2e729aE8eEe2E146c033bf4400fE75284301",
-  "baseFeeVaultRecipient": "0xfd1D2e729aE8eEe2E146c033bf4400fE75284301",
-  "l1FeeVaultRecipient": "0xfd1D2e729aE8eEe2E146c033bf4400fE75284301",
-  "sequencerFeeVaultRecipient": "0xfd1D2e729aE8eEe2E146c033bf4400fE75284301",
+
+  "proxyAdminOwner": "0x79A953eAc59e40B3c7567a4cfc446c4B4912722f",
+  "baseFeeVaultRecipient": "0x79A953eAc59e40B3c7567a4cfc446c4B4912722f",
+  "l1FeeVaultRecipient": "0x79A953eAc59e40B3c7567a4cfc446c4B4912722f",
+  "sequencerFeeVaultRecipient": "0x79A953eAc59e40B3c7567a4cfc446c4B4912722f",
+  "finalSystemOwner": "0x79A953eAc59e40B3c7567a4cfc446c4B4912722f",
+  "superchainConfigGuardian": "0x79A953eAc59e40B3c7567a4cfc446c4B4912722f",
+
   "baseFeeVaultMinimumWithdrawalAmount": "0x8ac7230489e80000",
   "l1FeeVaultMinimumWithdrawalAmount": "0x8ac7230489e80000",
   "sequencerFeeVaultMinimumWithdrawalAmount": "0x8ac7230489e80000",
   "baseFeeVaultWithdrawalNetwork": 0,
   "l1FeeVaultWithdrawalNetwork": 0,
   "sequencerFeeVaultWithdrawalNetwork": 0,
+
+  "gasPriceOracleOverhead": 0,
+  "gasPriceOracleScalar": 1000000,
+
   "enableGovernance": true,
   "governanceTokenSymbol": "OP",
   "governanceTokenName": "Optimism",
-  "governanceTokenOwner": "0xfd1D2e729aE8eEe2E146c033bf4400fE75284301",
+  "governanceTokenOwner": "0x79A953eAc59e40B3c7567a4cfc446c4B4912722f",
+
   "l2GenesisBlockGasLimit": "0x1c9c380",
   "l2GenesisBlockBaseFeePerGas": "0x3b9aca00",
+
   "eip1559Denominator": 50,
+  "eip1559DenominatorCanyon": 250,
   "eip1559Elasticity": 6,
+  "l2GenesisFjordTimeOffset": "0x0",
   "l2GenesisRegolithTimeOffset": "0x0",
+  "l2GenesisEcotoneTimeOffset": "0x0",
+  "l2GenesisDeltaTimeOffset": "0x0",
+  "l2GenesisCanyonTimeOffset": "0x0",
   "systemConfigStartBlock": 0,
-  "requiredProtocolVersion": "0x0000000000000000000000000000000000000004000000000000000000000001",
-  "recommendedProtocolVersion": "0x0000000000000000000000000000000000000004000000000000000000000001",
-  "fundDevAccounts": true,
-  "faultGameAbsolutePrestate": "0x03e69d3de5155f4a80da99dd534561cbddd4f9dd56c9ecc704d6886625711d2b",
-  "faultGameMaxDepth": 73,
-  "faultGameClockExtension": 10800,
-  "faultGameMaxClockDuration": 302400,
-  "faultGameGenesisBlock": 9496192,
-  "faultGameGenesisOutputRoot": "0x63b1cda487c072b020a57c1203f7c2921754005cadbd54bed7f558111b8278d8",
-  "faultGameSplitDepth": 30,
-  "faultGameWithdrawalDelay": 604800,
-  "preimageOracleMinProposalSize": 126000,
-  "preimageOracleChallengePeriod": 86400,
-  "proofMaturityDelaySeconds": 604800,
-  "disputeGameFinalityDelaySeconds": 302400,
-  "respectedGameType": 0,
-  "useFaultProofs": true,
-  "usePlasma": true,
+
+  "requiredProtocolVersion": "0x0000000000000000000000000000000000000000000000000000000000000000",
+  "recommendedProtocolVersion": "0x0000000000000000000000000000000000000000000000000000000000000000",
+
+  "faultGameAbsolutePrestate": "0x03c7ae758795765c6664a5d39bf63841c71ff191e9189522bad8ebff5d4eca98",
+  "faultGameMaxDepth": 44,
+  "faultGameClockExtension": 0,
+  "faultGameMaxClockDuration": 1200,
+  "faultGameGenesisBlock": 0,
+  "faultGameGenesisOutputRoot": "0x0000000000000000000000000000000000000000000000000000000000000000",
+  "faultGameSplitDepth": 14,
+  "faultGameWithdrawalDelay": 600,
+
+  "preimageOracleMinProposalSize": 1800000,
+  "preimageOracleChallengePeriod": 300,
+
+  "useAltDA": true,
   "daCommitmentType": "GenericCommitment",
   "daChallengeWindow": 160,
   "daResolveWindow": 160,
   "daBondSize": 1000000,
-  "daResolverRefundPercentage": 0,
-  "cliqueSignerAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
-  "l1UseClique": true,
-  "gasPriceOracleOverhead": 2100,
-  "gasPriceOracleScalar": 1000000,
-  "gasPriceOracleBaseFeeScalar": 1368,
-  "gasPriceOracleBlobBaseFeeScalar": 810949,
-  "eip1559DenominatorCanyon": 250,
-  "l1GenesisBlockTimestamp": "0x64c811bf",
-  "l2GenesisDeltaTimeOffset": null,
-  "l2GenesisCanyonTimeOffset": "0x0"
+  "daResolverRefundPercentage": 0
+}
+
 }
 
 ```
@@ -319,14 +348,14 @@ mkdir avail-optimism
 3. Navigate to `/optimism-Alt-DA-Avail/packages/contracts-bedrock/` and the deploy contracts (this can take up to 15 minutes):
    ```bash
    DEPLOYMENT_OUTFILE=deployments/artifact.json \
-   DEPLOY_CONFIG_PATH=deploy-config/devnetL1-template.json \
+   DEPLOY_CONFIG_PATH=deploy-config/getting-started.json \
    forge script scripts/Deploy.s.sol:Deploy  --broadcast --private-key $GS_ADMIN_PRIVATE_KEY \
    --rpc-url $L1_RPC_URL
    ```
 4. L2 Allocs
 
 ```
-CONTRACT_ADDRESSES_PATH=deployments/artifact.json DEPLOY_CONFIG_PATH=deploy-config/devnetL1-template.json STATE_DUMP_PATH=deploy-config/statedump.json forge script scripts/L2Genesis.s.sol:L2Genesis --sig 'runWithStateDump()' --chain <YOUR_L2_CHAINID>
+CONTRACT_ADDRESSES_PATH=deployments/artifact.json DEPLOY_CONFIG_PATH=deploy-config/getting-started.json STATE_DUMP_PATH=deploy-config/statedump.json forge script scripts/L2Genesis.s.sol:L2Genesis --sig 'runWithStateDump()' --chain <YOUR_L2_CHAINID>
 ```
 
 > If you see a nondescript error that includes `EvmError: Revert` and Script
@@ -354,7 +383,7 @@ After configuring the L1 layer, focus shifts to establishing the L2 infrastructu
 
    ```bash
    go run cmd/main.go genesis l2 \
-   --deploy-config ../packages/contracts-bedrock/deploy-config/devnetL1-template.json \
+   --deploy-config ../packages/contracts-bedrock/deploy-config/getting-started.json \
    --l1-deployments ../packages/contracts-bedrock/deployments/artifact.json \
    --outfile.l2 genesis.json \
    --outfile.rollup rollup.json \
@@ -381,19 +410,31 @@ These steps ensure the L2 layer is correctly configured and ready for integratio
 
 ## Setup Avail DA-server
 
-Prepare the avail-da server.
+#### Run avail-da server ( manually ).
 
 1. Navigate to
 
 ```
- cd op-plasma
+git clone https://github.com/availproject/avail-alt-da-server.git
+cd avail-alt-da-server
+
 ```
 
 2. Build Avail DA Server:
-   ` make avail-da-server`
+   ` make da-server`
 
-3. Run you DA sidecar:
-   `go run ./cmd/avail  --addr=localhost --port=8000 --avail.rpc=<WS url to an avail node> --avail.seed=<> --avail.appid=<>`
+3. Run your DA sidecar:
+   `./bin/avail-da-server ./cmd/avail  --addr=localhost --port=8000 --avail.rpc=<WS url to an avail node> --avail.seed=<> --avail.appid=<>`
+
+#### Run using docker
+
+- Copy `.env.example` to `.env`. Fill the values inside.
+
+- Run the following commands:
+  ```
+  docker-compose build
+  docker-compose up
+  ```
 
 ## Initialize and Configure Geth
 
@@ -436,7 +477,6 @@ cd ~/op-geth
   --ws.origins="*" \
   --ws.api=debug,eth,txpool,net,engine \
   --syncmode=full \
-  --gcmode=archive \
   --nodiscover \
   --maxpeers=0 \
   --networkid=42069 \
@@ -444,7 +484,8 @@ cd ~/op-geth
   --authrpc.addr=0.0.0.0 \
   --authrpc.port=9551 \
   --authrpc.jwtsecret=./jwt.txt \
-  --rollup.disabletxpoolgossip=true
+  --rollup.disabletxpoolgossip=true \
+  --state.scheme=path
 ```
 
 `op-geth` is now active, but block creation will begin once `op-node` is operational.
@@ -492,8 +533,10 @@ cd ~/optimism-Alt-DA-Avail/op-node
   --p2p.sequencer.key=$GS_SEQUENCER_PRIVATE_KEY \
   --l1=$L1_RPC_URL \
   --l1.rpckind=$L1_RPC_KIND \
-  --plasma.enabled=true \
-  --plasma.da-server=<DA_SERVER_URL> \
+  --altda.enabled=true \
+  --altda.da-server=<DA_SERVER_HTTP_URL> \
+  --altda.da-service=true \
+  --l1.beacon.ignore=true
 ```
 
 Block creation will commence once `op-node` starts processing L1 information and interfaces with `op-geth`.
@@ -512,7 +555,7 @@ To optimize synchronization and avoid network resource waste:
 ```bash
 cd ~/optimism-Alt-DA-Avail/op-batcher
 ./bin/op-batcher \
-  --l2-eth-rpc=http://localhost:8545 \
+  --l2-eth-rpc=http://localhost:9551 \
   --rollup-rpc=http://localhost:8547 \
   --poll-interval=1s \
   --sub-safety-margin=6 \
@@ -525,8 +568,9 @@ cd ~/optimism-Alt-DA-Avail/op-batcher
   --max-channel-duration=1 \
   --l1-eth-rpc=$L1_RPC_URL \
   --private-key=$GS_BATCHER_PRIVATE_KEY
-  --plasma.enabled=true \
-  --plasma.da-server=<DA_SERVER_HTTP_URL>
+  --altda.enabled=true \
+  --altda.da-service=true \
+  --altda.da-server=<DA_SERVER_HTTP_URL>
 ```
 
 #### Controlling Batcher Costs
