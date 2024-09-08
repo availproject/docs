@@ -167,10 +167,10 @@ Create four essential accounts with private keys:
 
 You can use `cast wallet` in the `contracts-bedrock` package for key generation:
 
-1. In the Avail adapter repo, navigate to the [<ins>contracts-bedrock package</ins>](https://github.com/availproject/avail-optimism/tree/129032f15b76b0d2a940443a39433de931a97a44/packages/contracts-bedrock):
+1. In the Optimism repo, navigate to the [<ins>contracts-bedrock package</ins>](https://github.com/ethereum-optimism/optimism/tree/129032f15b76b0d2a940443a39433de931a97a44/packages/contracts-bedrock):
 
    ```bash
-   cd ~/optimism-Alt-DA-Avail/packages/contracts-bedrock
+   cd ~/optimism/packages/contracts-bedrock
    ```
 
 2. Generate accounts:
@@ -219,12 +219,12 @@ Use secure hardware for key management in production environments.
 
 ## Network Configuration and Setup
 
-After building the repositories, configure your chain settings in the [<ins>contracts-bedrock package</ins>](https://github.com/availproject/avail-optimism/tree/129032f15b76b0d2a940443a39433de931a97a44/packages/contracts-bedrock).
+After building the repositories, configure your chain settings in the [<ins>contracts-bedrock package</ins>](https://github.com/ethereum-optimism/optimism/tree/129032f15b76b0d2a940443a39433de931a97a44/packages/contracts-bedrock).
 
 1. Ensure you are in the `contracts-bedrock` sub-directory:
 
    ```bash
-   cd ~/optimism-Alt-DA-Avail/packages/contracts-bedrock
+   cd ~/optimism/packages/contracts-bedrock
    ```
 
 2. Activate the environment with `direnv`:
@@ -239,7 +239,7 @@ After building the repositories, configure your chain settings in the [<ins>cont
 
 Deploy essential L1 contracts for the chain’s functionality:
 
-1. Update `/optimism-Alt-DA-Avail/packages/contracts-bedrock/deploy-config` and update file `getting_started.json`.
+1. Update `/optimism/packages/contracts-bedrock/deploy-config` and update file `getting_started.json`.
 
 ```
 cd packages/contracts-bedrock
@@ -348,14 +348,14 @@ Example config ( for reference purpose ):
 
 ```
 
-2.  Navigate to `/optimism-Alt-DA-Avail/packages/contracts-bedrock/deployments`, and create `avail-optimism` directory:
+2.  Navigate to `/optimism/packages/contracts-bedrock/deployments`, and create `avail-optimism` directory:
 
 ```bash
-cd ~/optimism-Alt-DA-Avail/packages/contracts-bedrock/deployments
+cd ~/optimism/packages/contracts-bedrock/deployments
 mkdir avail-optimism
 ```
 
-3. Navigate to `/optimism-Alt-DA-Avail/packages/contracts-bedrock/` and the deploy contracts (this can take up to 15 minutes):
+3. Navigate to `/optimism/packages/contracts-bedrock/` and the deploy contracts (this can take up to 15 minutes):
    ```bash
    DEPLOYMENT_OUTFILE=deployments/artifact.json \
    DEPLOY_CONFIG_PATH=deploy-config/getting-started.json \
@@ -392,7 +392,7 @@ After configuring the L1 layer, focus shifts to establishing the L2 infrastructu
 1. Navigate to the `op-node` directory:
 
    ```bash
-   cd ~/optimism-Alt-DA-Avail/op-node
+   cd ~/optimism/op-node
    ```
 
 2. Run the following command, ensuring you replace `<RPC>` with your specific L1 RPC URL. This generates the `genesis.json` and `rollup.json` files:
@@ -506,7 +506,7 @@ In cases of database corruption indicated by `op-node` errors or failure to find
 To launch `op-node`, which acts as a consensus client, run:
 
 ```bash
-cd ~/optimism-Alt-DA-Avail/op-node
+cd ~/optimism/op-node
 ./bin/op-node \
   --l2=http://localhost:9551 \
   --l2.jwt-secret=./jwt.txt \
@@ -541,7 +541,7 @@ To optimize synchronization and avoid network resource waste:
 `op-batcher` is crucial in publishing transactions from the Sequencer to L1. Ensure it has at least 1 Sepolia ETH for operational continuity.
 
 ```bash
-cd ~/optimism-Alt-DA-Avail/op-batcher
+cd ~/optimism/op-batcher
 ./bin/op-batcher \
   --l2-eth-rpc=http://localhost:9545 \
   --rollup-rpc=http://localhost:8547 \
@@ -570,7 +570,7 @@ Adjust the `--max-channel-duration=n` setting to balance transaction frequency o
 Finally, start `op-proposer` to propose new state roots:
 
 ```bash
-cd ~/optimism-Alt-DA-Avail/op-proposer
+cd ~/optimism/op-proposer
 ./bin/op-proposer \
   --poll-interval=12s \
   --rpc.port=9560 \
@@ -587,7 +587,7 @@ To obtain ETH on your Rollup:
 1. Go to `contracts-bedrock`:
 
    ```bash
-   cd ~/optimism-Alt-DA-Avail/packages/contracts-bedrock
+   cd ~/optimism/packages/contracts-bedrock
    ```
 
 2. Find the L1 standard bridge contract address:
