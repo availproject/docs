@@ -23,6 +23,7 @@ const config: DocsThemeConfig = {
       </>
     ),
   },
+  darkMode: true,
   docsRepositoryBase: "https://github.com/availproject/docs/blob/main",
   chat: {
     link: "https://twitter.com/AvailProject",
@@ -48,7 +49,7 @@ const config: DocsThemeConfig = {
     component: <Footer />,
   },
   nextThemes: {
-    defaultTheme: "light",
+    defaultTheme: 'light',
   },
   useNextSeoProps() {
     const { route } = useRouter();
