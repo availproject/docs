@@ -1,0 +1,31 @@
+
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Get current Ethereum head
+
+### Request
+
+- `GET /v1/eth/head`
+
+
+<Tabs items={['CURL']}>
+
+<Tabs.Tab>
+    
+```sh
+curl http://localhost:8080/v1/eth/head
+```
+
+</Tabs.Tab>
+</Tabs>
+
+### Response
+
+```json filename="Example JSON response"
+{
+  "slot":4454752,
+  "timestamp":1709191840,
+  "timestampDiff":1716
+}
+```

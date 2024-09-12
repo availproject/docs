@@ -1,0 +1,26 @@
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Check liveness of server
+
+### Request
+
+- `GET /`
+
+
+<Tabs items={['CURL']}>
+
+<Tabs.Tab>
+    
+```sh
+curl http://localhost:8080
+```
+
+</Tabs.Tab>
+</Tabs>
+
+### Response
+
+```json filename="Example JSON response"
+{"name":"Avail Bridge API"}
+```
