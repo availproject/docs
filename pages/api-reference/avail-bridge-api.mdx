@@ -3,3 +3,99 @@ import { Callout } from 'nextra/components'
 
 # Avail bridge API reference
 
+<Callout type="info">
+**BEFORE WE START**<br/>
+1. The Avail VectorX bridge can be used to pass messages and tokens between \
+Avail DA Turing - Ethereum Sepolia (testnet bridge),
+and between Avail DA mainnet - Ethereum mainnet (mainnet bridge).
+2. You can check out a complete list of endpoints required to use the bridge API in the [networks page](/docs/networks#for-devs).
+</Callout>
+
+<Callout type="info">
+**TWO WAYS OF USING THE BRIDGE API**<br/>
+1. You can build and run the bridge API locally using the instructions outlined in this repo:
+[availproject/bridge-api](https://github.com/availproject/bridge-api)
+2. We have included two public endpoints for the bridge API in the [networks page](/docs/networks#for-devs) that you can use.
+For the sake of simplicity that is what we will be using in this guide.
+</Callout>
+
+## Setting up the dev environment
+
+
+<Tabs items={['CURL', 'avail-deno', 'avail-rust']}>
+
+<Tabs.Tab>
+
+1. To use the Avail bridge API with `curl`, you just need to have `curl` installed on your system. 
+You can check if it is installed by running:
+
+```sh
+curl --version
+```
+
+2. If this does not work, go to [curl's website](https://curl.se/) to install it on your system. 
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Make sure `deno-js` is installed on your system. You can refer to [Deno's docs](https://docs.deno.com/runtime/manual/) for the same.
+
+2. Create a new Deno JS project by running `deno init` in a directory of your choice.
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Make sure `rust` and cargo are installed on your system. You can refer to [Rustlang's docs](https://www.rust-lang.org/tools/install) for the same.
+
+2. Create a new Rust project by running `cargo init`.
+
+3. Paste the following into your `Cargo.toml` file:
+
+```toml
+[package]
+name = "avail_bridge_api"
+version = "0.1.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+avail-rust = { git = "https://github.com/availproject/avail" }
+tokio = { version = "1.35", features = ["full"] }
+codec = { package = "parity-scale-codec", version = "3", default-features = false, features = [
+    "derive",
+    "full",
+    "bit-vec",
+] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0.127"
+sp-core = { version = "21.0.0" }
+hex = "0.4"
+hex-literal = "0.3.4"
+anyhow = "1.0.79"
+reqwest = { version = "0.11.24", features = ["json"] }
+ringbuffer = { version = "0.15.0", features = ["alloc"] }
+secp256k1 = "0.28"
+tracing = "0.1.40"
+tracing-subscriber = { version = "0.3.18", features = ["json", "env-filter"] }
+chrono = "0.4.34"
+confy = "0.6"
+tokio-test = "0.4"
+alloy-sol-types = { version = "0.7.4", features = ["json"] }
+alloy-sol-macro = { version = "0.7.4", features = ["json"] }
+alloy = { git = "https://github.com/alloy-rs/alloy", version = "0.2.1" }
+alloy-contract = { git = "https://github.com/alloy-rs/alloy", version = "0.2.1" }
+alloy-provider = { git = "https://github.com/alloy-rs/alloy", version = "0.2.1" }
+alloy-network = { git = "https://github.com/alloy-rs/alloy", version = "0.2.1" }
+# alloy-primitives = { git = "https://github.com/alloy-rs/alloy", version = "0.2.1" }
+alloy-signer = { git = "https://github.com/alloy-rs/alloy", version = "0.2.1" }
+alloy-signer-local = { git = "https://github.com/alloy-rs/alloy", version = "0.2.1" }
+toml = "0.8.19"
+
+
+[profile.release]
+panic = 'abort'
+```
+
+</Tabs.Tab>
+</Tabs>

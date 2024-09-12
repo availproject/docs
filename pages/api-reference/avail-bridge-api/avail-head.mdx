@@ -1,0 +1,32 @@
+
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Get current Avail head
+
+### Request
+
+- `GET /v1/avl/head`
+
+
+<Tabs items={['CURL']}>
+
+<Tabs.Tab>
+    
+```sh
+curl http://localhost:8080/v1/avl/head
+```
+
+</Tabs.Tab>
+</Tabs>
+
+### Response
+
+```json filename="Example JSON response"
+{
+  "data":{
+    "end":512738,
+    "start":488581
+    }
+}
+```
