@@ -1,0 +1,166 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+ 
+# Nominate validator(s) for your nomination pool
+
+On-chain name of method: `nominationPools_nominate`
+
+## Parameters
+
+<Tabs items={['avail-deno', 'avail-rust']}>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                     |
+| --------- | ------------- | -------- | ----------------------------------------------- |
+| targets   | string[]      | false    | list of validator addresses to nominate                   |
+| waitFor   | WaitFor       | false    | wait for block inclusion or finalization        |
+| account   | KeyringPair   | false    | account that will send and sign the transaction |
+| options   | SignerOptions | true     | used to overwrite existing signer options       |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type        | optional | description                                     |
+| --------- | ----------- | -------- | ----------------------------------------------- |
+| targets   | &[String]   | false    | list of validator addresses to nominate                   |
+| waitFor   | WaitFor     | false    | wait for block inclusion or finalization        |
+| account   | KeyringPair | false    | account that will send and sign the transaction |
+| options   | Options     | true     | transaction parameters                          |
+</Tabs.Tab>
+
+</Tabs>
+
+## Returns
+
+On failure, a reason for the failure is returned. On success, the function will return a object of type `NominateTxSuccess`.
+This object contains the details of the transaction and the nomination pool.
+
+## Minimal example
+
+<Tabs items={['avail-deno', 'avail-rust']}>
+
+<Tabs.Tab>
+
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript filename="avail-deno"
+import { Keyring, SDK, WaitFor } from "https://raw.githubusercontent.com/availproject/avail/main/avail-deno/src/sdk.ts";
+
+const providerEndpoint = "wss://turing-rpc.avail.so/ws";
+const sdk = await SDK.New(providerEndpoint);
+ 
+const Alice = 'barrel thought large whisper stairs naive finish pull ginger carpet mutual sight';
+ 
+const account = new Keyring({ type: "sr25519" }).addFromUri(Alice);
+const targets = [
+	"5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY", 
+	"5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty",
+];
+
+const result = await sdk.tx.staking.nominate(targets, WaitFor.BlockInclusion, account);
+if (result.isErr) {
+	console.log(result.reason);
+	Deno.exit(1);
+}
+
+console.log(JSON.stringify(result, null, 4));
+
+Deno.exit();
+```
+
+2. Run the code using:
+
+```bash
+deno run --allow-net your-file-name.ts
+```
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```js
+{
+    "isErr": false,
+    "txData": {
+        "targets": [
+            "5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY",
+            "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty"
+        ]
+    },
+    "events": [...],
+    "txHash": "0x2f81a34f59d36eb7ada96ec1070358043026d7bd7cfb6fa5a532cc474190880b",
+    "txIndex": 1,
+    "blockHash": "0x49a57953aa2b2ba508f1c6991515309a0fe89723a79f3831f9a9263ba8c7baa4",
+    "blockNumber": 4
+}
+```
+</details>
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.rs`, add the following code:
+
+```rust filename="avail-rust"
+use avail_rust::{Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
+use core::str::FromStr;
+
+#[tokio::main]
+async fn main() -> Result<(), String> {
+	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
+ 
+	let Alice = "barrel thought large whisper stairs naive finish pull ginger carpet mutual sight";
+	let secret_uri = SecretUri::from_str(Alice).unwrap();
+	let account = Keypair::from_uri(&secret_uri).unwrap();
+	let targets = [
+		String::from("5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY"), // Alice Stash
+		String::from("5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty"), // Bob;
+	];
+
+	let wait_for = WaitFor::BlockInclusion;
+	let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
+	let result = sdk
+		.tx
+		.staking
+		.nominate(&targets, wait_for, &account, Some(options))
+		.await?;
+
+	dbg!(result);
+
+	Ok(())
+}
+```
+
+2. Run the code using:
+
+```bash
+cargo run
+```
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```rust
+NominateTxSuccess {
+    events: ExtrinsicEvents {
+        ext_hash: 0x6e0ae6fde353974f8b46aace441c49ba7ab135fa3743e0e1331d35c4528dacfb,
+        idx: 1,
+        events: Events {
+            event_bytes: [...],
+            start_idx: 1,
+            num_events: 8,
+        },
+    },
+    tx_data: Nominate {
+        targets: [
+            Id(AccountId32(...)),
+            Id(AccountId32(...)),
+        ],
+    },
+    tx_hash: 0x6e0ae6fde353974f8b46aace441c49ba7ab135fa3743e0e1331d35c4528dacfb,
+    tx_index: 1,
+    block_hash: 0xd9b3c0e77d6b376b3963055f65156e30c63b4ecc54d6c113ecb431b9cf877bb8,
+    block_number: 28,
+}
+```
+</details>
+</Tabs.Tab>
+
+</Tabs>
