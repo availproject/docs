@@ -6,7 +6,9 @@
 
     "da-create-application-key": "Create a new App ID on Avail DA",
     "da-submit-data": "Submit new data to Avail DA",
-
+    "da-app-keys": "Fetch App IDs from Avail DA",
+    "da-next-app-id": "Fetch the next available App ID on Avail DA",
+    
     "Balances pallet": {
         "type": "separator",
         "title": "Balances pallet"
@@ -25,5 +27,14 @@
     "staking-nominate": "Nominate staked AVAIL tokens to one or more validators",
     "staking-unbond": "Unbond AVAIL tokens from Avail DA",
     "staking-validate": "Become a validator on Avail DA",
-    "staking-chill": "Stop validating on Avail DA"
+    "staking-chill": "Stop validating on Avail DA",
+    "staking-active-era": "Fetch information on the active era",
+
+    "System Pallet": {
+        "type": "separator",
+        "title": "System pallet"
+     },
+
+    "system-account": "Fetch all account information"
+
 }
