@@ -1,0 +1,119 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Fetch the next available App ID on Avail DA
+
+On-chain name of method: `dataAvailablity_nextAppId`
+
+<Callout type="info">
+`app_ids`, once registered, cannot be claimed by another dev.
+You can use this method to fetch the next available `app_id` for your awesome rollup :)
+</Callout>
+
+## Parameters
+
+<Tabs items={['avail-deno', 'avail-rust']}>
+
+<Tabs.Tab>
+- None
+</Tabs.Tab>
+
+<Tabs.Tab>
+- None
+</Tabs.Tab>
+
+</Tabs>
+
+## Returns
+
+- `app_id`: The next available App ID
+
+## Minimal example (Fetch the next available `app_id`)
+
+<Tabs items={['avail-deno', 'avail-rust']}>
+
+<Tabs.Tab>
+
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript filename="avail-deno"
+import { SDK } from "https://raw.githubusercontent.com/availproject/avail/main/avail-deno/src/sdk.ts";
+
+const providerEndpoint = "wss://turing-rpc.avail.so/ws";
+const sdk = await SDK.New(providerEndpoint);
+
+const value = await sdk.api.query.dataAvailability.nextAppId();
+console.log(value.toHuman());
+
+Deno.exit();
+```
+
+2. Run the code using:
+
+```bash
+deno run --allow-net your-file-name.ts
+```
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```json
+99
+```
+</details>
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.rs`, add the following code:
+
+```rust filename="avail-rust"
+use avail_rust::{avail, SDK};
+
+#[tokio::main]
+async fn main() -> Result<(), String> {
+	let sdk = SDK::new("ws://127.0.0.1:9944").await.unwrap();
+
+	let storage_query = avail::storage().data_availability().next_app_id();
+	let best_block_hash = sdk
+		.rpc
+		.chain
+		.get_block_hash(None)
+		.await
+		.map_err(|e| e.to_string())?;
+	let result = sdk
+		.api
+		.storage()
+		.at(best_block_hash)
+		.fetch(&storage_query)
+		.await
+		.map_err(|e| e.to_string())?;
+
+	dbg!(result);
+
+	Ok(())
+}
+```
+
+2. Run the code using:
+
+```bash
+cargo run
+```
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```json
+Some(
+    AppId(
+        99,
+    ),
+)
+```
+</details>
+
+</Tabs.Tab>
+
+</Tabs>
+
