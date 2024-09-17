@@ -1,0 +1,259 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Fetch App IDs from Avail DA
+
+On-chain name of method: `dataAvailablity_appKeys`
+
+## Parameters
+
+<Tabs items={['avail-deno', 'avail-rust']}>
+
+<Tabs.Tab>
+
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+|  key      | string        | true     | The `app_id` associated with this key will be fetched |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+|  key      | string        | true     | The `app_id` associated with this key will be fetched |
+</Tabs.Tab>
+
+</Tabs>
+
+## Return value
+
+On failure, a reason for failure is returned. On sucess, the returned JSON object contains:
+
+1. `Owner`: The owner of the `app_id`
+2. `AppId`: The numerical index of the `app_id`
+
+## Minimal example (Fetch a particular `app_id`)
+
+
+<Callout type="info">
+You will need to set up the dev enviornment required to run this example. 
+For instructions, [check out our docs here](/api-reference/avail-node-api#setting-up-the-dev-environment).
+</Callout>
+
+<Tabs items={['avail-deno', 'avail-rust']}>
+
+<Tabs.Tab>
+
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript filename="avail-deno"
+import { SDK } from "https://raw.githubusercontent.com/availproject/avail/main/avail-deno/src/sdk.ts";
+
+const providerEndpoint = "wss://turing-rpc.avail.so/ws";
+const sdk = await SDK.New(providerEndpoint);
+
+const key = "Reserved-2";
+const value = await sdk.api.query.dataAvailability.appKeys(key);
+console.log(value.toHuman());
+
+Deno.exit();
+```
+
+2. Run the code using:
+
+```bash
+deno run --allow-net your-file-name.ts
+```
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```json
+{ owner: "5CK87QdvhcSJvVa7ZACcEfd5i7J1GqoqbEFB2kzNn3Ms13fE", id: "2" }
+```
+</details>
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.rs`, add the following code:
+
+```rust filename="avail-rust"
+use avail_rust::{
+	avail::{self, runtime_types::bounded_collections::bounded_vec::BoundedVec},
+	SDK,
+};
+
+#[tokio::main]
+async fn main() -> Result<(), String> {
+	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
+
+	let key = String::from("gohan");
+	let key = BoundedVec(key.as_bytes().to_vec());
+	let storage_query = avail::storage().data_availability().app_keys(key);
+	let best_block_hash = sdk
+		.rpc
+		.chain
+		.get_block_hash(None)
+		.await
+		.map_err(|e| e.to_string())?;
+	let result = sdk
+		.api
+		.storage()
+		.at(best_block_hash)
+		.fetch(&storage_query)
+		.await
+		.map_err(|e| e.to_string())?;
+
+	dbg!(result);
+
+	Ok(())
+}
+```
+
+2. Run the code using:
+
+```bash
+cargo run
+```
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```json
+result = Some(
+    AppKeyInfo {
+        owner: AccountId32(
+            [
+                10,
+                255,
+                21,
+                20,
+                123,
+                225,
+                34,
+                49,
+                109,
+                40,
+                40,
+                86,
+                26,
+                184,
+                109,
+                251,
+                201,
+                136,
+                224,
+                246,
+                137,
+                212,
+                142,
+                149,
+                160,
+                242,
+                197,
+                86,
+                117,
+                80,
+                45,
+                110,
+            ],
+        ),
+        id: AppId(
+            1,
+        ),
+    },
+)
+```
+</details>
+
+<Callout type="info">
+The list of numbers seperated by commas is merely a different way of representing the Substrate
+addresses in the `AccountId32` format.
+</Callout>
+
+</Tabs.Tab>
+
+</Tabs>
+
+## Another example (Fetch all available `app_ids` registered on Avail DA)
+
+<Callout type="info">
+1. Think of the `dataAvailablity_appKeys` as a method that returns all the `app_ids` registered on Avail DA
+as a mapping of their names to their owner and index.
+2. In most cases a dev will be interested in fetching only a particular `app_id` and not all of them.
+3. We are however including both scenarios here.
+</Callout>
+
+<Tabs items={['avail-deno', 'avail-rust']}>
+
+<Tabs.Tab>
+
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript filename="avail-deno"
+import { SDK } from "https://raw.githubusercontent.com/availproject/avail/main/avail-deno/src/sdk.ts";
+
+const providerEndpoint = "wss://turing-rpc.avail.so/ws";
+const sdk = await SDK.New(providerEndpoint);
+
+const appKeys = await sdk.api.query.dataAvailability.appKeys.entries();
+for (const [key, value] of appKeys) {
+	console.log(key.toHuman());
+	console.log(value.toHuman());
+}
+
+Deno.exit();   
+```
+
+2. Run the code using:
+
+```bash
+deno run --allow-net your-file-name.ts
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.rs`, add the following code:
+
+```rust filename="avail-rust"
+use avail_rust::{avail, SDK};
+
+#[tokio::main]
+async fn main() -> Result<(), String> {
+	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
+
+	let storage_query = avail::storage().data_availability().app_keys_iter();
+	let best_block_hash = sdk
+		.rpc
+		.chain
+		.get_block_hash(None)
+		.await
+		.map_err(|e| e.to_string())?;
+	let mut results = sdk
+		.api
+		.storage()
+		.at(best_block_hash)
+		.iter(storage_query)
+		.await
+		.map_err(|e| e.to_string())?;
+
+	while let Some(Ok(kv)) = results.next().await {
+		let key = (&kv.key_bytes[49..]).to_vec();
+		let key = String::from_utf8(key).unwrap();
+
+		println!("Key: {:?}", key);
+		println!("Value: {:?}", kv.value);
+	}
+
+	Ok(())
+}
+```
+
+2. Run the code using:
+
+```bash
+cargo run
+```
+</Tabs.Tab>
+
+</Tabs>
