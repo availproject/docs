@@ -1,0 +1,118 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Fetch information on the active era
+
+On-chain name of method: `staking_activeEra`
+
+## Parameters
+
+<Tabs items={['avail-deno', 'avail-rust']}>
+
+<Tabs.Tab>
+- None
+</Tabs.Tab>
+
+<Tabs.Tab>
+- None
+</Tabs.Tab>
+
+</Tabs>
+
+## Returns
+
+- `index`: The index of the active era
+- `start`: The timestamp when the active era started
+
+## Minimal example (Fetch the active era)
+
+<Tabs items={['avail-deno', 'avail-rust']}>
+
+<Tabs.Tab>
+
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript filename="avail-deno"
+import { SDK } from "https://raw.githubusercontent.com/availproject/avail/main/avail-deno/src/sdk.ts";
+
+const providerEndpoint = "wss://turing-rpc.avail.so/ws";
+const sdk = await SDK.New(providerEndpoint);
+
+const value = await sdk.api.query.staking.activeEra();
+console.log(value.toHuman());
+
+Deno.exit();
+```
+
+2. Run the code using:
+
+```bash
+deno run --allow-net your-file-name.ts
+```
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```json
+{ 
+    index: "174", 
+    start: "1,726,523,440,000" 
+}
+```
+</details>
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.rs`, add the following code:
+
+```rust filename="avail-rust"
+use avail_rust::{avail, SDK};
+
+#[tokio::main]
+async fn main() -> Result<(), String> {
+	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
+
+	let storage_query = avail::storage().staking().active_era();
+	let best_block_hash = sdk
+		.rpc
+		.chain
+		.get_block_hash(None)
+		.await
+		.map_err(|e| e.to_string())?;
+	let result = sdk
+		.api
+		.storage()
+		.at(best_block_hash)
+		.fetch(&storage_query)
+		.await
+		.map_err(|e| e.to_string())?;
+
+	dbg!(result);
+
+	Ok(())
+}
+```
+
+2. Run the code using:
+
+```bash
+cargo run
+```
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```json
+result = Some(
+    ActiveEraInfo {
+        index: 174,
+        start: Some(
+            1726523440000,
+        ),
+    },
+)
+```
+</details>
+</Tabs.Tab>
+
+</Tabs>
