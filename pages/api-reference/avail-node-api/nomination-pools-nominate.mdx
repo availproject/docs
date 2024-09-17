@@ -47,7 +47,7 @@ import { Keyring, SDK, WaitFor } from "https://raw.githubusercontent.com/availpr
 const providerEndpoint = "wss://turing-rpc.avail.so/ws";
 const sdk = await SDK.New(providerEndpoint);
  
-const Alice = 'barrel thought large whisper stairs naive finish pull ginger carpet mutual sight';
+const Alice = 'This is a random seed phrase please do not use it';
  
 const account = new Keyring({ type: "sr25519" }).addFromUri(Alice);
 const targets = [
@@ -106,7 +106,7 @@ use core::str::FromStr;
 async fn main() -> Result<(), String> {
 	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
  
-	let Alice = "barrel thought large whisper stairs naive finish pull ginger carpet mutual sight";
+	let Alice = "This is a random seed phrase please do not use it";
 	let secret_uri = SecretUri::from_str(Alice).unwrap();
 	let account = Keypair::from_uri(&secret_uri).unwrap();
 	let targets = [
