@@ -6,7 +6,11 @@ On-chain name of method: `staking_activeEra`
 
 ## Parameters
 
-<Tabs items={['avail-deno', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-deno', 'avail-rust']}>
+
+<Tabs.Tab>
+- None
+</Tabs.Tab>
 
 <Tabs.Tab>
 - None
@@ -26,11 +30,42 @@ On-chain name of method: `staking_activeEra`
 ## Minimal example (Fetch the active era)
 
 <Callout type="info">
-You will need to set up the dev enviornment required to run this example. 
+1. You will need to set up the dev enviornment required to run this example. 
 For instructions, [check out our docs here](/api-reference/avail-node-api#setting-up-the-dev-environment).
+
+2. If you're sending an extrinsic (i.e conducting a transaction) you will need to replace the demo seed phrase with your own seed phrase.
+The rest of the code should work as is.
 </Callout>
 
-<Tabs items={['avail-deno', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-deno', 'avail-rust']}>
+
+<Tabs.Tab>
+
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript filename="avail-js"
+import { SDK } from "avail-js-sdk"
+
+const main = async () => {
+  const providerEndpoint = "wss://turing-rpc.avail.so/ws"
+  const sdk = await SDK.New(providerEndpoint)
+
+  const value = await sdk.api.query.staking.activeEra()
+  console.log(value.toHuman())
+
+  process.exit()
+}
+
+main()
+```
+
+2. Run the code using:
+
+```bash
+ts-node your-file-name.ts
+```
+
+</Tabs.Tab>
 
 <Tabs.Tab>
 
