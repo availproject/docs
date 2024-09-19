@@ -32,7 +32,6 @@ On failure, a reason for failure is returned. On sucess, the returned JSON objec
 
 ## Minimal example (Fetch a particular `app_id`)
 
-
 <Callout type="info">
 You will need to set up the dev enviornment required to run this example. 
 For instructions, [check out our docs here](/api-reference/avail-node-api#setting-up-the-dev-environment).
@@ -76,7 +75,7 @@ deno run --allow-net your-file-name.ts
 
 1. Inside `main.rs`, add the following code:
 
-```rust filename="avail-rust"
+```rust filename="avail-rust" filename="avail-rust"
 use avail_rust::{
 	avail::{self, runtime_types::bounded_collections::bounded_vec::BoundedVec},
 	SDK,
@@ -215,7 +214,7 @@ deno run --allow-net your-file-name.ts
 
 1. Inside `main.rs`, add the following code:
 
-```rust filename="avail-rust"
+```rust filename="avail-rust" filename="avail-rust"
 use avail_rust::{avail, SDK};
 
 #[tokio::main]

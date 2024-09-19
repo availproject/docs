@@ -4,11 +4,11 @@ import { Callout, Steps, Tabs } from 'nextra/components'
 
 On-chain name of extrinsic: `balances_transferAll`
 
+## Parameters
+
 <Tabs items={['avail-js', 'avail-deno', 'avail-rust']}>
+
 <Tabs.Tab>
-
-### Parameters
-
 | parameter | type          | optional | description                                      |
 | --------- | ------------- | -------- | ------------------------------------------------ |
 | dest      | string        | false    | account that will receive funds                  |
@@ -16,15 +16,48 @@ On-chain name of extrinsic: `balances_transferAll`
 | waitFor   | WaitFor       | false    | wait for block inclusion or finalization         |
 | account   | KeyringPair   | false    | account that will send and sign the transaction  |
 | options   | SignerOptions | true     | used to overwrite existing signer options        |
+</Tabs.Tab>
 
-### Return value
+<Tabs.Tab>
+| parameter | type          | optional | description                                      |
+| --------- | ------------- | -------- | ------------------------------------------------ |
+| dest      | string        | false    | account that will receive funds                  |
+| keepAlive | boolean       | false    | if set to false it will reap the account as well |
+| waitFor   | WaitFor       | false    | wait for block inclusion or finalization         |
+| account   | KeyringPair   | false    | account that will send and sign the transaction  |
+| options   | SignerOptions | true     | used to overwrite existing signer options        |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type        | optional | description                                      |
+| --------- | ----------- | -------- | ------------------------------------------------ |
+| dest      | &str        | false    | account that will receive funds                  |
+| keepAlive | bool        | false    | if set to false it will reap the account as well |
+| waitFor   | WaitFor     | false    | wait for block inclusion or finalization         |
+| account   | KeyringPair | false    | account that will send and sign the transaction  |
+</Tabs.Tab>
+
+</Tabs>
+
+## Return value
 
 On failure, a reason of failure is returned. On Success, TransferEvent event, KilledAccount (optionally) event, transaction hash and block
 hash is returned.
 
-### Minimal Example
+## Minimal Example
 
-```js
+<Callout type="info">
+You will need to set up the dev enviornment required to run this example. 
+For instructions, [check out our docs here](/api-reference/avail-node-api#setting-up-the-dev-environment).
+</Callout>
+
+<Tabs items={['avail-js', 'avail-deno', 'avail-rust']}>
+
+<Tabs.Tab>
+
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript filename="avail-js"
 import { Keyring } from "@polkadot/api"
 import { SDK } from "avail-js-sdk"
 import { WaitFor } from "avail-js-sdk/sdk/transactions"
@@ -53,27 +86,18 @@ const main = async () => {
 main()
 ```
 
+2. Run the code using:
+
+```bash
+ts-node your-file-name.ts
+```
 </Tabs.Tab>
+
 <Tabs.Tab>
 
-#### Parameters
+1. Inside `your-file-name.ts`, add the following code:
 
-| parameter | type          | optional | description                                      |
-| --------- | ------------- | -------- | ------------------------------------------------ |
-| dest      | string        | false    | account that will receive funds                  |
-| keepAlive | boolean       | false    | if set to false it will reap the account as well |
-| waitFor   | WaitFor       | false    | wait for block inclusion or finalization         |
-| account   | KeyringPair   | false    | account that will send and sign the transaction  |
-| options   | SignerOptions | true     | used to overwrite existing signer options        |
-
-#### Return value
-
-On failure, a reason of failure is returned. On Success, TransferEvent event, KilledAccount (optionally) event, transaction hash and block
-hash is returned.
-
-### Minimal Example
-
-```js
+```typescript filename="avail-deno"
 import { Keyring, SDK, WaitFor } from "https://raw.githubusercontent.com/availproject/avail/main/avail-deno/src/sdk.ts";
 
 const providerEndpoint = "wss://turing-rpc.avail.so/ws";
@@ -98,41 +122,18 @@ console.log("TxHash=" + result.txHash + ", BlockHash=" + result.blockHash);
 Deno.exit();
 ```
 
+2. Run the code using:
+
+```bash
+deno run --allow-net your-file-name.ts
+```
 </Tabs.Tab>
 
 <Tabs.Tab>
 
-#### Parameters
+1. Inside `main.rs`, add the following code:
 
-| parameter | type        | optional | description                                      |
-| --------- | ----------- | -------- | ------------------------------------------------ |
-| dest      | &str        | false    | account that will receive funds                  |
-| keepAlive | bool        | false    | if set to false it will reap the account as well |
-| waitFor   | WaitFor     | false    | wait for block inclusion or finalization         |
-| account   | KeyringPair | false    | account that will send and sign the transaction  |
-
-#### Return value
-
-On failure, a reason of failure is returned. On Success, TransferEvent event, KilledAccount (optionally) event, transaction hash and block
-hash is returned.
-
-### Minimal Example
-
-#### Cargo.toml
-
-```rust
-[package]
-name = "balance-transfer-all"
-edition = "2021"
-
-[dependencies]
-avail-rust = { git = "https://github.com/availproject/avail" }
-tokio = { version = "1.38.0", features = ["rt-multi-thread"] }
-```
-
-#### main.rs
-
-```rust
+```rust filename="avail-rust"
 use avail_rust::{Keypair, SecretUri, WaitFor, SDK};
 use core::str::FromStr;
 
@@ -168,5 +169,11 @@ async fn main() -> Result<(), String> {
 }
 ```
 
+2. Run the code using:
+
+```bash
+cargo run
+```
 </Tabs.Tab>
+
 </Tabs>
