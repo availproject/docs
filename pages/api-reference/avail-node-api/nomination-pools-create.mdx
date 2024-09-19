@@ -41,6 +41,11 @@ This object contains the details of the transaction and your newly created nomin
 
 ## Minimal example
 
+<Callout type="info">
+You will need to set up the dev enviornment required to run this example. 
+For instructions, [check out our docs here](/api-reference/avail-node-api#setting-up-the-dev-environment).
+</Callout>
+
 <Tabs items={['avail-deno', 'avail-rust']}>
 
 <Tabs.Tab>
@@ -113,7 +118,7 @@ deno run --allow-net your-file-name.ts
 
 1. Inside `main.rs`, add the following code:
 
-```rust filename="avail-rust"
+```rust filename="avail-rust" filename="avail-rust"
 use avail_rust::{Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
 use core::str::FromStr;
 
@@ -160,7 +165,7 @@ cargo run
 <br/>
 <details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
 <summary>Sample Response:</summary>
-```rust
+```rust filename="avail-rust"
 PoolCreateTxSuccess {
     event: Created {
         depositor: AccountId32(...),
