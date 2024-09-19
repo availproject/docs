@@ -6,7 +6,13 @@ On-chain name of method: `dataAvailablity_appKeys`
 
 ## Parameters
 
-<Tabs items={['avail-deno', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-deno', 'avail-rust']}>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+|  key      | string        | true     | The `app_id` associated with this key will be fetched |
+</Tabs.Tab>
 
 <Tabs.Tab>
 
@@ -33,11 +39,42 @@ On failure, a reason for failure is returned. On sucess, the returned JSON objec
 ## Minimal example (Fetch a particular `app_id`)
 
 <Callout type="info">
-You will need to set up the dev enviornment required to run this example. 
+1. You will need to set up the dev enviornment required to run this example. 
 For instructions, [check out our docs here](/api-reference/avail-node-api#setting-up-the-dev-environment).
+
+2. If you're sending an extrinsic (i.e conducting a transaction) you will need to replace the demo seed phrase with your own seed phrase.
+The rest of the code should work as is.
 </Callout>
 
-<Tabs items={['avail-deno', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-deno', 'avail-rust']}>
+
+<Tabs.Tab>
+
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript filename="avail-js"
+import { SDK } from "avail-js-sdk"
+
+const main = async () => {
+  const providerEndpoint = "wss://turing-rpc.avail.so/ws"
+  const sdk = await SDK.New(providerEndpoint)
+
+  const key = "Reserved-2"
+  const value = await sdk.api.query.dataAvailability.appKeys(key)
+  console.log(value.toHuman())
+
+  process.exit()
+}
+
+main()
+```
+
+2. Run the code using:
+
+```bash
+ts-node your-file-name.ts
+```
+</Tabs.Tab>
 
 <Tabs.Tab>
 
@@ -182,7 +219,37 @@ as a mapping of their names to their owner and index.
 3. We are however including both scenarios here.
 </Callout>
 
-<Tabs items={['avail-deno', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-deno', 'avail-rust']}>
+
+<Tabs.Tab>
+
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript filename="avail-js"
+import { SDK } from "avail-js-sdk"
+
+const main = async () => {
+  const providerEndpoint = "wss://turing-rpc.avail.so/ws"
+  const sdk = await SDK.New(providerEndpoint)
+
+  const appKeys = await sdk.api.query.dataAvailability.appKeys.entries()
+  for (const [key, value] of appKeys) {
+    console.log(key.toHuman())
+    console.log(value.toHuman())
+  }
+
+  process.exit()
+}
+
+main()
+```
+
+2. Run the code using:
+
+```bash
+ts-node your-file-name.ts
+```
+</Tabs.Tab>
 
 <Tabs.Tab>
 
