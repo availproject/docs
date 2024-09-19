@@ -47,6 +47,11 @@ the number of transactions executed on Avail DA by that particular account.
 
 ## Minimal example (Fetch account information for a single account)
 
+<Callout type="info">
+You will need to set up the dev enviornment required to run this example. 
+For instructions, [check out our docs here](/api-reference/avail-node-api#setting-up-the-dev-environment).
+</Callout>
+
 <Tabs items={['avail-deno', 'avail-rust']}>
 
 <Tabs.Tab>
@@ -96,7 +101,7 @@ deno run --allow-net your-file-name.ts
 
 1. Inside `main.rs`, add the following code:
 
-```rust filename="avail-rust"
+```rust filename="avail-rust" filename="avail-rust"
 use avail_rust::{avail, AccountId, SDK};
 use core::str::FromStr;
 
