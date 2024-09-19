@@ -37,8 +37,6 @@ On-chain name of extrinsic: `dataAvailability_submitData`
 
 </Tabs>
 
-
-
 ## Returns
 
 On failure, a reason of failure is returned. On Success, DataSubmitted event, transaction data, transaction hash and block hash is returned.
@@ -145,7 +143,7 @@ TxHash=0x5ce5b90b30b640cc34a2301da591c4f1526726e5c732f5615166d24fd60313cc, Block
 
 1. Inside `src/main.rs`, paste the following code:
 
-```rust
+```rust filename="avail-rust"
 use avail_rust::{Data, Keypair, SecretUri, WaitFor, SDK};
 use core::str::FromStr;
 
@@ -299,7 +297,7 @@ deno run --allow-net your-file-name.ts
 <Tabs.Tab>
 1. Inside `src/main.rs`, paste the following code:
 
-```rust
+```rust filename="avail-rust"
 use avail_rust::{Data, Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
 use core::str::FromStr;
  
