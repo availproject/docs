@@ -1,1 +1,42 @@
-fdsfdf  rgdfsfdsg df
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Avail's gas relay
+
+Avail's gas relay service provides a seamless way for customers to pay gas fees on Avail DA  using 
+tokens other than AVAIL. It simplifies transactions by enabling users to maintain a balance of their preferred 
+token and using it to post data to Avail DA.
+
+## Here's how it works
+
+<Steps>
+
+### Multi-Token Gas Payment
+ 
+Customers can pay gas fees in a token of their choice. 
+The service calculates the gas fee in AVAIL and converts it to the chosen token using real-time exchange rates.
+ 
+### Automated Fee Payment
+ 
+When a customer submits data to the service, the corresponding gas fee is deducted from their token balance. The service then posts the data to the Avail DA chain and covers the AVAIL fee.
+
+### Account Balances
+
+Customers can maintain token balances on the service, which tracks the available funds for fee payments.
+Topping up is done via deposits on Ethereum.
+
+### Authentication
+
+A simple, secure bearer token system is implemented for customer identification, 
+ensuring only authorized users can access their balances. Tokens are issued manually and passed in HTTP headers.
+
+### Fee and Balance Queries
+
+Customers can query their current balance and check the fee that would be charged for posting data at any time.
+
+</Steps>
+
+<Callout type="info">
+**GET STARTED NOW**<br/>
+The gas relay is currently a centralised service that we run internally to empower our devs.
+To get started you can reach out to us on our Discord, and our team will be right there to help you through :)
+</Callout>
