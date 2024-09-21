@@ -1,0 +1,25 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Admin calls this function to trigger a db update with Avail balance
+
+## Request
+
+- `Path`: `/admin/transfer_funds`
+- `Method type`: `POST`
+- `Headers`: `Authorization: Bearer <token>`, `Content-Type: application/json`
+
+## Params
+
+- `token_address`: A whitelisted address of a token user wants to subscribe to.
+- `amount_deposited`: The amount of funds that a user deposited for submission. The value should **NOT BE** decimal scaled.
+
+## Example request
+
+```bash
+curl -X POST "https://api.example.com/v1/admin/transfer_funds" \
+     -H "Authorization: Bearer YOUR_TOKEN" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "fund_id": 1
+         }'
+```
