@@ -1,0 +1,36 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Register a new token
+
+## Request
+
+- `Path`: `/users/register_new_token`
+- `Method type`: `POST`
+- `Headers`: `Authorization: Bearer <token>`, `Content-Type: application/json`
+
+## Params
+
+- `token_address`: A whitelisted address of a token user wants to subscribe to.
+
+## Example request
+
+```bash
+curl -X POST "https://api.example.com/v1/user/register_new_token" \
+     -H "Authorization: Bearer YOUR_TOKEN" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "name": "John Doe",
+           "app_id": 1001
+         }'
+```
+
+## Example Response
+
+```json
+{
+  "token_details_id": 1,
+  "user_id": "user_2lO5zzxhV08hooYiSCOkfWfPxls",
+  "token_address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+  "token_balance": "100000000000000000000"
+}
+```
