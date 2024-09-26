@@ -78,15 +78,15 @@ You will fetch a list of all registered `AppIds` on Avail DA.
 <img src="/img/app-ids/app-id-2.png" align="center" /> 
 </div>
 
-Each `AppId` consists of 3 fields:
+Each `appID` consists of 3 fields:
 
-- `key`: This is a string that is the name of the `AppId`. Each `AppId` should have a unique name.
-- `owner`: This is the address of the account that created the `AppId`. A single address can create multiple `AppIds`.
-- `id`: This is the unique integer index of the `AppId`. It is incremented by 1 everytime a new `AppId` is created. Whenever a new
-`AppId` is created, it is automatically assigned the next available `id`.
+- `key`: This is a string that is the name of the `appID`. Each `appID` should have a unique name.
+- `owner`: This is the address of the account that created the `appID`. A single address can create multiple `AppIds`.
+- `id`: This is the unique integer index of the `appID`. It is incremented by 1 everytime a new `appID` is created. Whenever a new
+`appID` is created, it is automatically assigned the next available `id`.
 
 4. Next, check the `include option` toggle, and enter `based avail` as the `bytes` input. Call the function. What do you see?
-You will be returned a pair of `owner` and `id`, which together with the `key` you entered, form a unique `AppId`.
+You will be returned a pair of `owner` and `id`, which together with the `key` you entered, form a unique `appID`.
 
 <br/>
 <div align="center">
@@ -94,27 +94,27 @@ You will be returned a pair of `owner` and `id`, which together with the `key` y
 </div>
 
 <Callout type="info">
-1. The `appKeys` method is essentially a mapping that returns the `owner` and `id` of an `AppId` given its `key` (`key` => (`owner`, `id`)).
+1. The `appKeys` method is essentially a mapping that returns the `owner` and `id` of an `appID` given its `key` (`key` => (`owner`, `id`)).
 2. By checking the `include option` toggle, you are essentially filtering the output.
 </Callout>
 
-## How to check the next available `AppId`?
+## How to check the next available `appID`?
 
-Anyone can create their own `AppId` on Avail DA. The process is entirely democratic 😅, and it's rather simple too.
+Anyone can create their own `appID` on Avail DA. The process is entirely democratic 😅, and it's rather simple too.
 
-Let us first check out the next available `AppId` on the newtork.
+Let us first check out the next available `appID` on the newtork.
 
 1. Within the `dataAvailability` pallet, select the `nextAppId` method.
 No need to pass any params, just click the `+` button next to the method name.
 
-2. You will be returned the next available `index`/`id` for a new `AppId`.
+2. You will be returned the next available `index`/`id` for a new `appID`.
 
 <br/>
 <div align="center">
 <img src="/img/app-ids/app-id-4.png" align="center" /> 
 </div>
 
-## How to register my own `AppId`?
+## How to register my own `appID`?
 
 1. Make sure you have one or more Avail DA wallets connected to the explorer. If you don't know how to do so,
 you can follow our docs on [setting up a new wallet](/docs/end-user-guide/accounts#creating-an-account-on-avail-da).
@@ -134,7 +134,7 @@ So make sure you have an [Avail DA wallet set up](/docs/end-user-guide/accounts)
 <img src="/img/app-ids/app-id-5.png" align="center" /> 
 </div>
 
-4. Enter a `key` for your `AppId`. It can be anything you like, really.
+4. Enter a `key` for your `appID`. It can be anything you like, really.
 
 5. This is how it should look like in the end:
 
@@ -151,26 +151,26 @@ So make sure you have an [Avail DA wallet set up](/docs/end-user-guide/accounts)
 </div>
 
 <Callout type="info">
-**DO NOT CHANGE THE `AppId` FOR THIS TRANSACTION**<br/>
+**DO NOT CHANGE THE `appID` FOR THIS TRANSACTION**<br/>
 
-1. Each and every single transaction on Avail DA has a unique `AppId` associated with it.
-2. A transaction or data submission with the `AppId` of `0` is used for chain-level operations.
-3. This is what we need to use for creating a new `AppId`, since it has nothing to do with a specific '*app*' on Avail DA.
+1. Each and every single transaction on Avail DA has a unique `appID` associated with it.
+2. A transaction or data submission with the `appID` of `0` is used for chain-level operations.
+3. This is what we need to use for creating a new `appID`, since it has nothing to do with a specific '*app*' on Avail DA.
 4. This field would instead have been a positive integer if we, for example, were submitting data to a specific application on Avail DA.
 </Callout>
 
-7. Authorise the transaction through your wallet, and you're done! You've successfully created your own `AppId` on Avail DA.
+7. Authorise the transaction through your wallet, and you're done! You've successfully created your own `appID` on Avail DA.
 
 8. You can verify `7` by using the steps covered earlier to query the `appKeys` method :)
 
 ## A few more things of note
 
-1. As stated earlier, an the `key` and `id` fields of every `AppId` are unique. This means if you try to create an `AppId` with the same `key` as an existing one,
+1. As stated earlier, an the `key` and `id` fields of every `appID` are unique. This means if you try to create an `appID` with the same `key` as an existing one,
 the operation will fail. This is why it makes sense to use the `appKeys` method to check if your desired name is already taken.
 
 2. If you're a developer and are looking for more programmatic instructions, you can check out our [API reference](/api-reference/avail-node-api/da-create-application-key).
 
-3. **Anyone can submit any sort of data to any `AppId` regardless of whether or not they created it.** \
+3. **Anyone can submit any sort of data to any `appID` regardless of whether or not they created it.** \
 *But what does this mean? And is this an attack vector?*
 
 - This is where it is important to understand that Avail DA is a DA layer, not an execution enviornment.
@@ -178,4 +178,4 @@ We are not concerned with the validity of the data being submitted, only with it
 - This does not constitute an attack vector since that any app or execution layer building on top of Avail DA can always set up
 certain rules to filter out unwanted data submissions.
 - They could for example make it so that only data submitted with a particular signature, i.e. from a particular address, is accepted.
-All other data submitted to the particular `AppId` is treated as spam, and ignored.
+All other data submitted to the particular `appID` is treated as spam, and ignored.
