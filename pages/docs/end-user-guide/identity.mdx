@@ -11,35 +11,51 @@ keywords:
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
+import { Callout, Steps, Tabs } from 'nextra/components'
+
 # How to Set an On-Chain Identity
 
 ## Introduction
 
+Users of Avail DA can register their identites on-chain in exchange for a small bond.
+<Callout type="info">
+The bond amount for registering an on-chain identity is currently 100 AVAIL on both Turing and mainnet.
+</Callout>
+This bond is refundable upon the clearance of the identity. \
 This guide will walk you through the process of setting an on-chain identity on the Avail network.
-
-## Reserve Funds for Identity Bonding
-
-To store personal information on-chain, users are required to lock a specific amount of funds as a bond. This bond is refundable upon the clearance of the identity.
-
-Retrieve the necessary bond amounts by querying the [<ins>Chain state constants</ins>](https://explorer.avail.so/#/chainstate) on the [<ins>Avail Explorer</ins>](/docs/end-user-guide/explorer).
-
-### Accessing Chain State Constants
-
-Determine the bond amounts via the chain's interface by doing the following:
-
-1. Navigate to the "Developer" menu on the navbar and select "Chain state."
-2. Under the "Constants" tab, choose `identity` from the "selected constant query" menu. The `basicDeposit: u128` parameter will be the default.
-3. To add constants to the view, click the "plus" ("+") icon.
-
-Each information field is limited to 32 bytes. Use a [<ins>UTF8 to bytes converter</ins>](https://onlinetools.com/utf8/convert-utf8-to-bytes) 
-when manually entering data through the [<ins>Extrinsics UI</ins>](https://explorer.avail.so/#/extrinsics).
 
 ## Set Your On-Chain Identity
 
-Add personal details such as your legal name, display name, and website through the user interface:
+1. Go to the [accounts page of the Avail apps explorer](https://explorer.avail.so/#/accounts).
 
-1. Click the three vertical dots next to your account and select "Set on-chain identity."
-2. In the popup, toggle and fill in the desired fields.
-3. Confirm by clicking "Set Identity" and submit the transaction to finalize your on-chain identity.
-4. Confirm your details and click "Set Identity" to proceed.
-5. Sign the transaction and submit it to complete the identity setting process.
+2. Select the account whoe identity you want to set and click on `Set on-chain identity`. 
+
+<br/>
+<div align="center">
+<img src="/img/set-identity/set-identity-1.png" align="center" /> 
+</div>
+
+3. Fill out at least 1 or at most all of the available fields.
+All the fields are optional as long as any one of them are filled.
+
+<br/>
+<div align="center">
+<img src="/img/set-identity/set-identity-2.png" align="center" /> 
+</div>
+
+4. Click on `Set Identity`. Make sure the `appID` is `0`, and click on `Sign and Submit`.
+> Tipping the block author is strictly optional by the way..... 😅
+
+<br/>
+<div align="center">
+<img src="/img/set-identity/set-identity-3.png" align="center" /> 
+</div>
+
+5. Click on `Sign and Submit` and approve the transaction.
+
+6. The account will now have a registered on-chain identity which you can clear to recover the bonded AVAIL tokens.
+
+<Callout type="info">
+1. This UI interface calls the `setIdentity` method from the `identity` pallet under the hood.
+2. Registering your identity on the Avail turing testnet does not set it for the mainnet, and vice versa.
+</Callout>
