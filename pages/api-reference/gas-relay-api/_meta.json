@@ -11,6 +11,8 @@
     "get_token_expenditure": "Get Token Expenditure",
     "get_token_using_address": "Get Token Using Address",
     "get_token": "Get Token",
+    "token_map": "Token Map",
+    "request_fund_status": "Request Fund Status",
     "get_user": "Get User",
 
     "POST methods": {
@@ -20,11 +22,9 @@
 
     "register_new_token": "Register New Token",
     "register_new_user": "Register New User",
-    "request_fund_status": "Request Fund Status",
     "request_funds": "Request Funds",
     "submit_data": "Submit Data",
     "submit_raw_data": "Submit Raw Data",
-    "token_map": "Token Map",
     "transfer_funds": "Transfer Funds"
   }
   
