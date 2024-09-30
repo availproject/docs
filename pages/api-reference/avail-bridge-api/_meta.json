@@ -4,7 +4,6 @@
         "title": "REST API"
      },
     "liveness": "Check liveness of server",
-    "versions": "Get API versions supported on the server",
     "info": "Get bridge deployment details",
     "eth-head": "Get current Ethereum head",
     "avail-head": "Get current Avail head",

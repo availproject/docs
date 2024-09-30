@@ -4,10 +4,12 @@ import { Callout } from 'nextra/components'
 
 # Get Merkle proof for a particular extrinsic
 
-### Request
+## Request
 
-- `GET /eth/proof/:blockhash?index=`
+- `Path`: `/eth/proof/:blockhash?index=`
+- `Method type`: `GET`
 
+## Example Request
 
 <Tabs items={['CURL']}>
 
@@ -20,7 +22,7 @@ curl "https://turing-bridge-api.avail.so/eth/proof/0x5bc7bd3a4793132007d6d0d9c55
 </Tabs.Tab>
 </Tabs>
 
-### Response
+## Example response
 
 ```json filename="Example JSON response"
 {
