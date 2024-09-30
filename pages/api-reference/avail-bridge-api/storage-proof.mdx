@@ -4,10 +4,12 @@ import { Callout } from 'nextra/components'
 
 # Get storage proof for a block
 
-### Request
+## Request
 
-- `GET /avl/proof/:block_hash/:messageId`
+- `Path`: `/avl/proof/:block_hash/:messageId`
+- `Method type`: `GET`
 
+## Example Request
 
 <Tabs items={['CURL']}>
 
@@ -20,7 +22,7 @@ curl "https://turing-bridge-api.avail.so/avl/proof/0x7963d8403d137cb5560e2436df0
 </Tabs.Tab>
 </Tabs>
 
-### Response
+## Example response
 
 ```json filename="Example JSON response"
 {
