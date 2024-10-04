@@ -13,8 +13,8 @@
     "Extrinsics": {
         "type": "separator",
         "title": "Extrinsics"
-     }
+     },
 
-
-
+     "vector-send-message": "Bridge an arbitrary message from origin to destination chain",
+     "vector-send-tokens": "Bridge tokens from origin to destination chain"
 }
