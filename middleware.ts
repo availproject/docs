@@ -12,6 +12,10 @@ export function middleware(request: NextRequest) {
 
   const redirects = [
     {
+      source: '/docs/build-with-avail/Validium/reference',
+      destination: `${origin}/docs/build-with-avail/vectorx`,
+    },
+    {
       source: '/docs/the-avail-token/avail-unification-drop',
       destination: `${origin}/docs/archived-content/the-avail-token/avail-unification-drop-content`,
     },
