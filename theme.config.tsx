@@ -4,26 +4,6 @@ import { Footer } from "./components/Footer/Footer";
 import { useRouter } from "next/router";
 
 const config: DocsThemeConfig = {
-  banner: {
-    key: "Avail",
-    text: (
-      <>
-        <h4 className="my-0 sm:mr-5 !px-[5vw] !text-white text-center paragraph !text-sm w-full">
-          All phases of Avail's unification drop have now ended,{" "}  👉👉 {"  "}
-          { <a
-            style={{ color: '#3DA3FC', textDecoration: 'underline' }}
-            href="/docs/the-avail-token/avail-unification-drop"
-          >
-            {" "}
-            check out this page
-          </a>
-          }{"  👈👈  for more information."}
-           {"  "}
-        </h4>
-      </>
-    ),
-  },
-  darkMode: true,
   docsRepositoryBase: "https://github.com/availproject/docs/blob/main",
   chat: {
     link: "https://twitter.com/AvailProject",
@@ -49,7 +29,7 @@ const config: DocsThemeConfig = {
     component: <Footer />,
   },
   nextThemes: {
-    defaultTheme: 'light',
+    defaultTheme: "light",
   },
   useNextSeoProps() {
     const { route } = useRouter();

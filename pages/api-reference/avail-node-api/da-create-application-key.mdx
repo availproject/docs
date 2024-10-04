@@ -1,14 +1,28 @@
 import { Callout, Steps, Tabs } from 'nextra/components'
 
+<Callout type="info">
+`App Ids` are core to the dev experience on Avail DA, and we highly recommend you understand how they work before you start working with them.
+You can check out [our docs for the same](/docs/end-user-guide/app-id).
+</Callout>
+
 # Create a new App ID on Avail DA
 
-Raw name of extrinsic: `dataAvailability_createApplicationKey`
+On-chain name of extrinsic: `dataAvailability_createApplicationKey`
+
+## Parameters
 
 <Tabs items={['avail-js', 'avail-deno', 'avail-rust']}>
+
 <Tabs.Tab>
+| parameter | type          | optional | description                                     |
+| --------- | ------------- | -------- | ----------------------------------------------- |
+| key       | string        | false    | name of the application key                     |
+| waitFor   | WaitFor       | false    | wait for block inclusion or finalization        |
+| account   | KeyringPair   | false    | account that will send and sign the transaction |
+| options   | SignerOptions | true     | used to overwrite existing signer options       |
+</Tabs.Tab>
 
-### Parameters
-
+<Tabs.Tab>
 | parameter | type          | optional | description                                     |
 | --------- | ------------- | -------- | ----------------------------------------------- |
 | key       | string        | false    | name of the application key                     |
@@ -16,13 +30,41 @@ Raw name of extrinsic: `dataAvailability_createApplicationKey`
 | account   | KeyringPair   | false    | account that will send and sign the transaction |
 | options   | SignerOptions | true     | used to overwrite existing signer options       |
 
-### Return value
+</Tabs.Tab>
+
+<Tabs.Tab>
+### Parameters
+
+| parameter | type        | optional | description                                     |
+| --------- | ----------- | -------- | ----------------------------------------------- |
+| key       | Key         | false    | name of the application key                     |
+| waitFor   | WaitFor     | false    | wait for block inclusion or finalization        |
+| account   | KeyringPair | false    | account that will send and sign the transaction |
+</Tabs.Tab>
+
+</Tabs>
+
+## Returns
 
 On failure, a reason of failure is returned. On Success, ApplicationKeyCreated event, transaction hash and block hash is returned.
 
-### Minimal Example
 
-```js
+## Minimal Example
+
+<Callout type="info">
+1. You will need to set up the dev enviornment required to run this example. 
+For instructions, [check out our docs here](/api-reference/avail-node-api#setting-up-the-dev-environment).
+
+2. If you're sending an extrinsic (i.e conducting a transaction) you will need to replace the demo seed phrase with your own seed phrase.
+The rest of the code should work as is.
+</Callout>
+
+<Tabs items={['avail-js', 'avail-deno', 'avail-rust']}>
+<Tabs.Tab>
+
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript filename="avail-js"
 import { Keyring } from "@polkadot/api"
 import { SDK } from "avail-js-sdk"
 import { WaitFor } from "avail-js-sdk/sdk/transactions"
@@ -49,26 +91,18 @@ const main = async () => {
 main()
 ```
 
+2. Run the code using:
+
+```bash
+ts-node your-file-name.ts
+```
 </Tabs.Tab>
 
 <Tabs.Tab>
 
-### Parameters
+1. Inside `your-file-name.ts`, add the following code:
 
-| parameter | type          | optional | description                                     |
-| --------- | ------------- | -------- | ----------------------------------------------- |
-| key       | string        | false    | name of the application key                     |
-| waitFor   | WaitFor       | false    | wait for block inclusion or finalization        |
-| account   | KeyringPair   | false    | account that will send and sign the transaction |
-| options   | SignerOptions | true     | used to overwrite existing signer options       |
-
-### Return value
-
-On failure, a reason of failure is returned. On Success, ApplicationKeyCreated event, transaction hash and block hash is returned.
-
-### Minimal Example
-
-```js
+```typescript filename="avail-deno"
 import { Keyring, SDK, WaitFor } from "https://raw.githubusercontent.com/availproject/avail/main/avail-deno/src/sdk.ts";
 
 const providerEndpoint = "wss://turing-rpc.avail.so/ws";
@@ -91,39 +125,19 @@ console.log("TxHash=" + result.txHash + ", BlockHash=" + result.blockHash);
 Deno.exit();
 ```
 
+2. Run the code using:
+
+```bash
+deno run --allow-net your-file-name.ts
+```
+
 </Tabs.Tab>
 
 <Tabs.Tab>
 
-### Parameters
+1. Inside `main.rs`, add the following code:
 
-| parameter | type        | optional | description                                     |
-| --------- | ----------- | -------- | ----------------------------------------------- |
-| key       | Key         | false    | name of the application key                     |
-| waitFor   | WaitFor     | false    | wait for block inclusion or finalization        |
-| account   | KeyringPair | false    | account that will send and sign the transaction |
-
-### Return value
-
-On failure, a reason of failure is returned. On Success, ApplicationKeyCreated event, transaction hash and block hash is returned.
-
-### Minimal Example
-
-#### Cargo.toml
-
-```rust
-[package]
-name = "da-create-application-key"
-edition = "2021"
-
-[dependencies]
-avail-rust = { git = "https://github.com/availproject/avail" }
-tokio = { version = "1.38.0", features = ["rt-multi-thread"] }
-```
-
-#### main.rs
-
-```rust
+```rust filename="avail-rust" filename="avail-rust"
 use avail_rust::{Key, Keypair, SecretUri, WaitFor, SDK};
 use core::str::FromStr;
 
@@ -154,6 +168,12 @@ async fn main() -> Result<(), String> {
 
 	Ok(())
 }
+```
+
+2. Run the code using:
+
+```bash
+cargo run
 ```
 
 </Tabs.Tab>
