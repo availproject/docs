@@ -23,7 +23,7 @@ For the sake of simplicity that is what we will be using in this guide.
 ## Setting up the dev environment
 
 
-<Tabs items={['CURL', 'avail-deno', 'avail-rust']}>
+<Tabs items={['CURL', 'avail-rust']}>
 
 <Tabs.Tab>
 
@@ -39,14 +39,6 @@ curl --version
 
 <Tabs.Tab>
 
-1. Make sure `deno-js` is installed on your system. You can refer to [Deno's docs](https://docs.deno.com/runtime/manual/) for the same.
-
-2. Create a new Deno JS project by running `deno init` in a directory of your choice.
-
-</Tabs.Tab>
-
-<Tabs.Tab>
-
 1. Make sure `rust` and cargo are installed on your system. You can refer to [Rustlang's docs](https://www.rust-lang.org/tools/install) for the same.
 
 2. Create a new Rust project by running `cargo init`.
@@ -55,8 +47,9 @@ curl --version
 
 ```toml
 [package]
-name = "avail_bridge_api"
+name = "avail_bridge_tools"
 version = "0.1.0"
+edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -96,6 +89,28 @@ toml = "0.8.19"
 
 [profile.release]
 panic = 'abort'
+```
+
+4. Create a `config.toml` file in the root of your project and paste the following:
+
+```toml
+avail_rpc_url="wss://turing-rpc.avail.so/ws"
+avail_mnemonic = "A seed phrase for an Avail DA wallet"
+ethereum_mnemonic = "A seed phrase for an Ethereum wallet"
+
+# testnet bridge API
+bridge_api_url="https://turing-bridge-api.avail.so/"
+# Ethereum sepolia public node URL
+ethereum_url="https://ethereum-sepolia.publicnode.com"
+
+# Sepolia bridge contract address
+contract_address= "967F7DdC4ec508462231849AE81eeaa68Ad01389"
+message_data= "Random data to send"
+amount_to_send= 1000000
+
+# Enter a Sepolia recipient address
+recipient="AfF84d35f9c784cE972A7Ff3e3E243E5eb6EF37D000000000000000000000000"
+receive_message_contract_address="29190B4d80C409A3DaF743F57379e0453D31C26b"
 ```
 
 </Tabs.Tab>
