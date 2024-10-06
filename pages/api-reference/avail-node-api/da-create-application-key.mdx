@@ -190,9 +190,9 @@ cargo run
 package main
 
 import (
-	"avail-go-sdk/src/config"
-	"avail-go-sdk/src/sdk"
-	"avail-go-sdk/src/sdk/tx"
+	"github.com/availproject/avail-go-sdk/src/config"
+	"github.com/availproject/avail-go-sdk/src/sdk"
+	"github.com/availproject/avail-go-sdk/src/sdk/tx"
 
 	"fmt"
 )
@@ -207,9 +207,9 @@ func main() {
 		fmt.Printf("cannot create api:%v", err)
 	}
 
-	fmt.Println("Submitting data ...")
+	fmt.Println("Creating Application key...")
 	WaitFor := sdk.BlockInclusion
-	blockHash, txHash, err := tx.CreateApplicationKey(api, config.Seed, "my happyyy", WaitFor)
+	blockHash, txHash, err := tx.CreateApplicationKey(api, config.Seed, "new Application key created using avail-go....", WaitFor)
 	if err != nil {
 		fmt.Printf("cannot create application key:%v", err)
 	}

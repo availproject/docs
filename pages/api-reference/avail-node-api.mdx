@@ -90,7 +90,12 @@ tokio = { version = "1.38.0", features = ["full"] }
 
 <Tabs.Tab>
 
-1. Make sure `go` is installed on your system. You can refer to [Go's docs](https://golang.org/doc/install) for the same.
+1. Make sure `go` is installed on your system by running the following command in your terminal:
+
+```bash
+go version
+```
+If not installed, you can refer to [Go's docs](https://golang.org/doc/install) for the same.
 
 2. Create a new Go project by initializing a Go module in a directory of your choice. Run the following command:
 
@@ -101,7 +106,21 @@ go mod init your-project-name
 3. To install the avail-go-sdk, use the following command to add it to your project:
 
 ``` bash
-go get github.com/availproject/avail-go-sdk
+go get github.com/availproject/avail-go-sdk@latest
+```
+
+4. Create a `config.json` file in the root of your project and fill it up like this:
+
+```json
+{
+	"seed": "this is a random seed phrase please do not use it",
+	"api_url": "wss://turing-rpc.avail.so/ws",
+	"size": 1000,
+	"app_id": 0,
+	"dest": "5H3qehpRTFiB3XwyTzYU43SpG7e8jW87vFug95fxdew76Vyi",
+	"amount": 10
+}
+
 ```
 </Tabs.Tab>
 
