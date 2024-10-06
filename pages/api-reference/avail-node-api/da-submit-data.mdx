@@ -224,9 +224,9 @@ TxHash=0xbfdf581618f28ef707147ea47a56483c6214dbaa83c53a6cc307073e3b8b578b, Block
 package main
 
 import (
-	"avail-go-sdk/src/config"
-	"avail-go-sdk/src/sdk"
-	"avail-go-sdk/src/sdk/tx"
+	"github.com/availproject/avail-go-sdk/src/config"
+	"github.com/availproject/avail-go-sdk/src/sdk"
+	"github.com/availproject/avail-go-sdk/src/sdk/tx"
 
 	"fmt"
 )
@@ -423,9 +423,9 @@ cargo run
 package main
 
 import (
-	"avail-go-sdk/src/config"
-	"avail-go-sdk/src/sdk"
-	"avail-go-sdk/src/sdk/tx"
+	"github.com/availproject/avail-go-sdk/src/config"
+	"github.com/availproject/avail-go-sdk/src/sdk"
+	"github.com/availproject/avail-go-sdk/src/sdk/tx"
 
 	"fmt"
 )
@@ -440,12 +440,9 @@ func main() {
 		fmt.Printf("cannot create api:%v", err)
 	}
 
-	appID := 93
+	// You can your own app id here
+	appID := 0
 
-	// if app id is greater than 0 then it must be created before submitting data
-	if config.AppID != 0 {
-		appID = config.AppID
-	}
 	fmt.Println("Submitting data ...")
 	WaitFor := sdk.BlockInclusion
 
