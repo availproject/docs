@@ -5,7 +5,7 @@ import { Callout, Steps, Tabs } from 'nextra/components'
 ## Request
 
 - `Path`: `/users/get_user`
-- `Method type`: `POST`
+- `Method type`: `GET`
 - `Headers`: `Authorization: Bearer <token>`, `Content-Type: application/json`
 
 ## Params
@@ -16,7 +16,7 @@ import { Callout, Steps, Tabs } from 'nextra/components'
 ## Example request
 
 ```bash
-curl -X POST "https://api.example.com/v1/user/get_user" \
+curl -X GET "https://api.example.com/user/get_user" \
      -H "Authorization: Bearer YOUR_TOKEN" \
      -H "Content-Type: application/json"
 ```
