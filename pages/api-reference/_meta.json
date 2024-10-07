@@ -4,11 +4,13 @@
   "---": {
     "type": "separator"
   },
+  
   "avail-lc-api": "Avail light client API reference",
 
   "----": {
     "type": "separator"
   },
+  
   "avail-bridge-api": "Avail bridge API reference",
 
   "-----": {

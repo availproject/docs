@@ -3,6 +3,14 @@ import { FilesIcon } from '@components/icons'
 
 # Optimium
 
+## How to build an Avail-powered optimium?
+
+There are a number of tools to spin up an optimium today. We are actively integrating with rollup stacks to give you, the developer, maximum flexibility when choosing the stack of your choice while also retaining the benefits that Avail provides. Today you can spin your optimium up with the following frameworks below.
+<Cards>
+  <Card icon={<FilesIcon />} title="OP Stack" href="/docs/build-with-avail/Optimium/op-stack" />
+  <Card icon={<FilesIcon />} title="Arbitrum Orbit stack" href="/docs/build-with-avail/Optimium/arbitrum-nitro" />
+</Cards>
+
 ## What is an optimium?
 
 An optimium is a scaling solution that processes transactions and enforces integrity in an optimistic manner like optimistic rollups, but does not store transaction data on Ethereum. The transaction data in this case can be stored on Avail DA to ensure cost-efficient, verifiable, and scalable data availability. 
@@ -24,11 +32,3 @@ Generally, in optimistic rollups, the L2 transactions get submitted to the seque
 In an optimium on Avail, the transactions sent to the sequencer are ordered, and batches of the transaction data is posted to Avail DA. Avail returns a block reference to the sequencer which proceeds to post it on Ethereum. The commitment of the data posted on Avail is also retrievable on Ethereum via Avail’s VectorX attestation bridge. 
 <br></br>
 <img src="/img/op-avail.jpeg" width="100%" height="100%" />
-
-## How to build an Avail-powered optimium?
-
-There are a number of tools to spin up an optimium today. We are actively integrating with rollup stacks to give you, the developer, maximum flexibility when choosing the stack of your choice while also retaining the benefits that Avail provides. Today you can spin your optimium up with the following frameworks below.
-<Cards>
-  <Card icon={<FilesIcon />} title="OP Stack" href="/docs/build-with-avail/Optimium/op-stack" />
-  <Card icon={<FilesIcon />} title="Arbitrum Orbit stack" href="/docs/build-with-avail/Optimium/arbitrum-nitro" />
-</Cards>
