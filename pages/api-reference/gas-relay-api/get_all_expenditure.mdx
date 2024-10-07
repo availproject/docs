@@ -1,0 +1,40 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Retrieve details about expenditures done by a user
+
+## Request
+
+- `Path`: `/user/get_all_expenditure`
+- `Method type`: `GET`
+- `Headers`: `Authorization: Bearer <token>`
+
+## Params
+
+- `limit` (optional): limit of entries you want in response.
+
+## Example request
+
+```bash
+curl -X GET "https://api.example.com/user/get_all_expenditure" \
+     -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+## Example Response:
+
+```json
+[
+  {
+    "id": "b9a3f58e-0f49-4e3b-9466-f28d73d75e0a",
+    "user_id": "user_2lO5zzxhV08hooYiSCOkfWfPxls",
+    "token_details_id": 1,
+    "extrinsic_index": 42,
+    "amount_data": "100.00",
+    "fees": "0.01",
+    "to_address": "0x123abc456def789ghi",
+    "block_hash": "0xabcdef1234567890",
+    "data_hash": "0xdeadbeef12345678",
+    "tx_hash": "0xabcdef9876543210",
+    "created_at": "2024-09-11T12:34:56"
+  }
+]
+```

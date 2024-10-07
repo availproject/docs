@@ -1,0 +1,39 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Fetch all tokens
+
+## Request
+
+- `Path`: `/user/get_all_tokens`
+- `Method type`: `GET`
+- `Headers`: `Authorization: Bearer <token>`
+
+## Params
+
+- `limit` (required): The limit of users to query.
+
+## Example request
+
+```bash
+curl -X GET "https://api.example.com//user/get_all_tokens" \
+     -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+## Example response
+
+```json
+[
+  {
+    "token_details_id": 1,
+    "user_id": "user_2lO5zzxhV08hooYiSCOkfWfPxls",
+    "token_address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+    "token_balance": "100000000000000000000"
+  },
+  {
+    "token_details_id": 2,
+    "user_id": "user_2lO5zzxhV08hooYiSCOkfWfPxls",
+    "token_address": "0xc0bbb3139b223fe8d0a0e5c4f27ead9083c756cc2",
+    "token_balance": "100000000000000000000"
+  }
+]
+```
