@@ -6,7 +6,7 @@ On-chain name of extrinsic: `balances_transferAllowDeath`
 
 ## Parameters
 
-<Tabs items={['avail-js', 'avail-deno', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-deno', 'avail-rust', 'avail-go']}>
 
 <Tabs.Tab>
 | parameter | type          | optional | description                                     |
@@ -37,6 +37,16 @@ On-chain name of extrinsic: `balances_transferAllowDeath`
 | account   | KeyringPair | false    | account that will send and sign the transaction |
 </Tabs.Tab>
 
+<Tabs.Tab>
+| parameter        | type     | optional | description                                            |
+| ---------------- | -------- | -------- | ------------------------------------------------------ |
+| api              | API      | false    | api for avail chain                                    |
+| dest             | string   | false    | account that will receive funds                        |
+| amount           | Ucompact | false    | amount that is send. 10^18 is equal to 1 AVL           |
+| WaitForInclusion | WaitFor  | false    | wait for block inclusion or finalization               |
+| Seed             | Mnemonic | false    | seed of the account that needs to sign the transaction |
+</Tabs.Tab>
+
 </Tabs>
 
 ## Return value
@@ -54,7 +64,7 @@ For instructions, [check out our docs here](/api-reference/avail-node-api#settin
 The rest of the code should work as is.
 </Callout>
 
-<Tabs items={['avail-js', 'avail-deno', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-deno', 'avail-rust', 'avail-go']}>
 
 <Tabs.Tab>
 
@@ -178,6 +188,71 @@ async fn main() -> Result<(), String> {
 ```bash
 cargo run
 ```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.go`, add the following code:
+
+```go filename="avail-go"
+package main
+
+import (
+	"math"
+
+	"github.com/availproject/avail-go-sdk/src/config"
+	"github.com/availproject/avail-go-sdk/src/sdk"
+	"github.com/availproject/avail-go-sdk/src/sdk/tx"
+	"github.com/availproject/avail-go-sdk/src/sdk/types"
+
+	"fmt"
+)
+
+func main() {
+	config, err := config.LoadConfig()
+	if err != nil {
+		fmt.Printf("cannot load config:%v", err)
+	}
+	api, err := sdk.NewSDK(config.ApiURL)
+	if err != nil {
+		fmt.Printf("cannot create api:%v", err)
+	}
+	WaitFor := sdk.BlockInclusion
+
+	amount := uint64(math.Pow(10, 18)) * 10 // send amount 10 AVAIL
+	dest := "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty"
+	bondAmountUCompact := types.NewUCompactFromUInt(amount)
+	BlockHash, txHash, err := tx.TransferAllowDeath(api, config.Seed, WaitFor, dest, bondAmountUCompact)
+	if err != nil {
+		fmt.Printf("cannot submit Transaction:%v", err)
+	}
+	fmt.Printf("Transaction submitted successfully with block hash: %v\n and ext hash:%v", BlockHash.Hex(), txHash.Hex())
+	sdk.EventParser(api, BlockHash, "BalanceTransfer")
+}
+```
+
+2. Run the code using:
+
+```bash
+go run main.go
+```
+
+<Callout type="info">
+If you receive errors related to missing dependencies while trying to execute your code, run:
+```bash
+go mod tidy
+```
+and try again.
+</Callout>
+
+<Callout type="info">
+If you receive errors related to missing dependencies while trying to execute your code, run:
+```bash
+go mod tidy
+```
+and try again.
+</Callout>
+
 </Tabs.Tab>
 
 </Tabs>
