@@ -1,6 +1,6 @@
 {
   "avail-node-api": "Avail node API reference",
-  
+
   "---": {
     "type": "separator"
   },
@@ -9,9 +9,15 @@
   "----": {
     "type": "separator"
   },
-  "gas-relay-api": "Gas relay API reference",
+  "avail-bridge-api": "Avail bridge API reference",
 
   "-----": {
+    "type": "separator"
+  },
+
+  "gas-relay-api": "Gas relay API reference",
+
+  "------": {
     "type": "separator"
   }
 }
