@@ -1,7 +1,7 @@
 ---
 id: zksync
-title: How to Use zkstack with Avail
-sidebar_label: How to Use zkstack with Avail
+title: Deploy a ZK Stack Validium with Avail DA
+sidebar_label: Deploy a ZK Stack Validium with Avail DA
 description: 'Discover how to utilize Avail as a data availability layer.'
 keywords:
   - documentation
@@ -10,33 +10,32 @@ keywords:
   - build
   - data availability
   - da
+  - zksync
+  - zkstack
+  - validium
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 import { Callout } from 'nextra/components'
 
-# How to Use Polygon zkEVM with Avail
+# Deploy a ZK Stack Validium with Avail DA
 
 ## Introduction
 
-In this guide, we will learn how to use zkstack by zksync's team, leveraging Avail as the data availability layer. You can also look at this documentation for more information about zkStack: [zkSync](https://docs.zksync.io/zk-stack)
+In this guide, we will deploy a ZK Stack validium powered by Avail DA for secure, cost-efficient, and verifiable data availability. By following along, at the end of this guide, you will have a version of a ZK Stack chain running on your machine on `localhost`.
 
-In this guide, you will conduct the following:
+- [Learn more about the ZK Stack](https://docs.zksync.io/zk-stack)
 
-- [Introduction](#introduction)
-- [Developer Setup](#developer-setup)
-- [work with Avail-Powered zkEVM](#zkstack)
+In this guide, you will go over the following:
+
+- [Setting up your developer environment](#setting-up-your-developer-environment)
+- [Installing & running the ZK Stack](#installing--running-the-zk-stack)
 
 
-## developer-setup
+## Setting up your developer environment
 
-Ensure you have installed the following.
+Ensure you have installed the following prerequisites.
 
-> Installation commands are based on Ubuntu 20.04 LTS:
 <br/>
-
-<table>
-  <tr>
-    <td valign="top">
 
 | Software                                                                              | Version            |
 | ------------------------------------------------------                                | ------------------ |
@@ -48,19 +47,25 @@ Ensure you have installed the following.
 | [**cargo-nextest**](https://nexte.st/)                                                | Latest             |
 | [**sqlx-cli**](https://crates.io/crates/sqlx-cli)                                     | Latest             |
 | [**Foundry**](https://github.com/foundry-rs/foundry)                                  | Latest             |
-| [**Postgress**](https://www.postgresql.org/download/)                                 | Latest             |
+| [**Postgres**](https://www.postgresql.org/download/)                                  | Latest             |
 
-</td>
-  </tr>
-</table>
 
-The below instalation commands are taken by [setup-dev.md](https://github.com/matter-labs/zksync-era/blob/main/docs/guides/setup-dev.md) from the zksync-era repository. For any more troubleshooting, please refer to the original repository.
 
+
+After executing the following commands you will have installed all the prequisites needed and also have cloned the `zksync-era` repository.
+
+Installation commands are based on **Ubuntu 20.04 LTS**:
+> The below instalation commands are taken from [setup-dev.md](https://github.com/matter-labs/zksync-era/blob/main/docs/guides/setup-dev.md) from the `zksync-era` repository. For any more troubleshooting, please refer to the original repository.
+
+<Callout type="info">
+For VMs only! They don't have SSH keys, so we override SSH with HTTPS
 ```bash
-# For VMs only! They don't have SSH keys, so we override SSH with HTTPS
 git config --global url."https://github.com/".insteadOf git@github.com:
 git config --global url."https://".insteadOf git://
+```
+</Callout>
 
+```bash
 # Rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # NVM
@@ -109,47 +114,50 @@ cd zksync-era
 git submodule update --init --recursive
 ```
 
-### zkstack
+## Installing & running the ZK Stack
 
-To work with zkstack, we need to follow a few steps. 
 
-1. Installing ZK Inception: ZK Inception creates and manages Elastic Chain ecosusyem and ZK chains using the ZK stack. To install zk_inception from git, run the following command:
+### 1. Installing ZK Inception
+
+ZK Inception creates and manages Elastic Chain ecosystem and ZK chains using the ZK stack. To install `zk_inception` from git, run the following command:
 
 ```bash
 cargo install --git https://github.com/matter-labs/zksync-era/ --locked zk_inception --force
 ```
 
-2. Clone the zksync-era repository from github:
+### 2. Clone the zksync-era repository from github:
 
 ```bash
 git clone https://github.com/matter-labs/zksync-era
 ```
 
-3. Checkout to branch that is worked on for DA clients:
+- Checkout to branch that is worked on for DA clients:
     
 ```bash
 git checkout dz-sync-layer-da-clients
 ```
 
-4. Change directory to Era contracts:
+- Change directory to Era `contracts`:
 
 ```bash
 cd contracts
 ```
 
-5. Install submodules in contracts directory:
+- Install submodules in the contracts directory:
 
 ```bash
 git submodule update --init --recursive 
 ```
 
-6. Checkout branch `dz-upd-da-contracts` in contracts folder:
+- Checkout branch `dz-upd-da-contracts` in contracts folder:
 
 ```bash
 git checkout dz-upd-da-contracts
 ```
+### 3. Add custom chain logic
+Looking back, we have successfully installed `zk_inception` and cloned the `zksync-era` repository. We have also checked out branch on the main `zksync-era` repository and another branch in the `contracts/` folder. Now, we can add our custom chain logic in files `/contracts/LayerNameL1DAValidator.sol` and `/contracts/LayerNameL2DAValidator.sol`. 
 
-7. Looking back, we have successfully installed zk_inception and cloned the zksync-era repository. We have also checked out branch on the main zksync-era repository and another branch in the contracts folder. Now, we can add our custom chain logic in files `/contracts/LayerNameL1DAValidator.sol` and `/contracts/LayerNameL2DAValidator.sol`. You can also rename these two files, but you will have to change all instances of the old name in the code. These instances are in these files:
+You may also rename these two files, but you will have to change all instances of the old name in the code. These instances are in these files:
 
 ```bash
 /contracts/da-contracts/contracts/da-layer/LayerNameL1DAValidator.sol
@@ -158,48 +166,53 @@ git checkout dz-upd-da-contracts
 /contracts/l1-contracts/src.ts/deploy-process.ts
 ```
 
-8. run the following command:
+- Run the following command:
 
 ```bash
 ./bin/zkt
 ```
 
-9. We can start running the containers and ecosystem by first cleaning the docker containers and then running the following command:
+### 4. Running the containers
+
+- We can start running the containers and ecosystem by first cleaning the docker containers and then running the following command:
 
 ```bash
 zk clean --all
 ```
 
-10. Now, we are ready to start DB and Reth containers using `zk_inception`. Great thing about this is that zk_inception handles everything on it's own. If you encounnter any errors, just make sure your ports are not busy, and `obervability` feature is disabled during setting up containers.
+Now, we are ready to start DB and Reth containers using `zk_inception`. The great thing about this is that `zk_inception` handles everything on its own. If you encounter any errors, just make sure your ports are not busy and the `observability` feature is disabled during container setting up.
 
 ```bash
 zk_inception containers
 ```
 
-11. We need to create an Elastic Chain ecosystem now. We will choose all the default options.
+### 5. Initialize Elastic Chain ecosystem 
+
+- We need to create an Elastic Chain ecosystem now. We will choose all the default options.
 ```bash
 zk_inception ecosystem init
 ```
 
-12. We have successfully initalized an elastic chain ecosystem. Now, we can create new chains and can choose Validium when prompted. For the simiplicity, we will choose the default options.
+- Once we have successfully initalized an elastic chain ecosystem, we can create new chains and can choose to create a Validium when prompted. For simplicity, we will choose the default options.
 
 ```bash
 zk_inception chain create
 ```
 
-13. Once we have created the chain, we have to finally initialize it and deploy the contracts of the ZK chain:
+- Once we have created the chain, we have to finally initialize it and deploy the contracts of the ZK chain:
     
 ```bash
 zk_inception chain init
 ```
 
-14. Now that the contracts have been deployed, we just need to go to the chain's general config and add our own config that we may need for any specific usecase. You can get these here:
+- Now that the contracts have been deployed, we just need to go to the chain's general config and add our own config that we may need for any specific usecase. You can get these here:
 
 ```bash
 zksync-era/chains/$CHAIN_NAME/configs/general.yaml
 ```
 
-15. Finally, you just need to start the server which will be running the ZK chain. By default, it will be running on `localhost:3050`.
+### 6. Run ZK chain
+Finally, you just need to start the server which will be running the ZK chain. By default, it will be running on `[localhost:3050](localhost:3050)`.
 
 ```bash
 zk_inception server --chain $CHAIN_NAME
