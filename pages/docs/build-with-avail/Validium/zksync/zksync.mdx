@@ -1,0 +1,208 @@
+---
+id: zksync
+title: How to Use zkstack with Avail
+sidebar_label: How to Use zkstack with Avail
+description: 'Discover how to utilize Avail as a data availability layer.'
+keywords:
+  - documentation
+  - avail
+  - develop
+  - build
+  - data availability
+  - da
+image: https://docs.availproject.org/img/avail/AvailDocs.png
+---
+import { Callout } from 'nextra/components'
+
+# How to Use Polygon zkEVM with Avail
+
+## Introduction
+
+In this guide, we will learn how to use zkstack by zksync's team, leveraging Avail as the data availability layer. You can also look at this documentation for more information about zkStack: [zkSync](https://docs.zksync.io/zk-stack)
+
+In this guide, you will conduct the following:
+
+- [Introduction](#introduction)
+- [Developer Setup](#developer-setup)
+- [work with Avail-Powered zkEVM](#zkstack)
+
+
+## developer-setup
+
+Ensure you have installed the following.
+
+> Installation commands are based on Ubuntu 20.04 LTS:
+<br/>
+
+<table>
+  <tr>
+    <td valign="top">
+
+| Software                                                                              | Version            |
+| ------------------------------------------------------                                | ------------------ |
+| [**Node.js**](https://nodejs.org/en/)                                                 | Latest LTS Version |
+| [**Git**](https://git-scm.com/)                                                       | OS Default         |
+| [**Docker**](https://www.docker.com/)                                                 | Latest             |
+| [**Docker Compose**](https://docs.docker.com/compose/)                                | Latest             |
+| [**Yarn**](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable)           | v1.22.19           |
+| [**cargo-nextest**](https://nexte.st/)                                                | Latest             |
+| [**sqlx-cli**](https://crates.io/crates/sqlx-cli)                                     | Latest             |
+| [**Foundry**](https://github.com/foundry-rs/foundry)                                  | Latest             |
+| [**Postgress**](https://www.postgresql.org/download/)                                 | Latest             |
+
+</td>
+  </tr>
+</table>
+
+The below instalation commands are taken by [setup-dev.md](https://github.com/matter-labs/zksync-era/blob/main/docs/guides/setup-dev.md) from the zksync-era repository. For any more troubleshooting, please refer to the original repository.
+
+```bash
+# For VMs only! They don't have SSH keys, so we override SSH with HTTPS
+git config --global url."https://github.com/".insteadOf git@github.com:
+git config --global url."https://".insteadOf git://
+
+# Rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# NVM
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+# All necessary stuff
+sudo apt-get update
+sudo apt-get install build-essential pkg-config cmake clang lldb lld libssl-dev postgresql apt-transport-https ca-certificates curl software-properties-common
+# Install docker
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+sudo apt install docker-ce
+sudo usermod -aG docker ${USER}
+
+# Stop default postgres (as we'll use the docker one)
+sudo systemctl stop postgresql
+sudo systemctl disable postgresql
+# Start docker.
+sudo systemctl start docker
+
+## You might need to re-connect (due to usermod change).
+
+# Node & yarn
+nvm install 20
+# Important: there will be a note in the output to load
+# new paths in your local session, either run it or reload the terminal.
+npm install -g yarn
+yarn set version 1.22.19
+
+# For running unit tests
+cargo install cargo-nextest
+# SQL tools
+cargo install sqlx-cli --version 0.8.1
+
+# Foundry
+curl -L https://foundry.paradigm.xyz | bash
+foundryup --branch master
+
+# Non CUDA (GPU) setup, can be skipped if the machine has a CUDA installed for provers
+# Don't do that if you intend to run provers on your machine. Check the prover docs for a setup instead.
+echo "export ZKSYNC_USE_CUDA_STUBS=true" >> ~/.bashrc
+# You will need to reload your `*rc` file here
+
+# Clone the repo to the desired location
+git clone git@github.com:matter-labs/zksync-era.git
+cd zksync-era
+git submodule update --init --recursive
+```
+
+### zkstack
+
+To work with zkstack, we need to follow a few steps. 
+
+1. Installing ZK Inception: ZK Inception creates and manages Elastic Chain ecosusyem and ZK chains using the ZK stack. To install zk_inception from git, run the following command:
+
+```bash
+cargo install --git https://github.com/matter-labs/zksync-era/ --locked zk_inception --force
+```
+
+2. Clone the zksync-era repository from github:
+
+```bash
+git clone https://github.com/matter-labs/zksync-era
+```
+
+3. Checkout to branch that is worked on for DA clients:
+    
+```bash
+git checkout dz-sync-layer-da-clients
+```
+
+4. Change directory to Era contracts:
+
+```bash
+cd contracts
+```
+
+5. Install submodules in contracts directory:
+
+```bash
+git submodule update --init --recursive 
+```
+
+6. Checkout branch `dz-upd-da-contracts` in contracts folder:
+
+```bash
+git checkout dz-upd-da-contracts
+```
+
+7. Looking back, we have successfully installed zk_inception and cloned the zksync-era repository. We have also checked out branch on the main zksync-era repository and another branch in the contracts folder. Now, we can add our custom chain logic in files `/contracts/LayerNameL1DAValidator.sol` and `/contracts/LayerNameL2DAValidator.sol`. You can also rename these two files, but you will have to change all instances of the old name in the code. These instances are in these files:
+
+```bash
+/contracts/da-contracts/contracts/da-layer/LayerNameL1DAValidator.sol
+/contracts/l2-contracts/contracts/data-availability/da-layers/LayerNameL2DAValidator.sol
+/contracts/l1-contracts/src.ts/deploy.ts
+/contracts/l1-contracts/src.ts/deploy-process.ts
+```
+
+8. run the following command:
+
+```bash
+./bin/zkt
+```
+
+9. We can start running the containers and ecosystem by first cleaning the docker containers and then running the following command:
+
+```bash
+zk clean --all
+```
+
+10. Now, we are ready to start DB and Reth containers using `zk_inception`. Great thing about this is that zk_inception handles everything on it's own. If you encounnter any errors, just make sure your ports are not busy, and `obervability` feature is disabled during setting up containers.
+
+```bash
+zk_inception containers
+```
+
+11. We need to create an Elastic Chain ecosystem now. We will choose all the default options.
+```bash
+zk_inception ecosystem init
+```
+
+12. We have successfully initalized an elastic chain ecosystem. Now, we can create new chains and can choose Validium when prompted. For the simiplicity, we will choose the default options.
+
+```bash
+zk_inception chain create
+```
+
+13. Once we have created the chain, we have to finally initialize it and deploy the contracts of the ZK chain:
+    
+```bash
+zk_inception chain init
+```
+
+14. Now that the contracts have been deployed, we just need to go to the chain's general config and add our own config that we may need for any specific usecase. You can get these here:
+
+```bash
+zksync-era/chains/$CHAIN_NAME/configs/general.yaml
+```
+
+15. Finally, you just need to start the server which will be running the ZK chain. By default, it will be running on `localhost:3050`.
+
+```bash
+zk_inception server --chain $CHAIN_NAME
+```
+
+Your ZK chain is now running and you can start using it. For any troubleshooting or issues, please refer to the original repository which you can find [here](https://docs.zksync.io/zk-stack/running-a-zk-chain/quickstart).
