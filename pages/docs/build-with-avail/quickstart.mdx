@@ -13,126 +13,152 @@ keywords:
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
-# Get Started with Avail
+import { Callout, Steps, Tabs } from 'nextra/components'
 
-## Start Operating
+# Get Started with Avail DA
 
-{
-  /*
--- To run an Avail light client, simply install the [Avail CLI `npm` package](https://github.com/availproject/cli):
+This page aims to provide a quick overview of some of the most fundamental concepts a new developer needs to understand
+to get started with Avail DA, and get started as quickly as possible.
 
-```bash
-npm i -g @availproject/cli
+## Setting up a new wallet
+
+We have a page dedicated to help new devs & users to set up their first wallet on Avail DA. \
+You can go through [our docs on the same](/docs/end-user-guide/accounts#creating-an-account-on-avail-da), or move on to the next section if you already have a wallet.
+
+<Callout type="info">
+**A FEW WORDS ABOUT YOUR SEED PHRASE**<br/>
+1. Your seed phrase can be used to gain access to all of your accounts, and consequently, all of your funds. So keep it safe :)
+2. It is a good idea to maintain seperate accounts with seperate seed phrases for different purposes, i.e. one for development, one for holding funds, etc.
+3. With that being said, keep your seed phrase handy for this guide, we will use it later on.
+</Callout>
+
+## AppIDs
+
+Avail DA is a neutral data availability layer that allows many different types of rollups/blockchains/apps to
+be built on top of it, while leveraging Avail's decentralised ecosystem and financial security.
+
+We envision all of these applications to operate with their own identity, symbolised by an `AppID`.
+
+<Steps>
+
+### Consider a random block on Avail DA
+
+It might contain data blobs from a variety of different rollups pertaining to their different execution environments.
+Think of the EVM, the SVM, Stackr, ZKsync chains, OP stack, and many more. \
+If all of this data is randomnly strewn about in a block, it would be tedious for an a rollup to parse through all of it
+just to fetch the data it needs.
+
+<br/>
+<p align="center">
+<img src="/img/quickstart/quickstart-app-id-1.png" alt="random block on Avail DA" width="100%" />
+</p>
+
+### Now think of the same data neatly arranged into its own sections
+
+But what if all of that same data in the same block was organised into different sections,
+stored alongside it's peers. Each of these *'sections'* would be identified by an `AppID`. \
+A developer now does not need to parse through the entire block to find the data they need, they can simply query data from the `AppID` they are interested in.
+
+<br/>
+<p align="center">
+<img src="/img/quickstart/quickstart-app-id-2.png" alt="random data arranged neatly in Avail DA block" width="100%" />
+</p>
+
+### These *'sections'* are flexible
+
+All of the rollups running on Avail DA probably won't submit data in all of the blocks. Thus, it is likely some `AppIDs` will be empty in some blocks. \
+On the flipside, some rollups might need to submit more data than usual in a particular block. \
+None of this is an issue on Avail DA, the individual block builds as needed in the moment.
+
+<br/>
+<p align="center">
+<img src="/img/quickstart/quickstart-app-id-3.png" alt="AppIDs on Avail DA are flexible" width="100%" />
+</p>
+
+</Steps>
+
+<Callout type="info">
+**START WORKING WITH APPIDS**<br/>
+There are many different ways of creating and using an `AppID` on Avail DA.
+
+1. You can check out a more detailed breakdown of `AppIDs` and how to work with them using the AvailApps explorer
+[on this page](/docs/end-user-guide/app-id#introduction).
+
+2. Alternatively, you can check out programmatic instructions for the same [in our API reference](/api-reference/avail-node-api/da-create-application-key).
+
+</Callout>
+
+## The Avail Light Client
+
+You typically interact with blockchains in 1 of 2 ways:
+
+1. **Run your own node**: This way is trustless but also requires you to run a full node, which can be resource intensive.
+2. **Rely on node providers**: This way is easier, but you have to trust the node provider.
+
+> Avail DA gives you a third way.
+
+Using the Avail light client, you can fetch data from and submit data to Avail DA without any trust assumptions or the need to run a full node.
+You can run the Avail Light Client in the app-client mode by passing an `AppID` as a param.
+Your light client wil then listen to the Avail DA network for each new block created, and fetch transactions
+only for the `AppID` you are interested in. \
+You can also submit data to the network under that `AppID` using the light client.
+
+### Running the Avail Light Client
+
+1. [Availup](https://github.com/availproject/availup) is the most convenient way to run the Avail Light Client. 
+You are also welcome to clone the source code and build it locally from the [avail-light](https://github.com/availproject/avail-light)
+repository.
+
+2. Create a file named `identity.toml` somewhere in your system, and fill it as such:
+
+```toml
+avail_secret_seed_phrase = 'Please enter your own 12-word seed phrase here'
 ```
 
-Then, run:
+3. You can now run your own instance of the Avail Light client in the `app-client` mode by running:
 
 ```bash
-avail lc up
+curl -sL1 avail.sh | bash -s -- --network turing --app_id 87 --identity identity.toml
 ```
-  */
-}
+> Replace `87` with the `AppID` you are interested in.
 
-To run an Avail light client, simply run this command powered by [availup](https://github.com/availproject/availup):
+4. If everything goes well, you should see something like this in your terminal:
+
+<br/>
+<p align="center">
+<img src="/img/quickstart/quickstart-light-client-1.png" alt="Avail light client running in app client mode" width="100%" />
+</p>
+
+<Callout type="info">
+1. The Light client will now listen to the Avail DA network for each new block created, and fetch transactions only for the `AppID` you are interested in, in our case `87`.
+2. The default local port is `7007`, you can check if you can access the Light client API by running the following command:
+```bash
+curl "http://127.0.0.1:7007/v1/latest_block"
+```
+3. You can check out a detailed API reference for the Avail Light Client [in our API reference](/api-reference/avail-lc-api)
+</Callout>
+
+## Data submission on Avail DA
+
+Submitting data forms the very core of building on top of Avail DA. If you really think about it, any app/rollup
+running on Avail DA is essentially just submitting it's own data to the network periodically.
+Avail DA does not execute the data in any way, just guarantees it's availability via validity proofs.
+
+You can use call the `dataAvailability_submitData` extrinsic manually to submit new data to the network.
+> Check out our [API reference](/api-reference/avail-node-api/da-submit-data) for a detailed breakdown.
+
+We will however use our locally running Avail Light Client to submit data to the network.
+
+- Open a new terminal on your system, and run the following command:
 
 ```bash
-curl -sL1 avail.sh | bash
+curl -XPOST 127.0.0.1:7007/v2/submit --header "Content-Type: application/json" --data '{"data":"dGVzdAo5"}'
 ```
 
+- You have thus submitted new data to Avail DA, under the `AppID` of `87`. The response will include a `blockHash`
+that you can use to navigate to your submission on the network. It should look something like this:
 
-
-And that's it!
-
-If you're seeking more control over the configuration or are interested in running a full node, check out the deployment guides below.
-
-| Action                                                                   | Tokens Needed | Staking | Technical Skill Required | Client Binary                                                                        |
-| ------------------------------------------------------------------------ | ------------- | ------- | ------------------------ | ------------------------------------------------------------------------------------ |
-| [<ins>Run a Light Client</ins>](/docs/operate-a-node/run-a-light-client/0010-light-client) | No            | No      | Basic                    | [<ins>v1.11.1</ins>](https://github.com/availproject/avail-light/releases/tag/avail-light-client-v1.11.1) |
-| [<ins>Run a Full Node / Validator</ins>](/docs/operate-a-node/run-a-full-node/full-node)           | No            | No      | Moderate                 | [<ins>v2.2.4.1</ins>](https://github.com/availproject/avail/releases/tag/v2.2.4.1) |
-
----
-
-## Start Building
-
-The Avail API offers a robust set of features that enable application developers to interact
-seamlessly with the Avail network. This guide provides a curated list of example code snippets in
-JavaScript/TypeScript, Rust, and Go. These examples cover essential tasks such as establishing a
-connection to a local node, querying data from the network, and executing transactions on the
-blockchain.
-
-Before diving into the examples, ensure you have a local Avail node running or configure your settings to align with an existing network.
-
-> Detailed instructions on how to execute these examples are available in the Avail GitHub repository:
-
-- [<ins>TypeScript Instructions</ins>](https://github.com/availproject/avail/blob/develop/examples/ts/README.md)
-- [<ins>Go Instructions</ins>](https://github.com/availproject/avail/blob/develop/examples/go/README.md)
-- [<ins>Rust Instructions</ins>](https://github.com/availproject/avail/blob/develop/avail-subxt/examples/README.md)
-
-### Sample Workflow
-
-Follow these steps to understand a sample end-to-end flow of data availability in Avail. Examples are provided for JavaScript, Go, and Rust.
-
-#### Step 1: Establishing Connection
-
-Before you can interact with the Avail network, you need to establish a connection to a node.
-
-| Language   | Example Link                                                                                                        |
-| ---------- | ------------------------------------------------------------------------------------------------------------------- |
-| JavaScript | [<ins>Establishing Connection</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/connect.ts) |
-| Go         | [<ins>Establishing Connection</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/connect)    |
-| Rust       | [<ins>Headers</ins>](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/headers.rs)        |
-
-#### Step 2: Submitting Data
-
-Once connected, the next step is to submit data to the network. This could be any blob of data that you want to make available.
-
-| Language   | Example Link                                                                                                                  |
-| ---------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| JavaScript | [<ins>Submitting Blob Data</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/data_submit.ts)          |
-| Go         | [<ins>Submitting Blob Data</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/dataSubmit)              |
-| Rust       | [<ins>Submitting Blob Data</ins>](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/submit_data.rs) |
-
-#### Step 3: Dispatching Data Root (Optional)
-
-If you need to dispatch the data root, you can do so at this stage. This is optional and depends on your use case.
-
-| Language   | Example Link                                                                                                                                                       |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| JavaScript | [<ins>Dispatching Data Root</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/dispatch_data_root.ts)                                       |
-| Rust       | [<ins>Submit Data and Dispatch Data Root</ins>](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/submit_data_and_dispatch_data_root.rs) |
-
-#### Step 4: Querying Data and Proofs
-
-After submitting your data, you might want to query it to ensure it's been properly stored and is retrievable.
-
-| Language   | Example Link                                                                                                                       |
-| ---------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| JavaScript | [<ins>Querying Data Proof</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/query_proof_data.ts)           |
-| Go         | [<ins>Querying Data Proof</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/queryProofData)                |
-| Rust       | [<ins>Democracy External</ins>](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/democracy_external.rs) |
-
-#### Step 5: Monitoring and Metrics
-
-Finally, you can monitor the network and your data by listening for new blocks and other metrics.
-
-| Language   | Example Link                                                                                                                   |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| JavaScript | [<ins>Listening for New Blocks</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/listen_new_blocks.ts) |
-| Go         | [<ins>Listening for New Blocks</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/listenNewBlocks)      |
-
-### API Examples
-
-The following table lists various code examples for interacting with the Avail network. These examples are organized by functionality and the supported programming languages.
-
-| Functionality                             | Supported Languages                                                                                                                                                                                                                                                                                                                              |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Data Submission                           | [<ins>TypeScript</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/data_submit.ts), [<ins>Go</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/dataSubmit), [<ins>Rust</ins>](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/submit_data_and_dispatch_data_root.rs) |
-| Dispatching Data Root                     | [<ins>TypeScript</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/dispatch_data_root.ts)                                                                                                                                                                                                                                |
-| Creating Application Key                  | [<ins>TypeScript</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/app_id.ts), [<ins>Rust</ins>](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/create_app_key.rs)                                                                                                                          |
-| Asset Transfer                            | [<ins>TypeScript</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/transfer.ts), [<ins>Go</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/transfer)                                                                                                                                            |
-| Querying Proof/Data Proof                 | [<ins>TypeScript</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/query_proof.ts), [<ins>Go</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/queryProofData)                                                                                                                                   |
-| Querying Application Data                 | [<ins>TypeScript</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/query_app_data.ts)                                                                                                                                                                                                                                    |
-| Event Monitoring (Blocks/Data Submission) | [<ins>TypeScript</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/listen_new_blocks.ts), [<ins>Go</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/listenNewBlocks), [<ins>Go</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/dataSubmitWatch)                       |
-| Network Connection & Info                 | [<ins>TypeScript</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/connect.ts), [<ins>Go</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/connect)                                                                                                                                              |
-| Internal Operations                       | [<ins>Go</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/internal)                                                                                                                                                                                                                                                     |
-| Rust + & Substrate Examples               | Various [<ins>Rust</ins>](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/) examples like Data Availability Bridge Actor, Democracy External, etc.                                                                                                                                                                   |
+<br/>
+<p align="center">
+<img src="/img/quickstart/quickstart-light-client-2.png" alt="Avail light client running in app client mode" width="100%" />
+</p>
