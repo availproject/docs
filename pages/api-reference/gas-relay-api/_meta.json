@@ -1,0 +1,30 @@
+{
+  "GET methods": {
+    "type": "separator",
+    "title": "GET methods"
+    },
+    "get_all_expenditure": "Get All Expenditure",
+    "get_all_tokens": "Get All Tokens",
+    "get_all_users": "Get All Users",
+    "get_pre_image": "Get Pre Image",
+    "get_submission_info": "Get Submission Info",
+    "get_token_expenditure": "Get Token Expenditure",
+    "get_token_using_address": "Get Token Using Address",
+    "get_token": "Get Token",
+    "token_map": "Token Map",
+    "request_fund_status": "Request Fund Status",
+    "get_user": "Get User",
+
+    "POST methods": {
+      "type": "separator",
+      "title": "POST methods"
+   },
+
+    "register_new_token": "Register New Token",
+    "register_new_user": "Register New User",
+    "request_funds": "Request Funds",
+    "submit_data": "Submit Data",
+    "submit_raw_data": "Submit Raw Data",
+    "transfer_funds": "Transfer Funds"
+  }
+  

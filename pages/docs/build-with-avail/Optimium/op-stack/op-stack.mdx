@@ -261,7 +261,6 @@ Example config ( for reference purpose ):
 
 ```
 {
-{
   "l1StartingBlockTag": "0x2c9f156ae1cc024817b920b41c102b23b5a7526e16220c517078341f9890e8bd",
 
   "l1ChainID": 11155111,
@@ -342,8 +341,6 @@ Example config ( for reference purpose ):
   "daResolveWindow": 160,
   "daBondSize": 1000000,
   "daResolverRefundPercentage": 0
-}
-
 }
 
 ```
@@ -473,7 +470,7 @@ cd ~/op-geth
   --authrpc.port=9551 \
   --authrpc.jwtsecret=./jwt.txt \
   --rollup.disabletxpoolgossip=true \
-  --state.scheme=path
+  --state.scheme=hash
 ```
 
 `op-geth` is now active, but block creation will begin once `op-node` is operational.

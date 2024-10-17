@@ -2,16 +2,24 @@ import { Callout } from 'nextra/components'
 
 # Deploy Arbitrum Orbit with Avail DA
 
-### Prerequisites
-
-1. You need to have [docker](https://docs.docker.com/engine/) and [docker-compose](https://docs.docker.com/compose/) installed on your machine.
-2. An Avail account with some AVAIL tokens in it. You can refer to [our docs here](/docs/end-user-guide/accounts) to get started.
-3. At least 1 ETH over Arbsepolia Testnet. You can follow [Step 1](https://docs.arbitrum.io/launch-orbit-chain/orbit-quickstart#step-1-acquire-arbitrum-testnet-eth-and-the-native-token-for-orbit-chains-with-custom-gas-tokens) on Arbitrum Orbit Doc for acquiring testnet $ETH
-4. This guide will use [Arbitrum's ArbSepolia](https://docs.arbitrum.io/build-decentralized-apps/public-chains#arbitrum-sepolia) and [Avail's Turing](/docs/networks) testnets.
+This guide follows the deployment of an Arbitrum Orbit chain (L3) with Arbitrum Sepolia (L2) as the base chain. You can follow the same steps with any [other supported chains](/docs/build-with-avail/Optimium/arbitrum-nitro/nitro-stack#reference) with the relevant contract addresses.
 
 <Callout type="info">
 This guide is based on [Arbitrum Orbit Quickstart](https://docs.arbitrum.io/launch-orbit-chain/orbit-quickstart)
 </Callout>
+
+## Prerequisites
+
+#### Docker
+- You need to have [docker](https://docs.docker.com/engine/) and [docker-compose](https://docs.docker.com/compose/) installed on your machine.
+#### Avail 
+- An Avail account with some AVAIL tokens in it. You can refer to [our docs here](/docs/end-user-guide/accounts) to get started.
+- An application key (`app-id`) for your rollup. Learn [how to get your `app-id` here](/docs/end-user-guide/app-id). 
+
+#### Arbitrum Sepolia 
+- At least 1 ETH over Arbsepolia Testnet. You can follow [Step 1](https://docs.arbitrum.io/launch-orbit-chain/orbit-quickstart#step-1-acquire-arbitrum-testnet-eth-and-the-native-token-for-orbit-chains-with-custom-gas-tokens) on Arbitrum Orbit Doc for acquiring testnet $ETH
+- This guide will use [Arbitrum's ArbSepolia](https://docs.arbitrum.io/build-decentralized-apps/public-chains#arbitrum-sepolia) and [Avail's Turing](/docs/networks) testnets.
+
 
 ## Download avail-nitro-node docker image
 
@@ -39,8 +47,10 @@ This guide is based on [Arbitrum Orbit Quickstart](https://docs.arbitrum.io/laun
     
     - Set Rollup Creator Address at `ROLLUP_CREATOR_ADDRESS` 
     ```bash
+    //for Arbitrum Sepolia
     ROLLUP_CREATOR_ADDRESS="0xE917553b67f630C3982236B6A1d7844B1021B909"
     ```
+    For the `ROLLUP_CREATOR_ADDRESS` on any other supported chain, [please fimd it here](/docs/build-with-avail/Optimium/arbitrum-nitro/nitro-stack#smart-contract-addresses).
 
     - Add the private key of a well funded ArbSepolia account in `DEVNET_PRIVKEY`
     ```bash
@@ -109,6 +119,7 @@ When we say "base contracts" and "base chain", we're referring to your Orbit cha
 ### Step-4: Deploy your chain's base contracts to Arbitrum Sepolia!
     
     ```bash
+    yarn build:forge:yul
     yarn run deploy-eth-rollup --network arbSepolia
     ```
   You will get to see your chain’s base contracts addresses, which will be need in next step to fill in `nodeConfig.json` 
@@ -130,8 +141,8 @@ Your Orbit chain's base contracts are responsible for facilitating the exchange 
     cd orbit-setup-script
     ```
     
-### Step-2: Add the `nodeConfig.json` in `./config`
-  This is the nodeConfig.json file, encapsulating your chain's node configuration. It is crucial as it contains the private keys for your validator and batch poster, essential for signing transactions for RBlocks and batch postings to your chain's base contracts on the L2 chain.
+### Step-2: Create `nodeConfig.json` in `./config`
+  This is the nodeConfig.json file, encapsulating your chain's node configuration. It is crucial as it contains the private keys for your validator and batch poster, essential for signing transactions for blocks and batch postings to your chain's base contracts on the L2 chain.
     ```json
     {
       "chain": {
@@ -212,6 +223,13 @@ Your Orbit chain's base contracts are responsible for facilitating the exchange 
 <Callout type="info">
     Make sure to update these params based on your chain's configuration and base contract addresses  
 
+    ```json
+"chain": {
+        "info-json": "[{\"chain-id\":<Insert your chain-id>,\"parent-chain-id\":421614,\"parent-chain-is-arbitrum\":true,\"chain-name\":\"<Insert chain name>\",\"chain-config\":{\"homesteadBlock\":0,\"daoForkBlock\":null,\"daoForkSupport\":true,\"eip150Block\":0,\"eip150Hash\":\"0x0000000000000000000000000000000000000000000000000000000000000000\",\"eip155Block\":0,\"eip158Block\":0,\"byzantiumBlock\":0,\"constantinopleBlock\":0,\"petersburgBlock\":0,\"istanbulBlock\":0,\"muirGlacierBlock\":0,\"berlinBlock\":0,\"londonBlock\":0,\"clique\":{\"period\":0,\"epoch\":0},\"arbitrum\":{\"EnableArbOS\":true,\"AllowDebugPrecompiles\":false,\"DataAvailabilityCommittee\":false,\"InitialArbOSVersion\":11,\"GenesisBlockNum\":0,\"MaxCodeSize\":24576,\"MaxInitCodeSize\":49152,\"InitialChainOwner\":\"<Insert chain owner address>\"},\"chainId\":<Insert chain id>},\"rollup\":{\"bridge\":\"<Bridge proxy address>\",\"inbox\":\"<Inbox address>\",\"sequencer-inbox\":\"<Sequencer inbox address>\",\"rollup\":\"<Rollup proxy address>\",\"validator-utils\":\"<Validator until address>\",\"validator-wallet-creator\":\"<Validator wallet creator address>\",\"deployed-at\":<Insert deployed-at block number>}}]",
+        "name": "<Insert chain name>"
+      },
+```
+
   <details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
   <summary>
   List of params to be configured
@@ -231,7 +249,54 @@ Your Orbit chain's base contracts are responsible for facilitating the exchange 
   </details>
 </Callout>
 
-### Step-3: Update `docker-compose` file of `orbit-setup-script`
+
+After you've filled the relevant params under `chain`. You'll need to also need to add your Avail relevant details. 
+```json
+      "avail": {
+      "enable": true,
+      "seed": "<Enter your seed phrase here>",
+      "avail-api-url": "wss://turing-rpc.avail.so/ws",
+      "app-id": <Enter your avail app id>,
+      "timeout":"100s",
+      "vectorx": "0xA712dfec48AF3a78419A8FF90fE8f97Ae74680F0",
+      "arbSepolia-rpc": "<Enter an arbSepolia wss url here>"
+    }
+```
+
+### Step-3: Create `orbitSetupScriptConfig.json` in `./config`
+
+In `orbitSetupScriptConfig.json` you need to fill your chain's info as described below:
+```json
+{
+"networkFeeReceiver": "0xd41996ED89bb5BF7dBfB181D8D93E8067446200B",
+"infrastructureFeeCollector": "0xd41996ED89bb5BF7dBfB181D8D93E8067446200B",
+"staker": "0xDF819f9Fc3c28FEDFb73374C7B60A4f9BCdE6710",
+"batchPoster": "0xB0Ad5AE0a78025613F17B7e4644CE5752487B9d6",
+"chainOwner": "0xd41996ED89bb5BF7dBfB181D8D93E8067446200B",
+"chainId": 99584959107,
+"chainName": "My Arbitrum L3 Chain",
+"minL2BaseFee": 100000000,
+"parentChainId": 421614,
+"parent-chain-node-url": "https://sepolia-rollup.arbitrum.io/rpc",
+"utils": "0xB11EB62DD2B352886A4530A9106fE427844D515f",
+"rollup": "0xd30eCcf27A6f351EfA4fc9D17e7ec20354309aE3",
+"inbox": "0x4512e40a1ec8555f9e93E3B6a06af60F13538087",
+"nativeToken": "0x0000000000000000000000000000000000000000",
+"outbox": "0x2209755fA3470ED1AFFB4407d1e3B1f7dFC13ce9",
+"rollupEventInbox": "0x1e58240B2D769de25B4811354819C901317D0894",
+"challengeManager": "0xfC5BbC40d24EcD6FcC247EfFDc87E7D074E9B67D",
+"adminProxy": "0xf488b25e6736Ed74E8d37EA434892129E4d62E3B",
+"sequencerInbox": "0xD15347309854F1290c9a382ea2719AB5462c7719",
+"bridge": "0xC83ee8e28B7b258f41aF8ef4279c02f901288029",
+"upgradeExecutor": "0x805bB07B88dDA56030eC48644E0C276e2e5E3949",
+"validatorUtils": "0xB11EB62DD2B352886A4530A9106fE427844D515f",
+"validatorWalletCreator": "0xEb9885B6c0e117D339F47585cC06a2765AaE2E0b",
+"deployedAtBlockNumber": 11274529
+}
+
+```
+
+### Step-4: Update `docker-compose` file of `orbit-setup-script`
     
     ```json
     ...
@@ -241,14 +306,14 @@ Your Orbit chain's base contracts are responsible for facilitating the exchange 
     ...
     ```
     
-### Step-4: Run your chain
+### Step-5: Run your chain
     
     ```bash
     cd orbit-setup-script
     docker-compose up -d
     ```
     
-    A Nitro node and BlockScout explorer instance will be started. Visit **[http://localhost:4000/](http://localhost:4000/)** to access your BlockScout explorer instance - this will allow you to view your chain's transactions and blocks, which can be useful for debugging.
+   This will launch the Nitro node with a public RPC reachable at http://localhost:8449/  and a corresponding BlockScout explorer instance, viewable at http://localhost/ - this will allow you to view your chain's transactions and blocks, which can be useful for debugging.
     
 
 ## Hurray!
@@ -271,7 +336,20 @@ PRIVATE_KEY="0xYourPrivateKey" L2_RPC_URL="https://sepolia-rollup.arbitrum.io/rp
 AMOUNT="<AMOUNT>" yarn run deposit
 ```
 
-#### Appendix C: Troubleshooting
+#### Appendix C: Refunding (For testing environments)
+Once you're done with your local Orbit chain and want to refund any remaining balance from the batch poster and validator wallets, you can use the refund script by running:
+
+```bash
+PRIVATE_KEY="0xYourPrivateKey" L2_RPC_URL="<https://sepolia-rollup.arbitrum.io/rpc>" TARGET_ADDRESS="0xYourTargetAddress" yarn run refund
+```
+
+<Callout type="info">
+Make sure to replace `"0xYourPrivateKey"` with the private key of the wallet you used to deploy the rollup contracts, and `"0xYourTargetAddress"` with the address where you want to receive the refunded funds.
+</Callout>
+
+This will transfer any remaining balance from the batch poster and validator wallets to the specified target address.
+
+#### Appendix D: Troubleshooting
 You may see error getting latest batch count in your node's output logs (from Appendix A). This is usually safe to ignore. It's usually displayed when your Orbit chain's base contract deployment isn't yet finalized on the L1 chain. This finalization can take 15-20 minutes, but don't worry - the deployment doesn't need to be L1-finalized in order for your chain to function properly.
 
 Learn more about customizing and using your Orbit chain from the [Arbitrum Orbit Docs](https://docs.arbitrum.io/launch-orbit-chain/orbit-gentle-introduction). 

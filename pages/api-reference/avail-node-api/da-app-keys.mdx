@@ -1,5 +1,10 @@
 import { Callout, Steps, Tabs } from 'nextra/components'
 
+<Callout type="info">
+`App Ids` are core to the dev experience on Avail DA, and we highly recommend you understand how they work before you start working with them.
+You can check out [our docs for the same](/docs/end-user-guide/app-id).
+</Callout>
+
 # Fetch App IDs from Avail DA
 
 On-chain name of method: `dataAvailablity_appKeys`
@@ -34,7 +39,7 @@ On-chain name of method: `dataAvailablity_appKeys`
 On failure, a reason for failure is returned. On sucess, the returned JSON object contains:
 
 1. `Owner`: The owner of the `app_id`
-2. `AppId`: The numerical index of the `app_id`
+2. `appID`: The numerical index of the `app_id`
 
 ## Minimal example (Fetch a particular `app_id`)
 
