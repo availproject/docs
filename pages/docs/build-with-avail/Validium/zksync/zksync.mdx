@@ -113,12 +113,12 @@ git submodule update --init --recursive
 ## Installing & running the ZK Stack
 
 
-### 1. Installing ZK Inception
+### 1. Installing zkstack
 
-ZK Inception creates and manages Elastic Chain ecosystem and ZK chains using the ZK stack. To install `zk_inception` from git, run the following command:
+`zkstack` creates and manages Elastic Chain ecosystem and ZK chains using the zksync stack. To install `zkstack`, run the following command:
 
 ```bash
-cargo install --git https://github.com/matter-labs/zksync-era/ --locked zk_inception --force
+cargo install --git https://github.com/matter-labs/zksync-era/ --locked zkstack --force
 ```
 
 ### 2. Clone the zksync-era repository from github:
@@ -151,7 +151,7 @@ git submodule update --init --recursive
 git checkout dz-upd-da-contracts
 ```
 ### 3. Add custom chain logic
-Looking back, we have successfully installed `zk_inception` and cloned the `zksync-era` repository. We have also checked out branch on the main `zksync-era` repository and another branch in the `contracts/` folder. Now, we can add our custom chain logic in files `/contracts/LayerNameL1DAValidator.sol` and `/contracts/LayerNameL2DAValidator.sol`. 
+Looking back, we have successfully installed `zkstack` and cloned the `zksync-era` repository. We have also checked out branch on the main `zksync-era` repository and another branch in the `contracts/` folder. Now, we can add our custom chain logic in files `/contracts/LayerNameL1DAValidator.sol` and `/contracts/LayerNameL2DAValidator.sol`. 
 
 You may also rename these two files, but you will have to change all instances of the old name in the code. These instances are in these files:
 
@@ -176,29 +176,29 @@ You may also rename these two files, but you will have to change all instances o
 zk clean --all
 ```
 
-Now, we are ready to start DB and Reth containers using `zk_inception`. The great thing about this is that `zk_inception` handles everything on its own. If you encounter any errors, just make sure your ports are not busy and the `observability` feature is disabled during container setting up.
+Now, we are ready to start DB and Reth containers using `zkstack`. The great thing about this is that `zkstack` handles everything on its own. If you encounter any errors, just make sure your ports are not busy and the `observability` feature is disabled during container setting up.
 
 ```bash
-zk_inception containers
+zkstack containers
 ```
 
 ### 5. Initialize Elastic Chain ecosystem 
 
 - We need to create an Elastic Chain ecosystem now. We will choose all the default options.
 ```bash
-zk_inception ecosystem init
+zkstack ecosystem init
 ```
 
 - Once we have successfully initalized an elastic chain ecosystem, we can create new chains and can choose to create a Validium when prompted. For simplicity, we will choose the default options.
 
 ```bash
-zk_inception chain create
+zkstack chain create
 ```
 
 - Once we have created the chain, we have to finally initialize it and deploy the contracts of the ZK chain:
     
 ```bash
-zk_inception chain init
+zkstack chain init
 ```
 
 - Now that the contracts have been deployed, we just need to go to the chain's general config and add our own config that we may need for any specific usecase. You can get these here:
@@ -211,7 +211,7 @@ zksync-era/chains/$CHAIN_NAME/configs/general.yaml
 Finally, you just need to start the server which will be running the ZK chain. By default, it will be running on `localhost:3050`.
 
 ```bash
-zk_inception server --chain $CHAIN_NAME
+zkstack server --chain $CHAIN_NAME
 ```
 
 Your ZK chain is now running and you can start using it. For any troubleshooting or issues, please refer to the original repository which you can find [here](https://docs.zksync.io/zk-stack/running-a-zk-chain/quickstart).
