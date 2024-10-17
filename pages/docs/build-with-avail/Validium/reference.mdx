@@ -76,7 +76,8 @@ Final data root is computed hashing sub-trie roots as `keccak256(blobRoot, bridg
 After successfully bridging the data root to the Ethereum network,
 it is possible to prove that data is available on the Avail network by submitting a Merkle proof to the verification contract.
 Proof is available only when the block in which the transaction is included is committed to the VectorX contract,
-one such is deployed to the Sepolia network ([`0xe542db219a7e2b29c7aeaeace242c9a2cd528f96`](https://sepolia.etherscan.io/address/0xe542db219a7e2b29c7aeaeace242c9a2cd528f96)).
+deployed to the Sepolia network ([`0xe542db219a7e2b29c7aeaeace242c9a2cd528f96`](https://sepolia.etherscan.io/address/0xe542db219a7e2b29c7aeaeace242c9a2cd528f96))
+and Holesky network ([`0x8a48b5184dEc29E7276BF74d1C1d30d032F31e19`](https://holesky.etherscan.io/address/0x8a48b5184dEc29E7276BF74d1C1d30d032F31e19)).
  Once the range is committed to the VectorX contract, which
 can be checked by calling `https://turing-bridge-api.fra.avail.so/avl/head` that returns `start` and `end` block range that is available on the VectorX contract,
 fetching proof can be done via bridge api http call
