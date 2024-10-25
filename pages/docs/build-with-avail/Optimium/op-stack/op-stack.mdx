@@ -406,13 +406,24 @@ After configuring the L1 layer, focus shifts to establishing the L2 infrastructu
 
    You'll find the newly created `genesis.json` and `rollup.json` in the `op-node` package.
 
-3. Generate a `jwt.txt` file, which is crucial for the secure interaction between nodes:
+3. Add the following at the end of `rollup.json`:
+
+```
+ "alt_da": {
+    "da_challenge_contract_address": "0x0000000000000000000000000000000000000000",
+    "da_commitment_type": "GenericCommitment",
+    "da_challenge_window": 160,
+    "da_resolve_window": 160
+  }
+```
+
+4. Generate a `jwt.txt` file, which is crucial for the secure interaction between nodes:
 
    ```bash
    openssl rand -hex 32 > jwt.txt
    ```
 
-4. To get `op-geth` ready, move the `genesis.json` and `jwt.txt` files into its directory:
+5. To get `op-geth` ready, move the `genesis.json` and `jwt.txt` files into its directory:
 
    ```bash
    cp genesis.json ~/op-geth
@@ -571,7 +582,7 @@ cd ~/optimism/op-proposer
 ./bin/op-proposer \
   --poll-interval=12s \
   --rpc.port=9560 \
-  --rollup-rpc=http://localhost:9547 \
+  --rollup-rpc=http://localhost:8547 \
   --l2oo-address=$L2OO_ADDR \
   --private-key=$PROPOSER_KEY \
   --l1-eth-rpc=$L1_RPC
