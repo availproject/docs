@@ -1,11 +1,198 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
 # Bridge a message from origin to destination chain
 
-On-chain name of extrinsic: `vector_sendMessage`
+- On-chain name of extrinsic: `vector_sendMessage` to send a message from Avail to Ethereum.
+- On-chain name of extrinsic: `vector_execute` to execute a message receieved from Ethereum on Avail.
 
 ### Send an arbitrary message from Avail DA to Ethereum
 
-1. Inside `src/main.rs`, paste the following code:
 
+<Tabs items={['avail-rust']}>
+
+<Tabs.Tab>
+
+Let us first look at how an arbitrary message is being sent using the `vector_sendMessage` extrinsic below. 
+```rust
+let da_call = avail::tx()
+        .vector()
+        .send_message(message, recipient, domain);
+    let params = AvailExtrinsicParamsBuilder::new().build();
+    let maybe_tx_progress = sdk
+        .api
+        .tx()
+        .sign_and_submit_then_watch(&da_call, &account, params)
+        .await;
+```
+
+## Full Example
+
+### Sending arbitrary message from Avail to Ethereum.
+
+Initialize the `avail-rust` SDK.
+
+```rust
+
+use alloy_network::EthereumWallet;
+use alloy_provider::ProviderBuilder;
+use anyhow::Result;
+use avail_bridge_tools::{address_to_h256, AvailBridgeContract, BridgeApiMerkleProof, Config};
+use avail_rust::avail::runtime_types::bounded_collections::bounded_vec::BoundedVec;
+use avail_rust::avail::vector::calls::types::send_message::Message;
+use avail_rust::{avail, AvailExtrinsicParamsBuilder, Keypair, SecretUri, WaitFor, SDK};
+use reqwest::Url;
+use serde::{Deserialize, Serialize};
+use std::fs;
+use std::str::FromStr;
+use std::time::Duration;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let content = fs::read_to_string("./config.toml").expect("Read config.toml");
+    let config = toml::from_str::<Config>(&content).expect("Parse config.toml");
+
+    println!("Using config:\n{:#?}", config);
+
+    let sdk = SDK::new(config.avail_rpc_url.as_str())
+        .await
+        .expect("Initializing SDK");
+    let secret_uri =
+        SecretUri::from_str(config.avail_mnemonic.as_str()).expect("Valid secret URI");
+    let account = Keypair::from_uri(&secret_uri).expect("Valid secret URI");
+
+}
+
+
+```
+
+Now we set our `domain` (similar to `chainID` in EVM chains). We also set the `recipient` contract address, in this case it will be the VectorX Bridge contract address. 
+
+```rust
+
+// Ethereum domain
+    let domain = 2u32;
+    // Recipient contract address on the Ethereum network
+    let recipient = address_to_h256(config.receive_message_contract_address.parse()?);
+
+````
+
+After we have all this ready, we just need to define our message and send it using the `vector_sendMessage` extrinsic which is defined as `vector().sendMessage(message, recipient, domain)`
+
+```rust
+
+ let data = BoundedVec(config.message_data.as_bytes().to_vec());
+    // Arbitrary message to send
+    let message = Message::ArbitraryMessage(data);
+
+    let da_call = avail::tx()
+        .vector()
+        .send_message(message, recipient, domain);
+    let params = AvailExtrinsicParamsBuilder::new().build();
+    let maybe_tx_progress = sdk
+        .api
+        .tx()
+        .sign_and_submit_then_watch(&da_call, &account, params)
+        .await;
+
+```
+
+Finally we wait for the transaction to be included in Avail's block and do some transaction handling.
+ ```rust
+
+    let transaction = sdk
+        .util
+        .progress_transaction(maybe_tx_progress, WaitFor::BlockFinalization)
+        .await;
+
+    let tx_in_block = match transaction {
+        Ok(tx_in_block) => tx_in_block,
+        Err(message) => {
+            panic!("Error: {}", message);
+        }
+    };
+
+    println!("Finalized block hash: {:?}", tx_in_block.block_hash());
+    let events = tx_in_block
+        .wait_for_success()
+        .await
+        .expect("Waiting for success");
+    println!("Transaction result: {:?}", events);
+
+    let block_hash = tx_in_block.block_hash();
+    let extrinsic_index = events.extrinsic_index();
+
+    let block = sdk
+        .rpc
+        .chain
+        .get_block(None)
+        .await
+        .expect("Get block by hash");
+
+ ```
+
+ ### Retrieving data on Ethereum 
+
+ Once we have sent the arbitrary message, we can interact with the Bridge API to determine if it has been sent to Ethereum. 
+
+ 1. Wait and check if the block range in which our message is sent has been received on Ethereum.
+
+ ```rust
+
+let block_num = block.block.header.number;
+    loop {
+        let avail_head_info: AvailHeadInfo =
+            reqwest::get(format!("{}/avl/head", config.bridge_api_url))
+                .await
+                .unwrap()
+                .json()
+                .await?;
+        println!("New range: {avail_head_info:?}");
+
+        if (avail_head_info.data.start..=avail_head_info.data.end).contains(&(block_num as u64)) {
+            println!("Stored avail head is in range!");
+            break;
+        }
+        tokio::time::sleep(Duration::from_secs(60)).await;
+    }
+```
+
+2. Get the proof from the VectorX Bridge API.
+```rust
+    let url: String = format!(
+        "{}/eth/proof/{:?}?index={}",
+        config.bridge_api_url, block_hash, extrinsic_index
+    );
+    println!("Proof url: {url}");
+    let proof: BridgeApiMerkleProof = reqwest::get(url).await.unwrap().json().await.unwrap();
+
+    println!("Proof: {proof:?}");
+    let signer = config
+        .ethereum_mnemonic
+        .parse::<alloy_signer_local::PrivateKeySigner>()?;
+
+```
+
+3. Interact with the VectorX Bridge contract to retrieve the message
+```rust
+    let provider = ProviderBuilder::new()
+        .with_recommended_fillers()
+        .wallet(EthereumWallet::from(signer))
+        .on_http(Url::parse(config.ethereum_url.as_str())?);
+
+    let contract_address = config.contract_address.parse()?;
+
+    let contract = AvailBridgeContract::new(contract_address, &provider);
+
+    let call = contract.receiveMessage(proof.clone().try_into().unwrap(), proof.into());
+    let pending_tx = call.send().await?;
+    let res = pending_tx.watch().await?;
+    println!("Result: {res:?}");
+
+    Ok(())
+
+ ```
+--- 
+ Bringing it all together, we have the following. Inside `src/main.rs`, paste the following code:
 ```rust
 use alloy_network::EthereumWallet;
 use alloy_provider::ProviderBuilder;
@@ -139,16 +326,224 @@ struct AvailHeadData {
 }
 ```
 
-2. Run the code using:
+-  Run the code using:
 
 ```bash
 cargo run
 ```
 
+
+</Tabs.Tab>
+
+</Tabs>
+
+
+
 ### Send an arbitrary message from Ethereum to Avail DA
 
-1. Inside `src/main.rs`, paste the following code:
+<Tabs items={['avail-rust']}>
 
+<Tabs.Tab>
+
+Let us look at how a message sent from Ethereum is being executed on Avail using the `vector` pallet.
+```rust
+let da_call = avail::tx().vector().execute(
+        avail_stored_slot,
+        convert_addressed_message(sent_message),
+        acc_proof,
+        stor_proof,
+    );
+```
+
+
+## Full  Example
+
+### Sending arbitrary message from Ethereum to Avail
+
+Let us initialize some of out essentials such as `signer`, `provider`, `contract`, etc. This will allow us to interact with Ethereum easily. 
+
+```rust
+
+use alloy::primitives::Address;
+use alloy_network::EthereumWallet;
+use alloy_provider::ProviderBuilder;
+use alloy_sol_types::sol;
+use anyhow::{anyhow, Result};
+use avail_bridge_tools::{address_to_h256, convert_addressed_message, eth_seed_to_address, Config};
+use avail_rust::avail::runtime_types::bounded_collections::bounded_vec::BoundedVec;
+use avail_rust::avail_core::data_proof::AddressedMessage;
+use avail_rust::{avail, AvailExtrinsicParamsBuilder, Keypair, SecretUri, WaitFor, SDK};
+use reqwest::Url;
+use serde::{Deserialize, Deserializer};
+use sp_core::H256;
+use std::fs;
+use std::str::FromStr;
+use std::time::Duration;
+
+sol!(
+    #[sol(rpc)]
+    AvailBridgeContract,
+    "src/availbridge.json"
+);
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let content = fs::read_to_string("./config.toml").expect("Read config.toml");
+    let config = toml::from_str::<Config>(&content).expect("Parse config.toml");
+
+    let secret_uri = SecretUri::from_str(config.avail_mnemonic.as_str())
+        .expect("parse avail sender mnemonic");
+    let account = Keypair::from_uri(&secret_uri).expect("create keypair");
+
+    let recipient = account.public_key().0;
+
+    let ethereum_signer = config
+        .ethereum_mnemonic
+        .parse::<alloy_signer_local::PrivateKeySigner>()?;
+
+    let sender = eth_seed_to_address(config.ethereum_mnemonic.as_str());
+    let provider = ProviderBuilder::new()
+        .with_recommended_fillers()
+        .wallet(EthereumWallet::from(ethereum_signer))
+        .on_http(Url::parse(config.ethereum_url.as_str())?);
+
+    let contract_addr: Address = config.contract_address.parse()?;
+
+    let contract = AvailBridgeContract::new(contract_addr, &provider);
+
+}
+
+```
+
+2. Now we send a message using contract.sendMessage from Ethereum to Avail. 
+```rust
+let call = contract.sendMessage(recipient.into(), config.clone().message_data.into());
+    let pending_tx = call.from(sender.0.into());
+    let pending_tx = pending_tx.send().await?;
+    let receipt = pending_tx.get_receipt().await?;
+    let block_number = receipt.block_number.ok_or(anyhow!("No block number!"))?;
+    println!("Included in block no: {block_number}");
+    let logs = receipt
+        .inner
+        .as_receipt()
+        .ok_or(anyhow!("Cannot convert to receipt"))?
+        .logs
+        .clone();
+    assert!(!logs.is_empty(), "Logs are empty!");
+
+    let message_id = u64::from_be_bytes(
+        logs[0].clone().inner.data.data[32 - 8..]
+            .try_into()
+            .unwrap(),
+    );
+
+    let sent_message = AddressedMessage {
+        message: avail_rust::avail_core::data_proof::Message::ArbitraryMessage(
+            config.message_data.as_bytes().to_vec().try_into().unwrap(),
+        ),
+        from: address_to_h256(sender),
+        to: H256(recipient),
+        origin_domain: 2,
+        destination_domain: 1,
+        id: message_id,
+    };
+
+
+```
+### Retrieving and Executing the message sent to Avail
+1. Using the Bridge API we check if the Ethereum block in which we sent the message is in range for the bridge. If it is, then we get the account and storage proofs.
+
+```rust
+    let (avail_stored_block_hash, avail_stored_slot) = loop {
+        let ethereum_slot_info: EthereumSlotInfo =
+            reqwest::get(format!("{}/eth/head", config.bridge_api_url))
+                .await
+                .unwrap()
+                .json()
+                .await?;
+        println!("New slot: {ethereum_slot_info:?}");
+        let block_info: BlockInfo = reqwest::get(format!(
+            "{}/beacon/slot/{}",
+            config.bridge_api_url, ethereum_slot_info.slot
+        ))
+        .await
+        .unwrap()
+        .json()
+        .await?;
+        println!("Slot to block number: {}", block_info.block_number);
+        if block_info.block_number >= block_number {
+            println!("Stored eth head is in range!");
+            break (block_info.block_hash, ethereum_slot_info.slot);
+        }
+
+        tokio::time::sleep(Duration::from_secs(60)).await;
+    };
+
+    let account_storage_proof: AccountStorageProof = reqwest::get(format!(
+        "{}/avl/proof/{:?}/{}",
+        config.bridge_api_url, avail_stored_block_hash, message_id
+    ))
+    .await
+    .expect("Cannot get account/storage proofs.")
+    .json()
+    .await
+    .expect("Cannot deserialize");
+    println!("Got proof! {account_storage_proof:?}");
+
+    let acc_proof = BoundedVec(
+        account_storage_proof
+            .account_proof
+            .into_iter()
+            .map(BoundedVec)
+            .collect::<Vec<_>>(),
+    );
+    let stor_proof = BoundedVec(
+        account_storage_proof
+            .storage_proof
+            .into_iter()
+            .map(BoundedVec)
+            .collect::<Vec<_>>(),
+    );
+
+    println!("Message: {sent_message:?}");
+    let sdk = SDK::new(config.avail_rpc_url.as_str())
+        .await
+        .expect("create sdk");
+
+```
+
+2. We then call in Avail to call the `execute` method in the `vector` pallet, which is for executing a bridged message from Ethereum. We are submitting proof against the roots stored in the pallet storage. The pallet then executes the message we are giving proof for. 
+We only get the encoded tx, that we then have to sign and send, and wait for the transaction to included and executed on Avail.
+```rust 
+let da_call = avail::tx().vector().execute(
+        avail_stored_slot,
+        convert_addressed_message(sent_message),
+        acc_proof,
+        stor_proof,
+    );
+    let params = AvailExtrinsicParamsBuilder::new().build();
+    let maybe_tx_progress = sdk
+        .api
+        .tx()
+        .sign_and_submit_then_watch(&da_call, &account, params)
+        .await;
+
+    let transaction = sdk
+        .util
+        .progress_transaction(maybe_tx_progress, WaitFor::BlockFinalization)
+        .await;
+
+    let tx_in_block = match transaction {
+        Ok(tx_in_block) => tx_in_block,
+        Err(message) => {
+            panic!("Error: {}", message);
+        }
+    };
+
+    println!("Finalized block hash: {:?}", tx_in_block.block_hash());
+```
+----
+Bringing it all together in `src/main.rs`:
 ```rust
 use alloy::primitives::Address;
 use alloy_network::EthereumWallet;
@@ -355,9 +750,12 @@ where
 }
 ```
 
-2. Run the code using:
+
+Run the code using:
 
 ```bash
 cargo run
 ```
 
+</Tabs.Tab>
+</Tabs>
