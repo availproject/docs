@@ -116,12 +116,6 @@ export const Footer = () => {
             label:'Company',
             subLinks:[
                 {
-                    id:1,
-                    label:'About',
-                    isInternal:true,
-                    link:ROUTES.ECOSYSTEM
-                },
-                {
                     id:2,
                     label:'Team',
                     inActive:true,
@@ -154,12 +148,6 @@ export const Footer = () => {
                     label:'Terms',
                     isInternal:true,
                     link:"https://avail-project.notion.site/"
-                },
-                {
-                    id:8,
-                    label:'Brand Assets',
-                    isInternal:true,
-                    link:"/brand"
                 },
                 {
                     id:8,
