@@ -13,9 +13,22 @@ Allows us to fetch the latest block processed by the light client.
 <Tabs items={['CURL', 'Rust']}>
 
 <Tabs.Tab>
+
+<Tabs items={['Local', 'Remote']}>
+
+<Tabs.Tab>
+```sh
+curl "localhost:7007/v1/latest_block"
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
 ```sh
 curl "https://api.lightclient.mainnet.avail.so/v1/latest_block"
 ```
+</Tabs.Tab>
+</Tabs>
+
 </Tabs.Tab>
 
 <Tabs.Tab>

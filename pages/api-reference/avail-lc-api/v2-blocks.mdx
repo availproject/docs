@@ -35,10 +35,24 @@ pushed, similar to case of the frequent polling, so header and confidence will b
 
 
 <Tabs items={['CURL', 'Rust']}>
+
+<Tabs.Tab>
+
+<Tabs items={['Local', 'Remote']}>
+
+<Tabs.Tab>
+```sh
+curl "localhost:7007/v2/blocks/672481"
+```
+</Tabs.Tab>
+
 <Tabs.Tab>
 ```sh
 curl "https://api.lightclient.mainnet.avail.so/v2/blocks/672481"
 ```
+</Tabs.Tab>
+</Tabs>
+
 </Tabs.Tab>
 
 <Tabs.Tab>
