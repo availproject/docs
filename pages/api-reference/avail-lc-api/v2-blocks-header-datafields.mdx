@@ -6,10 +6,24 @@ import { Callout } from 'nextra/components'
 Gets the block data if available. Query parameter `fields` specifies whether to return decoded data and encoded extrinsic (with signature). If `fields` parameter is omitted, response contains **hash** and **data**, while **extrinsic** is omitted.
 
 <Tabs items={['CURL', 'Rust']}>
+
+<Tabs.Tab>
+
+<Tabs items={['Local', 'Remote']}>
+
+<Tabs.Tab>
+```sh
+curl "localhost:7007/v2/blocks/{block_number}/data?fields=data,extrinsic"
+```
+</Tabs.Tab>
+
 <Tabs.Tab>
 ```sh
 curl "https://api.lightclient.mainnet.avail.so/v2/blocks/{block_number}/data?fields=data,extrinsic"
 ```
+</Tabs.Tab>
+</Tabs>
+
 </Tabs.Tab>
 
 <Tabs.Tab>
