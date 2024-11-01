@@ -17,6 +17,11 @@ import { Callout } from 'nextra/components'
 
 # How to Run the Avail Light Client
 
+<Callout type="info">
+**LOOKING FOR THE LIGHT CLIENT API REFERENCE?**<br/>
+Go to [light client API reference](/api-reference/avail-lc-api)
+</Callout>
+
 The guide outlines how to set up an Avail light client to connect with the [Avail Network](/docs/end-user-guide/explorer). You can either:
 
 1. Use [Availup](https://github.com/availproject/availup) to run the light client.
@@ -29,9 +34,9 @@ The guide outlines how to set up an Avail light client to connect with the [Avai
 You can find the latest release binary in the [`avail-light`](https://github.com/availproject/avail-light) repository.
 
 <Callout type="info">
-RECOMMENDED VERSION <br/>
+**RECOMMENDED VERSION** <br/>
 You can find the latest release of the Avail LC from [our Github repo](https://github.com/availproject/avail-light). For now though we recommend most users to
-run [`v1.11.1`](https://github.com/availproject/avail-light/releases/tag/avail-light-client-v1.11.1) of the Avail light client for maximal network support. <br/>
+run [`v1.12.2-rc3`](https://github.com/availproject/avail-light/releases/tag/avail-light-client-v1.12.2-rc3) of the Avail light client for maximal network support. <br/>
 We will keep this recommendation updated.
 </Callout>
 
@@ -43,30 +48,26 @@ The Avail light client has two main modes of operation:
 If an `app_id` is not provided (or is = 0), this mode will commence. On each header received the client 
 does random sampling using two mechanisms:
 
-  - *DHT* - client first tries to retrieve cells via Kademlia.
-  - *RPC* - if DHT retrieve fails, the client uses RPC calls to Avail nodes to retrieve the needed cells. 
-  The cells not already found in the DHT will be uploaded.
-
-  Once the data is received, light client verifies individual cells and calculates the confidence, 
-  which is then stored locally.
-
-2. **App-client mode**: If an `app_id > 0` is given in the config file, the application client 
-(part of the light client) downloads all the relevant app data, reconstructs it and persists it locally. 
-Reconstructed data is then available to accessed via an HTTP endpoint.
+2. **App-client mode**: If an `app_id > 0` is given, the application client 
+(part of the light client) downloads all data specific to that App ID, reconstructs it and persists it locally. 
+This data can then be accessed via a loacal HTTP endpoint.
 
 <Callout type="info">
-Please note that each app/rollup running on Avail DA will have a unique `app_id`, which will be an integer `> 0`.
-When running in the App-client mode, the Avail LC will only download and verify data relevant to that specific `app_id`.
-
-The idea here was to give rollup developers the ability to verify data specifically for their rollup,
-with minimal overhead.
+**WE RECOMMEND LEARNING ABOUT APP IDs on AVAIL DA**<br/>
+App IDs are an important concept in the context of Avail. We recommend you go through [this page in our docs](/docs/end-user-guide/app-id) to understand how they work before moving forward.
 </Callout>
 
-## Running the light client (Linux, MacOS)
+## Running the light client
 
-<Tabs items={['availup','Run pre-built binary', 'Build from source']}>
+<Tabs items={['availup','Run pre-built binary', 'Build from source', 'Windows-specific instructions']}>
 
 <Tabs.Tab>
+
+<Callout type="info">
+**CONFIG FLAGS**<br/>
+Availup supports many different config flags to support your needs.
+Detailed documentation for them can be found [in our Github repo](https://github.com/availproject/availup?tab=readme-ov-file#availup).
+</Callout>
 
 **[`availup`](https://github.com/availproject/availup)** is the recommended way of running the Avail light client for most users.
 `availup` is a shell wrapper that allows you to spin up your own instance of the Avail light client 
@@ -116,17 +117,20 @@ curl -sL1 avail.sh | bash
 ```
 </details>
 
-3. If you want to read about all the different flags you can use to run the Avail LC 
-using `availup`, you can always check out [our Github repo](https://github.com/availproject/availup).
-
 </Tabs.Tab>
 
 <Tabs.Tab>
 
+<Callout type="info">
+**CONFIG FLAGS**<br/>
+You can run the Avail light client with different flags to configure it according to your needs.
+Detailed documentation for them can be found [in our Github repo](https://github.com/availproject/avail-light/blob/main/client/README.md#options).
+</Callout>
+
   You can also download and run a pre-built binary of the Avail light client.
   To do so:
 
-  1. Download the [recommended version of the binary](https://github.com/availproject/avail-light/releases/tag/avail-light-client-v1.11.1) that is compatible with your operating system.
+  1. Download the [recommended version of the binary](https://github.com/availproject/avail-light/releases/tag/avail-light-client-v1.12.2-rc3) that is compatible with your operating system.
 
   2. Move the `.tar` file into a convenient directory and extract it to reveal the `avail-light` binary.
 
@@ -213,8 +217,13 @@ using `availup`, you can always check out [our Github repo](https://github.com/a
 </details>
 </Tabs.Tab>
 
-
 <Tabs.Tab>
+
+<Callout type="info">
+**CONFIG FLAGS**<br/>
+You can run the Avail light client with different flags to configure it according to your needs.
+Detailed documentation for them can be found [in our Github repo](https://github.com/availproject/avail-light/blob/main/client/README.md#options).
+</Callout>
 
    Building the Avail light client from source is a more advanced option that 
    provides you with the maximum flexibility.
@@ -224,7 +233,7 @@ using `availup`, you can always check out [our Github repo](https://github.com/a
    ```sh
    git clone https://github.com/availproject/avail-light.git
    cd avail-light
-   git checkout tags/v1.11.1
+   git checkout tags/v1.12.2-rc3
    ```
 
    2. Make sure your terminal is in the `avail-light` directory. Create a compiled build by running:
@@ -273,9 +282,8 @@ using `availup`, you can always check out [our Github repo](https://github.com/a
 </details>
 
 </Tabs.Tab>
-</Tabs>
 
-## Running the light client (Windows)
+<Tabs.Tab>
 
 [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/en-us/windows/wsl/about) is a Windows feature that allows you to run a Linux distribution directly on Windows,
 without having to set up a separate virtual machine or a dual-boot system.
@@ -287,7 +295,7 @@ instructions on how to run the Avail light client natively on Windows without ha
 
 <Tabs.Tab>
 
-1. Go to the [releases page of the Avail light client repo](https://github.com/availproject/avail-light/releases/tag/avail-light-client-v1.11.1), and download the
+1. Go to the [releases page of the Avail light client repo](https://github.com/availproject/avail-light/releases/tag/avail-light-client-v1.12.2-rc3), and download the
 `avail-light-windows-runner.zip` file.
 
 2. Right click the downloaded file and extract it to a convenient location.
@@ -400,13 +408,22 @@ curl -sL1 avail.sh | bash
 
 </Tabs>
 
+</Tabs.Tab>
+</Tabs>
+
 ## Setting your identity using `identity.toml`
 
-Whenever you run an Avail LC, you will notice a file named `identity.toml` being created in the same 
+<Callout type="info">
+**ONLY IF YOU WANT TO SUBMIT DATA TO AVAIL DA USING THE LIGHT CLIENT**<br/>
+The light client API exposes a method you can use to submit data to Avail DA, but to do so the API needs access to an Avail account with some AVAIL tokens. \
+*You don't need to set an identity if you only want your client to fetch data from the network.*
+</Callout>
+
+- Whenever you run an Avail LC, you will notice a file named `identity.toml` being created in the same 
 directory as the binary. This is a default file that contains a random `seed phrase` that represents your
 identity on the network.
 
-You can also set your own `seed phrase` by creating an `identity.toml` file, and passing it as an argument using the
+- You can also set your own `seed phrase` by creating an `identity.toml` file, and passing it as an argument using the
 `--identity` flag.
 
 To do so:
@@ -418,11 +435,13 @@ avail_secret_seed_phrase = 'AvailDA rice is demon the pair best almond DA walnut
 ```
 3. Pass this file to the light client using the `--identity` flag like this. This could look something like this:
 ```sh
-curl -sL1 avail.sh | bash -s -- --identity identity.toml
+curl -sL1 avail.sh | bash -s -- --app_id 18 --network turing --identity identity.toml
 ```
 
+<Callout type="info">
 Please note this command worked for a system where the `identity.toml` file was in the same directory as the terminal.
 You will need to pass the full path to the `identity.toml` file if it is located elsewhere.
+</Callout>
 
 ## Final notes
 Please note that the Avail light client is ***heavily customisable***. The instructions in this page 
