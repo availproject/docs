@@ -5,7 +5,7 @@ import { Callout, Steps, Tabs } from 'nextra/components'
 - On-chain name of extrinsic: `vector_sendMessage` to send a message from Avail to Ethereum.
 - On-chain name of extrinsic: `vector_execute` to execute a message receieved from Ethereum on Avail.
 
-### Send an arbitrary message from Avail DA to Ethereum
+## Send an arbitrary message from Avail DA to Ethereum
 
 
 <Tabs items={['avail-rust']}>
@@ -192,7 +192,7 @@ let block_num = block.block.header.number;
 
  ```
 --- 
- Bringing it all together, we have the following. Inside `src/main.rs`, paste the following code:
+- Bringing it all together, we have the following. Inside `src/main.rs`, paste the following code:
 ```rust
 use alloy_network::EthereumWallet;
 use alloy_provider::ProviderBuilder;
@@ -339,7 +339,7 @@ cargo run
 
 
 
-### Send an arbitrary message from Ethereum to Avail DA
+## Send an arbitrary message from Ethereum to Avail DA
 
 <Tabs items={['avail-rust']}>
 
@@ -415,7 +415,7 @@ async fn main() -> Result<()> {
 
 ```
 
-2. Now we send a message using contract.sendMessage from Ethereum to Avail. 
+2. Now we send a message using `contract.sendMessage` from Ethereum to Avail. 
 ```rust
 let call = contract.sendMessage(recipient.into(), config.clone().message_data.into());
     let pending_tx = call.from(sender.0.into());
