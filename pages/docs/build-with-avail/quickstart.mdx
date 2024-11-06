@@ -12,12 +12,17 @@ keywords:
   - da
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
-import { Tabs } from 'nextra/components'
+import { Callout, Steps, Tabs } from 'nextra/components'
 
 
-# Get Started with Avail
+# Avail Quickstart page
 
-## Start Operating
+<Callout type="info">
+**LOOKING FOR ENDPOINTS TO INTERACT WITH AVAIL?**<br/>
+Check out the [networks page](/docs/networks).
+</Callout>
+
+## Get started with the Avail Light Client
 
 {
 /*
@@ -35,40 +40,57 @@ avail lc up
 */
 }
 
-To run an Avail light client, simply run this command powered by [availup](https://github.com/availproject/availup):
+- To run an Avail light client, simply run this command powered by [availup](https://github.com/availproject/availup):
 
 ```bash
 curl -sL1 avail.sh | bash
 ```
 
+- You can find more detailed instructions for running the light client [here](/docs/operate-a-node/run-a-light-client/0010-light-client).
 
+- You can check out the light client API reference [here](/api-reference/avail-lc-api).
 
-And that's it!
+## Start using Avail's SDKs
 
-If you're seeking more control over the configuration or are interested in running a full node, check out the deployment guides below.
-
-| Action                                                                   | Tokens Needed | Staking | Technical Skill Required | Client Binary                                                                        |
-| ------------------------------------------------------------------------ | ------------- | ------- | ------------------------ | ------------------------------------------------------------------------------------ |
-| [<ins>Run a Light Client</ins>](/docs/operate-a-node/run-a-light-client/0010-light-client) | No            | No      | Basic                    | [<ins>v1.11.1</ins>](https://github.com/availproject/avail-light/releases/tag/avail-light-client-v1.11.1) |
-| [<ins>Run a Full Node / Validator</ins>](/docs/operate-a-node/run-a-full-node/full-node)           | No            | No      | Moderate                 | [<ins>v2.2.4.1</ins>](https://github.com/availproject/avail/releases/tag/v2.2.4.1) |
-
----
-
-## Start Building
-
-Avail API is a set of tools and resources that allows developers to interact with Avail Nodes and with the Avail DA Network.
-The API is build around existing tools (`polkadotjs`, `subxt`, `gsrpc`) with additional types and quality of life interfaces added
+The Avail SDKs allow developers to interact with Avail DA in a language of their choice.
+The SDKs are built around existing tools (`polkadotjs`, `subxt`, `gsrpc`) with additional types and quality of life interfaces added
 on top of them.
 
-The API is available in three languages: `Typescript`, `Rust`, and `Go`.
+They are available in three languages: 
 
-### Avail API Setup
-<Tabs items={['Typescript', 'Rust', 'Go']}>
+- `Typescript`: `avail-js`, 
+- `Rust`: `avail-rust`, and,
+- `Golang`: `avail-go`.
+
+<Callout type="info">
+**Setting up the dev enviornments**<br/>
+Please refer to [this page in our docs](/api-reference/avail-node-api#setting-up-the-dev-environment) to set up the respective dev enviornments for the SDKs.
+</Callout>
+
+<Callout type="info">
+
+All `avail-js` examples can be run with the JS runtime of your choice. We tested it wih the following runtimes:
+- Node (TS-Node): Node v-20.0.0; ts-Node v-10.9.2; NPM v-9.6.4
+- Deno: v-2.0.2
+- Bun: v-1.1.33
+</Callout>
+
+With your dev enviornment set up, we are ready to explore what the SDKs can offer.
+The next few snippets will focus on important lines within the code, but we have a full example at the end of the page.
+
+### Create an API Instance
+
+Creating an instance of the SDK is quite straightforward. The only argument that needs to be passed is the
+provider endpoint that we connect to. For this example, we will establish a connection to a an Avail DA node running on the `Turing Testnet`.
+You can find more endpoints in the [networks page](/docs/networks).
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
 
 <Tabs.Tab>
-Create an empty directory and add the following files there:
-- `index.ts` with the following content:
-```ts
+
+- Inside `index.ts`, create a basic `main` function like this:
+
+```typescript filename="avail-js"
 import { SDK } from "avail-js-sdk"
 
 const main = async () => {
@@ -78,74 +100,23 @@ const main = async () => {
 }
 main()
 ```
-- `package.js` with the following content:
-```json
-{
-  "name": "example",
-  "version": "0.0.1",
-  "description": "example",
-  "dependencies": {
-    "avail-js-sdk": "^0.3.0"
-  },
-  "resolutions": {
-    "ws": ">=8.17.1"
-  }
-}
+
+- Establish a connection to the node like this:
+
+```typescript filename="avail-js"
+// Start of main function
+// Main Content
+const sdk = await SDK.New("wss://turing-rpc.avail.so/ws")
+console.log("Genesis Hash: " + sdk.api.genesisHash.toHex())
 ```
 
-Your directory should now have the following files: `index.ts`, and `package.json`.
-
-The example can be run with the runtime of your choice. We tested it wih the following runtimes:
-- Node (TS-Node): Node v20.0.0; TS-Node v10.9.2; NPM v9.6.4
-- Deno: v2.0.2
-- Bun: v1.1.33
-
-If you are using an newer version it should work just fine as well.
-<Tabs items={['TS-Node', 'Deno', 'Bun']}>
-
-<Tabs.Tab>
-1. Install [Node](https://nodejs.org/en/download/package-manager)
-2. Install [TS-Node](https://www.npmjs.com/package/ts-node)
-3. Add a file named `tsconfig.json` to your current directory with the following content:
-```ts
-{
-  "compilerOptions": {
-    "target": "es2016",
-    "module": "commonjs",
-    "outDir": "build",
-    "declaration": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "noUnusedParameters": true
-  },
-  "include": ["src"],
-  "exclude": ["node_modules", "build"]
-}
-```
-4. Run `npm i`
-5. Run example with `ts-node ./index.ts`
-
-Your directory should now have the following files: `index.ts`, `package.json`, and `tsconfig.json`.
 </Tabs.Tab>
 
 <Tabs.Tab>
-1. Install [Deno](https://docs.deno.com/runtime/getting_started/installation)
-2. Run example with `deno run -A ./index.ts`
-</Tabs.Tab>
 
-<Tabs.Tab>
-1. Install [Bun](https://bun.sh/docs/installation)
-2. Run example with `bun run ./index.ts`
-</Tabs.Tab>
-</Tabs>
-</Tabs.Tab>
+- Inside `main.rs`, create a basic `main` function like this:
 
-<Tabs.Tab>
-1. Install [Rust](https://www.rust-lang.org/tools/install) and then create an empty directory and add the following files there:
-- `main.rs` with the following content:
-```rust
+```rust filename="avail-rust"
 use avail_rust::SDK;
 
 #[tokio::main]
@@ -155,61 +126,13 @@ async fn main() -> Result<(), String> {
     Ok(())
 }
 ```
-- `Cargo.toml` with the following content:
-```toml
-[package]
-name = "example"
-edition = "2021"
-version = "0.1.0"
 
-[[bin]]
-name = "example"
-path = "./main.rs"
+- Establish a connection to the node like this:
 
-[dependencies]
-avail-rust = { git = "https://github.com/availproject/avail", tag = "v2.2.5.1" }
-tokio = { version = "1.38.0", features = ["rt-multi-thread"] }
-```
-Your directory should now have the following files: `main.rs`, and `Cargo.toml`.
-
-2. Run example with `cargo run` 
-
-</Tabs.Tab>
-
-<Tabs.Tab>
-TODO
-</Tabs.Tab>
-</Tabs>
-
-With all the setup being done, we are now ready to explore what the API can offer.
-Keep in mind that the next examples are going to contain only the snippets that we need to add to our code.
-If you get lost, at the end of this page you can find the full example with everything that will be added in
-the next sections.
-
-### Create an API Instance
-Creating an instance of the SDK is quite straightforward. The only argument that needs to be passed is the
-provider endpoint that we connect to. For this example, we are establishing a connection to a locally run
-Node. For testing purposes this is exactly what we want.
-
-Make sure that you are already running a node locally otherwise it's not going to be possible to run the example.
-
-<Tabs items={['Typescript', 'Rust', 'Go']}>
-
-<Tabs.Tab>
-```ts
+```rust filename="avail-rust"
 // Start of main function
 // Main Content
-const sdk = await SDK.New("ws://127.0.0.1:9944")
-console.log("Genesis Hash: " + sdk.api.genesisHash.toHex())
-```
-
-</Tabs.Tab>
-
-<Tabs.Tab>
-```rust
-// Start of main function
-// Main Content
-let sdk = SDK::new("ws://127.0.0.1:9944").await.unwrap();
+let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
 println!("Genesis Hash: {:?}", sdk.api.genesis_hash());
 ```
 
@@ -217,7 +140,13 @@ println!("Genesis Hash: {:?}", sdk.api.genesis_hash());
 
 <Tabs.Tab>
 ```go
-TODO
+// Start of main function
+// Main Content
+api, err := sdk.NewSDK("wss://turing-rpc.avail.so/ws")
+
+if err != nil {
+  fmt.Printf("cannot create api:%v", err)
+}
 ```
 </Tabs.Tab>
 </Tabs>
@@ -231,10 +160,11 @@ It means that the connection was successful and we got back the genesis hash of 
 ### Keyring
 Keyrings are our window to account management. Without an account, we cannot do transactions so creating one is paramount.
 
-<Tabs items={['Typescript', 'Rust', 'Go']}>
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
 
 <Tabs.Tab>
-```ts
+
+```typescript filename="avail-js"
 // Replace the import with the following line
 import { SDK, Keyring } from "avail-js-sdk";
 
@@ -249,7 +179,8 @@ console.log("The address of Alice is: " + account.address)
 </Tabs.Tab>
 
 <Tabs.Tab>
-```rust
+
+```rust filename="avail-rust"
 // Replace the import with the following lines
 use avail_rust::{SDK, Keypair, SecretUri};
 use core::str::FromStr;
@@ -281,10 +212,10 @@ The address of Alice is: 5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY
 Data submission is the bread and butter of Avail DA Network. When submitting data we are prompt to enter our application key
 that will be used with that data.
 
-<Tabs items={['Typescript', 'Rust', 'Go']}>
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
 
 <Tabs.Tab>
-```ts
+```typescript filename="avail-js"
 // Replace the import with the following line
 import { SDK, Keyring, WaitFor } from "avail-js-sdk";
 
@@ -304,7 +235,8 @@ console.log("Application key ID: " + appKeyId)
 </Tabs.Tab>
 
 <Tabs.Tab>
-```rust
+
+```rust filename="avail-rust"
 // Replace the import with the following line
 use avail_rust::{Key, Keypair, SecretUri, WaitFor, SDK, Nonce, Options};
 
@@ -342,10 +274,10 @@ Don't panic, this is expected because application keys are supposed to be unique
 Simply changing the key name from `My Personal Application Key` to `My Personal Application Key 2` will solve the issue
 
 ### Data Submission
-<Tabs items={['Typescript', 'Rust', 'Go']}>
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
 
 <Tabs.Tab>
-```ts
+```typescript filename="avail-js"
 // Replace the import with the following line
 import { SDK, Keyring, WaitFor, TransactionOptions } from "avail-js-sdk";
 
@@ -364,7 +296,8 @@ console.log("Data Submission Hash: " + daResult.event.dataHash)
 </Tabs.Tab>
 
 <Tabs.Tab>
-```rust
+
+```rust filename="avail-rust"
 // Replace the import with the following line
 use avail_rust::{Key, Keypair, SecretUri, WaitFor, SDK, Nonce, Options, Data};
 
@@ -394,10 +327,10 @@ Data Submission Hash: 0x7d5ece96efb6832141afe1af96b337d5fec3839bd3cedd31317e4fa7
 ```
 
 ### Balance Transfer
-<Tabs items={['Typescript', 'Rust', 'Go']}>
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
 
 <Tabs.Tab>
-```ts
+```typescript filename="avail-js"
 // Data Submission
 // ...
 
@@ -416,7 +349,8 @@ console.log(`Transfer completed. Alice transferred to Bob ${amount} units`)
 </Tabs.Tab>
 
 <Tabs.Tab>
-```rust
+
+```rust filename="avail-rust"
 // Data Submission
 // ...
 
@@ -443,16 +377,16 @@ Transfer completed. Alice transferred to Bob 1000000000000000000 units
 ```
 
 ### Full Example
-<Tabs items={['Typescript', 'Rust', 'Go']}>
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
 
 <Tabs.Tab>
-```ts
+```typescript filename="avail-js"
 import { SDK, Keyring, WaitFor, TransactionOptions, BN } from "avail-js-sdk";
 
 const main = async () => {
   // Start of main function
   // Main Content
-  const sdk = await SDK.New("ws://127.0.0.1:9944")
+  const sdk = await SDK.New("wss://turing-rpc.avail.so/ws")
   console.log("Genesis Hash: " + sdk.api.genesisHash.toHex())
 
   // Account Creation
@@ -498,7 +432,8 @@ main();
 </Tabs.Tab>
 
 <Tabs.Tab>
-```rust
+
+```rust filename="avail-rust"
 use avail_rust::{Key, Keypair, SecretUri, WaitFor, SDK, Nonce, Options, Data};
 use core::str::FromStr;
 
@@ -506,7 +441,7 @@ use core::str::FromStr;
 async fn main() -> Result<(), String> {
     // Start of main function
     // Main Content
-    let sdk = SDK::new("ws://127.0.0.1:9944").await.unwrap();
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
     println!("Genesis Hash: {:?}", sdk.api.genesis_hash());
 
     // Account Creation
