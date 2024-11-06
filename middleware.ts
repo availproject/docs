@@ -12,6 +12,14 @@ export function middleware(request: NextRequest) {
 
   const redirects = [
     {
+      source: '/docs/ecosystem',
+      destination: `${origin}/docs/introduction-to-avail`,
+    },
+    {
+      source: '/docs/brand',
+      destination: `${origin}/docs/introduction-to-avail`,
+    },
+    {
       source: '/docs/build-with-avail/Validium/reference',
       destination: `${origin}/docs/build-with-avail/vectorx`,
     },
