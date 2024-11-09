@@ -62,17 +62,11 @@ They are available in three languages:
 - `Rust`: `avail-rust`, and,
 - `Golang`: `avail-go`.
 
+> Note: This page is under progress, we will soon add `avail-go` examples to this page, but you can still check out the [API reference](/api-reference/avail-node-api/da-create-application-key) for detailed examples in golang.
+
 <Callout type="info">
 **Setting up the dev enviornments**<br/>
 Please refer to [this page in our docs](/api-reference/avail-node-api#setting-up-the-dev-environment) to set up the respective dev enviornments for the SDKs.
-</Callout>
-
-<Callout type="info">
-
-All `avail-js` examples can be run with the JS runtime of your choice. We tested it wih the following runtimes:
-- Node (TS-Node): Node v-20.0.0; ts-Node v-10.9.2; NPM v-9.6.4
-- Deno: v-2.0.2
-- Bun: v-1.1.33
 </Callout>
 
 With your dev enviornment set up, we are ready to explore what the SDKs can offer.
@@ -84,9 +78,17 @@ Creating an instance of the SDK is quite straightforward. The only argument that
 provider endpoint that we connect to. For this example, we will establish a connection to a an Avail DA node running on the `Turing Testnet`.
 You can find more endpoints in the [networks page](/docs/networks).
 
-<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+<Tabs items={['avail-js', 'avail-rust']}>
 
 <Tabs.Tab>
+
+<Callout type="info">
+
+All `avail-js` examples can be run with the JS runtime of your choice. We tested it wih the following runtimes:
+- Node (TS-Node): Node v-20.0.0; ts-Node v-10.9.2; NPM v-9.6.4
+- Deno: v-2.0.2
+- Bun: v-1.1.33
+</Callout>
 
 - Inside `index.ts`, create a basic `main` function like this:
 
@@ -138,17 +140,6 @@ println!("Genesis Hash: {:?}", sdk.api.genesis_hash());
 
 </Tabs.Tab>
 
-<Tabs.Tab>
-```go
-// Start of main function
-// Main Content
-api, err := sdk.NewSDK("wss://turing-rpc.avail.so/ws")
-
-if err != nil {
-  fmt.Printf("cannot create api:%v", err)
-}
-```
-</Tabs.Tab>
 </Tabs>
 
 Now run the example and if you see an output similar to this:
@@ -158,9 +149,10 @@ Genesis Hash: 0x3c29e7a3fc90796e33b5d2b26506d5cd9177ec7be2e38ed641e1538c8938026c
 It means that the connection was successful and we got back the genesis hash of the locally running network.
 
 ### Keyring
+
 Keyrings are our window to account management. Without an account, we cannot do transactions so creating one is paramount.
 
-<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+<Tabs items={['avail-js', 'avail-rust']}>
 
 <Tabs.Tab>
 
@@ -196,11 +188,6 @@ println!("The address of Alice is: {}", account.public_key().to_account_id().to_
 ```
 </Tabs.Tab>
 
-<Tabs.Tab>
-```go
-TODO
-```
-</Tabs.Tab>
 </Tabs>
 
 You should see the following output:
@@ -212,7 +199,7 @@ The address of Alice is: 5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY
 Data submission is the bread and butter of Avail DA Network. When submitting data we are prompt to enter our application key
 that will be used with that data.
 
-<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+<Tabs items={['avail-js', 'avail-rust']}>
 
 <Tabs.Tab>
 ```typescript filename="avail-js"
@@ -253,11 +240,6 @@ println!("Application key ID: {}", result.event.id.0);
 ```
 </Tabs.Tab>
 
-<Tabs.Tab>
-```go
-TODO
-```
-</Tabs.Tab>
 </Tabs>
 
 You should see the following output:
@@ -268,13 +250,12 @@ Application key ID: 10
 Note: From now on if you execute the same example more than once you will be greeted with the following error message
 - Typescript - `Error: dataAvailability.AppKeyAlreadyExists: The application key already exists.`
 - Rust - `Error: "Runtime error: Pallet error: DataAvailability::AppKeyAlreadyExists"`
-- Go - TODO
 
 Don't panic, this is expected because application keys are supposed to be unique so there cannot be two application key with the same name.
 Simply changing the key name from `My Personal Application Key` to `My Personal Application Key 2` will solve the issue
 
 ### Data Submission
-<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+<Tabs items={['avail-js', 'avail-rust']}>
 
 <Tabs.Tab>
 ```typescript filename="avail-js"
@@ -314,11 +295,6 @@ println!("Data Submission Hash: {:?}", result.event.data_hash);
 ```
 </Tabs.Tab>
 
-<Tabs.Tab>
-```go
-TODO
-```
-</Tabs.Tab>
 </Tabs>
 
 You should see the following output:
@@ -327,7 +303,7 @@ Data Submission Hash: 0x7d5ece96efb6832141afe1af96b337d5fec3839bd3cedd31317e4fa7
 ```
 
 ### Balance Transfer
-<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+<Tabs items={['avail-js', 'avail-rust']}>
 
 <Tabs.Tab>
 ```typescript filename="avail-js"
@@ -364,11 +340,6 @@ println!("Transfer completed. Alice transferred to Bob {:?} units", result.event
 ```
 </Tabs.Tab>
 
-<Tabs.Tab>
-```go
-TODO
-```
-</Tabs.Tab>
 </Tabs>
 
 You should see the following output:
@@ -377,7 +348,7 @@ Transfer completed. Alice transferred to Bob 1000000000000000000 units
 ```
 
 ### Full Example
-<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+<Tabs items={['avail-js', 'avail-rust']}>
 
 <Tabs.Tab>
 ```typescript filename="avail-js"
@@ -478,11 +449,6 @@ async fn main() -> Result<(), String> {
 ```
 </Tabs.Tab>
 
-<Tabs.Tab>
-```go
-TODO
-```
-</Tabs.Tab>
 </Tabs>
 
 You should see the following output:
