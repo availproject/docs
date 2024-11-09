@@ -12,13 +12,20 @@ keywords:
   - da
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
+import { Callout, Steps, Tabs } from 'nextra/components'
 
-# Get Started with Avail
 
-## Start Operating
+# Avail Quickstart page
+
+<Callout type="info">
+**LOOKING FOR ENDPOINTS TO INTERACT WITH AVAIL?**<br/>
+Check out the [networks page](/docs/networks).
+</Callout>
+
+## Get started with the Avail Light Client
 
 {
-  /*
+/*
 -- To run an Avail light client, simply install the [Avail CLI `npm` package](https://github.com/availproject/cli):
 
 ```bash
@@ -30,109 +37,425 @@ Then, run:
 ```bash
 avail lc up
 ```
-  */
+*/
 }
 
-To run an Avail light client, simply run this command powered by [availup](https://github.com/availproject/availup):
+- To run an Avail light client, simply run this command powered by [availup](https://github.com/availproject/availup):
 
 ```bash
 curl -sL1 avail.sh | bash
 ```
 
+- You can find more detailed instructions for running the light client [here](/docs/operate-a-node/run-a-light-client/0010-light-client).
 
+- You can check out the light client API reference [here](/api-reference/avail-lc-api).
 
-And that's it!
+## Start using Avail's SDKs
 
-If you're seeking more control over the configuration or are interested in running a full node, check out the deployment guides below.
+The Avail SDKs allow developers to interact with Avail DA in a language of their choice.
+The SDKs are built around existing tools (`polkadotjs`, `subxt`, `gsrpc`) with additional types and quality of life interfaces added
+on top of them.
 
-| Action                                                                   | Tokens Needed | Staking | Technical Skill Required | Client Binary                                                                        |
-| ------------------------------------------------------------------------ | ------------- | ------- | ------------------------ | ------------------------------------------------------------------------------------ |
-| [<ins>Run a Light Client</ins>](/docs/operate-a-node/run-a-light-client/0010-light-client) | No            | No      | Basic                    | [<ins>v1.12.2-rc3</ins>](https://github.com/availproject/avail-light/releases/tag/avail-light-client-v1.12.2-rc3) |
-| [<ins>Run a Full Node / Validator</ins>](/docs/operate-a-node/run-a-full-node/full-node)           | No            | No      | Moderate                 | [<ins>v2.2.4.1</ins>](https://github.com/availproject/avail/releases/tag/v2.2.4.1) |
+They are available in three languages: 
 
----
+- `Typescript`: `avail-js`, 
+- `Rust`: `avail-rust`, and,
+- `Golang`: `avail-go`.
 
-## Start Building
+> Note: This page is under progress, we will soon add `avail-go` examples to this page, but you can still check out the [API reference](/api-reference/avail-node-api/da-create-application-key) for detailed examples in golang.
 
-The Avail API offers a robust set of features that enable application developers to interact
-seamlessly with the Avail network. This guide provides a curated list of example code snippets in
-JavaScript/TypeScript, Rust, and Go. These examples cover essential tasks such as establishing a
-connection to a local node, querying data from the network, and executing transactions on the
-blockchain.
+<Callout type="info">
+**Setting up the dev enviornments**<br/>
+Please refer to [this page in our docs](/api-reference/avail-node-api#setting-up-the-dev-environment) to set up the respective dev enviornments for the SDKs.
+</Callout>
 
-Before diving into the examples, ensure you have a local Avail node running or configure your settings to align with an existing network.
+With your dev enviornment set up, we are ready to explore what the SDKs can offer.
+The next few snippets will focus on important lines within the code, but we have a full example at the end of the page.
 
-> Detailed instructions on how to execute these examples are available in the Avail GitHub repository:
+### Create an API Instance
 
-- [<ins>TypeScript Instructions</ins>](https://github.com/availproject/avail/blob/develop/examples/ts/README.md)
-- [<ins>Go Instructions</ins>](https://github.com/availproject/avail/blob/develop/examples/go/README.md)
-- [<ins>Rust Instructions</ins>](https://github.com/availproject/avail/blob/develop/avail-subxt/examples/README.md)
+Creating an instance of the SDK is quite straightforward. The only argument that needs to be passed is the
+provider endpoint that we connect to. For this example, we will establish a connection to a an Avail DA node running on the `Turing Testnet`.
+You can find more endpoints in the [networks page](/docs/networks).
 
-### Sample Workflow
+<Tabs items={['avail-js', 'avail-rust']}>
 
-Follow these steps to understand a sample end-to-end flow of data availability in Avail. Examples are provided for JavaScript, Go, and Rust.
+<Tabs.Tab>
 
-#### Step 1: Establishing Connection
+<Callout type="info">
 
-Before you can interact with the Avail network, you need to establish a connection to a node.
+All `avail-js` examples can be run with the JS runtime of your choice. We tested it wih the following runtimes:
+- Node (TS-Node): Node v-20.0.0; ts-Node v-10.9.2; NPM v-9.6.4
+- Deno: v-2.0.2
+- Bun: v-1.1.33
+</Callout>
 
-| Language   | Example Link                                                                                                        |
-| ---------- | ------------------------------------------------------------------------------------------------------------------- |
-| JavaScript | [<ins>Establishing Connection</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/connect.ts) |
-| Go         | [<ins>Establishing Connection</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/connect)    |
-| Rust       | [<ins>Headers</ins>](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/headers.rs)        |
+- Inside `index.ts`, create a basic `main` function like this:
 
-#### Step 2: Submitting Data
+```typescript filename="avail-js"
+import { SDK } from "avail-js-sdk"
 
-Once connected, the next step is to submit data to the network. This could be any blob of data that you want to make available.
+const main = async () => {
+  // Main Content
 
-| Language   | Example Link                                                                                                                  |
-| ---------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| JavaScript | [<ins>Submitting Blob Data</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/data_submit.ts)          |
-| Go         | [<ins>Submitting Blob Data</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/dataSubmit)              |
-| Rust       | [<ins>Submitting Blob Data</ins>](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/submit_data.rs) |
+  process.exit()
+}
+main()
+```
 
-#### Step 3: Dispatching Data Root (Optional)
+- Establish a connection to the node like this:
 
-If you need to dispatch the data root, you can do so at this stage. This is optional and depends on your use case.
+```typescript filename="avail-js"
+// Start of main function
+// Main Content
+const sdk = await SDK.New("wss://turing-rpc.avail.so/ws")
+console.log("Genesis Hash: " + sdk.api.genesisHash.toHex())
+```
 
-| Language   | Example Link                                                                                                                                                       |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| JavaScript | [<ins>Dispatching Data Root</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/dispatch_data_root.ts)                                       |
-| Rust       | [<ins>Submit Data and Dispatch Data Root</ins>](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/submit_data_and_dispatch_data_root.rs) |
+</Tabs.Tab>
 
-#### Step 4: Querying Data and Proofs
+<Tabs.Tab>
 
-After submitting your data, you might want to query it to ensure it's been properly stored and is retrievable.
+- Inside `main.rs`, create a basic `main` function like this:
 
-| Language   | Example Link                                                                                                                       |
-| ---------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| JavaScript | [<ins>Querying Data Proof</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/query_proof_data.ts)           |
-| Go         | [<ins>Querying Data Proof</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/queryProofData)                |
-| Rust       | [<ins>Democracy External</ins>](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/democracy_external.rs) |
+```rust filename="avail-rust"
+use avail_rust::SDK;
 
-#### Step 5: Monitoring and Metrics
+#[tokio::main]
+async fn main() -> Result<(), String> {
+    // Main Content
 
-Finally, you can monitor the network and your data by listening for new blocks and other metrics.
+    Ok(())
+}
+```
 
-| Language   | Example Link                                                                                                                   |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| JavaScript | [<ins>Listening for New Blocks</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/listen_new_blocks.ts) |
-| Go         | [<ins>Listening for New Blocks</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/listenNewBlocks)      |
+- Establish a connection to the node like this:
 
-### API Examples
+```rust filename="avail-rust"
+// Start of main function
+// Main Content
+let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
+println!("Genesis Hash: {:?}", sdk.api.genesis_hash());
+```
 
-The following table lists various code examples for interacting with the Avail network. These examples are organized by functionality and the supported programming languages.
+</Tabs.Tab>
 
-| Functionality                             | Supported Languages                                                                                                                                                                                                                                                                                                                              |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Data Submission                           | [<ins>TypeScript</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/data_submit.ts), [<ins>Go</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/dataSubmit), [<ins>Rust</ins>](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/submit_data_and_dispatch_data_root.rs) |
-| Dispatching Data Root                     | [<ins>TypeScript</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/dispatch_data_root.ts)                                                                                                                                                                                                                                |
-| Creating Application Key                  | [<ins>TypeScript</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/app_id.ts), [<ins>Rust</ins>](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/create_app_key.rs)                                                                                                                          |
-| Asset Transfer                            | [<ins>TypeScript</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/transfer.ts), [<ins>Go</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/transfer)                                                                                                                                            |
-| Querying Proof/Data Proof                 | [<ins>TypeScript</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/query_proof.ts), [<ins>Go</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/queryProofData)                                                                                                                                   |
-| Querying Application Data                 | [<ins>TypeScript</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/query_app_data.ts)                                                                                                                                                                                                                                    |
-| Event Monitoring (Blocks/Data Submission) | [<ins>TypeScript</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/listen_new_blocks.ts), [<ins>Go</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/listenNewBlocks), [<ins>Go</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/dataSubmitWatch)                       |
-| Network Connection & Info                 | [<ins>TypeScript</ins>](https://github.com/availproject/avail/tree/develop/examples/ts/src/connect.ts), [<ins>Go</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/connect)                                                                                                                                              |
-| Internal Operations                       | [<ins>Go</ins>](https://github.com/availproject/avail/tree/old_develop/examples/go/internal)                                                                                                                                                                                                                                                     |
-| Rust + & Substrate Examples               | Various [<ins>Rust</ins>](https://github.com/availproject/avail/blob/old_develop/avail-subxt/examples/) examples like Data Availability Bridge Actor, Democracy External, etc.                                                                                                                                                                   |
+</Tabs>
+
+Now run the example and if you see an output similar to this:
+```
+Genesis Hash: 0x3c29e7a3fc90796e33b5d2b26506d5cd9177ec7be2e38ed641e1538c8938026c
+```
+It means that the connection was successful and we got back the genesis hash of the locally running network.
+
+### Keyring
+
+Keyrings are our window to account management. Without an account, we cannot do transactions so creating one is paramount.
+
+<Tabs items={['avail-js', 'avail-rust']}>
+
+<Tabs.Tab>
+
+```typescript filename="avail-js"
+// Replace the import with the following line
+import { SDK, Keyring } from "avail-js-sdk";
+
+// Start of main function
+// Main Content
+// ...
+
+// Account Creation
+const account = new Keyring({ type: "sr25519" }).addFromUri("//Alice")
+console.log("The address of Alice is: " + account.address)
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+```rust filename="avail-rust"
+// Replace the import with the following lines
+use avail_rust::{SDK, Keypair, SecretUri};
+use core::str::FromStr;
+
+// Start of main function
+// Main Content
+// ...
+
+// Account Creation
+let secret_uri = SecretUri::from_str("//Alice").unwrap();
+let account = Keypair::from_uri(&secret_uri).unwrap();
+println!("The address of Alice is: {}", account.public_key().to_account_id().to_string());
+```
+</Tabs.Tab>
+
+</Tabs>
+
+You should see the following output:
+```
+The address of Alice is: 5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY
+```
+
+### Create Application Key
+Data submission is the bread and butter of Avail DA Network. When submitting data we are prompt to enter our application key
+that will be used with that data.
+
+<Tabs items={['avail-js', 'avail-rust']}>
+
+<Tabs.Tab>
+```typescript filename="avail-js"
+// Replace the import with the following line
+import { SDK, Keyring, WaitFor } from "avail-js-sdk";
+
+// Account Creation
+// ...
+
+// Application Key Creation
+const appKeyResult = await sdk.tx.dataAvailability.createApplicationKey("My Personal Application Key", WaitFor.BlockInclusion, account)
+if (appKeyResult.isErr) {
+  console.log("Error: " + appKeyResult.reason)
+  process.exit(1)
+}
+
+const appKeyId = parseInt(appKeyResult.event.id)
+console.log("Application key ID: " + appKeyId)
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+```rust filename="avail-rust"
+// Replace the import with the following line
+use avail_rust::{Key, Keypair, SecretUri, WaitFor, SDK, Nonce, Options};
+
+// Account Creation
+// ...
+
+// Application Key Creation
+let key = String::from("My Personal Application Key").as_bytes().to_vec();
+let key = Key { 0: key };
+let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
+
+let result = sdk.tx.data_availability.create_application_key(key, WaitFor::BlockInclusion, &account, Some(options)).await?;
+println!("Application key ID: {}", result.event.id.0);
+```
+</Tabs.Tab>
+
+</Tabs>
+
+You should see the following output:
+```
+Application key ID: 10
+```
+
+Note: From now on if you execute the same example more than once you will be greeted with the following error message
+- Typescript - `Error: dataAvailability.AppKeyAlreadyExists: The application key already exists.`
+- Rust - `Error: "Runtime error: Pallet error: DataAvailability::AppKeyAlreadyExists"`
+
+Don't panic, this is expected because application keys are supposed to be unique so there cannot be two application key with the same name.
+Simply changing the key name from `My Personal Application Key` to `My Personal Application Key 2` will solve the issue
+
+### Data Submission
+<Tabs items={['avail-js', 'avail-rust']}>
+
+<Tabs.Tab>
+```typescript filename="avail-js"
+// Replace the import with the following line
+import { SDK, Keyring, WaitFor, TransactionOptions } from "avail-js-sdk";
+
+// Application Key Creation
+// ...
+
+// Data Submission
+const options: TransactionOptions = { app_id: appKeyId };
+const daResult = await sdk.tx.dataAvailability.submitData("My Data", WaitFor.BlockInclusion, account, options)
+if (daResult.isErr) {
+  console.log("Error: " + daResult.reason)
+  process.exit(1)
+}
+console.log("Data Submission Hash: " + daResult.event.dataHash)
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+```rust filename="avail-rust"
+// Replace the import with the following line
+use avail_rust::{Key, Keypair, SecretUri, WaitFor, SDK, Nonce, Options, Data};
+
+// Application Key Creation
+// ...
+
+// Data Submission
+let data = String::from("My Data").as_bytes().to_vec();
+let data = Data { 0: data };
+let options = Options::new().nonce(Nonce::BestBlockAndTxPool).app_id(result.event.id.0);
+
+let result = sdk.tx.data_availability.submit_data(data, WaitFor::BlockInclusion, &account, Some(options)).await?;
+println!("Data Submission Hash: {:?}", result.event.data_hash);
+```
+</Tabs.Tab>
+
+</Tabs>
+
+You should see the following output:
+```
+Data Submission Hash: 0x7d5ece96efb6832141afe1af96b337d5fec3839bd3cedd31317e4fa7279001e0
+```
+
+### Balance Transfer
+<Tabs items={['avail-js', 'avail-rust']}>
+
+<Tabs.Tab>
+```typescript filename="avail-js"
+// Data Submission
+// ...
+
+// Balance Transfer
+const bobAddress = "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty"
+const oneAvail = new BN(10).pow(new BN(18))
+const btResult = await sdk.tx.balances.transferKeepAlive(bobAddress, oneAvail, WaitFor.BlockInclusion, account)
+if (btResult.isErr) {
+  console.log("Error: " + btResult.reason)
+  process.exit(1)
+}
+
+const amount = btResult.event.amount;
+console.log(`Transfer completed. Alice transferred to Bob ${amount} units`)
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+```rust filename="avail-rust"
+// Data Submission
+// ...
+
+// Balance Transfer
+let bob_address = "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty";
+let one_avail = 1_000_000_000_000_000_000u128;
+let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
+
+let result = sdk.tx.balances.transfer_keep_alive(bob_address, one_avail, WaitFor::BlockInclusion, &account, Some(options)).await?;
+println!("Transfer completed. Alice transferred to Bob {:?} units", result.event.amount);
+```
+</Tabs.Tab>
+
+</Tabs>
+
+You should see the following output:
+```
+Transfer completed. Alice transferred to Bob 1000000000000000000 units
+```
+
+### Full Example
+<Tabs items={['avail-js', 'avail-rust']}>
+
+<Tabs.Tab>
+```typescript filename="avail-js"
+import { SDK, Keyring, WaitFor, TransactionOptions, BN } from "avail-js-sdk";
+
+const main = async () => {
+  // Start of main function
+  // Main Content
+  const sdk = await SDK.New("wss://turing-rpc.avail.so/ws")
+  console.log("Genesis Hash: " + sdk.api.genesisHash.toHex())
+
+  // Account Creation
+  const account = new Keyring({ type: "sr25519" }).addFromUri("//Alice")
+  console.log("The address of Alice is: " + account.address)
+
+  // Application Key Creation
+  const appKeyResult = await sdk.tx.dataAvailability.createApplicationKey("My Personal Application Key", WaitFor.BlockInclusion, account)
+  if (appKeyResult.isErr) {
+    console.log("Error: " + appKeyResult.reason)
+    process.exit(1)
+  }
+
+  const appKeyId = parseInt(appKeyResult.event.id)
+  console.log("Application key ID: " + appKeyId)
+
+  // Data Submission
+  const options: TransactionOptions = { app_id: appKeyId };
+  const daResult = await sdk.tx.dataAvailability.submitData("My Data", WaitFor.BlockInclusion, account, options)
+  if (daResult.isErr) {
+    console.log("Error: " + daResult.reason)
+    process.exit(1)
+  }
+  console.log("Data Submission Hash: " + daResult.event.dataHash)
+
+  // Balance Transfer
+  const bobAddress = "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty"
+  const oneAvail = new BN(10).pow(new BN(18))
+  const btResult = await sdk.tx.balances.transferKeepAlive(bobAddress, oneAvail, WaitFor.BlockInclusion, account)
+  if (btResult.isErr) {
+    console.log("Error: " + btResult.reason)
+    process.exit(1)
+  }
+
+  const amount = btResult.event.amount;
+  console.log(`Transfer completed. Alice transferred to Bob ${amount} units`)
+
+  process.exit()
+};
+
+main();
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+```rust filename="avail-rust"
+use avail_rust::{Key, Keypair, SecretUri, WaitFor, SDK, Nonce, Options, Data};
+use core::str::FromStr;
+
+#[tokio::main]
+async fn main() -> Result<(), String> {
+    // Start of main function
+    // Main Content
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
+    println!("Genesis Hash: {:?}", sdk.api.genesis_hash());
+
+    // Account Creation
+    let secret_uri = SecretUri::from_str("//Alice").unwrap();
+    let account = Keypair::from_uri(&secret_uri).unwrap();
+    println!("The address of Alice is: {}", account.public_key().to_account_id().to_string());
+
+    // Application Key Creation
+    let key = String::from("My Personal Application Key").as_bytes().to_vec();
+    let key = Key { 0: key };
+    let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
+
+    let result = sdk.tx.data_availability.create_application_key(key, WaitFor::BlockInclusion, &account, Some(options)).await?;
+    println!("Application key ID: {}", result.event.id.0);
+
+    // Data Submission
+    let data = String::from("My Data").as_bytes().to_vec();
+    let data = Data { 0: data };
+    let options = Options::new().nonce(Nonce::BestBlockAndTxPool).app_id(result.event.id.0);
+
+    let result = sdk.tx.data_availability.submit_data(data, WaitFor::BlockInclusion, &account, Some(options)).await?;
+    println!("Data Submission Hash: {:?}", result.event.data_hash);
+
+    // Balance Transfer
+    let bob_address = "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty";
+    let one_avail = 1_000_000_000_000_000_000u128;
+    let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
+
+    let result = sdk.tx.balances.transfer_keep_alive(bob_address, one_avail, WaitFor::BlockInclusion, &account, Some(options)).await?;
+    println!("Transfer completed. Alice transferred to Bob {:?} units", result.event.amount);
+
+	Ok(())
+}
+```
+</Tabs.Tab>
+
+</Tabs>
+
+You should see the following output:
+```
+Genesis Hash: 0x3c29e7a3fc90796e33b5d2b26506d5cd9177ec7be2e38ed641e1538c8938026c
+The address of Alice is: 5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY
+Application key ID: 10
+Data Submission Hash: 0x7d5ece96efb6832141afe1af96b337d5fec3839bd3cedd31317e4fa7279001e0
+Transfer completed. Alice transferred to Bob 1000000000000000000 units
+```
