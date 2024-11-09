@@ -309,11 +309,11 @@ const main = async () => {
   const appId = 89
   const options = { app_id: appId }
  
-  const result = await sdk.tx.dataAvailability.submitData(data, WaitFor.BlockInclusion, account, {app_id: 89} as Partial<SignerOptions>)
-  if (result.isErr) {
-    console.log(result.reason)
-    process.exit(1)
-  }
+  const result = await sdk.tx.dataAvailability.submitData(data, WaitFor.BlockInclusion, account, options)
+	if (result.isErr) {
+      console.log(result.reason)
+      process.exit(1)
+    }
  
   console.log("Data=" + result.txData.data)
   console.log("Who=" + result.event.who + ", DataHash=" + result.event.dataHash)
