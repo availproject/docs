@@ -19,6 +19,6 @@
       "@components/*": ["components/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "theme.config.tsx", "pages/index.mdx", "pages/_app.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "theme.config.tsx", "pages/index.mdx", "pages/_app.tsx", "resources/docs/quickstart/index.mdx"],
   "exclude": ["node_modules"]
 }
