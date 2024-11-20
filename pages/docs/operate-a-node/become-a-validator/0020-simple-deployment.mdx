@@ -18,7 +18,7 @@ import { Tabs } from 'nextra/components'
 
 ## Introduction
 
-<Callout type="info"> 
+<Callout type="info">
 BEFORE YOU START<br/>
 This chapter continues from the 'Basics' page, so be sure to read that one before proceeding with this one.
 Before trying anything, thoroughly read the chapter before doing any actual work.
@@ -41,47 +41,47 @@ There are many cloud providers to choose from. Here are some of them:
 
 It's up to you to research and pick one that will suit all your needs and requirements.
 If you already have a running server, you can skip the rest of this section and go straight to the next one.
-That said, Hetzner is used for this chapter and here are the steps on how to create a new instance there:
+That said, Latitude is used for this chapter and here are the steps on how to create a new instance there:
 
-1. First, create a project and name it appropriately.
-<br/>
-<img src="/img/hetzner/hetzner_new_project.png" width="300px" height="100%"/>
+1. First, create a project and give it a name.
 
 2. Click on the 'Create Server' button and choose your desired location and image.
 <br/>
-<img src="/img/hetzner/hetzner_location_image.png" width="100%" height="100%"/>
+<img src="/img/latitude/latitude1.png" width="100%" height="100%"/>
 
-3. For the type, SharedvCPU and CX21 (or anything stronger) will do the trick.
+3. Click on the 'Create Server' button and choose your desired location and image. We're using Ubuntu 24 for this guide.
 <br/>
-<img src="/img/hetzner/hetzner_type.png" width="100%" height="100%"/>
+<img src="/img/latitude/latitude2.png" width="100%" height="100%"/>
+<br/>
+<img src="/img/latitude/latitude3.png" width="100%" height="100%"/>
 
-4. Make sure that you have entered your SSH keys.
-<br/>
-<img src="/img/hetzner/hetzner_ssh_keys.png" width="100%" height="100%"/>
 
-5. Finally, give it a good name.
+4. For the server type, `c2.small.x86` , `s2.small.x86` , `c2.medium.x86` or anything stronger should do the trick.
 <br/>
-<img src="/img/hetzner/hetzner_name.png" width="500px" height="100%"/>
+<img src="/img/latitude/latitude4.png" width="100%" height="100%"/>
 
-6. With the server created, you can copy the public IP and SSH in.
+5. Enter your SSH keys
 <br/>
-<img src="/img/hetzner/hetzner_server_created.png" width="100%" height="100%"/>
+<img src="/img/latitude/latitude5-redone.png" width="100%" height="100%"/>
+
+6. Give your server a name.
+<br/>
+<img src="/img/latitude/latitude6.png" width="100%" height="100%"/>
+
+7. Copy the IP and SSH of your server.
+<br/>
+<img src="/img/latitude/latitude7.png" width="100%" height="100%"/>
+
+8. SSH into your server by running the following command in your terminal:
 
 ```bash
-ssh root@65.21.XXX.XXX
+// Replace the IP with your own
+ssh ubuntu@199.xxx.xxx.xxx
 ```
 
-7. Hopefully, you are greeted with the welcome message.
+9. If everything is set up correctly, you should see the welcome message:
 <br/>
-<img src="/img/hetzner/hetzner_welcome_terminal.png" width="100%" height="100%"/>
-<br/>
-
-> Before we continue with our deployment, let's make sure that our system is up to date.
-
-```
-sudo apt update
-sudo apt upgrade -y
-```
+<img src="/img/latitude/latitude8-redone.png" width="100%" height="100%"/>
 
 ## Bare Metal
 
