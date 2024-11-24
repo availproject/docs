@@ -14,7 +14,7 @@ keywords:
 image: https://docs.availproject.org/img/avail/AvailDocs.png
 ---
 
-import { Callout } from 'nextra/components'
+import { Callout, Tabs } from 'nextra/components'
 
 # Network Information
 
@@ -53,15 +53,37 @@ You can find detailed instructions [in our docs here](/docs/end-user-guide/vecto
 
 ### For devs
 
-The following table contains a list of endpoints and contract addresses for all relevant
+The following tables contains a list of endpoints and contract addresses for all relevant
 deployments of the VectorX bridge.
+
+#### VectorX Bridge
 
 | **Category**                  | **Mainnet**                                                                                                                                             | **Testnet**                                                                                     |                              
 |-------------------------------|---------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
 | **Bridge API**                | [https://bridge-api.avail.so/](https://bridge-api.avail.so/)                                                              | [https://turing-bridge-api.avail.so/](https://turing-bridge-api.avail.so/)                                                    |
 | **VectorX Contract**          | [0x02993cdC11213985b9B13224f3aF289F03bf298d](https://etherscan.io/address/0x02993cdC11213985b9B13224f3aF289F03bf298d)     | [0xe542db219a7e2b29c7aeaeace242c9a2cd528f96](https://sepolia.etherscan.io/address/0xe542db219a7e2b29c7aeaeace242c9a2cd528f96) |
 | **Bridge Contract**           | [0x054fd961708d8e2b9c10a63f6157c74458889f0a](https://etherscan.io/address/0x054fd961708d8e2b9c10a63f6157c74458889f0a)     | [0x967F7DdC4ec508462231849AE81eeaa68Ad01389](https://sepolia.etherscan.io/address/0x967F7DdC4ec508462231849AE81eeaa68Ad01389) |
-| **Token Contract**            | [0xEeB4d8400AEefafC1B2953e0094134A887C76Bd8](https://etherscan.io/token/0xEeB4d8400AEefafC1B2953e0094134A887C76Bd8)       | [0xb1c3cb9b5e598d4e95a85870e7812b99f350982d](https://sepolia.etherscan.io/address/0xb1c3cb9b5e598d4e95a85870e7812b99f350982d) |
+
+#### AVAIL T  oken
+
+<Tabs items={['Ethereum', 'Base']}>
+
+<Tabs.Tab>
+| **Network**           | **Token Address**                                                                                                             |                                                                                                                                      
+|------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| **Ethereum Mainnet**            | [0xEeB4d8400AEefafC1B2953e0094134A887C76Bd8](https://etherscan.io/token/0xEeB4d8400AEefafC1B2953e0094134A887C76Bd8)           |
+| **Sepolia Testnet**    | [0xb1c3cb9b5e598d4e95a85870e7812b99f350982d](https://sepolia.etherscan.io/address/0xb1c3cb9b5e598d4e95a85870e7812b99f350982d) |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| **Network**             | **Token Address**                                                                                                             |
+|--------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| **Base Mainnet**         | [0xd89d90d26b48940fa8f58385fe84625d468e057a](https://basescan.org/address/0xd89d90d26b48940fa8f58385fe84625d468e057a)         |
+| **Base-Sepolia Testnet** | [0xf50F2B4D58ce2A24b62e480d795A974eD0f77A58](https://sepolia.basescan.org/address/0xf50F2B4D58ce2A24b62e480d795A974eD0f77A58) |
+</Tabs.Tab>
+
+</Tabs>
+
 
 {/* | **Bridge Indexer**            | [zeref-bridge-indexer.fra.avail.so](https://zeref-bridge-indexer.fra.avail.so)         | [turing-bridge-indexer.fra.avail.so](https://turing-bridge-indexer.fra.avail.so/)       | */}
 
