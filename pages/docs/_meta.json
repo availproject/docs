@@ -1,16 +1,14 @@
 {
-    "introduction-to-avail": "Introduction to Avail",
-    "the-avail-token": "The AVAIL Token",
-    "governance-on-avail": "Avail Governance V1",
+    "welcome-to-avail-docs": "Start Here!",
+
     "clash-of-nodes": {
         "display": "hidden"
     },
     "networks": "Network Info",
-    "learn-about-avail": "Learn more about Avail",
-    "end-user-guide": "End User Guide",
-    "stake-on-avail": "Stake on Avail",
+    "end-user-guide": "Tools & UIs",
     "build-with-avail": "Build with Avail",
     "operate-a-node": "Run a Node on Avail",
+    "staking-governance": "Staking & Governance on Avail DA",
     "glossary": "Glossary",
     "faqs": "FAQs",
     "appid": {
