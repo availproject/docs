@@ -11,6 +11,96 @@ export function middleware(request: NextRequest) {
   const normalizePath = (path: string) => path.replace(/\/$/, '')
 
   const redirects = [
+
+  // Docs outline reorg redirects start here
+
+    {
+      source: '/docs/introduction-to-avail',
+      destination: `${origin}/docs/welcome-to-avail-docs`,
+    },
+    {
+      source: '/docs/introduction-to-avail/avail-da',
+      destination: `${origin}/docs/welcome-to-avail-docs`,
+    },
+    {
+      source: '/docs/introduction-to-avail/avail-nexus',
+      destination: `${origin}/docs/welcome-to-avail-docs`,
+    },
+    {
+      source: '/docs/introduction-to-avail/avail-fusion',
+      destination: `${origin}/docs/welcome-to-avail-docs`,
+    },
+
+    {
+      source: '/docs/the-avail-token',
+      destination: `${origin}/docs/staking-governance/the-avail-token`,
+    },
+    {
+      source: '/docs/the-avail-token/overview',
+      destination: `${origin}/docs/staking-governance/the-avail-token/overview`,
+    },
+    {
+      source: '/docs/stake-on-avail',
+      destination: `${origin}/docs/staking-governance/stake-on-avail`,
+    },
+    {
+      source: '/docs/stake-on-avail/overview',
+      destination: `${origin}/docs/staking-governance/stake-on-avail/overview`,
+    },
+    {
+      source: '/docs/stake-on-avail/direct-nomination',
+      destination: `${origin}/docs/staking-governance/stake-on-avail/direct-nomination`,
+    },
+    {
+      source: '/docs/stake-on-avail/nomination-pools',
+      destination: `${origin}/docs/staking-governance/stake-on-avail/nomination-pools`,
+    },
+    {
+      source: '/docs/governance-on-avail',
+      destination: `${origin}/docs/staking-governance/governance-on-avail`,
+    },
+    {
+      source: '/docs/governance-on-avail/overview',
+      destination: `${origin}/docs/staking-governance/governance-on-avail/overview`,
+    },
+    {
+      source: '/docs/governance-on-avail/avail-improvement-proposal',
+      destination: `${origin}/docs/staking-governance/governance-on-avail/avail-improvement-proposal`,
+    },
+    {
+      source: '/docs/governance-on-avail/avail-transparency-report',
+      destination: `${origin}/docs/staking-governance/governance-on-avail/avail-transparency-report`,
+    },
+    {
+      source: '/docs/governance-on-avail/technical-committee',
+      destination: `${origin}/docs/staking-governance/governance-on-avail/technical-committee`,
+    },
+    {
+      source: '/docs/learn-about-avail',
+      destination: `${origin}/docs/welcome-to-avail-docs`,
+    },
+    {
+      source: '/docs/learn-about-avail/consensus',
+      destination: `${origin}/docs/welcome-to-avail-docs`,
+    },
+    {
+      source: '/docs/learn-about-avail/consensus/babe',
+      destination: `${origin}/docs/welcome-to-avail-docs`,
+    },
+    {
+      source: '/docs/learn-about-avail/consensus/grandpa',
+      destination: `${origin}/docs/welcome-to-avail-docs`,
+    },
+    {
+      source: '/docs/learn-about-avail/consensus/npos',
+      destination: `${origin}/docs/welcome-to-avail-docs`,
+    },
+    {
+      source: '/docs/learn-about-avail/eip-4844',
+      destination: `${origin}/docs/welcome-to-avail-docs`,
+    },
+    // Docs outline reorg redirects end here
+    
     {
       source: '/docs/ecosystem',
       destination: `${origin}/docs/introduction-to-avail`,
