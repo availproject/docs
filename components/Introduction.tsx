@@ -32,7 +32,7 @@ export default function Introduction() {
                                 <>
                                   <Link
                                       href={l.link} key={index}
-                                    className={`flex flex-row justify-between items-center`}
+                                    className={`flex flex-row justify-between items-center hover:bg-gray-200 hover:text-blue-600 transition-colors duration-300 px-4 py-2 rounded-md`}
                                   >
                                     <div
     
@@ -41,7 +41,7 @@ export default function Introduction() {
                                     >
                                       {l.placeholder}
                                     </div>
-                                    <FaArrowRight className="transform transition-transform duration-3 hover:scale-110 " />
+                                    <FaArrowRight className="transform transition-transform duration-3 hover:scale-110" />
                                   </Link>
                                 </>
                               );
