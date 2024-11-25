@@ -1,0 +1,170 @@
+---
+id: madara
+title: How to Use Madara with Avail
+sidebar_label: Avail-Powered Madara Validium
+description: 'Discover how to utilize Avail as a data availability layer to build a Substrate-based Validium with Madara.'
+keywords:
+  - documentation
+  - avail
+  - develop
+  - build
+  - data availability
+  - da
+image: https://docs.availproject.org/img/avail/AvailDocs.png
+---
+import { Callout } from 'nextra/components'
+
+# How to Use Madara with Avail
+
+## Introduction
+
+Embark on setting up your own Madara-based Validium, leveraging Avail as the data availability layer. This guide is tailored for deploying on Ethereum's Sepolia testnet and integrating with the Avail Goldberg testnet. To gain a comprehensive understanding of Madara Starknet, review the [<ins>Madara documentation</ins>](https://docs.madara.zone/).
+
+In this guide, you will conduct the following:
+
+- [Introduction](#introduction)
+- [Prerequisites](#prerequisites)
+  - [Hardware Requirements](#hardware-requirements)
+- [Launch an Avail-Powered Madara Validium](#launch-an-avail-powered-madara-validium)
+  - [Running a Single-Node Development Chain](#running-a-single-node-development-chain)
+  - [Setting Up Avail as the DA Layer](#setting-up-avail-as-the-da-layer)
+  - [Deploying an Account on Your Chain](#deploying-an-account-on-your-chain)
+  - [Using Avail in Madara](#using-avail-in-madara)
+
+## Prerequisites
+
+Ensure you have installed the following software.
+
+> Installation commands are based on Ubuntu 20.04 LTS:
+
+<table>
+  <tr>
+    <td valign="top">
+
+| Software                                                     | Version                         |
+| ------------------------------------------------------------ | ------------------------------- |
+| [**Rust**](https://www.rust-lang.org/)                       | `rustc 1.69.0-nightly` or later |
+| [**nvm/Node.js**](https://github.com/nvm-sh/nvm)             | Latest version                  |
+| [**Cairo**](https://www.cairo-lang.org/docs/quickstart.html) | 1.0                             |
+
+</td>
+<td valign="top">
+
+```bash
+# Install Rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+rustup toolchain install nightly
+
+# Install nvm and Node.js
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+nvm install --lts
+
+# Install Cairo
+curl -L https://github.com/franalgaba/cairo-installer/raw/main/bin/cairo-installer | bash
+```
+
+</td>
+  </tr>
+</table>
+
+### Hardware Requirements
+
+The Madara stack, being a StarkNet sequencer, has specific hardware requirements for efficient operation. These requirements are particularly important when integrating Avail as the DA Layer.
+
+| Component      | Minimum Requirements             | Recommended Setup                | Suggested AWS Instance |
+| -------------- | -------------------------------- | -------------------------------- | ---------------------- |
+| Sequencer Node | 4-core CPU, 16GB RAM, 100 GB SSD | 8-core CPU, 32GB RAM, 200 GB SSD | m5a.xlarge             |
+| Avail Node     | 4-core CPU, 8GB RAM, 50 GB SSD   | 8-core CPU, 16GB RAM, 100 GB SSD | m5a.large              |
+
+<Callout type="info">
+The storage requirements can vary based on the volume of transactions and the length of the chain history you intend to maintain. For high-traffic networks, consider scaling your storage capacity accordingly.
+</Callout>
+
+## Launch an Avail-Powered Madara Validium
+
+1. Clone the Madara repository:
+
+   ```bash
+   git clone git@github.com:keep-starknet-strange/madara.git
+   cd madara
+   ```
+
+2. Build the chain in release mode:
+
+   ```bash
+   cargo build --release
+   ```
+
+### Running a Single-Node Development Chain
+
+1. Start the development chain:
+
+   ```bash
+   ./target/release/madara --dev
+   ```
+
+2. Purge the chain's state:
+
+   ```bash
+   ./target/release/madara purge-chain --dev
+   ```
+
+3. Start with detailed logging:
+
+   ```bash
+   RUST_BACKTRACE=1 ./target/release/madara -ldebug --dev
+   ```
+
+4. Create a plain chain spec:
+
+   ```bash
+   ./target/release/madara build-spec > ./infra/chain-sepcs/chain-spec-plain.json
+   ```
+
+### Setting Up Avail as the DA Layer
+
+1. Configure Avail for Madara:
+
+   ```bash
+   # Configuration for local Avail node
+   cat > da-config.json <<EOF
+   {
+     "ws_provider": "ws://127.0.0.1:9945",
+     "app_id": 0,
+     "validate_codegen": false,
+     "seed": "//Alice"
+   }
+   EOF
+   ```
+
+2. Start Avail Node (in another terminal):
+
+   ```bash
+   ./data-avail --dev --rpc-port 9945 --port 30334
+   ```
+
+3. Setup Madara for Avail:
+
+   ```bash
+   ./madara setup --chain=dev --from-remote --base-path=../.madara
+   ```
+
+4. Launch Madara with Avail:
+
+   ```bash
+   ./madara --chain=dev --base-path=../.madara --da-layer=avail --force-authoring --alice
+   ```
+
+### Deploying an Account on Your Chain
+
+- After setting up your chain, you can deploy your own account and start making transactions.
+
+### Using Avail in Madara
+
+- Specify `--da-layer avail` when launching a Madara node to use Avail for publishing the state_diff.
+
+<Callout>
+Remember to adjust the `da-config.json` file based on your setup, whether it's a local node or using the Avail network.
+</Callout>
