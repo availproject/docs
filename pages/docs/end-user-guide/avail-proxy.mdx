@@ -38,6 +38,11 @@ Creating a proxy requires a deposit in AVAIL tokens. This deposit is:
 - Calculated based on the formula: `ProxyDepositBase + (ProxyDepositFactor * number_of_proxies)`
 - Returned when the proxy is removed
 
+> Currently:
+> - `ProxyDepositBase` is 10 AVAIL
+> - `ProxyDepositFactor` is 3 AVAIL
+
+
 ## Setting up a Proxy Account
 
 <Steps>
@@ -49,7 +54,7 @@ Head on over to the [accounts section of the Avail explorer](https://explorer.av
 ### Click on *'Add proxy'*
 
 1. Choose the account for which you want to add a proxy.
-2. Click on the* 'Add proxy'* button to get started.
+2. Click on the *'Add proxy'* button to get started.
 <br/>
 <p align="center">
 <img src="/img/proxy/proxy-1.png" alt="add proxy on Avail DA"/>
@@ -132,7 +137,7 @@ pay the gas fee for it, no funds from the main account will actually be transfer
 <img src="/img/proxy/proxy-8.png" alt="staking txn via proxy on Avail DA"/>
 </p>
 
-7. This time you will see that the transaction a actually goers through and `1000 AVAIL`
+7. This time you will see that the transaction a actually goes through and `1000 AVAIL`
 are actually staked from the main account, all without ever signing the transaction from the main account.
 
 </Tabs.Tab>
@@ -142,10 +147,9 @@ are actually staked from the main account, all without ever signing the transact
 ## Best Practices
 
 1. Use the most restrictive proxy type that meets your needs
-2. Consider using time delays for high-value operations
-3. Regularly review your proxy relationships
-4. Keep careful records of which accounts have proxy access
-5. Use different proxy accounts for different purposes
+2. Regularly review your proxy relationships
+3. Keep careful records of which accounts have proxy access
+4. Use different proxy accounts for different purposes
 
 <Callout type="warning">
 While proxy accounts add convenience, they also introduce new security considerations. Always verify proxy settings and permissions carefully.
