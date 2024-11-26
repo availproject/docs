@@ -1,0 +1,86 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Proxy Accounts on Avail DA
+
+Proxy accounts provide an efficient way to delegate account management while maintaining security. Instead of using a single account for all operations, you can create smaller accounts with specific roles that can act on behalf of your main account. This guide explains how proxy accounts work on Avail DA and how to use them.
+
+## What are Proxy Accounts?
+
+Proxy accounts allow you to:
+- Delegate specific permissions to other accounts
+- Keep your main account secure while still participating in network activities
+- Manage accounts efficiently, especially in corporate or team settings
+
+<Callout type="info">
+Think of proxy accounts as trusted delegates that can perform specific actions on behalf of your main account. The main account stays secure in cold storage while proxy accounts handle day-to-day operations.
+</Callout>
+
+## Proxy Types
+
+When setting up a proxy account, you must specify its type. This determines what actions the proxy can perform:
+
+- **Any**: Allows all transactions, including balance transfers. Use with caution as this gives complete control.
+- **Non-transfer**: Permits any transaction except balance transfers.
+- **Governance**: Only allows governance-related transactions.
+- **Staking**: Restricted to staking-related operations.
+- **Identity**: Restricted to identity registration and management operations.
+- **Nomination Pool**: Limited to nomination pool operations like joining, bonding, and claiming rewards.
+
+## Security Features
+
+### Proxy Deposits
+
+Creating a proxy requires a deposit in AVAIL tokens. This deposit is:
+- Required to prevent spam attacks
+- Calculated based on the formula: `ProxyDepositBase + (ProxyDepositFactor * number_of_proxies)`
+- Returned when the proxy is removed
+
+## Setting up a Proxy Account
+
+<Steps>
+
+### Access the Explorer
+
+Go to the [Avail Explorer](https://explorer.availproject.org/) and connect your main account.
+
+### Navigate to Proxy Setup
+
+1. Go to the Developer section
+2. Select "Extrinsics"
+3. Choose the "proxy" pallet
+
+### Configure the Proxy
+
+1. Select the account that will act as proxy
+2. Select "Add Proxy" and choose the proxy type from the dropdown
+3. Submit the transaction
+
+### Verify the Setup
+
+Check that the proxy relationship appears in the explorer under your account's details.
+
+</Steps>
+
+## Using Proxy Accounts
+
+Once set up, a proxy account can perform actions by:
+
+1. Selecting the "as proxy" option when making transactions
+2. Specifying the main account it's acting for
+3. Submitting the transaction within its permitted scope
+
+<Callout type="info">
+Remember that proxy accounts can only perform actions within their designated type. For example, a staking proxy cannot make balance transfers.
+</Callout>
+
+## Best Practices
+
+1. Use the most restrictive proxy type that meets your needs
+2. Consider using time delays for high-value operations
+3. Regularly review your proxy relationships
+4. Keep careful records of which accounts have proxy access
+5. Use different proxy accounts for different purposes
+
+<Callout type="warning">
+While proxy accounts add convenience, they also introduce new security considerations. Always verify proxy settings and permissions carefully.
+</Callout> 
