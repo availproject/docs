@@ -439,7 +439,7 @@ Prepare `op-geth` for running the chain:
 
 3. Initialize with the genesis file:
    ```bash
-   build/bin/geth init --datadir=datadir genesis.json
+   build/bin/geth init --state.scheme=hash --datadir=datadir genesis.json
    ```
 
 ### Running op-geth
