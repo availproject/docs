@@ -450,7 +450,7 @@ Prepare `op-geth` for running the chain:
 
 3. Initialize with the genesis file:
    ```bash
-   build/bin/geth init --datadir=datadir genesis.json
+   build/bin/geth init --state.scheme=hash --datadir=datadir genesis.json
    ```
 
 ### Running op-geth
@@ -481,6 +481,7 @@ cd ~/op-geth
   --authrpc.port=9551 \
   --authrpc.jwtsecret=./jwt.txt \
   --rollup.disabletxpoolgossip=true \
+  --gcmode=archive \
   --state.scheme=hash
 ```
 
