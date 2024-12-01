@@ -5,10 +5,8 @@
         "display": "hidden"
     },
     "networks": "Network Info",
-    "end-user-guide": "Tools & UIs",
     "build-with-avail": "Build with Avail",
-    "operate-a-node": "Run a Node on Avail",
-    "staking-governance": "Staking & Governance on Avail DA",
+    "operate-a-node": "Run a Node",
     "glossary": "Glossary",
     "faqs": "FAQs",
     "appid": {

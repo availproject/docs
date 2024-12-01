@@ -1,7 +1,26 @@
 
 export const IntroData = [
   {
-    title: "Avail docs",
+    title: "User guides",
+    description:
+      "Wallets, faucets, staking, and more....",
+      links: [
+        {
+          topic: "Read more",
+          links: [{ link: "/docs/welcome-to-avail-docs", textcolor: "3CA3FC", placeholder: "Set up an Avail Wallet"}, 
+          {link: "/docs/networks", textcolor: "3CA3FC", placeholder: "Bridge AVAIL to Other Networks"},
+          {link: "/docs/end-user-guide", textcolor: "3CA3FC", placeholder: "Use a Hardware Wallet on Avail"},
+          {link: "/docs/build-with-avail", textcolor: "3CA3FC", placeholder: "Set up an Avail Multisig"},
+          {link: "/docs/operate-a-node", textcolor: "3CA3FC", placeholder: "Stake on Avail"},
+          {link: "/docs/staking-governance", textcolor: "3CA3FC", placeholder: "Governance on Avail"},
+          ],
+          textcolor: "2FB3EA"
+        },
+      ]
+  },
+  
+  {
+    title: "Developer docs",
     description:
       "Start building on the infrastructure layer unifying web3",
       links: [
@@ -9,28 +28,27 @@ export const IntroData = [
           topic: "Read more",
           links: [{ link: "/docs/welcome-to-avail-docs", textcolor: "3CA3FC", placeholder: "Start Here!"}, 
           {link: "/docs/networks", textcolor: "3CA3FC", placeholder: "Endpoints & Networks info"},
-          {link: "/docs/end-user-guide", textcolor: "3CA3FC", placeholder: "Wallets, Faucets & more..."},
           {link: "/docs/build-with-avail", textcolor: "3CA3FC", placeholder: "Build with Avail"},
           {link: "/docs/operate-a-node", textcolor: "3CA3FC", placeholder: "Run a Node or Light Client"},
-          {link: "/docs/staking-governance", textcolor: "3CA3FC", placeholder: "Staking & governance on Avail"},
+          {link: "/docs/faqs", textcolor: "3CA3FC", placeholder: "Glossary"},
           {link: "/docs/faqs", textcolor: "3CA3FC", placeholder: "FAQs"}
           ],
-          textcolor: "2FB3EA"
+          textcolor: "3FBB80"
         },
       ]
   },
   {
-    title: "Avail API reference",
+    title: "API reference",
     description:
-      "Learn how to interact with the Avail network",
+      "A comprehensive API reference for Avail's developer tooling!",
       links: [
         {
-          links: [{ link: "/api-reference/avail-node-api", placeholder: "Avail node API reference"}, 
-          { link: "/api-reference/avail-lc-api", placeholder: "Avail light client API reference"}, 
-          {link: "/api-reference/avail-bridge-api", placeholder: "Avail bridge API reference"},
-          {link: "/api-reference/gas-relay-api", placeholder: "Gas relay API reference"},
+          links: [{ link: "/api-reference/avail-node-api", placeholder: "Avail node"}, 
+          { link: "/api-reference/avail-lc-api", placeholder: "Avail light client"}, 
+          {link: "/api-reference/avail-bridge-api", placeholder: "VectorX bridge"},
+          {link: "/api-reference/gas-relay-api", placeholder: "Avail Gas relay"},
         ],
-          textcolor: "3FBB80"
+          textcolor: "FE8B6C"
         }
       ]
   }
