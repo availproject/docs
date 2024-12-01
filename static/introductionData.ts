@@ -7,12 +7,13 @@ export const IntroData = [
       links: [
         {
           topic: "Read more",
-          links: [{ link: "/docs/welcome-to-avail-docs", textcolor: "3CA3FC", placeholder: "Set up an Avail Wallet"}, 
-          {link: "/docs/networks", textcolor: "3CA3FC", placeholder: "Bridge AVAIL to Other Networks"},
-          {link: "/docs/end-user-guide", textcolor: "3CA3FC", placeholder: "Use a Hardware Wallet on Avail"},
-          {link: "/docs/build-with-avail", textcolor: "3CA3FC", placeholder: "Set up an Avail Multisig"},
-          {link: "/docs/operate-a-node", textcolor: "3CA3FC", placeholder: "Stake on Avail"},
-          {link: "/docs/staking-governance", textcolor: "3CA3FC", placeholder: "Governance on Avail"},
+          links: [{ link: "/user-guides/accounts", textcolor: "3CA3FC", placeholder: "Set up an Avail Wallet"}, 
+          {link: "/user-guides/avail-multisig", textcolor: "3CA3FC", placeholder: "Multisig Accounts"},
+          {link: "/user-guides/avail-proxy", textcolor: "3CA3FC", placeholder: "Proxy Accounts"},
+          {link: "//user-guides/avail-snap", textcolor: "3CA3FC", placeholder: "Avail DA with Metamask"},
+          {link: "/user-guides/ledger-avail", textcolor: "3CA3FC", placeholder: "Hardware Wallet on Avail"},
+          {link: "/user-guides/vectorx", textcolor: "3CA3FC", placeholder: "Bridge AVAIL to Ethereum"},
+          {link: "/user-guides/staking-governance", textcolor: "3CA3FC", placeholder: "Staking & Governance"},
           ],
           textcolor: "2FB3EA"
         },
@@ -28,7 +29,8 @@ export const IntroData = [
           topic: "Read more",
           links: [{ link: "/docs/welcome-to-avail-docs", textcolor: "3CA3FC", placeholder: "Start Here!"}, 
           {link: "/docs/networks", textcolor: "3CA3FC", placeholder: "Endpoints & Networks info"},
-          {link: "/docs/build-with-avail", textcolor: "3CA3FC", placeholder: "Build with Avail"},
+          {link: "/docs/build-with-avail/interact-with-avail-da", textcolor: "3CA3FC", placeholder: "Read & Write Data on Avail DA"},
+          {link: "/docs/build-with-avail/deploy-rollup-on-avail", textcolor: "3CA3FC", placeholder: "Deploy Your own Rollup on Avail DA"},
           {link: "/docs/operate-a-node", textcolor: "3CA3FC", placeholder: "Run a Node or Light Client"},
           {link: "/docs/faqs", textcolor: "3CA3FC", placeholder: "Glossary"},
           {link: "/docs/faqs", textcolor: "3CA3FC", placeholder: "FAQs"}
