@@ -33,47 +33,31 @@ export function middleware(request: NextRequest) {
 
     {
       source: '/docs/the-avail-token',
-      destination: `${origin}/docs/staking-governance/the-avail-token`,
+      destination: `${origin}/user-guides/staking-governance/overview`,
     },
     {
       source: '/docs/the-avail-token/overview',
-      destination: `${origin}/docs/staking-governance/the-avail-token/overview`,
-    },
-    {
-      source: '/docs/stake-on-avail',
-      destination: `${origin}/docs/staking-governance/stake-on-avail`,
-    },
-    {
-      source: '/docs/stake-on-avail/overview',
-      destination: `${origin}/docs/staking-governance/stake-on-avail/overview`,
-    },
-    {
-      source: '/docs/stake-on-avail/direct-nomination',
-      destination: `${origin}/docs/staking-governance/stake-on-avail/direct-nomination`,
-    },
-    {
-      source: '/docs/stake-on-avail/nomination-pools',
-      destination: `${origin}/docs/staking-governance/stake-on-avail/nomination-pools`,
+      destination: `${origin}/user-guides/staking-governance/overview`,
     },
     {
       source: '/docs/governance-on-avail',
-      destination: `${origin}/docs/staking-governance/governance-on-avail`,
+      destination: `${origin}/user-guides/staking-governance/governance-on-avail`,
     },
     {
       source: '/docs/governance-on-avail/overview',
-      destination: `${origin}/docs/staking-governance/governance-on-avail/overview`,
+      destination: `${origin}/user-guides/staking-governance/governance-on-avail/overview`,
     },
     {
       source: '/docs/governance-on-avail/avail-improvement-proposal',
-      destination: `${origin}/docs/staking-governance/governance-on-avail/avail-improvement-proposal`,
+      destination: `${origin}/user-guides/staking-governance/governance-on-avail/avail-improvement-proposal`,
     },
     {
       source: '/docs/governance-on-avail/avail-transparency-report',
-      destination: `${origin}/docs/staking-governance/governance-on-avail/avail-transparency-report`,
+      destination: `${origin}/user-guides/staking-governance/governance-on-avail/avail-transparency-report`,
     },
     {
       source: '/docs/governance-on-avail/technical-committee',
-      destination: `${origin}/docs/staking-governance/governance-on-avail/technical-committee`,
+      destination: `${origin}/user-guides/staking-governance/governance-on-avail/technical-committee`,
     },
     {
       source: '/docs/learn-about-avail',
@@ -99,6 +83,125 @@ export function middleware(request: NextRequest) {
       source: '/docs/learn-about-avail/eip-4844',
       destination: `${origin}/docs/welcome-to-avail-docs`,
     },
+    {
+      source: '/docs/stake-on-avail',
+      destination: `${origin}/user-guides/staking-governance/stake-on-avail`,
+    },
+    {
+      source: '/docs/end-user-guide',
+      destination: `${origin}/user-guides/accounts`,
+    },
+    {
+      source: '/docs/end-user-guide/accounts',
+      destination: `${origin}/user-guides/accounts`,
+    },
+    {
+      source: '/docs/end-user-guide/explorer',
+      destination: `${origin}/user-guides/accounts`,
+    },
+    {
+      source: '/docs/end-user-guide/faucet',
+      destination: `${origin}/docs/build-with-avail/interact-with-avail-da/faucet`,
+    },
+    {
+      source: '/docs/end-user-guide/identity',
+      destination: `${origin}/user-guides/accounts`,
+    },
+    {
+      source: '/docs/end-user-guide/app-id',
+      destination: `${origin}/docs/build-with-avail/interact-with-avail-da/app-id`,
+    },
+    {
+      source: '/docs/end-user-guide/balance-transfers',
+      destination: `${origin}/user-guides/accounts`,
+    },
+    {
+      source: '/docs/end-user-guide/vectorx',
+      destination: `${origin}/user-guides/vectorx`,
+    },
+    {
+      source: '/docs/end-user-guide/ledger-avail',
+      destination: `${origin}/user-guides/ledger-avail`,
+    },
+    {
+      source: '/docs/end-user-guide/avail-multisig',
+      destination: `${origin}/user-guides/avail-multisig`,
+    },
+    {
+      source: '/docs/end-user-guide/avail-proxy',
+      destination: `${origin}/user-guides/avail-proxy`,
+    },
+    {
+      source: '/docs/end-user-guide/avail-snap',
+      destination: `${origin}/user-guides/avail-snap`,
+    },
+
+    //dhsdhjsadbhsdabdsbjkdsajbksda
+
+    {
+      source: '/docs/stake-on-avail/',
+      destination: `${origin}/user-guides/staking-governance/stake-on-avail`,
+    },
+    {
+      source: '/docs/stake-on-avail/overview',
+      destination: `${origin}/user-guides/staking-governance/stake-on-avail/overview`,
+    },
+    {
+      source: '/docs/stake-on-avail/direct-nomination',
+      destination: `${origin}/user-guides/staking-governance/stake-on-avail/direct-nomination`,
+    },
+    {
+      source: '/docs/stake-on-avail/nomination-pools',
+      destination: `${origin}/user-guides/staking-governance/stake-on-avail/nomination-pools`,
+    },
+
+    {
+      source: '/docs/build-with-avail/overview',
+      destination: `${origin}/docs/build-with-avail`,
+    },
+        {
+      source: '/docs/build-with-avail/overview',
+      destination: `${origin}/docs/build-with-avail`,
+    },
+    {
+      source: '/docs/build-with-avail/quickstart',
+      destination: `${origin}/docs/build-with-avail`,
+    },
+    {
+      source: '/docs/build-with-avail/interacting-with-Avail',
+      destination: `${origin}/docs/build-with-avail`,
+    },
+    {
+      source: '/docs/build-with-avail/Optimium',
+      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Optimium`,
+    },
+    {
+      source: '/docs/build-with-avail/Optimium/op-stack',
+      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Optimium/op-stack`,
+    },
+    {
+      source: '/docs/build-with-avail/Optimium/op-stack/overview',
+      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Optimium/op-stack/overview`,
+    },
+    {
+      source: '/docs/build-with-avail/Optimium/op-stack/op-stack',
+      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Optimium/op-stack/op-stack`,
+    },
+    {
+      source: '/docs/build-with-avail/Optimium/arbitrum-nitro',
+      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Optimium/arbitrum-nitro`,
+    },
+    {
+      source: '/docs/build-with-avail/Optimium/arbitrum-nitro/overview',
+      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Optimium/arbitrum-nitro/overview`,
+    },
+    {
+      source: '/docs/build-with-avail/Optimium/arbitrum-nitro/nitro-stack',
+      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Optimium/arbitrum-nitro/nitro-stack`,
+    },
+
+
+  
     // Docs outline reorg redirects end here
     
     {

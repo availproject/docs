@@ -30,7 +30,7 @@ export const IntroData = [
           links: [{ link: "/docs/welcome-to-avail-docs", textcolor: "3CA3FC", placeholder: "Start Here!"}, 
           {link: "/docs/networks", textcolor: "3CA3FC", placeholder: "Endpoints & Networks info"},
           {link: "/docs/build-with-avail/interact-with-avail-da", textcolor: "3CA3FC", placeholder: "Read & Write Data on Avail DA"},
-          {link: "/docs/build-with-avail/deploy-rollup-on-avail", textcolor: "3CA3FC", placeholder: "Deploy Your own Rollup on Avail DA"},
+          {link: "/docs/build-with-avail/deploy-rollup-on-avail", textcolor: "3CA3FC", placeholder: "Deploy Your own Rollup"},
           {link: "/docs/operate-a-node", textcolor: "3CA3FC", placeholder: "Run a Node or Light Client"},
           {link: "/docs/faqs", textcolor: "3CA3FC", placeholder: "Glossary"},
           {link: "/docs/faqs", textcolor: "3CA3FC", placeholder: "FAQs"}
