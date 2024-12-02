@@ -198,9 +198,51 @@ export function middleware(request: NextRequest) {
     {
       source: '/docs/build-with-avail/Optimium/arbitrum-nitro/nitro-stack',
       destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Optimium/arbitrum-nitro/nitro-stack`,
+    },        
+    {
+      source: '/docs/build-with-avail/Validium',
+      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Validium`,
     },
-
-
+    {
+      source: '/docs/build-with-avail/Validium/zkevm',
+      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Validium/zkevm`,
+    },
+    {
+      source: '/docs/build-with-avail/Validium/zkevm/overview',
+      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Validium/zkevm/overview`,
+    },
+    {
+      source: '/docs/build-with-avail/Validium/zkevm/zkevm',
+      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Validium/zkevm/zkevm`,
+    },
+    {
+      source: '/docs/build-with-avail/Validium/madara',
+      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Validium/madara`,
+    },
+    {
+      source: '/docs/build-with-avail/Validium/madara/overview',
+      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Validium/madara/overview`,
+    },
+    {
+      source: '/docs/build-with-avail/Validium/madara/madara',
+      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Validium/madara/madara`,
+    },
+    {
+      source: '/docs/build-with-avail/Validium/zksync',
+      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Validium/zksync`,
+    },
+    {
+      source: '/docs/build-with-avail/Validium/zksync/zksync',
+      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Validium/zksync/zksync`,
+    },
+    {
+      source: '/docs/build-with-avail/sovereign-rollups',
+      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/sovereign-rollups`,
+    },
+    {
+      source: '/docs/build-with-avail/sovereign-rollups/cosmos-avail-module',
+      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/sovereign-rollups/cosmos-avail-module`,
+    },
   
     // Docs outline reorg redirects end here
     
