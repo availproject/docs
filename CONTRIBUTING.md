@@ -37,7 +37,7 @@ Contributing to the Avail Documentation is simple. You'll need a GitHub account 
 2. **Clone your fork**
 
    ```bash
-   git clone https://github.com/Genesis3800/docs.git
+   git clone https://github.com/availproject/docs.git
    ```
 
    This will create a repo named `docs` in your current directory.
