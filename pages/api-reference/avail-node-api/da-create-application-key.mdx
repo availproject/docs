@@ -2,7 +2,7 @@ import { Callout, Steps, Tabs } from 'nextra/components'
 
 <Callout type="info">
 `App Ids` are core to the dev experience on Avail DA, and we highly recommend you understand how they work before you start working with them.
-You can check out [our docs for the same](/docs/end-user-guide/app-id).
+You can check out [our docs for the same](/docs/build-with-avail/interact-with-avail-da/app-id).
 </Callout>
 
 # Create a new App ID on Avail DA
@@ -74,9 +74,7 @@ The rest of the code should work as is.
 1. Inside `your-file-name.ts`, add the following code:
 
 ```typescript filename="avail-js"
-import { Keyring } from "@polkadot/api"
-import { SDK } from "avail-js-sdk"
-import { WaitFor } from "avail-js-sdk/sdk/transactions"
+import { SDK, WaitFor, Keyring } from "avail-js-sdk"
 
 const main = async () => {
   const providerEndpoint = "wss://turing-rpc.avail.so/ws";

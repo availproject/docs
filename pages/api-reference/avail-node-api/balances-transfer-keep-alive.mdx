@@ -63,10 +63,7 @@ On failure, a reason of failure is returned. On Success, TransferEvent event, tr
 1. Inside `your-file-name.ts`, add the following code:
 
 ```typescript filename="avail-js"
-import { Keyring } from "@polkadot/api"
-import { SDK } from "avail-js-sdk"
-import { WaitFor } from "avail-js-sdk/sdk/transactions"
-import { BN } from "@polkadot/util"
+import { SDK, WaitFor, Keyring, BN } from "avail-js-sdk"
 
 const main = async () => {
   const providerEndpoint = "wss://turing-rpc.avail.so/ws";
