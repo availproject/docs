@@ -69,9 +69,7 @@ The rest of the code should work as is.
 1. Inside `your-file-name.ts`, add the following code:
 
 ```typescript filename="avail-js"
-import { Keyring } from "@polkadot/api"
-import { SDK } from "avail-js-sdk"
-import { WaitFor } from "avail-js-sdk/sdk/transactions"
+import { SDK, WaitFor, Keyring } from "avail-js-sdk"
 
 const main = async () => {
   const providerEndpoint = "wss://turing-rpc.avail.so/ws";
@@ -294,10 +292,7 @@ attack vector since the rollups building on top of Avail DA can always filter ou
 1. Inside `your-file-name.ts`, paste the following code:
 
 ```typescript filename="avail-js"
-import { Keyring } from "@polkadot/api"
-import { SDK } from "avail-js-sdk"
-import { WaitFor } from "avail-js-sdk/sdk/transactions"
-import { SignerOptions } from "@polkadot/api/types"
+import { SDK, WaitFor, Keyring, TransactionOptions } from "avail-js-sdk"
  
 const main = async () => {
   const providerEndpoint = "wss://turing-rpc.avail.so/ws";
