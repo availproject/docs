@@ -1,81 +1,58 @@
 
 export const IntroData = [
   {
-    title: "Brand new to Avail?",
+    title: "User guides",
     description:
-      "Learn about the infrastructure layer unifying web3.",
+      "Wallets, faucets, staking, and more....",
       links: [
         {
           topic: "Read more",
-          links: [{ link: "/docs/introduction-to-avail", textcolor: "3CA3FC", placeholder: "Introduction to Avail"}, 
-          {link: "/docs/introduction-to-avail/avail-da", textcolor: "3CA3FC", placeholder: "Avail DA"},
-          {link: "/docs/introduction-to-avail/avail-nexus", textcolor: "3CA3FC", placeholder: "Avail Nexus"},
-          {link: "/docs/introduction-to-avail/avail-fusion", textcolor: "3CA3FC", placeholder: "Avail Fusion"}
+          links: [{ link: "/user-guides/accounts", textcolor: "3CA3FC", placeholder: "Set up an Avail Wallet"}, 
+          {link: "/user-guides/avail-multisig", textcolor: "3CA3FC", placeholder: "Multisig Accounts"},
+          {link: "/user-guides/avail-proxy", textcolor: "3CA3FC", placeholder: "Proxy Accounts"},
+          {link: "//user-guides/avail-snap", textcolor: "3CA3FC", placeholder: "Avail DA with Metamask"},
+          {link: "/user-guides/ledger-avail", textcolor: "3CA3FC", placeholder: "Hardware Wallet on Avail"},
+          {link: "/user-guides/vectorx", textcolor: "3CA3FC", placeholder: "Bridge AVAIL to Ethereum"},
+          {link: "/user-guides/staking-governance", textcolor: "3CA3FC", placeholder: "Staking & Governance"},
           ],
           textcolor: "2FB3EA"
         },
       ]
   },
+  
   {
-    title: "Want to run an Avail node?",
+    title: "Developer docs",
     description:
-      "Check out our guides on all the different ways to do so",
+      "Build on the infrastructure layer unifying web3",
       links: [
         {
-          links: [{ link: "/docs/operate-a-node/node-types", placeholder: "Overview"}, { link: "/docs/operate-a-node/run-a-light-client/0010-light-client", placeholder: "Run an Avail Light Client"}, {link: "/docs/operate-a-node/run-a-full-node", placeholder: "Run an Avail Node"}, {link: "/docs/operate-a-node/become-a-validator", placeholder: "Become an Avail Validator"}],
+          topic: "Read more",
+          links: [{ link: "/docs/welcome-to-avail-docs", textcolor: "3CA3FC", placeholder: "Start Here!"}, 
+          {link: "/docs/networks", textcolor: "3CA3FC", placeholder: "Endpoints & Networks info"},
+          {link: "/docs/build-with-avail/interact-with-avail-da", textcolor: "3CA3FC", placeholder: "Read & Write Data on Avail DA"},
+          {link: "/docs/build-with-avail/deploy-rollup-on-avail", textcolor: "3CA3FC", placeholder: "Deploy Your own Rollup"},
+          {link: "/docs/operate-a-node/run-a-light-client", textcolor: "3CA3FC", placeholder: "Run an Avail Light Client"},
+          {link: "/docs/operate-a-node/run-a-full-node", textcolor: "3CA3FC", placeholder: "Run an Avail Node"},
+          {link: "/docs/faqs", textcolor: "3CA3FC", placeholder: "Glossary"},
+          {link: "/docs/faqs", textcolor: "3CA3FC", placeholder: "FAQs"}
+          ],
           textcolor: "3FBB80"
-        }
+        },
       ]
   },
   {
-    title: "Start using Avail DA now",
+    title: "API reference",
     description:
-      "Simple guides for end users to get started on the network",
+      "A comprehensive API reference for Avail's developer tooling!",
       links: [
         {
-          topic: "Getting Started",
-          links: [{link: "/docs/end-user-guide/accounts", placeholder: "Set up an Avail wallet"}, { link: "/docs/end-user-guide/explorer", placeholder: "Start using the Avail Explorer"}],
+          links: [{ link: "/api-reference/avail-node-api", placeholder: "Avail node"}, 
+          { link: "/api-reference/avail-lc-api", placeholder: "Avail light client"}, 
+          {link: "/api-reference/avail-bridge-api", placeholder: "VectorX bridge"},
+          {link: "/api-reference/gas-relay-api", placeholder: "Avail Gas relay"},
+        ],
           textcolor: "FE8B6C"
-        },
-      ],
-  },
-  {
-    title: "BUILD on Avail DA!",
-    description:
-    "Start building now!",
-    links: [
-      {
-        topic: "Getting Started",
-        links: [{ link: "/docs/networks", placeholder: "Network info "},{ link: "/docs/end-user-guide/faucet", placeholder: "Testnet faucet"}],
-        textcolor: "25C4CE"
-      },
-      {
-        topic: "Build on Avail DA",
-        links: [{ link: "/docs/build-with-avail/overview", placeholder: "Overview"},{ link: "/docs/build-with-avail/interacting-with-Avail", placeholder: "Interact with Avail DA"}],
-        textcolor: "FE8B6C"
-      },
-    ],
-  },
-  {
-    title: "Stake your AVAIL",
-    description:
-    "Stake on Avail DA for a secure network and steady returns",
-    links: [
-      {
-        links: [{ link: "/docs/stake-on-avail/overview", placeholder: "Overview"}, { link: "/docs/stake-on-avail/direct-nomination", placeholder: "Direct nomination"}, { link: "/docs/stake-on-avail/nomination-pools", placeholder: "Nomination pools"},],
-        textcolor: "3CA3FC"
-      },
-    ],
-  },
-  {
-    title: "FAQs",
-    description:
-    "Have doubts? Check out answers to some common questions we get",
-    links: [
-      {
-        links: [{ link: "/docs/learn-about-avail/faqs", placeholder: "FAQs"}],
-        textcolor: "3CA3FC"
-      },
-    ],
-  },
+        }
+      ]
+  }
 ];
