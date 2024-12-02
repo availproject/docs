@@ -23,7 +23,7 @@ export const IntroData = [
   {
     title: "Developer docs",
     description:
-      "Start building on the infrastructure layer unifying web3",
+      "Build on the infrastructure layer unifying web3",
       links: [
         {
           topic: "Read more",
@@ -31,7 +31,8 @@ export const IntroData = [
           {link: "/docs/networks", textcolor: "3CA3FC", placeholder: "Endpoints & Networks info"},
           {link: "/docs/build-with-avail/interact-with-avail-da", textcolor: "3CA3FC", placeholder: "Read & Write Data on Avail DA"},
           {link: "/docs/build-with-avail/deploy-rollup-on-avail", textcolor: "3CA3FC", placeholder: "Deploy Your own Rollup"},
-          {link: "/docs/operate-a-node", textcolor: "3CA3FC", placeholder: "Run a Node or Light Client"},
+          {link: "/docs/operate-a-node/run-a-light-client", textcolor: "3CA3FC", placeholder: "Run an Avail Light Client"},
+          {link: "/docs/operate-a-node/run-a-full-node", textcolor: "3CA3FC", placeholder: "Run an Avail Node"},
           {link: "/docs/faqs", textcolor: "3CA3FC", placeholder: "Glossary"},
           {link: "/docs/faqs", textcolor: "3CA3FC", placeholder: "FAQs"}
           ],
