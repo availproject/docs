@@ -1,7 +1,149 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
 # Read & Write data on Avail DA
 
-We need to have a dedicated page to explain how to read and write data on Avail DA.
-This is one of the most requested pieces of content from our devs.
+<Callout type="info">
+**BEFORE YOU BEGIN**<br/>
+We recommend you go through these two pages in our docs before proceeding:
+1. [`Get Testnet Tokens`](/docs/build-with-avail/interact-with-avail-da/faucet): To help you get set with some `AVAIL` tokens on the Turing testnet.
+2. [`Create an AppID`](/docs/build-with-avail/interact-with-avail-da/app-id): The guide below focusses on reading & submitting data on a particular AppID. It will help
+to be familiar with the concept.
+</Callout>
 
-While we do have examples for submitting data under the API reference, they seem to be insufficient on their own.
-Also we need to have examples on reading data, which doesn't necessarily fall under the API reference.
+## Setting up the dev environment
+
+In this guide we will use `avail-js`, a dedicated JavaScript library to interact with Avail DA.
+To set up a dev environment for `avail-js`, please follow the steps [outlined here](/api-reference/avail-node-api#setting-up-the-dev-environment).
+
+## Submitting data to Avail DA
+
+1. Create a file named `submit-data.ts`
+
+2. Import the dependencies from `avail-js-sdk` and create a `main` function:
+
+```typescript
+import { SDK, WaitFor, Keyring, TransactionOptions } from "avail-js-sdk"
+
+const main = async () => {
+
+
+}
+main()
+```
+
+3. Initialize a new instance of the SDK inside the `main` function:
+
+```typescript
+    // Initialize the SDK with a public Turing testnet endpoint
+    // You can always switch it out with your own endpoint
+  const providerEndpoint = "wss://turing-rpc.avail.so/ws";
+  const sdk = await SDK.New(providerEndpoint)
+```
+
+4. Initialize a new wallet using a `12-word seed phrase`, and configure the params for the transaction:
+
+```typescript
+  const Alice = "This is a random seed phrase please do not use it";
+  const account = new Keyring({ type: "sr25519" }).addFromUri(Alice)
+  const data = "Example data to be submitted to Avail DA"
+
+  // You can submit data to any AppID of your choosing
+  const options: TransactionOptions = { app_id: 89 }
+```
+
+5. Submit the transaction by calling the `dataAvailability_submitData` extrinsic via the `avail-js` SDK:
+
+```typescript
+//Submit the transaction
+  const result = await sdk.tx.dataAvailability.submitData(data, WaitFor.BlockInclusion, account, options)
+	if (result.isErr) {
+      console.log(result.reason)
+      process.exit(1)
+    }
+
+// Logging transaction details in the terminal
+  console.log("Data=" + result.txData.data)
+  console.log("Who=" + result.event.who + ", DataHash=" + result.event.dataHash)
+  console.log("TxHash=" + result.txHash + ", BlockHash=" + result.blockHash)
+```
+
+6. Run the script using the following command:
+
+```bash
+ts-node submit-data.ts
+```
+
+7. If everything went well, this is what your terminal should look like:
+<br/>
+<p align="center">
+<img src="/img/r-w/r-w-1.png" alt="trying to stake via proxy on Avail DA"/>
+</p>
+
+## Reading data from Avail DA
+
+> You can read back your submitted data from Avail DA using the `blockHash` and `txHash` of the transaction.
+
+1. Create a file named `read-data.ts`
+
+2. Import the dependencies from `avail-js-sdk` and create a `main` function:
+
+```typescript
+import { initialize } from "avail-js-sdk"
+
+const main = async () => {
+  try {
+
+} catch (err) {
+    console.error(err)
+    process.exit(1)
+  }}
+main()
+```
+
+3. Initialize a new instance of the SDK inside the `main` function, and declare the params:
+
+```typescript
+      //initialize sdk
+    const api = await initialize("wss://turing-rpc.avail.so/ws")
+
+    // Provide the transaction hash and block hash
+    const [txHash, blockHash] = ["0x17463754ef4185f4faba2473535890e4397aa403830f3b5a77295340b9e7cf56", "0x758036aa0db77bb34f6bf23b9fe290900f203ef4547e46c36fa486adbe6488e8"]
+    console.log(`Tx Hash: ${txHash}, Block Hash: ${blockHash}`)
+```
+
+4. Extract the data:
+
+```typescript
+    // Extracting data
+    const block = await api.rpc.chain.getBlock(blockHash)
+    const tx = block.block.extrinsics.find((tx) => tx.hash.toHex() == txHash)
+    if (tx == undefined) {
+      console.log("Failed to find the Submit Data transaction")
+      process.exit(1)
+    }
+```
+
+5. Parse the data to extract a `string`:
+
+```typescript
+    console.log(JSON.stringify(tx))
+    const dataHex = tx.method.args.map((a) => a.toString()).join(", ")
+    // Data retrieved from the extrinsic data
+    let str = ""
+    for (let n = 0; n < dataHex.length; n += 2) {
+      str += String.fromCharCode(parseInt(dataHex.substring(n, n + 2), 16))
+    }
+    console.log(`This is the string that was submitted: ${str}`)
+```
+
+6. Run the script using the following command:
+
+```bash
+ts-node read-data.ts
+```
+
+7. If everything went well, this is what your terminal should look like:
+<br/>
+<p align="center">
+<img src="/img/r-w/r-w-2.png" alt="trying to stake via proxy on Avail DA"/>
+</p>
