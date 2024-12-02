@@ -36,11 +36,19 @@ export function middleware(request: NextRequest) {
       destination: `${origin}/user-guides/staking-governance/overview`,
     },
     {
+      source: '/docs/staking-governance/the-avail-token',
+      destination: `${origin}/user-guides/staking-governance/overview`,
+    },
+    {
       source: '/docs/the-avail-token/overview',
       destination: `${origin}/user-guides/staking-governance/overview`,
     },
     {
       source: '/docs/governance-on-avail',
+      destination: `${origin}/user-guides/staking-governance/governance-on-avail`,
+    },
+    {
+      source: '/docs/staking-governance/governance-on-avail',
       destination: `${origin}/user-guides/staking-governance/governance-on-avail`,
     },
     {
@@ -140,6 +148,10 @@ export function middleware(request: NextRequest) {
 
     {
       source: '/docs/stake-on-avail/',
+      destination: `${origin}/user-guides/staking-governance/stake-on-avail`,
+    },
+    {
+      source: '/docs/staking-governance/stake-on-avail/',
       destination: `${origin}/user-guides/staking-governance/stake-on-avail`,
     },
     {
