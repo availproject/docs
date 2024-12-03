@@ -73,7 +73,7 @@ export const Footer = () => {
                 {
                     id:5,
                     label:'Reference Document',
-                    link:'https://github.com/availproject/data-availability/blob/master/reference%20document/Data%20Availability%20-%20Reference%20Document.pdf'
+                    link:'https://github.com/availproject/data-availability/blob/93c547ce4efce3e992b573179a8d22b3657fdcee/reference%20document/Avail%20Reference%20Paper%20v2.1%206%20Nov%202024.pdf'
                 },
             ]
         },

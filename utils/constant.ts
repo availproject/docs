@@ -15,12 +15,12 @@ export enum ROUTES {
     BECOME_VALIDATOR = '/docs/operate-a-node/become-a-validator',
     FAUCET = 'https://availproject.github.io/using-avail/getting-started/testnet-faucet',
     EXPLORER = 'https://availproject.github.io/using-avail/getting-started/avail-explorer',
-    CAREERS = 'https://availproject.zohorecruit.com/jobs/Careers',
+    CAREERS = 'https://avail.keka.com/careers',
     CLIENT_SETUP = 'https://availproject.github.io/join-the-network/run-avail/light-client-setup',
     COMMUNITY = 'https://discord.gg/AvailProject',
     BLOG = 'https://blog.availproject.org/',
     NETWORK = 'https://availproject.github.io/join-the-network/networks',
-    REFER_DOCS = 'https://github.com/availproject/data-availability/blob/master/reference%20document/Data%20Availability%20-%20Reference%20Document.pdf',
+    REFER_DOCS = 'https://github.com/availproject/data-availability/blob/93c547ce4efce3e992b573179a8d22b3657fdcee/reference%20document/Avail%20Reference%20Paper%20v2.1%206%20Nov%202024.pdf',
     WORKING = 'https://availproject.github.io/join-the-network/node-types#validator-nodes',
     HOWITWORKS='https://blog.availproject.org/the-data-availability-problem/'
 }
