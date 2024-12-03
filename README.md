@@ -50,7 +50,7 @@ Below is a curated list of GitHub repositories part of the Avail Project.
 
 | Repository Name & Link                                                                                                                                      | Description                                                                                    |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| [Reference Document](https://github.com/availproject/data-availability/blob/master/reference%20document/Data%20Availability%20-%20Reference%20Document.pdf) | Comprehensive document outlining the rationale, design decisions, and theoretical foundations. |
+| [Reference Document](https://github.com/availproject/data-availability/blob/93c547ce4efce3e992b573179a8d22b3657fdcee/reference%20document/Avail%20Reference%20Paper%20v2.1%206%20Nov%202024.pdf) | Comprehensive document outlining the rationale, design decisions, and theoretical foundations. |
 | [Avail Node](https://github.com/availproject/avail)                                                                                                         | Repository for the Avail node implementation, built using Substrate.                           |
 | [Light Client](https://github.com/availproject/avail-light)                                                                                                 | Light client designed for verifying data availability proofs on Avail.                         |
 | [Explorer](https://github.com/availproject/avail-apps)                                                                                                      | Implementation repository for the Avail explorer, built using PolkadotJS Apps.                 |
@@ -73,7 +73,7 @@ Below is a curated list of GitHub repositories part of the Avail Project.
 | **Applications**    | [Avail Apps](https://github.com/availproject/avail-apps)                                         | Repository for applications built on Avail.              |
 |                     | [Avail JS](https://github.com/availproject/avail-js)                                             | JavaScript library for Avail; Fork of PolkadotJS         |
 |                     | [Avail Staking Dashboard](https://github.com/availproject/avail-staking-dashboard)               | Dashboard for staking on Avail.                          |
-|                     | [Metamask Snap Avail](https://github.com/availproject/metamask-snap-avail)                       | Metamask Snap plugin for Avail.                          |
+|                     | [MetaMask Snap Avail](https://github.com/availproject/metamask-snap-avail)                       | MetaMask Snap plugin for Avail.                          |
 | **Substrate**       | [Go Substrate RPC Client](https://github.com/availproject/go-substrate-rpc-client)               | RPC client for Substrate integration.                    |
 |                     | [Substrate](https://github.com/availproject/substrate)                                           | Fork of Substrate for Avail.                             |
 | **Explorations**    | [Avail Uncharted](https://github.com/availproject/avail-explorations)                            | Experimental features and research.                      |
