@@ -73,7 +73,7 @@ Below is a curated list of GitHub repositories part of the Avail Project.
 | **Applications**    | [Avail Apps](https://github.com/availproject/avail-apps)                                         | Repository for applications built on Avail.              |
 |                     | [Avail JS](https://github.com/availproject/avail-js)                                             | JavaScript library for Avail; Fork of PolkadotJS         |
 |                     | [Avail Staking Dashboard](https://github.com/availproject/avail-staking-dashboard)               | Dashboard for staking on Avail.                          |
-|                     | [Metamask Snap Avail](https://github.com/availproject/metamask-snap-avail)                       | Metamask Snap plugin for Avail.                          |
+|                     | [MetaMask Snap Avail](https://github.com/availproject/metamask-snap-avail)                       | MetaMask Snap plugin for Avail.                          |
 | **Substrate**       | [Go Substrate RPC Client](https://github.com/availproject/go-substrate-rpc-client)               | RPC client for Substrate integration.                    |
 |                     | [Substrate](https://github.com/availproject/substrate)                                           | Fork of Substrate for Avail.                             |
 | **Explorations**    | [Avail Uncharted](https://github.com/availproject/avail-explorations)                            | Experimental features and research.                      |
