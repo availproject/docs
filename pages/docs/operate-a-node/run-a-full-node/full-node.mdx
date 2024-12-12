@@ -21,11 +21,11 @@ There are two main ways of running an Avail node:
 1. Go to the [Avail node GitHub releases page](https://github.com/availproject/avail/releases/).
 There you will see a lot of pre-built binaries for each version of the Avail node.
 
-2. Please download the binary suitable from your system, of the latest recommended version, which as of now is `2.2.4.1`.
+2. Please download the binary suitable from your system, of the `latest` version.
 You can do this using the GUI or by running the following command in your terminal:
 
 ```bash
-curl -L -O https://github.com/availproject/avail/releases/download/v2.2.4.1/<YOUR-SYSTEM-SPECIFIC-BINARY>.tar.gz
+curl -L -O https://github.com/availproject/avail/releases/download/<LATEST-AVAIL-NODE-VERSION>/<YOUR-SYSTEM-SPECIFIC-BINARY>.tar.gz
 ```
 3. Extract the downloaded file by opening a terminal in the location of the downloaded file and using the following command:
 
@@ -257,7 +257,7 @@ To download and run an Avail node using Docker:
 1. Simply run the following command in your terminal:
 
 ```bash
-docker run --restart=on-failure -d -v /root/avail/node-data:/da/node-data -p 9944:9944 -p 30333:30333 docker.io/availj/avail:2.2.4.1 --chain mainnet -d ./output --name a-random-name
+docker run --restart=on-failure -d -v /root/avail/node-data:/da/node-data -p 9944:9944 -p 30333:30333 docker.io/availj/avail:<LATEST-AVAIL-NODE-VERSION> --chain mainnet -d ./output --name a-random-name
 ```
 - -d runs the container in the background
 - -v  mounts a volume into the container
