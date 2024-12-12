@@ -68,7 +68,7 @@ const main = async () => {
   const providerEndpoint = "wss://turing-rpc.avail.so/ws";
   const sdk = await SDK.New(providerEndpoint)
 
-  const Alice = 'This is a random seed phrase please do not use it';
+  const Alice = 'This is a random seed phrase please replace with your own';
   const account = new Keyring({ type: "sr25519" }).addFromUri(Alice)
 
   const result = await sdk.tx.staking.chill(WaitFor.BlockInclusion, account)
@@ -102,7 +102,7 @@ import { Keyring, SDK, WaitFor } from "https://raw.githubusercontent.com/availpr
 const providerEndpoint = "wss://turing-rpc.avail.so/ws";
 const sdk = await SDK.New(providerEndpoint);
 
-const Alice = "This is a random seed phrase please do not use it";
+const Alice = "This is a random seed phrase please replace with your own";
  
 const account = new Keyring({ type: "sr25519" }).addFromUri("Alice//stash");
 
@@ -137,7 +137,7 @@ use core::str::FromStr;
 async fn main() -> Result<(), String> {
 	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
 
-	let Alice = "This is a random seed phrase please do not use it";
+	let Alice = "This is a random seed phrase please replace with your own";
 	let secret_uri = SecretUri::from_str("Alice//stash").unwrap();
 	let account = Keypair::from_uri(&secret_uri).unwrap();
 
