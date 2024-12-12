@@ -75,7 +75,7 @@ const main = async () => {
   const providerEndpoint = "wss://turing-rpc.avail.so/ws";
   const sdk = await SDK.New(providerEndpoint)
 
-  const Alice = "This is a random seed phrase please do not use it";
+  const Alice = "This is a random seed phrase please replace with your own";
   const account = new Keyring({ type: "sr25519" }).addFromUri(Alice)
   const data = "My Awesome Data"
 
@@ -111,7 +111,7 @@ import { Keyring, SDK, WaitFor } from "https://raw.githubusercontent.com/availpr
 const providerEndpoint = "wss://turing-rpc.avail.so/ws";
 const sdk = await SDK.New(providerEndpoint);
 
-const Alice = "This is a random seed phrase please do not use it";
+const Alice = "This is a random seed phrase please replace with your own";
 
 const account = new Keyring({ type: "sr25519" }).addFromUri(Alice);
 const data = "Sample data being submitted......";
@@ -164,7 +164,7 @@ use core::str::FromStr;
 async fn main() -> Result<(), String> {
 	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
 
-	let Alice = "This is a random seed phrase please do not use it";
+	let Alice = "This is a random seed phrase please replace with your own";
 let secret_uri = SecretUri::from_str(Alice).unwrap();
 	let account = Keypair::from_uri(&secret_uri).unwrap();
 	let data = String::from("Sample data being submitted......").as_bytes().to_vec();
@@ -298,7 +298,7 @@ const main = async () => {
   const providerEndpoint = "wss://turing-rpc.avail.so/ws";
   const sdk = await SDK.New(providerEndpoint)
  
-  const Alice = 'This is a random seed phrase please do not use it';
+  const Alice = 'This is a random seed phrase please replace with your own';
   const account = new Keyring({ type: "sr25519" }).addFromUri(Alice)
   const data = "My Awesome Data"
   const appId = 89
@@ -337,7 +337,7 @@ import { SignerOptions } from "https://deno.land/x/polkadot@0.2.45/api/submittab
 const providerEndpoint = "wss://turing-rpc.avail.so/ws";
 const sdk = await SDK.New(providerEndpoint);
  
-const Alice = 'This is a random seed phrase please do not use it';
+const Alice = 'This is a random seed phrase please replace with your own';
  
 const account = new Keyring({ type: "sr25519" }).addFromUri(Alice);
 const data = "Sample data being submitted......";
@@ -373,7 +373,7 @@ use core::str::FromStr;
 async fn main() -> Result<(), String> {
 	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
  
-	let Alice = "This is a random seed phrase please do not use it";
+	let Alice = "This is a random seed phrase please replace with your own";
 	let secret_uri = SecretUri::from_str(Alice).unwrap();
 	let account = Keypair::from_uri(&secret_uri).unwrap();
 	let data = String::from("Sample data being submitted......").as_bytes().to_vec();
@@ -476,5 +476,5 @@ and try again.
 </Tabs>
 
 > This will lead to your data being submitted through a specific `app_id`, which you can verify by looking
-> up your transaction on the [Avail explorer](https://explorer.avail.so/#/explorer).
+> up your transaction on the [Avail explorer](https://explorer.availproject.org/#/explorer).
 
