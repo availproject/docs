@@ -186,8 +186,8 @@ Using the full client requires you to [create an AppID](https://docs.availprojec
 
 1. Add the following to your chain's general config: `zksync-era/chains/$CHAIN_NAME/configs/general.yaml`
 
-<SyncedTabsProvider>
-<SyncedTabs items={['Turing', 'Mainnet']}>
+
+<Tabs items={['Turing', 'Mainnet']}>
   <Tabs.Tab>
     ```yaml
     da_client:
@@ -214,7 +214,7 @@ Using the full client requires you to [create an AppID](https://docs.availprojec
           app_id: YOUR_APP_ID
     ```
   </Tabs.Tab>
-</SyncedTabs>
+</Tabs>
 
 2. Add the following to your chain's secrets config: `zksync-era/chains/$CHAIN_NAME/configs/secrets.yaml`
 
@@ -230,7 +230,7 @@ The gas relay API is in ***private beta***. Using the gas relay allows you to po
 
 1. Add the following to your chain's general config: `zksync-era/chains/$CHAIN_NAME/configs/general.yaml`
 
-<SyncedTabs items={['Turing', 'Mainnet']}>
+<Tabs items={['Turing', 'Mainnet']}>
   <Tabs.Tab>
     ```yaml
     da_client:
@@ -253,9 +253,7 @@ The gas relay API is in ***private beta***. Using the gas relay allows you to po
           max_retries: 3
     ```
   </Tabs.Tab>
-</SyncedTabs>
-
-</SyncedTabsProvider>
+</Tabs>
 
 2. Add the following to your chain's secrets config: `zksync-era/chains/$CHAIN_NAME/configs/secrets.yaml`
 
