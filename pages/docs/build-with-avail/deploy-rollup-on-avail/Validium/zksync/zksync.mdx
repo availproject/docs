@@ -193,7 +193,7 @@ Using the full client requires you to [create an AppID](https://docs.availprojec
     da_client:
       avail:
         bridge_api_url: https://turing-bridge-api.avail.so
-        timeout_ms: 120000
+        timeout_ms: 7200000
         full_client:
           api_node_url: wss://turing-rpc.avail.so/ws
           app_id: YOUR_APP_ID
@@ -208,7 +208,7 @@ Using the full client requires you to [create an AppID](https://docs.availprojec
     da_client:
       avail:
         bridge_api_url: https://bridge-api.avail.so
-        timeout_ms: 120000
+        timeout_ms: 7200000
         full_client:
           api_node_url: wss://mainnet.avail-rpc.com
           app_id: YOUR_APP_ID
@@ -236,7 +236,7 @@ The gas relay API is in ***private beta***. Using the gas relay allows you to po
     da_client:
       avail:
         bridge_api_url: https://turing-bridge-api.avail.so
-        timeout_ms: 120000
+        timeout_ms: 7200000
         gas_relay:
           gas_relay_api_url: https://gas-relay.turing.avail.so
           max_retries: 3
@@ -247,7 +247,7 @@ The gas relay API is in ***private beta***. Using the gas relay allows you to po
     da_client:
       avail:
         bridge_api_url: https://bridge-api.avail.so 
-        timeout_ms: 120000
+        timeout_ms: 7200000
         gas_relay:
           gas_relay_api_url: COMING_SOON
           max_retries: 3
@@ -267,7 +267,7 @@ da:
 
 
 ### 6. Run ZK chain
-Start the server which will be running the ZK chain. By default, it will be running on `localhost:3050`.
+Start the server which will be running the ZK chain. By default, it will be running on `localhost:3150`.
 
 ```bash
 zkstack server --chain $CHAIN_NAME
