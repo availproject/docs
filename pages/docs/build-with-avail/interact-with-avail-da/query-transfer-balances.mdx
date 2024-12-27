@@ -28,8 +28,11 @@ const main = async () => {
   const sdk = await SDK.New(providerEndpoint)
 
   const key = "5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk"
-  const value = await sdk.api.query.system.account(key)
+  const value: any = await sdk.api.query.system.account(key)
+
   console.log(value.toHuman())
+  const freeBalanceInAvail = Number(value.data.free.toString()) / Math.pow(10, 18)
+  console.log(`Free balance: ${freeBalanceInAvail} AVAIL`)
 
   process.exit()
 }
