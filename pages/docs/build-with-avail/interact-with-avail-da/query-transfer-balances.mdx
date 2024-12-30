@@ -138,9 +138,11 @@ func main() {
 		panic(fmt.Sprintf("cannot get latest storage:%v", err))
 	}
 
-	fmt.Printf("Account address: %v\n", address)
 	fmt.Printf("Account info: %v\n", accountInfo)
-	fmt.Printf("Account balance: %v\n", accountInfo.Data.Free)
+	
+	freeBalance := new(big.Float).SetInt(accountInfo.Data.Free.Int)
+	freeBalance.Quo(freeBalance, big.NewFloat(1e18))
+	fmt.Printf("Free balance: %v AVAIL\n", freeBalance)
 }
 ```
 
