@@ -28,8 +28,11 @@ const main = async () => {
   const sdk = await SDK.New(providerEndpoint)
 
   const key = "5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk"
-  const value = await sdk.api.query.system.account(key)
+  const value: any = await sdk.api.query.system.account(key)
+
   console.log(value.toHuman())
+  const freeBalanceInAvail = Number(value.data.free.toString()) / Math.pow(10, 18)
+  console.log(`Free balance: ${freeBalanceInAvail} AVAIL`)
 
   process.exit()
 }
@@ -66,14 +69,17 @@ async fn main() -> Result<(), String> {
 		.await
 		.map_err(|e| e.to_string())?;
 	let result = sdk
-		.api
+		.online_client
 		.storage()
 		.at(best_block_hash)
 		.fetch(&storage_query)
 		.await
 		.map_err(|e| e.to_string())?;
 
-	dbg!(result);
+	dbg!(&result);
+
+	let free_balance_in_avail = result.as_ref().unwrap().data.free as f64 / 10f64.powi(18);
+	println!("Free balance: {:?} AVAIL", free_balance_in_avail);
 
 	Ok(())
 }
@@ -132,9 +138,11 @@ func main() {
 		panic(fmt.Sprintf("cannot get latest storage:%v", err))
 	}
 
-	fmt.Printf("Account address: %v\n", address)
 	fmt.Printf("Account info: %v\n", accountInfo)
-	fmt.Printf("Account balance: %v\n", accountInfo.Data.Free)
+	
+	freeBalance := new(big.Float).SetInt(accountInfo.Data.Free.Int)
+	freeBalance.Quo(freeBalance, big.NewFloat(1e18))
+	fmt.Printf("Free balance: %v AVAIL\n", freeBalance)
 }
 ```
 
@@ -173,6 +181,7 @@ Your response should look something like this:
     flags: '170,141,183,460,469,231,731,687,303,715,884,105,728'
   }
 }
+Free balance: 28.3046577073 AVAIL
 ```
 </details>
 
