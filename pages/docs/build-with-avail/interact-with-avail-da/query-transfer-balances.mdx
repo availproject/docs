@@ -69,7 +69,7 @@ async fn main() -> Result<(), String> {
 		.await
 		.map_err(|e| e.to_string())?;
 	let result = sdk
-		.online_client
+		.api
 		.storage()
 		.at(best_block_hash)
 		.fetch(&storage_query)
@@ -255,8 +255,8 @@ use core::str::FromStr;
 async fn main() -> Result<(), String> {
 	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
 
-	let Alice = "This is a random seed phrase please replace with your own";
-	let secret_uri = SecretUri::from_str(Alice).unwrap();
+	let alice = "This is a random seed phrase please replace with your own";
+	let secret_uri = SecretUri::from_str(&alice).unwrap();
 	let account = Keypair::from_uri(&secret_uri).unwrap();
 	let dest: &str = "5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw"; // Eve
 	let amount = 1_000_000_000_000_000_000u128; // 1 Avail
@@ -264,7 +264,7 @@ async fn main() -> Result<(), String> {
 	let result = sdk
 		.tx
 		.balances
-		.transfer_keep_alive(dest, amount, WaitFor::BlockInclusion, &account)
+		.transfer_keep_alive(dest, amount, WaitFor::BlockInclusion, &account, None)
 		.await?;
 
 	println!(
