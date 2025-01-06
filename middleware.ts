@@ -67,30 +67,30 @@ export function middleware(request: NextRequest) {
       source: '/docs/governance-on-avail/technical-committee',
       destination: `${origin}/user-guides/staking-governance/governance-on-avail/technical-committee`,
     },
-    {
-      source: '/docs/learn-about-avail',
-      destination: `${origin}/docs/welcome-to-avail-docs`,
-    },
-    {
-      source: '/docs/learn-about-avail/consensus',
-      destination: `${origin}/docs/welcome-to-avail-docs`,
-    },
-    {
-      source: '/docs/learn-about-avail/consensus/babe',
-      destination: `${origin}/docs/welcome-to-avail-docs`,
-    },
-    {
-      source: '/docs/learn-about-avail/consensus/grandpa',
-      destination: `${origin}/docs/welcome-to-avail-docs`,
-    },
-    {
-      source: '/docs/learn-about-avail/consensus/npos',
-      destination: `${origin}/docs/welcome-to-avail-docs`,
-    },
-    {
-      source: '/docs/learn-about-avail/eip-4844',
-      destination: `${origin}/docs/welcome-to-avail-docs`,
-    },
+    // {
+    //   source: '/docs/learn-about-avail',
+    //   destination: `${origin}/docs/welcome-to-avail-docs`,
+    // },
+    // {
+    //   source: '/docs/learn-about-avail/consensus',
+    //   destination: `${origin}/docs/welcome-to-avail-docs`,
+    // },
+    // {
+    //   source: '/docs/learn-about-avail/consensus/babe',
+    //   destination: `${origin}/docs/welcome-to-avail-docs`,
+    // },
+    // {
+    //   source: '/docs/learn-about-avail/consensus/grandpa',
+    //   destination: `${origin}/docs/welcome-to-avail-docs`,
+    // },
+    // {
+    //   source: '/docs/learn-about-avail/consensus/npos',
+    //   destination: `${origin}/docs/welcome-to-avail-docs`,
+    // },
+    // {
+    //   source: '/docs/learn-about-avail/eip-4844',
+    //   destination: `${origin}/docs/welcome-to-avail-docs`,
+    // },
     {
       source: '/docs/stake-on-avail',
       destination: `${origin}/user-guides/staking-governance/stake-on-avail`,
