@@ -17,9 +17,9 @@ value is currently `0.124 AVAIL`.
 
 2. **Weight fee**: This fee is proportional to the amount of computation required to add the transaction to the network.
 
-3. **Length fee**: This fee is proportional to the amount of storage required to store the resultant transaction on-chain.
+3. **Length fee**: This fee is proportional to the encoded length of the transaction, essentially the amount of space it consumes in the block.
 
-4. **Congestion fee**: Default value `1`. This is a multiplier that is applied to the `Weight fee` only when
+4. **Congestion fee**: This is a multiplier that is applied to the `Weight fee` only when
 the network is busy. This value is dynamic and changes based on the amount of network activity.
 The variable however starts changing only if the preceding block is more than 50% full.
 
