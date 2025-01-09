@@ -4,4 +4,56 @@ import { Callout, Steps, Tabs } from 'nextra/components'
 
 The Avail network has two main explorers that can be used to browse the network:
 
-1. The Avail Apps Explorer: A powerful dev-focussed tool with
+1. [Avail Apps explorer](https://explorer.avail.so/): A powerful dev-focussed tool with powerful tools to work with the network.
+2. [Subscan explorer](https://avail-turing.subscan.io/): A simpler, and also the recommended way to explore the network for most users.
+
+This tutorial will focus on helping advanced users and devs get started with the Avail Apps Explorer.
+
+## The basics
+
+### Switch networks
+
+The Avail Apps explorer currently supports [Avail mainnet](https://mainnet.explorer.availproject.org/) and [Avail Turing testnet](https://turing.explorer.availproject.org/).
+
+To switch networks:
+
+1. Click on the `Network name` on the top-left.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-1.png" align="center" /> 
+</div>
+
+2. Depending on the network you are on, click on `live networks -> Avail DA network`, or `test network -> Avail Turing testnet`.
+
+3. Click on `Switch`.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-2.png" align="center" /> 
+</div>
+
+### Look up the details of a particular transaction with the block number
+
+1. Search for the `block number` or `block hash` of the block your transaction was included in.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-3.png" align="center" /> 
+</div>
+
+2. The explorer then fetches all transactions from that specific block. Click on the hash of the transaction you are interested in to get a detailed view.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-4.png" align="center" />
+</div>
+
+### Look up the details of a particular transaction without without knowing the block number
+
+1. Due to how the network is designed, it is not possible for any explorer to directly look up a transaction's details using it's hash.
+
+2. It is therefore not supported in the search feature.
+
+3. However, the [Subscan explorer](https://avail.subscan.io/) allows you to directly search for transactions since it queries from a dedicated indexer
+built on top of Avail to support exactly this feature.
