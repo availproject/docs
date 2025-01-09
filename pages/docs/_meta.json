@@ -6,7 +6,8 @@
     },
     "networks": "Network Info",
     "build-with-avail": "Build with Avail",
-    "operate-a-node": "Run a Node",
+    "learn-about-avail": "Learn more about Avail",
+    "operate-a-node": "Run a node",
     "glossary": "Glossary",
     "faqs": "FAQs",
     "appid": {

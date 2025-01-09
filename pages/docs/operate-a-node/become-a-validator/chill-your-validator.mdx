@@ -22,7 +22,7 @@ Two important concepts in Avail consensus are "Chill" and "Slashing". We will ex
 Staking bonds can exist in three different states: validating, nominating, or chilled. Chilled which refers to neither validating nor nominating. If a staker wishes to temporarily pause their active involvement
 in staking while keeping their funds bonded, they have the option to "chill" their participation.
 
-To step back from active staking or active validating an account can either click "Stop" on the Network > Staking > Account actions page in Avail Apps or make use of the chill extrinsic in the staking pallet.
+To step back from active staking or active validating an account can either click "Stop" on the [Network > Staking > Account actions page](https://explorer.avail.so/#/staking/actions) in Avail Apps or make use of the chill extrinsic in the staking pallet.
 By choosing to chill, the account or validator becomes inactive in the next era. It's important to note that the chill call must be signed by the controller account, not the stash.
 
 If you decide to voluntarily chill as a validator, your nominators will remain associated with your validator. However, while you are chilled, your bond will not be listed as an option for nominators to select.
@@ -47,7 +47,7 @@ Slashing can occur under the following conditions
   the validator and nominators.
 - If more than 10% of the validators go offline simultaneously and were chilled in an epoch, all of those validators will be slashed.
 
-The slashing will show immediately on [Avail Apps](https://testnet.avail.tools/#/staking/slashes) on the slash tab. However the financial slash is not applied at the time. The physical deduction from
+The slashing will show immediately on [Avail Apps](https://explorer.avail.so/#/staking/slashes) on the slash tab. However the financial slash is not applied at the time. The physical deduction from
 validator stake and nominator stake happens at a later stage. A governance proposal can be made to reverse the slash, this is why there is a delay in the physical deduction of coins. Without
 Governance intervention the physical coin deduction will happen a few days later.
 

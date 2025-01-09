@@ -1,0 +1,176 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Get started with the Avail Apps Explorer
+
+The Avail network has two main explorers that can be used to browse the network:
+
+1. [Avail Apps explorer](https://explorer.avail.so/): A dev-focussed explorer with powerful tools to work with the network.
+2. [Subscan explorer](https://avail-turing.subscan.io/): A simpler, and also the recommended way to explore the network for most users.
+
+This tutorial will focus on helping advanced users and devs get started with the Avail Apps Explorer.
+
+## The basics
+
+### Switch networks
+
+The Avail Apps explorer currently supports [Avail mainnet](https://mainnet.explorer.availproject.org/) and [Avail Turing testnet](https://turing.explorer.availproject.org/).
+
+To switch networks:
+
+1. Click on the `Network name` on the top-left.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-1.png" align="center" /> 
+</div>
+
+2. Depending on the network you are on, click on `live networks -> Avail DA network`, or `test network -> Avail Turing testnet`.
+
+3. Click on `Switch`.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-2.png" align="center" /> 
+</div>
+
+### Look up the details of a particular transaction with the block number
+
+1. Search for the `block number` or `block hash` of the block your transaction was included in.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-3.png" align="center" /> 
+</div>
+
+2. The explorer then fetches all transactions from that specific block. Click on the hash of the transaction you are interested in to get a detailed view.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-4.png" align="center" />
+</div>
+
+### Look up the details of a particular transaction without without knowing the block number
+
+1. Due to how the network is designed, it is not possible for any explorer to directly look up a transaction's details using it's hash.
+
+2. It is therefore not supported in the search feature.
+
+3. However, the [Subscan explorer](https://avail.subscan.io/) allows you to directly search for transactions since it queries from a dedicated indexer
+built on top of Avail to support exactly this feature.
+
+## The `Accounts` section
+
+This section can be used to add or import Avail accounts into the explorer.
+
+To go to the page, click on the `Accounts` tab on the top-left, or click [this link](https://explorer.availproject.org/#/accounts).
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-5.png" align="center" />
+</div>
+
+You can do a few things here:
+
+1. Create a new account using a `mnemonic` or by clicking on the `+ Account` button.
+2. Import an account via an encrypted JSON file.
+3. Connect extension accounts from wallets like `Polkadot.js`, `Subwallet`, `Talisman`, etc...
+4. Create a multisig account. We have covered instructions to do so [in our docs here](/user-guides/avail-multisig).
+5. Create a proxy account. We have covered instructions to do so [in our docs here](/user-guides/avail-proxy).
+6. The `AvailApps` explorer also allows you to use hardware wallets to safely connect cold accounts. We have covered
+instructions to do so [in our docs here](/user-guides/ledger-avail).
+
+> Any of these accounts that you connect can be used to sign transactions on the network. Which is something we will cover in the next section.
+
+## Using the explorer to interact with the network
+
+Wrt interacting with the network, the `AvailApps` explorer can be used to:
+
+1. Query data from the network by calling `Chain State` or `RPC` methods.
+2. Send transactions to the network by signing and submitting `Extrinsics`.
+
+You can find them within the `Developer` tab.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-6.png" align="center" />
+</div>
+
+
+<Callout type="info">
+**WHAT ARE PALLETS?**<br/>
+Avail organizes its runtime functionality into `pallets`. Each pallet is a collection of calls and extrinsics of a specific functionality. 
+For example, the `data_availability` pallet contains all the calls and extrinsics related to querying and submitting data to the network, and so on.
+Some methods might be grouped into seemingly unrelated pallets for technical reasons, but this largely holds true.
+
+To look for a particular method within the `AvailApps` explorer, you need to know the pallet it belongs to.
+</Callout>
+
+### How to use the explorer to query the network
+
+Let us learn how to query the network using the `AvailApps` explorer by querying the balance of an account.
+1. Either go to the `Chain State` methods menu from within the `Developer` tab or click [on this link](https://explorer.avail.so/#/chainstate).
+
+2. The balance of an account can be queried by calling the `account(AccountId32)` method from within the `system` pallet. Select the `system`
+pallet from the dropdown on the left, and the `account(AccountId32)` method from the dropdown on the right.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-7.png" align="center" />
+</div>
+
+<Callout type="info">
+**THE `include option` TOGGLE**<br/>
+This toggle allows you to enter params for a method when it is toggled on.
+You can also call methods without passing a param by keeping it off. \
+But `system_account` method won't return anything without an `AccountId32` param being passed to it, so we will keep it on. \
+**Hot tip:** Try calling the `dataAvailability_appKeys` method with the `include option` toggle off to see what happens.
+</Callout>
+
+3. Either paste the address of an account in the `AccountId32` field or select an explorer-connected account from the dropdown.
+
+4. Leave the `blockhash` field empty (This will query the latest balance of the account), and click on the `+` button near the top-right.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-8.png" align="center" />
+</div>
+
+5. And that's it. You just used the `AvailApps` explorer to query the balance of an account on the Avail network. You can query other methods in a similar way.
+
+
+### How to use the explorer to send transactions to the network
+
+You can also use the `AvailApps` explorer to sign custom transactions/extrinsics and submit them to the network.
+We have covered different examples of doing so in our docs. Here is one of them:
+
+[Submit data to a particular `AppID` by submitting a `dataAvailability_submitData` extrinsic](/docs/learn-about-avail/app-ids#how-to-submit-data-to-my-appid).
+
+### Bonus: How to query chain constants using the explorer
+
+1. The `AvailApps` explorer allows you to query the current values of all of it's runtime constants by going to the constants tab within
+`Developer -> Chain State`.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-9.png" align="center" />
+</div>
+
+2. For example, to query the current value of the `existentialDeposit` of an account on Avail, which is the minimum amount required by an
+account to exist on the network, you can call the `balances_existentialDeposit` constant.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-10.png" align="center" />
+</div>
+
+> P.S: The balance displayed is in `picoAVAIL`. 1 `picoAVAIL` = $10^{-18}$ `AVAIL`.
+
+3. You can look up any other constant in a similar way.
+
+## Wrapping up
+
+The `AvailApps` explorer is a powerful and comprehensive tool that allows a wide variety of users to interact with the network in their required ways.
+We did not even touch on the `staking` and `governance` related functionalities that it offers.
+
+We will update this page with more examples and information as we go along.
+Feel free to join [our Discord](https://discord.gg/AvailProject) and suggest any additions that you would like to see here.

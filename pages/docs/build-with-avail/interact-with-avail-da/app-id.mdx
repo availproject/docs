@@ -15,12 +15,18 @@ image: https://docs.availproject.org/img/avail/AvailDocs.png
 
 import { Callout, Steps, Tabs } from 'nextra/components'
 
+# How to register your own `AppID` on Avail DA?
+
+<Callout type="info">
+**LOOKING TO READ MORE ABOUT WHAT APPIDs ARE?**<br/>
+You can go through [this page in our docs](/docs/learn-about-avail/app-ids) for a deeper understanding of how
+AppIDs work on Avail.
+</Callout>
+
 <Callout type="info">
 **LOOKING FOR PROGRAMMATIC INSTRUCTIONS?**<br/>
 You can check out our [API reference](/api-reference/avail-node-api/da-create-application-key) for the same.
 </Callout>
-
-# How to register your own `AppID` on Avail DA?
 
 The easiest way to set up your own `AppID` on Avail DA is to use our [online AppID generator](https://appid.availproject.org/).
 
@@ -62,7 +68,7 @@ If you don't have an Avail DA wallet, you can follow our docs on [setting up a n
 
 ## A few more things of note
 
-1. As stated earlier, an the `key` and `id` fields of every `AppID` are unique. This means if you try to create an `AppID` with the same `key` as an existing one,
+1. As stated earlier, the `key` and `id` fields of every `AppID` are unique. This means if you try to create an `AppID` with the same `key` as an existing one,
 the operation will fail.
 
 2. If you're a developer and are looking for more programmatic instructions, you can check out our [API reference](/api-reference/avail-node-api/da-create-application-key).
