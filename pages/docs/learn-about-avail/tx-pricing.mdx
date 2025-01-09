@@ -19,9 +19,8 @@ value is currently `0.124 AVAIL`.
 
 3. **Length fee**: This fee is proportional to the encoded length of the transaction, essentially the amount of space it consumes in the block.
 
-4. **Congestion fee**: This is a multiplier that is applied to the `Weight fee` only when
-the network is busy. This value is dynamic and changes based on the amount of network activity.
-The variable however starts changing only if the preceding block is more than 50% full.
+4. **Congestion fee**: A multiplier applied to the Weight fee based on block fullness of previous blocks (Notice blocks not block, because `fee_multiplier` 
+is a function of both the current fee multiplier and the fullness of the preceding block. A kind of guard against sudden rise/fall of fee).
 
 5. **Tip (optional)**: This is an optional fee that can be attached to a transaction to incentivize validators.
 
