@@ -458,6 +458,26 @@ export function middleware(request: NextRequest) {
       destination: `${origin}/api-reference/avail-lc-api`
     },
     {
+      source: "/api-reference/avail-lc-api/v1-latest-block",
+      destination: `${origin}/api-reference/avail-lc-api/v1-deprecated`
+    },
+    {
+      source: "/api-reference/avail-lc-api/v1-confidence",
+      destination: `${origin}/api-reference/avail-lc-api/v1-deprecated`
+    },
+    {
+      source: "/api-reference/avail-lc-api/v1-appdata",
+      destination: `${origin}/api-reference/avail-lc-api/v1-deprecated`
+    },
+    {
+      source: "/api-reference/avail-lc-api/v1-mode",
+      destination: `${origin}/api-reference/avail-lc-api/v1-deprecated`
+    },
+    {
+      source: "/api-reference/avail-lc-api/v1-status",
+      destination: `${origin}/api-reference/avail-lc-api/v1-deprecated`
+    },
+    {
       source: "/about/introduction/light-client",
       destination: `${origin}/docs/operate-a-node/run-a-light-client/Overview`
     },
