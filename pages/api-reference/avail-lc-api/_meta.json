@@ -8,7 +8,7 @@
         "title": "HTTPS API"
     },
 
-    "v2-version": "Fetch the latest block",
+    "v2-version": "Fetch the version of your Light Client instance",
     "v2-status": "Fetch current status and active modes of the light client",
     "v2-blocks": "Fetch specified block status and confidence if applicable",
     "v2-blocks-header": "Fetch the header for a specifc block if available",
