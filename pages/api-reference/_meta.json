@@ -1,4 +1,8 @@
 {
+  "start-here": "Start here",
+  "--": {
+    "type": "separator"
+  },
   "avail-node-api": "Avail node API reference",
 
   "---": {
