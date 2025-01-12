@@ -124,6 +124,10 @@ export function middleware(request: NextRequest) {
       destination: `${origin}/user-guides/accounts`,
     },
     {
+      source: '/docs/build-with-avail/interact-with-avail-da/query-transfer-balances',
+      destination: `${origin}/docs/build-with-avail/interact-with-avail-da/query-balances`,
+    },
+    {
       source: '/docs/end-user-guide/vectorx',
       destination: `${origin}/user-guides/vectorx`,
     },
@@ -456,6 +460,30 @@ export function middleware(request: NextRequest) {
     {
       source: "/docs/operate-a-node/run-a-light-client/light-client-api-reference",
       destination: `${origin}/api-reference/avail-lc-api`
+    },
+    {
+      source: "/api-reference/avail-lc-api/v1-latest-block",
+      destination: `${origin}/api-reference/avail-lc-api/v1-deprecated`
+    },
+    {
+      source: "/api-reference/avail-lc-api/v1-confidence",
+      destination: `${origin}/api-reference/avail-lc-api/v1-deprecated`
+    },
+    {
+      source: "/api-reference/avail-lc-api/v1-appdata",
+      destination: `${origin}/api-reference/avail-lc-api/v1-deprecated`
+    },
+    {
+      source: "/api-reference/avail-lc-api/v1-mode",
+      destination: `${origin}/api-reference/avail-lc-api/v1-deprecated`
+    },
+    {
+      source: "/api-reference/avail-lc-api/v1-status",
+      destination: `${origin}/api-reference/avail-lc-api/v1-deprecated`
+    },
+    {
+      source: "/api-reference/avail-lc-api/v2-ws-subscription-id",
+      destination: `${origin}/api-reference/avail-lc-api/v2-subscriptions`
     },
     {
       source: "/about/introduction/light-client",

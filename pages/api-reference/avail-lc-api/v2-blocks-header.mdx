@@ -2,6 +2,10 @@ import { Tabs } from 'nextra/components'
 import { Callout } from 'nextra/components'
 
 # Fetch the header for a specifc block if available
+<Callout type="info">
+**LOOKING FOR INSTRUCTIONS ON HOW TO RUN YOUR OWN LIGHT CLIENT?**<br/>
+You can check out [our docs here](/docs/operate-a-node/run-a-light-client/0010-light-client#running-the-light-client) for instructions on how to run your own light client.
+</Callout>
 
 Gets the header for a specifc block if available.
 
@@ -54,13 +58,13 @@ HTTP/1.1 400 Bad Request
 
 <Tabs.Tab>
 ```sh
-curl "localhost:7007/v2/blocks/592445/header"
+curl "localhost:7007/v2/blocks/{insert a suitable block number}/header"
 ```
 </Tabs.Tab>
 
 <Tabs.Tab>
 ```sh
-curl "https://api.lightclient.mainnet.avail.so/v2/blocks/592445/header"
+curl "https://api.lightclient.mainnet.avail.so/v2/blocks/{insert a suitable block number}/header"
 ```
 </Tabs.Tab>
 </Tabs>
