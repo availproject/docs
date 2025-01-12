@@ -22,12 +22,6 @@
   
   "avail-bridge-api": "Avail bridge API reference",
 
-  "-----": {
-    "type": "separator"
-  },
-
-  "gas-relay-api": "Gas relay API reference",
-
   "------": {
     "type": "separator"
   }
