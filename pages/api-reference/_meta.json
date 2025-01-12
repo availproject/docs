@@ -3,6 +3,11 @@
   "--": {
     "type": "separator"
   },
+  "gas-relay-deprecated":
+  {
+    "display": "hidden"
+  },
+  
   "avail-node-api": "Avail node API reference",
 
   "---": {
