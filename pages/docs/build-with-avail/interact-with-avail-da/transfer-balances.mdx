@@ -22,7 +22,7 @@ Any account whose balane dips below this amount is *'reaped'*.
 
 ### Transferring funds using `balances_transferKeepAlive`
 
-<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+<Tabs items={['avail-js', 'avail-rust', 'avail-go', 'AvailApps explorer']}>
 
 <Tabs.Tab>
 1. Inside `your-file-name.ts`, add the following code:
@@ -160,6 +160,35 @@ and try again.
 </Callout>
 </Tabs.Tab>
 
+<Tabs.Tab>
+
+1. Go to the [`extrinsics` page](https://explorer.avail.so/#/extrinsics) on the AvailApps explorer.
+
+2. Select an account which has funds on the network.
+
+3. Select the `balances` pallet from the dropdown on the left, 
+
+4. Select the `transferKeepAlive` extrinsic from the dropdown on the right.
+<br/>
+<p align="center">
+<img src="/img/t-b/t-b-1.png" alt="filling out the tx details"/>
+</p>
+
+5. Fill in the `dest` field with the address of the account you want to send funds to.
+
+6. Click on `Submit Transaction` , and then click on `Sign and Submit`.
+<br/>
+<p align="center">
+<img src="/img/t-b/t-b-3.png" alt="filling out the tx details"/>
+</p>
+
+<Callout type="info">
+**DON'T CHANGE THE APPID**<br/>
+Transferring funds from one address to the other is a chain-level operation, independent of any `AppID`.
+All such operations are executed with the `AppID set to 0`.
+</Callout>
+
+</Tabs.Tab>
 </Tabs>
 
 Your response should look something like this:
@@ -176,7 +205,7 @@ TxHash=0x45a3ec18b96c2bff0d92d70ba5f0fa904b79a49610e845b72d16ccf7c094533d, Block
 ### Transferring funds using `balances_transferAllowDeath`
 
 
-<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+<Tabs items={['avail-js', 'avail-rust', 'avail-go', 'AvailApps explorer']}>
 
 <Tabs.Tab>
 
@@ -320,6 +349,15 @@ and try again.
 
 </Tabs.Tab>
 
+<Tabs.Tab>
+
+<Callout type="info">
+Follow the same steps as before to use this extrinsic from the AvailApps explorer.
+The only difference being that you need to select `balances_transferAllowDeath` from the dropdown.
+</Callout>
+
+</Tabs.Tab>
+
 </Tabs>
 
 Your response should look something like this:
@@ -336,7 +374,7 @@ TxHash=0x4be89fffca3b7849066c3a7b6b29af318caa49ca12a1ba17610b0a30d97fd30e, Block
 
 ### Transferring funds using `balances_transferAll`
 
-<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+<Tabs items={['avail-js', 'avail-rust', 'avail-go', 'AvailApps explorer']}>
 
 <Tabs.Tab>
 
@@ -471,6 +509,18 @@ go mod tidy
 ```
 and try again.
 </Callout>
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+<Callout type="info">
+Follow the same steps as before to use this extrinsic from the AvailApps explorer.
+The only difference being that:
+
+1. You need to select `balances_transferAll` from the dropdown.
+2. You don't need to fill in an `amount` that you want to transfer, since this extrinsic transfers all funds from the sender's account.
+</Callout>
+
 </Tabs.Tab>
 
 </Tabs>
