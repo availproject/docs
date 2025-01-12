@@ -11,7 +11,7 @@ To set up a dev environment for the SDK of your choice, please follow the steps 
 
 To query basic information about an account, including it's balance, you need to call the `system_account` extrinsic from the `system` pallet on an Avail node.
 
-<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+<Tabs items={['avail-js', 'avail-rust', 'avail-go', 'AvailApps explorer']}>
 
 <Tabs.Tab>
 1. Inside `your-file-name.ts`, add the following code:
@@ -155,8 +155,34 @@ go mod tidy
 ```
 and try again.
 </Callout>
+</Tabs.Tab>
+
+<Tabs.Tab>
+The following instructions will guide you on how to query the balance of an account using the AvailApps explorer:
+
+1. Go to the [`chains state` page](https://explorer.avail.so/#/chainstate) on the AvailApps explorer.
+
+2. The balance of an account can be queried by calling the `account(AccountId32)` method from within the `system` pallet. Select the `system`
+pallet from the dropdown on the left, and the `account(AccountId32)` method from the dropdown on the right.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-7.png" align="center" />
+</div>
+
+3. Either paste the address of an account in the `AccountId32` field or select an explorer-connected account from the dropdown.
+
+4. Leave the `blockhash` field empty (This will query the latest balance of the account), and click on the `+` button near the top-right.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-8.png" align="center" />
+</div>
+
+5. And that's it. You just used the `AvailApps` explorer to query the balance of an account on the Avail network. You can query other methods in a similar way.
 
 </Tabs.Tab>
+
 </Tabs>
 
 Your response should look something like this:
