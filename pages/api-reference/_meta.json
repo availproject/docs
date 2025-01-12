@@ -3,6 +3,11 @@
   "--": {
     "type": "separator"
   },
+  "gas-relay-deprecated":
+  {
+    "display": "hidden"
+  },
+  
   "avail-node-api": "Avail node API reference",
 
   "---": {
@@ -16,12 +21,6 @@
   },
   
   "avail-bridge-api": "Avail bridge API reference",
-
-  "-----": {
-    "type": "separator"
-  },
-
-  "gas-relay-api": "Gas relay API reference",
 
   "------": {
     "type": "separator"

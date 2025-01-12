@@ -15,11 +15,7 @@
     "request_fund_status": "Request Fund Status",
     "get_user": "Get User",
 
-    "POST methods": {
-      "type": "separator",
-      "title": "POST methods"
-   },
-
+ 
     "register_new_token": "Register New Token",
     "register_new_user": "Register New User",
     "request_funds": "Request Funds",
