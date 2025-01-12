@@ -53,11 +53,14 @@ This data can then be accessed via a loacal HTTP endpoint.
 
 <Callout type="info">
 **WE RECOMMEND LEARNING ABOUT APP IDs on AVAIL DA**<br/>
-App IDs are an important concept in the context of Avail. We recommend you go through [this page in our docs](/docs/build-with-avail/interact-with-avail-da/app-id) to understand how they work before moving forward.
+App IDs are an important concept in the context of Avail. We recommend you go through [this page in our docs](/docs/learn-about-avail/app-ids) to understand how they work before moving forward.
 </Callout>
 
 ## Running the light client
 
+<Tabs items={['Light-client mode', 'App-client mode']}>
+
+<Tabs.Tab>
 <Tabs items={['availup','Run pre-built binary', 'Build from source', 'Windows-specific instructions']}>
 
 <Tabs.Tab>
@@ -183,7 +186,9 @@ Detailed documentation for them can be found [in our Github repo](https://github
   </Tabs.Tab>
 
   </Tabs>
-
+<Callout type="info">
+You can configure the run command with a variety of [config flags](https://github.com/availproject/avail-light/blob/main/client/README.md#options).
+</Callout>
   4. If everything goes well, the client output will look like this:
 
 <details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
@@ -407,14 +412,18 @@ curl -sL1 avail.sh | bash
 </Tabs>
 
 </Tabs.Tab>
-</Tabs>
 
-## Setting your identity using `identity.toml`
+</Tabs>
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+### Setting your identity using `identity.toml`
 
 <Callout type="info">
 **ONLY IF YOU WANT TO SUBMIT DATA TO AVAIL DA USING THE LIGHT CLIENT**<br/>
 The light client API exposes a method you can use to submit data to Avail DA, but to do so the API needs access to an Avail account with some AVAIL tokens. \
-*You don't need to set an identity if you only want your client to fetch data from the network.*
+> *You don't need to set an identity if you only want your client to fetch data from the network.*
 </Callout>
 
 - Whenever you run an Avail LC, you will notice a file named `identity.toml` being created in the same 
@@ -424,7 +433,7 @@ identity on the network.
 - You can also set your own `seed phrase` by creating an `identity.toml` file, and passing it as an argument using the
 `--identity` flag.
 
-To do so:
+### Initializing the `App-client` mode
 
 1. create an `identity.toml` file anywhere in your system.
 2. Initialize a variable named `avail_secret_seed_phrase` like this:
@@ -432,18 +441,154 @@ To do so:
 avail_secret_seed_phrase = 'AvailDA rice is demon the pair best almond DA walnut solution walrus out tube there'
 ```
 3. Pass this file to the light client using the `--identity` flag like this. This could look something like this:
+
+</Tabs.Tab>
+<Tabs items={['availup','Run pre-built binary', 'Build from source']}>
+
+<Tabs.Tab>
+
+<Callout type="info">
+**CONFIG FLAGS**<br/>
+Availup supports many different config flags to support your needs.
+Detailed documentation for them can be found [in our Github repo](https://github.com/availproject/availup?tab=readme-ov-file#availup).
+</Callout>
+
+**[`availup`](https://github.com/availproject/availup)** is the recommended way of running the Avail light client for most users.
+`availup` is a shell wrapper that allows you to spin up your own instance of the Avail light client 
+with a simple `curl` command.
+
+<Callout type="info">
+To run the Avail LC using `availup`, make sure you have [`curl`](https://curl.se/) installed on your system. To check, quickly:
+
+```sh
+curl --version
+```
+</Callout>
+
+1. To spin up an Avail light client on the Turing testnet, just run this one command in your terminal:
+
 ```sh
 curl -sL1 avail.sh | bash -s -- --app_id 18 --network turing --identity identity.toml
 ```
+
+2. If everything goes well, the client output will look like this:
+
+<br/>
+<div align="center">
+<img src="/img/running-light-client/app-client-1.png" align="center" /> 
+</div>
 
 <Callout type="info">
 Please note this command worked for a system where the `identity.toml` file was in the same directory as the terminal.
 You will need to pass the full path to the `identity.toml` file if it is located elsewhere.
 </Callout>
 
-## Final notes
-Please note that the Avail light client is ***heavily customisable***. The instructions in this page 
-were kept as simple as possible for initial convenience.
-You can customise the LC's behaviour by:
-1. Specifying a [number of different flags](https://github.com/availproject/avail-light?tab=readme-ov-file#options).
-2. Setting up a `config.yaml` file. You can find a full reference for the `config.yaml` file [in this README file](https://github.com/availproject/avail-light?tab=readme-ov-file#configuration-reference).
+</Tabs.Tab>
+
+<Tabs.Tab>
+<Callout type="info">
+**CONFIG FLAGS**<br/>
+You can run the Avail light client with different flags to configure it according to your needs.
+Detailed documentation for them can be found [in our Github repo](https://github.com/availproject/avail-light/blob/main/client/README.md#options).
+</Callout>
+
+  You can also download and run a pre-built binary of the Avail light client.
+  To do so:
+
+  1. Download the [recommended version of the binary](https://github.com/availproject/avail-light/releases) that is compatible with your operating system.
+
+  2. Move the `.tar` file into a convenient directory and extract it to reveal the `avail-light` binary.
+
+  3. Open a terminal in that location and run:
+
+  <Tabs items={['Linux', 'MacOS']}>
+
+  <Tabs.Tab>
+  <Tabs items={['x86_64 or amd64' , 'arm64']}>
+
+  <Tabs.Tab>
+  For linux machines that run on `x86_64` based Intel or `amd64` based AMD processors, run:
+
+  ```sh
+  ./avail-light-linux-amd64 --app-id 18 --network mainnet --identity identity.toml
+  ```
+  </Tabs.Tab>
+
+  <Tabs.Tab>
+  For linux machines that run on `arm64` based processors, run:
+  
+  ```sh
+  ./avail-light-linux-arm64 --app-id 18 --network mainnet --identity identity.toml
+  ```
+  </Tabs.Tab>
+
+  </Tabs>
+  </Tabs.Tab>
+
+  <Tabs.Tab>
+  <Tabs items={['apple-x86_64' , 'apple-arm64']}>
+
+  <Tabs.Tab>
+  For MacOS machines that run on `x86_64` based Intel processors, run:
+
+  ```sh
+  ./avail-light-apple-x86_64 --app-id 18 --network mainnet --identity identity.toml
+  ```
+  </Tabs.Tab>
+
+  <Tabs.Tab>
+  For MacOS machines that run on newer `arm64` based M-series processors, run:
+
+  ```sh
+  ./avail-light-apple-arm64 --app-id 18 --network mainnet --identity identity.toml
+  ```
+  </Tabs.Tab>
+
+  </Tabs>
+
+  </Tabs.Tab>
+
+  </Tabs>
+<Callout type="info">
+You can configure the run command with a variety of [config flags](https://github.com/availproject/avail-light/blob/main/client/README.md#options).
+</Callout>
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+<Callout type="info">
+**CONFIG FLAGS**<br/>
+You can run the Avail light client with different flags to configure it according to your needs.
+Detailed documentation for them can be found [in our Github repo](https://github.com/availproject/avail-light/blob/main/client/README.md#options).
+</Callout>
+
+   Building the Avail light client from source is a more advanced option that 
+   provides you with the maximum flexibility.
+   To do so:
+
+   1. Clone the Avail light-client repo and checkout to the specified version:
+   ```sh
+   git clone https://github.com/availproject/avail-light.git
+   cd avail-light
+   ```
+
+   2. Make sure your terminal is in the `avail-light` directory. Create a compiled build by running:
+   ```sh
+   cargo build --release
+   ```
+
+   3. This will create a new directory named `target` within `avail-light`. Navigate to `target/release` using:
+   ```sh
+   cd target/release
+   ```   
+   
+  4. Here you will find the `avail-light` build. Run the build using:
+   ```sh
+   ./avail-light --app-id 18 --network mainnet --identity identity.toml
+   ```
+</Tabs.Tab>
+
+
+</Tabs>
+
+</Tabs>
