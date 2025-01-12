@@ -259,6 +259,82 @@ export function middleware(request: NextRequest) {
       source: '/docs/build-with-avail/sovereign-rollups/cosmos-avail-module',
       destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/sovereign-rollups/cosmos-avail-module`,
     },
+
+    // Gas relay temp redirects
+    
+
+    {
+      source: '/api-reference/gas-relay-api',
+      destination: `${origin}/api-reference/gas-relay-deprecated`,
+    },
+    {
+      source: '/api-reference/gas-relay-api/get_all_expenditure',
+      destination: `${origin}/api-reference/gas-relay-deprecated`,
+    },
+    {
+      source: '/api-reference/gas-relay-api/get_all_tokens',
+      destination: `${origin}/api-reference/gas-relay-deprecated`,
+    },
+    {
+      source: '/api-reference/gas-relay-api/get_all_users',
+      destination: `${origin}/api-reference/gas-relay-deprecated`,
+    },
+    {
+      source: '/api-reference/gas-relay-api/get_pre_image',
+      destination: `${origin}/api-reference/gas-relay-deprecated`,
+    },
+    {
+      source: '/api-reference/gas-relay-api/get_submission_info',
+      destination: `${origin}/api-reference/gas-relay-deprecated`,
+    },
+    {
+      source: '/api-reference/gas-relay-api/get_token_expenditure',
+      destination: `${origin}/api-reference/gas-relay-deprecated`,
+    },
+    {
+      source: '/api-reference/gas-relay-api/get_token_using_address',
+      destination: `${origin}/api-reference/gas-relay-deprecated`,
+    },
+    {
+      source: '/api-reference/gas-relay-api/get_token',
+      destination: `${origin}/api-reference/gas-relay-deprecated`,
+    },
+    {
+      source: '/api-reference/gas-relay-api/token_map',
+      destination: `${origin}/api-reference/gas-relay-deprecated`,
+    },
+    {
+      source: '/api-reference/gas-relay-api/request_fund_status',
+      destination: `${origin}/api-reference/gas-relay-deprecated`,
+    },
+    {
+      source: '/api-reference/gas-relay-api/get_user',
+      destination: `${origin}/api-reference/gas-relay-deprecated`,
+    },
+    {
+      source: '/api-reference/gas-relay-api/register_new_token',
+      destination: `${origin}/api-reference/gas-relay-deprecated`,
+    },
+    {
+      source: '/api-reference/gas-relay-api/register_new_user',
+      destination: `${origin}/api-reference/gas-relay-deprecated`,
+    },
+    {
+      source: '/api-reference/gas-relay-api/request_funds',
+      destination: `${origin}/api-reference/gas-relay-deprecated`,
+    },
+    {
+      source: '/api-reference/gas-relay-api/submit_data',
+      destination: `${origin}/api-reference/gas-relay-deprecated`,
+    },
+    {
+      source: '/api-reference/gas-relay-api/submit_raw_data',
+      destination: `${origin}/api-reference/gas-relay-deprecated`,
+    },
+    {
+      source: '/api-reference/gas-relay-api/transfer_funds',
+      destination: `${origin}/api-reference/gas-relay-deprecated`,
+    },    
   
     // Docs outline reorg redirects end here
     
