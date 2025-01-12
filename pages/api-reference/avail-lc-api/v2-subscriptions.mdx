@@ -5,14 +5,15 @@ import { Callout } from 'nextra/components'
 
 The Avail Light Client WebSocket API allows real-time communication between a client and a server over a 
 persistent connection. The Web socket API can be used on its own or in combination with HTTP API to enable different pull/push use cases.
-
-<Callout type="info">
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary> HTTPS vs WSS</summary>
 `HTTP` and `Websocket` are two different ways of communicating with a server. `HTTP` is a request-response protocol,
 where a connection persists for only so long as the request is being processed. In contrast, a websocket connection
 persists for as long as the client and server are connected. This allows for real-time communication between the two,
 and enables the client to fetch information from the server as soon as it is available, without having to
 poll the server for updates.
-</Callout>
+</details>
 
 <Callout type="info">
 HOW TO CONNECT TO THE WEBSOCKET SERVER <br/>
@@ -27,23 +28,34 @@ npm install -g wscat
 
 ## Get started with the Websocket Avail LC API
 
-The Avail LC Websocket API generates a unique `subscription_id` upon request. This ID is used to connect
-to the websocket server.
-The `v2/subscriptions` method creates subscriptions for given topics. In case of reconnects, the user needs to subscribe again.
+1. The Avail LC Websocket API generates a unique `subscription_id` upon request. 
+2. This ID is used to connect to the websocket server.
+3. The `v2/subscriptions` method creates subscriptions for given topics. In case of reconnects, the user needs to subscribe again.
 
-### Topics
+### Generate a subscription ID
 
-- **header-verified** - header finality is verified and header is available
-- **confidence-achieved** - confidence is achieved
-- **data-verified** - block data is verified and available
+1. The very first step in using the Avail LC Websocket API is to generate a subscription ID.
+2. You can do that using a simple `Curl` request to the `v2/subscriptions` endpoint.
 
-### Data fields
-
-Filters **data-verified** message. Optional parameter used when encoded **extrinsic** is needed. If omitted, only decoded **data** is present in the message.
 
 Request:
 
 <Tabs items={['CURL', 'Rust']}>
+
+<Tabs.Tab>
+<Tabs items={['Local', 'Remote']}>
+
+<Tabs.Tab>
+```sh
+curl -X POST "http://localhost:7007/v2/subscriptions" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "topics": ["header-verified", "confidence-achieved", "data-verified"],
+           "data_fields": ["data", "extrinsic"]
+         }'
+```
+</Tabs.Tab>
+
 <Tabs.Tab>
 ```sh
 curl -X POST "https://api.lightclient.mainnet.avail.so/v2/subscriptions" \
@@ -54,6 +66,10 @@ curl -X POST "https://api.lightclient.mainnet.avail.so/v2/subscriptions" \
          }'
 ```
 </Tabs.Tab>
+</Tabs>
+
+</Tabs.Tab>
+
 
 <Tabs.Tab>
 ```rust
@@ -107,3 +123,54 @@ async fn main() {
 }
 ```
 </details>
+
+### Initialize the Websocket connection
+
+You can use this method to actually connect to Avail Light Client web socket. Multiple connections are currently allowed.
+
+To connect to the Avail LC websocket API, you need:
+
+1. Access to a [running Light Client](/docs/operate-a-node/run-a-light-client/0010-light-client#running-the-light-client).
+2. A subscription ID generated using the [`v2/subscriptions`](#v2subscriptions) method.
+3. to run this wscat command in the terminal:
+
+<Tabs items={['Local', 'Remote']}>
+<Tabs.Tab>
+```sh
+wscat -c ws://127.0.0.1:7007/v2/ws/{subscription-id}
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```sh
+wscat -c wss://api.lightclient.mainnet.avail.so/v2/ws/{subscription-id}
+```
+</Tabs.Tab>
+</Tabs>
+
+Your terminal should look something like this:
+<br/>
+<img src="/img/websocket-connection.png" alt="Avail-fusion" width="100%"/>
+
+<Callout type="info">
+Please note that you will regularly receive information related to the topics you chose to subscribe to
+for as long as the `ws` connection persists, even if you don't actually send any messages.
+</Callout>
+
+Every request should contain unique **request_id** field, used to correlate request with response.
+
+## Subscription IDs vs Request IDs
+
+Each time you use the [`v2/subscriptions`](#v2subscriptions) method, you will receive a unique **subscription_id**. 
+This ID is used to connect to the websocket server. 
+
+Each of these IDs will be of the [UUID4 format](https://www.uuidgenerator.net/version4).
+
+Coming to requests, every request you make to the websocket server should contain a **request_id** field,
+which will need to be a UUID4 value. You can choose to use a single, random UUID4 value to send all your requests,
+or you can use a unique UUID4 value for each request you send. The choice is yours.
+
+Using a single UUID4 value is simple, but using a unique UUID4 value for each request can help you 
+correlate each response with a unique request.
+
+The Avail LC API was designed with dev experience in mind, and this way you can choose the way that suits you best.
