@@ -124,6 +124,10 @@ export function middleware(request: NextRequest) {
       destination: `${origin}/user-guides/accounts`,
     },
     {
+      source: '/docs/build-with-avail/interact-with-avail-da/query-transfer-balances',
+      destination: `${origin}/docs/build-with-avail/interact-with-avail-da/query-balances`,
+    },
+    {
       source: '/docs/end-user-guide/vectorx',
       destination: `${origin}/user-guides/vectorx`,
     },
