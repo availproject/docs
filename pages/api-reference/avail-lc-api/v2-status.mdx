@@ -2,6 +2,10 @@ import { Tabs } from 'nextra/components'
 import { Callout } from 'nextra/components'
 
 # Fetch current status and active modes of the light client
+<Callout type="info">
+**LOOKING FOR INSTRUCTIONS ON HOW TO RUN YOUR OWN LIGHT CLIENT?**<br/>
+You can check out [our docs here](/docs/operate-a-node/run-a-light-client/0010-light-client#running-the-light-client) for instructions on how to run your own light client.
+</Callout>
 
 Gets current status and active modes of the light client.
 
@@ -14,13 +18,11 @@ Gets current status and active modes of the light client.
 - **genesis_hash** - genesis hash of the network to which the light client is connected
 - **network** - network host, version and spec version light client is currently con
 - **blocks** - state of processed blocks
-- **partition** - if configured, displays partition which light client distributes to the peer to peer network
 
 #### Modes
 
 - **light** - data availability sampling mode, the light client performs random sampling and calculates confidence
 - **app** - light client fetches, verifies, and stores application-related data
-- **partition** - light client fetches configured block partition and publishes it to the DHT
 
 #### Blocks
 

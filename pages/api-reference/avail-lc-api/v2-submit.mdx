@@ -2,16 +2,30 @@ import { Tabs } from 'nextra/components'
 import { Callout } from 'nextra/components'
 
 # Submit data to Avail DA
+<Callout type="info">
+**LOOKING FOR INSTRUCTIONS ON HOW TO RUN YOUR OWN LIGHT CLIENT?**<br/>
+You can check out [our docs here](/docs/operate-a-node/run-a-light-client/0010-light-client#running-the-light-client) for instructions on how to run your own light client.
+</Callout>
 
-Submits application data to the avail network.\
+> Submits application data to the avail network
+
 In case of `data` transaction, data transaction is created, signed and submitted.\
-In case of `extrinsic`, externaly created and signed transaction is submitted. 
+In case of `extrinsic`, externally created and signed transaction is submitted. 
 
 Only one field is allowed per request.\
 Both `data` and `extrinsic` has to be encoded using base64 encoding.
 
 *Params:*
-- base64 encoded data or extrinsic
+- `base64` encoded data or extrinsic
+
+<Callout type="info">
+**HOW TO SUBMIT DATA USING THE LIGHT CLIENT?**<br/>
+1. To use this method you need to run your Light Client in the `app-client` mode.
+You can then submit data directly to the `appID` you configured while booting up the Light Client.
+
+2. You can only pass `Base64` encoded data to be submitted via the Light Client.
+You can use [this website](https://www.base64encode.org/) to encode & decode your data into the required formats.
+</Callout>
 
 *Response:*
 - **block_number** - block number where transaction is included
@@ -22,7 +36,7 @@ Both `data` and `extrinsic` has to be encoded using base64 encoding.
 <Tabs items={['CURL', 'Rust']}>
 <Tabs.Tab>
 ```sh
-curl -XPOST 127.0.0.1:7000/v2/submit --header "Content-Type: application/json" --data '{"data":"dGVzdAo="}'
+curl -XPOST 127.0.0.1:7007/v2/submit --header "Content-Type: application/json" --data '{"data":"dGVzdAo="}'
 ```
 </Tabs.Tab>
 

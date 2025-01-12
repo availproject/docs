@@ -17,6 +17,10 @@ To set up a dev environment for `avail-js`, please follow the steps [outlined he
 
 ## Submitting data to Avail DA
 
+<Tabs items={['avail-js', 'avail-rust', 'avail-go', 'AvailApps explorer']}>
+
+<Tabs.Tab>
+
 1. Create a file named `submit-data.ts`
 
 2. Import the dependencies from `avail-js-sdk` and create a `main` function:
@@ -78,6 +82,174 @@ ts-node submit-data.ts
 <p align="center">
 <img src="/img/r-w/r-w-1.png" alt="trying to stake via proxy on Avail DA"/>
 </p>
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+1. Create a file nemaed `main.rs`
+
+2. Import the dependencies from `avail-rust-sdk` and create a `main` function:
+
+```rust
+use avail_rust::{Data, Keypair, SecretUri, WaitFor, SDK};
+use core::str::FromStr;
+
+#[tokio::main]
+async fn main() -> Result<(), String> {
+
+}
+```
+
+3. Initialize a new instance of the SDK inside the `main` function:
+
+```rust
+	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
+```
+
+4. Initialize a new wallet using a `12-word seed phrase`, and configure the params for the transaction:
+
+```rust
+	let Alice = "This is a random seed phrase please replace with your own";
+	let secret_uri = SecretUri::from_str(Alice).unwrap();
+	let account = Keypair::from_uri(&secret_uri).unwrap();
+	let data = String::from("Sample data being submitted......").as_bytes().to_vec();
+	let data = Data { 0: data };
+ 
+	let wait_for = WaitFor::BlockInclusion;
+	let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
+
+	let app_id = 89; // You can change this value to your desired app_id
+```
+
+5. Submit the transaction by calling the `dataAvailability_submitData` extrinsic via the `avail-rust` SDK:
+
+```rust
+    // Create the options with the app_id included
+    let options = Options {
+        app_id: Some(app_id),
+        mortality: None,
+        nonce: Some(Nonce::BestBlockAndTxPool),
+        tip: None,       
+    };
+
+	let result = sdk
+		.tx
+		.data_availability
+		.submit_data(data, wait_for, &account, Some(options))
+		.await?;
+ 
+	println!(
+		"Who={}, DataHash={:?}",
+		result.event.who, result.event.data_hash
+	);
+	println!("TxData={:?}", result.tx_data.data);
+	println!(
+		"TxHash={:?}, BlockHash={:?}",
+		result.tx_hash, result.block_hash
+	);
+ 
+	Ok(())
+```
+
+6. Run the script using the following command:
+
+```bash
+cargo run
+```
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Create a file named `main.go`
+
+2. Import the dependencies from `avail-go-sdk` and create a `main` function:
+
+```go
+package main
+
+import (
+	"github.com/availproject/avail-go-sdk/src/config"
+	"github.com/availproject/avail-go-sdk/src/sdk"
+	"github.com/availproject/avail-go-sdk/src/sdk/tx"
+
+	"fmt"
+)
+
+func main() {
+
+}
+```
+
+3. Initialize a new instance of the SDK inside the `main` function:
+
+```go
+	config, err := config.LoadConfig()
+	if err != nil {
+		fmt.Printf("cannot load config:%v", err)
+	}
+	api, err := sdk.NewSDK(config.ApiURL)
+	if err != nil {
+		fmt.Printf("cannot create api:%v", err)
+	}
+
+	// You can your own app id here
+	appID := 0
+
+	fmt.Println("Submitting data ...")
+	WaitFor := sdk.BlockInclusion
+```
+
+4. Pass the seed phrase and data string as params for the transaction:
+
+```go
+	// submit data
+	BlockHash, txHash, err := tx.SubmitData(api, config.Seed, appID, "my happy data", WaitFor)
+	if err != nil {
+		fmt.Printf("cannot submit data:%v", err)
+	}
+	fmt.Printf("Data submitted successfully with block hash: %v\n and ext hash:%v", BlockHash.Hex(), txHash.Hex())
+}
+```
+
+5. Run the script using the following command:
+
+```bash
+go run main.go
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Go to the [`extrinsics` page](https://explorer.avail.so/#/extrinsics) on the AvailApps explorer.
+
+2. Select an account which has funds on the network.
+
+3. Select the `dataAvailability` pallet from the dropdown on the left.
+
+4. Select the `submitData` extrinsic from the dropdown on the right.
+
+5. Enter the data you want to submit in the `data` field.
+<br/>
+<p align="center">
+<img src="/img/r-w/r-w-5.png" alt="submitting data using the explorer"/>
+</p>
+
+6. Click on `Submit Transaction` and fill in the details in the pop-up window.
+<br/>
+<p align="center">
+<img src="/img/r-w/r-w-7.png" alt="filling out the tx details"/>
+</p>
+<Callout type="info">
+The `appID` should be an integer that represents a valid AppID on the network.
+To check out how to create an AppID on Avail, [refer to this page](/docs/build-with-avail/interact-with-avail-da/app-id).
+</Callout>
+
+7. Click on `Sign and Submit` and approve the transaction in your wallet.
+
+</Tabs.Tab>
+
+</Tabs>
 
 ## Reading data from Avail DA
 
