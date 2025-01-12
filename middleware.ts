@@ -478,6 +478,10 @@ export function middleware(request: NextRequest) {
       destination: `${origin}/api-reference/avail-lc-api/v1-deprecated`
     },
     {
+      source: "/api-reference/avail-lc-api/v2-ws-subscription-id",
+      destination: `${origin}/api-reference/avail-lc-api/v2-subscriptions`
+    },
+    {
       source: "/about/introduction/light-client",
       destination: `${origin}/docs/operate-a-node/run-a-light-client/Overview`
     },

@@ -20,7 +20,6 @@
         "title": "WSS API"
     },
     "v2-subscriptions": "Get started with the Websocket Avail LC API",
-    "v2-ws-subscription-id": "Initiate a Websocket connection to the Avail LC API",
     "v2-ws-version": "Request Avail Light Client version data",
     "v2-ws-status": "Request current Avail Light Client status data",
     "v2-ws-submit": "Submit data to Avail DA"
