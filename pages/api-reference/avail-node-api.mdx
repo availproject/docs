@@ -4,7 +4,7 @@ import { Callout } from 'nextra/components'
 # Avail node API reference
 
 <Callout type="info">
-BEFORE WE START
+**BEFORE WE START**<br/>
 1. The Avail node supports an extensive list of extrinsics and various other types of calls that you can
 [try out in our explorer](https://explorer.availproject.org/#/extrinsics).
 2. This API reference currently documents only the most widely used extrinsics, but will be iterated upon
@@ -54,6 +54,14 @@ npm i -g ts-node
 </Tabs.Tab>
 
 <Tabs.Tab>
+
+<Callout type="warning">
+**AVAIL-DENO HAS BEEN SUNSET**<br/>
+1. The `avail-deno` SDK has been sunset and will not be maintained or upgraded in the future.
+
+2. We recommend you switch to `avail-js`. The SDK will work with `deno` out of the box. \
+Just run `deno run --allow-net your-file-name.ts` to run your `avail-js` code with `deno`.
+</Callout>
 
 1. Make sure `avail-deno` is installed on your system. You can refer to [Deno's docs](https://docs.deno.com/runtime/manual/) for the same.
 
