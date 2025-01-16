@@ -11,16 +11,9 @@ On-chain name of method: `dataAvailability_appKeys`
 
 ## Parameters
 
-<Tabs items={['avail-js', 'avail-deno', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-rust']}>
 
 <Tabs.Tab>
-| parameter | type          | optional | description                                           |
-| --------- | ------------- | -------- | ----------------------------------------------------- |
-|  key      | string        | true     | The `app_id` associated with this key will be fetched |
-</Tabs.Tab>
-
-<Tabs.Tab>
-
 | parameter | type          | optional | description                                           |
 | --------- | ------------- | -------- | ----------------------------------------------------- |
 |  key      | string        | true     | The `app_id` associated with this key will be fetched |
@@ -44,14 +37,14 @@ On failure, a reason for failure is returned. On sucess, the returned JSON objec
 ## Minimal example (Fetch a particular `app_id`)
 
 <Callout type="info">
-1. You will need to set up the dev enviornment required to run this example. 
+1. You will need to set up the dev environment required to run this example. 
 For instructions, [check out our docs here](/api-reference/avail-node-api#setting-up-the-dev-environment).
 
 2. If you're sending an extrinsic (i.e conducting a transaction) you will need to replace the demo seed phrase with your own seed phrase.
 The rest of the code should work as is.
 </Callout>
 
-<Tabs items={['avail-js', 'avail-deno', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-rust']}>
 
 <Tabs.Tab>
 
@@ -79,38 +72,6 @@ main()
 ```bash
 ts-node your-file-name.ts
 ```
-</Tabs.Tab>
-
-<Tabs.Tab>
-
-1. Inside `your-file-name.ts`, add the following code:
-
-```typescript filename="avail-deno"
-import { SDK } from "https://raw.githubusercontent.com/availproject/avail/main/avail-deno/src/sdk.ts";
-
-const providerEndpoint = "wss://turing-rpc.avail.so/ws";
-const sdk = await SDK.New(providerEndpoint);
-
-const key = "Reserved-2";
-const value = await sdk.api.query.dataAvailability.appKeys(key);
-console.log(value.toHuman());
-
-Deno.exit();
-```
-
-2. Run the code using:
-
-```bash
-deno run --allow-net your-file-name.ts
-```
-
-<br/>
-<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
-<summary>Sample Response:</summary>
-```json
-{ owner: "5CK87QdvhcSJvVa7ZACcEfd5i7J1GqoqbEFB2kzNn3Ms13fE", id: "2" }
-```
-</details>
 </Tabs.Tab>
 
 <Tabs.Tab>
@@ -224,7 +185,7 @@ as a mapping of their names to their owner and index.
 3. We are however including both scenarios here.
 </Callout>
 
-<Tabs items={['avail-js', 'avail-deno', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-rust']}>
 
 <Tabs.Tab>
 
@@ -253,32 +214,6 @@ main()
 
 ```bash
 ts-node your-file-name.ts
-```
-</Tabs.Tab>
-
-<Tabs.Tab>
-
-1. Inside `your-file-name.ts`, add the following code:
-
-```typescript filename="avail-deno"
-import { SDK } from "https://raw.githubusercontent.com/availproject/avail/main/avail-deno/src/sdk.ts";
-
-const providerEndpoint = "wss://turing-rpc.avail.so/ws";
-const sdk = await SDK.New(providerEndpoint);
-
-const appKeys = await sdk.api.query.dataAvailability.appKeys.entries();
-for (const [key, value] of appKeys) {
-	console.log(key.toHuman());
-	console.log(value.toHuman());
-}
-
-Deno.exit();   
-```
-
-2. Run the code using:
-
-```bash
-deno run --allow-net your-file-name.ts
 ```
 </Tabs.Tab>
 

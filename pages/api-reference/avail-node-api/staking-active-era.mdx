@@ -6,11 +6,7 @@ On-chain name of method: `staking_activeEra`
 
 ## Parameters
 
-<Tabs items={['avail-js', 'avail-deno', 'avail-rust']}>
-
-<Tabs.Tab>
-- None
-</Tabs.Tab>
+<Tabs items={['avail-js', 'avail-rust']}>
 
 <Tabs.Tab>
 - None
@@ -30,14 +26,14 @@ On-chain name of method: `staking_activeEra`
 ## Minimal example (Fetch the active era)
 
 <Callout type="info">
-1. You will need to set up the dev enviornment required to run this example. 
+1. You will need to set up the dev environment required to run this example. 
 For instructions, [check out our docs here](/api-reference/avail-node-api#setting-up-the-dev-environment).
 
 2. If you're sending an extrinsic (i.e conducting a transaction) you will need to replace the demo seed phrase with your own seed phrase.
 The rest of the code should work as is.
 </Callout>
 
-<Tabs items={['avail-js', 'avail-deno', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-rust']}>
 
 <Tabs.Tab>
 
@@ -65,40 +61,6 @@ main()
 ts-node your-file-name.ts
 ```
 
-</Tabs.Tab>
-
-<Tabs.Tab>
-
-1. Inside `your-file-name.ts`, add the following code:
-
-```typescript filename="avail-deno"
-import { SDK } from "https://raw.githubusercontent.com/availproject/avail/main/avail-deno/src/sdk.ts";
-
-const providerEndpoint = "wss://turing-rpc.avail.so/ws";
-const sdk = await SDK.New(providerEndpoint);
-
-const value = await sdk.api.query.staking.activeEra();
-console.log(value.toHuman());
-
-Deno.exit();
-```
-
-2. Run the code using:
-
-```bash
-deno run --allow-net your-file-name.ts
-```
-
-<br/>
-<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
-<summary>Sample Response:</summary>
-```json
-{ 
-    index: "174", 
-    start: "1,726,523,440,000" 
-}
-```
-</details>
 </Tabs.Tab>
 
 <Tabs.Tab>
