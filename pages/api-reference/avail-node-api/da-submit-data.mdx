@@ -157,22 +157,22 @@ TxHash=0x5ce5b90b30b640cc34a2301da591c4f1526726e5c732f5615166d24fd60313cc, Block
 1. Inside `src/main.rs`, paste the following code:
 
 ```rust filename="avail-rust"
-use avail_rust::{Data, Keypair, SecretUri, WaitFor, SDK};
+use avail_rust::{Data, Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
 use core::str::FromStr;
-
+ 
 #[tokio::main]
 async fn main() -> Result<(), String> {
 	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
-
-	let Alice = "This is a random seed phrase please replace with your own";
-let secret_uri = SecretUri::from_str(Alice).unwrap();
+ 
+    let alice = "This is a random seed phrase please replace with your own";
+    let secret_uri = SecretUri::from_str(alice).unwrap();
 	let account = Keypair::from_uri(&secret_uri).unwrap();
 	let data = String::from("Sample data being submitted......").as_bytes().to_vec();
 	let data = Data { 0: data };
  
 	let wait_for = WaitFor::BlockInclusion;
 	let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
-
+ 
 	let result = sdk
 		.tx
 		.data_availability
@@ -373,17 +373,17 @@ use core::str::FromStr;
 async fn main() -> Result<(), String> {
 	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
  
-	let Alice = "This is a random seed phrase please replace with your own";
-	let secret_uri = SecretUri::from_str(Alice).unwrap();
+    let alice = "This is a random seed phrase please replace with your own";
+	let secret_uri = SecretUri::from_str(alice).unwrap();
 	let account = Keypair::from_uri(&secret_uri).unwrap();
 	let data = String::from("Sample data being submitted......").as_bytes().to_vec();
 	let data = Data { 0: data };
  
 	let wait_for = WaitFor::BlockInclusion;
 	let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
-
+ 
 	let app_id = 89; // You can change this value to your desired app_id
-
+ 
     // Create the options with the app_id included
     let options = Options {
         app_id: Some(app_id),
@@ -391,7 +391,7 @@ async fn main() -> Result<(), String> {
         nonce: Some(Nonce::BestBlockAndTxPool),
         tip: None,       
     };
-
+ 
 	let result = sdk
 		.tx
 		.data_availability
