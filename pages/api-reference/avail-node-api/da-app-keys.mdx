@@ -7,7 +7,7 @@ You can check out [our docs for the same](/docs/build-with-avail/interact-with-a
 
 # Fetch App IDs from Avail DA
 
-On-chain name of method: `dataAvailablity_appKeys`
+On-chain name of method: `dataAvailability_appKeys`
 
 ## Parameters
 
@@ -122,11 +122,11 @@ use avail_rust::{
 	avail::{self, runtime_types::bounded_collections::bounded_vec::BoundedVec},
 	SDK,
 };
-
+ 
 #[tokio::main]
 async fn main() -> Result<(), String> {
 	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
-
+ 
 	let key = String::from("gohan");
 	let key = BoundedVec(key.as_bytes().to_vec());
 	let storage_query = avail::storage().data_availability().app_keys(key);
@@ -143,9 +143,9 @@ async fn main() -> Result<(), String> {
 		.fetch(&storage_query)
 		.await
 		.map_err(|e| e.to_string())?;
-
+ 
 	dbg!(result);
-
+ 
 	Ok(())
 }
 ```
@@ -218,7 +218,7 @@ addresses in the `AccountId32` format.
 ## Another example (Fetch all available `app_ids` registered on Avail DA)
 
 <Callout type="info">
-1. Think of the `dataAvailablity_appKeys` as a method that returns all the `app_ids` registered on Avail DA
+1. Think of the `dataAvailability_appKeys` as a method that returns all the `app_ids` registered on Avail DA
 as a mapping of their names to their owner and index.
 2. In most cases a dev will be interested in fetching only a particular `app_id` and not all of them.
 3. We are however including both scenarios here.
@@ -288,11 +288,11 @@ deno run --allow-net your-file-name.ts
 
 ```rust filename="avail-rust" filename="avail-rust"
 use avail_rust::{avail, SDK};
-
+ 
 #[tokio::main]
 async fn main() -> Result<(), String> {
 	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
-
+ 
 	let storage_query = avail::storage().data_availability().app_keys_iter();
 	let best_block_hash = sdk
 		.rpc
@@ -307,15 +307,15 @@ async fn main() -> Result<(), String> {
 		.iter(storage_query)
 		.await
 		.map_err(|e| e.to_string())?;
-
+ 
 	while let Some(Ok(kv)) = results.next().await {
 		let key = (&kv.key_bytes[49..]).to_vec();
 		let key = String::from_utf8(key).unwrap();
-
+ 
 		println!("Key: {:?}", key);
 		println!("Value: {:?}", kv.value);
 	}
-
+ 
 	Ok(())
 }
 ```
