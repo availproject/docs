@@ -6,7 +6,7 @@ On-chain name of method: `nominationPools_nominate`
 
 ## Parameters
 
-<Tabs items={['avail-js', 'avail-deno', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-rust']}>
 
 <Tabs.Tab>
 | parameter  | type          | optional | description                                     |
@@ -16,15 +16,6 @@ On-chain name of method: `nominationPools_nominate`
 | waitFor    | WaitFor       | false    | wait for block inclusion or finalization        |
 | account    | KeyringPair   | false    | account that will send and sign the transaction |
 | options    | SignerOptions | true     | used to overwrite existing signer options       |
-</Tabs.Tab>
-
-<Tabs.Tab>
-| parameter | type          | optional | description                                     |
-| --------- | ------------- | -------- | ----------------------------------------------- |
-| targets   | string[]      | false    | list of validator addresses to nominate                   |
-| waitFor   | WaitFor       | false    | wait for block inclusion or finalization        |
-| account   | KeyringPair   | false    | account that will send and sign the transaction |
-| options   | SignerOptions | true     | used to overwrite existing signer options       |
 </Tabs.Tab>
 
 <Tabs.Tab>
@@ -46,14 +37,14 @@ This object contains the details of the transaction and the nomination pool.
 ## Minimal example
 
 <Callout type="info">
-1. You will need to set up the dev enviornment required to run this example. 
+1. You will need to set up the dev environment required to run this example. 
 For instructions, [check out our docs here](/api-reference/avail-node-api#setting-up-the-dev-environment).
 
 2. If you're sending an extrinsic (i.e conducting a transaction) you will need to replace the demo seed phrase with your own seed phrase.
 The rest of the code should work as is.
 </Callout>
 
-<Tabs items={['avail-js', 'avail-deno', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-rust']}>
 
 <Tabs.Tab>
 1. Inside `your-file-name.ts`, add the following code:
@@ -102,63 +93,6 @@ ts-node your-file-name.ts
     "txIndex": 1,
     "blockHash": "0x84ef5a0ada4af71358ee701a2500bce7f6688efb554c32ba1a30c459f64d5370",
     "blockNumber": 48
-}
-```
-</details>
-</Tabs.Tab>
-
-<Tabs.Tab>
-
-1. Inside `your-file-name.ts`, add the following code:
-
-```typescript filename="avail-deno"
-import { Keyring, SDK, WaitFor } from "https://raw.githubusercontent.com/availproject/avail/main/avail-deno/src/sdk.ts";
-
-const providerEndpoint = "wss://turing-rpc.avail.so/ws";
-const sdk = await SDK.New(providerEndpoint);
- 
-const Alice = 'This is a random seed phrase please replace with your own';
- 
-const account = new Keyring({ type: "sr25519" }).addFromUri(Alice);
-const targets = [
-	"5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY", 
-	"5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty",
-];
-
-const result = await sdk.tx.staking.nominate(targets, WaitFor.BlockInclusion, account);
-if (result.isErr) {
-	console.log(result.reason);
-	Deno.exit(1);
-}
-
-console.log(JSON.stringify(result, null, 4));
-
-Deno.exit();
-```
-
-2. Run the code using:
-
-```bash
-deno run --allow-net your-file-name.ts
-```
-
-<br/>
-<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
-<summary>Sample Response:</summary>
-```js
-{
-    "isErr": false,
-    "txData": {
-        "targets": [
-            "5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY",
-            "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty"
-        ]
-    },
-    "events": [...],
-    "txHash": "0x2f81a34f59d36eb7ada96ec1070358043026d7bd7cfb6fa5a532cc474190880b",
-    "txIndex": 1,
-    "blockHash": "0x49a57953aa2b2ba508f1c6991515309a0fe89723a79f3831f9a9263ba8c7baa4",
-    "blockNumber": 4
 }
 ```
 </details>
