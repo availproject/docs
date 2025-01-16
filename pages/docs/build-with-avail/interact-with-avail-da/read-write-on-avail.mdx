@@ -12,7 +12,7 @@ to be familiar with the concept.
 
 ## Setting up the dev environment
 
-In this guide we will use `avail-js`, a dedicated JavaScript library to interact with Avail DA.
+In this guide we will use some dedicated libraries to interact with Avail DA.
 To set up a dev environment for `avail-js`, please follow the steps [outlined here](/api-reference/avail-node-api#setting-up-the-dev-environment).
 
 ## Submitting data to Avail DA
@@ -86,14 +86,14 @@ ts-node submit-data.ts
 </Tabs.Tab>
 
 <Tabs.Tab>
-1. Create a file nemaed `main.rs`
+1. Create a file named `main.rs`
 
 2. Import the dependencies from `avail-rust-sdk` and create a `main` function:
 
 ```rust
-use avail_rust::{Data, Keypair, SecretUri, WaitFor, SDK};
+use avail_rust::{Data, Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
 use core::str::FromStr;
-
+ 
 #[tokio::main]
 async fn main() -> Result<(), String> {
 
@@ -109,15 +109,15 @@ async fn main() -> Result<(), String> {
 4. Initialize a new wallet using a `12-word seed phrase`, and configure the params for the transaction:
 
 ```rust
-	let Alice = "This is a random seed phrase please replace with your own";
-	let secret_uri = SecretUri::from_str(Alice).unwrap();
+  let alice = "This is a random seed phrase please replace with your own";
+	let secret_uri = SecretUri::from_str(alice).unwrap();
 	let account = Keypair::from_uri(&secret_uri).unwrap();
 	let data = String::from("Sample data being submitted......").as_bytes().to_vec();
 	let data = Data { 0: data };
  
 	let wait_for = WaitFor::BlockInclusion;
 	let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
-
+ 
 	let app_id = 89; // You can change this value to your desired app_id
 ```
 
@@ -131,7 +131,7 @@ async fn main() -> Result<(), String> {
         nonce: Some(Nonce::BestBlockAndTxPool),
         tip: None,       
     };
-
+ 
 	let result = sdk
 		.tx
 		.data_availability

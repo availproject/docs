@@ -6,17 +6,7 @@ On-chain name of extrinsic: `balances_transferAll`
 
 ## Parameters
 
-<Tabs items={['avail-js', 'avail-deno', 'avail-rust', 'avail-go']}>
-
-<Tabs.Tab>
-| parameter | type          | optional | description                                      |
-| --------- | ------------- | -------- | ------------------------------------------------ |
-| dest      | string        | false    | account that will receive funds                  |
-| keepAlive | boolean       | false    | if set to false it will reap the account as well |
-| waitFor   | WaitFor       | false    | wait for block inclusion or finalization         |
-| account   | KeyringPair   | false    | account that will send and sign the transaction  |
-| options   | SignerOptions | true     | used to overwrite existing signer options        |
-</Tabs.Tab>
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
 
 <Tabs.Tab>
 | parameter | type          | optional | description                                      |
@@ -63,7 +53,7 @@ For instructions, [check out our docs here](/api-reference/avail-node-api#settin
 The rest of the code should work as is.
 </Callout>
 
-<Tabs items={['avail-js', 'avail-deno', 'avail-rust', 'avail-go']}>
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
 
 <Tabs.Tab>
 
@@ -105,64 +95,29 @@ ts-node your-file-name.ts
 
 <Tabs.Tab>
 
-1. Inside `your-file-name.ts`, add the following code:
-
-```typescript filename="avail-deno"
-import { Keyring, SDK, WaitFor } from "https://raw.githubusercontent.com/availproject/avail/main/avail-deno/src/sdk.ts";
-
-const providerEndpoint = "wss://turing-rpc.avail.so/ws";
-const sdk = await SDK.New(providerEndpoint);
-
-const Alice = "This is a random seed phrase please replace with your own";
- 
-const account = new Keyring({ type: "sr25519" }).addFromUri(Alice);
-const dest = "5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw"; // Eve
-const keepAlive = true;
-
-const result = await sdk.tx.balances.transferAll(dest, keepAlive, WaitFor.BlockInclusion, account);
-if (result.isErr) {
-	console.log(result.reason);
-	Deno.exit(1);
-}
-
-console.log("From=" + result.event.from + ", To=" + result.event.to + ", Amount=" + result.event.amount);
-console.log("MaybeKilled=" + result.event2?.account);
-console.log("TxHash=" + result.txHash + ", BlockHash=" + result.blockHash);
-
-Deno.exit();
-```
-
-2. Run the code using:
-
-```bash
-deno run --allow-net your-file-name.ts
-```
-</Tabs.Tab>
-
-<Tabs.Tab>
-
 1. Inside `main.rs`, add the following code:
 
 ```rust filename="avail-rust"
-use avail_rust::{Keypair, SecretUri, WaitFor, SDK};
+use avail_rust::{Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
 use core::str::FromStr;
-
+ 
 #[tokio::main]
 async fn main() -> Result<(), String> {
 	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
-
-	let Alice = "This is a random seed phrase please replace with your own";
-	let secret_uri = SecretUri::from_str(Alice).unwrap();
+ 
+    let alice = "This is a random seed phrase please replace with your own";
+	let secret_uri = SecretUri::from_str(alice).unwrap();
 	let account = Keypair::from_uri(&secret_uri).unwrap();
 	let dest = "5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw"; // Eve
 	let keep_alive = false;
+    let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
 
 	let result = sdk
 		.tx
 		.balances
-		.transfer_all(dest, keep_alive, WaitFor::BlockInclusion, &account)
+		.transfer_all(dest, keep_alive, WaitFor::BlockInclusion, &account, Some(options))
 		.await?;
-
+ 
 	println!(
 		"From={}, To={}, Amount={}",
 		result.event.from, result.event.to, result.event.amount
@@ -174,7 +129,7 @@ async fn main() -> Result<(), String> {
 		"TxHash={:?}, BlockHash={:?}",
 		result.tx_hash, result.block_hash
 	);
-
+ 
 	Ok(())
 }
 ```

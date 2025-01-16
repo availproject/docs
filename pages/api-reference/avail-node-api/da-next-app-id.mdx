@@ -7,7 +7,7 @@ You can check out [our docs for the same](/docs/build-with-avail/interact-with-a
 
 # Fetch the next available App ID on Avail DA
 
-On-chain name of method: `dataAvailablity_nextAppId`
+On-chain name of method: `dataAvailability_nextAppId`
 
 <Callout type="info">
 `app_ids`, once registered, cannot be claimed by another dev.
@@ -123,11 +123,11 @@ deno run --allow-net your-file-name.ts
 
 ```rust filename="avail-rust" filename="avail-rust"
 use avail_rust::{avail, SDK};
-
+ 
 #[tokio::main]
 async fn main() -> Result<(), String> {
 	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
-
+ 
 	let storage_query = avail::storage().data_availability().next_app_id();
 	let best_block_hash = sdk
 		.rpc
@@ -142,9 +142,9 @@ async fn main() -> Result<(), String> {
 		.fetch(&storage_query)
 		.await
 		.map_err(|e| e.to_string())?;
-
+ 
 	dbg!(result);
-
+ 
 	Ok(())
 }
 ```
