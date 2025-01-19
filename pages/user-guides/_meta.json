@@ -2,6 +2,7 @@
     "accounts": "Get started with an Avail wallet",
     "avail-multisig": "Set up a multisig on Avail DA",
     "avail-proxy": "Set up a proxy on Avail DA",
+    "identity": "Set an on-chain identity on Avail DA",
     "avail-snap": "Use Avail DA with MetaMask",
     "ledger-avail": "Use a ledger wallet on Avail DA",
     "vectorx": "Bridge AVAIL to Ethereum",
