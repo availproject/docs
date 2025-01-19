@@ -18,21 +18,26 @@ import { Callout, Steps, Tabs } from 'nextra/components'
 
 ## Introduction
 
-Avail allows you to set canonical on-chain identities for your accounts via the `identity_setIdentity` extrinsic.
-Users need to lock a small account of `AVAIL` to set an identity, which is refunded if and when the identity is cleared.
-
+Avail allows you to set canonical on-chain identities for your accounts via the `identity_setIdentity` extrinsic. \
 The AvailApps explorer provides a convenient UI to set an identity for your account, which is what we will be doing in the
 next section.
+
 <br/>
 <details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
 <summary>Identities vs Sub-Identities</summary>
 
-dfdfdffddf
+1. Each account on Avail can create a main identity and up to 100 sub-identities.
+2. Each of these sub-identities are linked to the main account.
+3. A possible way of using this feature could be to create a main identity for your team, and then create sub-identities
+for each of your team members.
+4. A deposit of `2 AVAIL` is required per sub-identity.
 </details>
+
 <Callout type="info">
-1. The bond amount for registering an on-chain identity is currently **100 AVAIL**.
-2. The bond amount for registering each sub-identity is **2 AVAIL**.
-3. The maximum number of sub-identities per identity is **100**.
+1. Users need to lock a small account of `AVAIL` to set an identity, which is refunded if and when the identity is cleared.
+2. The bond amount for registering an on-chain identity is currently **100 AVAIL**.
+3. The bond amount for registering each sub-identity is **2 AVAIL**.
+4. The maximum number of sub-identities per identity is **100**.
 </Callout>
 
 
@@ -44,16 +49,20 @@ The only prerequisite is that you have access to one or more Avail DA accounts.
 Refer to our docs on [setting up an Avail wallet](/docs/end-user-guide/accounts) for more details if needed
 </Callout>
 
-1. Go to the [accounts page of the Avail apps explorer](https://explorer.availproject.org/#/accounts).
+<Steps>
 
-2. Select the account whoe identity you want to set and click on `Set on-chain identity`. 
+### Navigate to the accounts page on the Avail Apps Explorer
+Go to the [accounts page of the Avail apps explorer](https://explorer.availproject.org/#/accounts).
+Select the account whose identity you want to set and click on `Set on-chain identity`. 
 
 <br/>
 <div align="center">
 <img src="/img/set-identity/set-identity-1.png" align="center" /> 
 </div>
 
-3. Fill out at least 1 or at most all of the available fields.
+### Fill out the fields that you want to set
+
+Fill out at least 1 or at most all of the available fields.
 All the fields are optional as long as any one of them are filled.
 
 <br/>
@@ -61,24 +70,15 @@ All the fields are optional as long as any one of them are filled.
 <img src="/img/set-identity/set-identity-2.png" align="center" /> 
 </div>
 
-4. Click on `Set Identity`. Make sure the `appID` is `0`, and click on `Sign and Submit`.
-> Tipping the block author is strictly optional by the way..... 😅
+### Submit the transaction
+
+Click on `Set Identity`. Make sure the `appID` is `0`, and click on `Sign and Submit`.
 
 <br/>
 <div align="center">
 <img src="/img/set-identity/set-identity-3.png" align="center" /> 
 </div>
 
-5. Click on `Sign and Submit` and approve the transaction.
+> The account will now have a registered on-chain identity which you can clear to recover the bonded AVAIL tokens.
 
-6. The account will now have a registered on-chain identity which you can clear to recover the bonded AVAIL tokens.
-
-<Callout type="info">
-1. This UI interface calls the `setIdentity` method from the `identity` pallet under the hood.
-2. Registering your identity on the Avail turing testnet does not set it for the mainnet, and vice versa.
-</Callout>
-
-
-
-
-
+</Steps>
