@@ -6,5 +6,8 @@
     "avail-snap": "Use Avail with MetaMask",
     "ledger-avail": "Use a ledger wallet on Avail",
     "vectorx": "Bridge AVAIL to Ethereum",
-    "staking-governance": "Staking & Governance on Avail"
+    "staking-governance": "Staking & Governance on Avail",
+    "avail-funds-recovery": {
+        "display": "hidden"
+      }
 }
