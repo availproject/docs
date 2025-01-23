@@ -1,5 +1,5 @@
 
-import { Callout, Steps } from 'nextra/components'
+import { Callout, Steps, Tabs } from 'nextra/components'
 
 # Bridge AVAIL to Ethereum using the VectorX bridge
 
@@ -61,6 +61,9 @@ function on the AVAIL ERC-20 contract.<br/>
 Please keep this in mind and have some ETH ready on the EVM wallet address that you connect to the bridge.
 </Callout>
 
+<Tabs items={['Using an extension wallet', 'Using a Ledger device']}>
+
+<Tabs.Tab>
 <Steps>
 
 ### Go to the official `avail-bridge` UI
@@ -107,3 +110,71 @@ Please note that you are executing a transaction on Ethereum in this step, so yo
 <Callout type="info">
 This exact process can be reversed to bridge AVAIL from Ethereum to Avail DA.
 </Callout>
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+<Steps>
+
+### Make sure you have a Ledger device ready
+
+If you need instructions on how to get started with a ledger device, please refer to our docs.
+
+1. [Set up a new ledger device](/user-guides/ledger-avail#set-up-your-ledger-from-scratch)
+2. [Connect a ledger account to your Subwallet/Talisman extension wallet](/user-guides/ledger-avail#add-your-ledger-account-to-an-extension-wallet)
+
+### Click on the `Connect` button in the Bridge ui & select your preferred wallet
+
+<br/>
+<div align="center">
+<img src="/img/ledger-bridge/ledger-bridge-1.png" align="center" width="60%" /> 
+</div>
+
+### Select your ledger account from within your wallet
+
+<Callout type="info">
+1. Please note that you need to have the `Avail` app installed on your ledger device.
+2. Your ledger device needs to be unlocked during the entire process.
+</Callout>
+
+<br/>
+<div align="center">
+<img src="/img/ledger-bridge/ledger-bridge-2.png" align="center" width="60%" /> 
+</div>
+
+### Connect the selected ledger account to the bridge UI
+
+<br/>
+<div align="center">
+<img src="/img/ledger-bridge/ledger-bridge-3.png" align="center" width="60%" /> 
+</div>
+
+### Fill out the rest of the details and click on `Approve`
+
+1. Specify the amount of AVAIL you want to bridge.
+2. Specify the destination address on the other chain, or simply connect an EVM wallet to the bridge UI.
+3. Initiate the bridging process.
+4. Click on `Approve` in the pop-up window. This will send the transaction to your ledger device.
+<br/>
+<div align="center">
+<img src="/img/ledger-bridge/ledger-bridge-4.png" align="center" width="60%" /> 
+</div>
+
+### Approve the bridging transaction on your ledger device
+
+1. Unlock your ledger device.
+2. Approve the bridging transaction on your ledger device.
+3. Wait for a while, and you should see a transaction confirmation message in the bridge UI.
+
+<br/>
+<div align="center">
+<img src="/img/ledger-bridge/ledger-bridge-5.png" align="center" width="60%" /> 
+</div>
+
+</Steps>
+
+</Tabs.Tab>
+
+
+</Tabs>
