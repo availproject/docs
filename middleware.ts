@@ -105,7 +105,7 @@ export function middleware(request: NextRequest) {
     },
     {
       source: '/docs/end-user-guide/explorer',
-      destination: `${origin}/user-guides/accounts`,
+      destination: `${origin}/docs/learn-about-avail/avail-apps-explorer`,
     },
     {
       source: '/docs/end-user-guide/faucet',
@@ -113,7 +113,7 @@ export function middleware(request: NextRequest) {
     },
     {
       source: '/docs/end-user-guide/identity',
-      destination: `${origin}/user-guides/accounts`,
+      destination: `${origin}/user-guides/identity`,
     },
     {
       source: '/docs/end-user-guide/app-id',
@@ -456,7 +456,7 @@ export function middleware(request: NextRequest) {
     },
     {
       source: "/about/explorer/",
-      destination: `${origin}/docs/end-user-guide/explorer`
+      destination: `${origin}/docs/learn-about-avail/avail-apps-explorer`
     },
     {
       source: "/about/faucet/",
@@ -464,15 +464,15 @@ export function middleware(request: NextRequest) {
     },
     {
       source: "/about/identity/",
-      destination: `${origin}/docs/end-user-guide/identity`
+      destination: `${origin}/user-guides/identity`
     },
     {
       source: "/about/identity",
-      destination: `${origin}/docs/end-user-guide/identity`
+      destination: `${origin}/user-guides/identity`
     },
     {
       source: "/about/identity",
-      destination: `${origin}/docs/end-user-guide/identity`
+      destination: `${origin}/user-guides/identity`
     },
     {
       source: "/about/app-ids/",
