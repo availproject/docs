@@ -1,4 +1,4 @@
-import { IntroData } from "@/static/introductionData";
+import { IntroData } from "@static/introductionData";
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa6";
 
