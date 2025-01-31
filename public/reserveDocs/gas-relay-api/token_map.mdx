@@ -1,0 +1,23 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Retrieve supported token lists
+
+## Request
+
+- `Path`: `/token_map`
+- `Method type`: `GET`
+
+## Example request
+
+```bash
+curl -X GET "https://api.example.com/token_map"
+```
+
+## Example Response:
+
+```json
+{
+  "etherum": "0xc...",
+  "cardano": "0xd..."
+}
+```
