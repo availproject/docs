@@ -1,6 +1,6 @@
 import { Layout, Navbar } from 'nextra-theme-docs'
 import { Footer } from "@components/Footer/Footer";
-import { Head } from 'nextra/components'
+import { Head, Search } from 'nextra/components'
 import { Metadata } from "next";
 import { ReactNode } from "react";
 import { getPageMap } from 'nextra/page-map'
@@ -70,6 +70,18 @@ export default async function RootLayout({
           sidebar={{ defaultMenuCollapseLevel: 1, autoCollapse: true, toggleButton: true }}
           footer={footer}
         >
+          <Search
+            emptyResult="No matches found."
+            loading="Searching..."
+            errorText="Unable to fetch search results."
+            placeholder="Look through Avail's docs...."
+            searchOptions={{
+              preload: true,
+              verbose: false,
+              filters: {},
+              sort: {}
+            }}
+          />
           {children}
         </Layout>
       </body>

@@ -1,0 +1,9 @@
+export default {    
+    
+    "overview": "Overview",
+    "madara": "Avail-Powered Madara Validium",
+    "Madara_Starknet": {
+        "title": "Madara Starknet 🔗",
+        "href": "https://github.com/madara-alliance/madara",
+      }
+}
