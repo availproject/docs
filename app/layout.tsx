@@ -11,11 +11,6 @@ export const metadata: Metadata = {
   description: "Avail developer docs built using Nextra V4",
 }
 
-const navbar = (
-  <Navbar
-    logo={<b>Nextra</b>}
-  />
-)
 const footer = <Footer/>
  
 export default async function RootLayout({
@@ -40,7 +35,9 @@ export default async function RootLayout({
       
     />
       <body>
+
         <Layout
+        
           navbar={
             <Navbar
               logo={
@@ -60,28 +57,20 @@ export default async function RootLayout({
                 }
             />
           }
+          
+          
+          
           navigation={{
             prev: true,
             next: true
-          }}
+          }}  
+          
           pageMap={await getPageMap()}
           docsRepositoryBase="https://github.com/availproject/docs/tree/main/docs"
           editLink="Edit this page on GitHub"
           sidebar={{ defaultMenuCollapseLevel: 1, autoCollapse: true, toggleButton: true }}
           footer={footer}
         >
-          <Search
-            emptyResult="No matches found."
-            loading="Searching..."
-            errorText="Unable to fetch search results."
-            placeholder="Look through Avail's docs...."
-            searchOptions={{
-              preload: true,
-              verbose: false,
-              filters: {},
-              sort: {}
-            }}
-          />
           {children}
         </Layout>
       </body>
