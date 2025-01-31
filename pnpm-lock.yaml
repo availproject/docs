@@ -30,10 +30,10 @@ importers:
         specifier: ^9.19.0
         version: 9.19.0(jiti@2.4.2)
       eslint-config-next:
-        specifier: ^15.1.6
+        specifier: ^15.0.2
         version: 15.1.6(eslint@9.19.0(jiti@2.4.2))(typescript@5.7.3)
       next:
-        specifier: ^15.1.6
+        specifier: ^15.0.2
         version: 15.1.6(@babel/core@7.26.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       nextra:
         specifier: ^4.1.0
@@ -46,7 +46,7 @@ importers:
         version: 8.5.1
       posthog-js:
         specifier: ^1.214.0
-        version: 1.214.0
+        version: 1.215.0
       react:
         specifier: ^19.0.0
         version: 19.0.0
@@ -3272,8 +3272,8 @@ packages:
     resolution: {integrity: sha512-6oz2beyjc5VMn/KV1pPw8fliQkhBXrVn1Z3TVyqZxU8kZpzEKhBdmCFqI6ZbmGtamQvQGuU1sgPTk8ZrXDD7jQ==}
     engines: {node: ^10 || ^12 || >=14}
 
-  posthog-js@1.214.0:
-    resolution: {integrity: sha512-zJpTAB/85wkr2YtpeH6K/JLeenVRoFnyA4pj8Yern3sGkLj1bRao4AzFJuTvY5IduDRUIkKup5pr5NxjZ0QPnw==}
+  posthog-js@1.215.0:
+    resolution: {integrity: sha512-okdh+fOUZiWYMBmKd6Zm2rekgMAR8XdxinwFWlua6exx8IblKZuVO94OjQtoVAFwxmhH/i7UK/ANfohMeorS7Q==}
 
   preact@10.25.4:
     resolution: {integrity: sha512-jLdZDb+Q+odkHJ+MpW/9U5cODzqnB+fy2EiHSZES7ldV5LK7yjlVzTp7R8Xy6W6y75kfK8iWYtFVH7lvjwrCMA==}
@@ -8021,7 +8021,7 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  posthog-js@1.214.0:
+  posthog-js@1.215.0:
     dependencies:
       core-js: 3.40.0
       fflate: 0.4.8

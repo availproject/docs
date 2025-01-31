@@ -32,10 +32,37 @@ export function createAstObject(obj) {
   }
 }
 
+// eslint-disable-next-line unicorn/consistent-function-scoping
+const rehypeOpenGraphImage = () => ast => {
+  const frontMatterNode = ast.children.find(node =>
+    isExportNode(node, 'metadata')
+  )
+  if (!frontMatterNode) {
+    return
+  }
+  const { properties } =
+    frontMatterNode.data.estree.body[0].declaration.declarations[0].init
+  const title = properties.find(o => o.key.value === 'title')?.value.value
+  if (!title) {
+    return
+  }
+  const [prop] = createAstObject({
+    openGraph: createAstObject({
+      images: `https://nextra.site/og?title=${title}`
+    })
+  }).properties
+  properties.push(prop)
+}
 
 const withNextra = nextra({
   latex: true,
   defaultShowCopyCode: true,
+  mdxOptions: {
+    rehypePlugins: [
+      // Provide only on `build` since turbopack on `dev` supports only serializable values
+      process.env.NODE_ENV === 'production' && rehypeOpenGraphImage
+    ]
+  },
   whiteListTagsStyling: ['figure', 'figcaption']
 })
 
@@ -48,19 +75,15 @@ const nextConfig = withNextra({
   redirects: async () => [
   ],
   webpack(config) {
-    // rule.exclude doesn't work starting from Next.js 15
-    const { test: _test, ...imageLoaderOptions } = config.module.rules.find(
-      rule => rule.test?.test?.('.svg')
+    const allowedSvgRegex = /components\/icons\/.+\.svg$/
+    const fileLoaderRule = config.module.rules.find(rule =>
+      rule.test?.test?.('.svg')
     )
+    fileLoaderRule.exclude = allowedSvgRegex
+
     config.module.rules.push({
-      test: /\.svg$/,
-      oneOf: [
-        {
-          resourceQuery: /svgr/,
-          use: ['@svgr/webpack']
-        },
-        imageLoaderOptions
-      ]
+      test: allowedSvgRegex,
+      use: ['@svgr/webpack']
     })
     return config
   },
