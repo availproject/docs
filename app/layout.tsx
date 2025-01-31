@@ -8,7 +8,7 @@ import 'nextra-theme-docs/style.css'
 import Image from 'next/image'
 export const metadata: Metadata = {
   title: "Avail docs",
-  description: "Avail docs built on Nextra V4",
+  description: "Avail developer docs built using Nextra V4",
 }
 
 const navbar = (
