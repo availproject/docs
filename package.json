@@ -10,16 +10,16 @@
     "export": "next build && next export"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@tailwindcss/postcss": "^4.0.0",
     "next": "^15.1.6",
     "nextra": "^4.1.0",
     "nextra-theme-docs": "^4.1.0",
     "postcss": "^8.5.1",
+    "posthog-js": "^1.214.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-icons": "^5.4.0",
     "tailwindcss": "^4.0.0"
   }
 }
