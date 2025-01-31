@@ -1,0 +1,163 @@
+---
+id: staking
+title: How to Stake Your Validator
+sidebar_label: Stake Your Validator
+description: 'Learn about running an Avail validator using binaries.'
+keywords:
+  - docs
+  - avail
+  - node
+  - validator
+image: https://docs.availproject.org/img/avail/AvailDocs.png
+---
+import { Callout } from 'nextra/components'
+
+# How to Stake Your Validator
+
+This guide offers a step-by-step walkthrough on how to stake your Avail validator.
+It covers essential steps such as bonding your funds, managing session keys, and initiating the validation process.
+
+<Callout type="info"> 
+BEFORE YOU START<br/>
+This chapter continues from the 'Session Keys' page, so be sure to read that one before proceeding with this one.
+</Callout>
+
+## Step 1: Prepare for Staking
+
+Before you can become an active validator, you need to bond your funds to your node. This involves creating two separate Avail accounts: a `stash` account for holding your funds and a `controller` account for managing staking actions.
+
+### Create Avail Accounts
+
+1.  Navigate to the Avail network explorer at [<ins>https://explorer.availproject.org/</ins>](https://explorer.availproject.org/) and choose the correct network.
+2.  Create a `stash` account.
+<br/>
+<img src="/img/Screenshot 2024-04-23 at 15.35.55.png" width="200%" height="200%"/>
+
+### Bond Your Funds
+
+<Callout>
+BONDING TIPS<br/>
+Don't bond all your AVAIL tokens as you'll need some for transaction fees. You can always bond more tokens later.
+Note: Withdrawing any bonded amount is subject to the duration of the unbonding period.
+</Callout>
+
+1. Navigate to the **Staking** tab in the Explorer.
+2. Click on `Stash` to initiate the bonding process.
+<br/>
+   <img src="/img/bonding-preference.png" width="100%" height="100%"/>
+
+3. Fill in the bonding preferences. Then click `Bond` and `Sign and Submit`.
+
+<Callout type="warning" emoji="⚠️">
+You need at least 50,000 AVAIL to join waiting list.
+</Callout>
+
+## Step 2: Manage Session Keys
+
+After your node is fully synced, you'll need to rotate and submit your session keys.
+
+### Rotating Session Keys
+
+Run the following command on your node machine:
+
+> Ensure the node is running with the default HTTP RPC port configured.
+
+#### Using Binaries:
+
+```shell
+curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "author_rotateKeys", "params":[]}' http://localhost:9944
+```
+
+The result is the concatenation of the four public keys. Save the hex-encoded
+result for the next step and **restart your node**.
+
+#### Using Docker:
+
+```shell
+docker ps
+```
+
+You should an output similar to:
+
+```
+CONTAINER ID   IMAGE                   COMMAND            CREATED         STATUS         PORTS                                                                                                            NAMES
+da097bbeba75   availj/avail:v1.8.0.4   "/entrypoint.sh"   3 seconds ago   Up 3 seconds   0.0.0.0:9615->9615/tcp, :::9615->9615/tcp, 0.0.0.0:9944->9944/tcp, 0.0.0.0:30333->30333/tcp, :::9944->9944/tcp   musing_cartwright
+```
+
+We need the `CONTAINER ID` from the output above:
+
+```shell
+docker exec -i da097bbeba75 curl -sH "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "author_rotateKeys", "params":[]}' http://localhost:9944
+```
+
+### Submit Session Keys
+
+You must inform the network of your Session keys by signing and submitting the
+`setKeys` extrinsic. This action associates your validator with your Controller account.
+
+1. Navigate back to the **[<ins>Staking</ins>](https://explorer.availproject.org/#/staking/actions)** tab.
+2. Click on `Set Session Key` and enter the hex-encoded result.
+3. Click `Set Session Key` and enter your password when prompted.
+
+<img src="/img/avail/set-session-keys.png" width="100%" height="100%"/>
+
+After submitting the extrinsic, you'll observe that **Set Session Key** changes
+to **Validate**. Make sure your node is fully synchronized before proceeding further.
+
+## Step 3: Register as a Validator
+
+1. Click `Validate` on the **Staking** tab.
+
+<img src="/img/avail/start-validating.png" width="100%" height="100%"/>
+
+2. Set your validator commission percentage.
+3. Enter your password and click `Validate`.
+
+<img src="/img/avail/set-validate-commission.png" width="100%" height="100%"/>
+
+## Step 4: Start Validation
+
+Your validator is now prepared to begin the validation process. If you wish to discontinue,
+you can click the stop icon. Please note that the Avail interface doesn't automatically verify
+if your node is synchronized; you'll need to confirm this manually. If your node has sufficient
+stake, the Avail blockchain will likely select it in the next epoch or two.
+
+<img src="/img/avail/validator-ready.png" width="100%" height="100%"/>
+
+### Verify Validator Status
+
+To verify that your node is ready for possible selection at the end of
+the next era, follow these steps:
+
+1. Go to the **[<ins>Staking</ins>](https://explorer.availproject.org/#/staking)** tab and
+   select `Waiting` to see if your account appears.
+2. If your node has enough stake, it will be elected in the next era or two.
+   > A new set of validators is chosen every **era**, based on the amount staked.
+
+<img src="/img/avail/validator-waiting-list.png" width="100%" height="100%"/>
+
+### Monitor Validator in Action
+
+Once your validator node has accrued enough stake, it will be elected for validation.
+Below is an example image of an elected validator node actively producing blocks.
+
+In addition, please check out the guide on validator monitoring available
+[<ins>here</ins>](/docs/operate-a-node/become-a-validator/monitor-your-validator).
+
+<img src="/img/avail/validator-active-set.png" width="100%" height="100%"/>
+
+## Next Steps
+
+Congratulations on successfully setting up your Avail Validator node!
+You should be seeing something like this:
+<br/>
+<img src="/img/congrats-turing.png" width="100%" height="100%"/>
+
+As you move forward, here are some essential actions to consider:
+
+1. **Backup Your Validator**: Ensure you have a secure backup of your validator settings and keys. Refer to the
+   [<ins>Backup Guide</ins>](/docs/operate-a-node/become-a-validator/backup-your-validator) for detailed steps.
+
+2. **Start Monitoring**: If you haven't already, set up monitoring tools to keep track of your validator's performance. Check out the [<ins>Monitoring Guide</ins>](/docs/operate-a-node/become-a-validator/monitor-your-validator) for recommendations.
+
+3. **Join the Community**: Connect with other validators and the Avail team on the official [<ins>Discord Channel</ins>](https://discord.com/invite/AvailProject). It's a great place to share experiences, ask questions, and get updates.
