@@ -11,15 +11,13 @@ export default {
     },
     docs: {
       type: "page",
-      title: "Documentation",
+      title: "Docs",
     },
     
     'api-reference': {
       type: "page",
       title: "API Reference",
     },
-
-
 
   };
 
