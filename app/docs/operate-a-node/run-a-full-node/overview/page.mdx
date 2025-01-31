@@ -1,0 +1,46 @@
+---
+id: system-requirements
+title: System Requirements
+sidebar_label: System Requirements
+description: 'Learn about running an Avail validator using Docker.'
+keywords:
+  - docs
+  - avail
+  - node
+  - docker
+  - validator
+  - data availability
+image: https://docs.availproject.org/img/avail/AvailDocs.png
+---
+
+import { Callout } from 'nextra/components'
+
+# Overview 
+
+## System Requirements
+
+This is the hardware configuration required to set up an Avail node:
+
+| Component                    | Minimum  | Recommended |
+| ---------------------------- |:--------:|:-----------:|
+| RAM                          | 8GB      | 16GB        |
+| CPU (amd64/x86 architecture) | 4 core   | 8 core      |
+| Storage (SSD)                | 20-40 GB | 200-300 GB  |
+
+> While we do not favor any operating system, more secure and stable Linux server distributions (like CentOS) should be preferred over desktop operating systems (like Mac OS and Windows). Also, the minimum storage requirements will change over time as the network grows.
+> It is recommended to use more than the minimum requirements to run a robust full node.
+
+## Methods to Run an Avail Node
+
+There are three primary methods to run an Avail node, each with its own set of instructions:
+
+1. **Using Binaries:** You can follow the instructions provided in the next page for setting up an Avail node using binary releases.
+This method is suitable for users who prefer manual installation and configuration. 
+For reference, you can also explore the [GitHub Releases](https://github.com/availproject/avail/releases) page for 
+a list of binary releases.
+
+2. **Building from source:** The Avail node is based on open-sourced code. Feel free to
+[clone the repo](https://github.com/availproject/avail) and build it locally.
+
+3. **Using Docker:** If you have docker engine installed on your machine, you can use it to run
+a [pre-built docker image for the Avail node](https://hub.docker.com/r/availj/avail/tags).
