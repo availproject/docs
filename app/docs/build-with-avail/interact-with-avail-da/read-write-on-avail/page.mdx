@@ -1,0 +1,427 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Read & Write data on Avail DA
+
+<Callout type="info">
+**BEFORE YOU BEGIN**<br/>
+We recommend you go through these two pages in our docs before proceeding:
+1. [`Get Testnet Tokens`](/docs/build-with-avail/interact-with-avail-da/faucet): To help you get set with some `AVAIL` tokens on the Turing testnet.
+2. [`Create an AppID`](/docs/build-with-avail/interact-with-avail-da/app-id): The guide below focusses on reading & submitting data on a particular AppID. It will help
+to be familiar with the concept.
+</Callout>
+
+## Setting up the dev environment
+
+In this guide we will use some dedicated libraries to interact with Avail DA.
+To set up a dev environment for `avail-js`, please follow the steps [outlined here](/api-reference/avail-node-api#setting-up-the-dev-environment).
+
+## Submitting data to Avail DA
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go', 'AvailApps explorer']}>
+
+<Tabs.Tab>
+
+1. Create a file named `submit-data.ts`
+
+2. Import the dependencies from `avail-js-sdk` and create a `main` function:
+
+```typescript
+import { SDK, WaitFor, Keyring, TransactionOptions } from "avail-js-sdk"
+
+const main = async () => {
+
+
+}
+main()
+```
+
+3. Initialize a new instance of the SDK inside the `main` function:
+
+```typescript
+    // Initialize the SDK with a public Turing testnet endpoint
+    // You can always switch it out with your own endpoint
+  const providerEndpoint = "wss://turing-rpc.avail.so/ws";
+  const sdk = await SDK.New(providerEndpoint)
+```
+
+4. Initialize a new wallet using a `12-word seed phrase`, and configure the params for the transaction:
+
+```typescript
+  const Alice = "This is a random seed phrase please replace with your own";
+  const account = new Keyring({ type: "sr25519" }).addFromUri(Alice)
+  const data = "Example data to be submitted to Avail DA"
+
+  // You can submit data to any AppID of your choosing
+  const options: TransactionOptions = { app_id: 89 }
+```
+
+5. Submit the transaction by calling the `dataAvailability_submitData` extrinsic via the `avail-js` SDK:
+
+```typescript
+//Submit the transaction
+  const result = await sdk.tx.dataAvailability.submitData(data, WaitFor.BlockInclusion, account, options)
+	if (result.isErr) {
+      console.log(result.reason)
+      process.exit(1)
+    }
+
+// Logging transaction details in the terminal
+  console.log("Data=" + result.txData.data)
+  console.log("Who=" + result.event.who + ", DataHash=" + result.event.dataHash)
+  console.log("TxHash=" + result.txHash + ", BlockHash=" + result.blockHash)
+```
+
+6. Run the script using the following command:
+
+```bash
+ts-node submit-data.ts
+```
+
+7. If everything went well, this is what your terminal should look like:
+<br/>
+<p align="center">
+<img src="/img/r-w/r-w-1.png" alt="trying to stake via proxy on Avail DA"/>
+</p>
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+1. Create a file named `main.rs`
+
+2. Import the dependencies from `avail-rust-sdk` and create a `main` function:
+
+```rust
+use avail_rust::{Data, Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
+use core::str::FromStr;
+ 
+#[tokio::main]
+async fn main() -> Result<(), String> {
+
+}
+```
+
+3. Initialize a new instance of the SDK inside the `main` function:
+
+```rust
+	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
+```
+
+4. Initialize a new wallet using a `12-word seed phrase`, and configure the params for the transaction:
+
+```rust
+  let alice = "This is a random seed phrase please replace with your own";
+	let secret_uri = SecretUri::from_str(alice).unwrap();
+	let account = Keypair::from_uri(&secret_uri).unwrap();
+	let data = String::from("Sample data being submitted......").as_bytes().to_vec();
+	let data = Data { 0: data };
+ 
+	let wait_for = WaitFor::BlockInclusion;
+	let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
+ 
+	let app_id = 89; // You can change this value to your desired app_id
+```
+
+5. Submit the transaction by calling the `dataAvailability_submitData` extrinsic via the `avail-rust` SDK:
+
+```rust
+    // Create the options with the app_id included
+    let options = Options {
+        app_id: Some(app_id),
+        mortality: None,
+        nonce: Some(Nonce::BestBlockAndTxPool),
+        tip: None,       
+    };
+ 
+	let result = sdk
+		.tx
+		.data_availability
+		.submit_data(data, wait_for, &account, Some(options))
+		.await?;
+ 
+	println!(
+		"Who={}, DataHash={:?}",
+		result.event.who, result.event.data_hash
+	);
+	println!("TxData={:?}", result.tx_data.data);
+	println!(
+		"TxHash={:?}, BlockHash={:?}",
+		result.tx_hash, result.block_hash
+	);
+ 
+	Ok(())
+```
+
+6. Run the script using the following command:
+
+```bash
+cargo run
+```
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Create a file named `main.go`
+
+2. Import the dependencies from `avail-go-sdk` and create a `main` function:
+
+```go
+package main
+
+import (
+	"github.com/availproject/avail-go-sdk/src/config"
+	"github.com/availproject/avail-go-sdk/src/sdk"
+	"github.com/availproject/avail-go-sdk/src/sdk/tx"
+
+	"fmt"
+)
+
+func main() {
+
+}
+```
+
+3. Initialize a new instance of the SDK inside the `main` function:
+
+```go
+	config, err := config.LoadConfig()
+	if err != nil {
+		fmt.Printf("cannot load config:%v", err)
+	}
+	api, err := sdk.NewSDK(config.ApiURL)
+	if err != nil {
+		fmt.Printf("cannot create api:%v", err)
+	}
+
+	// You can your own app id here
+	appID := 0
+
+	fmt.Println("Submitting data ...")
+	WaitFor := sdk.BlockInclusion
+```
+
+4. Pass the seed phrase and data string as params for the transaction:
+
+```go
+	// submit data
+	BlockHash, txHash, err := tx.SubmitData(api, config.Seed, appID, "my happy data", WaitFor)
+	if err != nil {
+		fmt.Printf("cannot submit data:%v", err)
+	}
+	fmt.Printf("Data submitted successfully with block hash: %v\n and ext hash:%v", BlockHash.Hex(), txHash.Hex())
+}
+```
+
+5. Run the script using the following command:
+
+```bash
+go run main.go
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Go to the [`extrinsics` page](https://explorer.avail.so/#/extrinsics) on the AvailApps explorer.
+
+2. Select an account which has funds on the network.
+
+3. Select the `dataAvailability` pallet from the dropdown on the left.
+
+4. Select the `submitData` extrinsic from the dropdown on the right.
+
+5. Enter the data you want to submit in the `data` field.
+<br/>
+<p align="center">
+<img src="/img/r-w/r-w-5.png" alt="submitting data using the explorer"/>
+</p>
+
+6. Click on `Submit Transaction` and fill in the details in the pop-up window.
+<br/>
+<p align="center">
+<img src="/img/r-w/r-w-7.png" alt="filling out the tx details"/>
+</p>
+<Callout type="info">
+The `appID` should be an integer that represents a valid AppID on the network.
+To check out how to create an AppID on Avail, [refer to this page](/docs/build-with-avail/interact-with-avail-da/app-id).
+</Callout>
+
+7. Click on `Sign and Submit` and approve the transaction in your wallet.
+
+</Tabs.Tab>
+
+</Tabs>
+
+## Reading data from Avail DA
+
+> You can read back your submitted data from Avail DA using the `blockHash` and `txHash` of the transaction.
+
+1. Create a file named `read-data.ts`
+
+2. Import the dependencies from `avail-js-sdk` and create a `main` function:
+
+```typescript
+import { initialize } from "avail-js-sdk"
+
+const main = async () => {
+  try {
+
+} catch (err) {
+    console.error(err)
+    process.exit(1)
+  }}
+main()
+```
+
+3. Initialize a new instance of the SDK inside the `main` function, and declare the params:
+
+```typescript
+      //initialize sdk
+    const api = await initialize("wss://turing-rpc.avail.so/ws")
+
+    // Provide the transaction hash and block hash
+    const [txHash, blockHash] = ["0x17463754ef4185f4faba2473535890e4397aa403830f3b5a77295340b9e7cf56", "0x758036aa0db77bb34f6bf23b9fe290900f203ef4547e46c36fa486adbe6488e8"]
+    console.log(`Tx Hash: ${txHash}, Block Hash: ${blockHash}`)
+```
+
+4. Extract the data:
+
+```typescript
+    // Extracting data
+    const block = await api.rpc.chain.getBlock(blockHash)
+    const tx = block.block.extrinsics.find((tx) => tx.hash.toHex() == txHash)
+    if (tx == undefined) {
+      console.log("Failed to find the Submit Data transaction")
+      process.exit(1)
+    }
+```
+
+5. Parse the data to extract a `string`:
+
+```typescript
+    console.log(JSON.stringify(tx))
+    const dataHex = tx.method.args.map((a) => a.toString()).join(", ")
+    // Data retrieved from the extrinsic data
+    let str = ""
+    for (let n = 0; n < dataHex.length; n += 2) {
+      str += String.fromCharCode(parseInt(dataHex.substring(n, n + 2), 16))
+    }
+    console.log(`This is the string that was submitted: ${str}`)
+```
+
+6. Run the script using the following command:
+
+```bash
+ts-node read-data.ts
+```
+
+7. If everything went well, this is what your terminal should look like:
+<br/>
+<p align="center">
+<img src="/img/r-w/r-w-2.png" alt="trying to stake via proxy on Avail DA"/>
+</p>
+
+## Complete example
+
+The following code snippet combines the steps above into a single script to submit and fetch data from Avail:
+
+```typescript
+import { initialize, getKeyringFromSeed } from "avail-js-sdk"
+import { ISubmittableResult } from "@polkadot/types/types/extrinsic"
+import { H256 } from "@polkadot/types/interfaces/runtime"
+const main = async () => {
+  try {
+    //initialize sdk
+    const api = await initialize("wss://turing-rpc.avail.so/ws")
+    // get your Avail account
+    const account = getKeyringFromSeed("This is a random seed phrase please replace with your own")
+    console.log(account.address)
+
+    // Data to be submitted
+    const data = "Hello World"
+
+    // submit the data using dataAvailability.submitData extrinsic
+    const txResult = await new Promise<ISubmittableResult>((res) => {
+      api.tx.dataAvailability.submitData(data).signAndSend(account, (result: ISubmittableResult) => {
+        console.log(`Tx status: ${result.status}`)
+        console.log(`Block finalization and data retrieval can take upto 30 seconds...:⏰⏰⏰`)
+        if (result.isFinalized || result.isError) {
+          res(result)
+        }
+      })
+    })
+
+    // Rejected Transaction handling
+    if (txResult.isError) {
+      console.log(`Transaction was not executed`)
+      process.exit(1)
+    }
+
+    // Passing the transaction hash and block hash to fetch the submitted data
+    const [txHash, blockHash] = [txResult.txHash as H256, txResult.status.asFinalized as H256]
+    console.log(`Tx Hash: ${txHash}, Block Hash: ${blockHash}`)
+
+    // Extracting data
+    const block = await api.rpc.chain.getBlock(blockHash)
+    const tx = block.block.extrinsics.find((tx) => tx.hash.toHex() == txHash.toHex())
+    if (tx == undefined) {
+      console.log("Failed to find the Submit Data transaction")
+      process.exit(1)
+    }
+
+    console.log(JSON.stringify(tx))
+    const dataHex = tx.method.args.map((a) => a.toString()).join(", ")
+
+    // Data retrieved from the extrinsic data
+    let str = ""
+    for (let n = 0; n < dataHex.length; n += 2) {
+      str += String.fromCharCode(parseInt(dataHex.substring(n, n + 2), 16))
+    }
+
+    console.log(`submitted data: ${str}`)
+  process.exit()
+} catch (err) {
+    console.error(err)
+    process.exit(1)
+  }}
+main()
+```
+
+## Estimate fees for your data submission
+
+The `avail-js` SDK provides a method to estimate the cost of submitting a particular piece of data to Avail DA.
+Here is how you can use it:
+
+```typescript
+import { initialize, disconnect } from "avail-js-sdk"
+
+const calculateCost = async () => {
+      // Initialize the avail sdk providerEndpoint
+      const providerEndpoint = await initialize("wss://turing-rpc.avail.so/ws")
+
+      // Dummy sender - insert any address
+      const sender = "5CDGXH8Q9DzD3TnATTG6qm6f4yR1kbECBGUmh2XbEBQ8Jfa5"
+      
+      //10^18 decimals to denominate to AVAIL
+      const DECIMAL = 1000000000000000000
+     
+      // Input the data
+      let data = "This is a random piece of string data!!!"
+
+		  //Get the estimated cost in AVAIL
+        const cost = await providerEndpoint.tx.dataAvailability.submitData(data).paymentInfo(sender)
+    const costInAvail = (parseInt(cost.partialFee.toString())/DECIMAL).toFixed(6)
+        
+        console.log(`Estimated Fees: ${costInAvail} AVAIL`)
+
+      await disconnect()
+  }
+  
+  calculateCost()
+```
+
+<Callout type="info">
+**LOOKING FOR MORE EXAMPLES?**<br/>
+This page was written as an introduction to working with data submission/reading on Avail DA.
+In particular, we used the `dataAvailability_submitData` extrinsic to submit data to the network.
+Refer to our [API reference](/api-reference/avail-node-api) for more detailed examples.
+</Callout>
