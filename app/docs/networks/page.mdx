@@ -1,0 +1,121 @@
+---
+id: networks
+title: Network Information
+sidebar_label: Network Info
+description: 'Information on Networks related to Avail'
+keywords:
+  - docs
+  - avail
+  - node
+  - networks
+  - testnet
+  - rpc
+  - chainspec
+image: https://docs.availproject.org/img/avail/AvailDocs.png
+---
+
+import { Callout, Tabs } from 'nextra/components'
+
+# Network Information
+
+<Callout type="info">
+As of now, Turing is the only supported testnet on Avail. Kate has been fully decomissioned, while Goldberg is deprecated and will be decomissioned soon, even though we will keep
+some critical infra for Goldberg alive for the time being so you can keep using it.
+We will keep this page updated with the latest information on new networks.
+</Callout>
+
+<Callout emoji="⚠️" type="warning">
+THE TOKEN SYMBOL<br/>
+Please note that the token symbol for Avail DA has been changed from `AVL` to `AVAIL`.
+The Goldberg testnet however will carry on with the legacy symbol `AVL`.
+All future testnets including turing, and the mainnet will use the new symbol `AVAIL`.
+</Callout>
+
+**The Turing Testnet is the latest test network of the Avail Project.**
+
+|                          | **Mainnet**                                                                                                                                                                                               | **Turing Testnet**                                                                                                               | **Goldberg Testnet**                                                                                                          |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| ---------------------------------------------------------------------------------------------------------------------------------| ----------------------------------------------------------------------------------------------------------------------------- | 
+| **Status**               | **Active**                                                                                                                                                                                                | **Active**                                                                                                                       | **Deprecated**                                                                                                                | 
+| **Subscan Explorer**     | [<ins>avail.subscan.io</ins>](https://avail.subscan.io/)                                                                                                                                                  | [<ins>avail-turing.subscan.io</ins>](https://avail-turing.subscan.io/)                                                           | [<ins>avail-goldberg.subscan.io/</ins>](https://avail-goldberg.subscan.io/)                                                   |
+| **AvailApps Explorer**   | [<ins>mainnet.explorer.availproject.org</ins>](http://mainnet.explorer.availproject.org/)                                                                                                                 | [<ins>turing.explorer.availproject.org</ins>](http://turing.explorer.availproject.org/)                                          | [<ins>explorer.avail.so</ins>](https://explorer.avail.so/)                                                                    |
+| **RPC Endpoints**        | [<ins>https://avail-mainnet.public.blastapi.io/</ins>](https://avail-mainnet.public.blastapi.io/) <br/><br/> [<ins>https://mainnet-rpc.avail.so/rpc</ins>](https://mainnet-rpc.avail.so/rpc) <br/><br/>   | [<ins>https://turing-rpc.avail.so/rpc</ins>](https://turing-rpc.avail.so/rpc)                                                    | [<ins>https://goldberg.avail.tools/api</ins>](https://goldberg.avail.tools/api)                                               |
+| **WS Endpoints**         | [<ins>wss://avail-mainnet.public.blastapi.io/</ins>](wss://avail-mainnet.public.blastapi.io/) <br/><br/>  [<ins>wss://mainnet.avail-rpc.com/</ins>](wss://mainnet.avail-rpc.com/)  <br/><br/>             | [<ins>wss://turing-rpc.avail.so/ws</ins>](wss://turing-rpc.avail.so/ws)                                                          | [<ins>wss://goldberg.avail.tools/ws</ins>](wss://goldberg.avail.tools/ws)                                                     |
+| **Chain Spec**           | [<ins>chainspec.raw.json</ins>](https://raw.githubusercontent.com/availproject/avail/main/misc/genesis/mainnet.chain.spec.raw.json)                                                                       | [<ins>chainspec.raw.json</ins>](https://github.com/availproject/avail/blob/main/misc/genesis/testnet.turing.chain.spec.raw.json) | [<ins>chainspec.raw.json</ins>](https://github.com/availproject/avail/blob/main/misc/genesis/testnet.goldberg.chain.raw.json) |
+| **Node Version**         | [<ins>Latest release</ins>](https://github.com/availproject/avail/releases)                                                                                                                               | [<ins>Latest release</ins>](https://github.com/availproject/avail/releases)                                                     | [<ins>v1.10.0.0</ins>](https://github.com/availproject/avail/releases/tag/v1.10.0.0)                                          |
+| **Light Client Version** | [<ins>Latest release</ins>](https://github.com/availproject/avail-light/releases)                                                                                                                         | [<ins>Latest release</ins>](https://github.com/availproject/avail-light/releases)                                                | [<ins>v1.7.6</ins>](https://github.com/availproject/avail-light/releases/tag/v1.7.6)                                          |
+
+## Avail DA - Ethereum Bridge
+
+### For end users
+
+You can use the official [Avail bridge UI](https://bridge.availproject.org/) to bridge AVAIL between the two networks.
+You can find detailed instructions [in our docs here](/docs/end-user-guide/vectorx).
+
+### For devs
+
+The following tables contains a list of endpoints and contract addresses for all relevant
+deployments of the VectorX bridge.
+
+#### VectorX Bridge
+
+| **Category**                  | **Mainnet**                                                                                                                                             | **Testnet**                                                                                     |                              
+|-------------------------------|---------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| **Bridge API**                | [https://bridge-api.avail.so/](https://bridge-api.avail.so/)                                                              | [https://turing-bridge-api.avail.so/](https://turing-bridge-api.avail.so/)                                                    |
+| **VectorX Contract**          | [0x02993cdC11213985b9B13224f3aF289F03bf298d](https://etherscan.io/address/0x02993cdC11213985b9B13224f3aF289F03bf298d)     | [0xe542db219a7e2b29c7aeaeace242c9a2cd528f96](https://sepolia.etherscan.io/address/0xe542db219a7e2b29c7aeaeace242c9a2cd528f96) |
+| **Bridge Contract**           | [0x054fd961708d8e2b9c10a63f6157c74458889f0a](https://etherscan.io/address/0x054fd961708d8e2b9c10a63f6157c74458889f0a)     | [0x967F7DdC4ec508462231849AE81eeaa68Ad01389](https://sepolia.etherscan.io/address/0x967F7DdC4ec508462231849AE81eeaa68Ad01389) |
+
+#### AVAIL Token
+
+<Tabs items={['Ethereum', 'Base']}>
+
+<Tabs.Tab>
+| **Network**           | **Token Address**                                                                                                             |                                                                                                                                      
+|------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| **Ethereum Mainnet**            | [0xEeB4d8400AEefafC1B2953e0094134A887C76Bd8](https://etherscan.io/token/0xEeB4d8400AEefafC1B2953e0094134A887C76Bd8)           |
+| **Sepolia Testnet**    | [0xb1c3cb9b5e598d4e95a85870e7812b99f350982d](https://sepolia.etherscan.io/address/0xb1c3cb9b5e598d4e95a85870e7812b99f350982d) |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| **Network**             | **Token Address**                                                                                                             |
+|--------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| **Base Mainnet**         | [0xd89d90d26b48940fa8f58385fe84625d468e057a](https://basescan.org/address/0xd89d90d26b48940fa8f58385fe84625d468e057a)         |
+| **Base-Sepolia Testnet** | [0xf50F2B4D58ce2A24b62e480d795A974eD0f77A58](https://sepolia.basescan.org/address/0xf50F2B4D58ce2A24b62e480d795A974eD0f77A58) |
+</Tabs.Tab>
+
+</Tabs>
+
+
+{/* | **Bridge Indexer**            | [zeref-bridge-indexer.fra.avail.so](https://zeref-bridge-indexer.fra.avail.so)         | [turing-bridge-indexer.fra.avail.so](https://turing-bridge-indexer.fra.avail.so/)       | */}
+
+{/* | **Operator**           | Deployed                                                                                      | Deployed                                                                                        | */}
+
+
+## Alternate Endpoints
+
+We at Avail have teamed up with some external partners to provide alternate endpoints for
+people to connect to Avail DA. We will keep this table updated as we onboard more partners.
+
+### Mainnet
+
+| **Partner**              | **RPC Endpoint (Mainnet)**                                                                        | **WSS Endpoint (Mainnet)**                                                                    |
+| ------------------------ | --------------------------------------------------------------------------------------------------| ----------------------------------------------------------------------------------------------|
+| **Ankr**                 | [<ins>https://mainnet.avail-rpc.com/</ins>](https://mainnet.avail-rpc.com/)                       | [<ins>wss://mainnet.avail-rpc.com/</ins>](wss://mainnet.avail-rpc.com/)           |
+| **Bware**                | [<ins>https://avail-mainnet.public.blastapi.io/</ins>](https://avail-mainnet.public.blastapi.io/) | [<ins>wss://avail-mainnet.public.blastapi.io/</ins>](wss://avail-mainnet.public.blastapi.io/) | 
+| **RubyNode**             | [<ins>https://avail-rpc.rubynodes.io/</ins>](https://avail-rpc.rubynodes.io/)                     | [<ins>wss://avail-rpc.rubynodes.io/</ins>](wss://avail-rpc.rubynodes.io/)                     | 
+| **BrightlyStake**        | [<ins>https://avail-us.brightlystake.com</ins>](https://avail-us.brightlystake.com)               | [<ins>wss://avail-us.brightlystake.com</ins>](wss://avail-us.brightlystake.com)               | 
+| **GlobalStake**          | [<ins>https://rpc-avail.globalstake.io</ins>](https://rpc-avail.globalstake.io)                   | [<ins>wss://rpc-avail.globalstake.io</ins>](wss://rpc-avail.globalstake.io)                   | 
+| **BountyBlok**           | [<ins>https://avail.rpc.bountyblok.io/</ins>](https://avail.rpc.bountyblok.io/)                 | [<ins>wss://avail.rpc.bountyblok.io/</ins>](wss://avail.rpc.bountyblok.io/)                 | 
+| **RadiumBlock**          | [<ins>https://avail.public.curie.radiumblock.co/http</ins>](https://avail.public.curie.radiumblock.co/http)     | [<ins>wss://avail.public.curie.radiumblock.co/ws</ins>](wss://avail.public.curie.radiumblock.co/ws) |
+| **LugaNodes**            | [<ins>https://avail-rpc.lgns.net/</ins>](https://avail-rpc.lgns.net/)                             | [<ins>wss://avail-rpc.lgns.net/</ins>](wss://avail-rpc.lgns.net/)                             |
+| **StakePool**            | [<ins>https://rpc.avail.stakepool.dev.br/rpc</ins>](https://rpc.avail.stakepool.dev.br/rpc)       | [<ins>wss://rpc.avail.stakepool.dev.br/ws</ins>](wss://rpc.avail.stakepool.dev.br/ws)         |
+| **OnFinality**           | [<ins>https://avail.api.onfinality.io/public</ins>](https://avail.api.onfinality.io/public)       | [<ins>wss://avail.api.onfinality.io/public-ws</ins>](wss://avail.api.onfinality.io/public-ws)         |
+
+### Turing Testnet
+
+| **Partner**              | **RPC Endpoint (Turing)**                                                                         | **WSS Endpoint (Turing)**                                                                 |
+| ------------------------ | --------------------------------------------------------------------------------------------------| ------------------------------------------------------------------------------------------|
+| **Ankr**                 | [<ins>https://rpc.ankr.com/avail_turing_testnet</ins>](https://rpc.ankr.com/avail_turing_testnet) | [<ins>wss://turing-testnet.avail-rpc.com</ins>](wss://turing-testnet.avail-rpc.com)       |
+| **Bware**                | [<ins>https://avail-turing.public.blastapi.io</ins>](https://avail-turing.public.blastapi.io)     | [<ins>wss://avail-turing.public.blastapi.io</ins>](wss://avail-turing.public.blastapi.io) |
+| **AllNodes**             | [<ins>https://avail-turing-rpc.publicnode.com</ins>](https://avail-turing-rpc.publicnode.com)     | [<ins>wss://avail-turing-rpc.publicnode.com</ins>](wss://avail-turing-rpc.publicnode.com) |
+| **RadiumBlock**          | [<ins>https://turing.public.curie.radiumblock.co/http</ins>](https://turing.public.curie.radiumblock.co/http)     | [<ins>wss://turing.public.curie.radiumblock.co/ws</ins>](wss://turing.public.curie.radiumblock.co/ws) |
+| **BountyBlok**           | [<ins>https://avail-turing.bountyblok.io/</ins>](https://avail-turing.bountyblok.io/)             | [<ins>wss://avail-turing.bountyblok.io</ins>](wss://avail-turing.bountyblok.io)           |

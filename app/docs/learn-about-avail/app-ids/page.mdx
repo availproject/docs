@@ -1,0 +1,257 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# AppIds on Avail DA?
+
+<Callout type="info">
+**DON'T CARE ABOUT THEORY?**<br/>
+If you are just looking for the easiest way to create your own AppID on Avail to continue building,
+you can skip to [this page](/docs/build-with-avail/interact-with-avail-da/app-id).
+</Callout>
+<Callout type="info">
+**LOOKING FOR PROGRAMMATIC INSTRUCTIONS?**<br/>
+You can check out our [API reference](/api-reference/avail-node-api/da-create-application-key) for the same.
+</Callout>
+
+## Introduction
+
+As a general-purpose base layer, Avail is designed to support many
+modular chains at the same time, providing consensus and data
+availability to all of them simultaneously.
+
+How does this work? Avail headers contain an index that allows a given
+modular chain (or "application" in Avail terminology) to determine and
+download _only_ the sections of a block that have data for that
+particular application.
+
+This has significant benefits, including:
+
+- Modular applications are mainly unaffected by other uses of the
+  base layer at the same time.
+
+- Block sizes can increase without requiring applications to fetch
+  more data because they don't need to fetch the whole block, only what's
+  relevant to them. \
+  This filtering is done using the "application id" (AppId).
+
+Data availability sampling is still done on the entire block,
+however--this is the process where clients sample tiny parts of
+the block at random to verify availability.
+
+<Steps>
+
+### Consider a random block on Avail DA
+
+It might contain data blobs from a variety of different rollups pertaining to their different execution environments.
+Think of the EVM, the SVM, Stackr, ZKsync chains, OP stack, and many more. \
+If all of this data is randomnly strewn about in a block, it would be tedious for an a rollup to parse through all of it
+just to fetch the data it needs.
+
+<br/>
+<p align="center">
+<img src="/img/quickstart/quickstart-app-id-1.png" alt="random block on Avail DA" width="100%" />
+</p>
+
+### Now think of the same data neatly arranged into its own sections
+
+But what if all of that same data in the same block was organised into different sections,
+stored alongside it's peers. Each of these *'sections'* would be identified by an `AppID`. \
+A developer now does not need to parse through the entire block to find the data they need, they can simply query data from the `AppID` they are interested in.
+
+<br/>
+<p align="center">
+<img src="/img/quickstart/quickstart-app-id-2.png" alt="random data arranged neatly in Avail DA block" width="100%" />
+</p>
+
+### These *'sections'* are flexible
+
+All of the rollups running on Avail DA probably won't submit data in all of the blocks. Thus, it is likely some `AppIDs` will be empty in some blocks. \
+On the flipside, some rollups might need to submit more data than usual in a particular block. \
+None of this is an issue on Avail DA, the individual block builds as needed in the moment.
+
+<br/>
+<p align="center">
+<img src="/img/quickstart/quickstart-app-id-3.png" alt="AppIDs on Avail DA are flexible" width="100%" />
+</p>
+
+</Steps>
+
+## Tell me more
+
+Let's learn more about AppIds by going through a real-life example.
+
+<Callout type="info">
+1. We recommend you go through the whole page before trying to go through the same steps.
+
+2. Although there are multiple ways to retrieve existing AppIds and generate new ones, using the [Avail DA explorer](https://explorer.availproject.org/#/chainstate) to do so
+is a good way to start.
+
+3. The [Avail DA explorer](https://explorer.availproject.org/#/) is very powerful and can be used in a variety of ways.
+For now though, let's stick to `AppIds`.
+</Callout>
+
+1. Make sure you're on the `chain state` section of the explorer. You can access it by [simply clicking this link](https://explorer.availproject.org/#/chainstate),
+or by navigating to it through the `developer` tab near the top right.
+
+2. Make sure you've selected the `dataAvailability` pallet and the `appKeys` method.
+
+<br/>
+<div align="center">
+<img src="/img/app-ids/app-id-1.png" align="center" /> 
+</div>
+
+3. Uncheck the `include option` toggle, and click on the `+` button next to the method name.
+You will fetch a list of all registered `AppIds` on Avail DA.
+
+<br/>
+<div align="center">
+<img src="/img/app-ids/app-id-2.png" align="center" /> 
+</div>
+
+Each `appID` consists of 3 fields:
+
+- `key`: This is a string that is the name of the `appID`. Each `appID` should have a unique name.
+- `owner`: This is the address of the account that created the `appID`. A single address can create multiple `AppIds`.
+- `id`: This is the unique integer index of the `appID`. It is incremented by 1 everytime a new `appID` is created. Whenever a new
+`appID` is created, it is automatically assigned the next available `id`.
+
+4. Next, check the `include option` toggle, and enter `based avail` as the `bytes` input. Call the function. What do you see?
+You will be returned a pair of `owner` and `id`, which together with the `key` you entered, form a unique `appID`.
+
+<br/>
+<div align="center">
+<img src="/img/app-ids/app-id-3.png"  align="center" /> 
+</div>
+
+<Callout type="info">
+1. The `appKeys` method is essentially a mapping that returns the `owner` and `id` of an `appID` given its `key` (`key` => (`owner`, `id`)).
+2. By checking the `include option` toggle, you are essentially filtering the output.
+</Callout>
+
+## How to check the next available `appID`?
+
+Anyone can create their own `appID` on Avail DA. The process is entirely democratic, and it's rather simple too.
+
+Let us first check out the next available `appID` on the newtork.
+
+1. Within the `dataAvailability` pallet, select the `nextAppId` method.
+No need to pass any params, just click the `+` button next to the method name.
+
+2. You will be returned the next available `index`/`id` for a new `appID`.
+
+<br/>
+<div align="center">
+<img src="/img/app-ids/app-id-4.png" align="center" /> 
+</div>
+
+## How to register my own `appID`?
+
+1. Make sure you have one or more Avail DA wallets connected to the explorer. If you don't know how to do so,
+you can follow our docs on [setting up a new wallet](/docs/end-user-guide/accounts#creating-an-account-on-avail-da).
+
+2. Simply [click this link](https://explorer.availproject.org/#/extrinsics) OR navigate to the `extrinsics` section of the explorer through the `developer` tab.
+
+<Callout type="info">
+Please note that the `Developer` tab does not show the `extrinsics` section at all if you don't
+have a wallet set up on the explorer or an extension wallet connected to it.
+So make sure you have an [Avail DA wallet set up](/docs/end-user-guide/accounts) before moving forward.
+</Callout>
+
+3. Select the `dataAvailability` pallet, and the `createApplicationKey` method.
+
+<br/>
+<div align="center">
+<img src="/img/app-ids/app-id-5.png" align="center" /> 
+</div>
+
+4. Enter a `key` for your `appID`. It can be anything you like, really.
+
+5. This is how it should look like in the end:
+
+<br/>
+<div align="center">
+<img src="/img/app-ids/app-id-6.png" align="center" /> 
+</div>
+
+6. Click on `Submit Transaction`, and then click on `Sign and Submit` in the box that pops up.
+
+<br/>
+<div align="center">
+<img src="/img/app-ids/app-id-7.png" align="center" /> 
+</div>
+
+<Callout type="info">
+**DO NOT CHANGE THE `appID` FOR THIS TRANSACTION**<br/>
+
+1. Each and every single transaction on Avail DA has an `appID` associated with it, which is **greater than or equal to** `0`.
+2. A transaction or data submission with the `appID` of `0` is used for **chain-level** operations.
+3. This is what we need to use for creating a new `appID`, since the act of creating a new `appID` has nothing to do with a specific '*app*' on Avail DA.
+4. This field would instead have been a positive integer if we, for example, were submitting data to a specific application on Avail DA.
+</Callout>
+
+7. Authorize the transaction through your wallet, and you're done! You've successfully created your own `appID` on Avail DA.
+
+8. You can verify `7` by using the steps covered earlier to query the `appKeys` method :)
+
+## How to submit data to my `appID`?
+
+You can submit data to your, or any other `appID` on Avail DA using the explorer by calling the
+`submitData` extrinsic from within the `dataAvailability` pallet.
+
+1. Make sure you have one or more Avail DA wallets connected to the explorer. If you don't know how to do so,
+you can follow our docs on [setting up a new wallet](/docs/end-user-guide/accounts#creating-an-account-on-avail-da).
+
+2. Simply [click this link](https://explorer.availproject.org/#/extrinsics) OR navigate to the `extrinsics` section of the explorer through the `developer` tab.
+
+3. Select the `dataAvailability` pallet, and the `submitData` method.
+
+<br/>
+<div align="center">
+<img src="/img/app-ids/app-id-8.png" align="center" />
+</div>
+
+4. Enter a random `data` string that you want to submit to your `appID`, and then click on
+`Submit Transaction`.
+
+<br/>
+<div align="center">
+<img src="/img/app-ids/app-id-9.png" align="center" />
+</div>
+
+5. Fill in the `AppID` that you want to submit the data to. Click on `Sign and Submit` to authorize the transaction through your wallet.
+
+<br/>
+<div align="center">
+<img src="/img/app-ids/app-id-10.png" align="center" />
+</div>
+
+6. Wait for the transaction to be included in a block and then open the detailed view of the block.
+
+<br/>
+<div align="center">
+<img src="/img/app-ids/app-id-11.png" align="center" />
+</div>
+
+7. Click on your specific transaction to see it's details. This is what it should look like:
+
+<br/>
+<div align="center">
+<img src="/img/app-ids/app-id-12.png" align="center" />
+</div>
+
+
+## A few more things of note
+
+1. As stated earlier, the `key` and `id` fields of every `appID` are unique. This means if you try to create an `appID` with the same `key` as an existing one,
+the operation will fail. This is why it makes sense to use the `appKeys` method to check if your desired name is already taken.
+
+2. If you're a developer and are looking for more programmatic instructions, you can check out our [API reference](/api-reference/avail-node-api/da-create-application-key).
+
+3. **Anyone can submit any sort of data to any `appID` regardless of whether or not they created it.** \
+*But what does this mean? And is this an attack vector?*
+
+- This is where it is important to understand that Avail DA is a DA layer, not an execution environment.
+We are not concerned with the validity of the data being submitted, only with its availability, which means we can support a wide variety of applications across multiple tech stacks.
+- This does not constitute an attack vector since that any app or execution layer building on top of Avail DA can always set up
+certain rules to filter out unwanted data submissions.
+- They could for example make it so that only data submitted with a particular signature, i.e. from a particular address, is accepted.
+All other data submitted to the particular `appID` is treated as spam, and ignored.
