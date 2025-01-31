@@ -32,37 +32,10 @@ export function createAstObject(obj) {
   }
 }
 
-// eslint-disable-next-line unicorn/consistent-function-scoping
-const rehypeOpenGraphImage = () => ast => {
-  const frontMatterNode = ast.children.find(node =>
-    isExportNode(node, 'metadata')
-  )
-  if (!frontMatterNode) {
-    return
-  }
-  const { properties } =
-    frontMatterNode.data.estree.body[0].declaration.declarations[0].init
-  const title = properties.find(o => o.key.value === 'title')?.value.value
-  if (!title) {
-    return
-  }
-  const [prop] = createAstObject({
-    openGraph: createAstObject({
-      images: `https://nextra.site/og?title=${title}`
-    })
-  }).properties
-  properties.push(prop)
-}
 
 const withNextra = nextra({
   latex: true,
   defaultShowCopyCode: true,
-  mdxOptions: {
-    rehypePlugins: [
-      // Provide only on `build` since turbopack on `dev` supports only serializable values
-      process.env.NODE_ENV === 'production' && rehypeOpenGraphImage
-    ]
-  },
   whiteListTagsStyling: ['figure', 'figcaption']
 })
 
@@ -73,41 +46,6 @@ const nextConfig = withNextra({
     ignoreDuringBuilds: true
   },
   redirects: async () => [
-    {
-      source: '/docs/guide/:slug(typescript|latex|tailwind-css|mermaid)',
-      destination: '/docs/advanced/:slug',
-      permanent: true
-    },
-    {
-      source: '/docs/docs-theme/built-ins/:slug(callout|steps|tabs|bleed)',
-      destination: '/docs/built-ins/:slug',
-      permanent: true
-    },
-    {
-      source: '/docs/docs-theme/api/use-config',
-      destination: '/docs/docs-theme/api',
-      permanent: true
-    },
-    {
-      source: '/docs/guide/advanced/:slug',
-      destination: '/docs/advanced/:slug',
-      permanent: true
-    },
-    {
-      source: '/docs/docs-theme/theme-configuration',
-      destination: '/docs/docs-theme/built-ins/layout',
-      permanent: true
-    },
-    {
-      source: '/docs/docs-theme/page-configuration',
-      destination: '/docs/file-conventions/meta-file',
-      permanent: true
-    },
-    {
-      source: '/docs/guide/organize-files',
-      destination: '/docs/file-conventions',
-      permanent: true
-    }
   ],
   webpack(config) {
     // rule.exclude doesn't work starting from Next.js 15

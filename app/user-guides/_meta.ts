@@ -1,4 +1,4 @@
 export default {
-    accounts: "Accounts"
+    accounts: "Get started with an Avail wallet"
 }
 
