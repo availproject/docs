@@ -37,7 +37,6 @@ export default async function RootLayout({
       <body>
 
         <Layout
-        
           navbar={
             <Navbar
               logo={
@@ -59,7 +58,6 @@ export default async function RootLayout({
           }
           
           
-          
           navigation={{
             prev: true,
             next: true
@@ -72,6 +70,19 @@ export default async function RootLayout({
           footer={footer}
         >
           {children}
+                    
+          {/* <Search
+          emptyResult="No matches found."
+          loading="Searching..."
+          placeholder="Look through Avail's docs...."
+          errorText="Unable to fetch search results."
+          searchOptions={{
+            preload: true,
+            verbose: false,
+            filters: {},
+            sort: {}
+          }}
+        /> */}
         </Layout>
       </body>
     </html>
