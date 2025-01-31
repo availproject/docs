@@ -55,6 +55,9 @@ const rehypeOpenGraphImage = () => ast => {
 }
 
 const withNextra = nextra({
+  search: {
+    codeblocks: false
+  },
   latex: true,
   defaultShowCopyCode: true,
   mdxOptions: {
