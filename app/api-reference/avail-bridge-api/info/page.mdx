@@ -1,0 +1,34 @@
+
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Get bridge deployment details
+
+## Request
+
+- `Path`: `/info`
+- `Method type`: `GET`
+
+## Example Request
+
+<Tabs items={['CURL']}>
+
+<Tabs.Tab>
+    
+```sh
+curl https://turing-bridge-api.avail.so/info
+```
+
+</Tabs.Tab>
+</Tabs>
+
+## Example response
+
+```json filename="Example JSON response"
+{
+ "availChainName": "hex",
+ "bridgeContractAddress": "0x1369A4C9391cF90D393b40fAeAD521b0F7019dc5",
+ "vectorXChainId": "11155111",
+ "vectorXContractAddress": "0x570f6a1936386a4e060C2Daebbd0b6f5C091e13f"
+}
+```
