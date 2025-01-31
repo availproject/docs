@@ -1,0 +1,5 @@
+export default {
+    "zkevm": "Polygon zkEVM",
+    "madara": "Madara Starknet",
+    "zksync": "ZKsync's ZK Stack"
+}
