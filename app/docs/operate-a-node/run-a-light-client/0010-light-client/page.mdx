@@ -43,11 +43,11 @@ The Avail light client has two main modes of operation:
 
 1. **Light-client mode**: The basic mode of operation and is always active no matter the mode selected. 
 If an `app_id` is not provided (or is = 0), this mode will commence. On each header received the client 
-does random sampling using two mechanisms:
+does random sampling using two mechanisms
 
 2. **App-client mode**: If an `app_id > 0` is given, the application client 
 (part of the light client) downloads all data specific to that App ID, reconstructs it and persists it locally. 
-This data can then be accessed via a loacal HTTP endpoint.
+This data can then be accessed via a local HTTP endpoint.
 
 <Callout type="info">
 **WE RECOMMEND LEARNING ABOUT APP IDs on AVAIL DA**<br/>
