@@ -12,6 +12,13 @@ export const metadata: Metadata = {
 }
 
 const footer = <Footer/>
+
+const defaultSearchOptions = {
+  preload: true,
+  verbose: false,
+  filters: {},
+  sort: {}
+};
  
 export default async function RootLayout({
   children,
@@ -57,7 +64,6 @@ export default async function RootLayout({
             />
           }
           
-          
           navigation={{
             prev: true,
             next: true
@@ -68,21 +74,16 @@ export default async function RootLayout({
           editLink="Edit this page on GitHub"
           sidebar={{ defaultMenuCollapseLevel: 1, autoCollapse: true, toggleButton: true }}
           footer={footer}
+          search={
+            <Search
+              emptyResult="No matches found."
+              loading="Searching..."
+              placeholder="Search through Avail's docs...."
+              errorText="Unable to fetch search results."
+            />
+          }
         >
           {children}
-                    
-          {/* <Search
-          emptyResult="No matches found."
-          loading="Searching..."
-          placeholder="Look through Avail's docs...."
-          errorText="Unable to fetch search results."
-          searchOptions={{
-            preload: true,
-            verbose: false,
-            filters: {},
-            sort: {}
-          }}
-        /> */}
         </Layout>
       </body>
     </html>
