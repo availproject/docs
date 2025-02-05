@@ -4,6 +4,7 @@ import { Head, Search } from 'nextra/components'
 import { Metadata } from "next";
 import { ReactNode } from "react";
 import { getPageMap } from 'nextra/page-map'
+import DarkHorizontal from '../public/Dark_Horizontal.svg'
 import 'nextra-theme-docs/style.css'
 import Image from 'next/image'
 export const metadata: Metadata = {
@@ -48,7 +49,7 @@ export default async function RootLayout({
             <Navbar
               logo={
                 <div className="flex flex-row items-center">
-                  <Image src={"/group.png"} alt="avail-logo" width={200} height={40} />
+                  <Image src={DarkHorizontal} alt="avail-logo" width={125} height={40} />
                 </div>
               }
               projectLink="https://github.com/availproject/docs"
