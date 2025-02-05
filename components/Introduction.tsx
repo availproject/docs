@@ -3,7 +3,6 @@ import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa6";
 
 export default function Introduction() {
-  
   return IntroData ? (
     <>
       <div id="intro">
@@ -25,28 +24,31 @@ export default function Introduction() {
                   {x.links &&
                     x.links.map((z, index) => {
                       return (
-                        <div key={index} className="flex flex-col px-5 py-2 space-y-2">
+                        <div
+                          key={index}
+                          className="flex flex-col px-5 py-2 space-y-2"
+                        >
                           <h2 className="text-xl text-[#4E6786] font-thicccboisemibold">
-                            {'topic' in z ? z.topic : ''}
+                            {"topic" in z ? z.topic : ""}
                           </h2>
                           <div className="pb-2">
                             {z.links.map((l, index) => {
                               return (
-                                <>
-                                  <Link
-                                    href={l.link}
-                                    key={index}
-                                    className="flex flex-row justify-between items-center hover:bg-gray-200 hover:text-blue-600 transition-colors duration-300 px-4 py-2 rounded-md"
+                                <Link
+                                  href={l.link}
+                                  key={l.id || index}
+                                  className="flex flex-row justify-between items-center hover:bg-gray-200 hover:text-blue-600 transition-colors duration-300 px-4 py-2 rounded-md"
+                                >
+                                  <div
+                                    className="text-2xl hover:underline font-thicccboibold"
+                                    style={{
+                                      color: `#${z.textcolor || "000"}`,
+                                    }}
                                   >
-                                    <div
-                                      className="text-2xl hover:underline font-thicccboibold"
-                                      style={{ color: `#${z.textcolor || '000'}` }}
-                                    >
-                                      {l.placeholder}
-                                    </div>
-                                    <FaArrowRight className="transform transition-transform duration-300 hover:scale-110" />
-                                  </Link>
-                                </>
+                                    {l.placeholder}
+                                  </div>
+                                  <FaArrowRight className="transform transition-transform duration-300 hover:scale-110" />
+                                </Link>
                               );
                             })}
                           </div>

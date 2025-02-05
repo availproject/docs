@@ -13,7 +13,7 @@ export default function HomePage() {
           alt="left image"
           className="absolute left-0 top-0 -z-10 max-md:opacity-30"
         />
-        {/* <h1 className="text-center text-4xl tracking-tighter font-bold md:text-5xl mt-4 font-thicccboibold">
+        <h1 className="text-center text-4xl tracking-tighter font-bold md:text-5xl mt-4 font-thicccboibold">
           Avail Developer Docs
         </h1>
         <h1 className="text-center text-xl font-normal mx-auto mt-3 max-w-xl font-thicccboiregular">
@@ -24,7 +24,7 @@ export default function HomePage() {
           alt="right image"
           className="absolute right-0 top-0 -z-10 max-md:opacity-30"
         />
-      <Introduction /> */}
+      <Introduction />
       </div>
 
     </>
