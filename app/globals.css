@@ -3,76 +3,74 @@
 
 @variant dark (&:where(.dark *));
 /* Font Declarations */
+/* Font Declarations */
 @font-face {
-  font-family: 'PP Mori';
-  src: url('/fonts/PPMori-Regular.otf') format('otf');
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Thicccboi-bold';
-  src: url('/fonts/THICCCBOI-Bold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Thicccboi-medium';
-  src: url('/fonts/THICCCBOI-Medium.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Thicccboi-semibold';
-  src: url('/fonts/THICCCBOI-SemiBold.woff2') format('woff2');
-  font-weight: 600;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Thicccboi-regular';
-  src: url('/fonts/THICCCBOI-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-}
-
-/* Theme Configuration */
-@theme {
-  /* Font Family Variables */
-  --font-thicccboi-semibold: 'Thicccboi-semibold', sans-serif;
-  --font-thicccboi-bold: 'Thicccboi-bold', sans-serif;
-  --font-thicccboi-regular: 'Thicccboi-regular', sans-serif;
-  --font-ppmori: 'PP Mori', sans-serif;
-
-}
-
-/* Gradient Utilities */
-@utility bg {
-  &-gradient-radial {
-    background-image: radial-gradient(var(--tw-gradient-stops));
+    font-family: 'PP Mori';
+    src: url('/fonts/PPMori-Regular.otf') format('otf');
+    font-weight: 400;
+    font-style: normal;
   }
-  &-gradient-conic {
-    background-image: conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops));
+  
+  @font-face {
+    font-family: 'THICCCBOI';
+    src: url('/fonts/THICCCBOI-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
   }
-}
-
-/* Font Family Utilities */
-@utility font {
-  &-thicccboisemibold {
-    font-family: var(--font-thicccboi-semibold);
+  
+  @font-face {
+    font-family: 'THICCCBOI';
+    src: url('/fonts/THICCCBOI-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
   }
-  &-thicccboibold {
-    font-family: var(--font-thicccboi-bold);
+  
+  @font-face {
+    font-family: 'THICCCBOI';
+    src: url('/fonts/THICCCBOI-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
   }
-  &-thicccboiregular {
-    font-family: var(--font-thicccboi-regular);
+  
+  @font-face {
+    font-family: 'THICCCBOI';
+    src: url('/fonts/THICCCBOI-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
   }
-  &-ppmori {
-    font-family: var(--font-ppmori);
+  
+  /* Theme Configuration */
+  @theme {
+    /* Font Family Variables */
+    --font-ppmori: 'PP Mori', sans-serif;
+    --font-thicccboi: 'THICCCBOI', sans-serif;
   }
-}
+  
+  /* Font Family Utilities */
+  @utility font {
+    &-ppmori {
+      font-family: var(--font-ppmori);
+    }
+    &-thicccboi {
+      font-family: var(--font-thicccboi);
+    }
+  }
+  
+  /* Font Weight Utilities for THICCCBOI */
+  @utility font {
+    &-regular {
+      font-weight: 400;
+    }
+    &-medium {
+      font-weight: 500;
+    }
+    &-semibold {
+      font-weight: 600;
+    }
+    &-bold {
+      font-weight: 700;
+    }
+  }
 
 /* No Hover Utility */
 @utility no-hover {
