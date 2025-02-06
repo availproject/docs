@@ -13,12 +13,12 @@ export default function Introduction() {
               return (
                 <div
                   key={index}
-                  className="transform transition-transform duration-300 hover:scale-[.99] mb-8 card_background sm:break-inside-avoid rounded-2xl border-solid border border-[#212123]"
+                  className="transform transition-transform duration-300 hover:scale-[.99] mb-8 card_background bg-[#f8fbff] dark:bg-[#212123] p-2 sm:break-inside-avoid rounded-2xl"
                 >
-                  <h3 className="text-xl md:text-3xl font-SpaceGrotesk text-black px-5 pt-5 opacity-90 font-thicccboibold">
+                  <h3 className="text-xl md:text-3xl font-SpaceGrotes dark:text-white px-5 pt-5 opacity-90 font-thicccboibold">
                     {x.title}
                   </h3>
-                  <h4 className="text-md md:text-lg font-SpaceGrotesk text-black px-5 py-5 opacity-50 font-ppmori">
+                  <h4 className="text-md md:text-lg font-SpaceGrotes dark:text-white px-5 py-5 opacity-50 dark:opacity-70 font-ppmori">
                     {x.description}
                   </h4>
                   {x.links &&

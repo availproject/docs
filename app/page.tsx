@@ -11,7 +11,7 @@ export default function HomePage() {
         <img
           src="/introshapes.png"
           alt="left image"
-          className="absolute left-0 top-0 -z-10 max-md:opacity-30"
+          className="absolute left-0 top-0 max-md:opacity-30"
         />
         <h1 className="text-center text-4xl tracking-tighter font-bold md:text-5xl mt-4 font-thicccboibold">
           Avail Developer Docs
@@ -22,11 +22,10 @@ export default function HomePage() {
         <img
           src="/introshapes.png"
           alt="right image"
-          className="absolute right-0 top-0 -z-10 max-md:opacity-30"
+          className="absolute right-0 top-0 max-md:opacity-30"
         />
-      <Introduction />
       </div>
-
+      <Introduction />
     </>
   );
 }
