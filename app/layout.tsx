@@ -7,6 +7,7 @@ import { getPageMap } from 'nextra/page-map'
 import DarkHorizontal from '../public/Dark_Horizontal.svg'
 import 'nextra-theme-docs/style.css'
 import Image from 'next/image'
+import './globals.css'
 export const metadata: Metadata = {
   title: "Avail docs",
   description: "Avail developer docs built using Nextra V4",
