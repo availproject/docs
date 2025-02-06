@@ -1,7 +1,49 @@
 @import 'tailwindcss';
+@config "../tailwind.config.js";
 @import 'nextra-theme-docs/style.css';
 
 @variant dark (&:where(.dark *));
 
 @theme {
 }
+
+  
+  @font-face {
+    font-family: 'PP Mori';
+    src: url('/fonts/PPMori-Regular.otf') format('otf');
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Thicccboi-bold';
+    src: url('/fonts/THICCCBOI-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Thicccboi-medium';
+    src: url('/fonts/THICCCBOI-Medium.woff2');
+  }
+  
+  @font-face {
+    font-family: 'Thicccboi-semibold';
+    src: url('/fonts/THICCCBOI-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Thicccboi-regular';
+    src: url('/fonts/THICCCBOI-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+  }
+   
+  .card_background{
+    border-image-source: linear-gradient(139.26deg, rgba(255, 255, 255, 0.8) -0.73%, rgba(234, 241, 251, 0.8) 100.78%);
+    box-shadow: 0px 4px 88px -16px #59789E52;
+    border-radius: 24px;
+  }
+  
