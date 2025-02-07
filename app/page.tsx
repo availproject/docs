@@ -13,10 +13,10 @@ export default function HomePage() {
           alt="left image"
           className="absolute left-0 top-0 max-md:opacity-30"
         />
-        <h1 className="text-center text-4xl tracking-tighter font-bold md:text-5xl mt-4 font-thicccboibold">
+        <h1 className="text-center text-4xl tracking-tighter md:text-5xl mt-4 font-thicccboi font-bold">
           Avail Developer Docs
         </h1>
-        <h1 className="text-center text-xl font-normal mx-auto mt-3 max-w-xl font-thicccboiregular">
+        <h1 className="text-center text-xl mx-auto mt-3 max-w-xl font-thicccboi font-normal">
           Build with Avail DA, the validity proven data availability layer unifying Web3
         </h1>
         <img
