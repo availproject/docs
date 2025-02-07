@@ -1,0 +1,239 @@
+import { Callout, Tabs, Steps} from 'nextra/components'
+import YouTube from '@components/Youtube'
+
+# How to use a ledger wallet on Avail DA
+
+Avail DA is a modular blockchain built for the next generation of rollups by being an effective and efficient
+solution for the [data availability problem](https://blog.availproject.org/data-availability-what-is-it/).
+
+The AVAIL token is the native token of the Avail DA, used to perform basic transactions, as well as to submit data.
+It therefore becomes crucial to store your AVAIL tokens securely, especially for wallets with large amounts of them.
+
+This guide will take you through verifying, rejecting, and approving a transaction on Avail DA using a Ledger wallet.
+
+## Prerequisites
+
+1. A ledger device. Refer to [ledger's official website](https://www.ledger.com/) for the same.
+2. The Avail app for ledger should be installed on your ledger device. You can do so by downloading the
+[ledger live app](https://www.ledger.com/ledger-live) on your computer or mobile and use it to install the Avail app on your ledger.
+
+<Callout type="warning">
+If you're using a new ledger device, it is highly recommended to ensure it's firmware is up to date before anything else.
+You can update it's firmware using the ledger live app.
+</Callout>
+
+## Set up your Ledger from scratch
+
+
+### Video guide
+
+If Youtube is more your style, you can watch the video guide below:
+<br/>
+
+<YouTube id="K-mCPqTw0yU"/>
+
+### Install the Avail app on your ledger device
+
+1. Open the Ledger live app and naviagte to the 'My Ledger' tab from the sidebar.
+2. Search for the `Avail` app inside the app catalog, and install it on your device.
+<br/>
+<img src="/img/ledger-avail/ledger-avail-1.png" alt="Ledger live app"/>
+
+3. Once installed, this is what your ledger device's homepage should look like:
+<br/>
+<img src="/img/ledger-avail/ledger-avail-2.jpeg" alt="Ledger device homepage"/>
+
+### Open the Avail app on your ledger device
+
+<Callout type="info">
+Please note that you will need to have the Avail app open on your ledger device to interact with Avail DA in any capacity.
+</Callout>
+
+This is what your ledger device should display when the Avail app is opened:
+<br/>
+<img src="/img/ledger-avail/ledger-avail-3.png" alt="Ledger device with Avail app open"/>
+
+### Derive an Avail DA account online using your ledger device
+
+1. Go to the [settings tab of the Avail apps explorer](https://explorer.availproject.org/#/settings).
+2. Click on `manage hardware connections` and select `Attach Ledger via WebUSB`, then save the changes.
+
+<br/>
+<img src="/img/ledger-avail/ledger-1.png" alt="enable ledger services in availapps explorer"/>
+
+3. Go to the [accounts tab of the Avail apps explorer](https://explorer.availproject.org/#/accounts).
+4. Click on `From Ledger`.
+
+<br/>
+<img src="/img/ledger-avail/ledger-avail-4.png" alt="Avail explorer accounts tab"/>
+
+5. A form will pop up. Give your derived account a random name.
+6. Choose a top-level and a second-level derivation for your account. We'll be going with `0` and `0` respectively.
+<br/>
+<img src="/img/ledger-avail/ledger-avail-5.png" alt="Avail explorer ledger derivation form"/>
+
+<Callout type="info">
+Any account address generated from your ledger will be a unique combination of your ledger-device's
+seed phrase, the top-level derivation, and the second-level derivation.
+This means if you re-connect to the avail apps explorer with the same ledger device in the future (that has not been reset), and use
+the same top-level and second-level derivations, you will get the same account address.
+</Callout> 
+
+7. This is what the accounts tab should look like after you've derived a hardware account:
+<br/>
+<img src="/img/ledger-avail/ledger-avail-6.png" alt="Avail explorer accounts tab with hardware account"/>
+
+8. Make sure to send some AVAIL to this account to interact with Avail DA.
+
+### Sign a transaction on Avail DA using your ledger device
+
+1. Click on the `send` button alongside your ledger wallet.
+2. Enter a recipient's address and an amount to send.
+3. Click on `Make Transfer`.
+4. Make sure the app id is `0` if you're performing a simple transaction.
+
+<Callout type="info">
+Please note that non-zero app ids are used to submit data to Avail DA.
+For all top-level/simple transactions, the correct app id is `0`.
+</Callout>
+
+5. Click on `Sign and Submit`.
+6. At this point the explorer UI will wait for a signing/rejection of the transaction from your ledger device.
+7. You can verify important details of the transaction from your ledger device, including the destination address and the amount of AVAIL being transferred.
+This is what it should look like:
+<br/>
+<img src="/img/ledger-avail/ledger-avail-7.png" alt="Ledger device transaction details"/>
+
+8. Once you are done verifying, `Approve` or `Reject` the transaction using the buttons on your ledger device.
+9. Once the transaction has been finalised, you will see a success message on the explorer UI:
+<br/>
+<img src="/img/ledger-avail/ledger-avail-8.png" alt="Transaction success message"/>
+
+### Support
+If you face any issues while using your ledger device with Avail DA, please feel free to reach out to us on our [Telegram](https://t.me/AvailCommunity) or [Discord](https://discord.gg/AvailProject).
+
+
+## Add your Ledger account to an extension wallet
+
+If you have set up your ledger device and want to use it through a dedicated Avail wallet, this section is for you.
+We have included instructions for connecting a ledger account with Subwallet & Talisman, but the process is similar for other wallets.
+
+<Callout type="info">
+If you are looking for instructions on getting started with an Avail wallet, you can refer to our [accounts guide](/user-guides/accounts/#creating-an-account-on-avail-da).
+</Callout>
+
+<Tabs items={['Subwallet', 'Talisman']}>
+
+<Tabs.Tab>
+
+<Steps>
+
+### Prerequisites
+
+Make sure your ledger device is unlocked and the Avail app is open.
+
+### Click near the top to expand the list of accounts
+
+<br/>
+<div align="center">
+<img src="/img/ledger-subwallet/ledger-subwallet-1.png" align="center" width="35%" /> 
+</div>
+
+### Click on `Attach account`
+
+<br/>
+<div align="center">
+<img src="/img/ledger-subwallet/ledger-subwallet-2.png" align="center" width="35%" /> 
+</div>
+
+### Select the `Connect a ledger device` option
+
+<br/>
+<div align="center">
+<img src="/img/ledger-subwallet/ledger-subwallet-3.png" align="center" width="35%" /> 
+</div>
+
+### Search for the `Avail` app and click on `Connect`
+
+<br/>
+<div align="center">
+<img src="/img/ledger-subwallet/ledger-subwallet-4.png" align="center" width="35%" /> 
+</div>
+
+### You can now select as many or as few of your ledger accounts to your Subwallet extension wallet
+
+<br/>
+<div align="center">
+<img src="/img/ledger-subwallet/ledger-subwallet-5.png" align="center" width="35%" /> 
+</div>
+
+### Click on `Connect Ledger device` to finally import your selected accounts
+
+<br/>
+<div align="center">
+<img src="/img/ledger-subwallet/ledger-subwallet-6.png" align="center" width="35%" /> 
+</div>
+
+</Steps>
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+<Steps>
+
+### Prerequisites
+
+Make sure your ledger device is unlocked and the Avail app is open.
+
+### CLick on the `+` sign next to the accounts tab
+
+<br/>
+<div align="center">
+<img src="/img/ledger-talisman/ledger-talisman-1.png" align="center" /> 
+</div>
+
+### Click on the `Connect` tab and then on `Connect Ledger`
+
+<br/>
+<div align="center">
+<img src="/img/ledger-talisman/ledger-talisman-2.png" align="center" /> 
+</div>
+
+### Select the `Polkadot` option
+
+<br/>
+<div align="center">
+<img src="/img/ledger-talisman/ledger-talisman-3.png" align="center" /> 
+</div>
+
+### Search for the `Avail` app and click on `Connect`
+
+<br/>
+<div align="center">
+<img src="/img/ledger-talisman/ledger-talisman-4.png" align="center" /> 
+</div>
+
+<Callout type="info">
+**MAKE SURE YOUR LEDGER DEVICE IS OPEN THROUGHOUT THE PROCESS**
+</Callout>
+
+### You can now select as many or as few of your ledger accounts to your Talisman extension wallet
+
+<br/>
+<div align="center">
+<img src="/img/ledger-talisman/ledger-talisman-5.png" align="center" /> 
+</div>
+
+### Click on `Continue` to finally import your selected accounts
+
+<br/>
+<div align="center">
+<img src="/img/ledger-talisman/ledger-talisman-6.png" align="center" /> 
+</div>
+
+</Steps>
+</Tabs.Tab>
+
+</Tabs>
+
+
