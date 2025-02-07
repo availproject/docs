@@ -10,9 +10,8 @@ export const IntroData = [
           links: [{ link: "/user-guides/accounts", textcolor: "3CA3FC", placeholder: "Set up an Avail wallet"}, 
           {link: "/user-guides/avail-multisig", textcolor: "3CA3FC", placeholder: "Multisig accounts"},
           {link: "/user-guides/avail-proxy", textcolor: "3CA3FC", placeholder: "Proxy accounts"},
-          {link: "/user-guides/identity", textcolor: "3CA3FC", placeholder: "Set an on-chain identity on Avail"},
           {link: "/user-guides/avail-snap", textcolor: "3CA3FC", placeholder: "Avail DA with MetaMask"},
-          {link: "/user-guides/ledger-avail", textcolor: "3CA3FC", placeholder: "Use a Ledger wallet on Avail"},
+          {link: "/user-guides/ledger-avail", textcolor: "3CA3FC", placeholder: "Hardware wallet on Avail"},
           {link: "/user-guides/vectorx", textcolor: "3CA3FC", placeholder: "Bridge AVAIL to Ethereum"},
           {link: "/user-guides/staking-governance", textcolor: "3CA3FC", placeholder: "Staking & governance"},
           ],
@@ -32,7 +31,6 @@ export const IntroData = [
           {link: "/docs/networks", textcolor: "3CA3FC", placeholder: "Endpoints & networks info"},
           {link: "/docs/build-with-avail/interact-with-avail-da/read-write-on-avail", textcolor: "3CA3FC", placeholder: "Read & write data on Avail DA"},
           {link: "/docs/build-with-avail/deploy-rollup-on-avail", textcolor: "3CA3FC", placeholder: "Deploy your own rollup"},
-          {link: "/docs/learn-about-avail", textcolor: "3CA3FC", placeholder: "Learn more about Avail"},
           {link: "/docs/operate-a-node/run-a-light-client", textcolor: "3CA3FC", placeholder: "Run an Avail light client"},
           {link: "/docs/operate-a-node/run-a-full-node", textcolor: "3CA3FC", placeholder: "Run an Avail node"},
           {link: "/docs/faqs", textcolor: "3CA3FC", placeholder: "Glossary"},
@@ -51,6 +49,7 @@ export const IntroData = [
           links: [{ link: "/api-reference/avail-node-api", placeholder: "Avail node"}, 
           { link: "/api-reference/avail-lc-api", placeholder: "Avail light client"}, 
           {link: "/api-reference/avail-bridge-api", placeholder: "VectorX bridge"},
+          {link: "/api-reference/gas-relay-api", placeholder: "Avail gas relay"},
         ],
           textcolor: "FE8B6C"
         }

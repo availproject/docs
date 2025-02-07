@@ -1,0 +1,180 @@
+
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Bridge AVAIL to Ethereum using the VectorX bridge
+
+## Introduction
+
+The Avail team has been hard at work in partnership with [Succinct labs](https://succinct.xyz/)
+to develop a trust-minimized bridge between Avail DA and Ethereum.
+
+> Enter VectorX.
+
+VectorX uses zkSNARKs to enable an efficient and trust-minimized bridge to pass arbitrary messages
+between Avail DA and Ethereum, which enables use cases like token bridging.
+{/* You can read about VectorX in more detail on [Succinct's blog](https://blog.succinct.xyz/vector-x/). */}
+
+This is a non-technical tutorial focussed on actually using the bridge via a convinient web interface built by Avail.
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary>Frequently Asked Questions (FAQs)</summary>
+
+1. Will my bridged tokens automatically appear in my wallet on the other side?
+        - No.<br/>
+        Your funds will take a couple of hours to bridge, following which you need to go to the bridge UI once again and manually
+        claim your AVAIL tokens on the other side.
+
+2. Which chain should I claim from?
+        - The Avail bridge UI currently only supports bridging AVAIL tokens between Avail DA and Ethereum.
+        If you initiate the bridging process from Avail DA and want to claim your AVAIL tokens on Ethereum, you need to go to `Transactions` tab and claim AVAIL by
+        making sure your EVM wallet is connected to **Ethereum mainnet**, and clicking the `Claim Ready` button.
+        Conversely, if you initiate the bridging process from Ethereum and want to claim your AVAIL tokens on Avail DA, 
+        make sure your Avail wallet is connected to **Avail DA mainnet**, and click the `Claim Ready` button.
+
+3. I am not able to claim tokens even though a lot of time has passed?
+        - Please note that while users may be facing some bugs in the bridge UI, user funds are 100% safe will
+        be claimable soon. We are working on brushing up the UI and will fix all the bugs soon.
+
+4. Will I need funds on the chain where I am claiming my tokens?
+        - Yes, since you're effectively executing a transaction on the chain where you're claiming your tokens.
+        This means if you're bridging from Avail DA to Ethereum, you will need some ETH on Ethereum mainnet.
+        On the other hand, if you're bridging from Ethereum to Avail DA, you will need some AVAIL on Avail DA mainnet.
+
+5. What if I have submitted a `claim` transaction on the wrong network?
+        - We have received some reports of an edge-case where it is possible for users to sign the claim transaction
+        on an EVM network like `Avalanche` through our UI. Please note that this is a bug, and users should
+        only sign transactions on Avail DA or Ethereum mainnet.
+        If you have signed a transaction on the wrong network, you might need to clear the bridge UI's cache data
+        in your browser.
+        You can find instructions on how to clear cache for a particular website [in this blog](https://support.breezechms.com/hc/en-us/articles/4402756658839-Google-Chrome-Clearing-Cache-and-Cookies-for-Specific-Sites).
+
+</details>
+
+## Using the Bridge
+
+<Callout type="warning">
+BEFORE YOU BEGIN<br/>
+You need to manually claim your AVAIL tokens on either of the chains, once they've been bridged.
+This means you'll also need a small amount of ETH on Ethereum mainnet to pay for the gas fees to call the `claim`
+function on the AVAIL ERC-20 contract.<br/>
+Please keep this in mind and have some ETH ready on the EVM wallet address that you connect to the bridge.
+</Callout>
+
+<Tabs items={['Using an extension wallet', 'Using a Ledger device']}>
+
+<Tabs.Tab>
+<Steps>
+
+### Go to the official `avail-bridge` UI
+
+Go to [bridge.availproject.org](https://bridge.availproject.org/), and then connect an Avail wallet,
+and an EVM wallet to the website.
+
+<Callout type="info">
+Please note that this is required because Avail DA and Ethereum use two different address formats.
+The funds on Ethereum will be claimable only by the EVM address you connect here.
+</Callout>
+<br/>
+<div align="center">
+    <img src="/img/bridge-ui/ui.png" width="80%" height="80%"/>
+</div>
+
+### Initiate the bridging, and wait!
+
+Bridging AVAIL from Avail DA to Ethereum typically takes 1-2 hours.
+You can check the `Transactions` tab in the UI to see the status of your transaction.
+Wait for the transaction status to change to `Claim Ready`.
+<br/>
+<div align="center">
+        <img src="/img/bridge-ui/claim-ready.png" width="80%" height="80%"/>
+</div>
+
+### Claim your funds
+
+You will need to manually claim `AVAIL` on Ethereum with the same EVM address you connected earlier. used in `step 1`.
+Click on `Claim Ready` and approve the transaction in your wallet.
+Your AVAIL tokens on Ethereum mainnet will then be transferred to your account.
+
+<Callout type="info">
+Please note that you are executing a transaction on Ethereum in this step, so you will need to have some ETH in your wallet to pay for the gas fees.
+</Callout>
+
+<br/>
+<div align="center">
+        <img src="/img/bridge-ui/previous-history.png" width="80%" height="80%"/>
+</div>
+
+</Steps>
+
+<Callout type="info">
+This exact process can be reversed to bridge AVAIL from Ethereum to Avail DA.
+</Callout>
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+<Steps>
+
+### Make sure you have a Ledger device ready
+
+If you need instructions on how to get started with a ledger device, please refer to our docs.
+
+1. [Set up a new ledger device](/user-guides/ledger-avail#set-up-your-ledger-from-scratch)
+2. [Connect a ledger account to your Subwallet/Talisman extension wallet](/user-guides/ledger-avail#add-your-ledger-account-to-an-extension-wallet)
+
+### Click on the `Connect` button in the Bridge ui & select your preferred wallet
+
+<br/>
+<div align="center">
+<img src="/img/ledger-bridge/ledger-bridge-1.png" align="center" width="60%" /> 
+</div>
+
+### Select your ledger account from within your wallet
+
+<Callout type="info">
+1. Please note that you need to have the `Avail` app installed on your ledger device.
+2. Your ledger device needs to be unlocked during the entire process.
+</Callout>
+
+<br/>
+<div align="center">
+<img src="/img/ledger-bridge/ledger-bridge-2.png" align="center" width="60%" /> 
+</div>
+
+### Connect the selected ledger account to the bridge UI
+
+<br/>
+<div align="center">
+<img src="/img/ledger-bridge/ledger-bridge-3.png" align="center" width="60%" /> 
+</div>
+
+### Fill out the rest of the details and click on `Approve`
+
+1. Specify the amount of AVAIL you want to bridge.
+2. Specify the destination address on the other chain, or simply connect an EVM wallet to the bridge UI.
+3. Initiate the bridging process.
+4. Click on `Approve` in the pop-up window. This will send the transaction to your ledger device.
+<br/>
+<div align="center">
+<img src="/img/ledger-bridge/ledger-bridge-4.png" align="center" width="60%" /> 
+</div>
+
+### Approve the bridging transaction on your ledger device
+
+1. Unlock your ledger device.
+2. Approve the bridging transaction on your ledger device.
+3. Wait for a while, and you should see a transaction confirmation message in the bridge UI.
+
+<br/>
+<div align="center">
+<img src="/img/ledger-bridge/ledger-bridge-5.png" align="center" width="60%" /> 
+</div>
+
+</Steps>
+
+</Tabs.Tab>
+
+
+</Tabs>
