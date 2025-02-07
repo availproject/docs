@@ -2,6 +2,18 @@
 title: Start Here
 ---
 
+import { Cards, Image } from 'nextra/components'
+import { FileIcon, FilesIcon } from '@components/icons'
+import { cloneElement } from 'react'
+
+export default function MdxLayout(props) {
+  return cloneElement(props.children, {
+    components: {
+      img: Image
+    }
+  })
+}
+
 # Welcome to Avail's Documentation!
 
 ## Introduction to Avail
@@ -12,43 +24,40 @@ title: Start Here
 While the Avail docs in their current state focus primarily on Avail DA, you can read these key blogs to
 learn more about our upcoming offerings as well as our vision for the unified future:
 
-1. [Avail DA](https://blog.availproject.org/avails-core-features-explained/)
-2. [Avail Nexus & Avail Fusion](https://blog.availproject.org/what-is-avail/)
-3. [What is Avail?](https://blog.availproject.org/what-is-avail/)
+<Cards num={2}>
+  <Cards.Card arrow title="Avail DA" href="https://blog.availproject.org/avails-core-features-explained/">
+    <img className="cardImage" src="/img/start-here/validity-proofs.png" alt="Validity Proofs" target="_blank" rel="noopener noreferrer"/>
+  </Cards.Card>
+  <Cards.Card arrow title="What is Avail?" href="https://blog.availproject.org/what-is-avail/">
+    <img className="cardImage"src="/img/start-here/what-is-avail.png" alt="What is Avail?" target="_blank" rel="noopener noreferrer" height={396}/>
+  </Cards.Card>
+</Cards>
 
-## Links at a Glance!
+## Some Quick Links
 
-- Want to set up a wallet? \
-Go here: [Wallet Setup](/user-guides/accounts)
+### User Guides
 
+<Cards num={2}>
+  <Cards.Card icon={<FileIcon />} title="Set up a new Avail wallet" href="/user-guides/accounts" />
+  <Cards.Card icon={<FileIcon />} title="Bridge `AVAIL` to Ethereum" href="/user-guides/vectorx" />
+  <Cards.Card icon={<FileIcon />} title="Stake on Avail DA" href="/user-guides/staking-governance/stake-on-avail" />
+</Cards>
 
-- Want to get all endpoints and network information at a glance? \
-Go here: [Network Information](/docs/networks)
+### Developer Documentation
 
+<Cards num={2}>
+  <Cards.Card icon={<FileIcon />} title="Get testnet tokens from the faucet" href="/docs/build-with-avail/interact-with-avail-da/faucet" />
+  <Cards.Card icon={<FileIcon />} title="Check out all endpoints and network information" href="/docs/networks" />
+  <Cards.Card icon={<FileIcon />} title="Deploy your own rollup on Avail DA" href="/docs/build-with-avail/deploy-rollup-on-avail" />
+  <Cards.Card icon={<FileIcon />} title="Start posting data to Avail DA" href="/docs/build-with-avail/interact-with-avail-da/read-write-on-avail" />
+  <Cards.Card icon={<FileIcon />} title="Run your own Avail light client" href="/docs/operate-a-node/run-a-light-client" />
+  <Cards.Card icon={<FileIcon />} title="Become a validator on Avail DA" href="/docs/operate-a-node/become-a-validator" />
+</Cards>
 
-- Need some AVAIL on the Turing testnet? \
-Go here: [Faucet instructions](/docs/build-with-avail/interact-with-avail-da/faucet)
+### API reference
 
-- Want to start posting data to Avail DA? \
-Go here: [Read & Write data on Avail DA](/docs/build-with-avail/interact-with-avail-da/read-write-on-avail)
-
-- Want do deploy your own rollup on Avail DA? \
-Go here: [Deploy your own Rollup](/docs/build-with-avail/deploy-rollup-on-avail)
-
-- Looking for instructions on running the Avail light client? \
-Go here: [Light Client](/docs/operate-a-node/run-a-light-client)
-
-- Want to become a validator on Avail DA? \
-Go here: [Validator Setup](/docs/operate-a-node/become-a-validator)
-
-- Looking for an API reference for the Avail node? \
-Go here: [Avail node API](/api-reference/avail-node-api)
-
-- Looking for an API reference for the Avail light client? \
-Go here: [Avail light client API](/api-reference/avail-lc-api)
-
-- Want to bridge `AVAIL` to Ethereum?
-Go here: [Bridge AVAIL to Ethereum](/user-guides/vectorx)
-
-- Want to stake on Avail DA?
-Go here: [Staking on Avail DA](/user-guides/staking-governance/stake-on-avail)
+<Cards num={2}>
+  <Cards.Card icon={<FileIcon />} title="Avail node API reference" href="/api-reference/avail-node-api" />
+  <Cards.Card icon={<FileIcon />} title="Avail light client API reference" href="/api-reference/avail-lc-api" />
+  <Cards.Card icon={<FileIcon />} title="Avail VectorX API reference" href="/api-reference/avail-bridge-api" />
+</Cards>
