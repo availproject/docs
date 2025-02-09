@@ -25,7 +25,8 @@ To set up a dev environment for `avail-js`, please follow the steps [outlined he
 
 2. Import the dependencies from `avail-js-sdk` and create a `main` function:
 
-```typescript
+```typescript showLineNumbers filename="avail-js"
+
 import { SDK, WaitFor, Keyring, TransactionOptions } from "avail-js-sdk"
 
 const main = async () => {
@@ -37,7 +38,8 @@ main()
 
 3. Initialize a new instance of the SDK inside the `main` function:
 
-```typescript
+```typescript showLineNumbers filename="avail-js"
+
     // Initialize the SDK with a public Turing testnet endpoint
     // You can always switch it out with your own endpoint
   const providerEndpoint = "wss://turing-rpc.avail.so/ws";
@@ -46,7 +48,8 @@ main()
 
 4. Initialize a new wallet using a `12-word seed phrase`, and configure the params for the transaction:
 
-```typescript
+```typescript showLineNumbers filename="avail-js"
+
   const Alice = "This is a random seed phrase please replace with your own";
   const account = new Keyring({ type: "sr25519" }).addFromUri(Alice)
   const data = "Example data to be submitted to Avail DA"
@@ -57,7 +60,8 @@ main()
 
 5. Submit the transaction by calling the `dataAvailability_submitData` extrinsic via the `avail-js` SDK:
 
-```typescript
+```typescript showLineNumbers filename="avail-js"
+
 //Submit the transaction
   const result = await sdk.tx.dataAvailability.submitData(data, WaitFor.BlockInclusion, account, options)
 	if (result.isErr) {
@@ -90,7 +94,7 @@ ts-node submit-data.ts
 
 2. Import the dependencies from `avail-rust-sdk` and create a `main` function:
 
-```rust
+```rust showLineNumbers filename="avail-rust"
 use avail_rust::{Data, Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
 use core::str::FromStr;
  
@@ -102,13 +106,13 @@ async fn main() -> Result<(), String> {
 
 3. Initialize a new instance of the SDK inside the `main` function:
 
-```rust
+```rust showLineNumbers filename="avail-rust"
 	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
 ```
 
 4. Initialize a new wallet using a `12-word seed phrase`, and configure the params for the transaction:
 
-```rust
+```rust showLineNumbers filename="avail-rust"
   let alice = "This is a random seed phrase please replace with your own";
 	let secret_uri = SecretUri::from_str(alice).unwrap();
 	let account = Keypair::from_uri(&secret_uri).unwrap();
@@ -123,7 +127,7 @@ async fn main() -> Result<(), String> {
 
 5. Submit the transaction by calling the `dataAvailability_submitData` extrinsic via the `avail-rust` SDK:
 
-```rust
+```rust showLineNumbers filename="avail-rust"
     // Create the options with the app_id included
     let options = Options {
         app_id: Some(app_id),
@@ -165,7 +169,7 @@ cargo run
 
 2. Import the dependencies from `avail-go-sdk` and create a `main` function:
 
-```go
+```go showLineNumbers filename="avail-go"
 package main
 
 import (
@@ -183,7 +187,7 @@ func main() {
 
 3. Initialize a new instance of the SDK inside the `main` function:
 
-```go
+```go showLineNumbers filename="avail-go"
 	config, err := config.LoadConfig()
 	if err != nil {
 		fmt.Printf("cannot load config:%v", err)
@@ -202,7 +206,7 @@ func main() {
 
 4. Pass the seed phrase and data string as params for the transaction:
 
-```go
+```go showLineNumbers filename="avail-go"
 	// submit data
 	BlockHash, txHash, err := tx.SubmitData(api, config.Seed, appID, "my happy data", WaitFor)
 	if err != nil {
@@ -259,7 +263,8 @@ To check out how to create an AppID on Avail, [refer to this page](/docs/build-w
 
 2. Import the dependencies from `avail-js-sdk` and create a `main` function:
 
-```typescript
+```typescript showLineNumbers filename="avail-js"
+
 import { initialize } from "avail-js-sdk"
 
 const main = async () => {
@@ -274,7 +279,8 @@ main()
 
 3. Initialize a new instance of the SDK inside the `main` function, and declare the params:
 
-```typescript
+```typescript showLineNumbers filename="avail-js"
+
       //initialize sdk
     const api = await initialize("wss://turing-rpc.avail.so/ws")
 
@@ -285,7 +291,8 @@ main()
 
 4. Extract the data:
 
-```typescript
+```typescript showLineNumbers filename="avail-js"
+
     // Extracting data
     const block = await api.rpc.chain.getBlock(blockHash)
     const tx = block.block.extrinsics.find((tx) => tx.hash.toHex() == txHash)
@@ -297,7 +304,8 @@ main()
 
 5. Parse the data to extract a `string`:
 
-```typescript
+```typescript showLineNumbers filename="avail-js"
+
     console.log(JSON.stringify(tx))
     const dataHex = tx.method.args.map((a) => a.toString()).join(", ")
     // Data retrieved from the extrinsic data
@@ -324,7 +332,8 @@ ts-node read-data.ts
 
 The following code snippet combines the steps above into a single script to submit and fetch data from Avail:
 
-```typescript
+```typescript showLineNumbers filename="avail-js"
+
 import { initialize, getKeyringFromSeed } from "avail-js-sdk"
 import { ISubmittableResult } from "@polkadot/types/types/extrinsic"
 import { H256 } from "@polkadot/types/interfaces/runtime"
@@ -391,7 +400,8 @@ main()
 The `avail-js` SDK provides a method to estimate the cost of submitting a particular piece of data to Avail DA.
 Here is how you can use it:
 
-```typescript
+```typescript showLineNumbers filename="avail-js"
+
 import { initialize, disconnect } from "avail-js-sdk"
 
 const calculateCost = async () => {
