@@ -125,7 +125,7 @@ The prover and verifier components maintain their original security guarantees. 
 
    - Update `.env` as per `.env.example`.
 
-     ```bash filename=".env.example"
+     ```bash showLineNumbers filename=".env.example"
      SEPOLIA_PROVIDER="eth_sepolia_rpc_url"
      PRIVATE_KEY="your_private_key_here"
      ETHERSCAN_API_KEY="your_etherscan_api_key_here"
@@ -138,7 +138,7 @@ The prover and verifier components maintain their original security guarantees. 
      - Fill in the following fields with the respective addresses that will control the contracts: `admin`, `zkEVMOwner`, `timelockAddress`, and `initialZkEVMDeployerOwner`.
      - Enter the private key for the deployer in the `deployerPvtKey` field.
 
-       ```json filename="deployment/deploy_parameters.json"
+       ```json showLineNumbers filename="deployment/deploy_parameters.json"
        {
          "realVerifier": false,
          "trustedSequencerURL": "http://zkevm-json-rpc:8123",
@@ -217,7 +217,7 @@ The Mock Prover does not generate any zero-knowledge proofs. Instead, it simply 
       <details>
       <summary>Click to view the avail configuration example</summary>
 
-     ```json filename="test/config/test.avail.example.config.json"
+     ```json showLineNumbers filename="test/config/test.avail.example.config.json"
      {
        "seed": "test test test test test test test test test test test junk",
        "api_url": "wss://goldberg.avail.tools/ws",
@@ -235,7 +235,7 @@ The Mock Prover does not generate any zero-knowledge proofs. Instead, it simply 
       <details>
       <summary>Click to view the node configuration example</summary>
 
-     ```bash filename="test/config/test.node.config.example.toml"
+     ```bash showLineNumbers filename="test/config/test.node.config.example.toml"
       IsTrustedSequencer = true
 
       [Log]
@@ -454,7 +454,7 @@ The Mock Prover does not generate any zero-knowledge proofs. Instead, it simply 
 
 4. Modify the `test.prover.config.json` to enable actual prover functionality:
 
-   ```json filename="test.prover.config.json"
+   ```json showLineNumbers filename="test.prover.config.json"
    "runAggregatorClient": true,
    "runAggregatorClientMock": false
    ```
@@ -489,7 +489,7 @@ The zkEVM bridge service is a microservice that simplifies bridging between L1 a
    <details>
       <summary>Click to view the bridge configuration example</summary>
 
-   ```bash filename="config/config.local.example.toml"
+   ```bash showLineNumbers filename="config/config.local.example.toml"
    [Log]
    Level = "debug"
    Outputs = ["stdout"]

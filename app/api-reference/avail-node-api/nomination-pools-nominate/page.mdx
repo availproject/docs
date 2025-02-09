@@ -49,7 +49,7 @@ The rest of the code should work as is.
 <Tabs.Tab>
 1. Inside `your-file-name.ts`, add the following code:
 
-```javascript filename="avail-js"
+```javascript showLineNumbers filename="avail-js"
 import { SDK, WaitFor, Keyring } from "avail-js-sdk"
 
 const main = async () => {
@@ -102,7 +102,7 @@ ts-node your-file-name.ts
 
 1. Inside `main.rs`, add the following code:
 
-```rust filename="avail-rust" filename="avail-rust"
+```rust showLineNumbers filename="avail-rust" showLineNumbers filename="avail-rust"
 use avail_rust::{Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
 use core::str::FromStr;
  
@@ -141,7 +141,7 @@ cargo run
 <br/>
 <details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
 <summary>Sample Response:</summary>
-```rust filename="avail-rust"
+```rust showLineNumbers filename="avail-rust"
 NominateTxSuccess {
     events: ExtrinsicEvents {
         ext_hash: 0x6e0ae6fde353974f8b46aace441c49ba7ab135fa3743e0e1331d35c4528dacfb,
