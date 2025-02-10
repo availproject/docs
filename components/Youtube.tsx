@@ -1,4 +1,3 @@
-//components/mdx/YouTube.tsx
 export default function YouTube ({ id } : { id : string }){
     return (
       <div>
