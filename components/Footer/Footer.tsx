@@ -3,7 +3,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { useMobileView } from "../../hooks/useMobileView";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import footerStyle from "./Footer.module.css";
 import { ROUTES } from "../../utils/constant";
 import { useTheme } from "nextra-theme-docs";
@@ -213,33 +213,29 @@ export const Footer = () => {
             <div>
               <Link href={ROUTES.DISCORD} target="_blank" aria-label="dicord">
                 <FaDiscord
-                  src={"/discord_icon.png"}
                   width={"18px"}
                   height={"14px"}
-                  alt="dicord"
+                
                 />
               </Link>
-              <Link href={ROUTES.GITHUB} target="_blank" aria-label="github">
-                <FaGithub width={"16px"} height={"18px"} alt="github" />
+              <Link href={ROUTES.GITHUB} target="_blank" >
+                <FaGithub width={"16px"} height={"18px"}/>
               </Link>
-              <Link href={ROUTES.TWITTER} target="_blank" aria-label="twitter">
+              <Link href={ROUTES.TWITTER} target="_blank">
                 <FaTwitter
-                  src={"/twitter_icon.png"}
                   width={"18px"}
                   height={"15px"}
-                  alt="twitter"
+                 
                 />
               </Link>
               <Link
                 href={ROUTES.LINKEDIN}
                 target="_blank"
-                aria-label="linkedin"
               >
                 <FaLinkedin
-                  src={"/linkedin_icon.png"}
                   width={"17px"}
                   height={"16px"}
-                  alt="linkedin"
+                 
                 />
               </Link>
             </div>
