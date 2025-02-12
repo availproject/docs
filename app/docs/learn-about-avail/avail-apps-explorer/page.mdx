@@ -15,16 +15,14 @@ The Avail network has two main explorers that can be used to browse the network:
 This tutorial will focus on helping advanced users and devs get started with the Avail Apps Explorer.
 </Callout>
 
-
-## The basics
-
-### Switch networks
+## Switch networks
 
 <Tabs items={['AvailApps Explorer', 'Subscan Explorer']}>
 
 <Tabs.Tab>
+<Callout type="info">
 The Avail Apps explorer currently supports [Avail mainnet](https://mainnet.explorer.availproject.org/) and [Avail Turing testnet](https://turing.explorer.availproject.org/).
-
+</Callout>
 To switch networks:
 
 1. Click on the `Network name` on the top-left.
@@ -46,8 +44,10 @@ To switch networks:
 </Tabs.Tab>
 
 <Tabs.Tab>
-The Subscan explorer currently supports [Avail mainnet](https://avail.subscan.io/) and [Avail Turing testnet](https://avail-turing.subscan.io/).
 
+<Callout type="info">
+The Subscan explorer currently supports [Avail mainnet](https://avail.subscan.io/) and [Avail Turing testnet](https://avail-turing.subscan.io/).
+</Callout>
 To switch networks:
 
 1. Click on the drop-down near the top-right.
@@ -69,7 +69,7 @@ To switch networks:
 </Tabs>
 
 
-### Look up the details of a particular transaction [#lookup-transactions]
+## Look up the details of a particular transaction [#lookup-transactions]
 
 <Callout type="info">
 1. Due to how the network is designed, it is not possible for the `AvailApps` explorer to query a transaction's details using just it's hash directly from a node.
@@ -128,12 +128,13 @@ built on top of Avail to support this feature.
 
 </Tabs>
 
-## The `Accounts` section
+## Create accounts within the explorer [#the-accounts-section]
+
 
 <Tabs items={['AvailApps Explorer']}>
 
 <Tabs.Tab>
-This section can be used to add or import Avail accounts into the explorer.
+The `AvailApps` explorer can be used to add or import Avail accounts into the explorer.
 
 To go to the page, click on the `Accounts` tab on the top-left, or click [this link](https://explorer.availproject.org/#/accounts).
 1. The `accounts` section shows any accounts created straight from the explorer. You don't need any wallet extensions to create or use them.
@@ -162,8 +163,11 @@ instructions to do so [in our docs here](/user-guides/ledger-avail).
 
 </Tabs>
 
-## Using the explorer to interact with the network
+## Using the explorers to interact with the network
 
+<Tabs items={['AvailApps Explorer', 'Subscan Explorer']}>
+
+<Tabs.Tab>
 Wrt interacting with the network, the `AvailApps` explorer can be used to:
 
 1. Query data from the network by calling `Chain State` or `RPC` methods.
@@ -248,10 +252,60 @@ account to exist on the network, you can call the `balances_existentialDeposit` 
 
 3. You can look up any other constant in a similar way.
 
-## Wrapping up
+</Tabs.Tab>
 
-The `AvailApps` explorer is a powerful and comprehensive tool that allows a wide variety of users to interact with the network in their required ways.
-We did not even touch on the `staking` and `governance` related functionalities that it offers.
+<Tabs.Tab>
+
+The `Subscan` explorer leverages it's dedicated indexer to enable users to browse the network in some neat ways.
+
+1. You can browse network activity more conveniently by using different filters.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/subscan-explorer-5.png" align="center" />
+</div>
+
+<Callout type="info">
+- `Blocks`: Browse blocks by number.
+- `Extrinsics`: Browse all extrinsics submitted to the network.
+- `Transfers`: Browse all extrinsics that involve `AVAIL` token transfers.
+- `Data Submission`: Browse all data submissions to the network.
+</Callout>
+
+2. The `Staking` section allows you to browse the staking activity on the network.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/subscan-explorer-6.png" align="center" />
+</div>
+
+3. The `Governance` section allows you to browse all governance-related activity on the network, including all past proposals.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/subscan-explorer-7.png" align="center" />
+</div>
+
+4. The `Tools` section supports some useful features:
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/subscan-explorer-8.png" align="center" />
+</div>
+
+<Callout type="info">
+- `Charts`: Some charts for a visual representation of network activity.
+- `Account Format Transform`: Transform an account address into different formats supported by various Substrate-based chains.
+- `Price Converter`: Lookup the historical price of `AVAIL` by `block number` or `timestamp`.
+- `Runtime`: Browse data related to runtime extrinsics.
+</Callout>
+
+
+</Tabs.Tab>
+
+</Tabs>
+
+## Wrapping up
 
 We will update this page with more examples and information as we go along.
 Feel free to join [our Discord](https://discord.gg/AvailProject) and suggest any additions that you would like to see here.
