@@ -109,6 +109,19 @@ dotenvy = "0.15.7"
 3. You can update the Rust version on your system by running `rustup update`.
 </Callout>
 
+4. Create a `.env` file in the root of your project and put in the Seed Phrase of the account you want to use:
+
+```env showLineNumbers filename=".env"
+SEED="This is a random seed phrase please replace with your own"
+```
+
+<Callout type="error" emoji="🔥">
+**IMPORTANT**<br/>
+1. Please be **VERY CAREFUL** with your seed phrase.
+2. Make sure to add your `.env` file to your `.gitignore` so that it doesn't get pushed anywhere.
+3. While it is good enough to use an `env` file while testing, try to use better practices while deploying to production.
+</Callout>
+
 </Tabs.Tab>
 
 <Tabs.Tab>
