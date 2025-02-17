@@ -25,8 +25,8 @@ export default {
          },
     
         "staking-active-era": "Fetch information on the active era",
-        "staking-nominate": "Nominate staked AVAIL tokens to one or more validators",
         "staking-bond": "Bond AVAIL tokens on Avail DA",
+        "staking-nominate": "Nominate staked AVAIL tokens to one or more validators",
         "staking-validate": "Become a validator on Avail DA",
         "staking-chill": "Stop validating on Avail DA",
         "staking-unbond": "Unbond AVAIL tokens from Avail DA",
