@@ -161,31 +161,67 @@ cargo run
 package main
 
 import (
-	"github.com/availproject/avail-go-sdk/src/config"
-	"github.com/availproject/avail-go-sdk/src/sdk"
-	"github.com/availproject/avail-go-sdk/src/sdk/tx"
-
 	"fmt"
+	"log"
+	"os"
+
+	daPallet "github.com/availproject/avail-go-sdk/metadata/pallets/data_availability"
+	SDK "github.com/availproject/avail-go-sdk/sdk"
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	config, err := config.LoadConfig()
+	// Load environment variables from .env file
+	err := godotenv.Load()
 	if err != nil {
-		fmt.Printf("cannot load config:%v", err)
-	}
-	api, err := sdk.NewSDK(config.ApiURL)
-	if err != nil {
-		fmt.Printf("cannot create api:%v", err)
+		log.Fatal("Error loading .env file")
 	}
 
-	fmt.Println("Creating Application key...")
-	WaitFor := sdk.BlockInclusion
-	blockHash, txHash, err := tx.CreateApplicationKey(api, config.Seed, "new Application key created using avail-go....", WaitFor)
-	if err != nil {
-		fmt.Printf("cannot create application key:%v", err)
+	// Make sure the SEED environment variable is set
+	seed := os.Getenv("SEED")
+	if seed == "" {
+		log.Fatal("SEED environment variable is not set")
 	}
-	fmt.Printf("Application key created successfully with block hash: %v\n and ext hash:%v\n", blockHash.Hex(), txHash.Hex())
-	sdk.EventParser(api, blockHash, "ApplicationKeyCreated")
+
+	// Create an account from the SEED environment variable
+	acc, err := SDK.Account.NewKeyPair(seed)
+	if err != nil {
+		log.Fatalf("Failed to create account: %v", err)
+	}
+	fmt.Println("Your account Address: " + acc.SS58Address(42))
+
+	// Initialize an SDK instance
+	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
+	if err != nil {
+		log.Fatalf("Failed to initialize SDK: %v", err)
+	}
+
+	// Generate an application key
+	// Please note that the transaction will fail if 
+	// an AppID with the same key already exists
+	key := "My new application key"
+	tx := sdk.Tx.DataAvailability.CreateApplicationKey([]byte(key))
+
+	// Execute the transaction
+	res, err := tx.ExecuteAndWatchInclusion(acc, SDK.NewTransactionOptions())
+	if err != nil {
+		log.Fatalf("Transaction failed: %v", err)
+	}
+
+	// Check if the transaction was successful
+	if !res.IsSuccessful().UnsafeUnwrap() {
+		log.Fatal("Transaction was not successful")
+	}
+
+	fmt.Println("Application Key Created Successfully")
+
+	// Printing out all the values of the event ApplicationKeyCreated
+	events := res.Events.UnsafeUnwrap()
+	eventMyb := SDK.EventFindFirst(events, daPallet.EventApplicationKeyCreated{})
+	event := eventMyb.UnsafeUnwrap().UnsafeUnwrap()
+	appId := event.Id
+	fmt.Println(fmt.Sprintf(`Owner: %v, Key: %v, AppId: %v`, event.Owner.ToHuman(), string(event.Key), appId))
+	fmt.Println(fmt.Sprintf(`Block Hash: %v, Block Index: %v, Tx Hash: %v, Tx Index: %v`, res.BlockHash.ToHexWith0x(), res.BlockNumber, res.TxHash.ToHexWith0x(), res.TxIndex))
 }
 ```
 
