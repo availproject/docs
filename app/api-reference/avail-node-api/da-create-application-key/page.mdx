@@ -170,52 +170,56 @@ import (
 	"github.com/joho/godotenv"
 )
 
+// PanicOnError - Immediately exits if an error occurs
+func PanicOnError(err error) {
+	if err != nil {
+		log.Fatalf("Error: %v", err)
+	}
+}
+
+// AssertTrue - Exits if a condition is false
+func AssertTrue(condition bool, message string) {
+	if !condition {
+		log.Fatal(message)
+	}
+}
+
 func main() {
+
 	// Load environment variables from .env file
 	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	PanicOnError(err)
 
 	// Make sure the SEED environment variable is set
 	seed := os.Getenv("SEED")
-	if seed == "" {
-		log.Fatal("SEED environment variable is not set")
-	}
+	AssertTrue(seed != "", "SEED environment variable is not set")
 
 	// Create an account from the SEED environment variable
 	acc, err := SDK.Account.NewKeyPair(seed)
-	if err != nil {
-		log.Fatalf("Failed to create account: %v", err)
-	}
+	PanicOnError(err)
 	fmt.Println("Your account Address: " + acc.SS58Address(42))
 
 	// Initialize an SDK instance
 	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
-	if err != nil {
-		log.Fatalf("Failed to initialize SDK: %v", err)
-	}
+	PanicOnError(err)
 
 	// Generate an application key
-	// Please note that the transaction will fail if 
+	// Please note that the transaction will fail if
 	// an AppID with the same key already exists
-	key := "My new application key"
+	key := "My new application key created using avail-go-sdk"
 	tx := sdk.Tx.DataAvailability.CreateApplicationKey([]byte(key))
 
 	// Execute the transaction
 	res, err := tx.ExecuteAndWatchInclusion(acc, SDK.NewTransactionOptions())
-	if err != nil {
-		log.Fatalf("Transaction failed: %v", err)
-	}
+	PanicOnError(err)
 
-	// Check if the transaction was successful
-	if !res.IsSuccessful().UnsafeUnwrap() {
-		log.Fatal("Transaction was not successful")
-	}
+	isOk := res.IsSuccessful()
+	AssertTrue(isOk.IsSome(), "Failed to determine transaction status.")
 
-	fmt.Println("Application Key Created Successfully")
+	// If the value of `IsSuccessful()` is Some(false) then the transaction has failed.
+	AssertTrue(isOk.Unwrap(), "The transaction failed.")
 
-	// Printing out all the values of the event ApplicationKeyCreated
+	AssertTrue(res.Events.IsSome(), "Failed to decode events.")
 	events := res.Events.UnsafeUnwrap()
 	eventMyb := SDK.EventFindFirst(events, daPallet.EventApplicationKeyCreated{})
 	event := eventMyb.UnsafeUnwrap().UnsafeUnwrap()
