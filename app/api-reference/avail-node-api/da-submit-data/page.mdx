@@ -42,8 +42,7 @@ On-chain name of extrinsic: `dataAvailability_submitData`
 
 On failure, a reason of failure is returned. On Success, DataSubmitted event, transaction data, transaction hash and block hash is returned.
 
-
-## Minimal example
+## Submit data using a specific `app_id`
 
 <Callout type="info">
 1. You will need to set up the dev environment required to run this example. 
@@ -53,167 +52,6 @@ For instructions, [check out our docs here](/api-reference/avail-node-api#settin
 The rest of the code should work as is.
 </Callout>
 
-<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
-
-<Tabs.Tab>
-
-1. Inside `your-file-name.ts`, add the following code:
-
-```typescript showLineNumbers filename="avail-js"
-import { SDK, WaitFor, Keyring } from "avail-js-sdk"
-
-const main = async () => {
-  const providerEndpoint = "wss://turing-rpc.avail.so/ws";
-  const sdk = await SDK.New(providerEndpoint)
-
-  const Alice = "This is a random seed phrase please replace with your own";
-  const account = new Keyring({ type: "sr25519" }).addFromUri(Alice)
-  const data = "My Awesome Data"
-
-  const result = await sdk.tx.dataAvailability.submitData(data, WaitFor.BlockInclusion, account)
-  if (result.isErr) {
-    console.log(result.reason)
-    process.exit(1)
-  }
-
-  console.log("Data=" + result.txData.data)
-  console.log("Who=" + result.event.who + ", DataHash=" + result.event.dataHash)
-  console.log("TxHash=" + result.txHash + ", BlockHash=" + result.blockHash)
-
-  process.exit()
-}
-main()
-```
-
-2. Run the code using:
-
-```bash
-ts-node your-file-name.ts
-```
-</Tabs.Tab>
-
-<Tabs.Tab>
-
-1. Inside `src/main.rs`, paste the following code:
-
-```rust showLineNumbers filename="avail-rust"
-use avail_rust::{Data, Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
-use core::str::FromStr;
- 
-#[tokio::main]
-async fn main() -> Result<(), String> {
-	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
- 
-    let alice = "This is a random seed phrase please replace with your own";
-    let secret_uri = SecretUri::from_str(alice).unwrap();
-	let account = Keypair::from_uri(&secret_uri).unwrap();
-	let data = String::from("Sample data being submitted......").as_bytes().to_vec();
-	let data = Data { 0: data };
- 
-	let wait_for = WaitFor::BlockInclusion;
-	let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
- 
-	let result = sdk
-		.tx
-		.data_availability
-		.submit_data(data, wait_for, &account, Some(options))
-		.await?;
- 
-	println!(
-		"Who={}, DataHash={:?}",
-		result.event.who, result.event.data_hash
-	);
-	println!("TxData={:?}", result.tx_data.data);
-	println!(
-		"TxHash={:?}, BlockHash={:?}",
-		result.tx_hash, result.block_hash
-	);
- 
-	Ok(())
-}
-```
-
-2. Run the code using:
-
-```bash
-cargo run
-```
-<br/>
-
-<details className="border p-3 rounded-md bg-[#EFF6FF]">
-<summary>Sample Response:</summary>
-```bash
-    Finished dev [unoptimized + debuginfo] target(s) in 13.93s
-     Running `target/debug/da-submit-data`
-Who=5CqgQkrDcdg5QrtuxT3H7WszrqgrBMhdwRbmMVXQzc4VSiEg, DataHash=0xdb10b83f02707eff828e95e4cb534871d6e1ca9fb10eb9ccc12795e9abf6f931
-TxData=BoundedVec([83, 97, 109, 112, 108, 101, 32, 100, 97, 116, 97, 32, 98, 101, 105, 110, 103, 32, 115, 117, 98, 109, 105, 116, 116, 101, 100, 46, 46, 46, 46, 46, 46])
-TxHash=0xbfdf581618f28ef707147ea47a56483c6214dbaa83c53a6cc307073e3b8b578b, BlockHash=0xbee81b96a4e86dbc1a668da466416f6648c0025a7fc0d428ecae71d504290c62
-```
-</details>
-
-
-</Tabs.Tab>
-
-<Tabs.Tab>
-
-1. Inside `main.go`, paste the following code:
-
-```go showLineNumbers filename="avail-go"
-package main
-
-import (
-	"github.com/availproject/avail-go-sdk/src/config"
-	"github.com/availproject/avail-go-sdk/src/sdk"
-	"github.com/availproject/avail-go-sdk/src/sdk/tx"
-
-	"fmt"
-)
-
-func main() {
-	config, err := config.LoadConfig()
-	if err != nil {
-		fmt.Printf("cannot load config:%v", err)
-	}
-	api, err := sdk.NewSDK(config.ApiURL)
-	if err != nil {
-		fmt.Printf("cannot create api:%v", err)
-	}
-
-	appID := 0
-
-	// if app id is greater than 0 then it must be created before submitting data
-	if config.AppID != 0 {
-		appID = config.AppID
-	}
-	fmt.Println("Submitting data ...")
-	WaitFor := sdk.BlockInclusion
-
-	BlockHash, txHash, err := tx.SubmitData(api, config.Seed, appID, "my happy data", WaitFor)
-	if err != nil {
-		fmt.Printf("cannot submit data:%v", err)
-	}
-	fmt.Printf("Data submitted successfully with block hash: %v\n and ext hash:%v", BlockHash.Hex(), txHash.Hex())
-}
-```
-
-2. Run the code using:
-
-```bash
-go run main.go
-```
-
-<Callout type="info">
-If you receive errors related to missing dependencies while trying to execute your code, run:
-```bash
-go mod tidy
-```
-and try again.
-</Callout>
-</Tabs.Tab>
-
-</Tabs>
-
-## Submit data using a specific `app_id`
 
 <Callout type="info">
 **PLEASE NOTE**<br/>
@@ -222,8 +60,6 @@ read more [in our docs here](/api-reference/avail-node-api/da-create-application
 
 2. You can submit data to **ANY** `app_id`, even if you didn't create it. This however does not contitute an
 attack vector since the rollups building on top of Avail DA can always filter out DA submissions.
-
-3. If a specific `app_id` is not configured, the default is set to `0`.
 </Callout>
 
 <Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
@@ -270,49 +106,58 @@ ts-node your-file-name.ts
 1. Inside `src/main.rs`, paste the following code:
 
 ```rust showLineNumbers filename="avail-rust"
-use avail_rust::{Data, Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
-use core::str::FromStr;
+use dotenvy::dotenv;
+use std::env;
+use avail_rust::prelude::*;
+
+type DataSubmissionCall = avail::data_availability::calls::types::SubmitData;
+
+pub async fn submit_data() -> Result<(), ClientError> {
+
+    // Create a new SDK instance
+	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
  
-#[tokio::main]
-async fn main() -> Result<(), String> {
-	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
- 
-    let alice = "This is a random seed phrase please replace with your own";
-	let secret_uri = SecretUri::from_str(alice).unwrap();
-	let account = Keypair::from_uri(&secret_uri).unwrap();
-	let data = String::from("Sample data being submitted......").as_bytes().to_vec();
-	let data = Data { 0: data };
- 
-	let wait_for = WaitFor::BlockInclusion;
-	let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
- 
-	let app_id = 89; // You can change this value to your desired app_id
- 
-    // Create the options with the app_id included
-    let options = Options {
-        app_id: Some(app_id),
-        mortality: None,
-        nonce: Some(Nonce::BestBlockAndTxPool),
-        tip: None,       
+    // Loading seed phrase and creating an account derived from the seed
+    dotenv().ok();
+    let seed = env::var("SEED").expect("SEED environment variable is not set");
+    let account = account::from_secret_uri(&seed)?;
+    println!("Account Address: {}", account.public_key().to_account_id());
+
+    // Please note that the tx will fail if this application key does not exist
+    let my_application_key = 1;
+
+    // Data Submission
+    let data = String::from("My Data").into_bytes();
+    let options = Options::new().app_id(my_application_key);
+    let tx = sdk.tx.data_availability.submit_data(data);
+    let res = tx.execute_and_watch_inclusion(&account, options).await?;
+    assert_eq!(res.is_successful(), Some(true), "Transactions must be successful");
+
+    println!(
+        "Block Hash: {:?}, Block Number: {}, Tx Hash: {:?}, Tx Index: {}",
+        res.block_hash, res.block_number, res.tx_hash, res.tx_index
+    );
+
+    // Decoding
+    let decoded = res.decode_as::<DataSubmissionCall>().await?;
+    let Some(decoded) = decoded else {
+        return Err("Failed to get Data Submission Call data".into());
     };
- 
-	let result = sdk
-		.tx
-		.data_availability
-		.submit_data(data, wait_for, &account, Some(options))
-		.await?;
- 
-	println!(
-		"Who={}, DataHash={:?}",
-		result.event.who, result.event.data_hash
-	);
-	println!("TxData={:?}", result.tx_data.data);
-	println!(
-		"TxHash={:?}, BlockHash={:?}",
-		result.tx_hash, result.block_hash
-	);
- 
-	Ok(())
+
+    let data = to_ascii(decoded.data.0).unwrap();
+    println!("Call data: {:?}", data);
+
+    println!("Data Submission finished correctly");
+
+    Ok(())
+}
+
+// Add a main function to call submit_data
+#[tokio::main]
+async fn main() {
+    if let Err(e) = submit_data().await {
+        eprintln!("Error: {:?}", e);
+    }
 }
 ```
 2. Run the code using:
@@ -381,4 +226,3 @@ and try again.
 
 > This will lead to your data being submitted through a specific `app_id`, which you can verify by looking
 > up your transaction on the [Avail explorer](https://explorer.availproject.org/#/explorer).
-
