@@ -4,10 +4,9 @@ import { Head, Search } from 'nextra/components'
 import { Metadata } from "next";
 import { ReactNode } from "react";
 import { getPageMap } from 'nextra/page-map'
-import DarkHorizontal from '../public/Dark_Horizontal.svg'
 import 'nextra-theme-docs/style.css'
-import Image from 'next/image'
 import './globals.css'
+import { CustomNavbar } from '@components/Navbar';
 export const metadata: Metadata = {
   title: "Avail docs",
   description: "Avail developer docs built using Nextra V4",
@@ -36,9 +35,7 @@ export default async function RootLayout({
           navbar={
             <Navbar
               logo={
-                <div className="flex flex-row items-center">
-                  <Image src={DarkHorizontal} alt="avail-logo" width={125} height={40} />
-                </div>
+                <CustomNavbar/>
               }
               projectLink="https://github.com/availproject/docs"
               chatLink="https://twitter.com/AvailProject"
