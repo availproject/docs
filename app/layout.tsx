@@ -29,22 +29,9 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en" dir="ltr" suppressHydrationWarning>
-      <Head
-      color={{
-        hue:195,
-        saturation: {
-          light: 75,
-          dark: 100
-        },
-        lightness: {
-          light: 41,
-          dark: 55
-        }
-      }}
-      
+      <Head  
     />
       <body>
-
         <Layout
           navbar={
             <Navbar
