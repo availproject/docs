@@ -1,4 +1,4 @@
-import { Layout, Navbar, useTheme } from "nextra-theme-docs"
+import { Layout } from "nextra-theme-docs"
 import { Footer } from "@components/Footer/Footer"
 import { Head, Search } from "nextra/components"
 import type { Metadata } from "next"
@@ -22,7 +22,8 @@ export default async function RootLayout({
   return (
     <html lang="en" dir="ltr" suppressHydrationWarning>
       <Head />
-      <body>
+      <body className="dark:bg-dark dark:[color-scheme:dark]">
+     
         <Layout
           themeSwitch={{
             dark: "Dark",
@@ -51,7 +52,7 @@ export default async function RootLayout({
           }
         >
           {children}
-        </Layout>
+        </Layout>   
       </body>
     </html>
   )
