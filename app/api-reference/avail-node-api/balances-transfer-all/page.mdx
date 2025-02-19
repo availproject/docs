@@ -157,30 +157,69 @@ cargo run
 package main
 
 import (
-	"github.com/availproject/avail-go-sdk/src/config"
-	"github.com/availproject/avail-go-sdk/src/sdk"
-	"github.com/availproject/avail-go-sdk/src/sdk/tx"
-
 	"fmt"
+	"log"
+	"os"
+
+	"github.com/availproject/avail-go-sdk/primitives"
+	SDK "github.com/availproject/avail-go-sdk/sdk"
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	config, err := config.LoadConfig()
+	// Load environment variables from .env file
+	err := godotenv.Load()
 	if err != nil {
-		fmt.Printf("cannot load config:%v", err)
+		log.Fatal("Error loading .env file")
 	}
-	api, err := sdk.NewSDK(config.ApiURL)
-	if err != nil {
-		fmt.Printf("cannot create api:%v", err)
-	}
-	WaitFor := sdk.BlockInclusion
 
-	dest := "5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY"
-	BlockHash, txHash, err := tx.TransferAll(api, config.Seed, WaitFor, dest)
-	if err != nil {
-		fmt.Printf("cannot submit Transaction:%v", err)
+	// Make sure the SEED environment variable is set
+	seed := os.Getenv("SEED")
+	if seed == "" {
+		log.Fatal("SEED environment variable is not set")
 	}
-	fmt.Printf("Transaction submitted successfully with block hash: %v\n and ext hash:%v", BlockHash.Hex(), txHash.Hex())
+
+	// Create an account from the SEED environment variable
+	acc, err := SDK.Account.NewKeyPair(seed)
+	if err != nil {
+		log.Fatalf("Failed to create account: %v", err)
+	}
+	fmt.Println("Your account Address: " + acc.SS58Address(42))
+
+	// Initialize an SDK instance
+	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
+	if err != nil {
+		log.Fatalf("Failed to initialize SDK: %v", err)
+	}
+
+	// Convert the hex string to a MultiAddress
+	destAddress, err := primitives.NewAccountIdFromAddress("5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk")
+	if err != nil {
+		log.Fatalf("Failed to convert address: %v", err)
+	}
+	dest := destAddress.ToMultiAddress()
+
+	// Set to false if you don't want to keep the account alive
+	keepAlive := true
+
+	// Transferring all funds
+	tx := sdk.Tx.Balances.TransferAll(dest, keepAlive)
+
+	// Execute the transaction
+	res, err := tx.ExecuteAndWatchInclusion(acc, SDK.NewTransactionOptions())
+	if err != nil {
+		log.Fatalf("Transaction failed: %v", err)
+	}
+
+	// Check if the transaction was successful
+	if !res.IsSuccessful().UnsafeUnwrap() {
+		log.Fatal("Transaction was not successful")
+	}
+
+	fmt.Println("Transaction successful")
+
+	// Printing out all the values of the transaction
+	fmt.Println(fmt.Sprintf(`Block Hash: %v, Block Index: %v, Tx Hash: %v, Tx Index: %v`, res.BlockHash.ToHexWith0x(), res.BlockNumber, res.TxHash.ToHexWith0x(), res.TxIndex))
 }
 ```
 

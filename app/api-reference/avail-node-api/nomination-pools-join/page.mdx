@@ -6,7 +6,7 @@ On-chain name of method: `nominationPools_join`
 
 ## Parameters
 
-<Tabs items={['avail-js', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
 
 <Tabs.Tab>
 | parameter | type          | optional | description                                     |
@@ -16,6 +16,16 @@ On-chain name of method: `nominationPools_join`
 | waitFor   | WaitFor       | false    | wait for block inclusion or finalization        |
 | account   | KeyringPair   | false    | account that will send and sign the transaction |
 | options   | SignerOptions | true     | used to overwrite existing signer options       |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type        | optional | description                                     |
+| --------- | ----------- | -------- | ----------------------------------------------- |
+| amount    | u128        | false    | The amount of funds to delegate to the pool     |
+| pool id   | u32         | false    | pool id                                         |
+| waitFor   | WaitFor     | false    | wait for block inclusion or finalization        |
+| account   | KeyringPair | false    | account that will send and sign the transaction |
+| options   | Options     | true     | transaction parameters                          |
 </Tabs.Tab>
 
 <Tabs.Tab>
@@ -50,7 +60,7 @@ The rest of the code should work as is.
 2. Enter the `poolId` carefully.
 </Callout>
 
-<Tabs items={['avail-js', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
 
 <Tabs.Tab>
 
@@ -186,5 +196,84 @@ PoolJoinTxSuccess {
 ```
 </details>
 </Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.go`, add the following code:
+
+```go showLineNumbers filename="avail-go"
+package main
+
+import (
+	"fmt"
+	"log"
+	"os"
+
+	"github.com/availproject/avail-go-sdk/metadata"
+	SDK "github.com/availproject/avail-go-sdk/sdk"
+	"github.com/joho/godotenv"
+)
+
+func main() {
+	// Load environment variables from .env file
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	// Make sure the SEED environment variable is set
+	seed := os.Getenv("SEED")
+	if seed == "" {
+		log.Fatal("SEED environment variable is not set")
+	}
+
+	// Create an account from the SEED environment variable
+	acc, err := SDK.Account.NewKeyPair(seed)
+	if err != nil {
+		log.Fatalf("Failed to create account: %v", err)
+	}
+	fmt.Println("Your account Address: " + acc.SS58Address(42))
+
+	// Initialize an SDK instance
+	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
+	if err != nil {
+		log.Fatalf("Failed to initialize SDK: %v", err)
+	}
+
+	// Set the amount to bond and the pool ID
+	// 1_000_00 Avail tokens
+	amount, err := metadata.NewBalanceFromString("1000000000000000000000000")
+	if err != nil {
+		log.Fatalf("Failed to create balance: %v", err)
+	}
+	poolId := uint32(1)
+
+	// Create the join transaction
+	tx := sdk.Tx.NominationPools.Join(amount, poolId)
+
+	// Execute the transaction
+	res, err := tx.ExecuteAndWatchInclusion(acc, SDK.NewTransactionOptions())
+	if err != nil {
+		log.Fatalf("Transaction failed: %v", err)
+	}
+
+	// Check if the transaction was successful
+	if !res.IsSuccessful().UnsafeUnwrap() {
+		log.Fatal("Transaction was not successful")
+	}
+
+	fmt.Println("Join transaction successful")
+	fmt.Printf("Block Hash: %v, Block Number: %v, Tx Hash: %v, Tx Index: %v\n", res.BlockHash.ToHexWith0x(), res.BlockNumber, res.TxHash.ToHexWith0x(), res.TxIndex)
+}
+```
+
+2. Run the code using:
+
+```bash
+go run main.go
+```
+
+</Tabs.Tab>
+
 
 </Tabs>

@@ -11,7 +11,13 @@ On-chain name of method: `dataAvailability_appKeys`
 
 ## Parameters
 
-<Tabs items={['avail-js', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+|  key      | string        | true     | The `app_id` associated with this key will be fetched |
+</Tabs.Tab>
 
 <Tabs.Tab>
 | parameter | type          | optional | description                                           |
@@ -44,7 +50,7 @@ For instructions, [check out our docs here](/api-reference/avail-node-api#settin
 The rest of the code should work as is.
 </Callout>
 
-<Tabs items={['avail-js', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
 
 <Tabs.Tab>
 
@@ -75,6 +81,7 @@ ts-node your-file-name.ts
 </Tabs.Tab>
 
 <Tabs.Tab>
+
 
 1. Inside `main.rs`, add the following code:
 
@@ -172,6 +179,69 @@ addresses in the `AccountId32` format.
 
 </Tabs.Tab>
 
+<Tabs.Tab>
+
+1. Inside `main.go`, add the following code:
+
+```go showLineNumbers filename="avail-go"
+package main
+
+import (
+	"fmt"
+	"log"
+
+	daPallet "github.com/availproject/avail-go-sdk/metadata/pallets/data_availability"
+	prim "github.com/availproject/avail-go-sdk/primitives"
+	SDK "github.com/availproject/avail-go-sdk/sdk"
+)
+
+func main() {
+	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
+	if err != nil {
+		log.Fatalf("Failed to initialize SDK: %v", err)
+	}
+
+	// Get the latest block hash
+	latestBlockHash, err := sdk.Client.BestBlockHash()
+	if err != nil {
+		log.Fatalf("Failed to get latest block hash: %v", err)
+	}
+
+	// Initialize the block storage
+	blockStorage, err := sdk.Client.StorageAt(prim.Some(latestBlockHash))
+	if err != nil {
+		log.Fatalf("Failed to get block storage: %v", err)
+	}
+
+	{
+		storage := daPallet.StorageAppKeys{}
+		keyString := "Citizen Justice"
+		key := []byte(keyString)
+
+		val, err := storage.Fetch(&blockStorage, key)
+		if err != nil {
+			log.Fatalf("Failed to fetch app keys: %v", err)
+		}
+
+		if val.IsSome() {
+			entry := val.Unwrap()
+			fmt.Println("App Key Owner: ", entry.Value.Owner.ToHuman())
+			fmt.Println("App Key AppId: ", entry.Value.AppId)
+		} else {
+			fmt.Println("No app keys found for the given key.")
+		}
+	}
+}
+```     
+
+2. Run the code using:
+
+```bash
+go run main.go
+```
+
+</Tabs.Tab>
+
 </Tabs>
 
 ## Another example (Fetch all available `app_ids` registered on Avail DA)
@@ -183,7 +253,7 @@ as a mapping of their names to their owner and index.
 3. We are however including both scenarios here.
 </Callout>
 
-<Tabs items={['avail-js', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
 
 <Tabs.Tab>
 
@@ -259,4 +329,65 @@ cargo run
 ```
 </Tabs.Tab>
 
+<Tabs.Tab>
+
+1. Inside `main.go`, add the following code:
+
+```go showLineNumbers filename="avail-go"
+package main
+
+import (
+	"fmt"
+	"log"
+
+	daPallet "github.com/availproject/avail-go-sdk/metadata/pallets/data_availability"
+	prim "github.com/availproject/avail-go-sdk/primitives"
+	SDK "github.com/availproject/avail-go-sdk/sdk"
+)
+
+func main() {
+	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
+	if err != nil {
+		log.Fatalf("Failed to initialize SDK: %v", err)
+	}
+
+	// Get the latest block hash
+	latestBlockHash, err := sdk.Client.BestBlockHash()
+	if err != nil {
+		log.Fatalf("Failed to get latest block hash: %v", err)
+	}
+
+	// Initialize the block storage
+	blockStorage, err := sdk.Client.StorageAt(prim.Some(latestBlockHash))
+	if err != nil {
+		log.Fatalf("Failed to get block storage: %v", err)
+	}
+
+	// Fetch all app keys
+	{
+		storage := daPallet.StorageAppKeys{}
+		val, err := storage.FetchAll(&blockStorage)
+		if err != nil {
+			log.Fatalf("Failed to fetch all app keys: %v", err)
+		}
+
+		if len(val) == 0 {
+			log.Println("No app keys found.")
+		} else {
+			for i := 0; i < len(val); i++ {
+				fmt.Println("App Key Owner: ", val[i].Value.Owner.ToHuman())
+				fmt.Println("App Key AppId: ", val[i].Value.AppId)
+			}
+		}
+	}
+}
+```
+
+2. Run the code using:
+
+```bash
+go run main.go
+``` 
+
+</Tabs.Tab>
 </Tabs>

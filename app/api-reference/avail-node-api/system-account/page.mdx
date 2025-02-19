@@ -174,46 +174,53 @@ package main
 
 import (
 	"fmt"
+	"log"
 
-	"github.com/availproject/avail-go-sdk/src/sdk"
-	"github.com/centrifuge/go-substrate-rpc-client/v4/types"
-	"github.com/vedhavyas/go-subkey/v2"
+	prim "github.com/availproject/avail-go-sdk/primitives"
+	"github.com/availproject/avail-go-sdk/sdk"
+
+	syPallet "github.com/availproject/avail-go-sdk/metadata/pallets/system"
+	"github.com/availproject/avail-go-sdk/primitives"
 )
 
-// The following example shows how to connect to a node and display some basic information.
 func main() {
-	api, err := sdk.NewSDK("wss://turing-rpc.avail.so/ws")
 
+	// Initialize the SDK
+	sdk, err := sdk.NewSDK("https://turing-rpc.avail.so/rpc")
 	if err != nil {
-		fmt.Printf("cannot create api:%v", err)
+		log.Fatalf("Failed to initialize SDK: %v", err)
 	}
 
-	meta, err := api.RPC.State.GetMetadataLatest()
+	// Get the latest block hash
+	latestBlockHash, err := sdk.Client.BestBlockHash()
 	if err != nil {
-		panic(fmt.Sprintf("cannot get metadata:%v", err))
+		log.Fatalf("Failed to get latest block hash: %v", err)
 	}
 
-	address := "5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk"
-	_, pubKey, err := subkey.SS58Decode(address)
-
+	// Initialize the block storage
+	blockStorage, err := sdk.Client.StorageAt(prim.Some(latestBlockHash))
 	if err != nil {
-		panic(fmt.Sprintf("Failed to decode SS58 address: %v", err))
+		log.Fatalf("Failed to get block storage: %v", err)
 	}
 
-	key, err := types.CreateStorageKey(meta, "System", "Account", pubKey, nil)
+	// Create the account ID
+	accountId, err := primitives.NewAccountIdFromAddress("5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk")
 	if err != nil {
-		panic(fmt.Sprintf("cannot create storage key:%v", err))
+		log.Fatalf("Failed to convert address: %v", err)
 	}
 
-	var accountInfo types.AccountInfo
-	ok, err := api.RPC.State.GetStorageLatest(key, &accountInfo)
-	if err != nil || !ok {
-		panic(fmt.Sprintf("cannot get latest storage:%v", err))
+	// Fetch the account data
+	storage := syPallet.StorageAccount{}
+	val, err := storage.Fetch(&blockStorage, accountId)
+	if err != nil {
+		log.Fatalf("Failed to fetch account: %v", err)
 	}
 
-	fmt.Printf("Account address: %v\n", address)
-	fmt.Printf("Account info: %v\n", accountInfo)
-	fmt.Printf("Account balance: %v\n", accountInfo.Data.Free)
+	// Log the account data
+	fmt.Println("Free Balance: ", val.Value.AccountData.Free.ToHuman())
+	fmt.Println("Reserved Balance: ", val.Value.AccountData.Reserved.ToHuman())
+	fmt.Println("Frozen Balance: ", val.Value.AccountData.Frozen.ToHuman())
+
 }
 ```
 
