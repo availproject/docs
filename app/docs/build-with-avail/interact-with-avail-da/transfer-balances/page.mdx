@@ -69,37 +69,44 @@ ts-node your-file-name.ts
 
 1. Inside `main.rs`, add the following code:
 
-```rust showLineNumbers filename="avail-rust" showLineNumbers filename="avail-rust"
-use avail_rust::{Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
+```rust showLineNumbers filename="avail-rust"
+use dotenvy::dotenv;
+use std::env;
+use avail_rust::prelude::*;
 use core::str::FromStr;
- 
-#[tokio::main]
-async fn main() -> Result<(), String> {
-	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
- 
-    let alice = "This is a random seed phrase please replace with your own";
-	let secret_uri = SecretUri::from_str(alice).unwrap();
-	let account = Keypair::from_uri(&secret_uri).unwrap();
-	let dest: &str = "5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw"; // Eve
-	let amount = 1_000_000_000_000_000_000u128; // 1 Avail
-    let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
 
-	let result = sdk
-		.tx
-		.balances
-		.transfer_keep_alive(dest, amount, WaitFor::BlockInclusion, &account, Some(options))
-		.await?;
- 
-	println!(
-		"From={}, To={}, Amount={}",
-		result.event.from, result.event.to, result.event.amount
-	);
-	println!(
-		"TxHash={:?}, BlockHash={:?}",
-		result.tx_hash, result.block_hash
-	);
- 
-	Ok(())
+pub async fn balances_transfer_keep_alive() -> Result<(), ClientError> {
+
+    // Create a new SDK instance
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+    // Loading seed phrase and creating an account derived from the seed
+    dotenv().ok();
+    let seed = env::var("SEED").expect("SEED environment variable is not set");
+    let account = account::from_secret_uri(&seed)?;
+    println!("Account Address: {}", account.public_key().to_account_id());
+
+    // Executing the transaction
+    let dest = AccountId::from_str("5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw").unwrap();
+	let amount = 12_345_000_000_000_000_000u128; // 12.345 AVAIL being transferred to the destination account
+    let tx = sdk.tx.balances.transfer_keep_alive(dest, amount);
+    let res = tx.execute_and_watch_inclusion(&account, Options::default()).await?;
+
+    println!(
+        "Block Hash: {:?}, Block Number: {}, Tx Hash: {:?}, Tx Index: {}",
+        res.block_hash, res.block_number, res.tx_hash, res.tx_index
+    );
+
+    Ok(())
+    
+}
+
+// Add a main function to call balances_transfer_keep_alive
+#[tokio::main]
+async fn main() {
+    if let Err(e) = balances_transfer_keep_alive().await {
+        eprintln!("Error: {:?}", e);
+    }
 }
 ```
 
@@ -295,39 +302,43 @@ ts-node your-file-name.ts
 1. Inside `main.rs`, add the following code:
 
 ```rust showLineNumbers filename="avail-rust"
-use avail_rust::{Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
+use dotenvy::dotenv;
+use std::env;
+use avail_rust::prelude::*;
 use core::str::FromStr;
- 
+
+pub async fn transfer_allow_death() -> Result<(), ClientError> {
+
+    // Create a new SDK instance
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+    // Loading seed phrase and creating an account derived from the seed
+    dotenv().ok();
+    let seed = env::var("SEED").expect("SEED environment variable is not set");
+    let account = account::from_secret_uri(&seed)?;
+    println!("Account Address: {}", account.public_key().to_account_id());
+
+    // Executing the transaction
+    let dest = AccountId::from_str("5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw").unwrap();
+	let amount = 12_345_000_000_000_000_000u128; // 12.345 AVAIL being transferred to the destination account
+    let tx = sdk.tx.balances.transfer_allow_death(dest, amount);
+    let res = tx.execute_and_watch_inclusion(&account, Options::default()).await?;
+
+    println!(
+        "Block Hash: {:?}, Block Number: {}, Tx Hash: {:?}, Tx Index: {}",
+        res.block_hash, res.block_number, res.tx_hash, res.tx_index
+    );
+
+    Ok(())
+    
+}
+
+// Add a main function to call transfer_allow_death
 #[tokio::main]
-async fn main() -> Result<(), String> {
-	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
- 
-    let alice = "This is a random seed phrase please replace with your own";
-	let secret_uri = SecretUri::from_str(alice).unwrap();
-	let account = Keypair::from_uri(&secret_uri).unwrap();
-	let dest = "5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw"; // Eve
-	let amount = 1_000_000_000_000_000_00u128; // 1 Avail
-    let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
- 
-	let result = sdk
-		.tx
-		.balances
-		.transfer_allow_death(dest, amount, WaitFor::BlockInclusion, &account, Some(options))
-		.await?;
- 
-	println!(
-		"From={}, To={}, Amount={}",
-		result.event.from, result.event.to, result.event.amount
-	);
-	if let Some(event) = result.event2 {
-		println!("Killed={}", event.account);
-	}
-	println!(
-		"TxHash={:?}, BlockHash={:?}",
-		result.tx_hash, result.block_hash
-	);
- 
-	Ok(())
+async fn main() {
+    if let Err(e) = transfer_allow_death().await {
+        eprintln!("Error: {:?}", e);
+    }
 }
 ```
 
@@ -504,39 +515,47 @@ ts-node your-file-name.ts
 1. Inside `main.rs`, add the following code:
 
 ```rust showLineNumbers filename="avail-rust"
-use avail_rust::{Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
+use dotenvy::dotenv;
+use std::env;
+use avail_rust::prelude::*;
 use core::str::FromStr;
- 
-#[tokio::main]
-async fn main() -> Result<(), String> {
-	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
- 
-    let alice = "This is a random seed phrase please replace with your own";
-	let secret_uri = SecretUri::from_str(alice).unwrap();
-	let account = Keypair::from_uri(&secret_uri).unwrap();
-	let dest = "5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw"; // Eve
-	let keep_alive = false;
-    let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
 
-	let result = sdk
-		.tx
-		.balances
-		.transfer_all(dest, keep_alive, WaitFor::BlockInclusion, &account, Some(options))
-		.await?;
- 
-	println!(
-		"From={}, To={}, Amount={}",
-		result.event.from, result.event.to, result.event.amount
-	);
-	if let Some(event) = result.event2 {
-		println!("Killed={}", event.account);
-	}
-	println!(
-		"TxHash={:?}, BlockHash={:?}",
-		result.tx_hash, result.block_hash
-	);
- 
-	Ok(())
+pub async fn transfer_all() -> Result<(), ClientError> {
+
+    // Create a new SDK instance
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+    // Loading seed phrase and creating an account derived from the seed
+    dotenv().ok();
+    let seed = env::var("SEED").expect("SEED environment variable is not set");
+    let account = account::from_secret_uri(&seed)?;
+    println!("Account Address: {}", account.public_key().to_account_id());
+
+    // Executing the transaction
+    let dest = AccountId::from_str("5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw").unwrap();
+
+    // Please take note of the `keep_alive` bool parameter
+    // If set to true, the transfer transaction will leave the origin account with a small balance
+    // that is above the existential deposit and prevents the account from being reaped
+
+    // Set the `keep_alive` parameter to `false` only if you are ok with the origin account being reaped
+    let tx = sdk.tx.balances.transfer_all(dest, true);
+    let res = tx.execute_and_watch_inclusion(&account, Options::default()).await?;
+
+    println!(
+        "Block Hash: {:?}, Block Number: {}, Tx Hash: {:?}, Tx Index: {}",
+        res.block_hash, res.block_number, res.tx_hash, res.tx_index
+    );
+
+    Ok(())
+}
+
+// Add a main function to call transfer_all
+#[tokio::main]
+async fn main() {
+    if let Err(e) = transfer_all().await {
+        eprintln!("Error: {:?}", e);
+    }
 }
 ```
 
