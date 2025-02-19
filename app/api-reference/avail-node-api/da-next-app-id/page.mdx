@@ -16,7 +16,11 @@ You can use this method to fetch the next available `app_id` for your awesome ro
 
 ## Parameters
 
-<Tabs items={['avail-js', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+- None
+</Tabs.Tab>
 
 <Tabs.Tab>
 - None
@@ -42,7 +46,7 @@ For instructions, [check out our docs here](/api-reference/avail-node-api#settin
 The rest of the code should work as is.
 </Callout>
 
-<Tabs items={['avail-js', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
 
 <Tabs.Tab>
 
@@ -127,6 +131,59 @@ Some(
 )
 ```
 </details>
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.go`, add the following code:
+
+```go showLineNumbers filename="avail-go"
+package main
+
+import (
+	"fmt"
+	"log"
+
+	daPallet "github.com/availproject/avail-go-sdk/metadata/pallets/data_availability"
+	prim "github.com/availproject/avail-go-sdk/primitives"
+	SDK "github.com/availproject/avail-go-sdk/sdk"
+)
+
+func main() {
+	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
+	if err != nil {
+		log.Fatalf("Failed to initialize SDK: %v", err)
+	}
+
+	// Get the latest block hash
+	latestBlockHash, err := sdk.Client.BestBlockHash()
+	if err != nil {
+		log.Fatalf("Failed to get latest block hash: %v", err)
+	}
+
+	// Initialize the block storage
+	blockStorage, err := sdk.Client.StorageAt(prim.Some(latestBlockHash))
+	if err != nil {
+		log.Fatalf("Failed to get block storage: %v", err)
+	}
+
+	// Call the StorageNextAppId function
+	storage := daPallet.StorageNextAppId{}
+	nextAppId, err := storage.Fetch(&blockStorage)
+	if err != nil {
+		log.Fatalf("Failed to fetch next app ID: %v", err)
+	}
+
+	fmt.Printf("Next available App ID is: %v\n", nextAppId)
+}
+```
+
+2. Run the code using:
+
+```bash
+go run main.go
+``` 
 
 </Tabs.Tab>
 

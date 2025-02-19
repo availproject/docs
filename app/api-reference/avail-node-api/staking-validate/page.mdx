@@ -153,28 +153,64 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"os"
 
-	"github.com/availproject/avail-go-sdk/src/config"
-	"github.com/availproject/avail-go-sdk/src/sdk"
-	"github.com/availproject/avail-go-sdk/src/sdk/tx"
+	"github.com/availproject/avail-go-sdk/metadata"
+	SDK "github.com/availproject/avail-go-sdk/sdk"
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	config, err := config.LoadConfig()
+	// Load environment variables from .env file
+	err := godotenv.Load()
 	if err != nil {
-		fmt.Printf("cannot load config:%v", err)
+		log.Fatal("Error loading .env file")
 	}
-	api, err := sdk.NewSDK(config.ApiURL)
+
+	// Make sure the SEED environment variable is set
+	seed := os.Getenv("SEED")
+	if seed == "" {
+		log.Fatal("SEED environment variable is not set")
+	}
+
+	// Create an account from the SEED environment variable
+	acc, err := SDK.Account.NewKeyPair(seed)
 	if err != nil {
-		fmt.Printf("cannot create api:%v", err)
+		log.Fatalf("Failed to create account: %v", err)
 	}
-	WaitFor := sdk.BlockInclusion
-	commission := 5
-	BlockHash, txHash, err := tx.Validate(api, config.Seed, WaitFor, commission)
+	fmt.Println("Your account Address: " + acc.SS58Address(42))
+
+	// Initialize an SDK instance
+	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
 	if err != nil {
-		fmt.Printf("cannot submit Transaction:%v", err)
+		log.Fatalf("Failed to initialize SDK: %v", err)
 	}
-	fmt.Printf("Transaction submitted successfully with block hash: %v\n and ext hash:%v", BlockHash.Hex(), txHash.Hex())
+
+	// Set validator preferences
+	prefs := metadata.ValidatorPrefs{
+		Commission: metadata.NewPerbillFromU8(5), // 5% commission
+		Blocked:    false,                        // Not blocked
+	}
+
+	// Create the validate transaction
+	tx := sdk.Tx.Staking.Validate(prefs)
+
+	// Execute the transaction
+	res, err := tx.ExecuteAndWatchInclusion(acc, SDK.NewTransactionOptions())
+	if err != nil {
+		log.Fatalf("Transaction failed: %v", err)
+	}
+
+	// Check if the transaction was successful
+	if !res.IsSuccessful().UnsafeUnwrap() {
+		log.Fatal("Transaction was not successful")
+	}
+
+	fmt.Println("Validation transaction successful")
+
+	// Printing out all the values of the transaction
+	fmt.Println(fmt.Sprintf(`Block Hash: %v, Block Index: %v, Tx Hash: %v, Tx Index: %v`, res.BlockHash.ToHexWith0x(), res.BlockNumber, res.TxHash.ToHexWith0x(), res.TxIndex))
 }
 ```
 
