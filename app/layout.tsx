@@ -20,7 +20,7 @@ export default async function RootLayout({
 }) {
 
   return (
-    <html lang="en" dir="ltr" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <Head />
       <body className="dark:bg-dark dark:[color-scheme:dark]">
      
