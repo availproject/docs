@@ -46,35 +46,41 @@ ts-node your-file-name.ts
 <Tabs.Tab>
 1. Inside `main.rs`, add the following code:
 
-```rust showLineNumbers filename="avail-rust" showLineNumbers filename="avail-rust"
-use avail_rust::{avail, AccountId, SDK};
+```rust showLineNumbers filename="avail-rust"
+
+use avail_rust::prelude::*;
 use core::str::FromStr;
- 
+
+pub async fn system_account() -> Result<(), ClientError> {
+
+    // Create a new SDK instance
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+
+    let account_id = AccountId::from_str("5CqgQkrDcdg5QrtuxT3H7WszrqgrBMhdwRbmMVXQzc4VSiEg").unwrap();
+
+    let block_hash = sdk.client.best_block_hash().await?;
+    let storage = sdk.client.storage().at(block_hash);
+    let address = avail::storage().system().account(account_id);
+    let result = storage.fetch(&address).await?;
+
+    if let Some(account) = result {
+        println!("Consumers: {}", account.consumers);
+        println!("Data: {:?}", account.data);
+        println!("Nonce: {}", account.nonce);
+        println!("Providers: {}", account.providers);
+        println!("Sufficients: {}", account.sufficients);
+    }
+
+    Ok(())
+}
+
+// Add a main function to call system_account
 #[tokio::main]
-async fn main() -> Result<(), String> {
-	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
- 
-	let account_id =
-		AccountId::from_str("5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk").unwrap(); // Alice_Stash
- 
-	let storage_query = avail::storage().system().account(account_id);
-	let best_block_hash = sdk
-		.rpc
-		.chain
-		.get_block_hash(None)
-		.await
-		.map_err(|e| e.to_string())?;
-	let result = sdk
-		.api
-		.storage()
-		.at(best_block_hash)
-		.fetch(&storage_query)
-		.await
-		.map_err(|e| e.to_string())?;
- 
-	dbg!(result);
- 
-	Ok(())
+async fn main() {
+    if let Err(e) = system_account().await {
+        eprintln!("Error: {:?}", e);
+    }
 }
 ```
 
