@@ -91,11 +91,3 @@
   object-fit: cover;
 }
   
-
-* {
-  transform: none !important;
-}
-
-.nextra-content * {
-  transform: none !important;
-}

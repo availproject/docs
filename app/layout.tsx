@@ -22,8 +22,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <Head />
-      <body className="dark:bg-dark dark:[color-scheme:dark]">
-     
+      <body className="dark:bg-dark dark:[color-scheme:dark] style={{ transform: 'none' }}">
         <Layout
           themeSwitch={{
             dark: "Dark",
@@ -41,7 +40,6 @@ export default async function RootLayout({
           docsRepositoryBase="https://github.com/availproject/docs/tree/main/docs"
           sidebar={{ defaultMenuCollapseLevel: 1, autoCollapse: true, toggleButton: true }}
           footer={<Footer />}
-          toc={{}}
           search={
             <Search
               emptyResult="No matches found."
