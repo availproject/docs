@@ -96,36 +96,47 @@ ts-node your-file-name.ts
 1. Inside `src/main.rs`, paste the following code:
 
 ```rust showLineNumbers filename="avail-rust"
-use avail_rust::{Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
+use dotenvy::dotenv;
+use std::env;
+use avail_rust::prelude::*;
 use core::str::FromStr;
- 
-#[tokio::main]
-async fn main() -> Result<(), String> {
-	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
- 
-	let alice = "This is a random seed phrase please replace with your own";
-	let secret_uri = SecretUri::from_str(alice).unwrap();
-	let account = Keypair::from_uri(&secret_uri).unwrap();
-	let targets = [
-		String::from("5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY"), // Alice Stash
-		String::from("5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty"), // Bob;
-	];
-    let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
- 
-	let result = sdk
-		.tx
-		.staking
-		.nominate(&targets, WaitFor::BlockInclusion, &account, Some(options))
-		.await?;
- 
-	println!("TxDataTargets={:?}", result.tx_data.targets);
-	println!(
-		"TxHash={:?}, BlockHash={:?}",
-		result.tx_hash, result.block_hash
-	);
- 
-	Ok(())
+
+pub async fn staking_nominate() -> Result<(), ClientError> {
+
+    // Create a new SDK instance
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+    // Loading seed phrase and creating an account derived from the seed
+    dotenv().ok();
+    let seed = env::var("SEED").expect("SEED environment variable is not set");
+    let account = account::from_secret_uri(&seed)?;
+    
+    //Setting the Validator to be nominated, max 16 targets
+    let targets = [
+        AccountId::from_str("5DqMavSQikX9eMzwHKiC8xS6VWB2yCd5gGQuQq7KheM2Mgc7").expect("Invalid account ID"),
+        AccountId::from_str("5FphMk7DhSdq7jXsQCVQthw7XTiCWxdA9ZS6V43rKeJzvya9").expect("Invalid account ID"),
+    ];
+
+    //Executing the transaction
+    let tx = sdk.tx.staking.nominate(&targets);
+    let res = tx.execute_and_watch_inclusion(&account, Options::default()).await?;
+    assert_eq!(res.is_successful(), Some(true));
+    
+    println!(
+        "Block Hash: {:?}, Block Number: {}, Tx Hash: {:?}, Tx Index: {}",
+        res.block_hash, res.block_number, res.tx_hash, res.tx_index
+    );
+
+    Ok(())
 }
+
+#[tokio::main]
+async fn main() {
+    if let Err(e) = staking_nominate().await {
+        eprintln!("Error: {:?}", e);
+    }
+}
+
 ```
 
 2. Run the code using:
@@ -143,30 +154,76 @@ cargo run
 package main
 
 import (
-	"github.com/availproject/avail-go-sdk/src/config"
-	"github.com/availproject/avail-go-sdk/src/sdk"
-	"github.com/availproject/avail-go-sdk/src/sdk/tx"
-
 	"fmt"
+	"log"
+	"os"
+
+	"github.com/availproject/avail-go-sdk/primitives"
+	SDK "github.com/availproject/avail-go-sdk/sdk"
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	config, err := config.LoadConfig()
+	// Load environment variables from .env file
+	err := godotenv.Load()
 	if err != nil {
-		fmt.Printf("cannot load config:%v", err)
+		log.Fatal("Error loading .env file")
 	}
-	api, err := sdk.NewSDK(config.ApiURL)
-	if err != nil {
-		fmt.Printf("cannot create api:%v", err)
-	}
-	WaitFor := sdk.BlockInclusion
 
-	stash := []string{"5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY", "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty"}
-	BlockHash, txHash, err := tx.Nominate(api, config.Seed, WaitFor, stash)
-	if err != nil {
-		fmt.Printf("cannot submit Transaction:%v", err)
+	// Make sure the SEED environment variable is set
+	seed := os.Getenv("SEED")
+	if seed == "" {
+		log.Fatal("SEED environment variable is not set")
 	}
-	fmt.Printf("Transaction submitted successfully with block hash: %v\n and ext hash:%v", BlockHash.Hex(), txHash.Hex())
+
+	// Create an account from the SEED environment variable
+	acc, err := SDK.Account.NewKeyPair(seed)
+	if err != nil {
+		log.Fatalf("Failed to create account: %v", err)
+	}
+	fmt.Println("Your account Address: " + acc.SS58Address(42))
+
+	// Initialize an SDK instance
+	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
+	if err != nil {
+		log.Fatalf("Failed to initialize SDK: %v", err)
+	}
+
+	// Convert the addresses to AccountId
+	address1, err := primitives.NewAccountIdFromAddress("5DqMavSQikX9eMzwHKiC8xS6VWB2yCd5gGQuQq7KheM2Mgc7")
+	if err != nil {
+		log.Fatalf("Failed to convert address1: %v", err)
+	}
+
+	address2, err := primitives.NewAccountIdFromAddress("5FphMk7DhSdq7jXsQCVQthw7XTiCWxdA9ZS6V43rKeJzvya9")
+	if err != nil {
+		log.Fatalf("Failed to convert address2: %v", err)
+	}
+
+	// Create an array of AccountId
+	targets := []primitives.MultiAddress{
+		address1.ToMultiAddress(),
+		address2.ToMultiAddress(),
+	}
+
+	// Create the nominate transaction
+	tx := sdk.Tx.Staking.Nominate(targets)
+
+	// Execute the transaction
+	res, err := tx.ExecuteAndWatchInclusion(acc, SDK.NewTransactionOptions())
+	if err != nil {
+		log.Fatalf("Transaction failed: %v", err)
+	}
+
+	// Check if the transaction was successful
+	if !res.IsSuccessful().UnsafeUnwrap() {
+		log.Fatal("Transaction was not successful")
+	}
+
+	fmt.Println("Nomination transaction successful")
+
+	// Printing out all the values of the transaction
+	fmt.Println(fmt.Sprintf(`Block Hash: %v, Block Index: %v, Tx Hash: %v, Tx Index: %v`, res.BlockHash.ToHexWith0x(), res.BlockNumber, res.TxHash.ToHexWith0x(), res.TxIndex))
 }
 ```
 

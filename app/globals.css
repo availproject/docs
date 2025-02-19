@@ -79,12 +79,10 @@
     color: inherit;
   }
 }
-
 .card_background{
-    border-image-source: linear-gradient(139.26deg, rgba(255, 255, 255, 0.8) -0.73%, rgba(234, 241, 251, 0.8) 100.78%);
-    box-shadow: 0px 4px 88px -16px #59789E52;
-    border-radius: 24px;
-  }
+  background: #141414;
+  border-radius: 12px;
+}
 
 .cardImage {
   height: 200px;
