@@ -5,13 +5,19 @@ import { Callout, Steps, Tabs } from 'nextra/components'
 You can check out [our docs for the same](/docs/build-with-avail/interact-with-avail-da/app-id).
 </Callout>
 
-# Fetch App IDs from Avail DA
+# Fetch an AppID from Avail DA
 
 On-chain name of method: `dataAvailability_appKeys`
 
 ## Parameters
 
-<Tabs items={['avail-js', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+|  key      | string        | true     | The `app_id` associated with this key will be fetched |
+</Tabs.Tab>
 
 <Tabs.Tab>
 | parameter | type          | optional | description                                           |
@@ -44,7 +50,7 @@ For instructions, [check out our docs here](/api-reference/avail-node-api#settin
 The rest of the code should work as is.
 </Callout>
 
-<Tabs items={['avail-js', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
 
 <Tabs.Tab>
 
@@ -76,38 +82,37 @@ ts-node your-file-name.ts
 
 <Tabs.Tab>
 
+
 1. Inside `main.rs`, add the following code:
 
 ```rust showLineNumbers filename="avail-rust" showLineNumbers filename="avail-rust"
-use avail_rust::{
-	avail::{self, runtime_types::bounded_collections::bounded_vec::BoundedVec},
-	SDK,
-};
- 
+use avail_rust::prelude::*;
+use avail::data_availability::storage::types::app_keys::Param0;
+
+pub async fn da_app_keys() -> Result<(), ClientError> {
+    
+    // Create a new SDK instance
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+    let key = String::from("My Application Key").as_bytes().to_vec();
+    let key = Param0 { 0: key };
+
+    let block_hash = sdk.client.best_block_hash().await?;
+    let storage = sdk.client.storage().at(block_hash);
+    let address = avail::storage().data_availability().app_keys(key);
+    let result = storage.fetch(&address).await?;
+
+    dbg!(result);
+
+    Ok(())
+}
+
+// Add a main function to call da_app_keys
 #[tokio::main]
-async fn main() -> Result<(), String> {
-	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
- 
-	let key = String::from("gohan");
-	let key = BoundedVec(key.as_bytes().to_vec());
-	let storage_query = avail::storage().data_availability().app_keys(key);
-	let best_block_hash = sdk
-		.rpc
-		.chain
-		.get_block_hash(None)
-		.await
-		.map_err(|e| e.to_string())?;
-	let result = sdk
-		.api
-		.storage()
-		.at(best_block_hash)
-		.fetch(&storage_query)
-		.await
-		.map_err(|e| e.to_string())?;
- 
-	dbg!(result);
- 
-	Ok(())
+async fn main() {
+    if let Err(e) = da_app_keys().await {
+        eprintln!("Error: {:?}", e);
+    }
 }
 ```
 
@@ -118,7 +123,7 @@ cargo run
 ```
 
 <br/>
-<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
 <summary>Sample Response:</summary>
 ```json
 result = Some(
@@ -174,6 +179,69 @@ addresses in the `AccountId32` format.
 
 </Tabs.Tab>
 
+<Tabs.Tab>
+
+1. Inside `main.go`, add the following code:
+
+```go showLineNumbers filename="avail-go"
+package main
+
+import (
+	"fmt"
+	"log"
+
+	daPallet "github.com/availproject/avail-go-sdk/metadata/pallets/data_availability"
+	prim "github.com/availproject/avail-go-sdk/primitives"
+	SDK "github.com/availproject/avail-go-sdk/sdk"
+)
+
+func main() {
+	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
+	if err != nil {
+		log.Fatalf("Failed to initialize SDK: %v", err)
+	}
+
+	// Get the latest block hash
+	latestBlockHash, err := sdk.Client.BestBlockHash()
+	if err != nil {
+		log.Fatalf("Failed to get latest block hash: %v", err)
+	}
+
+	// Initialize the block storage
+	blockStorage, err := sdk.Client.StorageAt(prim.Some(latestBlockHash))
+	if err != nil {
+		log.Fatalf("Failed to get block storage: %v", err)
+	}
+
+	{
+		storage := daPallet.StorageAppKeys{}
+		keyString := "Citizen Justice"
+		key := []byte(keyString)
+
+		val, err := storage.Fetch(&blockStorage, key)
+		if err != nil {
+			log.Fatalf("Failed to fetch app keys: %v", err)
+		}
+
+		if val.IsSome() {
+			entry := val.Unwrap()
+			fmt.Println("App Key Owner: ", entry.Value.Owner.ToHuman())
+			fmt.Println("App Key AppId: ", entry.Value.AppId)
+		} else {
+			fmt.Println("No app keys found for the given key.")
+		}
+	}
+}
+```     
+
+2. Run the code using:
+
+```bash
+go run main.go
+```
+
+</Tabs.Tab>
+
 </Tabs>
 
 ## Another example (Fetch all available `app_ids` registered on Avail DA)
@@ -185,7 +253,7 @@ as a mapping of their names to their owner and index.
 3. We are however including both scenarios here.
 </Callout>
 
-<Tabs items={['avail-js', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
 
 <Tabs.Tab>
 
@@ -222,36 +290,35 @@ ts-node your-file-name.ts
 1. Inside `main.rs`, add the following code:
 
 ```rust showLineNumbers filename="avail-rust" showLineNumbers filename="avail-rust"
-use avail_rust::{avail, SDK};
- 
+use avail_rust::prelude::*;
+
+pub async fn da_app_keys_iter() -> Result<(), ClientError> {
+    
+    // Create a new SDK instance
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+    let block_hash = sdk.client.best_block_hash().await?;
+    let storage = sdk.client.storage().at(block_hash);
+    let address = avail::storage().data_availability().app_keys_iter();
+    let mut results = storage.iter(address).await?;
+
+    while let Some(Ok(kv)) = results.next().await {
+        let key = (&kv.key_bytes[49..]).to_vec();
+        let key = String::from_utf8(key).unwrap();
+
+        println!("Key: {:?}", key);
+        println!("Value: {:?}", kv.value);
+    }
+
+    Ok(())
+}
+
+// Add a main function to call da_app_keys_iter
 #[tokio::main]
-async fn main() -> Result<(), String> {
-	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
- 
-	let storage_query = avail::storage().data_availability().app_keys_iter();
-	let best_block_hash = sdk
-		.rpc
-		.chain
-		.get_block_hash(None)
-		.await
-		.map_err(|e| e.to_string())?;
-	let mut results = sdk
-		.api
-		.storage()
-		.at(best_block_hash)
-		.iter(storage_query)
-		.await
-		.map_err(|e| e.to_string())?;
- 
-	while let Some(Ok(kv)) = results.next().await {
-		let key = (&kv.key_bytes[49..]).to_vec();
-		let key = String::from_utf8(key).unwrap();
- 
-		println!("Key: {:?}", key);
-		println!("Value: {:?}", kv.value);
-	}
- 
-	Ok(())
+async fn main() {
+    if let Err(e) = da_app_keys_iter().await {
+        eprintln!("Error: {:?}", e);
+    }
 }
 ```
 
@@ -262,4 +329,65 @@ cargo run
 ```
 </Tabs.Tab>
 
+<Tabs.Tab>
+
+1. Inside `main.go`, add the following code:
+
+```go showLineNumbers filename="avail-go"
+package main
+
+import (
+	"fmt"
+	"log"
+
+	daPallet "github.com/availproject/avail-go-sdk/metadata/pallets/data_availability"
+	prim "github.com/availproject/avail-go-sdk/primitives"
+	SDK "github.com/availproject/avail-go-sdk/sdk"
+)
+
+func main() {
+	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
+	if err != nil {
+		log.Fatalf("Failed to initialize SDK: %v", err)
+	}
+
+	// Get the latest block hash
+	latestBlockHash, err := sdk.Client.BestBlockHash()
+	if err != nil {
+		log.Fatalf("Failed to get latest block hash: %v", err)
+	}
+
+	// Initialize the block storage
+	blockStorage, err := sdk.Client.StorageAt(prim.Some(latestBlockHash))
+	if err != nil {
+		log.Fatalf("Failed to get block storage: %v", err)
+	}
+
+	// Fetch all app keys
+	{
+		storage := daPallet.StorageAppKeys{}
+		val, err := storage.FetchAll(&blockStorage)
+		if err != nil {
+			log.Fatalf("Failed to fetch all app keys: %v", err)
+		}
+
+		if len(val) == 0 {
+			log.Println("No app keys found.")
+		} else {
+			for i := 0; i < len(val); i++ {
+				fmt.Println("App Key Owner: ", val[i].Value.Owner.ToHuman())
+				fmt.Println("App Key AppId: ", val[i].Value.AppId)
+			}
+		}
+	}
+}
+```
+
+2. Run the code using:
+
+```bash
+go run main.go
+``` 
+
+</Tabs.Tab>
 </Tabs>

@@ -6,7 +6,7 @@ On-chain name of method: `nominationPools_nominate`
 
 ## Parameters
 
-<Tabs items={['avail-js', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
 
 <Tabs.Tab>
 | parameter  | type          | optional | description                                     |
@@ -16,6 +16,15 @@ On-chain name of method: `nominationPools_nominate`
 | waitFor    | WaitFor       | false    | wait for block inclusion or finalization        |
 | account    | KeyringPair   | false    | account that will send and sign the transaction |
 | options    | SignerOptions | true     | used to overwrite existing signer options       |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type        | optional | description                                     |
+| --------- | ----------- | -------- | ----------------------------------------------- |
+| targets   | &[String]   | false    | list of validator addresses to nominate                   |
+| waitFor   | WaitFor     | false    | wait for block inclusion or finalization        |
+| account   | KeyringPair | false    | account that will send and sign the transaction |
+| options   | Options     | true     | transaction parameters                          |
 </Tabs.Tab>
 
 <Tabs.Tab>
@@ -83,7 +92,7 @@ ts-node your-file-name.ts
 ```
 
 <br/>
-<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
 <summary>Sample Response:</summary>
 ```js
 {
@@ -103,32 +112,43 @@ ts-node your-file-name.ts
 1. Inside `main.rs`, add the following code:
 
 ```rust showLineNumbers filename="avail-rust" showLineNumbers filename="avail-rust"
-use avail_rust::{Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
+use dotenvy::dotenv;
+use std::env;
+use avail_rust::prelude::*;
 use core::str::FromStr;
- 
+
+pub async fn nomination_pools_nominate() -> Result<(), ClientError> {
+
+    // Create a new SDK instance
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+    // Loading seed phrase and creating an account derived from the seed
+    dotenv().ok();
+    let seed = env::var("SEED").expect("SEED environment variable is not set");
+    let account = account::from_secret_uri(&seed)?;
+
+    //Setting the pool id and the validators to nominate
+    let pool_id = 1; // Use your pool id here
+
+    //Setting an array of validators to nominate
+    let validators = [
+        AccountId::from_str("5DqMavSQikX9eMzwHKiC8xS6VWB2yCd5gGQuQq7KheM2Mgc7").expect("Invalid account ID"),
+        AccountId::from_str("5FphMk7DhSdq7jXsQCVQthw7XTiCWxdA9ZS6V43rKeJzvya9").expect("Invalid account ID"),
+    ];
+
+    //Executing the transaction
+    let tx = sdk.tx.nomination_pools.nominate(pool_id, validators.to_vec());
+    let res = tx.execute_and_watch_inclusion(&account, Options::new()).await?;
+    assert_eq!(res.is_successful(), Some(true));
+
+    Ok(())
+}
+
 #[tokio::main]
-async fn main() -> Result<(), String> {
-	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
- 
-	let alice = "This is a random seed phrase please replace with your own";
-	let secret_uri = SecretUri::from_str(alice).unwrap();
-	let account = Keypair::from_uri(&secret_uri).unwrap();
-	let targets = [
-		String::from("5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY"), // Alice Stash
-		String::from("5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty"), // Bob;
-	];
- 
-	let wait_for = WaitFor::BlockInclusion;
-	let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
-	let result = sdk
-		.tx
-		.staking
-		.nominate(&targets, wait_for, &account, Some(options))
-		.await?;
- 
-	dbg!(result);
- 
-	Ok(())
+async fn main() {
+    if let Err(e) = nomination_pools_nominate().await {
+        eprintln!("Error: {:?}", e);
+    }
 }
 ```
 
@@ -139,7 +159,7 @@ cargo run
 ```
 
 <br/>
-<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
 <summary>Sample Response:</summary>
 ```rust showLineNumbers filename="avail-rust"
 NominateTxSuccess {
@@ -166,5 +186,88 @@ NominateTxSuccess {
 ```
 </details>
 </Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.go`, add the following code:
+
+```go showLineNumbers filename="avail-go"
+package main
+
+import (
+	"fmt"
+	"log"
+	"os"
+
+	"github.com/availproject/avail-go-sdk/primitives"
+	SDK "github.com/availproject/avail-go-sdk/sdk"
+	"github.com/joho/godotenv"
+)
+
+func main() {
+	// Load environment variables from .env file
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	// Make sure the SEED environment variable is set
+	seed := os.Getenv("SEED")
+	if seed == "" {
+		log.Fatal("SEED environment variable is not set")
+	}
+
+	// Create an account from the SEED environment variable
+	acc, err := SDK.Account.NewKeyPair(seed)
+	if err != nil {
+		log.Fatalf("Failed to create account: %v", err)
+	}
+	fmt.Println("Your account Address: " + acc.SS58Address(42))
+
+	// Initialize an SDK instance
+	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
+	if err != nil {
+		log.Fatalf("Failed to initialize SDK: %v", err)
+	}
+
+	// Set the pool ID and validators
+	poolId := uint32(1)
+	validator1, err := primitives.NewAccountIdFromAddress("5DqMavSQikX9eMzwHKiC8xS6VWB2yCd5gGQuQq7KheM2Mgc7")
+	if err != nil {
+		log.Fatalf("Failed to convert validator1 address: %v", err)
+	}
+	validator2, err := primitives.NewAccountIdFromAddress("5FphMk7DhSdq7jXsQCVQthw7XTiCWxdA9ZS6V43rKeJzvya9")
+	if err != nil {
+		log.Fatalf("Failed to convert validator2 address: %v", err)
+	}
+	validators := []primitives.AccountId{validator1, validator2}
+
+	// Create the nominate transaction
+	tx := sdk.Tx.NominationPools.Nominate(poolId, validators)
+
+	// Execute the transaction
+	res, err := tx.ExecuteAndWatchInclusion(acc, SDK.NewTransactionOptions())
+	if err != nil {
+		log.Fatalf("Transaction failed: %v", err)
+	}
+
+	// Check if the transaction was successful
+	if !res.IsSuccessful().UnsafeUnwrap() {
+		log.Fatal("Transaction was not successful")
+	}
+
+	fmt.Println("Nominate transaction successful")
+	fmt.Printf("Block Hash: %v, Block Number: %v, Tx Hash: %v, Tx Index: %v\n", res.BlockHash.ToHexWith0x(), res.BlockNumber, res.TxHash.ToHexWith0x(), res.TxIndex)
+}
+```
+
+2. Run the code using:
+
+```bash
+go run main.go
+```
+
+</Tabs.Tab>
+
 
 </Tabs>

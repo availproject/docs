@@ -6,7 +6,7 @@ On-chain name of method: `nominationPools_join`
 
 ## Parameters
 
-<Tabs items={['avail-js', 'avail-rust']}>
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
 
 <Tabs.Tab>
 | parameter | type          | optional | description                                     |
@@ -16,6 +16,16 @@ On-chain name of method: `nominationPools_join`
 | waitFor   | WaitFor       | false    | wait for block inclusion or finalization        |
 | account   | KeyringPair   | false    | account that will send and sign the transaction |
 | options   | SignerOptions | true     | used to overwrite existing signer options       |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type        | optional | description                                     |
+| --------- | ----------- | -------- | ----------------------------------------------- |
+| amount    | u128        | false    | The amount of funds to delegate to the pool     |
+| pool id   | u32         | false    | pool id                                         |
+| waitFor   | WaitFor     | false    | wait for block inclusion or finalization        |
+| account   | KeyringPair | false    | account that will send and sign the transaction |
+| options   | Options     | true     | transaction parameters                          |
 </Tabs.Tab>
 
 <Tabs.Tab>
@@ -45,7 +55,12 @@ For instructions, [check out our docs here](/api-reference/avail-node-api#settin
 The rest of the code should work as is.
 </Callout>
 
-<Tabs items={['avail-js', 'avail-rust']}>
+<Callout type="warning">
+1. The minimum amount of `AVAIL` required to join a nomination pool is `100 AVAIL`.
+2. Enter the `poolId` carefully.
+</Callout>
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
 
 <Tabs.Tab>
 
@@ -82,7 +97,7 @@ ts-node your-file-name.ts
 ```
 
 <br/>
-<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
 <summary>Sample Response:</summary>
 ```js
 {
@@ -108,30 +123,42 @@ ts-node your-file-name.ts
 1. Inside `main.rs`, add the following code:
 
 ```rust showLineNumbers filename="avail-rust" showLineNumbers filename="avail-rust"
-use avail_rust::{Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
-use core::str::FromStr;
- 
+use dotenvy::dotenv;
+use std::env;
+use avail_rust::prelude::*;
+
+pub async fn nomination_pools_join() -> Result<(), ClientError> {
+
+    // Create a new SDK instance
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+    // Loading seed phrase and creating an account derived from the seed
+    dotenv().ok();
+    let seed = env::var("SEED").expect("SEED environment variable is not set");
+    let account = account::from_secret_uri(&seed)?;
+
+    //Setting the amount to bond and the pool id
+	let amount = 1_00_000_000_000_000_000_000_000u128; // 1_000_00 Avail tokens
+    let pool_id = 1;
+
+    //Executing the transaction
+    let tx = sdk.tx.nomination_pools.join(amount, pool_id);
+    let res = tx.execute_and_watch_inclusion(&account, Options::new()).await?;
+    assert_eq!(res.is_successful(), Some(true));
+    
+    println!(
+        "Block Hash: {:?}, Block Number: {}, Tx Hash: {:?}, Tx Index: {}",
+        res.block_hash, res.block_number, res.tx_hash, res.tx_index
+    );
+
+    Ok(())
+}
+
 #[tokio::main]
-async fn main() -> Result<(), String> {
-	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
- 
-	let alice = "This is a random seed phrase please replace with your own";
-	let secret_uri = SecretUri::from_str(alice).unwrap();
-	let account = Keypair::from_uri(&secret_uri).unwrap();
-	let amount = 1_000_000_000_000_000_000_000_000u128; // 1_000_000 Avail tokens
-	let pool_id = 1;
- 
-	let wait_for = WaitFor::BlockInclusion;
-	let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
-	let result = sdk
-		.tx
-		.nomination_pools
-		.join(amount, pool_id, wait_for, &account, Some(options))
-		.await?;
- 
-	dbg!(result);
- 
-	Ok(())
+async fn main() {
+    if let Err(e) = nomination_pools_join().await {
+        eprintln!("Error: {:?}", e);
+    }
 }
 ```
 
@@ -142,7 +169,7 @@ cargo run
 ```
 
 <br/>
-<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
 <summary>Sample Response:</summary>
 ```rust showLineNumbers filename="avail-rust"
 PoolJoinTxSuccess {
@@ -169,5 +196,84 @@ PoolJoinTxSuccess {
 ```
 </details>
 </Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.go`, add the following code:
+
+```go showLineNumbers filename="avail-go"
+package main
+
+import (
+	"fmt"
+	"log"
+	"os"
+
+	"github.com/availproject/avail-go-sdk/metadata"
+	SDK "github.com/availproject/avail-go-sdk/sdk"
+	"github.com/joho/godotenv"
+)
+
+func main() {
+	// Load environment variables from .env file
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	// Make sure the SEED environment variable is set
+	seed := os.Getenv("SEED")
+	if seed == "" {
+		log.Fatal("SEED environment variable is not set")
+	}
+
+	// Create an account from the SEED environment variable
+	acc, err := SDK.Account.NewKeyPair(seed)
+	if err != nil {
+		log.Fatalf("Failed to create account: %v", err)
+	}
+	fmt.Println("Your account Address: " + acc.SS58Address(42))
+
+	// Initialize an SDK instance
+	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
+	if err != nil {
+		log.Fatalf("Failed to initialize SDK: %v", err)
+	}
+
+	// Set the amount to bond and the pool ID
+	// 1_000_00 Avail tokens
+	amount, err := metadata.NewBalanceFromString("1000000000000000000000000")
+	if err != nil {
+		log.Fatalf("Failed to create balance: %v", err)
+	}
+	poolId := uint32(1)
+
+	// Create the join transaction
+	tx := sdk.Tx.NominationPools.Join(amount, poolId)
+
+	// Execute the transaction
+	res, err := tx.ExecuteAndWatchInclusion(acc, SDK.NewTransactionOptions())
+	if err != nil {
+		log.Fatalf("Transaction failed: %v", err)
+	}
+
+	// Check if the transaction was successful
+	if !res.IsSuccessful().UnsafeUnwrap() {
+		log.Fatal("Transaction was not successful")
+	}
+
+	fmt.Println("Join transaction successful")
+	fmt.Printf("Block Hash: %v, Block Number: %v, Tx Hash: %v, Tx Index: %v\n", res.BlockHash.ToHexWith0x(), res.BlockNumber, res.TxHash.ToHexWith0x(), res.TxIndex)
+}
+```
+
+2. Run the code using:
+
+```bash
+go run main.go
+```
+
+</Tabs.Tab>
+
 
 </Tabs>

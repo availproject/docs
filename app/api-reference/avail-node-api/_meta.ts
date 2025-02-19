@@ -24,20 +24,19 @@ export default {
             "title": "Staking pallet"
          },
     
+        "staking-active-era": "Fetch information on the active era",
         "staking-bond": "Bond AVAIL tokens on Avail DA",
         "staking-nominate": "Nominate staked AVAIL tokens to one or more validators",
-        "staking-unbond": "Unbond AVAIL tokens from Avail DA",
         "staking-validate": "Become a validator on Avail DA",
         "staking-chill": "Stop validating on Avail DA",
-        "staking-active-era": "Fetch information on the active era",
-    
+        "staking-unbond": "Unbond AVAIL tokens from Avail DA",
         "nomination-pools": {
             "type": "separator",
             "title": "Nomination Pools pallet"
          },
     
+  "nomination-pools-join": "Join a nomination pool",
   "nomination-pools-create": "Create a new nomination pool",
   "nomination-pools-create-with-pool-id": "Create a new nomination pool with a specific pool ID",
   "nomination-pools-nominate": "Nominate validator(s) for your nomination pool",
-  "nomination-pools-join": "Join a nomination pool",
 };

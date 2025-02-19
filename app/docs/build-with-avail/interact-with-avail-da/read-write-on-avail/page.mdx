@@ -92,67 +92,78 @@ ts-node submit-data.ts
 <Tabs.Tab>
 1. Create a file named `main.rs`
 
-2. Import the dependencies from `avail-rust-sdk` and create a `main` function:
+2. Import the dependencies from `avail-rust-sdk` and create a `submit_data` function:
 
 ```rust showLineNumbers filename="avail-rust"
-use avail_rust::{Data, Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
-use core::str::FromStr;
- 
-#[tokio::main]
-async fn main() -> Result<(), String> {
+use dotenvy::dotenv;
+use std::env;
+use avail_rust::prelude::*;
+
+type DataSubmissionCall = avail::data_availability::calls::types::SubmitData;
+
+pub async fn submit_data() -> Result<(), ClientError> {
 
 }
 ```
 
-3. Initialize a new instance of the SDK inside the `main` function:
+3. Initialize a new instance of the SDK inside the `submit_data` function:
 
 ```rust showLineNumbers filename="avail-rust"
-	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
+    // Create a new SDK instance
+	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
 ```
 
 4. Initialize a new wallet using a `12-word seed phrase`, and configure the params for the transaction:
 
 ```rust showLineNumbers filename="avail-rust"
-  let alice = "This is a random seed phrase please replace with your own";
-	let secret_uri = SecretUri::from_str(alice).unwrap();
-	let account = Keypair::from_uri(&secret_uri).unwrap();
-	let data = String::from("Sample data being submitted......").as_bytes().to_vec();
-	let data = Data { 0: data };
- 
-	let wait_for = WaitFor::BlockInclusion;
-	let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
- 
-	let app_id = 89; // You can change this value to your desired app_id
+    // Loading seed phrase and creating an account derived from the seed
+    dotenv().ok();
+    let seed = env::var("SEED").expect("SEED environment variable is not set");
+    let account = account::from_secret_uri(&seed)?;
+    println!("Account Address: {}", account.public_key().to_account_id());
+
+    // Please note that the tx will fail if this application key does not exist
+    let my_application_key = 1;
+
+    // Data Submission
+    let data = String::from("My Data").into_bytes();
 ```
 
 5. Submit the transaction by calling the `dataAvailability_submitData` extrinsic via the `avail-rust` SDK:
 
 ```rust showLineNumbers filename="avail-rust"
-    // Create the options with the app_id included
-    let options = Options {
-        app_id: Some(app_id),
-        mortality: None,
-        nonce: Some(Nonce::BestBlockAndTxPool),
-        tip: None,       
+
+    let options = Options::new().app_id(my_application_key);
+    let tx = sdk.tx.data_availability.submit_data(data);
+    let res = tx.execute_and_watch_inclusion(&account, options).await?;
+    assert_eq!(res.is_successful(), Some(true), "Transactions must be successful");
+
+    println!(
+        "Block Hash: {:?}, Block Number: {}, Tx Hash: {:?}, Tx Index: {}",
+        res.block_hash, res.block_number, res.tx_hash, res.tx_index
+    );
+
+    // Decoding
+    let decoded = res.decode_as::<DataSubmissionCall>().await?;
+    let Some(decoded) = decoded else {
+        return Err("Failed to get Data Submission Call data".into());
     };
- 
-	let result = sdk
-		.tx
-		.data_availability
-		.submit_data(data, wait_for, &account, Some(options))
-		.await?;
- 
-	println!(
-		"Who={}, DataHash={:?}",
-		result.event.who, result.event.data_hash
-	);
-	println!("TxData={:?}", result.tx_data.data);
-	println!(
-		"TxHash={:?}, BlockHash={:?}",
-		result.tx_hash, result.block_hash
-	);
- 
-	Ok(())
+
+    let data = to_ascii(decoded.data.0).unwrap();
+    println!("Call data: {:?}", data);
+
+    println!("Data Submission finished correctly");
+
+    Ok(())
+}
+
+// Add a main function to call submit_data
+#[tokio::main]
+async fn main() {
+    if let Err(e) = submit_data().await {
+        eprintln!("Error: {:?}", e);
+    }
+}
 ```
 
 6. Run the script using the following command:
@@ -173,11 +184,12 @@ cargo run
 package main
 
 import (
-	"github.com/availproject/avail-go-sdk/src/config"
-	"github.com/availproject/avail-go-sdk/src/sdk"
-	"github.com/availproject/avail-go-sdk/src/sdk/tx"
-
 	"fmt"
+	"log"
+	"os"
+
+	SDK "github.com/availproject/avail-go-sdk/sdk"
+	"github.com/joho/godotenv"
 )
 
 func main() {
@@ -188,32 +200,52 @@ func main() {
 3. Initialize a new instance of the SDK inside the `main` function:
 
 ```go showLineNumbers filename="avail-go"
-	config, err := config.LoadConfig()
+	// Load environment variables from .env file
+	err := godotenv.Load()
 	if err != nil {
-		fmt.Printf("cannot load config:%v", err)
-	}
-	api, err := sdk.NewSDK(config.ApiURL)
-	if err != nil {
-		fmt.Printf("cannot create api:%v", err)
+		log.Fatal("Error loading .env file")
 	}
 
-	// You can your own app id here
-	appID := 0
+	// Make sure the SEED environment variable is set
+	seed := os.Getenv("SEED")
+	if seed == "" {
+		log.Fatal("SEED environment variable is not set")
+	}
 
-	fmt.Println("Submitting data ...")
-	WaitFor := sdk.BlockInclusion
+	// Create an account from the SEED environment variable
+	acc, err := SDK.Account.NewKeyPair(seed)
+	if err != nil {
+		log.Fatalf("Failed to create account: %v", err)
+	}
+	fmt.Println("Your account Address: " + acc.SS58Address(42))
+
+	// Initialize an SDK instance
+	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
+	if err != nil {
+		log.Fatalf("Failed to initialize SDK: %v", err)
+	}
+
+	// Configure the application ID
+	appId := uint32(89)
 ```
 
 4. Pass the seed phrase and data string as params for the transaction:
 
 ```go showLineNumbers filename="avail-go"
-	// submit data
-	BlockHash, txHash, err := tx.SubmitData(api, config.Seed, appID, "my happy data", WaitFor)
+	// Submit data to Avail
+	tx := sdk.Tx.DataAvailability.SubmitData([]byte("Submitting some data using avail-go-sdk"))
+	res, err := tx.ExecuteAndWatchInclusion(acc, SDK.NewTransactionOptions().WithAppId(appId))
 	if err != nil {
-		fmt.Printf("cannot submit data:%v", err)
+		log.Fatalf("Transaction failed: %v", err)
 	}
-	fmt.Printf("Data submitted successfully with block hash: %v\n and ext hash:%v", BlockHash.Hex(), txHash.Hex())
-}
+
+	// Check if the transaction was successful
+	if !res.IsSuccessful().UnsafeUnwrap() {
+		log.Fatal("Transaction was not successful")
+	}
+
+	// Printing out all the values of the transaction
+	fmt.Println(fmt.Sprintf(`Block Hash: %v, Block Index: %v, Tx Hash: %v, Tx Index: %v`, res.BlockHash.ToHexWith0x(), res.BlockNumber, res.TxHash.ToHexWith0x(), res.TxIndex))
 ```
 
 5. Run the script using the following command:

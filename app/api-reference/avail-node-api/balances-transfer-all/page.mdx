@@ -98,39 +98,47 @@ ts-node your-file-name.ts
 1. Inside `main.rs`, add the following code:
 
 ```rust showLineNumbers filename="avail-rust"
-use avail_rust::{Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
+use dotenvy::dotenv;
+use std::env;
+use avail_rust::prelude::*;
 use core::str::FromStr;
- 
-#[tokio::main]
-async fn main() -> Result<(), String> {
-	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
- 
-    let alice = "This is a random seed phrase please replace with your own";
-	let secret_uri = SecretUri::from_str(alice).unwrap();
-	let account = Keypair::from_uri(&secret_uri).unwrap();
-	let dest = "5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw"; // Eve
-	let keep_alive = false;
-    let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
 
-	let result = sdk
-		.tx
-		.balances
-		.transfer_all(dest, keep_alive, WaitFor::BlockInclusion, &account, Some(options))
-		.await?;
- 
-	println!(
-		"From={}, To={}, Amount={}",
-		result.event.from, result.event.to, result.event.amount
-	);
-	if let Some(event) = result.event2 {
-		println!("Killed={}", event.account);
-	}
-	println!(
-		"TxHash={:?}, BlockHash={:?}",
-		result.tx_hash, result.block_hash
-	);
- 
-	Ok(())
+pub async fn transfer_all() -> Result<(), ClientError> {
+
+    // Create a new SDK instance
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+    // Loading seed phrase and creating an account derived from the seed
+    dotenv().ok();
+    let seed = env::var("SEED").expect("SEED environment variable is not set");
+    let account = account::from_secret_uri(&seed)?;
+    println!("Account Address: {}", account.public_key().to_account_id());
+
+    // Executing the transaction
+    let dest = AccountId::from_str("5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk").unwrap();
+
+    // Please take note of the `keep_alive` bool parameter
+    // If set to true (which is the case right now), the transfer transaction will leave the origin account with a small balance
+    // that is above the existential deposit and prevents the account from being reaped
+
+    // Set the `keep_alive` parameter to `false` only if you are ok with the origin account being reaped
+    let tx = sdk.tx.balances.transfer_all(dest, true);
+    let res = tx.execute_and_watch_inclusion(&account, Options::default()).await?;
+
+    println!(
+        "Block Hash: {:?}, Block Number: {}, Tx Hash: {:?}, Tx Index: {}",
+        res.block_hash, res.block_number, res.tx_hash, res.tx_index
+    );
+
+    Ok(())
+}
+
+// Add a main function to call transfer_all
+#[tokio::main]
+async fn main() {
+    if let Err(e) = transfer_all().await {
+        eprintln!("Error: {:?}", e);
+    }
 }
 ```
 
@@ -149,30 +157,69 @@ cargo run
 package main
 
 import (
-	"github.com/availproject/avail-go-sdk/src/config"
-	"github.com/availproject/avail-go-sdk/src/sdk"
-	"github.com/availproject/avail-go-sdk/src/sdk/tx"
-
 	"fmt"
+	"log"
+	"os"
+
+	"github.com/availproject/avail-go-sdk/primitives"
+	SDK "github.com/availproject/avail-go-sdk/sdk"
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	config, err := config.LoadConfig()
+	// Load environment variables from .env file
+	err := godotenv.Load()
 	if err != nil {
-		fmt.Printf("cannot load config:%v", err)
+		log.Fatal("Error loading .env file")
 	}
-	api, err := sdk.NewSDK(config.ApiURL)
-	if err != nil {
-		fmt.Printf("cannot create api:%v", err)
-	}
-	WaitFor := sdk.BlockInclusion
 
-	dest := "5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY"
-	BlockHash, txHash, err := tx.TransferAll(api, config.Seed, WaitFor, dest)
-	if err != nil {
-		fmt.Printf("cannot submit Transaction:%v", err)
+	// Make sure the SEED environment variable is set
+	seed := os.Getenv("SEED")
+	if seed == "" {
+		log.Fatal("SEED environment variable is not set")
 	}
-	fmt.Printf("Transaction submitted successfully with block hash: %v\n and ext hash:%v", BlockHash.Hex(), txHash.Hex())
+
+	// Create an account from the SEED environment variable
+	acc, err := SDK.Account.NewKeyPair(seed)
+	if err != nil {
+		log.Fatalf("Failed to create account: %v", err)
+	}
+	fmt.Println("Your account Address: " + acc.SS58Address(42))
+
+	// Initialize an SDK instance
+	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
+	if err != nil {
+		log.Fatalf("Failed to initialize SDK: %v", err)
+	}
+
+	// Convert the hex string to a MultiAddress
+	destAddress, err := primitives.NewAccountIdFromAddress("5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk")
+	if err != nil {
+		log.Fatalf("Failed to convert address: %v", err)
+	}
+	dest := destAddress.ToMultiAddress()
+
+	// Set to false if you don't want to keep the account alive
+	keepAlive := true
+
+	// Transferring all funds
+	tx := sdk.Tx.Balances.TransferAll(dest, keepAlive)
+
+	// Execute the transaction
+	res, err := tx.ExecuteAndWatchInclusion(acc, SDK.NewTransactionOptions())
+	if err != nil {
+		log.Fatalf("Transaction failed: %v", err)
+	}
+
+	// Check if the transaction was successful
+	if !res.IsSuccessful().UnsafeUnwrap() {
+		log.Fatal("Transaction was not successful")
+	}
+
+	fmt.Println("Transaction successful")
+
+	// Printing out all the values of the transaction
+	fmt.Println(fmt.Sprintf(`Block Hash: %v, Block Index: %v, Tx Hash: %v, Tx Index: %v`, res.BlockHash.ToHexWith0x(), res.BlockNumber, res.TxHash.ToHexWith0x(), res.TxIndex))
 }
 ```
 
