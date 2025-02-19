@@ -45,6 +45,11 @@ For instructions, [check out our docs here](/api-reference/avail-node-api#settin
 The rest of the code should work as is.
 </Callout>
 
+<Callout type="warning">
+1. The minimum amount of `AVAIL` required to join a nomination pool is `100 AVAIL`.
+2. Enter the `poolId` carefully.
+</Callout>
+
 <Tabs items={['avail-js', 'avail-rust']}>
 
 <Tabs.Tab>
@@ -108,30 +113,42 @@ ts-node your-file-name.ts
 1. Inside `main.rs`, add the following code:
 
 ```rust showLineNumbers filename="avail-rust" showLineNumbers filename="avail-rust"
-use avail_rust::{Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
-use core::str::FromStr;
- 
+use dotenvy::dotenv;
+use std::env;
+use avail_rust::prelude::*;
+
+pub async fn nomination_pools_join() -> Result<(), ClientError> {
+
+    // Create a new SDK instance
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+    // Loading seed phrase and creating an account derived from the seed
+    dotenv().ok();
+    let seed = env::var("SEED").expect("SEED environment variable is not set");
+    let account = account::from_secret_uri(&seed)?;
+
+    //Setting the amount to bond and the pool id
+	let amount = 1_00_000_000_000_000_000_000_000u128; // 1_000_00 Avail tokens
+    let pool_id = 1;
+
+    //Executing the transaction
+    let tx = sdk.tx.nomination_pools.join(amount, pool_id);
+    let res = tx.execute_and_watch_inclusion(&account, Options::new()).await?;
+    assert_eq!(res.is_successful(), Some(true));
+    
+    println!(
+        "Block Hash: {:?}, Block Number: {}, Tx Hash: {:?}, Tx Index: {}",
+        res.block_hash, res.block_number, res.tx_hash, res.tx_index
+    );
+
+    Ok(())
+}
+
 #[tokio::main]
-async fn main() -> Result<(), String> {
-	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
- 
-	let alice = "This is a random seed phrase please replace with your own";
-	let secret_uri = SecretUri::from_str(alice).unwrap();
-	let account = Keypair::from_uri(&secret_uri).unwrap();
-	let amount = 1_000_000_000_000_000_000_000_000u128; // 1_000_000 Avail tokens
-	let pool_id = 1;
- 
-	let wait_for = WaitFor::BlockInclusion;
-	let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
-	let result = sdk
-		.tx
-		.nomination_pools
-		.join(amount, pool_id, wait_for, &account, Some(options))
-		.await?;
- 
-	dbg!(result);
- 
-	Ok(())
+async fn main() {
+    if let Err(e) = nomination_pools_join().await {
+        eprintln!("Error: {:?}", e);
+    }
 }
 ```
 

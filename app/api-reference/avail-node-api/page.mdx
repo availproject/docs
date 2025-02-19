@@ -86,7 +86,7 @@ You can use the [networks page](/docs/networks) to find endpoints for mainnet if
 
 3. Paste the following into your `Cargo.toml` file:
 
-```toml
+```toml showLineNumbers filename="Cargo.toml"
 [workspace]
 
 [package]
@@ -94,9 +94,40 @@ name = "your-project-name"
 edition = "2021"
 
 [dependencies]
-avail-rust = { git = "https://github.com/availproject/avail", tag = "v2.2.5.1" }
+# Use avail-rust v0.1.1 from the `avail-rust` repo
+avail-rust = { git = "https://github.com/availproject/avail-rust", tag = "v0.1.1" }
+# Tokio
 tokio = { version = "1.38.0", features = ["full"] }
+# dotenvy
+dotenvy = "0.15.7"
 ```
+
+<Callout type="warning">
+**Check your rust version**<br/>
+1. Run `rustc --version` to check the version of rust installed on your system.
+2. Some features of the `avail-rust` SDK may not work with older versions of rust.
+3. You can update the Rust version on your system by running `rustup update`.
+</Callout>
+
+4. Create a `.env` file in the root of your project by running the following command:
+
+```bash
+touch .env
+```
+
+5. Put in the Seed Phrase of the account you want to use into the `.env` file:
+
+```env showLineNumbers filename=".env"
+SEED="This is a random seed phrase please replace with your own"
+```
+
+<Callout type="error" emoji="🔥">
+**IMPORTANT**<br/>
+1. Please be **VERY CAREFUL** with your seed phrase.
+2. Make sure to add your `.env` file to your `.gitignore` so that it doesn't get pushed anywhere.
+3. While it is good enough to use an `env` file while testing, try to use better practices while deploying to production.
+</Callout>
+
 </Tabs.Tab>
 
 <Tabs.Tab>
@@ -120,19 +151,38 @@ go mod init your-project-name
 go get github.com/availproject/avail-go-sdk@v0.1.1
 ```
 
-4. Create a `config.json` file in the root of your project and fill it up like this:
+4. To install the `godotenv` package, use the following command:
 
-```json showLineNumbers filename="config.json"
-{
-	"seed": "This is a random seed phrase please replace with your own",
-	"api_url": "wss://turing-rpc.avail.so/ws",
-	"size": 1000,
-	"app_id": 0,
-	"dest": "5H3qehpRTFiB3XwyTzYU43SpG7e8jW87vFug95fxdew76Vyi",
-	"amount": 10
-}
-
+```bash
+go get github.com/joho/godotenv
 ```
+
+<Callout type="warning">
+**CHECK YOUR GO VERSION**<br/>
+1. Run `go version` to check the version of go installed on your system.
+2. Some features of the `avail-go-sdk` may not work with older versions of go.
+3. Refer to [Golang's docs](https://go.dev/doc/install) for any questions.
+</Callout>
+
+5. Create a `.env` file in the root of your project by running the following command: 
+
+```bash
+touch .env
+```
+
+6. Put in the Seed Phrase of the account you want to use into the `.env` file:
+
+```env showLineNumbers filename=".env"
+SEED="This is a random seed phrase please replace with your own"
+```
+
+<Callout type="error" emoji="🔥">
+**IMPORTANT**<br/>
+1. Please be **VERY CAREFUL** with your seed phrase.
+2. Make sure to add your `.env` file to your `.gitignore` so that it doesn't get pushed anywhere.
+3. While it is good enough to use an `env` file while testing, try to use better practices while deploying to production.
+</Callout>
+
 </Tabs.Tab>
 
 </Tabs>

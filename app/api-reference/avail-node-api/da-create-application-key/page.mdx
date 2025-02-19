@@ -100,36 +100,48 @@ ts-node your-file-name.ts
 1. Inside `main.rs`, add the following code:
 
 ```rust showLineNumbers filename="avail-rust"
-use avail_rust::{Key, Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
-use core::str::FromStr;
- 
+use dotenvy::dotenv;
+use std::env;
+use avail_rust::prelude::*;
+
+type ApplicationKeyCreatedEvent = avail::data_availability::events::ApplicationKeyCreated;
+
+pub async fn create_application_key() -> Result<(), ClientError> {
+	
+    // Create a new SDK instance
+	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+    // Loading seed phrase and creating an account derived from the seed
+    dotenv().ok();
+    let seed = env::var("SEED").expect("SEED environment variable is not set");
+    let account = account::from_secret_uri(&seed)?;
+    println!("Account Address: {}", account.public_key().to_account_id());
+
+    // Application Key Creation
+    // Please note that if an application key with the same `key` already exists, the transaction will fail.
+
+    let key = "My Application Key".as_bytes().to_vec();
+    let tx = sdk.tx.data_availability.create_application_key(key);
+    let res = tx.execute_and_watch_inclusion(&account, Options::default()).await?;
+    assert_eq!(res.is_successful(), Some(true), "Transactions must be successful");
+
+    let events = res.events.as_ref().unwrap();
+    let event = events.find_first::<ApplicationKeyCreatedEvent>().unwrap();
+    let Some(event) = event else {
+        return Err("Failed to get Application Key Created Event".into());
+    };
+    let app_id = event.id.0;
+    println!("Application Key Created: {}", app_id);
+
+    Ok(())
+}
+
+// Add a main function to call create_application_key
 #[tokio::main]
-async fn main() -> Result<(), String> {
-	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
-
-    let alice = "This is a random seed phrase please replace with your own";
-	let secret_uri = SecretUri::from_str(alice).unwrap();
-	let account = Keypair::from_uri(&secret_uri).unwrap();
-	let key = String::from("MyAwesome43287oerwhbiwKey").as_bytes().to_vec();
-	let key = Key { 0: key };
-    let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
-
-	let result = sdk
-		.tx
-		.data_availability
-		.create_application_key(key, WaitFor::BlockInclusion, &account, Some(options))
-		.await?;
- 
-	println!(
-		"Key={:?}, Owner={}, Id={:?}",
-		result.event.key, result.event.owner, result.event.id
-	);
-	println!(
-		"TxHash={:?}, BlockHash={:?}",
-		result.tx_hash, result.block_hash
-	);
- 
-	Ok(())
+async fn main() {
+    if let Err(e) = create_application_key().await {
+        eprintln!("Error: {:?}", e);
+    }
 }
 ```
 
@@ -149,31 +161,71 @@ cargo run
 package main
 
 import (
-	"github.com/availproject/avail-go-sdk/src/config"
-	"github.com/availproject/avail-go-sdk/src/sdk"
-	"github.com/availproject/avail-go-sdk/src/sdk/tx"
-
 	"fmt"
+	"log"
+	"os"
+
+	daPallet "github.com/availproject/avail-go-sdk/metadata/pallets/data_availability"
+	SDK "github.com/availproject/avail-go-sdk/sdk"
+	"github.com/joho/godotenv"
 )
 
-func main() {
-	config, err := config.LoadConfig()
+// PanicOnError - Immediately exits if an error occurs
+func PanicOnError(err error) {
 	if err != nil {
-		fmt.Printf("cannot load config:%v", err)
+		log.Fatalf("Error: %v", err)
 	}
-	api, err := sdk.NewSDK(config.ApiURL)
-	if err != nil {
-		fmt.Printf("cannot create api:%v", err)
-	}
+}
 
-	fmt.Println("Creating Application key...")
-	WaitFor := sdk.BlockInclusion
-	blockHash, txHash, err := tx.CreateApplicationKey(api, config.Seed, "new Application key created using avail-go....", WaitFor)
-	if err != nil {
-		fmt.Printf("cannot create application key:%v", err)
+// AssertTrue - Exits if a condition is false
+func AssertTrue(condition bool, message string) {
+	if !condition {
+		log.Fatal(message)
 	}
-	fmt.Printf("Application key created successfully with block hash: %v\n and ext hash:%v\n", blockHash.Hex(), txHash.Hex())
-	sdk.EventParser(api, blockHash, "ApplicationKeyCreated")
+}
+
+func main() {
+
+	// Load environment variables from .env file
+	err := godotenv.Load()
+	PanicOnError(err)
+
+	// Make sure the SEED environment variable is set
+	seed := os.Getenv("SEED")
+	AssertTrue(seed != "", "SEED environment variable is not set")
+
+	// Create an account from the SEED environment variable
+	acc, err := SDK.Account.NewKeyPair(seed)
+	PanicOnError(err)
+	fmt.Println("Your account Address: " + acc.SS58Address(42))
+
+	// Initialize an SDK instance
+	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
+	PanicOnError(err)
+
+	// Generate an application key
+	// Please note that the transaction will fail if
+	// an AppID with the same key already exists
+	key := "My new application key created using avail-go-sdk"
+	tx := sdk.Tx.DataAvailability.CreateApplicationKey([]byte(key))
+
+	// Execute the transaction
+	res, err := tx.ExecuteAndWatchInclusion(acc, SDK.NewTransactionOptions())
+	PanicOnError(err)
+
+	isOk := res.IsSuccessful()
+	AssertTrue(isOk.IsSome(), "Failed to determine transaction status.")
+
+	// If the value of `IsSuccessful()` is Some(false) then the transaction has failed.
+	AssertTrue(isOk.Unwrap(), "The transaction failed.")
+
+	AssertTrue(res.Events.IsSome(), "Failed to decode events.")
+	events := res.Events.UnsafeUnwrap()
+	eventMyb := SDK.EventFindFirst(events, daPallet.EventApplicationKeyCreated{})
+	event := eventMyb.UnsafeUnwrap().UnsafeUnwrap()
+	appId := event.Id
+	fmt.Println(fmt.Sprintf(`Owner: %v, Key: %v, AppId: %v`, event.Owner.ToHuman(), string(event.Key), appId))
+	fmt.Println(fmt.Sprintf(`Block Hash: %v, Block Index: %v, Tx Hash: %v, Tx Index: %v`, res.BlockHash.ToHexWith0x(), res.BlockNumber, res.TxHash.ToHexWith0x(), res.TxIndex))
 }
 ```
 
