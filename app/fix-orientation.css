@@ -1,0 +1,23 @@
+/* fix-orientation.css */
+h1, h2, h3, h4, h5, h6,
+.nextra-content p,
+.nextra-content div,
+article,
+main {
+    transform: rotate(0deg) !important;
+    -webkit-transform: rotate(0deg) !important;
+    -moz-transform: rotate(0deg) !important;
+    -ms-transform: rotate(0deg) !important;
+    perspective: none !important;
+    transform-style: flat !important;
+    backface-visibility: visible !important;
+}
+
+[data-nextra-hide-sidebar] main {
+    transform: none !important;
+}
+
+.nextra-content {
+    transform: none !important;
+    transform-origin: unset !important;
+}

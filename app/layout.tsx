@@ -6,6 +6,7 @@ import type { ReactNode } from "react"
 import { getPageMap } from "nextra/page-map"
 import "nextra-theme-docs/style.css"
 import "./globals.css"
+import "./fix-orientation.css"
 import { CustomNavbar } from "@components/Navbar"
 
 export const metadata: Metadata = {
