@@ -1,0 +1,79 @@
+---
+id: avail-light-client-reference
+title: API reference
+sidebar_label: Avail Light client API reference
+description: Avail Light client API reference
+keywords:
+  - docs
+  - avail
+  - data
+  - availability
+  - how-to
+  - light client
+  - embedding
+  - rust
+  - API
+  - reference
+image: https://docs.availproject.org/img/avail/AvailDocs.png
+---
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Avail light client API reference
+
+<Callout type="info">
+**BEFORE WE START**<br/>
+1. The Avail light client(Avail LC) can run in two modes: `Light-client` or `App-client`. We internally maintain
+a light client instance available for public use running in the `Light-client` mode. Thus, for all methods that can
+be called via an LC running in the `Light-client` mode, devs can use our public endpoint.
+2. For methods that require an LC running in the `App-client` mode, you will need to run a local instance of the Avail LC.
+3. You can check out or docs for [instructions on running your own instance
+of the Avail light client](/docs/operate-a-node/run-a-light-client/0010-light-client)
+4. The LC API is exposed by default through `localhost:7007` by default.
+</Callout>
+
+## Setting up the dev environment
+
+Set up your dev environment with `curl` and `Rust`:
+
+<Tabs items={['CURL', 'Rust']}>
+
+<Tabs.Tab>
+
+1. To use the Avail light client API with `curl`, you just need to have `curl` installed on your system. 
+You can check if it is installed by running:
+
+```sh
+curl --version
+```
+
+2. If this does not work, go to [curl's website](https://curl.se/) to install it on your system. 
+</Tabs.Tab>
+
+<Tabs.Tab>
+How to run the Rust code snippets:
+
+1. Make sure you have [Rust](https://www.rust-lang.org) and [Cargo](https://crates.io/) installed on your system before moving forward. You can check that by running:
+    ```sh
+    rustc --version && cargo --version
+    ```
+    If either of these don't work, you can check out [Rust's official installation guide](https://www.rust-lang.org/tools/install).
+     
+
+1. Create a new Rust project:
+    ```sh
+    cargo new <project-name>
+    ```
+2. Add these dependencies to the `Cargo.toml` file:
+    ```toml
+    [dependencies]
+    reqwest = { version = "0.12", features = ["json"] }
+    serde = { version = "1.0", features = ["derive"] }
+    serde_json = "1.0"
+    tokio = { version = "1.36", features = ["full"] }
+    base64 = "0.22"
+    ```
+3. Paste the code snippets into the `main.rs` file, and run the project with `cargo run`.
+
+</Tabs.Tab>
+</Tabs>

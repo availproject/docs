@@ -1,0 +1,57 @@
+---
+id: overview
+title: Building on the Polygon zkEVM with Avail
+sidebar_label: Overview
+description: 'Discover how to utilize Avail as a data availability layer.'
+keywords:
+  - documentation
+  - avail
+  - develop
+  - build
+  - data availability
+  - da
+image: https://docs.availproject.org/img/avail/AvailDocs.png
+---
+
+# Building on the Polygon zkEVM with Avail
+
+Polygon zkEVM, when combined with Avail in a Validium setup, provides a robust solution for scaling Ethereum applications. Here's an overview of this setup:
+
+### Transaction Lifecycle
+
+1. **Transaction Submission**
+
+   - **Process**: Users initiate transactions by sending them to the Validium Sequencer.
+   - **Role**: The Sequencer temporarily holds these transactions before they are processed.
+
+2. **Batch Processing**
+
+   - **Component**: `validium-batcher`
+   - **Function**: Transactions are grouped into batches to optimize processing efficiency.
+
+3. **Data Availability with Avail**
+
+   - **Component**: `avail-validator`
+   - **Function**: Transaction batches are transmitted to Avail's blockchain, where they are validated and made available for further processing within the Validium environment.
+
+4. **Proof Generation**
+
+   - **Component**: `zkevm-prover`
+   - **Function**: A dedicated prover generates cryptographic proofs for the Validium network, ensuring the validity of transactions and data availability on Ethereum.
+
+5. **Transaction Commitment to Ethereum**
+
+   - **Component**: `validium-bridge`
+   - **Action**: Validity proofs and transaction commitments are submitted to the Ethereum network, anchoring the Validium state on the Ethereum mainnet.
+
+6. **Verifier and Rollup Node Integration**
+   - **Component**: `validium-node`
+   - **Function**: The Validium node queries Ethereum for transaction data and commitments, maintaining data availability and enabling users to interact with the Validium chain securely.
+
+### Interoperability and Fault Tolerance
+
+The combination of Polygon zkEVM and Avail in the Validium setup is designed to seamlessly integrate with Polygon's fault-tolerant system. This ensures the robustness of the Validium Sequencer while enabling efficient cross-chain communication and interoperability.
+
+### Developer Onboarding
+
+Developers interested in leveraging Polygon zkEVM with Avail within the Validium framework can begin by referring to the comprehensive guide provided in the [Avail Validium GitHub repository](https://github.com/availproject/validium-contracts). For ongoing support and updates, developers are encouraged to join the Avail community forum or Discord channel.

@@ -1,0 +1,30 @@
+{
+    "index": {
+      "type": "page",
+      "display": "hidden",
+      "theme": {
+        "layout": "raw"
+      }
+    },
+    "user-guides": {
+      "title": "User Guides",
+      "type": "page",
+      "theme": {
+        "typesetting": "default"
+      }
+  },
+  "docs": {
+    "title": "Docs",
+    "type": "page",
+    "theme": {
+      "typesetting": "default"
+    }
+},
+  "api-reference": {
+    "title": "API reference",
+    "type": "page",
+    "theme": {
+      "typesetting": "default"
+    }
+}
+  }

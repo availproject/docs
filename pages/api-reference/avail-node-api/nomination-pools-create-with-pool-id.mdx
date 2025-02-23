@@ -1,0 +1,212 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+ 
+# Create a new nomination pool with a specific pool ID
+
+On-chain name of method: `nominationPools_createWithPoolId`
+
+## Parameters
+
+<Tabs items={['avail-js', 'avail-rust']}>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                        |
+| --------- | ------------- | -------- | -------------------------------------------------- |
+| amount    | BN            | false    | The amount of funds to delegate to the pool        |
+| root      | string        | false    | The account to set as [`PoolRoles::root`]          |
+| nominator | string        | false    | The account to set as the [`PoolRoles::nominator`] |
+| bouncer   | string        | false    | The account to set as the [`PoolRoles::bouncer`]   |
+| poolId    | number        | false    | pool id                                            |
+| waitFor   | WaitFor       | false    | wait for block inclusion or finalization           |
+| account   | KeyringPair   | false    | account that will send and sign the transaction    |
+| options   | SignerOptions | true     | used to overwrite existing signer options          |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type        | optional | description                                        |
+| --------- | ----------- | -------- | -------------------------------------------------- |
+| amount    | u128        | false    | The amount of funds to delegate to the pool        |
+| root      | &str        | false    | The account to set as [`PoolRoles::root`]          |
+| nominator | &str        | false    | The account to set as the [`PoolRoles::nominator`] |
+| bouncer   | &str        | false    | The account to set as the [`PoolRoles::bouncer`]   |
+| pool id   | u32         | false    | pool id                                            |
+| waitFor   | WaitFor     | false    | wait for block inclusion or finalization           |
+| account   | KeyringPair | false    | account that will send and sign the transaction    |
+| options   | Options     | true     | transaction parameters                             |
+</Tabs.Tab>
+
+</Tabs>
+
+## Returns
+
+On failure, a reason for the failure is returned. On success, the function will return a object of type `PoolCreateWithPoolIdTxSuccess`.
+This object contains the details of the transaction and your newly created nomination pool.
+
+## Minimal example
+
+<Callout type="info">
+1. You will need to set up the dev environment required to run this example. 
+For instructions, [check out our docs here](/api-reference/avail-node-api#setting-up-the-dev-environment).
+
+2. If you're sending an extrinsic (i.e conducting a transaction) you will need to replace the demo seed phrase with your own seed phrase.
+The rest of the code should work as is.
+</Callout>
+
+<Tabs items={['avail-js', 'avail-rust']}>
+
+<Tabs.Tab>
+
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript filename="avail-js"
+import { SDK, WaitFor, Keyring, BN } from "avail-js-sdk"
+
+const main = async () => {
+  const providerEndpoint = "wss://turing-rpc.avail.so/ws";
+  const sdk = await SDK.New(providerEndpoint);
+
+  const Alice = 'This is a random seed phrase please replace with your own';
+  const account = new Keyring({ type: "sr25519" }).addFromUri(Alice);
+  const amount = new BN(10).pow(new BN(18)).mul(new BN(10000)) // 10_000 Avail
+
+  const root: string = "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY" // Alice
+  const nominator: string = "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY" // Alice
+  const bouncer: string = "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY" // Alice
+  const poolId = 0
+
+  const result = await sdk.tx.nominationPools.createWithPoolId(
+    amount,
+    root,
+    nominator,
+    bouncer,
+    poolId,
+    WaitFor.BlockInclusion,
+    account,
+  )
+  if (result.isErr) {
+    console.log(result.reason)
+    process.exit(1)
+  }
+
+  console.log(JSON.stringify(result, null, 4))
+  process.exit()
+}
+main()
+```
+
+2. Run the code using:
+
+```bash
+ts-node your-file-name.ts
+```
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```js
+{
+    "isErr": false,
+    "event": {
+        "depositor": "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty",
+        "poolId": "0"
+    },
+    "event2": {
+        "member": "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty",
+        "poolId": "0",
+        "bonded": "10000",
+        "joined": "true"
+    },
+    "events": [...],
+    "txHash": "0x6b50caed7950e67934cabbf88a1f7dc2e7e995ac608402f91a4db19be0da5c41",
+    "txIndex": 1,
+    "blockHash": "0xc06df7dbb1e404f54499f942479ddcffc92665c021ea07c2798fc2f354f403d3",
+    "blockNumber": 6
+}
+```
+</details>
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.rs`, add the following code:
+
+```rust filename="avail-rust" filename="avail-rust"
+use avail_rust::{Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
+use core::str::FromStr;
+ 
+#[tokio::main]
+async fn main() -> Result<(), String> {
+	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
+ 
+	let alice = "This is a random seed phrase please replace with your own";
+	let secret_uri = SecretUri::from_str(alice).unwrap();
+	let account = Keypair::from_uri(&secret_uri).unwrap();
+	let amount = 1_000_000_000_000_000_000_000_000u128; // 1_000_000 Avail tokens
+	let root = "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"; // Alice
+	let nominator = "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"; // Alice
+	let bouncer = "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"; // Alice
+	let pool_id = 0;
+ 
+	let wait_for = WaitFor::BlockInclusion;
+	let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
+	let result = sdk
+		.tx
+		.nomination_pools
+		.create_with_pool_id(
+			amount,
+			root,
+			nominator,
+			bouncer,
+			pool_id,
+			wait_for,
+			&account,
+			Some(options),
+		)
+		.await?;
+ 
+	dbg!(result);
+ 
+	Ok(())
+}
+```
+
+2. Run the code using:
+
+```bash
+cargo run
+```
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```rust filename="avail-rust"
+PoolCreateWithPoolIdTxSuccess {
+    event: Created {
+        depositor: AccountId32(...),
+        pool_id: 0,
+    },
+    event2: Bonded {
+        member: AccountId32(...),
+        pool_id: 0,
+        bonded: 1000000000000000000000000,
+        joined: true,
+    },
+    events: ExtrinsicEvents {
+        ext_hash: 0xaa16bad7378608bda89476353a61c1ae1ecc36166f0c5adda50cd563162889db,
+        idx: 1,
+        events: Events {
+            event_bytes: [],
+            start_idx: 1,
+            num_events: 19,
+        },
+    },
+    tx_hash: 0xaa16bad7378608bda89476353a61c1ae1ecc36166f0c5adda50cd563162889db,
+    tx_index: 1,
+    block_hash: 0xc04789228e6fa209119336ac33bcd6280b6b0c22e5ef9125c36b9f4a04e58adc,
+    block_number: 32,
+}
+```
+</details>
+</Tabs.Tab>
+
+</Tabs>

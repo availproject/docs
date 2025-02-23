@@ -1,0 +1,133 @@
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Avail node API reference
+
+<Callout type="info">
+**BEFORE WE START**<br/>
+1. The Avail node supports an extensive list of extrinsics and various other types of calls that you can
+[try out in our explorer](https://explorer.availproject.org/#/extrinsics).
+2. This API reference currently documents only the most widely used extrinsics, but will be iterated upon
+to eventually be an exhaustive resource for the Avail node API.
+</Callout>
+
+## Setting up the dev environment
+
+<Tabs items={['avail-js', 'avail-deno', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+
+1.  Make sure `Node-js` is installed on your system. You can refer to [Node-js docs](https://nodejs.org/en/download/package-manager) for the same.
+
+2. Create a new Node-js project by running `npm init -y` in a directory of your choice, and create a new file named `your-file-name.ts`
+
+3. To install the `avail-js-sdk` run the following command in the terminal:
+
+```bash
+npm install avail-js-sdk@0.3.0
+```
+
+4. Make sure to install the `ts-node` package if you haven't already:
+
+```bash
+npm i -g ts-node
+```
+
+5. Create a `tsconfig.json` file in the root of your project and populate it:
+
+```json
+{
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "commonjs",
+    "outDir": "build",
+    "declaration": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "noUnusedParameters": true
+  },
+  "exclude": ["node_modules", "build"]
+}
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+<Callout type="warning">
+**AVAIL-DENO HAS BEEN SUNSET**<br/>
+1. The `avail-deno` SDK has been sunset and will not be maintained or upgraded in the future.
+
+2. We recommend you switch to `avail-js`. The SDK will work with `deno` out of the box. \
+Just run `deno run --allow-net your-file-name.ts` to run your `avail-js` code with `deno`.
+</Callout>
+
+1. Make sure `avail-deno` is installed on your system. You can refer to [Deno's docs](https://docs.deno.com/runtime/manual/) for the same.
+
+2. Create a new Deno JS project by running `deno init` in a directory of your choice, and create a new file named `your-file-name.ts`
+in the project.
+
+3. The examples in this reference will interact with the Turing testnet of Avail DA, and will use the correspponding endpoint.
+You can use the [networks page](/docs/networks) to find endpoints for mainnet if you need to.
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Make sure `rust` and cargo are installed on your system. You can refer to [Rustlang's docs](https://www.rust-lang.org/tools/install) for the same.
+
+2. Create a new Rust project by running `cargo init your-project-name`.
+
+3. Paste the following into your `Cargo.toml` file:
+
+```toml
+[workspace]
+
+[package]
+name = "your-project-name"
+edition = "2021"
+
+[dependencies]
+avail-rust = { git = "https://github.com/availproject/avail", tag = "v2.2.5.1" }
+tokio = { version = "1.38.0", features = ["full"] }
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Make sure `go` is installed on your system by running the following command in your terminal:
+
+```bash
+go version
+```
+If not installed, you can refer to [Go's docs](https://golang.org/doc/install) for the same.
+
+2. Create a new Go project by initializing a Go module in a directory of your choice. Run the following command:
+
+```bash
+go mod init your-project-name
+```
+
+3. To install the avail-go-sdk, use the following command to add it to your project:
+
+``` bash
+go get github.com/availproject/avail-go-sdk@v0.1.1
+```
+
+4. Create a `config.json` file in the root of your project and fill it up like this:
+
+```json
+{
+	"seed": "This is a random seed phrase please replace with your own",
+	"api_url": "wss://turing-rpc.avail.so/ws",
+	"size": 1000,
+	"app_id": 0,
+	"dest": "5H3qehpRTFiB3XwyTzYU43SpG7e8jW87vFug95fxdew76Vyi",
+	"amount": 10
+}
+
+```
+</Tabs.Tab>
+
+</Tabs>

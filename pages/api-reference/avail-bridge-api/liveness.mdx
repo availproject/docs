@@ -1,0 +1,28 @@
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Check liveness of server
+
+## Request
+
+- `Path`: `/`
+- `Method type`: `GET`
+
+## Example Request
+
+<Tabs items={['CURL']}>
+
+<Tabs.Tab>
+    
+```sh
+curl https://turing-bridge-api.avail.so/
+```
+
+</Tabs.Tab>
+</Tabs>
+
+## Example response
+
+```json filename="Example JSON response"
+{"name":"Avail Bridge API"}
+```

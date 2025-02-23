@@ -1,0 +1,255 @@
+---
+id: interacting-with-Avail
+title: How to interact with Avail
+sidebar_label: Interact
+description: 'Discover how to interact with Avail as a data availability layer.'
+keywords:
+  - documentation
+  - avail
+  - develop
+  - build
+  - data availability
+  - da
+image: https://docs.availproject.org/img/avail/AvailDocs.png
+---
+import { Callout, Cards, Card  } from 'nextra/components'
+import { FileIcon, LinkIcon } from '@components/icons'
+
+# Get Started with Interacting on Avail
+
+## Overview
+
+As a developer building on Avail, you need to know how to interact with the network.
+
+You can itneract with the Avail node programatically using the following tools below:
+<Cards>
+  <Card icon={<LinkIcon />} title="Avail JS SDK" href="https://github.com/availproject/avail/tree/main/avail-js" />
+  <Card icon={<LinkIcon />} title="Avail SubXt (Rust)" href="https://github.com/availproject/avail/tree/main/avail-subxt" />
+  <Card icon={<LinkIcon />} title="Avail GSRPC (Go)" href="https://github.com/availproject/go-substrate-rpc-client" />
+</Cards>
+
+In this guide, we will go through the basics of getting started on Avail's Turing testnet via Avail-JS. 
+
+
+## Quick Start
+
+### Prerequisites
+
+- First we need an Avail Full Node. To learn more on how to run a node, check out the documentation [<ins>here</ins>](/docs/operate-a-node/run-a-full-node/full-node), else you can also use one of our [hosted endpoints](/docs/networks).
+- [Node.js](https://nodejs.org/en/download/)
+- We also need an `appID` for your application.
+<br/>
+
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary>Generating an AppId</summary>
+
+### What is an AppId?
+
+As a general-purpose base layer, Avail is designed to support many modular chains at the same time, providing consensus and data availability to all of them simultaneously. Avail headers contain an index that allows a given modular chain (or "application" in Avail terminology) to determine and download only the sections of a block that have data for that particular application.
+
+### How to generate a new AppId
+
+1. **Access the Website**: Open your web browser and go to the [<ins>Generator web application</ins>](https://appid.availproject.org/).
+
+1. **Account Detection / Selection**:
+   - The website will automatically detect any accounts linked via browser extensions.
+   - Ensure you have the relevant extension installed and are logged in.
+   - Select the account you wish to use for the AppId creation.
+
+1. **Input Application Name**: In the provided field, enter the name of your application. Make sure the name is unique and identifies your app.
+
+1. **Send Transaction**: Submit the transaction after entering the application name. This will involve a confirmation step through your browser extension.
+
+1. **Receive Your Application Id:**
+   - Upon successful transaction completion, your AppId will be displayed.
+   - Note down the Id for future reference.
+
+For more information on AppId, check out the documentation [<ins>here</ins>](/docs/build-with-avail/interact-with-avail-da/app-id).
+
+</details>
+
+
+### Getting started with Avail-JS
+
+Avail-JS is a JavaScript library that can be used to interact with Avail. It is a wrapper around the Substrate API and provides a simple interface to interact with Avail. To learn more about Avail-JS from the github repo, checkout the repository [<ins>here</ins>](https://github.com/availproject/avail/tree/main/avail-js). 
+
+#### Installation and Setting up environment
+
+1. Install the latest stable version of the avail-js library by running the following command:
+
+```bash
+npm install avail-js-sdk
+```
+
+2. Once the SDK is installed, clone the `avail` repository to run a few examples.
+
+```bash
+git clone https://github.com/availproject/avail.git
+cd avail/avail-js/examples/node-examples
+npm install
+npm i -g ts-node
+```
+
+3. Make sure to populate basic configuration in `config.ts` or leave the default if you are running a local node. If you are using a local node, make sure you are running the node with this command : `./target/release/avail-node --dev`
+
+```javascript 
+export default {
+  seed: "bottom drive obey lake curtain smoke basket hold race lonely fit walk//Alice",
+  endpoint: "ws://127.0.0.1:9944",
+  appId: 0,
+  amount: 1,
+  recipient: "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty",
+}
+```
+
+#### Example: Data Submission
+Submit data using the example script. 
+```bash
+npm run data-submission
+```
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary>Expected Output</summary>
+```bash
+Tx status: Ready
+Tx status: {"broadcast":["12D3KooWFhViRfMNMKQLSvwAcLB3a2Afh75cj1rVt6nTdkfWQhPm","12D3KooWNnaFdJfavEHQquEVBQ3P9eW3iL7D2HkXuCnV8ci7Am4E","12D3KooWBPtjU89o85KdgKiZ5uwK6kMvDhPfFvE44UissMV9x1UE","12D3KooWRYCs192er73R2oyE4QWkKdtoRk1fL28tR3immzxTQQAq","12D3KooWRaFhqUjumqkEozuw5pHfG7hftjphaBuYnetCKf8WjTxS","12D3KooWMHRgZhDMUbN55NQcXB19Ww6SnL8shz1un3K6X3K2XoAh","12D3KooWJP3X64jescXF6SVJv4ThUkZKqmdebVNgg9RVHqG4kDH8","12D3KooWNKqV9Tdsg99kmGs1gzJa7TdyCAWDWTkqnyKYA8Y4R8gc","12D3KooWJKX8sTaZ2uL2gAhE3ScJsRzjcmPnB2nnbakrWCKwZB7T","12D3KooWCr4Go4oUgFjwZPdgogU813cC7ohwXmnYcyAVKX2DDfbc","12D3KooWFqZDo4v3oYzduqZGC5R2HKVfMwgggDL7kFrsXqAue21b","12D3KooWGnCUwvXCxEYJ7EV5kWzs2VJeKG6i5wSMPRq5YSLqWon3","12D3KooWFzqtue91MrdmqVRddA48dPYQVAFBtcFkf5HrmgiqUJ6F","12D3KooWBEcTktYrebeQWEjw6dAiSEZ6c5rmRdGZaA4ZgRcMbUKL","12D3KooWRnEwrHCj4nXtshjXTAYwv9pknUqpw5iqrR5TBPbaqnfE","12D3KooWQRTgqX2j2HMideuPKUg12yeCbbp6cCi6xtf4cACYSiKb","12D3KooWPNmovc7n6mET56bmpB8tM6XtjcRb8qBir3sTBWk5cttK","12D3KooWLxzYHmGXpRnN4rAKkkZVzFgpGuqKofPggUnWz4iUR5yT","12D3KooWBoFiQJWAdF4cfXy3Vt3bTa3wCwQZsqs8sJeRt61oarwG","12D3KooWFYdD5oeYNMSKuWrySsEbzp3VttPEYC4VVh7Vbqww75Yh","12D3KooWFB8ky1ACFZGmd5evfyTCWy5gHa6TeLTsZsXn3fWcMqHA","12D3KooWQLdPYPEHRGAJ4J6dGYoiKyjm36VhaSCJkvKAuJBohJYi","12D3KooWR8yPHmBZxHPoZrjjvCZEq5mJh9h7yewgM4zGgUVEANcG","12D3KooWCLATtwmXbQ7SWesQFcwWDTkfmnreyCJFt159roAEipYt","12D3KooWFq6yX6kAnxLNxqDhjDDtc26Gdo16GPR4TMk1hgpxoT33","12D3KooWKkLgiqxweQ1QCbJrDKeg5HCktZMM1kd81F4jMMTnBtD6"]}
+Tx status: {"inBlock":"0x32c5dbf8716dbd4d7c6cc8dd74fa76cedf746cdea80e662fbd3f76df7393f913"}
+Tx status: {"finalized":"0x32c5dbf8716dbd4d7c6cc8dd74fa76cedf746cdea80e662fbd3f76df7393f913"}
+Tx Hash: 0x83b8b0b4074426cf14e45320177d83f2441d416763c64b656cbbbe1b5fe8cdcc, Block Hash: 0x32c5dbf8716dbd4d7c6cc8dd74fa76cedf746cdea80e662fbd3f76df7393f913
+{
+  isSigned: true,
+  method: {
+    args: { data: 'Hello World' },
+    method: 'submitData',
+    section: 'dataAvailability'
+  },
+  era: { MortalEra: { period: '32', phase: '3' } },
+  nonce: '0',
+  signature: '0x22162035c3195c1a0db13e0c38500b07c7434d201808a5874d65cd9a05de8c3cb4e89d701ed212946142abf4f1bfbc2dd671465040fd7b02cdacffec32aed680',
+  signer: { Id: '5G452iCokAD8RstzvZm9t2teeqwmDQUqTKCePNotjm92GLHB' },
+  tip: '0'
+}
+submitted data: Hello World
+```
+</details>
+You can check out the [code implementation here](https://github.com/availproject/avail/blob/main/avail-js/examples/node-examples/src/tx-data-availability-data-submission.ts). 
+
+Try modifying the data to submitted and playing around with the code to see how it works at the path `avail-js/examples/node-examples/src/tx-data-availability-data-submission.ts`
+
+#### Example: Transfer AVAIL tokens
+You can try out transferring AVAIL tokens by running:
+```bash
+npm run transfer
+```
+Ensure that your `appID=0` when doing any type of transaction other than data submission.
+<br></br>
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary>Expected Output</summary>
+```bash
+Balance before the transfer call: 9,106,942,090,155,963,627
+Tx status: Ready
+Tx status: {"broadcast":["12D3KooWPB64h2PbzuQCybAWuvWZUnJb8pzu2k3oJ54MxaGvHfmK","12D3KooWMHRgZhDMUbN55NQcXB19Ww6SnL8shz1un3K6X3K2XoAh","12D3KooWQG3ixhYNYdaZyzUemABxmfcYBa174R1WtDsbuA7n5zEa","12D3KooWDptx7tN295gFPJKj5CvosYw1CTZyCZQWFjtZ8fpirB53","12D3KooWABNzp4dheaKQbDdsrF3HQSBjVZX2rpftt954YxNRvbgc","12D3KooWCh9DXinhuUuDZLkCPUKuPFtssK8hLNehorDdsuuYgzr8","12D3KooWPNmovc7n6mET56bmpB8tM6XtjcRb8qBir3sTBWk5cttK","12D3KooWPbUK68ArAM3gshQr1TtHnJCWTdwPhkkyvXUYZqM34HFa","12D3KooWL4qRWezPhbPrHVUt56iC4PssS4wGsvqndRLS9FnGor5Q","12D3KooWNysE7HjjzB9B2qSfKwSvVfyxM6oZSSthq4S5uXtt2dyq","12D3KooWRYCs192er73R2oyE4QWkKdtoRk1fL28tR3immzxTQQAq","12D3KooWR8yPHmBZxHPoZrjjvCZEq5mJh9h7yewgM4zGgUVEANcG","12D3KooWLxzYHmGXpRnN4rAKkkZVzFgpGuqKofPggUnWz4iUR5yT","12D3KooWBEcTktYrebeQWEjw6dAiSEZ6c5rmRdGZaA4ZgRcMbUKL","12D3KooWFzqtue91MrdmqVRddA48dPYQVAFBtcFkf5HrmgiqUJ6F","12D3KooWQLdPYPEHRGAJ4J6dGYoiKyjm36VhaSCJkvKAuJBohJYi","12D3KooWQeizB1jcoeSYVufGa2g45RoSyCXfoPjsS8dyLLddErSq","12D3KooWKkLgiqxweQ1QCbJrDKeg5HCktZMM1kd81F4jMMTnBtD6","12D3KooWQRTgqX2j2HMideuPKUg12yeCbbp6cCi6xtf4cACYSiKb","12D3KooWJfK6MbsajgY49gURHUEuChGjc5oyj2W2KPMTWGoFp4XS"]}
+Tx status: {"inBlock":"0xfff8e493be389d1b71a948872783e196c174708b9dd627358611ade1572a91f3"}
+Tx status: {"finalized":"0xfff8e493be389d1b71a948872783e196c174708b9dd627358611ade1572a91f3"}
+Tx Hash: 0x2194432a2cc2912b3455d569ff2286cf75a739b501bc75e6f4405c8e8f1dcc26, Block Hash: 0xfff8e493be389d1b71a948872783e196c174708b9dd627358611ade1572a91f3
+Balance after the transfer call: 10,106,942,090,155,963,627
+```
+
+</details>
+
+You can play around with changing the amount and the sender/recipient by changing `config.ts`. 
+
+Try modifying the data to submitted and playing around with the code to see how it works at the path `avail-js/examples/node-examples/src/tx-balance-transfer.ts`
+
+
+### More Examples
+
+There are a lot of examples already in the [`avail-js` repository](https://github.com/availproject/avail/tree/main/avail-js/examples/node-examples/src). 
+
+If you want to simply interact with Avail without the examples, you just need to install the `avail-js-sdk` as outlined in the first step, and use it. 
+
+The `avail-js-sdk` is a wrapper on top of Polkadot JS SDK. It's worth noting that when using this package, all polkadot-js features can be used as it's only a wrapper with additional types / rpc / helpers.
+
+Once you fully run the node, you also need to populate `config.ts` file with seed and endpoint details. You can choose to change other things as well, but we will be focusing on these two for now.
+
+#### Example: Establishing and Checking a connection
+
+For starters, we will run `connect.ts`. This is also located in the [examples](https://github.com/availproject/avail/blob/main/avail-js/examples/node-examples/src/connect.ts) folder. <br /> 
+
+
+```typescript
+import { initialize } from "avail-js-sdk" // Global import
+import { isConnected, disconnect } from "avail-js-sdk/chain" // Modular import
+import config from "../../config"
+
+/**
+ * Example to connect to a chain and get the ApiPromise.
+ */
+const main = async () => {
+  const api = await initialize(config.endpoint)
+  const [chain, nodeName, nodeVersion] = await Promise.all([
+    api.rpc.system.chain(),
+    api.rpc.system.name(),
+    api.rpc.system.version(),
+  ])
+
+  console.log(
+    `Connected to chain ${chain} using ${nodeName} and node version ${nodeVersion} - is connected: ${isConnected()}`,
+  )
+  await disconnect()
+  process.exit(0)
+}
+main()
+```
+
+
+#### Example: Estimate Transaction Fees
+
+To estimate transaction fees, you need to first build your extrinsic and then call `.paymentInfo()` which returns the fee information of the particular extrinsic. Let's check it out in action.
+
+ Please make sure that the relevant details to be defined in config are in `config.ts`.
+
+```typescript
+import { initialize, getDecimals, formatNumberToBalance } from "avail-js-sdk"
+
+import config from "../../config"
+
+const main = async () => {
+  const api = await initialize(config.endpoint)
+
+  const sender = "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"
+  const bobAddress = "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty"
+  const decimals = getDecimals(api)
+  const amount = formatNumberToBalance(config.amount, decimals)
+
+  const transferInfo = await api.tx.balances.transferKeepAlive(bobAddress, amount).paymentInfo(sender)
+  // log relevant info, partialFee is Balance, estimated for current
+  console.log(`Transaction Fee for Balance Transfer:
+    class=${transferInfo.class.toString()},
+    weight=${transferInfo.weight.toString()},
+    partialFee=${transferInfo.partialFee.toHuman()}
+  `)
+
+  const data = "Hello World"
+  const submitDataInfo = await api.tx.dataAvailability.submitData(data).paymentInfo(sender)
+  // log relevant info, partialFee is Balance, estimated for current
+  console.log(`Transaction Fee for Submit Data:
+    class=${submitDataInfo.class.toString()},
+    weight=${submitDataInfo.weight.toString()},
+    partialFee=${submitDataInfo.partialFee.toHuman()}
+  `)
+
+  process.exit(0)
+}
+main()
+```
+
+In the above example we built out the extrinsics for a Balance Transfer (`balances.transferKeepAlive()`), and a Data Submission (`dataAvailability.submitData()`). We then used `.paymentInfo()` to retrieve the fee details of the extrinsic. In this way we can estimate the fees of a transaction in Avail.
+
+These two examples are just the starters on what can be achieved by using avail-js. There are a lot of other [examples](https://github.com/availproject/avail/tree/main/avail-js/examples/node-examples) in the repository that you can check out.
+
+
+
+
+
+import { sortAndDeduplicateDiagnostics } from "typescript"
+

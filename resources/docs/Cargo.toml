@@ -1,0 +1,12 @@
+[package]
+name = "example"
+edition = "2021"
+version = "0.1.0"
+
+[[bin]]
+name = "keyring"
+path = "quickstart/main.rs"
+
+[dependencies]
+avail-rust = { git = "https://github.com/availproject/avail", tag = "v2.2.5.1" }
+tokio = { version = "1.38.0", features = ["rt-multi-thread"] }
