@@ -1,0 +1,40 @@
+
+# EIP-4844 & Avail
+
+## Summary
+
+In short, the EIP-4844 cost is super low today because only the first series of rollups are using blobs. 
+As more rollups use it, demand and cost will increase quickly. This will increase demand for more scalable, cost effective solutions, specifically Avail DA which is custom built with future Ethereum tech. 100s more rollups are coming fast, this will escalate quickly.
+
+Plus, since Avail DA has always used Ethereum's roadmap tech, it's simple to migrate as we already have 
+blobs and KZG commitments - and we also have future Ethereum tech like Data Availability Sampling which 
+significantly increases scalability and security.
+
+## FAQs
+
+### What does EIP-4844 mean for Ethereum?
+
+The EIP now allows blobs to be submitted to Ethereum. This means that rollups can use blobs instead of calldata to post their data.
+
+### How are blobs priced?
+The blobs have a separate fee market, making the prices of the blobs unrelated to the normal transaction congestion on Ethereum. However, the prices of blobs do increase as demand for blobs increase. 
+
+### How much cheaper will data publishing be on Ethereum pre vs post EIP-4844?
+It remains to be seen. The estimated reduction in price is 5x-20x, depending on sources and simulations.
+One thing that the estimates do not take into account is that cost is a function of supply and demand. The supply does increase with the EIP, but the demand is also increasing every day, making the cost savings very minimal. 
+
+### How big is 1 blob? How many blobs can a rollup post? How many blobs can be posted in a block?
+Each blob is 128KB. There are a total of 6 blobs available in a block, but the target is 3 blob. This means that at an average, there will be 3 blobs per block. 
+
+A rollup can use as many blobs as it wants. However, each blob is a separate txn. Also, the rollups need to use the entirety of 1 blob, even if is has much less than 128KB (unless rollups start sharing blobs among themselves on the secondary market)
+
+### What tech does blobs use?
+The blob data is kept on the consensus layer whereas the KZG commitment of it is kept accessible on the execution layer. This means that rollup verifiers can access the commitment. If they want to verify a data behind the blob, they can call a point evaluation precompile which gives them access to a part of the blob data. 
+
+### What does it all mean for Avail? 
+It is an awesome development for Avail, one that we have been waiting for years now. With rollups using blobs and KZG commitments, it is easier than ever for a rollup to use Avail. Avail also uses KZG and blob submissions. So for a rollup, the migration is minimal. Further more, blobs on Avail do not have the fixed size requirements. A blob can be min of 1 byte and max of 2MB. Also, Avail already uses Data Availability Sampling which is part of Ethereum's danksharding roadmap. Hence, rollups wanting to use future proof tech should try out Avail.
+
+### What will be the price of blob submission on Avail?
+There are two points here to note:
+1. Avail is not just a cheap DA. The cost effectiveness comes from the fact that Avail is custom built for DA. The optimality of construction allows us to be orders of magnitude lower cost than general purpose chains. 
+2. Avail can increase the size of the block with demand, bringing down prices even with increasing demand. This is unique to DA specialized chains performing DAS, as with increasing sampling the block sizes can grow, thus increasing supply. 

@@ -1,0 +1,77 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Transaction fees on Avail
+
+Every extrinsic (transaction) executed on Avail costs a certain amount of `AVAIL` tokens. These fees vary for different
+extrinsics and are determined primarily by two considerations:
+
+1. The amount of processing power required to include the transaction in the chain.
+2. The amount of storage required to store the transaction on-chain.
+
+Avail's pricing formula is designed to keep transacting on-chain feasible while also making it expensive to spam the network.
+
+## Terms you need to know
+
+1. **Base fee**: The minimum base amount attached to every single transaction. This is the constant whose current
+value is currently `0.124 AVAIL`.
+
+2. **Weight fee**: This fee is proportional to the amount of computation required to add the transaction to the network.
+
+3. **Length fee**: This fee is proportional to the encoded length of the transaction, essentially the amount of space it consumes in the block.
+
+4. **Congestion fee**: A multiplier applied to the Weight fee based on block fullness of previous blocks (Notice blocks not block, because `fee_multiplier` 
+is a function of both the current fee multiplier and the fullness of the preceding block. A kind of guard against sudden rise/fall of fee).
+
+5. **Tip (optional)**: This is an optional fee that can be attached to a transaction to incentivize validators.
+
+## Fees calculation for non-DA transactions
+
+The formula for the final transaction fee for most transactions looks like this:
+
+```
+Weight fee = [Congestion multiplier * Weight of transaction]
+Final fee = Base fee + Length fee + Weight fee  + Tip(optional)
+```
+
+- Executing most transactions like transferring funds and creating proxys don't vary in terms  of fees since
+processing a transaction that transfers `1` AVAIL requires the same amount of computation as processing a
+transaction that transfers `1000` AVAIL.
+
+- This however changes when we talk about transactions that post new data to the network. We will look at it now.
+
+## Fees calculation for DA transactions
+
+The formula for the final transaction fee for data availability transactions looks like this:
+
+```
+Weight fee = [Congestion multiplier * Weight of transaction]*[submitDataFeeModifier]
+Final fee = Base fee + Length fee + Weight fee  + Tip(optional)
+```
+
+### What's different?
+
+#### `submitDataFeeModifier`
+
+Posting new data to the chain is a core component of the Avail network. To ensure the fees for doing so remain
+viable, the `submitDataFeeModifier` can be adjusted when needed after going through
+[Avail's governance process](/user-guides/staking-governance/governance-on-avail).
+
+This multiplier is used to adjust the `Weight fee` component of the final fee for all `dataAvailability_submitData` transactions.
+
+<Callout type="info">
+To query the current value of the `submitDataFeeModifier`:
+
+1. Go to the [chainstate page of the Avail explorer](https://explorer.availproject.org/#/chainstate).
+2. Query the `dataAvailability_submitDataFeeModifier` method.
+</Callout>
+
+#### Significance of the data input
+
+- For most extrinsics on Avail, the 'raw size' of the input parameters doesn't matter much. For DA transactions
+however, the size of the data being posted makes a lot of difference.
+
+- The size of the data being posted is directly proportional to the amount of computing resources required to
+generate commitments for it. Hence, the 'Length fee' varies significantly.
+
+- And of course, the bigger the data, the more storage space it will consume on-chain. Hence, 'Weight fee' will also
+vary significantly.

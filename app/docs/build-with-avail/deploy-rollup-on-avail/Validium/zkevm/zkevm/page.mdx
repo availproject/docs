@@ -1,0 +1,562 @@
+---
+id: zkevm
+filename: How to Use Polygon zkEVM with Avail
+sidebar_label: Avail-Powered zkEVM Validium
+description: 'Discover how to utilize Avail as a data availability layer.'
+keywords:
+  - documentation
+  - avail
+  - develop
+  - build
+  - data availability
+  - da
+image: https://docs.availproject.org/img/avail/AvailDocs.png
+---
+import { Callout } from 'nextra/components'
+
+# How to Use Polygon zkEVM with Avail
+
+## Introduction
+
+Embark on setting up your own Polygon zkEVM network, leveraging Avail as the data availability layer. This guide is tailored for deploying on Ethereum's Sepolia testnet and integrating with the Avail Goldberg testnet. To gain a comprehensive understanding of Polygon zkEVM, review the [<ins>Polygon zkEVM documentation</ins>](https://wiki.polygon.technology/docs/zkevm/).
+
+In this guide, you will conduct the following:
+
+- [Introduction](#introduction)
+- [Prerequisites](#prerequisites)
+  - [Hardware Requirements](#hardware-requirements)
+  - [Network Details](#network-details)
+- [Launch an Avail-Powered zkEVM](#launch-an-avail-powered-zkevm)
+  - [Deploy the Contracts](#deploy-the-contracts)
+  - [Deploy the Node](#deploy-the-node)
+  - [Setup the Prover](#setup-the-prover)
+  - [Configure the Bridge](#configure-the-bridge)
+
+## Prerequisites
+
+Ensure you have installed the following software.
+
+> Installation commands are based on Ubuntu 20.04 LTS:
+
+
+| Software                                               | Version            |
+| ------------------------------------------------------ | ------------------ |
+| [**Node.js**](https://nodejs.org/en/)                  | Latest LTS Version |
+| [**Git**](https://git-scm.com/)                        | OS Default         |
+| [**Golang**](https://go.dev/)                          | 1.19               |
+| [**Docker**](https://www.docker.com/)                  | Latest             |
+| [**Docker Compose**](https://docs.docker.com/compose/) | Latest             |
+
+
+```bash
+# Install Git
+sudo apt install -y git
+
+# Install Node.js (using NVM)
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+nvm install --lts
+
+# Install Golang
+wget https://go.dev/dl/go1.19.linux-amd64.tar.gz
+tar -C /usr/local -xzf go1.19.linux-amd64.tar.gz
+echo "export PATH=$PATH:/usr/local/go/bin" >> ~/.bashrc
+source ~/.bashrc
+
+# Install Docker and Docker Compose
+sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+```
+
+
+### Hardware Requirements
+
+Both the real and mock provers are compatible exclusively with x86 architectures. They are not designed to operate on ARM architecture machines, including Apple Silicon devices, even within Dockerized environments.
+
+| Component   | Minimum Requirements               | Recommended Setup                   | Suggested AWS Instance |
+| ----------- | ---------------------------------- | ----------------------------------- | ---------------------- |
+| Mock Prover | 4-core CPU, 8GB RAM, 50 GB SSD     | 8-core CPU, 16GB RAM, 60 GB SSD     | r6a.xlarge             |
+| Real Prover | 96-core CPU, 768GB RAM, 120 GB SSD | 96-core CPU, 1000GB RAM, 140 GB SSD | r6a.24xlarge           |
+
+Running the Polygon zkEVM solution suite may lead to storage issues, primarily due to excessive Docker logs. To mitigate this, you can customize the Docker daemon's behavior by referring to the first answer [<ins>here</ins>](https://stackoverflow.com/a/59329638). Choose a configuration that best suits your needs.
+
+- For a devnet setup with limited state growth and Docker logs, we recommend a minimum disk size of approximately 50GB.
+- If you plan to run a real prover, it's advisable to allocate a minimum disk size of around 120GB for your devnet setup.
+- Keep in mind that these recommendations may vary based on your specific use case and requirements.
+
+<Callout>
+ADDITIONAL STORAGE CONSIDERATIONS<br/>
+In production environments with a high transaction volume, your storage requirements may increase significantly. It's recommended to utilize an EBS-like data storage solution to ensure scalability, allowing you to add more storage as needed.
+</Callout>
+
+### Network Details
+
+Before diving into the setup, ensure you have the following network details:
+
+| Service        | URL                                    |
+| -------------- | -------------------------------------- |
+| Explorer       | http://zkevm-demo.avail.tools/         |
+| RPC            | http://zkevm-demo-rpc.avail.tools/     |
+| Bridge service | https://zkevm-demo-bridge.avail.tools/ |
+
+## Launch an Avail-Powered zkEVM
+
+<Callout emoji="⚠️" type="warning">
+
+USAGE DISCLAIMER<br/>
+The prover and verifier components maintain their original security guarantees. However, please note that the data attestation verification during sequencing or any aspect of the `validium-node` related to data availability on Avail has not undergone an audit. Exercise caution when using this program. It is distributed without any warranty, nor an implied warranty of merchantability or fitness for a particular purpose.
+</Callout>
+
+> Please be aware that some aspects of this guide may differ from the original source due to the unique nature of the Avail validium implementation. For zkEVM node-specific configurations and troubleshooting, refer to the [<ins>official Polygon documentation</ins>](https://wiki.polygon.technology/docs/zkevm/setup-zkevm/).
+
+### Deploy the Contracts
+
+1. Clone the `validium-contracts` repository and install dependencies:
+
+   ```bash
+   git clone git@github.com:availproject/validium-contracts.git
+   cd validium-contracts
+
+   npm i
+   ```
+
+2. Set up the environment and deployment parameters:
+
+   - Update `.env` as per `.env.example`.
+
+     ```bash showLineNumbers filename=".env.example"
+     SEPOLIA_PROVIDER="eth_sepolia_rpc_url"
+     PRIVATE_KEY="your_private_key_here"
+     ETHERSCAN_API_KEY="your_etherscan_api_key_here"
+     ```
+
+   - Fill in `deploy_parameters.json` following `deploy_parameters.json.example`:
+
+     - Specify the `trustedSequencer` address. This address represents the Sequencer that is responsible for sequencing batches.
+     - Define the `trustedAggregator` address. This address represents the Aggregator that handles the submission of proofs.
+     - Fill in the following fields with the respective addresses that will control the contracts: `admin`, `zkEVMOwner`, `timelockAddress`, and `initialZkEVMDeployerOwner`.
+     - Enter the private key for the deployer in the `deployerPvtKey` field.
+
+       ```json showLineNumbers filename="deployment/deploy_parameters.json"
+       {
+         "realVerifier": false,
+         "trustedSequencerURL": "http://zkevm-json-rpc:8123",
+         "networkName": "zkevm",
+         "version": "0.0.1",
+         "trustedSequencer": "0x123456789abcdef0123456789abcdef0123456789",
+         "chainID": 1001,
+         "trustedAggregator": "0xabcdef1234567890abcdef1234567890abcdef12",
+         "trustedAggregatorTimeout": 604799,
+         "pendingStateTimeout": 604799,
+         "forkID": 5,
+         "admin": "0x23456789abcdef0123456789abcdef0123456789",
+         "zkEVMOwner": "0x3456789abcdef0123456789abcdef0123456789",
+         "timelockAddress": "0x456789abcdef0123456789abcdef0123456789",
+         "minDelayTimelock": 3600,
+         "salt": "0x0000000000000000000000000000000000000000000000000000000000000000",
+         "initialZkEVMDeployerOwner": "0x56789abcdef0123456789abcdef0123456789",
+         "maticTokenAddress": "0x6789abcdef0123456789abcdef0123456789abcdef",
+         "daBridgeRouterAddress": "0x789abcdef0123456789abcdef0123456789abcdef",
+         "zkEVMDeployerAddress": "",
+         "deployerPvtKey": "your_deployer_private_key_here",
+         "maxFeePerGas": "",
+         "maxPriorityFeePerGas": "",
+         "multiplierGas": ""
+       }
+       ```
+
+3. Execute deployment scripts on the Sepolia network:
+
+   ```bash
+   npx hardhat run --network sepolia deployment/2_deployPolygonZKEVMDeployer.js
+   npx hardhat run --network sepolia deployment/3_deployContracts.js
+   ```
+
+   You should generate a `deploy_output.json` file.
+
+4. Verify the deployed contracts:
+
+   ```bash
+   npx hardhat run --network sepolia deployment/verifyzkEVMDeployer.js
+   npx hardhat run --network sepolia deployment/verifyContracts.js
+   ```
+
+<Callout>
+GENERATING A NEW CONTRACT SUITE<br/>To create a fresh set of contracts, you can either employ a new private key or increment the value of the `salt` parameter in your configuration. After making this change, simply re-execute the deployment commands to generate the new contract suite.
+</Callout>
+
+### Deploy the Node
+
+<Callout emoji="⚠️" type="warning">
+
+MOCK PROVER FUNCTIONALITY<br/>
+The Mock Prover does not generate any zero-knowledge proofs. Instead, it simply validates any generated state root as correct. The mock verifier contract operates similarly, accepting all validity proofs without actual verification.
+</Callout>
+
+1. Clone the `validium-node` repository for node setup:
+
+   ```bash
+   git clone git@github.com:availproject/validium-node.git
+   cd validium-node
+   ```
+
+2. Generate a secure account keystore file for Ethereum L1 transactions:
+
+   ```bash
+   docker run --rm hermeznetwork/zkevm-node:latest sh -c "/app/zkevm-node encryptKey --pk=[your private key] --pw=[password to encrypt file] --output=./keystore; cat ./keystore/*" > account.keystore
+   ```
+
+   - Replace `[your private key]` with your Ethereum L1 account private key.
+   - Replace `[password to encrypt file]` with a password used for file encryption. This password must be passed to the Node later via the env variable `ZKEVM_NODE_ETHERMAN_PRIVATEKEYPASSWORD`.
+
+3. Update configuration files for the node:
+
+   - Modify `test.avail.config.json`, `test.node.config.toml`, and `test.genesis.config.json` based on the provided example files.
+
+      <details>
+      <summary>Click to view the avail configuration example</summary>
+
+     ```json showLineNumbers filename="test/config/test.avail.example.config.json"
+     {
+       "seed": "test test test test test test test test test test test junk",
+       "api_url": "wss://goldberg.avail.tools/ws",
+       "app_id": 1,
+       "destination_domain": 1000,
+       "destination_address": "0x000000000000000000000000305222c4DdB86FfA9fa9Aa0A479705577E3c4d33",
+       "timeout": 200
+     }
+     ```
+
+      </details>
+
+      <br/>
+
+      <details>
+      <summary>Click to view the node configuration example</summary>
+
+     ```bash showLineNumbers filename="test/config/test.node.config.example.toml"
+      IsTrustedSequencer = true
+
+      [Log]
+      Environment = "development" # "production" or "development"
+      Level = "debug"
+      Outputs = ["stderr"]
+
+      [Pool]
+      AccountQueue = 200
+      FreeClaimGasLimit = 1500000
+      IntervalToRefreshBlockedAddresses = "10s"
+      IntervalToRefreshGasPrices = "5s"
+      MaxTxBytesSize=100132
+      MaxTxDataBytesSize=100000
+      DefaultMinGasPriceAllowed = 1000000000
+      MinAllowedGasPriceInterval = "10s"
+      PollMinAllowedGasPriceInterval = "15s"
+      	[Pool.DB]
+      	User = "pool_user"
+      	Password = "pool_password"
+      	Name = "pool_db"
+      	Host = "zkevm-pool-db"
+      	Port = "5432"
+      	EnableLog = false
+      	MaxConns = 200
+
+      [Etherman]
+      URL = "http://zkevm-mock-l1-network:8545"
+      MultiGasProvider = false
+      	[Etherscan]
+      		ApiKey = ""
+
+      [RPC]
+      Host = "0.0.0.0"
+      Port = 8123
+      ReadTimeout = "1000s"
+      WriteTimeout = "1000s"
+      MaxRequestsPerIPAndSecond = 5000
+      SequencerNodeURI = ""
+      EnableL2SuggestedGasPricePolling = true
+      BatchRequestsEnabled = true
+      BatchRequestsLimit = 1000
+          [RPC.WebSockets]
+              Enabled = true
+              Port = 8133
+      [Synchronizer]
+      SyncInterval = "10s"
+      SyncChunkSize = 100
+      TrustedSequencerURL = "" # If it is empty or not specified, then the value is read from the smc.
+
+      [Sequencer]
+      WaitPeriodPoolIsEmpty = "1s"
+      LastBatchVirtualizationTimeMaxWaitPeriod = "10s"
+      BlocksAmountForTxsToBeDeleted = 50
+      FrequencyToCheckTxsForDelete = "1h"
+      TxLifetimeCheckTimeout = "10m"
+      MaxTxLifetime = "3h"
+      	[Sequencer.Finalizer]
+      		GERDeadlineTimeout = "2s"
+      		ForcedBatchDeadlineTimeout = "5s"
+      		SleepDuration = "100ms"
+      		ResourcePercentageToCloseBatch = 10
+      		GERFinalityNumberOfBlocks = 0
+      		ClosingSignalsManagerWaitForCheckingL1Timeout = "10s"
+      		ClosingSignalsManagerWaitForCheckingGER = "10s"
+      		ClosingSignalsManagerWaitForCheckingForcedBatches = "10s"
+      		ForcedBatchesFinalityNumberOfBlocks = 0
+      		TimestampResolution = "10s"
+      		StopSequencerOnBatchNum = 0
+      	[Sequencer.DBManager]
+      		PoolRetrievalInterval = "500ms"
+      		L2ReorgRetrievalInterval = "5s"
+      	[Sequencer.EffectiveGasPrice]
+      		MaxBreakEvenGasPriceDeviationPercentage = 10
+      		L1GasPriceFactor = 0.25
+      		ByteGasCost = 16
+      		MarginFactor = 1
+      		Enabled = false
+
+      [SequenceSender]
+      WaitPeriodSendSequence = "60s"
+      LastBatchVirtualizationTimeMaxWaitPeriod = "60s"
+      MaxTxSizeForL1 = 131072
+      L2Coinbase = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
+      PrivateKey = {Path = "/pk/sequencer.keystore", Password = "testonly"}
+
+      [Aggregator]
+      Host = "0.0.0.0"
+      Port = 50081
+      RetryTime = "5s"
+      VerifyProofInterval = "10s"
+      TxProfitabilityCheckerType = "acceptall"
+      TxProfitabilityMinReward = "1.0"
+      ProofStatePollingInterval = "5s"
+      SenderAddress = "0x70997970c51812dc3a010c7d01b50e0d17dc79c8"
+      CleanupLockedProofsInterval = "2m"
+      GeneratingProofCleanupThreshold = "10m"
+
+      [EthTxManager]
+      ForcedGas = 1_000_000
+      PrivateKeys = [
+      	{Path = "/pk/sequencer.keystore", Password = "testonly"},
+      	{Path = "/pk/aggregator.keystore", Password = "testonly"}
+      ]
+
+      [L2GasPriceSuggester]
+      Type = "default"
+      UpdatePeriod = "10s"
+      Factor = 0.5
+      DefaultGasPriceWei = 1000000000
+      MaxGasPriceWei = 0
+
+      [MTClient]
+      URI  = "zkevm-prover:50061"
+
+      [Executor]
+      URI = "zkevm-prover:50071"
+      MaxGRPCMessageSize = 99999999999
+
+      [Metrics]
+      Host = "0.0.0.0"
+      Port = 9091
+      Enabled = true
+      ProfilingHost = "0.0.0.0"
+      ProfilingPort = 6060
+      ProfilingEnabled = true
+
+      [EventLog]
+      	[EventLog.DB]
+      	User = "event_user"
+      	Password = "event_password"
+      	Name = "event_db"
+      	Host = "zkevm-event-db"
+      	Port = "5432"
+      	EnableLog = false
+      	MaxConns = 200
+
+      [HashDB]
+      User = "prover_user"
+      Password = "prover_pass"
+      Name = "prover_db"
+      Host = "zkevm-state-db"
+      Port = "5432"
+      EnableLog = false
+      MaxConns = 200
+
+      [State]
+      	AccountQueue = 200
+      	[State.DB]
+      		User = "state_user"
+      		Password = "state_password"
+      		Name = "state_db"
+      		Host = "zkevm-state-db"
+      		Port = "5432"
+      		EnableLog = false
+      		MaxConns = 200
+      	[State.Batch]
+      		[State.Batch.Constraints]
+      			MaxTxsPerBatch = 300
+      			MaxBatchBytesSize = 120000
+      			MaxCumulativeGasUsed = 30000000
+      			MaxKeccakHashes = 2145
+      			MaxPoseidonHashes = 252357
+      			MaxPoseidonPaddings = 135191
+      			MaxMemAligns = 236585
+      			MaxArithmetics = 236585
+      			MaxBinaries = 473170
+      			MaxSteps = 7570538
+      		[State.Batch.ResourceWeights]
+      			WeightBatchBytesSize = 1
+      			WeightCumulativeGasUsed = 1
+      			WeightKeccakHashes = 1
+      			WeightPoseidonHashes = 1
+      			WeightPoseidonPaddings = 1
+      			WeightMemAligns = 1
+      			WeightArithmetics = 1
+      			WeightBinaries = 1
+      			WeightSteps = 1
+     ```
+
+      </details>
+      
+      <br/>
+
+
+4. Build the Docker image and launch the node:
+
+   ```bash
+   make build-docker
+   cd test
+   make run
+   ```
+
+### Setup the Prover
+
+1. To switch to the real verifier mode, modify the `deploy_parameters.json` file:
+
+   ```json
+   "realVerifier": true
+   ```
+
+2. Utilize the following commands to download and unpack the configuration file:
+<Callout>
+**SIZE: ~70GB+**<br/>
+   Accelerate the download process by using a multi-thread downloader like Axel.
+</Callout>
+
+   ```bash
+   wget https://de012a78750e59b808d922b39535e862.s3.eu-west-1.amazonaws.com/v2.0.0-RC4-fork.5.tgz
+   tar -xzvf v2.0.0-RC4-fork.5.tgz
+   rm -rf config
+   mv v2.0.0-RC4-fork.5.tgz validium-node/test/config/prover
+   ```
+
+3. Ensure the `docker-compose.yml` includes proper file mappings for the prover configuration.
+
+4. Modify the `test.prover.config.json` to enable actual prover functionality:
+
+   ```json showLineNumbers filename="test.prover.config.json"
+   "runAggregatorClient": true,
+   "runAggregatorClientMock": false
+   ```
+
+### Configure the Bridge
+
+The zkEVM bridge service is a microservice that simplifies bridging between L1 and L2 by auto-claiming L1 transactions on L2 and generating necessary Merkle proofs. While optional for running a Validium, it enhances the ease of bridging transactions.
+
+> The Nomad DA bridge is only operational on Sepolia, limiting validium's data attestation to this chain. Alternatively, you can simulate data attestation and deploy on your preferred blockchain
+
+1. Clone the bridge repository:
+
+   ```bash
+   git clone git@github.com:availproject/validium-bridge-service.git
+   cd bridge
+   ```
+
+2. Fill in `config/config.local.toml` following `config.local.example.toml`:
+
+   > Unless you changed the genesis file, the L2 bridge address should remain the same.
+
+   > The address provided by default in the configuration is allocated ETH in the validium test setup for autoclaiming on L2. If a different address is used, it might require ETH. Similarly, in a production setup where ETH is not arbitrarily minted, you will need to manually fund the `zkevm-bridge-service` autoclaiming account.
+
+   | Parameter                           | Example Value                                  |
+   | ----------------------------------- | ---------------------------------------------- |
+   | `L1URL`                             | `"http://zkevm-mock-l1-network:8545"`          |
+   | `GenBlockNumber`                    | `1`                                            |
+   | `PolygonBridgeAddress`              | `"0xff0EE8ea08cEf5cb4322777F5CC3E8A584B8A4A0"` |
+   | `PolygonZkEVMGlobalExitRootAddress` | `"0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6"` |
+   | `L2PolygonBridgeAddresses`          | `"0xff0EE8ea08cEf5cb4322777F5CC3E8A584B8A4A0"` |
+
+   <details>
+      <summary>Click to view the bridge configuration example</summary>
+
+   ```bash showLineNumbers filename="config/config.local.example.toml"
+   [Log]
+   Level = "debug"
+   Outputs = ["stdout"]
+
+   [SyncDB]
+   Database = "postgres"
+   User = "test_user"
+   Password = "test_password"
+   Name = "test_db"
+   Host = "zkevm-bridge-db"
+   Port = "5432"
+   MaxConns = 20
+
+   [ClaimTxManager]
+   Enabled = true
+   FrequencyToMonitorTxs = "1s"
+   PrivateKey = {Path = "/pk/keystore.claimtxmanager", Password = "testonly"}
+   RetryInterval = "1s"
+   RetryNumber = 10
+   AuthorizedClaimMessageAddresses = ["0x90F79bf6EB2c4f870365E785982E1f101E93b906"]
+
+   [Etherman]
+   L1URL = "http://zkevm-mock-l1-network:8545"
+   L2URLs = ["http://zkevm-json-rpc:8123"]
+
+   [Synchronizer]
+   SyncInterval = "10s"
+   SyncChunkSize = 100
+
+   [BridgeController]
+   Store = "postgres"
+   Height = 32
+
+   [BridgeServer]
+   GRPCPort = "9090"
+   HTTPPort = "8080"
+   CacheSize = 100000
+   DefaultPageLimit = 25
+   MaxPageLimit = 100
+   BridgeVersion = "v1"
+       [BridgeServer.DB]
+       Database = "postgres"
+       User = "test_user"
+       Password = "test_password"
+       Name = "test_db"
+       Host = "zkevm-bridge-db"
+       Port = "5432"
+       MaxConns = 20
+
+   [NetworkConfig]
+   GenBlockNumber = 1
+   PolygonBridgeAddress = "0xff0EE8ea08cEf5cb4322777F5CC3E8A584B8A4A0"
+   PolygonZkEVMGlobalExitRootAddress = "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6"
+   L2PolygonBridgeAddresses = ["0xff0EE8ea08cEf5cb4322777F5CC3E8A584B8A4A0"]
+   ```
+
+   </details>
+
+3. Build and run the Docker image using the following commands:
+
+   ```bash
+   make build-docker
+   make run
+   ```
+
+4. Once the Docker image is running, it serves as a microservice to detect L1 and L2 bridge transactions. You can check if the API is active by accessing the `/api` endpoint.
+
+   - **Generate Merkle Proofs**: Use the /merkle-proof endpoint to generate the necessary Merkle proofs for bridging transactions.
+   - **Additional Endpoints**: The microservice provides other endpoints for various functionalities, such as detecting bridge transactions for specific accounts.
+   - **Updating Code**: If you need to modify any part of the code, remember that each change necessitates a new build. To update and rerun the service, execute the `make build-docker && make run` commands.

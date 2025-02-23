@@ -1,0 +1,84 @@
+import Image from 'next/image'
+import { Tabs, Steps } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Moving out locked `AVAIL` tokens from a Polkadot ledger account
+
+
+## What's the problem?
+
+1. The `Avail` ledger app derives a different set of addresses as compared to the `Polkadot` ledger app for the same seed phrase.
+2. This means while the addresses derived on the `Polkadot` ledger app will work on `Avail`, the `Polkadot` ledger app will not allow users to sign transactions on the `Avail` network.
+3. To solve this problem we have created the `Avail recovery` app for ledger devices.
+4. This new app will derive the same set of addresses as the `Polkadot-ledger` app and allows users to sign transactions on the `Avail` network, thus giving users access to these funds.
+
+<Callout type="info">
+**LOOKING FOR INSTRUCTIONS WITH DIFFERENT WALLETS?**<br/>
+1. The following set of instructions are written using subwallet.
+2. But you can use any other wallet that supports ledger devices just as well.
+3. We also have a guide for [setting up a ledger account with Talisman in our docs here](/user-guides/ledger-avail#add-your-ledger-account-to-an-extension-wallet)
+</Callout>
+
+## How to use the `Avail recovery` app?
+
+<Steps>
+
+### Make sure the `Avail recovery` app on your ledger device using the Ledger live app.
+
+<Callout type="info">
+**NOTE:**<br/>
+The `Avail recovery` app is available on the ledger live app only in the `Developer mode`.
+
+1. Go to `My Ledger` section, and find the settings ⚙️ icon on the top right section.
+2. Head to `Experimental Features` and switch on `Developer Mode`.
+3. Move back to `My Ledger`, and search `Avail Recovery` in the search bar.
+</Callout>
+
+<br/>
+<div align="center">
+<img src="/img/avail-recovery/avail-recovery-1.png" align="center"/> 
+</div>
+
+### Click on the accounts dropdown in your wallet extension
+<br/>
+<div align="center">
+<img src="/img/ledger-subwallet/ledger-subwallet-1.png" align="center" width="50%" /> 
+</div>
+
+### Click on `Attach account`
+
+<br/>
+<div align="center">
+<img src="/img/ledger-subwallet/ledger-subwallet-2.png" align="center" width="50%" /> 
+</div>
+
+### Select the `Connect a ledger device` option
+
+<br/>
+<div align="center">
+<img src="/img/ledger-subwallet/ledger-subwallet-3.png" align="center" width="50%" /> 
+</div>
+
+### Search for the `Avail recovery` app and click on `Connect`
+<br/>
+<div align="center">
+<img src="/img/avail-recovery/avail-recovery-2.png" align="center" width="55%" /> 
+</div>
+
+### You can now select as many or as few of your ledger accounts to your Subwallet extension wallet
+
+<br/>
+<div align="center">
+<img src="/img/avail-recovery/avail-recovery-3.png" align="center" width="55%" /> 
+</div>
+
+<Callout type="info">
+**NOT ABLE TO SELECT YOUR ACCOUNTS?**<br/>
+1. It is important to remember that the `Avail recovery` app will derive the same set of addresses as the `Polkadot` ledger app to give you access to your funds.
+2. This means if your wallet already has that same ledger address connected via the `polkadot` ledger app, you will not be able to import it once again via the `avail recovery` app.
+3. To get around this, you can temporarily delete the polkadot ledger address from your wallet and then re-add it via the `avail recovery` app.
+4. This does not remove the address from your ledger device, just disconnects it from your wallet.
+5. Now you should be able to import the same address via the `avail recovery` app.
+</Callout>
+
+</Steps>

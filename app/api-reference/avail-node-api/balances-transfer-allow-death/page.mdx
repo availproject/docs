@@ -1,0 +1,202 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Transfer funds without ensuring min balance for sender
+
+On-chain name of extrinsic: `balances_transferAllowDeath`
+
+## Parameters
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                     |
+| --------- | ------------- | -------- | ----------------------------------------------- |
+| dest      | string        | false    | account that will receive funds                 |
+| value     | BN            | false    | amount that is send. 10^18 is equal to 1 AVL    |
+| waitFor   | WaitFor       | false    | wait for block inclusion or finalization        |
+| account   | KeyringPair   | false    | account that will send and sign the transaction |
+| options   | SignerOptions | true     | used to overwrite existing signer options       |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type        | optional | description                                     |
+| --------- | ----------- | -------- | ----------------------------------------------- |
+| dest      | string      | false    | account that will receive funds                 |
+| value     | BN          | false    | amount that is send. 10^18 is equal to 1 AVAIL    |
+| waitFor   | WaitFor     | false    | wait for block inclusion or finalization        |
+| account   | KeyringPair | false    | account that will send and sign the transaction |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter        | type     | optional | description                                            |
+| ---------------- | -------- | -------- | ------------------------------------------------------ |
+| api              | API      | false    | api for avail chain                                    |
+| dest             | string   | false    | account that will receive funds                        |
+| amount           | Ucompact | false    | amount that is send. 10^18 is equal to 1 AVL           |
+| WaitForInclusion | WaitFor  | false    | wait for block inclusion or finalization               |
+| Seed             | Mnemonic | false    | seed of the account that needs to sign the transaction |
+</Tabs.Tab>
+
+</Tabs>
+
+## Return value
+
+On failure, a reason of failure is returned. On Success, TransferEvent event, KilledAccount (optionally) event, transaction hash and block
+hash is returned.
+
+## Minimal Example
+
+<Callout type="info">
+1. You will need to set up the dev environment required to run this example. 
+For instructions, [check out our docs here](/api-reference/avail-node-api#setting-up-the-dev-environment).
+
+2. If you're sending an extrinsic (i.e conducting a transaction) you will need to replace the demo seed phrase with your own seed phrase.
+The rest of the code should work as is.
+</Callout>
+
+<Tabs items={['avail-js',  'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript showLineNumbers filename="avail-js"
+import { SDK, WaitFor, Keyring, BN } from "avail-js-sdk"
+
+const main = async () => {
+  const providerEndpoint = "wss://turing-rpc.avail.so/ws";
+  const sdk = await SDK.New(providerEndpoint)
+
+  const Alice = 'This is a random seed phrase please replace with your own';
+  const account = new Keyring({ type: "sr25519" }).addFromUri(Alice)
+  const dest = "5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw" // Eve
+  const amount = new BN(12).mul(new BN(10).pow(new BN("18"))) // twelve Avail
+
+  const result = await sdk.tx.balances.transferAllowDeath(dest, amount, WaitFor.BlockInclusion, account)
+  if (result.isErr) {
+    console.log(result.reason)
+    process.exit(1)
+  }
+
+  console.log("From=" + result.event.from + ", To=" + result.event.to + ", Amount=" + result.event.amount)
+  console.log("MaybeKilled=" + result.event2?.account)
+  console.log("TxHash=" + result.txHash + ", BlockHash=" + result.blockHash)
+
+  process.exit()
+}
+main()
+```
+
+2. Run the code using:
+
+```bash
+ts-node your-file-name.ts
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.rs`, add the following code:
+
+```rust showLineNumbers filename="avail-rust"
+use avail_rust::{Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
+use core::str::FromStr;
+ 
+#[tokio::main]
+async fn main() -> Result<(), String> {
+	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
+ 
+    let alice = "This is a random seed phrase please replace with your own";
+	let secret_uri = SecretUri::from_str(alice).unwrap();
+	let account = Keypair::from_uri(&secret_uri).unwrap();
+	let dest = "5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw"; // Eve
+	let amount = 1_000_000_000_000_000_00u128; // 1 Avail
+    let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
+ 
+	let result = sdk
+		.tx
+		.balances
+		.transfer_allow_death(dest, amount, WaitFor::BlockInclusion, &account, Some(options))
+		.await?;
+ 
+	println!(
+		"From={}, To={}, Amount={}",
+		result.event.from, result.event.to, result.event.amount
+	);
+	if let Some(event) = result.event2 {
+		println!("Killed={}", event.account);
+	}
+	println!(
+		"TxHash={:?}, BlockHash={:?}",
+		result.tx_hash, result.block_hash
+	);
+ 
+	Ok(())
+}
+```
+
+2. Run the code using:
+
+```bash
+cargo run
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.go`, add the following code:
+
+```go showLineNumbers filename="avail-go"
+package main
+
+import (
+	"math"
+
+	"github.com/availproject/avail-go-sdk/src/config"
+	"github.com/availproject/avail-go-sdk/src/sdk"
+	"github.com/availproject/avail-go-sdk/src/sdk/tx"
+	"github.com/availproject/avail-go-sdk/src/sdk/types"
+
+	"fmt"
+)
+
+func main() {
+	config, err := config.LoadConfig()
+	if err != nil {
+		fmt.Printf("cannot load config:%v", err)
+	}
+	api, err := sdk.NewSDK(config.ApiURL)
+	if err != nil {
+		fmt.Printf("cannot create api:%v", err)
+	}
+	WaitFor := sdk.BlockInclusion
+
+	amount := uint64(math.Pow(10, 18)) * 10 // send amount 10 AVAIL
+	dest := "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty"
+	bondAmountUCompact := types.NewUCompactFromUInt(amount)
+	BlockHash, txHash, err := tx.TransferAllowDeath(api, config.Seed, WaitFor, dest, bondAmountUCompact)
+	if err != nil {
+		fmt.Printf("cannot submit Transaction:%v", err)
+	}
+	fmt.Printf("Transaction submitted successfully with block hash: %v\n and ext hash:%v", BlockHash.Hex(), txHash.Hex())
+	sdk.EventParser(api, BlockHash, "BalanceTransfer")
+}
+```
+
+2. Run the code using:
+
+```bash
+go run main.go
+```
+
+<Callout type="info">
+If you receive errors related to missing dependencies while trying to execute your code, run:
+```bash
+go mod tidy
+```
+and try again.
+</Callout>
+
+</Tabs.Tab>
+
+</Tabs>

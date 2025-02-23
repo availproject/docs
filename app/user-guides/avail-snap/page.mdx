@@ -1,0 +1,110 @@
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+import { Steps } from 'nextra/components'
+
+# Use Avail DA with MetaMask
+
+## Introduction
+
+MetaMask is one of the most popular wallets for Ethereum and other EVM-compatible blockchains out there.
+MetaMask Snaps is an open source system that allows developers to create a custom '*Snap*'
+that can be installed into a user's MetaMask wallet to extend it's functionality for different chains.
+
+You can check out [MetaMask website](https://metamask.io/snaps) and [MetaMask docs](https://docs.metamask.io/snaps/) for more information.
+
+The Avail snap will allow you to easily interact with Avail DA from within your MetaMask wallet.
+We are actively working on adding more features to the Avail Snap, so stay tuned for updates.
+
+## Using the Avail Snap
+
+<Steps>
+### Install the Avail Snap
+
+Go to [the official MetaMask snaps store](https://snaps.metamask.io/snap/npm/avail-project/avail-snap/),
+and click on '_Add to MetaMask_'. 
+<br/>
+<div align="center">
+<img src="/img/mm-snap/mm-snap-1.png" width="80%" height="80%"/>
+</div>
+
+Grant the required permissions to the Avail Snap to complete the installation process. Once the installation is complete,
+your screen should look like this:
+
+<br/>
+<div align="center">
+<img src="/img/mm-snap/mm-snap-3.png" width="80%" height="80%"/>
+</div>
+
+### Use the Avail Snap
+
+<Callout type="info">
+  The Avail Snap generates an address for you based on the seed phrase embedded into your
+  MetaMask wallet. Thus, if you transfer the same wallet to a new system and install
+  the Avail Snap again, you will derive the same address.
+</Callout>
+
+Go to [snap.availproject.org](https://snap.availproject.org/), which is a UI interface that
+allows you to conveniently use the Avail Snap.
+
+Connect your metamask extension to this webpage by clicking on '_Connect with MetaMask_'.
+Once connected, you will see your derived address and its balance on screen:
+<br/>
+<div align="center">
+<img src="/img/mm-snap/mm-snap-5.png" width="80%" height="80%"/>
+</div>
+
+<Callout type="info">
+**PLEASE NOTE**<br/>
+1. You will need to send some AVAIL tokens to your new address before being able to make a transaction with it.
+2. You can toggle between Avail DA testnet and mainnet by using the dropdown on the top right. Make sure to select the correct network.
+</Callout>
+
+### Make a transaction
+
+Click on _'send'_ , enter an amount and a recipient, then approve a transaction on Avail DA from within your MetaMask wallet.
+<br/>
+<div align="center">
+<img src="/img/mm-snap/mm-snap-6.png" width="80%" height="80%"/>
+</div>
+
+<Callout type="info">
+THE BRIDGE UI<br/>
+Please note that the `bridge` button takes you to a different interface that you can
+use to transfer tokens between Avail DA and Ethereum.
+The bridge UI does not yet support the Avail Snap.
+</Callout>
+
+</Steps>
+
+
+## FAQs
+
+### Why should I use the Avail Snap at all?
+
+MetaMask is an EVM-compatible wallet that supports 20-byte hexadecimal addresses derived from seed phrases and/or private keys.
+Avail DA meanwhile uses the [SS58 address format](https://docs.substrate.io/learn/accounts-addresses-keys/#address-encoding-and-chain-specific-addresses).
+The Avail Snap makes it possible for you to conveniently interact with Avail DA from within your MetaMask wallet.
+
+### How does the Avail Snap work?
+
+[MetaMask Snaps](https://metamask.io/snaps/) is an open source solution designed to extend MetaMask's functionality.
+The Avail Snap derives an SS58 address using your MetaMask credentials and allows you to sign transactions
+on Avail DA through an easy-to-use UI interface.
+
+### What if I switch to a new system?
+
+The Avail Snap generates an address for you based on the secret recovery phrase in your MetaMask wallet.
+Thus, if you transfer the same wallet to a new system and install the Avail Snap again, you will derive the same
+address.
+
+### Are my keys safe with the Avail Snap?
+
+Please note that the Avail Snap does not store your private keys.
+
+### Has the Avail Snap been audited?
+
+Yes, the Avail Snap has been audited by [SayFer](https://sayfer.io/).
+
+### How do I reach out to the Avail team if I have any questions related to the Avail Snap?
+
+We are always happy to help out our users. You can reach out to us on [Discord](https://discord.gg/AvailProject).

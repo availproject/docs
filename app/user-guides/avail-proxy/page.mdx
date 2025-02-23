@@ -1,0 +1,156 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Proxy Accounts on Avail DA
+
+Proxy accounts provide an efficient way to delegate account management while maintaining security. 
+Instead of using a single account for all operations, you can create smaller accounts with specific roles 
+that can act on behalf of your main account. This guide explains how proxy accounts work on Avail DA and 
+how to use them through an example.
+
+## What are Proxy Accounts?
+
+Proxy accounts allow you to:
+- Delegate specific permissions to other accounts
+- Keep your main account secure while still participating in network activities
+- Manage accounts efficiently, especially in corporate or team settings
+
+<Callout type="info">
+Think of proxy accounts as trusted delegates that can perform specific actions on behalf of your main account. The main account stays secure in cold storage while proxy accounts handle day-to-day operations.
+</Callout>
+
+## Proxy Types
+
+When setting up a proxy account, you must specify its type. This determines what actions the proxy can perform:
+
+- **Any**: Allows all transactions, including balance transfers. Use with caution as this gives complete control.
+- **Non-transfer**: Permits any transaction except balance transfers.
+- **Governance**: Only allows governance-related transactions.
+- **Staking**: Restricted to staking-related operations.
+- **Identity**: Restricted to identity registration and management operations.
+- **Nomination Pool**: Limited to nomination pool operations like joining, bonding, and claiming rewards.
+
+## Security Features
+
+### Proxy Deposits
+
+Creating a proxy requires a deposit in AVAIL tokens. This deposit is:
+- Required to prevent spam attacks
+- Calculated based on the formula: `ProxyDepositBase + (ProxyDepositFactor * number_of_proxies)`
+- Returned when the proxy is removed
+
+> Currently:
+> - `ProxyDepositBase` is 10 AVAIL
+> - `ProxyDepositFactor` is 3 AVAIL
+
+
+## Setting up a Proxy Account
+
+<Steps>
+
+### Go to the Explorer
+
+Head on over to the [accounts section of the Avail explorer](https://explorer.availproject.org/#/accounts) and connect your main account.
+
+### Click on *'Add proxy'*
+
+1. Choose the account for which you want to add a proxy.
+2. Click on the *'Add proxy'* button to get started.
+<br/>
+<p align="center">
+<img src="/img/proxy/proxy-1.png" alt="add proxy on Avail DA"/>
+</p>
+
+### Configure the Proxy
+
+1. Click on the highlighted `+` button to add a new proxy.
+2. Choose the account that should be delegated as a proxy.
+3. Choose the proxy type. We will be going with `NonTransfer` for this example.
+4. Submit this transaction.
+<br/>
+<p align="center">
+<img src="/img/proxy/proxy-2.png" alt="add proxy on Avail DA"/>
+</p>
+
+<Callout type="info">
+**PLEASE NOTE**
+1. You can add multiple proxies for a single account with varying levels of permissions.
+2. Your delegated proxy will still need some `AVAIL` tokens to pay for gas fees on behalf of the main account.
+</Callout>
+
+### That's It!
+
+In a few steps you were able to set up a proxy for your main account that can perform only specific actions on behalf of your main account.
+
+</Steps>
+
+## Verify The Proxy Setup
+
+As per the previous steps, our proxy should be able to perform any action on behalf of the main
+account except transferring funds directly.
+> Let's verify this by trying to transfer and stake `AVAIL` from the main account respectively via the proxy.
+
+<Tabs items={['Transfer `AVAIL` via proxy', 'Stake `AVAIL` via proxy']}>
+
+<Tabs.Tab>
+
+1. Go to the same accounts page and click on *'send'* to transfer funds.
+<br/>
+<p align="center">
+<img src="/img/proxy/proxy-3.png" alt="add proxy on Avail DA"/>
+</p>
+
+2. Select an amount to transfer and a recipient address.
+3. Click on *'Make Transfer'*.
+<br/>
+<p align="center">
+<img src="/img/proxy/proxy-4.png" alt="tranferring funds"/>
+</p>
+
+4. Make sure the *'use a proxy for this call'* toggle is checked on.
+5. Click on *'Sign and Submit'*.
+<br/>
+<p align="center">
+<img src="/img/proxy/proxy-5.png" alt="transfer funds via proxy on Avail DA"/>
+</p>
+
+6. You will note that while the transaction will be included in the block and the delegated account will
+pay the gas fee for it, no funds from the main account will actually be transferred.
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Go to the [extrinsics section of the Avail explorer](https://explorer.availproject.org/#/extrinsics).
+
+2. Select your 'main account' from the dropdown.
+3. Look for the 'Staking' pallet and click on the 'bond' extrinsic.
+4. enter an amount of `AVAIL` tokens to stake.
+<br/>
+<p align="center">
+<img src="/img/proxy/proxy-7.png" alt="trying to stake via proxy on Avail DA"/>
+</p>
+
+5. Click on *'Submit Transaction'*.
+6. Just like before, make sure the *'use a proxy for this call'* toggle is checked on, and click on *'Sign and Submit'*.
+<br/>
+<p align="center">
+<img src="/img/proxy/proxy-8.png" alt="staking txn via proxy on Avail DA"/>
+</p>
+
+7. This time you will see that the transaction a actually goes through and `1000 AVAIL`
+are actually staked from the main account, all without ever signing the transaction from the main account.
+
+</Tabs.Tab>
+</Tabs>
+
+
+## Best Practices
+
+1. Use the most restrictive proxy type that meets your needs
+2. Regularly review your proxy relationships
+3. Keep careful records of which accounts have proxy access
+4. Use different proxy accounts for different purposes
+
+<Callout type="warning">
+While proxy accounts add convenience, they also introduce new security considerations. Always verify proxy settings and permissions carefully.
+</Callout> 

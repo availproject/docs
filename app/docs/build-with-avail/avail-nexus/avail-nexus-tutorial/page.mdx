@@ -1,0 +1,372 @@
+# Avail Nexus Mailbox Examples
+
+
+## Introduction
+
+Building truly interoperable apps is possible with Avail Nexus. App developers can leverage Nexus to build asynchronously composable applications without the need for bridging. On this page, we explore to quick examples on how to leverage Nexus's capabilities.
+
+- [**Bridging ERC20 (Transfer ERC20) via Nexus Mailbox**](/docs/build-with-avail/avail-nexus/avail-nexus-tutorial#erc20-bridging-via-nexus-mailbox)
+- [**NFT Marketplace trade via Nexus Mailbox**](/docs/build-with-avail/avail-nexus/avail-nexus-tutorial#nft-marketplace-trade-via-nexus-mailbox)
+
+
+### ERC20 Bridging via Nexus Mailbox
+
+ ERC20 Bridging via Nexus Mailbox is a great example of message passing between layers. It is a simple example of how a message can be passed between two rollups. It is a bidirectional communication. 
+ 
+ #### Basic Overview
+ 
+ For this example, we have two Era chains: `ZKSync 1` and `ZKSync 2`. 
+
+
+<img src="/img/avail-nexus/payment-example.png" width="100%" height="100%" style={{ borderRadius: "1%" }} />
+
+ - The user wants to transfer an ERC20 token from ZKSync 1 to ZKSync 2.
+ - ERC20 is transferred and locked/burned on `ZKsync 1`. 
+ - Verification of state transition is done via Nexus. 
+ - If valid, the tokens are minted on the destination chain (`ZKsync 2`)
+
+
+ {/*  ## Token Transfer Mailbox
+
+ This is one of the few examples that Avail team has built to help developers imagine the power of Nexus and what can be built on top of it. */}
+
+You can find the [full implementation of the code here](https://github.com/availproject/nexus-examples/tree/main/off-chain/bridge-mailbox).
+1. Let's look at `bridge-mailbox/index.ts` where our main implementation is defined. We first import the dependencies. 
+
+```javascript
+import { ethers, Provider, keccak256, lock } from "ethers";
+import { Provider as L2Provider } from "zksync-ethers";
+import { NexusClient, MailBoxClient, ProofManagerClient, ZKSyncVerifier } from "nexus-js";
+import BridgeABI from "./abi/bridge.json" with { type: "json" };
+import ERC20Abi from "./abi/MyERC20Token.json" with { type: "json" };
+import mailboxAbi from "./abi/mailbox.json" with { type: "json" };
+import { sleep } from "zksync-ethers/build/utils.js";
+```
+
+2. **Configs**: Define the addresses on which Mailbox, Bridges and other things are deployed on.
+
+```javascript
+const NexusBridgeZKSYNC1 = "0x74040d76894401D697750509ac0Ac5Dd0BAf1a93";
+const NexusBridgeZKSYNC2 = "0xdED0afd11372a9c3c3aa40Ba6080879bB740DF49";
+const ERC20TokenZKSYNC1 = "0x44c92F289Ce0be8c8dBB59d51bC2c6485ebF8DFB";
+const ERC20TokenZKSYNC2 = "0xD464c2d2B354D97AFBCC8a04096212b1483Ff065";
+const mailboxAddressZKSYNC1 = "0x9a03a545A60263216c4310Be05C34B71C170903A";
+const mailboxAddressZKSYNC2 = "0x96A52A4dAcf9Cf7c07C6af08Ecf892ec009ea5aa";
+const privateKey = "0x5090c024edb3bdf4ce2ebc2da96bedee925d9d77d729687e5e2d56382cf0a5a6";
+const zksync1URL = "https://zksync1.nexus.avail.tools";
+const zksync2URL = "https://zksync2.nexus.avail.tools";
+const nexusRPCUrl = "http://dev.nexus.avail.tools";
+```
+
+3. **Implementation**: This is where the transfer actually happens. 
+
+The process is simple: 
+- Connect to the chain RPCs, 
+- Initilalize bridge, ERC20, and mailboxes contracts
+- We can then lock ERC20 Tokens on `ZKSync 1`, minting ERC20 tokens on `ZKSync 2`, and approving the bridge contracts to spend tokens. 
+- `sendERC20()` is called on the `ZKsync 1` bridge contract to initiate the bridging process. 
+
+```javascript
+const lockAmount = ethers.parseEther("1");
+await erc20TokenZKSYNC1Contract.mint(signerZKSYNC1.address, ethers.parseEther("10"));
+await erc20TokenZKSYNC1Contract.approve(bridgeContractZKSYNC1, lockAmount);
+const tx = await bridgeContractZKSYNC1.sendERC20(...);
+const receipt = await tx.wait();
+```
+
+Once the transaction is submitted we wait for the Nexus state to be updated as well. After which we query the `ZKsync 1` account details to be used by the `ProofManagerClient`. 
+
+```javascript
+  const accountDetails: AccountApiResponse = await waitForUpdateOnNexus(zksync1NexusClient, blockNumber);
+```
+
+Now these proofs can be fetched by `ZKSync 1` by creating a new instance of `ProofManagerClient` to fetch storage proofs, and then updating the Block and chain state.
+
+```javascript
+const proofManagerClient = new ProofManagerClient(proofManagerAddressZKSYNC2, zksync2URL, privateKey);
+await proofManagerClient.updateNexusBlock(...);
+await proofManagerClient.updateChainState(...);
+```
+
+Now that the proof is fetched, the `ZKSync 2` chain can verify any message or a trasaction by retrieving the **message** from mailbox and verifying the proof by creating a new instance of `ZKSyncVerifier` called `zksyncAdapter`
+
+```javascript
+const zksyncAdapter = new ZKSyncVerifier({
+    [appId1]: {
+      rpcUrl: zksync1URL,
+      mailboxContract: mailboxAddressZKSYNC1,
+      stateManagerContract: proofManagerAddressZKSYNC1,
+      appID: appId1,
+      chainId: "270",
+      type: Networks.ZKSync,
+      privateKey
+    },
+    [appId2]: {
+      rpcUrl: zksync2URL,
+      mailboxContract: mailboxAddressZKSYNC2,
+      stateManagerContract: proofManagerAddressZKSYNC2,
+      appID: appId2,
+      chainId: "271",
+      type: Networks.ZKSync,
+      privateKey
+    }
+  }, appId1);
+```
+
+```javascript
+const storageSlot = getStorageLocationForReceipt(receiptHash);
+const proof = await zksyncAdapter.getReceiveMessageProof(...);
+```
+
+4. **Executing transaction transfers**: you can call `receiveMessage()` on Mailbox contract in `ZKSync 2`. If proofs are valid, then tokens will be minted on `ZKSync 2`.
+
+
+
+This is a simple example of how a message can be passed between two ZK rollups. From Locking tokens on `ZKsync1` to sending a message via Mailbox, then fetching a proof from `ZKsync1` and `ZKsync2`, and finally unlocking them on `ZKSync2`. 
+
+Now let's venture into something slightly more complex below. 
+
+
+### NFT Marketplace trade via Nexus Mailbox
+
+This is a more advanced and complex example of leveraging contingent transactions using the Nexus Mailbox.
+
+
+You can find the [full repository](https://github.com/availproject/nexus-examples) with code examples both for frontend integration and cli to try it out yourself.
+
+#### Basic Overview
+
+In this example, we have 2 chains `ZKsync 1` and `ZKsync 2`. 
+
+<img src="/img/avail-nexus/nft-example-001.png" width="100%" height="100%" style={{ borderRadius: "1%" }} />
+
+- `ZKsync 1` hosts an onchain NFT Marketplace that users can buy NFTs from. 
+- `ZKsync 2` hosts a payment provider application that users can use to pay for services (in this case, the NFT bought on the NFT Marketplace).
+
+The basic flow of interactions would look like the following: 
+- User intends to buy an NFT and initiates a **BUY** request.
+- NFT Marketplace on `ZKsync 1` locks the NFT (`lockNFT`) and waits for payment, until it times out.
+- A payment provider interface pops up for the user prompting to pay for the NFT. 
+
+#### Scenario 1 - User pays for the NFT: 
+- User pays for the NFT on `ZKsync 2` and waits for the NFT to be released (`payForNFT`).
+- Nexus state is updated with the new state of `ZKSync 2`.
+- NFT Marketplace (`ZKsync 1`) fetches the proof of inclusion of the payment done on `ZKsync 2` via Nexus and verifies.
+- NFT Marketplace releases the NFT to the buyer after it verifies that the payment is done. 
+
+#### Scenario 2 - User does not pay for the NFT:
+- Nexus state is updated.
+- NFT Marketplace (`ZKsync 1`) fetches the **proof of non-inclusion** of the payment via Nexus and verifies.
+- NFT is unlocked and is not transferred to User.
+
+#### Code Walkthrough
+
+Find the [full implementation of the code here](https://github.com/availproject/nexus-examples/tree/main/off-chain/zknft-mailbox). It is recommended to read through the codebase for a deeper understanding on how to utilize Nexus. The following walkthrough is aimed at giving you a high-level overview on how to interact with Nexus. 
+
+1. Import dependencies.
+```typescript
+import { ethers, Log, TransactionReceipt, Provider, keccak256, lock } from "ethers";
+import { Provider as L2Provider, types } from "zksync-ethers";
+import erc20Abi from "./abi/MyERC20Token.json" with { type: "json" };
+import nexusStateManagerAbi from "./abi/nexusStateManager.json" with { type: "json" };
+import axios from "axios";
+import paymentAbi from "./abi/NFTPaymentMailbox.json" with { type: "json" };
+  import nftAbi from "./abi/MyNFTMailbox.json" with { type: "json" };
+import mailboxAbi from "./abi/nexus_mailbox.json"  with { type: "json" };
+import storageProofAbi from "./abi/StorageProof.json" with { type: "json" };
+import verifierWrapperAbi from "./abi/VerifierWrapper.json"  with { type: "json" };
+import zksyncNexusManagerAbi from "./abi/ZKSyncNexusManagerRouter.json"  with { type: "json" };
+import { NexusClient, MailBoxClient, ProofManagerClient, ZKSyncVerifier } from "nexus-js";
+import { AccountApiResponse } from "nexus-js";
+import { Networks } from "nexus-js";
+import { MailboxMessageStruct } from "nexus-js";
+import { AbiCoder } from "ethers";
+import { ParamType } from "ethers";
+import { ErrorDecoder } from "ethers-decode-error";
+import deployedAddresses from "./deployed_addresses.json" with { type: "json" };
+```
+2. Define types & interfaces to interact with `NexusState`, `NexusInfo`, `MailboxMessage`, `PaymentReceipt`.
+```typescript
+type NexusState = {
+  stateRoot: string;
+  blockHash: string;
+};
+
+type NexusInfo = {
+  info: NexusState;
+  chainStateNumber: number;
+  response: {
+    account: {
+      statement: string;
+      state_root: string;
+      start_nexus_hash: string;
+      last_proof_height: number;
+      height: number;
+    };
+    proof: string[];
+    value_hash: string;
+    nexus_header: {
+      parent_hash: string;
+      prev_state_root: string;
+      state_root: string;
+      avail_header_hash: string;
+      number: number;
+    };
+  };
+};
+
+interface MailboxMessage {
+  nexusAppIDFrom: string; // bytes32 -> string
+  nexusAppIDTo: string[]; // bytes32[] -> string[]
+  data: string; // bytes -> string
+  from: string; // address -> string
+  to: string[]; // address[] -> string[]
+  nonce: bigint | string; // uint256 -> number or string for large numbers
+}
+
+interface PaymentReceipt {
+  from: string;
+  to: string;
+  nftId: string;
+  amount: string;
+  tokenAddress: string;
+}
+
+```
+**Configs**: Define the addresses on which Mailbox, Bridges and other things are deployed on.
+
+```typescript
+let nexusRPCUrl = "https://dev.nexus.avail.tools";
+let zksync_nft_url = "https://zksync1.nexus.avail.tools";
+let zksync_payment_url = "https://zksync2.nexus.avail.tools";
+let privateKeyZkSync = "0x5090c024edb3bdf4ce2ebc2da96bedee925d9d77d729687e5e2d56382cf0a5a6";
+let privateKeyZkSync2 = "0x5090c024edb3bdf4ce2ebc2da96bedee925d9d77d729687e5e2d56382cf0a5a6";
+let stateManagerNFTChainAddr = deployedAddresses.proofManagerAddress1;
+let paymentContractAddress = deployedAddresses.nftPaymentContractAddress;
+let paymentTokenAddr = deployedAddresses.tokenContractAddress;
+let nftContractAddress = deployedAddresses.nftContractAddress;
+let tokenId = 133;
+let app_id =
+  "0x1f5ff885ceb5bf1350c4449316b7d703034c1278ab25bcc923d5347645a0117e";
+let app_id_2 =
+  "0x31b8a7e9f916616a8ed5eb471a36e018195c319600cbd3bbe726d1c96f03568d";
+```
+
+
+3. We will first lock our NFT and then initiate a request for payment. The functions `lockNFT()` and `payForNFT()` are defined in the codebase. 
+
+```typescript
+const lockNFTResult = await lockNFT(); //locks NFT on ZKsync 1
+const [paymentBlockNumber, emmittedReceiptHash] = await payForNFT(); //payment for NFT done on ZKsync 2
+```
+4. Once the payment is done on `ZKSync 2`, we need to wait for it to be update on the Nexus State, and update `ZKsync 1`'s view of the Nexus Block based on the updated state od `ZKSync 2`.
+
+```typescript
+const accountDetails: AccountApiResponse = await waitForUpdateOnNexus(paymentNexusClient, paymentBlockNumber);
+    await proofManagerClient.updateNexusBlock(...);
+    await proofManagerClient.updateChainState(
+      accountDetails.response.nexus_header.number,
+      accountDetails.response.proof,
+      app_id_2,
+      accountDetails.response.account
+    )
+```
+5. We create a instnace of the `ZKSyncVerifier` as `zksyncAdapter`, and defines the expected `PaymentReceipt`.
+```typescript
+ const zksyncAdapter = new ZKSyncVerifier({
+      [app_id]: {
+        rpcUrl: zksync_nft_url,
+        mailboxContract: deployedAddresses.mailBoxAddress1,
+        stateManagerContract: stateManagerNFTChainAddr,
+        appID: app_id,
+        chainId: "271",
+        type: Networks.ZKSync,
+        privateKey: privateKeyZkSync
+      },
+      [app_id_2]: {
+        rpcUrl: zksync_payment_url,
+        mailboxContract: deployedAddresses.mailBoxAddress2,
+        stateManagerContract: deployedAddresses.proofManagerAddress2,
+        appID: app_id_2,
+        chainId: "272",
+        type: Networks.ZKSync,
+        privateKey: privateKeyZkSync2
+      }
+    }, app_id)
+
+    const paymentReceipt: PaymentReceipt = {
+      from: await signerPayment.getAddress(),
+      to: await signerPayment.getAddress(),
+      nftId: tokenId.toString(),
+      amount: ethers.parseEther("1").toString(),
+      tokenAddress: paymentTokenAddr,
+    }
+
+```
+
+6. We define the expected from the Mailbox and encodes it.
+```typescript
+const expectedMessage: MailboxMessage = {
+      nexusAppIDFrom: app_id_2,
+      nexusAppIDTo: [app_id],
+      data: abiCoder.encode(["address", "address", "uint256", "uint256", "address"], [
+        paymentReceipt.from,
+        paymentReceipt.to,
+        paymentReceipt.nftId,
+        paymentReceipt.amount,
+        paymentReceipt.tokenAddress,
+      ]),
+      from: paymentContractAddress,
+      to: [nftContractAddress],
+      nonce: lockNFTResult.nonce.toString(),
+    };
+
+    console.log("expected message", expectedMessage);
+
+    const encodedReceipt = ethers.AbiCoder.defaultAbiCoder().encode(
+      ["tuple(bytes32 nexusAppIDFrom, bytes32[] nexusAppIDTo, bytes data, address from, address[] to, uint256 nonce)"],
+      [{
+        nexusAppIDFrom: expectedMessage.nexusAppIDFrom,
+        nexusAppIDTo: expectedMessage.nexusAppIDTo,
+        data: expectedMessage.data,
+        from: expectedMessage.from,
+        to: expectedMessage.to,
+        nonce: expectedMessage.nonce
+      }]
+    );
+
+    ```
+
+7. We then check if the hash of the expected `encodedReceipt` is available in the Mailbox. If this is true, then we have calculated the correct receipt hash and are able to easily verify the payment. 
+```typescript
+ const receiptHash = keccak256(encodedReceipt);
+ const mapping = await mailboxContract.messages(emmittedReceiptHash);
+ console.log("✅  Mapping exists", mapping);
+
+ const storageSlot: bigint = await paymentContract.getStorageLocationForReceipt(receiptHash);
+
+ const proof = await zksyncAdapter.getReceiveMessageProof(accountDetails.response.account.height,
+   expectedMessage,
+    {
+      storageKey: storageSlot.toString()
+    });
+
+```
+
+8. Finally, we transfer the NFT since the payment has been verified. 
+```typescript
+let receipt: TransactionReceipt | null = null;
+    try {
+
+      const transferTx = await nftContract.transferNFT(
+        accountDetails.response.account.height,
+        expectedMessage,
+        zksyncAdapter.encodeMessageProof(proof),
+      )
+
+      receipt = await transferTx.wait();
+      console.log("✅  NFT Transfer successful", receipt?.logs)
+    }
+```
+
+And there you have it we have bought an NFT on `ZKsync 1` while paying for it on `ZKsync 2`. This was a slightly more complex example to showcase Nexus's contingent transaction capabilities. 

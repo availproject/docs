@@ -1,0 +1,213 @@
+---
+id: getting-started
+title: Getting Started
+sidebar_label: Getting Started
+description: 'Get Started on how to utilize Avail as a data availability layer.'
+keywords:
+  - documentation
+  - avail
+  - develop
+  - build
+  - data availability
+  - da
+  - raas
+  - getting started
+image: https://docs.availproject.org/img/avail/AvailDocs.png
+---
+import { Callout, Cards, Card  } from 'nextra/components'
+import { LinkIcon,FilesIcon } from '@components/icons'
+
+
+
+# Build with Avail
+
+## Overview
+
+Avail is the permissionless unification layer of Web3. By building on Avail DA you unlock enhanced transaction processing by keeping data off-chain while ensuring its availability and validity. Avail DA's role as an optimized blockchain for data availability is central to this adaptation, offering a robust and modular design for diverse use cases.
+
+Avail DA has been integrated with all of your favourite rollup stacks and frameworks. You can find various guides to help you get started with the stack of your choice.
+
+<Callout type="info">
+If you are looking to build with Avail at a hackathon, you can check out a curated list of ideas on this [Notion doc](https://www.notion.so/avail-project/Avail-DA-Dev-Onboard-Hackathon-Edition-6ce01faa760b41b79b3ea7758a6265e5). 
+</Callout>
+
+
+## Getting Started
+
+The first step to building a rollup with Avail DA is choosing the framework or platform on which you'll be building on. 
+
+###  Optimium
+
+Optimiums are optimistic L2s that use external DA providers such as Avail DA for data availability. More information about optimiums [here](/docs/build-with-avail/Optimium).
+<Cards>
+  <Card title="OP Stack" href="/docs/build-with-avail/Optimium/op-stack" />
+  <Card title="Arbitrum Nitro" href="/docs/build-with-avail/Optimium/arbitrum-nitro" />
+</Cards>
+
+### Validium
+
+Validiums are validity-proven L2s that use external DA providers such as Avail DA for data availability. More information about validiums [here](/docs/build-with-avail/Validium).
+<Cards>
+  <Card title="Polygon zkEVM" href="/docs/build-with-avail/Validium/zkevm" />
+  <Card title="Polygon CDK" href="/docs/build-with-avail/Validium/zkevm" />
+  <Card title="Madara Starknet" href="/docs/build-with-avail/Validium/madara" />
+  <Card title="ZKsync ZK Stack" href="/docs/build-with-avail/Validium/zksync" />
+</Cards>
+
+
+### Sovereign Rollups or Appchains
+
+Sovereign rollups use DA providers like Avail DA for transaction ordering and data availability but typically handle settlement themselves. Appchains on the other hand may or may not be sovereign by design, but are built to do one specific thing - like an application - unlike a conventional general purpose chain.
+
+<Cards>
+  <Card icon={<LinkIcon />} title="Stackr SDK - Appchain" href="https://docs.stf.xyz/" target="_blank" rel="noopener noreferrer" />
+  <Card icon={<LinkIcon />} title="Sovereign SDK - Sovereign" href="https://github.com/availproject/sovereign-sdk/tree/main" target="_blank" rel="noopener noreferrer"/>
+  <Card icon={<LinkIcon />} title="Cosmos Avail DA Module - Sovereign " href="/docs/build-with-avail/sovereign-rollups/cosmos-avail-module" target="_blank" rel="noopener noreferrer"/>
+  <Card icon={<LinkIcon />} title="Rollkit - Sovereign" href="https://rollkit.dev/tutorials/avail-da" target="_blank" rel="noopener noreferrer"/>
+  <Card icon={<LinkIcon />} title="OpEVM - Sovereign" href="https://github.com/availproject/op-evm" target="_blank" rel="noopener noreferrer"/>
+  <Card icon={<LinkIcon />} title="Dymension - Sovereign" href="https://docs.dymension.xyz/" target="_blank" rel="noopener noreferrer"/>
+  <Card icon={<LinkIcon />} title="Paima Engine - Sovereign" href="https://docs.paimastudios.com/" target="_blank" rel="noopener noreferrer"/>
+</Cards>
+
+### Rollup-as-a-Service (RaaS)
+
+Rollup-as-a-Service partners of Avail allow you to easily spin up a rollup with configurations of your choice at a click of a button. 
+
+<Cards>
+  <Card icon={<LinkIcon />} title="Altlayer" href="https://altlayer.io/" target="_blank" rel="noopener noreferrer"/>
+  <Card icon={<LinkIcon />} title="Ankr" href="https://www.ankr.com/" target="_blank" rel="noopener noreferrer"/>
+  <Card icon={<LinkIcon />} title="Conduit" href="https://conduit.xyz/" target="_blank" rel="noopener noreferrer"/>
+  <Card icon={<LinkIcon />} title="gateway.fm" href="https://gateway.fm/" target="_blank" rel="noopener noreferrer"/>
+  <Card icon={<LinkIcon />} title="Gelato" href="https://www.gelato.network/" target="_blank" rel="noopener noreferrer"/>
+  <Card icon={<LinkIcon />} title="Orbitron" href="https://docs.orbitron.sh/" target="_blank" rel="noopener noreferrer"/>
+  <Card icon={<LinkIcon />} title="PineX" href="https://www.pinex.it/" target="_blank" rel="noopener noreferrer"/>
+  <Card icon={<LinkIcon />} title="Snapchain" href="https://www.snapchain.dev/" target="_blank" rel="noopener noreferrer"/>
+  <Card icon={<LinkIcon />} title="TrueZK" href="https://www.truezk.com/" target="_blank" rel="noopener noreferrer"/>
+  <Card icon={<LinkIcon />} title="QuickNode" href="https://www.quicknode.com/" target="_blank" rel="noopener noreferrer"/>
+
+</Cards>
+
+### Network Information & Tooling
+
+<Cards>
+  <Card title="Network Information" href="/docs/networks" />
+</Cards>
+
+Avail's Developer toolkit is going to be your best friend as you build on Avail DA. Avail supports a number of SDKs and Libraries to directly interact with the network.
+
+| Tool  |     |
+| -------- | -------- |
+| [`avail-js-sdk`](https://github.com/availproject/avail/tree/main/avail-js) | A simple JS/TS SDK to help you interact with the Avail network. It's a wrapper on top of [PolkadotJS](https://polkadot.js.org/) |
+| [`avail-subxt`](https://github.com/availproject/avail/tree/main/avail-subxt) | A Rust-based subXt Library for interacting with the Avail network easily |
+| [`avail-gsrpc`](https://github.com/availproject/avail/tree/main/examples/go) | Interact with the Avail network with Go |
+| [`txwrapper`](https://github.com/availproject/txwrapper) | Tool to generate, sign, and publish offline transactions |
+| [`app-id` gen](https://appid.availproject.org/) | Easy to use UI for generating an `app-id` for your rollup |
+| [Faucet](https://faucet.avail.tools/) | Faucet for receiving test AVAIL tokens |
+
+### Demo Rollup Testnets
+
+Check out our demo rollups powered by Avail
+
+<Cards>
+  <Card icon="🔴 " title="Altlayer OP Plasma Avail Testnet (EVM)" href="https://rollup-info.altlayer.io/public/op_avail_sepolia_testnet" target="_blank" rel="noopener noreferrer"/>
+  <Card icon="🔷 " title="Altlayer Orbit Avail Testnet (EVM)" href="https://rollup-info.altlayer.io/public/orbit_avail_testnet" target="_blank" rel="noopener noreferrer"/>
+</Cards>
+OP Plasma Avail testnet is an OP Stack powered L2 and Orbit Avail Testnet is an Arbitrum Orbit powered L2, both using Avail DA as the data availability layer.
+
+In these rollups,  L2 transaction data are written to Avail instead of Ethereum. The unique blob reference is then written to Ethereum calldata. By doing this, we reduce the cost of publishing data to Ethereum and make it relatively inexpensive and cost-efficient, even if the actual transaction data can be of MBs in size. The rollup node will then be able to retrieve the data commitments from the calldata on Ethereum, and then retrieve the transaction data from Avail. 
+
+## Benefits of building on Avail
+
+Avail’s modular blockchain has been designed to provide affordable, decentralized, scalable and secure data availability services for other blockchains built on top. Through Avail's unique combination of features, the Avail network is able to effectively and efficiently solve the [data availability problem](https://blog.availproject.org/data-availability-what-is-it/).
+
+### Validity proofs
+<br/>
+<img src="/img/avail/avail-validity-proofs.png" width="100%" height="100%" />
+
+Blockchain nodes need data availability guarantees when committing new blocks to a blockchain. Avail use KZG commitments so that developers and users don’t need to trust Avail that data is available, they can verify it for themselves. 
+
+### Erasure coding
+<br/>
+<img src="/img/avail/avail-erasure-coding.png" width="100%" height="100%" />
+
+Erasure coding is a method for protecting data. It’s widely used across computer systems and is the reason why you can still use a CD with scratches on it. Data that’s sent to Avail is made redundant, and separated into chunks (cells) which is stored in an extended data matrix. This helps make the data on Avail more tamper proof and resilient, making it much harder for malicious nodes to suppress any data within the system. 
+
+By using erasure coding, in conjunction with the validity proofs mentioned above, Avail provides blockchain developers, and their users, with high data integrity guarantees and added redundancy to ensure the data they send to Avail remains safe and secure. If you’re considering using the Avail network for something other than data availability, it’s important to note that [data availability is not data storage](https://blog.availproject.org/data-availability-is-not-data-storage/). While they share some similarities, the two use cases are very different.
+
+### Light Clients and Data Availability Sampling (DAS)
+<br/>
+<img src="/img/avail/avail-das.png" width="100%" height="100%" />
+
+Avail’s light client is a light piece of software that enables you to interact with the Avail blockchain easily without requiring a full-node. Avail light clients can run almost anywhere providing data availability guarantees to blockchain nodes and users, improving network decentralization and end-user verification.
+
+Data Availability Sampling leverages light clients, validity proofs and erasure coding to randomly sample data from the Avail blockchain and generate a confidence score. The light client can quickly generate data availability guarantees very close to 100% with 8-30 samples.
+
+In its final form, Avail will have a P2P network made up of multiple light clients which it can sample data from. Avail is the only DA layer that can sample from its light client P2P network instead of relying on full nodes. This sets Avail apart from all current and planned data availability solutions, adding an additional layer of resilience to the network and improving decentralization.
+
+Light Clients can also be done in a more targeted way. If you enable `application-mode` in your light clients, which is as simple as setting an `app-id > 0` then, you can use the light client to sample and fetch data for just your application.
+
+### Expandable Blockspace
+<br/>
+<img src="/img/avail/avail-blockspace.png" width="100%" height="100%" />
+
+
+Avail’s DA layer can scale blockspace with demand, future-proofing your appchain or rollup. Although Avail's block size is initally at 2MB, it can scale and expand as per demand and has been successfully benchmarked to be able to handle blocksizes of upto 128MB without sacrificing network liveness or propagation.
+
+## System Operations
+
+- **Transaction Processing and Sequencing**: In the rollup framework, transactions are processed, sequenced, and readied for submission to Avail.
+- **Data Submission to Avail**: This processed data is securely transferred to Avail, following a specific protocol designed for efficient and secure data handling.
+- **Configuration and Connection**: Rollup systems are configured for seamless integration with Avail, ensuring smooth data flow and interaction.
+- **Smart Contract Interaction**: Users engage with on-chain contracts, providing Merkle proofs for actions like withdrawals. These contracts interact with Avail to authenticate and process these transactions.
+
+### Attestation Bridge
+
+- **Streamlined Verification with Attestation Bridge**: Avail's Attestation Bridge simplifies the verification process on L1. This bridge facilitates the direct posting of data availability attestations to the L1 blockchain, thereby easing the workload of the verification contract.
+- **Role of the Verification Contract**: With the Attestation Bridge in place, the verification contract's primary role is to check these on-chain attestations, ensuring data availability and integrity.
+
+### Interaction with the L1
+
+- **Verification Contract Functionality**: Situated on the L1, this contract plays a dual role—it verifies transaction accuracy and checks data availability, utilizing Avail's attestations.
+- **L1 Contract Dynamics**: Rollups maintain a communicative relationship with L1 via dedicated contracts. The main attestation contract stores state commitments (Merkle data roots) from block producers. Parallelly, a verification contract handles state transition validity checks.
+
+### Security and Finalization
+
+- **Validator Consensus**: Avail's validators, part of a Nominated Proof-of-Stake system, reach consensus on the transaction batches.
+- **GRANDPA Finality Gadget**: The consensus is solidified using the GRANDPA finality gadget, guaranteeing the availability of data.
+- **Data Root Publication**: Sequencers publish the data root on the L1, linking Avail's data availability with L1's security.
+
+### Avail light clients and Data Verification
+
+- **Independent Data Verification**: Avail's light clients enable verification of data availability without relying on the majority of nodes.
+- **Data Sampling**: Light clients can sample from the blocks on Avail's blockchain using an AppId to validate data availability.
+
+## Validium Architecture with Avail
+
+In the Validium model, transactions are collected by a sequencer, which batches them together. The sequencer's role extends beyond transaction ordering—it prepares a Merkle tree of transactions, where each leaf represents a transaction or a set of transactions. The root of this Merkle tree, known as the batch hash, is crucial for ensuring the integrity of the transaction batch and for constructing inclusion proofs.
+
+Avail comes into play as the recipient of this transaction data. Upon receiving the batched transactions, Avail executes erasure coding.
+
+An inclusion proof is a Merkle proof generated by Avail to attest that a specific transaction is part of the batch and has been recorded on Avail’s blockchain. It’s essential for verifying the presence of transactions without downloading the entire dataset.
+
+Simultaneously, the state of the system is computed by executing these transactions. A Prover, which is a computational entity, takes the state transitions and generates cryptographic proofs—such as zk-SNARKs or STARKs—to attest to the validity of state changes without revealing the underlying data.
+
+A Sequence Sender is responsible for communicating with L1. It takes the inclusion proofs and batch hashes from Avail, along with validity proofs from the Prover, and submits them to the L1 chain. This submission process usually involves smart contract calls that log the transaction data's hash and the validity proofs onto the L1 blockchain.
+
+The L1 acts as the main layer for dispute resolution and finality. While it doesn’t store the transaction data itself, it retains the cryptographic commitments to the data. This ensures that if there's ever a dispute or need for verification, the proofs can be checked against the commitments to ascertain the validity of state transitions and the availability of data.
+
+This setup leverages L1's security while offloading the data-intensive work to Avail, which is optimized for handling vast amounts of data efficiently and securely. By doing so, Validium chains can significantly reduce their costs and improve scalability, all the while maintaining a high level of trust and security.
+
+## Optimium Architecture with Avail
+
+In the Optimium model, transactions are similarly aggregated by a sequencer. This sequencer organizes transactions into batches and computes a data root, a Merkle tree root representing the batch, crucial for integrity and proof of inclusion.
+
+Avail is integrated as a data availability layer. Once the sequencer sends transaction batches to Avail, it employs erasure coding to ensure data redundancy and integrity. Avail then generates KZG polynomial commitments and the data root, essential for confirming data availability.
+
+The next phase involves state computation of the system, executed on the rollup, depending on the chain’s architecture. Avail’s data availability solution ensures that the transaction data is readily accessible for any necessary computation or verification.
+
+A Sequence Sender, in this architecture, is responsible for submitting proofs to the main chain. These include the data root from Avail, ensuring that the data availability is anchored to the security of Ethereum or the corresponding L2.
+
+This architecture provides the dual benefits of the main chain's security for settlement and dispute resolution, and Avail's efficiency in handling data. By offloading data availability to Avail, Optimium chains can achieve higher scalability and efficiency while maintaining robust security and decentralization.
+
+import { sortAndDeduplicateDiagnostics } from "typescript"
+

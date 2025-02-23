@@ -1,0 +1,544 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Transfer balances programmatically on Avail DA
+
+## Transferring funds programmatically
+
+You can transfer `AVAIL` from one account to another programmatically by calling any one of these three extrinsics
+from the `balances` pallet on an Avail node:
+
+1. `balances_transferKeepAlive`: Transfers funds from one account to another, but does not allow the sender balance
+to dip below the existential deposit.<br/>
+2. `balances_transferAllowDeath`: Transfers funds from one account to another, and allows the sender balance to dip below
+the existential deposit.
+3. `balances_transferAll`: Transfers all funds from one account to another.
+
+<Callout type="info">
+**EXISTENTIAL DEPOSIT**<br/>
+Only accounts with a balance equal to or greater than the `existential deposit` are stored on the state trie.
+The current value of the existential deposit is `0.000001 AVAIL`.
+Any account whose balane dips below this amount is *'reaped'*.
+</Callout>
+
+### Transferring funds using `balances_transferKeepAlive`
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go', 'AvailApps explorer']}>
+
+<Tabs.Tab>
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript showLineNumbers filename="avail-js"
+import { SDK, WaitFor, Keyring, BN } from "avail-js-sdk"
+
+const main = async () => {
+  const providerEndpoint = "wss://turing-rpc.avail.so/ws";
+  const sdk = await SDK.New(providerEndpoint)
+
+  const Alice = 'This is a random seed phrase please replace with your own';
+  const account = new Keyring({ type: "sr25519" }).addFromUri(Alice)
+  const dest = "5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw" // Eve
+  const amount = new BN(12).mul(new BN(10).pow(new BN("18"))) // twelve Avail
+
+  const result = await sdk.tx.balances.transferKeepAlive(dest, amount, WaitFor.BlockInclusion, account)
+  if (result.isErr) {
+    console.log(result.reason)
+    process.exit(1)
+  }
+
+  console.log("From=" + result.event.from + ", To=" + result.event.to + ", Amount=" + result.event.amount)
+  console.log("TxHash=" + result.txHash + ", BlockHash=" + result.blockHash)
+
+  process.exit()
+}
+main()
+```
+
+2. Run the code using:
+
+```bash
+ts-node your-file-name.ts
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.rs`, add the following code:
+
+```rust showLineNumbers filename="avail-rust" showLineNumbers filename="avail-rust"
+use avail_rust::{Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
+use core::str::FromStr;
+ 
+#[tokio::main]
+async fn main() -> Result<(), String> {
+	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
+ 
+    let alice = "This is a random seed phrase please replace with your own";
+	let secret_uri = SecretUri::from_str(alice).unwrap();
+	let account = Keypair::from_uri(&secret_uri).unwrap();
+	let dest: &str = "5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw"; // Eve
+	let amount = 1_000_000_000_000_000_000u128; // 1 Avail
+    let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
+
+	let result = sdk
+		.tx
+		.balances
+		.transfer_keep_alive(dest, amount, WaitFor::BlockInclusion, &account, Some(options))
+		.await?;
+ 
+	println!(
+		"From={}, To={}, Amount={}",
+		result.event.from, result.event.to, result.event.amount
+	);
+	println!(
+		"TxHash={:?}, BlockHash={:?}",
+		result.tx_hash, result.block_hash
+	);
+ 
+	Ok(())
+}
+```
+
+2. Run the code using:
+
+```bash
+cargo run
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.go`, add the following code:
+
+```go showLineNumbers filename="avail-go"
+package main
+
+import (
+	"math"
+
+	"github.com/availproject/avail-go-sdk/src/config"
+	"github.com/availproject/avail-go-sdk/src/sdk"
+	"github.com/availproject/avail-go-sdk/src/sdk/tx"
+	"github.com/availproject/avail-go-sdk/src/sdk/types"
+
+	"fmt"
+)
+
+func main() {
+	config, err := config.LoadConfig()
+	if err != nil {
+		fmt.Printf("cannot load config:%v", err)
+	}
+	api, err := sdk.NewSDK(config.ApiURL)
+	if err != nil {
+		fmt.Printf("cannot create api:%v", err)
+	}
+	WaitFor := sdk.BlockInclusion
+
+	amount := uint64(math.Pow(10, 18)) * 10 // send amount 10 AVAIL
+	dest := "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty"
+	bondAmountUCompact := types.NewUCompactFromUInt(amount)
+	BlockHash, txHash, err := tx.TransferKeepAlive(api, config.Seed, WaitFor, dest, bondAmountUCompact)
+	if err != nil {
+		fmt.Printf("cannot submit Transaction:%v", err)
+	}
+	fmt.Printf("Transaction submitted successfully with block hash: %v\n and ext hash:%v", BlockHash.Hex(), txHash.Hex())
+	sdk.EventParser(api, BlockHash, "BalanceTransfer")
+}
+```
+
+2. Run the code using:
+
+```bash
+go run main.go --config config.json
+```
+
+<Callout type="info">
+If you receive errors related to missing dependencies while trying to execute your code, run:
+```bash
+go mod tidy
+```
+and try again.
+</Callout>
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Go to the [`extrinsics` page](https://explorer.avail.so/#/extrinsics) on the AvailApps explorer.
+
+2. Select an account which has funds on the network.
+
+3. Select the `balances` pallet from the dropdown on the left, 
+
+4. Select the `transferKeepAlive` extrinsic from the dropdown on the right.
+<br/>
+<p align="center">
+<img src="/img/t-b/t-b-1.png" alt="filling out the tx details"/>
+</p>
+
+5. Fill in the `dest` field with the address of the account you want to send funds to.
+
+6. Click on `Submit Transaction` , and then click on `Sign and Submit`.
+<br/>
+<p align="center">
+<img src="/img/t-b/t-b-3.png" alt="filling out the tx details"/>
+</p>
+
+<Callout type="info">
+**DON'T CHANGE THE APPID**<br/>
+Transferring funds from one address to the other is a chain-level operation, independent of any `AppID`.
+All such operations are executed with the `AppID set to 0`.
+</Callout>
+
+</Tabs.Tab>
+</Tabs>
+
+Your response should look something like this:
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```
+From=5CqgQkrDcdg5QrtuxT3H7WszrqgrBMhdwRbmMVXQzc4VSiEg, To=5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk, Amount=10000000000000000000
+TxHash=0x45a3ec18b96c2bff0d92d70ba5f0fa904b79a49610e845b72d16ccf7c094533d, BlockHash=0x9fa20525f0db53e144ff595f00728611d60bd5d5e597f07b82123301067e90be
+```
+</details>
+
+### Transferring funds using `balances_transferAllowDeath`
+
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go', 'AvailApps explorer']}>
+
+<Tabs.Tab>
+
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript showLineNumbers filename="avail-js"
+import { SDK, WaitFor, Keyring, BN } from "avail-js-sdk"
+
+const main = async () => {
+  const providerEndpoint = "wss://turing-rpc.avail.so/ws";
+  const sdk = await SDK.New(providerEndpoint)
+
+  const Alice = 'This is a random seed phrase please replace with your own';
+  const account = new Keyring({ type: "sr25519" }).addFromUri(Alice)
+  const dest = "5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw" // Eve
+  const amount = new BN(12).mul(new BN(10).pow(new BN("18"))) // twelve Avail
+
+  const result = await sdk.tx.balances.transferAllowDeath(dest, amount, WaitFor.BlockInclusion, account)
+  if (result.isErr) {
+    console.log(result.reason)
+    process.exit(1)
+  }
+
+  console.log("From=" + result.event.from + ", To=" + result.event.to + ", Amount=" + result.event.amount)
+  console.log("MaybeKilled=" + result.event2?.account)
+  console.log("TxHash=" + result.txHash + ", BlockHash=" + result.blockHash)
+
+  process.exit()
+}
+main()
+```
+
+2. Run the code using:
+
+```bash
+ts-node your-file-name.ts
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.rs`, add the following code:
+
+```rust showLineNumbers filename="avail-rust"
+use avail_rust::{Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
+use core::str::FromStr;
+ 
+#[tokio::main]
+async fn main() -> Result<(), String> {
+	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
+ 
+    let alice = "This is a random seed phrase please replace with your own";
+	let secret_uri = SecretUri::from_str(alice).unwrap();
+	let account = Keypair::from_uri(&secret_uri).unwrap();
+	let dest = "5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw"; // Eve
+	let amount = 1_000_000_000_000_000_00u128; // 1 Avail
+    let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
+ 
+	let result = sdk
+		.tx
+		.balances
+		.transfer_allow_death(dest, amount, WaitFor::BlockInclusion, &account, Some(options))
+		.await?;
+ 
+	println!(
+		"From={}, To={}, Amount={}",
+		result.event.from, result.event.to, result.event.amount
+	);
+	if let Some(event) = result.event2 {
+		println!("Killed={}", event.account);
+	}
+	println!(
+		"TxHash={:?}, BlockHash={:?}",
+		result.tx_hash, result.block_hash
+	);
+ 
+	Ok(())
+}
+```
+
+2. Run the code using:
+
+```bash
+cargo run
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.go`, add the following code:
+
+```go showLineNumbers filename="avail-go"
+package main
+
+import (
+	"math"
+
+	"github.com/availproject/avail-go-sdk/src/config"
+	"github.com/availproject/avail-go-sdk/src/sdk"
+	"github.com/availproject/avail-go-sdk/src/sdk/tx"
+	"github.com/availproject/avail-go-sdk/src/sdk/types"
+
+	"fmt"
+)
+
+func main() {
+	config, err := config.LoadConfig()
+	if err != nil {
+		fmt.Printf("cannot load config:%v", err)
+	}
+	api, err := sdk.NewSDK(config.ApiURL)
+	if err != nil {
+		fmt.Printf("cannot create api:%v", err)
+	}
+	WaitFor := sdk.BlockInclusion
+
+	amount := uint64(math.Pow(10, 18)) * 10 // send amount 10 AVAIL
+	dest := "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty"
+	bondAmountUCompact := types.NewUCompactFromUInt(amount)
+	BlockHash, txHash, err := tx.TransferAllowDeath(api, config.Seed, WaitFor, dest, bondAmountUCompact)
+	if err != nil {
+		fmt.Printf("cannot submit Transaction:%v", err)
+	}
+	fmt.Printf("Transaction submitted successfully with block hash: %v\n and ext hash:%v", BlockHash.Hex(), txHash.Hex())
+	sdk.EventParser(api, BlockHash, "BalanceTransfer")
+}
+```
+
+2. Run the code using:
+
+```bash
+go run main.go
+```
+
+<Callout type="info">
+If you receive errors related to missing dependencies while trying to execute your code, run:
+```bash
+go mod tidy
+```
+and try again.
+</Callout>
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+<Callout type="info">
+Follow the same steps as before to use this extrinsic from the AvailApps explorer.
+The only difference being that you need to select `balances_transferAllowDeath` from the dropdown.
+</Callout>
+
+</Tabs.Tab>
+
+</Tabs>
+
+Your response should look something like this:
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```
+From=5CqgQkrDcdg5QrtuxT3H7WszrqgrBMhdwRbmMVXQzc4VSiEg, To=5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw, Amount=12000000000000000000
+MaybeKilled=undefined
+TxHash=0x4be89fffca3b7849066c3a7b6b29af318caa49ca12a1ba17610b0a30d97fd30e, BlockHash=0x861531ee9512849cec0bde5294bb65098424c84e3ab64b6c25722574370d8224
+```
+</details>
+
+### Transferring funds using `balances_transferAll`
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go', 'AvailApps explorer']}>
+
+<Tabs.Tab>
+
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript showLineNumbers filename="avail-js"
+import { SDK, WaitFor, Keyring, BN } from "avail-js-sdk"
+
+const main = async () => {
+  const providerEndpoint = "wss://turing-rpc.avail.so/ws";
+  const sdk = await SDK.New(providerEndpoint)
+
+  const Alice = 'This is a random seed phrase please replace with your own';
+  const account = new Keyring({ type: "sr25519" }).addFromUri(Alice)
+  const dest = "5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw" // Eve
+  const keepAlive = false
+
+  const result = await sdk.tx.balances.transferAll(dest, keepAlive, WaitFor.BlockInclusion, account)
+  if (result.isErr) {
+    console.log(result.reason)
+    process.exit(1)
+  }
+
+  console.log("From=" + result.event.from + ", To=" + result.event.to + ", Amount=" + result.event.amount)
+  console.log("MaybeKilled=" + result.event2?.account)
+  console.log("TxHash=" + result.txHash + ", BlockHash=" + result.blockHash)
+
+  process.exit()
+}
+main()
+```
+
+2. Run the code using:
+
+```bash
+ts-node your-file-name.ts
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.rs`, add the following code:
+
+```rust showLineNumbers filename="avail-rust"
+use avail_rust::{Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
+use core::str::FromStr;
+ 
+#[tokio::main]
+async fn main() -> Result<(), String> {
+	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
+ 
+    let alice = "This is a random seed phrase please replace with your own";
+	let secret_uri = SecretUri::from_str(alice).unwrap();
+	let account = Keypair::from_uri(&secret_uri).unwrap();
+	let dest = "5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw"; // Eve
+	let keep_alive = false;
+    let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
+
+	let result = sdk
+		.tx
+		.balances
+		.transfer_all(dest, keep_alive, WaitFor::BlockInclusion, &account, Some(options))
+		.await?;
+ 
+	println!(
+		"From={}, To={}, Amount={}",
+		result.event.from, result.event.to, result.event.amount
+	);
+	if let Some(event) = result.event2 {
+		println!("Killed={}", event.account);
+	}
+	println!(
+		"TxHash={:?}, BlockHash={:?}",
+		result.tx_hash, result.block_hash
+	);
+ 
+	Ok(())
+}
+```
+
+2. Run the code using:
+
+```bash
+cargo run
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.go`, add the following code:
+
+```go showLineNumbers filename="avail-go"
+package main
+
+import (
+	"github.com/availproject/avail-go-sdk/src/config"
+	"github.com/availproject/avail-go-sdk/src/sdk"
+	"github.com/availproject/avail-go-sdk/src/sdk/tx"
+
+	"fmt"
+)
+
+func main() {
+	config, err := config.LoadConfig()
+	if err != nil {
+		fmt.Printf("cannot load config:%v", err)
+	}
+	api, err := sdk.NewSDK(config.ApiURL)
+	if err != nil {
+		fmt.Printf("cannot create api:%v", err)
+	}
+	WaitFor := sdk.BlockInclusion
+
+	dest := "5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY"
+	BlockHash, txHash, err := tx.TransferAll(api, config.Seed, WaitFor, dest)
+	if err != nil {
+		fmt.Printf("cannot submit Transaction:%v", err)
+	}
+	fmt.Printf("Transaction submitted successfully with block hash: %v\n and ext hash:%v", BlockHash.Hex(), txHash.Hex())
+}
+```
+
+2. Run the code using:
+
+```bash
+go run main.go
+```
+
+<Callout type="info">
+If you receive errors related to missing dependencies while trying to execute your code, run:
+```bash
+go mod tidy
+```
+and try again.
+</Callout>
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+<Callout type="info">
+Follow the same steps as before to use this extrinsic from the AvailApps explorer.
+The only difference being that:
+
+1. You need to select `balances_transferAll` from the dropdown.
+2. You don't need to fill in an `amount` that you want to transfer, since this extrinsic transfers all funds from the sender's account.
+</Callout>
+
+</Tabs.Tab>
+
+</Tabs>
+
+Your response should look something like this:
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```
+From=5CqgQkrDcdg5QrtuxT3H7WszrqgrBMhdwRbmMVXQzc4VSiEg, To=5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk, Amount=14967497534555492726990
+TxHash=0x3dbf0865aae15137e1fe3f922d70b7ff514a8c27e712d12ea1a8a1d4a7af9437, BlockHash=0x129745d18065f66f106b3744fe73ab5f9a1d7cb6205b271d13119399d3a56d31
+```
+</details>
+
+> If you check the balance of the sender account now, it will either be `0` or equal to the `existential deposit` amount, if
+> the account is unable to be reaped due to dependencies on the network.
+> In this case, while the account will continue to exist on the state trie, it's balance will be too low to perform any operations.
