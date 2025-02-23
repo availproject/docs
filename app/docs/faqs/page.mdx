@@ -1,0 +1,144 @@
+---
+id: faqs
+title: General Frequently Asked Questions
+sidebar_label: FAQs
+description: 'FAQs on Avail and the Avail ecosystem.'
+keywords:
+  - docs
+  - avail
+  - node
+  - faqs
+  - question
+image: https://docs.availproject.org/img/avail/AvailDocs.png
+---
+import { Callout } from 'nextra/components'
+
+# General Frequently Asked Questions
+
+<Callout type="info">
+CLASH OF NODES FAQS<br/>
+For all questions and queries related to the Clash of Nodes campaign,
+please visit **[<ins>this page</ins>](/docs/clash-of-nodes/faqs.mdx)**.
+</Callout>
+
+## What problem does Avail solve?
+
+Avail is buiding the unification layer for web3, solving fundamental scaling and user experience problems. 
+Cross-ecosystem transactions are cumbersome and difficult, driving more fragmentation throughout an already fragmented ecosystem. 
+User adoption efforts need to be directed towards onboarding net-new users, instead of pulling them between existing communities.
+
+Avail addresses these issues from first principles, solving scalability with the first DA layer to anchor modular blockchains using cutting-edge 
+zero knowledge technology to ensure responsive and reliable data availability.
+Avail Nexus is a permissionless verification hub that will unify rollups (not just those built within the Avail ecosystem), leveraging Avail DA as the root of trust.
+Then Avail Fusion will provide unified economic security, enabling fair and additive crypto economic security, securing the unification layer. 
+Combined, the Avail unification layer will re-define the way rollups and blockchains communicate and co-ordinate across the blockchain ecosystem.
+
+## How does the technology work?
+
+Avail lays a foundation for a unified web3 experience by providing the fundamentals needed to connect chains across different ecosystems.
+Avail's use of validity proofs make DA proof verification simple and scalable. It also provides a robust and permissionless intersection point for different chains to coordinate via responsive proof aggregation. Only a common DA layer can provide shared security over which inter-rollup trust minimized communication can work. Different chains can coordinate via Avail Nexus and leverage its sequencer selection mechanism for inclusion.
+Fusion Security takes the native assets of the most mature ecosystems such as BTC, ETH and others, and allows them to contribute to the Avail consensus and economic security. 
+
+The initial launch (Avail DA) will allow any developer to plug into the infrastructure maintained by the Avail DA validator network and harness cutting-edge zero knowledge and KZG Polynomial commitments to ensure immediate and reliable data integrity for their blockchains, paving the way for Nexus and a unified web3.
+
+## Who are Avail's users?
+
+Avail will primarily be used by blockchain developers. <br/>
+Secondary users of Avail will be anyone who benefits from the cross-chain functionality of Avail Nexus. These secondary users do not need to be aware they are using Avail in order to benefit from it.
+
+## What is the AVAIL token used for?
+
+Avail DA, Nexus, and Fusion Security will all be secured through Avail's native token staking.
+Both transaction and bridging fees are paid in the native token, ensuring a self-sustaining network with incentives aligned across all participants.
+
+
+## What is the roadmap for development?
+    
+The initial release will see the launch of Avail DA, a production ready and purpose built DA leveraging validity proofs. 
+Next will be the launch of Avail Nexus, a permissionless verification hub that will unify rollups, leveraging Avail DA as the root of trust.
+Then comes Fusion Security to enable fair and additive crypto economic security.
+
+## How can I get involved?
+
+- [Use Avail DA](https://docs.availproject.org/) for your chain
+- Run a [Validator](https://docs.availproject.org/docs/operate-a-node/become-a-validator)
+- Run a [light client](https://docs.availproject.org/docs/operate-a-node/run-a-light-client)
+- Join [Discord](https://discord.gg/AvailProject)
+- Follow us on [X](https://twitter.com/AvailProject)
+- Join the [Avail Uncharted](https://github.com/availproject/avail-uncharted) Technical Contributor's program
+
+## How do I get in touch if I have questions?
+
+- Business → [business@availproject.org](mailto:business@availproject.org)
+- Technical questions → [Discord](https://discord.gg/AvailProject) or [Forum](https://forum.availproject.org/)
+
+## What is a popular use case of a light client?
+
+There are many use-cases which today rely on an intermediary to maintain a full node, such that end users of a blockchain do not communicate directly with the blockchain but instead through the intermediary. Light clients have until now not been a suitable replacement for this architecture because they lacked data availability guarantees. Avail solves this issue, thus enabling more applications to directly participate on the blockchain network without intermediaries. Although Avail does support full nodes, we expect most applications will not need to run one, or will need to run fewer.
+
+## What is data availability sampling (DAS)?
+
+Avail DA light clients, like other light clients, only download the headers of the blockchain. However, they additionally perform data availability sampling: a technique that randomly samples small sections of the block data and verifies they are correct. When combined with erasure coding and KZG polynomial commitments, light clients are able to provide strong (nearly 100%) guarantees of availability without relying on fraud proofs, and with only a small constant number of queries.
+
+## How is erasure coding used to increase data availability guarantees?
+
+Erasure coding is a technique that encodes data in a way that spreads out the information over multiple 'shards', such that the loss of some number of those shards can be tolerated. That is, the information can be reconstructed from the other shards. Applied to the blockchain, this means that we effectively increase the size of each block, but we prevent a malicious actor from being able to hide any part of a block up to the redundant shard size. Since a malicious actor needs to hide a large part of the block in order to attempt to hide even a single transaction, it makes it much more likely that random sampling would catch the large gaps in the data. Effectively, erasure coding makes the data availability sampling technique much more powerful.
+
+## What are KZG commitments?
+
+KZG commitments, introduced by Aniket Kate, Gregory M. Zaverucha, and Ian Goldberg in 2010, provide a way to commit to polynomials in a succinct manner. Recently, polynomial commitments came to the forefront, being primarily used as commitments in PLONK-like zero knowledge constructions.
+
+In our construction, we use KZG commitments for the following reasons:
+
+- It allows us to commit to values in a succinct manner to be kept inside the block header.
+- Short openings are possible which helps a light client verify availability.
+- The cryptographic binding property helps us avoid fraud proofs by making it computationally infeasible to produce incorrect commitments.
+
+In the future, we might use other polynomial commitment schemes, if that gives us better bounds or guarantees.
+
+## Since Avail is used by multiple applications, does that mean chains have to download transactions from other chains?
+
+No. Avail headers contain an index that allows a given application to determine and download only the sections of a block that have data for that application. Thus, they are largely unaffected by other chains using Avail at the same time or by block sizes.
+
+The only exception is data availability sampling. In order to verify that data is available (and due to the nature of erasure coding), clients sample small parts of the block at random, including possibly sections that contain data for other applications.
+
+## Who is behind Avail?
+
+Avail is led by former Polygon co-founder [Anurag Arjun](https://twitter.com/anuragarjun) and former Polygon research lead [Prabal Banerjee](https://twitter.com/prabalbanerjee). <br/>
+The [Avail team](https://www.availproject.org/aboutus) consists of more than 40 professionals with solid experience in their areas of expertise ranging from marketing to blockchain design and programming. 
+Many have proven track records in the Web3 space and a diverse background that forms the foundation of a solid team.
+
+## What Partnerships are in place?
+
+Avail has a strong list of strategic partnerships in place across different ecosystems. For a full list of partners, please see [Ecosystem Page](https://www.availproject.org/ecosystem).
+New partnerships will be announced soon so follow us on [X](https://twitter.com/AvailProject) to keep up to date.
+
+## Is Avail DA the same as Celestia?
+
+Celestia is doing amazing work and they have helped move the industry forward. The level of responsiveness we need to enable a unified web3 ecosystem relies upon a validity proof based modular DA construction. Avail was designed from the ground up, leveraging first principles thinking to enable a unification layer for web3, and it achieves this by leveraging validity proofs on the DA layer and DAS. You can learn more about the differences between Avail DA and Celestia [here](https://blog.availproject.org/a-guide-to-selecting-the-right-data-availability-layer/).
+
+## Is Avail DA same as Eigen DA?
+
+Avail is building a unification layer for web3 which is why we needed to build Avail DA from the ground up. Eigenlayer is doing great work, and their restaking model helped inspire our Fusion Security model, albeit with some important modifications for our use case. You can learn more about the differences between Avail DA and EigenDA [here](https://blog.availproject.org/a-guide-to-selecting-the-right-data-availability-layer/).
+
+## Is Avail pivoting away from DA?
+
+We have always been building towards a unified web3. Avail DA has been the primary focus for the team so far, however it was built using 
+first principles thinking to identify how a modular DA layer could lay the foundation for a unified web3. The design choices that went into 
+building Avail DA were done so with the unification thesis in mind.
+
+## Is Avail Fusion the same as restaking?
+
+The inspiration for Fusion came from:
+
+- Eigenlayer, that is pioneering the restaking of ETH in services that operate independently of Ethereum's consensus mechanism or full validator set
+- Babylon Chain, that is creating a platform that allows the use of BTC (Bitcoin) for security across different blockchain networks
+- Osmosis, that pioneered mesh security that allows a chain to borrow economic security from other chains
+
+Fusion is a construction that is similar to, but also different from these approaches. It borrows economic security from other assets, but penalizes both safety and liveness failures in the Avail consensus.
+
+## Is Avail Nexus the same as Polygon AggLayer, zkSync Hyperchain, Optimism Superchain or similar efforts?
+
+Avail Nexus is actually complementary to such efforts and would take aggregated execution proofs from each of these ecosystems as input to power the Nexus. Of course, Nexus will have its own proof aggregation engine that will allow composability of these proofs along with custom zk rollups and other sovereign chains building on Avail DA. The core attribute of Nexus is the combination of execution proofs and DA proofs. The former comes from the rollups/ecosystems. The latter need to be verified using DAS, which is where Avail DA shines. The Nexus construction is optimal on a specialised DA layer that implements DAS with validity proofs. 
+
+Together, Nexus aims to unify and coordinate the rollup centric future. 

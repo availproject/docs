@@ -1,0 +1,79 @@
+---
+id: balance-transfers
+title: How to Perform Balance Transfers on Avail
+sidebar_label: Balance Transfers
+description: 'Learn how to perform balance transfers on the Avail Network.'
+keywords:
+  - docs
+  - avail
+  - explorer
+  - balance
+  - transfers
+  - send
+  - receive
+  - transaction
+image: https://docs.availproject.org/img/avail/AvailDocs.png
+---
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Transfer AVAIL using the Avail apps explorer
+
+## Overview
+
+Most of our users will be more comfortable using a dedicated Avail DA wallet to transfers AVAIL, and you can [refer
+to our docs](/docs/end-user-guide/accounts) to get started on the same.\
+Users can also however use the [Avail apps explorer](https://explorer.availproject.org/#/explorer) to transfer AVAIL which allows for more customization over these transactions.
+
+If you don't have any AVAIL to get started, you can get some on our Turing testnet [following this guide](/docs/end-user-guide/faucet).
+
+
+## Transferring Funds Using the Avail Apps explorer
+
+1. Navigate to the explorer homepage. Click on `Accounts` -> `transfer` from the top navbar. 
+
+<br/>
+<div align="center">
+<img src="/img/transfer-funds/transfer-funds-1.png" align="center" />
+</div>
+
+2. Choose a `sender's address` and enter a `recipient's address`. Then choose the amount of AVAIL you want to transfer.
+
+> Any account on Avail DA needs to have a minimum amount of AVAIL so that it is kept alive.
+> Making the transfer with the `keep-alive checks` toggled on will make sure the account is not reaped.
+
+> The explorer will also pick up accounts from Avail DA wallet extensions that are connected to it.
+
+- Click on `Make transfer`.
+
+<br/>
+<div align="center">
+<img src="/img/transfer-funds/transfer-funds-2.png" align="center" />
+</div>
+
+<Callout type="info">
+MINIMUM BALANCE<br/>
+On Avail, similar to other Substrate-based chains, an account must hold a minimum balance to stay active. 
+This minimum, known as the Existential Deposit (ED), is set at **0.000001 AVAIL on Avail DA**.
+The ED helps prevent blockchain bloat from accounts with tiny or zero balances, thereby maintaining network efficiency and 
+low fees. If an account's balance falls below this threshold, it gets deactivated, and the remaining balance is removed. 
+Reactivating the account requires a deposit larger than the ED, but this won't restore the lost funds.
+</Callout>
+
+3. You can choose to include an **optional** tip for the block author to try and expedite your transaction.
+Make sure the `appID` is 0. Also make sure the `sign and submit` option on the bottom left is toggled on to ensure that your transaction is submitted
+to the network right now.
+
+<Callout type="info">
+All base transactions on Avail DA are executed under the `appID` of 0. Any other `appID` will be added as an app-specific
+transaction.
+</Callout>
+
+<br/>
+<div align="center">
+<img src="/img/transfer-funds/transfer-funds-3.png" align="center" />
+</div>
+
+4. Click on the `sign and submit` button on the bottom-right, and approve the transaction dialogue that pops-up.
+
+5. And that's it. You just transferred AVAIL tokens from one address to another using the Avail Apps explorer.
+If you are wondering how to do this programatically, check out our [API reference on the same](/api-reference/avail-node-api/balances-transfer-keep-alive).

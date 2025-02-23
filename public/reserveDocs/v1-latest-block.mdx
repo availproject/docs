@@ -1,0 +1,69 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Fetch the latest block
+
+Allows us to fetch the latest block processed by the light client.
+
+*Params*:
+- None
+
+*Response*:
+- Latest block number
+
+<Tabs items={['CURL', 'Rust']}>
+
+<Tabs.Tab>
+
+<Tabs items={['Local', 'Remote']}>
+
+<Tabs.Tab>
+```sh
+curl "localhost:7007/v1/latest_block"
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```sh
+curl "https://api.lightclient.mainnet.avail.so/v1/latest_block"
+```
+</Tabs.Tab>
+</Tabs>
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+```rust
+use reqwest::StatusCode;
+use serde::{Deserialize, Serialize};
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct LatestBlock {
+    pub latest_block: u32,
+}
+
+const LIGHT_CLIENT_URL: &str = "https://api.lightclient.mainnet.avail.so";
+
+#[tokio::main]
+async fn main() {
+    let latest_block_url = format!("{LIGHT_CLIENT_URL}/v1/latest_block");
+    let response = reqwest::get(&latest_block_url).await.unwrap();
+
+    if response.status() == StatusCode::OK {
+        let latest_block: LatestBlock = serde_json::from_str(&response.text().await.unwrap()).unwrap();
+        println!("{latest_block:?}");
+    }
+    // ...error handling...
+}
+```
+</Tabs.Tab>
+</Tabs>
+
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary> Sample Response:</summary>
+```json
+{
+    "latest_block":154477
+}
+```
+</details>

@@ -1,0 +1,173 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+ 
+# Join a nomination pool
+
+On-chain name of method: `nominationPools_join`
+
+## Parameters
+
+<Tabs items={['avail-js', 'avail-rust']}>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                     |
+| --------- | ------------- | -------- | ----------------------------------------------- |
+| amount    | BN            | false    | The amount of funds to delegate to the pool     |
+| poolId    | number        | false    | pool id                                         |
+| waitFor   | WaitFor       | false    | wait for block inclusion or finalization        |
+| account   | KeyringPair   | false    | account that will send and sign the transaction |
+| options   | SignerOptions | true     | used to overwrite existing signer options       |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type        | optional | description                                     |
+| --------- | ----------- | -------- | ----------------------------------------------- |
+| amount    | u128        | false    | The amount of funds to delegate to the pool     |
+| pool id   | u32         | false    | pool id                                         |
+| waitFor   | WaitFor     | false    | wait for block inclusion or finalization        |
+| account   | KeyringPair | false    | account that will send and sign the transaction |
+| options   | Options     | true     | transaction parameters                          |
+</Tabs.Tab>
+
+</Tabs>
+
+## Returns
+
+On failure, a reason for the failure is returned. On success, the function will return a object of type `PoolJoinTxSuccess`.
+This object contains the details of the transaction and some information about the nomination pool oyu just joined.
+
+## Minimal example
+
+<Callout type="info">
+1. You will need to set up the dev environment required to run this example. 
+For instructions, [check out our docs here](/api-reference/avail-node-api#setting-up-the-dev-environment).
+
+2. If you're sending an extrinsic (i.e conducting a transaction) you will need to replace the demo seed phrase with your own seed phrase.
+The rest of the code should work as is.
+</Callout>
+
+<Tabs items={['avail-js', 'avail-rust']}>
+
+<Tabs.Tab>
+
+1. Inside `your-file-name.ts`, add the following code:
+
+```javascript showLineNumbers filename="avail-js"
+import { SDK, WaitFor, Keyring, BN } from "avail-js-sdk"
+
+const main = async () => {
+  const providerEndpoint = "wss://turing-rpc.avail.so/ws";
+  const sdk = await SDK.New(providerEndpoint);
+
+  const Alice = 'This is a random seed phrase please replace with your own';
+  const account = new Keyring({ type: "sr25519" }).addFromUri(Alice);
+  const amount = new BN(10).pow(new BN(18)).mul(new BN(10000)) // 10_000 Avail
+  const poolId = 1
+
+  const result = await sdk.tx.nominationPools.join(amount, poolId, WaitFor.BlockInclusion, account)
+  if (result.isErr) {
+    console.log(result.reason)
+    process.exit(1)
+  }
+
+  console.log(JSON.stringify(result, null, 4))
+  process.exit()
+}
+main()
+```
+
+2. Run the code using:
+
+```bash
+ts-node your-file-name.ts
+```
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```js
+{
+    "isErr": false,
+    "event": {
+        "member": "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty",
+        "poolId": "1",
+        "bonded": "10000",
+        "joined": "true"
+    },
+    "events": [...],
+    "txHash": "0x06baecbb8680e90d025d1fd08044d0d251054a89e82dd460022bdf3796020050",
+    "txIndex": 1,
+    "blockHash": "0x82078130da46adacf5bdff86618ab6e1c443fda6d883d9fcf967a41a2e29d612",
+    "blockNumber": 19
+}
+```
+</details>
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.rs`, add the following code:
+
+```rust showLineNumbers filename="avail-rust" showLineNumbers filename="avail-rust"
+use avail_rust::{Keypair, Nonce, Options, SecretUri, WaitFor, SDK};
+use core::str::FromStr;
+ 
+#[tokio::main]
+async fn main() -> Result<(), String> {
+	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
+ 
+	let alice = "This is a random seed phrase please replace with your own";
+	let secret_uri = SecretUri::from_str(alice).unwrap();
+	let account = Keypair::from_uri(&secret_uri).unwrap();
+	let amount = 1_000_000_000_000_000_000_000_000u128; // 1_000_000 Avail tokens
+	let pool_id = 1;
+ 
+	let wait_for = WaitFor::BlockInclusion;
+	let options = Options::new().nonce(Nonce::BestBlockAndTxPool);
+	let result = sdk
+		.tx
+		.nomination_pools
+		.join(amount, pool_id, wait_for, &account, Some(options))
+		.await?;
+ 
+	dbg!(result);
+ 
+	Ok(())
+}
+```
+
+2. Run the code using:
+
+```bash
+cargo run
+```
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```rust showLineNumbers filename="avail-rust"
+PoolJoinTxSuccess {
+    event: Bonded {
+        member: AccountId32(...),
+        pool_id: 1,
+        bonded: 1000000000000000000000000,
+        joined: true,
+    },
+    events: ExtrinsicEvents {
+        ext_hash: 0x1c3c2412859e9c1d29a17cdaad48ff835bfbc7bb1b2bda5686d152f7c5145a40,
+        idx: 1,
+        events: Events {
+            event_bytes: [...],
+            start_idx: 1,
+            num_events: 12,
+        },
+    },
+    tx_hash: 0x1c3c2412859e9c1d29a17cdaad48ff835bfbc7bb1b2bda5686d152f7c5145a40,
+    tx_index: 1,
+    block_hash: 0x67f28bfd6826522dc53ccfdec24dffbe9954ff4af8d96e81e983227af101786b,
+    block_number: 24,
+}
+```
+</details>
+</Tabs.Tab>
+
+</Tabs>

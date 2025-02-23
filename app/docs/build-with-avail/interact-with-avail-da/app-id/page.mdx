@@ -1,0 +1,74 @@
+---
+id: app-ids
+title: How to register your own `AppID` on Avail DA?
+sidebar_label: Create an AppId
+description: 'Learn how to generate unique application identifers for your Avail-based solution.'
+keywords:
+  - docs
+  - avail
+  - identifier
+  - appid
+  - app
+  - transaction
+image: https://docs.availproject.org/img/avail/AvailDocs.png
+---
+
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# How to register your own `AppID` on Avail DA?
+
+<Callout type="info">
+**LOOKING TO READ MORE ABOUT WHAT APPIDs ARE?**<br/>
+You can go through [this page in our docs](/docs/learn-about-avail/app-ids) for a deeper understanding of how
+AppIDs work on Avail.
+</Callout>
+
+<Callout type="info">
+**LOOKING FOR PROGRAMMATIC INSTRUCTIONS?**<br/>
+You can check out our [API reference](/api-reference/avail-node-api/da-create-application-key) for the same.
+</Callout>
+
+The easiest way to set up your own `AppID` on Avail DA is to use our [online AppID generator](https://appid.availproject.org/).
+
+## Check the next available `AppID`
+
+<Callout type="info">
+Each `appID` consists of 3 fields:
+
+- `key`: This is a string that is the name of the `appID`. Each `appID` should have a unique name.
+- `owner`: This is the address of the account that created the `appID`. A single address can create multiple `AppIds`.
+- `id`: This is the unique integer index of the `appID`. It is incremented by 1 everytime a new `appID` is created. Whenever a new
+`appID` is created, it is automatically assigned the next available `id`.
+</Callout>
+
+1. Go to [appid.availproject](https://appid.availproject.org/) and select the correct network from the dropdown.
+2. Click on `Search` and you will see a list of already existing `AppIDs` on the network.
+
+<br/>
+<div align="center">
+<img src="/img/app-id-new/app-id-new-1.png" align="center" /> 
+</div>
+
+> If you choose to create a new `AppID`, it's `id` will be the next integer in the sequence.
+
+## How to register my own `AppID`?
+
+1. You need to connect an Avail DA account to the website. Click on `Connect wallet` to do so.
+
+<Callout type="info">
+If you don't have an Avail DA wallet, you can follow our docs on [setting up a new wallet](/docs/end-user-guide/accounts#creating-an-account-on-avail-da).
+</Callout>
+
+2. Once connected, simply give your `AppID` a name, click on `Create AppID` and approve the transaction in your wallet to create the `AppID`.
+
+<br/>
+<div align="center">
+<img src="/img/app-id-new/app-id-new-2.png" align="center" /> 
+</div>
+
+## A few more things of note
+
+1. As stated earlier, the `key` and `id` fields of every `AppID` are unique. This means if you try to create an `AppID` with the same `key` as an existing one,
+the operation will fail.
+
+2. If you're a developer and are looking for more programmatic instructions, you can check out our [API reference](/api-reference/avail-node-api/da-create-application-key).

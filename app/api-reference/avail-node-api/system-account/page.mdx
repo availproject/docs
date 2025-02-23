@@ -1,0 +1,232 @@
+---
+title: Fetch balances and other information for an account
+description: Query the balances and many other informational points for an account on Avail DA
+---
+
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Fetch balances and other information for an account
+
+On-chain name of method: `system_account`
+
+## Parameters
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+|  address | SS58          | true     | The account  address to fetch information for         |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+|  address | SS58          | true     | The account  address to fetch information for         |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+|  address | SS58          | true     | The account  address to fetch information for         |
+</Tabs.Tab>
+
+</Tabs>
+
+## Returns
+
+- `nonce`: Current nonce of the account on Avail DA
+- `consumers`: The number of other modules that currently depend on this account's existence. The account cannot be reaped until this is zero
+- `providers`: The number of other modules that allow this account to exist. The account may not be reaped until this is zero.
+- `sufficients`: The number of modules that allow this account to exist for their own purposes only.  The account may not be reaped until this is zero.
+- `free`: Amount of Transferrable AVAIL tokens with the account
+- `reserved`: Amount of AVAIL tokens that are not bonded, but also not yet freely available
+- `frozen`: Amount of AVAIL tokens currently staked by the account
+- `flags`: Some extra information about the account
+
+<Callout type="info">
+**NONCE**<br/>
+- Every account on Avail DA starts with a nonce value of `0`. This number represents
+the number of transactions executed on Avail DA by that particular account.
+
+- Every successive transaction will have a nonce value that is incremented by `1` from the previous transaction.
+
+- To extend this a bit further, the sum of all non-zero nonces on Avail DA will be equal to the total number of transactions executed on Avail DA.
+</Callout>
+
+
+## Minimal example (Fetch account information for a single account)
+
+<Callout type="info">
+1. You will need to set up the dev environment required to run this example. 
+For instructions, [check out our docs here](/api-reference/avail-node-api#setting-up-the-dev-environment).
+
+2. If you're sending an extrinsic (i.e conducting a transaction) you will need to replace the demo seed phrase with your own seed phrase.
+The rest of the code should work as is.
+</Callout>
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript showLineNumbers filename="avail-js"
+import { SDK } from "avail-js-sdk"
+
+const main = async () => {
+  const providerEndpoint = "wss://turing-rpc.avail.so/ws"
+  const sdk = await SDK.New(providerEndpoint)
+
+  const key = "5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk"
+  const value = await sdk.api.query.system.account(key)
+  console.log(value.toHuman())
+
+  process.exit()
+}
+
+main()
+```
+
+2. Run the code using:
+
+```bash
+ts-node your-file-name.ts
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.rs`, add the following code:
+
+```rust showLineNumbers filename="avail-rust" showLineNumbers filename="avail-rust"
+use avail_rust::{avail, AccountId, SDK};
+use core::str::FromStr;
+ 
+#[tokio::main]
+async fn main() -> Result<(), String> {
+	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await.unwrap();
+ 
+	let account_id =
+		AccountId::from_str("5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk").unwrap(); // Alice_Stash
+ 
+	let storage_query = avail::storage().system().account(account_id);
+	let best_block_hash = sdk
+		.rpc
+		.chain
+		.get_block_hash(None)
+		.await
+		.map_err(|e| e.to_string())?;
+	let result = sdk
+		.api
+		.storage()
+		.at(best_block_hash)
+		.fetch(&storage_query)
+		.await
+		.map_err(|e| e.to_string())?;
+ 
+	dbg!(result);
+ 
+	Ok(())
+}
+```
+
+2. Run the code using:
+
+```bash
+cargo run
+```
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#] hover:!bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```json
+result = Some(
+    AccountInfo {
+        nonce: 26,
+        consumers: 2,
+        providers: 1,
+        sufficients: 0,
+        data: AccountData {
+            free: 3809329880703171553761,
+            reserved: 2100000000000000000,
+            frozen: 1008370553028965837506,
+            flags: ExtraFlags(
+                170141183460469231731687303715884105728,
+            ),
+        },
+    },
+)
+```
+</details>
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.go`, add the following code:
+
+```go showLineNumbers filename="avail-go"
+package main
+
+import (
+	"fmt"
+
+	"github.com/availproject/avail-go-sdk/src/sdk"
+	"github.com/centrifuge/go-substrate-rpc-client/v4/types"
+	"github.com/vedhavyas/go-subkey/v2"
+)
+
+// The following example shows how to connect to a node and display some basic information.
+func main() {
+	api, err := sdk.NewSDK("wss://turing-rpc.avail.so/ws")
+
+	if err != nil {
+		fmt.Printf("cannot create api:%v", err)
+	}
+
+	meta, err := api.RPC.State.GetMetadataLatest()
+	if err != nil {
+		panic(fmt.Sprintf("cannot get metadata:%v", err))
+	}
+
+	address := "5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk"
+	_, pubKey, err := subkey.SS58Decode(address)
+
+	if err != nil {
+		panic(fmt.Sprintf("Failed to decode SS58 address: %v", err))
+	}
+
+	key, err := types.CreateStorageKey(meta, "System", "Account", pubKey, nil)
+	if err != nil {
+		panic(fmt.Sprintf("cannot create storage key:%v", err))
+	}
+
+	var accountInfo types.AccountInfo
+	ok, err := api.RPC.State.GetStorageLatest(key, &accountInfo)
+	if err != nil || !ok {
+		panic(fmt.Sprintf("cannot get latest storage:%v", err))
+	}
+
+	fmt.Printf("Account address: %v\n", address)
+	fmt.Printf("Account info: %v\n", accountInfo)
+	fmt.Printf("Account balance: %v\n", accountInfo.Data.Free)
+}
+```
+
+2. Run the code using:
+
+```bash
+go run main.go
+```
+
+<Callout type="info">
+If you receive errors related to missing dependencies while trying to execute your code, run:
+```bash
+go mod tidy
+```
+and try again.
+</Callout>
+</Tabs.Tab>
+
+
+</Tabs>

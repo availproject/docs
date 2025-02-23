@@ -1,0 +1,61 @@
+---
+id: identity
+title: How to Set an On-Chain Identity
+sidebar_label: Set Your Identity
+description: 'Learn how to set an on-chain identity on the Avail Network.'
+keywords:
+  - docs
+  - avail
+  - explorer
+  - identity
+image: https://docs.availproject.org/img/avail/AvailDocs.png
+---
+
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# How to Set an On-Chain Identity
+
+## Introduction
+
+Users of Avail DA can register their identites on-chain in exchange for a small bond.
+<Callout type="info">
+The bond amount for registering an on-chain identity is currently 100 AVAIL on both Turing and mainnet.
+</Callout>
+This bond is refundable upon the clearance of the identity. \
+This guide will walk you through the process of setting an on-chain identity on the Avail network.
+
+## Set Your On-Chain Identity
+
+1. Go to the [accounts page of the Avail apps explorer](https://explorer.availproject.org/#/accounts).
+
+2. Select the account whoe identity you want to set and click on `Set on-chain identity`. 
+
+<br/>
+<div align="center">
+<img src="/img/set-identity/set-identity-1.png" align="center" /> 
+</div>
+
+3. Fill out at least 1 or at most all of the available fields.
+All the fields are optional as long as any one of them are filled.
+
+<br/>
+<div align="center">
+<img src="/img/set-identity/set-identity-2.png" align="center" /> 
+</div>
+
+4. Click on `Set Identity`. Make sure the `appID` is `0`, and click on `Sign and Submit`.
+> Tipping the block author is strictly optional by the way..... 😅
+
+<br/>
+<div align="center">
+<img src="/img/set-identity/set-identity-3.png" align="center" /> 
+</div>
+
+5. Click on `Sign and Submit` and approve the transaction.
+
+6. The account will now have a registered on-chain identity which you can clear to recover the bonded AVAIL tokens.
+
+<Callout type="info">
+1. This UI interface calls the `setIdentity` method from the `identity` pallet under the hood.
+2. Registering your identity on the Avail turing testnet does not set it for the mainnet, and vice versa.
+</Callout>
