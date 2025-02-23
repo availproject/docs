@@ -1,0 +1,191 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+<Callout type="info">
+`App Ids` are core to the dev experience on Avail DA, and we highly recommend you understand how they work before you start working with them.
+You can check out [our docs for the same](/docs/build-with-avail/interact-with-avail-da/app-id).
+</Callout>
+
+# Fetch the next available App ID on Avail DA
+
+On-chain name of method: `dataAvailability_nextAppId`
+
+<Callout type="info">
+`app_ids`, once registered, cannot be claimed by another dev.
+You can use this method to fetch the next available `app_id` for your awesome rollup :)
+</Callout>
+
+## Parameters
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+- None
+</Tabs.Tab>
+
+<Tabs.Tab>
+- None
+</Tabs.Tab>
+
+<Tabs.Tab>
+- None
+</Tabs.Tab>
+
+</Tabs>
+
+## Returns
+
+- `app_id`: The next available App ID
+
+## Minimal example (Fetch the next available `app_id`)
+
+<Callout type="info">
+1. You will need to set up the dev environment required to run this example. 
+For instructions, [check out our docs here](/api-reference/avail-node-api#setting-up-the-dev-environment).
+
+2. If you're sending an extrinsic (i.e conducting a transaction) you will need to replace the demo seed phrase with your own seed phrase.
+The rest of the code should work as is.
+</Callout>
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript showLineNumbers filename="avail-js"
+import { SDK } from "avail-js-sdk"
+
+const main = async () => {
+  const providerEndpoint = "wss://turing-rpc.avail.so/ws"
+  const sdk = await SDK.New(providerEndpoint)
+
+  const value = await sdk.api.query.dataAvailability.nextAppId()
+  console.log(value.toHuman())
+
+  process.exit()
+}
+
+main()
+```
+
+2. Run the code using:
+
+```bash
+ts-node your-file-name.ts
+```
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```json
+99
+```
+</details>
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.rs`, add the following code:
+
+```rust showLineNumbers filename="avail-rust" showLineNumbers filename="avail-rust"
+use avail_rust::prelude::*;
+
+pub async fn da_next_app_id() -> Result<(), ClientError> {
+
+    // Create a new SDK instance
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+    let block_hash = sdk.client.best_block_hash().await?;
+    let storage = sdk.client.storage().at(block_hash);
+    let address = avail::storage().data_availability().next_app_id();
+    let result = storage.fetch_or_default(&address).await?;
+
+    println!("Next available App ID is: {:?}", result);
+    Ok(())
+}
+
+// Add a main function to call da_next_app_id
+#[tokio::main]
+async fn main() {
+    if let Err(e) = da_next_app_id().await {
+        eprintln!("Error: {:?}", e);
+    }
+}
+```
+
+2. Run the code using:
+
+```bash
+cargo run
+```
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```json
+Some(
+    AppId(
+        99,
+    ),
+)
+```
+</details>
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.go`, add the following code:
+
+```go showLineNumbers filename="avail-go"
+package main
+
+import (
+	"fmt"
+	"log"
+
+	daPallet "github.com/availproject/avail-go-sdk/metadata/pallets/data_availability"
+	prim "github.com/availproject/avail-go-sdk/primitives"
+	SDK "github.com/availproject/avail-go-sdk/sdk"
+)
+
+func main() {
+	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
+	if err != nil {
+		log.Fatalf("Failed to initialize SDK: %v", err)
+	}
+
+	// Get the latest block hash
+	latestBlockHash, err := sdk.Client.BestBlockHash()
+	if err != nil {
+		log.Fatalf("Failed to get latest block hash: %v", err)
+	}
+
+	// Initialize the block storage
+	blockStorage, err := sdk.Client.StorageAt(prim.Some(latestBlockHash))
+	if err != nil {
+		log.Fatalf("Failed to get block storage: %v", err)
+	}
+
+	// Call the StorageNextAppId function
+	storage := daPallet.StorageNextAppId{}
+	nextAppId, err := storage.Fetch(&blockStorage)
+	if err != nil {
+		log.Fatalf("Failed to fetch next app ID: %v", err)
+	}
+
+	fmt.Printf("Next available App ID is: %v\n", nextAppId)
+}
+```
+
+2. Run the code using:
+
+```bash
+go run main.go
+``` 
+
+</Tabs.Tab>
+
+</Tabs>
+

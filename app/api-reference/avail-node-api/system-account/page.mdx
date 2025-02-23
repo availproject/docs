@@ -1,0 +1,243 @@
+---
+title: Fetch balances and other information for an account
+description: Query the balances and many other informational points for an account on Avail DA
+---
+
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Fetch balances and other information for an account
+
+On-chain name of method: `system_account`
+
+## Parameters
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+|  address | SS58          | true     | The account  address to fetch information for         |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+|  address | SS58          | true     | The account  address to fetch information for         |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+|  address | SS58          | true     | The account  address to fetch information for         |
+</Tabs.Tab>
+
+</Tabs>
+
+## Returns
+
+- `nonce`: Current nonce of the account on Avail DA
+- `consumers`: The number of other modules that currently depend on this account's existence. The account cannot be reaped until this is zero
+- `providers`: The number of other modules that allow this account to exist. The account may not be reaped until this is zero.
+- `sufficients`: The number of modules that allow this account to exist for their own purposes only.  The account may not be reaped until this is zero.
+- `free`: Amount of Transferrable AVAIL tokens with the account
+- `reserved`: Amount of AVAIL tokens that are not bonded, but also not yet freely available
+- `frozen`: Amount of AVAIL tokens currently staked by the account
+- `flags`: Some extra information about the account
+
+<Callout type="info">
+**NONCE**<br/>
+- Every account on Avail DA starts with a nonce value of `0`. This number represents
+the number of transactions executed on Avail DA by that particular account.
+
+- Every successive transaction will have a nonce value that is incremented by `1` from the previous transaction.
+
+- To extend this a bit further, the sum of all non-zero nonces on Avail DA will be equal to the total number of transactions executed on Avail DA.
+</Callout>
+
+
+## Minimal example (Fetch account information for a single account)
+
+<Callout type="info">
+1. You will need to set up the dev environment required to run this example. 
+For instructions, [check out our docs here](/api-reference/avail-node-api#setting-up-the-dev-environment).
+
+2. If you're sending an extrinsic (i.e conducting a transaction) you will need to replace the demo seed phrase with your own seed phrase.
+The rest of the code should work as is.
+</Callout>
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript showLineNumbers filename="avail-js"
+import { SDK } from "avail-js-sdk"
+
+const main = async () => {
+  const providerEndpoint = "wss://turing-rpc.avail.so/ws"
+  const sdk = await SDK.New(providerEndpoint)
+
+  const key = "5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk"
+  const value = await sdk.api.query.system.account(key)
+  console.log(value.toHuman())
+
+  process.exit()
+}
+
+main()
+```
+
+2. Run the code using:
+
+```bash
+ts-node your-file-name.ts
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.rs`, add the following code:
+
+```rust showLineNumbers filename="avail-rust" showLineNumbers filename="avail-rust"
+use avail_rust::prelude::*;
+use core::str::FromStr;
+
+pub async fn system_account() -> Result<(), ClientError> {
+
+    // Create a new SDK instance
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+    let account_id = AccountId::from_str("5CqgQkrDcdg5QrtuxT3H7WszrqgrBMhdwRbmMVXQzc4VSiEg").unwrap();
+
+    let block_hash = sdk.client.best_block_hash().await?;
+    let storage = sdk.client.storage().at(block_hash);
+    let address = avail::storage().system().account(account_id);
+    let result = storage.fetch(&address).await?;
+
+    if let Some(account) = result {
+        println!("Consumers: {}", account.consumers);
+        println!("Data: {:?}", account.data);
+        println!("Nonce: {}", account.nonce);
+        println!("Providers: {}", account.providers);
+        println!("Sufficients: {}", account.sufficients);
+    }
+
+    Ok(())
+}
+
+// Add a main function to call system_account
+#[tokio::main]
+async fn main() {
+    if let Err(e) = system_account().await {
+        eprintln!("Error: {:?}", e);
+    }
+}
+```
+
+2. Run the code using:
+
+```bash
+cargo run
+```
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```json
+result = Some(
+    AccountInfo {
+        nonce: 26,
+        consumers: 2,
+        providers: 1,
+        sufficients: 0,
+        data: AccountData {
+            free: 3809329880703171553761,
+            reserved: 2100000000000000000,
+            frozen: 1008370553028965837506,
+            flags: ExtraFlags(
+                170141183460469231731687303715884105728,
+            ),
+        },
+    },
+)
+```
+</details>
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.go`, add the following code:
+
+```go showLineNumbers filename="avail-go"
+package main
+
+import (
+	"fmt"
+	"log"
+
+	prim "github.com/availproject/avail-go-sdk/primitives"
+	"github.com/availproject/avail-go-sdk/sdk"
+
+	syPallet "github.com/availproject/avail-go-sdk/metadata/pallets/system"
+	"github.com/availproject/avail-go-sdk/primitives"
+)
+
+func main() {
+
+	// Initialize the SDK
+	sdk, err := sdk.NewSDK("https://turing-rpc.avail.so/rpc")
+	if err != nil {
+		log.Fatalf("Failed to initialize SDK: %v", err)
+	}
+
+	// Get the latest block hash
+	latestBlockHash, err := sdk.Client.BestBlockHash()
+	if err != nil {
+		log.Fatalf("Failed to get latest block hash: %v", err)
+	}
+
+	// Initialize the block storage
+	blockStorage, err := sdk.Client.StorageAt(prim.Some(latestBlockHash))
+	if err != nil {
+		log.Fatalf("Failed to get block storage: %v", err)
+	}
+
+	// Create the account ID
+	accountId, err := primitives.NewAccountIdFromAddress("5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk")
+	if err != nil {
+		log.Fatalf("Failed to convert address: %v", err)
+	}
+
+	// Fetch the account data
+	storage := syPallet.StorageAccount{}
+	val, err := storage.Fetch(&blockStorage, accountId)
+	if err != nil {
+		log.Fatalf("Failed to fetch account: %v", err)
+	}
+
+	// Log the account data
+	fmt.Println("Free Balance: ", val.Value.AccountData.Free.ToHuman())
+	fmt.Println("Reserved Balance: ", val.Value.AccountData.Reserved.ToHuman())
+	fmt.Println("Frozen Balance: ", val.Value.AccountData.Frozen.ToHuman())
+
+}
+```
+
+2. Run the code using:
+
+```bash
+go run main.go
+```
+
+<Callout type="info">
+If you receive errors related to missing dependencies while trying to execute your code, run:
+```bash
+go mod tidy
+```
+and try again.
+</Callout>
+</Tabs.Tab>
+
+
+</Tabs>

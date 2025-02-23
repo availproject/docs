@@ -1,0 +1,216 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Query balances on Avail DA
+
+## Setting up the dev environment
+
+In this guide we will use Avail's dedicated SDKs to interact with the [Turing testnet](/docs/networks).
+To set up a dev environment for the SDK of your choice, please follow the steps [outlined here](/api-reference/avail-node-api#setting-up-the-dev-environment).
+
+## Querying the balance of an account
+
+To query basic information about an account, including it's balance, you need to call the `system_account` extrinsic from the `system` pallet on an Avail node.
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go', 'AvailApps explorer']}>
+
+<Tabs.Tab>
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript showLineNumbers filename="avail-js"
+import { SDK } from "avail-js-sdk"
+
+const main = async () => {
+  const providerEndpoint = "wss://turing-rpc.avail.so/ws"
+  const sdk = await SDK.New(providerEndpoint)
+
+  const key = "5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk"
+  const value: any = await sdk.api.query.system.account(key)
+
+  console.log(value.toHuman())
+  const freeBalanceInAvail = Number(value.data.free.toString()) / Math.pow(10, 18)
+  console.log(`Free balance: ${freeBalanceInAvail} AVAIL`)
+
+  process.exit()
+}
+
+main()
+```
+
+2. Run the code using:
+
+```bash
+ts-node your-file-name.ts
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+1. Inside `main.rs`, add the following code:
+
+```rust showLineNumbers filename="avail-rust"
+
+use avail_rust::prelude::*;
+use core::str::FromStr;
+
+pub async fn system_account() -> Result<(), ClientError> {
+
+    // Create a new SDK instance
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+
+    let account_id = AccountId::from_str("5CqgQkrDcdg5QrtuxT3H7WszrqgrBMhdwRbmMVXQzc4VSiEg").unwrap();
+
+    let block_hash = sdk.client.best_block_hash().await?;
+    let storage = sdk.client.storage().at(block_hash);
+    let address = avail::storage().system().account(account_id);
+    let result = storage.fetch(&address).await?;
+
+    if let Some(account) = result {
+        println!("Consumers: {}", account.consumers);
+        println!("Data: {:?}", account.data);
+        println!("Nonce: {}", account.nonce);
+        println!("Providers: {}", account.providers);
+        println!("Sufficients: {}", account.sufficients);
+    }
+
+    Ok(())
+}
+
+// Add a main function to call system_account
+#[tokio::main]
+async fn main() {
+    if let Err(e) = system_account().await {
+        eprintln!("Error: {:?}", e);
+    }
+}
+```
+
+2. Run the code using:
+
+```bash
+cargo run
+```
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+1. Inside `main.go`, add the following code:
+
+```go showLineNumbers filename="avail-go"
+package main
+
+import (
+	"fmt"
+	"log"
+
+	prim "github.com/availproject/avail-go-sdk/primitives"
+	"github.com/availproject/avail-go-sdk/sdk"
+
+	syPallet "github.com/availproject/avail-go-sdk/metadata/pallets/system"
+	"github.com/availproject/avail-go-sdk/primitives"
+)
+
+func main() {
+
+	// Initialize the SDK
+	sdk, err := sdk.NewSDK("https://turing-rpc.avail.so/rpc")
+	if err != nil {
+		log.Fatalf("Failed to initialize SDK: %v", err)
+	}
+
+	// Get the latest block hash
+	latestBlockHash, err := sdk.Client.BestBlockHash()
+	if err != nil {
+		log.Fatalf("Failed to get latest block hash: %v", err)
+	}
+
+	// Initialize the block storage
+	blockStorage, err := sdk.Client.StorageAt(prim.Some(latestBlockHash))
+	if err != nil {
+		log.Fatalf("Failed to get block storage: %v", err)
+	}
+
+	// Create the account ID
+	accountId, err := primitives.NewAccountIdFromAddress("5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk")
+	if err != nil {
+		log.Fatalf("Failed to convert address: %v", err)
+	}
+
+	// Fetch the account data
+	storage := syPallet.StorageAccount{}
+	val, err := storage.Fetch(&blockStorage, accountId)
+	if err != nil {
+		log.Fatalf("Failed to fetch account: %v", err)
+	}
+
+	// Log the account data
+	fmt.Println("Free Balance: ", val.Value.AccountData.Free.ToHuman())
+	fmt.Println("Reserved Balance: ", val.Value.AccountData.Reserved.ToHuman())
+	fmt.Println("Frozen Balance: ", val.Value.AccountData.Frozen.ToHuman())
+
+}
+```
+
+2. Run the code using:
+
+```bash
+go run main.go
+```
+
+<Callout type="info">
+If you receive errors related to missing dependencies while trying to execute your code, run:
+```bash
+go mod tidy
+```
+and try again.
+</Callout>
+</Tabs.Tab>
+
+<Tabs.Tab>
+The following instructions will guide you on how to query the balance of an account using the AvailApps explorer:
+
+1. Go to the [`chains state` page](https://explorer.avail.so/#/chainstate) on the AvailApps explorer.
+
+2. The balance of an account can be queried by calling the `account(AccountId32)` method from within the `system` pallet. Select the `system`
+pallet from the dropdown on the left, and the `account(AccountId32)` method from the dropdown on the right.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-7.png" align="center" />
+</div>
+
+3. Either paste the address of an account in the `AccountId32` field or select an explorer-connected account from the dropdown.
+
+4. Leave the `blockhash` field empty (This will query the latest balance of the account), and click on the `+` button near the top-right.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-8.png" align="center" />
+</div>
+
+5. And that's it. You just used the `AvailApps` explorer to query the balance of an account on the Avail network. You can query other methods in a similar way.
+
+</Tabs.Tab>
+
+</Tabs>
+
+Your response should look something like this:
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```
+{
+  nonce: '109',
+  consumers: '2',
+  providers: '1',
+  sufficients: '0',
+  data: {
+    free: '1,000,000,000,000',
+    reserved: '100,000,300,000,000,000,000',
+    frozen: '100,000,000,000,000,000,000',
+    flags: '170,141,183,460,469,231,731,687,303,715,884,105,728'
+  }
+}
+Free balance: 28.3046577073 AVAIL
+```
+</details>

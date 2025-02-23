@@ -1,0 +1,273 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+ 
+# Nominate validator(s) for your nomination pool
+
+On-chain name of method: `nominationPools_nominate`
+
+## Parameters
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+| parameter  | type          | optional | description                                     |
+| ---------- | ------------- | -------- | ----------------------------------------------- |
+| poolId     | number        | false    | pool id                                         |
+| validators | string[]      | false    | list of validators to nominate                  |
+| waitFor    | WaitFor       | false    | wait for block inclusion or finalization        |
+| account    | KeyringPair   | false    | account that will send and sign the transaction |
+| options    | SignerOptions | true     | used to overwrite existing signer options       |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type        | optional | description                                     |
+| --------- | ----------- | -------- | ----------------------------------------------- |
+| targets   | &[String]   | false    | list of validator addresses to nominate                   |
+| waitFor   | WaitFor     | false    | wait for block inclusion or finalization        |
+| account   | KeyringPair | false    | account that will send and sign the transaction |
+| options   | Options     | true     | transaction parameters                          |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type        | optional | description                                     |
+| --------- | ----------- | -------- | ----------------------------------------------- |
+| targets   | &[String]   | false    | list of validator addresses to nominate                   |
+| waitFor   | WaitFor     | false    | wait for block inclusion or finalization        |
+| account   | KeyringPair | false    | account that will send and sign the transaction |
+| options   | Options     | true     | transaction parameters                          |
+</Tabs.Tab>
+
+</Tabs>
+
+## Returns
+
+On failure, a reason for the failure is returned. On success, the function will return a object of type `NominateTxSuccess`.
+This object contains the details of the transaction and the nomination pool.
+
+## Minimal example
+
+<Callout type="info">
+1. You will need to set up the dev environment required to run this example. 
+For instructions, [check out our docs here](/api-reference/avail-node-api#setting-up-the-dev-environment).
+
+2. If you're sending an extrinsic (i.e conducting a transaction) you will need to replace the demo seed phrase with your own seed phrase.
+The rest of the code should work as is.
+</Callout>
+
+<Tabs items={['avail-js', 'avail-rust']}>
+
+<Tabs.Tab>
+1. Inside `your-file-name.ts`, add the following code:
+
+```javascript showLineNumbers filename="avail-js"
+import { SDK, WaitFor, Keyring } from "avail-js-sdk"
+
+const main = async () => {
+  const providerEndpoint = "wss://turing-rpc.avail.so/ws";
+  const sdk = await SDK.New(providerEndpoint);
+ 
+  const Alice = 'This is a random seed phrase please replace with your own'; 
+  const account = new Keyring({ type: "sr25519" }).addFromUri(Alice);
+  const validators: string[] = [
+    "5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY",
+    "5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy",
+  ]
+  const poolId = 1
+
+  const result = await sdk.tx.nominationPools.nominate(poolId, validators, WaitFor.BlockInclusion, account)
+  if (result.isErr) {
+    console.log(result.reason)
+    process.exit(1)
+  }
+
+  console.log(JSON.stringify(result, null, 4))
+  process.exit()
+}
+main()
+```
+
+2. Run the code using:
+
+```bash
+ts-node your-file-name.ts
+```
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```js
+{
+    "isErr": false,
+    "events": [...],
+    "txHash": "0x98b993baf90183d85dece9357d3bc32311f4201b015b63845a13dbc22bf22370",
+    "txIndex": 1,
+    "blockHash": "0x84ef5a0ada4af71358ee701a2500bce7f6688efb554c32ba1a30c459f64d5370",
+    "blockNumber": 48
+}
+```
+</details>
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.rs`, add the following code:
+
+```rust showLineNumbers filename="avail-rust" showLineNumbers filename="avail-rust"
+use dotenvy::dotenv;
+use std::env;
+use avail_rust::prelude::*;
+use core::str::FromStr;
+
+pub async fn nomination_pools_nominate() -> Result<(), ClientError> {
+
+    // Create a new SDK instance
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+    // Loading seed phrase and creating an account derived from the seed
+    dotenv().ok();
+    let seed = env::var("SEED").expect("SEED environment variable is not set");
+    let account = account::from_secret_uri(&seed)?;
+
+    //Setting the pool id and the validators to nominate
+    let pool_id = 1; // Use your pool id here
+
+    //Setting an array of validators to nominate
+    let validators = [
+        AccountId::from_str("5DqMavSQikX9eMzwHKiC8xS6VWB2yCd5gGQuQq7KheM2Mgc7").expect("Invalid account ID"),
+        AccountId::from_str("5FphMk7DhSdq7jXsQCVQthw7XTiCWxdA9ZS6V43rKeJzvya9").expect("Invalid account ID"),
+    ];
+
+    //Executing the transaction
+    let tx = sdk.tx.nomination_pools.nominate(pool_id, validators.to_vec());
+    let res = tx.execute_and_watch_inclusion(&account, Options::new()).await?;
+    assert_eq!(res.is_successful(), Some(true));
+
+    Ok(())
+}
+
+#[tokio::main]
+async fn main() {
+    if let Err(e) = nomination_pools_nominate().await {
+        eprintln!("Error: {:?}", e);
+    }
+}
+```
+
+2. Run the code using:
+
+```bash
+cargo run
+```
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```rust showLineNumbers filename="avail-rust"
+NominateTxSuccess {
+    events: ExtrinsicEvents {
+        ext_hash: 0x6e0ae6fde353974f8b46aace441c49ba7ab135fa3743e0e1331d35c4528dacfb,
+        idx: 1,
+        events: Events {
+            event_bytes: [...],
+            start_idx: 1,
+            num_events: 8,
+        },
+    },
+    tx_data: Nominate {
+        targets: [
+            Id(AccountId32(...)),
+            Id(AccountId32(...)),
+        ],
+    },
+    tx_hash: 0x6e0ae6fde353974f8b46aace441c49ba7ab135fa3743e0e1331d35c4528dacfb,
+    tx_index: 1,
+    block_hash: 0xd9b3c0e77d6b376b3963055f65156e30c63b4ecc54d6c113ecb431b9cf877bb8,
+    block_number: 28,
+}
+```
+</details>
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.go`, add the following code:
+
+```go showLineNumbers filename="avail-go"
+package main
+
+import (
+	"fmt"
+	"log"
+	"os"
+
+	"github.com/availproject/avail-go-sdk/primitives"
+	SDK "github.com/availproject/avail-go-sdk/sdk"
+	"github.com/joho/godotenv"
+)
+
+func main() {
+	// Load environment variables from .env file
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	// Make sure the SEED environment variable is set
+	seed := os.Getenv("SEED")
+	if seed == "" {
+		log.Fatal("SEED environment variable is not set")
+	}
+
+	// Create an account from the SEED environment variable
+	acc, err := SDK.Account.NewKeyPair(seed)
+	if err != nil {
+		log.Fatalf("Failed to create account: %v", err)
+	}
+	fmt.Println("Your account Address: " + acc.SS58Address(42))
+
+	// Initialize an SDK instance
+	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
+	if err != nil {
+		log.Fatalf("Failed to initialize SDK: %v", err)
+	}
+
+	// Set the pool ID and validators
+	poolId := uint32(1)
+	validator1, err := primitives.NewAccountIdFromAddress("5DqMavSQikX9eMzwHKiC8xS6VWB2yCd5gGQuQq7KheM2Mgc7")
+	if err != nil {
+		log.Fatalf("Failed to convert validator1 address: %v", err)
+	}
+	validator2, err := primitives.NewAccountIdFromAddress("5FphMk7DhSdq7jXsQCVQthw7XTiCWxdA9ZS6V43rKeJzvya9")
+	if err != nil {
+		log.Fatalf("Failed to convert validator2 address: %v", err)
+	}
+	validators := []primitives.AccountId{validator1, validator2}
+
+	// Create the nominate transaction
+	tx := sdk.Tx.NominationPools.Nominate(poolId, validators)
+
+	// Execute the transaction
+	res, err := tx.ExecuteAndWatchInclusion(acc, SDK.NewTransactionOptions())
+	if err != nil {
+		log.Fatalf("Transaction failed: %v", err)
+	}
+
+	// Check if the transaction was successful
+	if !res.IsSuccessful().UnsafeUnwrap() {
+		log.Fatal("Transaction was not successful")
+	}
+
+	fmt.Println("Nominate transaction successful")
+	fmt.Printf("Block Hash: %v, Block Number: %v, Tx Hash: %v, Tx Index: %v\n", res.BlockHash.ToHexWith0x(), res.BlockNumber, res.TxHash.ToHexWith0x(), res.TxIndex)
+}
+```
+
+2. Run the code using:
+
+```bash
+go run main.go
+```
+
+</Tabs.Tab>
+
+
+</Tabs>

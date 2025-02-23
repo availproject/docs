@@ -1,0 +1,176 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Fetch information on the active era
+
+On-chain name of method: `staking_activeEra`
+
+## Parameters
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+- None
+</Tabs.Tab>
+
+<Tabs.Tab>
+- None
+</Tabs.Tab>
+
+<Tabs.Tab>
+- None
+</Tabs.Tab>
+
+</Tabs>
+
+## Returns
+
+- `index`: The index of the active era
+- `start`: The timestamp when the active era started
+
+## Minimal example (Fetch the active era)
+
+<Callout type="info">
+1. You will need to set up the dev environment required to run this example. 
+For instructions, [check out our docs here](/api-reference/avail-node-api#setting-up-the-dev-environment).
+
+2. If you're sending an extrinsic (i.e conducting a transaction) you will need to replace the demo seed phrase with your own seed phrase.
+The rest of the code should work as is.
+</Callout>
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript showLineNumbers filename="avail-js"
+import { SDK } from "avail-js-sdk"
+
+const main = async () => {
+  const providerEndpoint = "wss://turing-rpc.avail.so/ws"
+  const sdk = await SDK.New(providerEndpoint)
+
+  const value = await sdk.api.query.staking.activeEra()
+  console.log(value.toHuman())
+
+  process.exit()
+}
+
+main()
+```
+
+2. Run the code using:
+
+```bash
+ts-node your-file-name.ts
+```
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.rs`, add the following code:
+
+```rust showLineNumbers filename="avail-rust" showLineNumbers filename="avail-rust"
+use avail_rust::prelude::*;
+
+pub async fn staking_active_era() -> Result<(), ClientError> {
+
+    // Create a new SDK instance
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+    let block_hash = sdk.client.best_block_hash().await?;
+    let storage = sdk.client.storage().at(block_hash);
+    let address = avail::storage().staking().active_era();
+    let result = storage.fetch(&address).await?;
+
+    dbg!(result);
+
+    Ok(())
+}
+
+#[tokio::main]
+async fn main() {
+    if let Err(e) = staking_active_era().await {
+        eprintln!("Error: {:?}", e);
+    }
+}
+```
+
+2. Run the code using:
+
+```bash
+cargo run
+```
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```json
+result = Some(
+    ActiveEraInfo {
+        index: 174,
+        start: Some(
+            1726523440000,
+        ),
+    },
+)
+```
+</details>
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.go`, add the following code:
+
+```go showLineNumbers filename="avail-go"
+package main
+
+import (
+	"fmt"
+	"log"
+
+	staPallet "github.com/availproject/avail-go-sdk/metadata/pallets/staking"
+	prim "github.com/availproject/avail-go-sdk/primitives"
+	SDK "github.com/availproject/avail-go-sdk/sdk"
+)
+
+func main() {
+	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
+	if err != nil {
+		log.Fatalf("Failed to initialize SDK: %v", err)
+	}
+
+	// Get the latest block hash
+	latestBlockHash, err := sdk.Client.BestBlockHash()
+	if err != nil {
+		log.Fatalf("Failed to get latest block hash: %v", err)
+	}
+
+	// Initialize the block storage
+	blockStorage, err := sdk.Client.StorageAt(prim.Some(latestBlockHash))
+	if err != nil {
+		log.Fatalf("Failed to get block storage: %v", err)
+	}
+
+	// Fetch the active era
+	{
+		storage := staPallet.StorageActiveEra{}
+		val, err := storage.Fetch(&blockStorage)
+		if err != nil {
+			log.Fatalf("Failed to fetch active era: %v", err)
+		}
+
+		fmt.Println("Active Era: ", val.Unwrap())
+	}
+}
+```
+
+2. Run the code using:
+
+```bash
+go run main.go
+```
+
+</Tabs.Tab>
+</Tabs>
