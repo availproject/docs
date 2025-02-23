@@ -1,0 +1,46 @@
+import { Cards, Card } from 'nextra/components'
+import { FileIcon, LinkIcon } from '@components/icons'
+
+# OP Stack
+
+## What is the OP Stack?
+
+The OP Stack is the standardized, shared, and open-source development stack that powers Optimism, maintained by the Optimism Collective.
+
+The OP Stack is the set of software that powers Optimism — currently in the form of the software behind OP Mainnet and eventually in the form of the Optimism Superchain and its governance. The OP Stack is primarily focused around the creation of a shared, high-quality, and fully open-source system for creating new L2 blockchains.
+
+Learn more about the [OP Stack here](https://docs.optimism.io/stack/getting-started).
+
+## What is Avail DA? 
+
+Avail is the permisionless unification layer for web3. Avail is designed to be a platform that connects different ecosystems by providing a modular, scalable, and interoperable platform.
+Avail's vision is to provide a cohesive, unified user experience within a flexible and modular blockchain ecosystem, drawing on lessons from Web2 to innovate in Web3. 
+
+With Avail's foundational DA layer ([Avail DA](/docs/introduction-to-avail/avail-da)), different ecosystems can innovate on top freely, while leveraging Nexus for cross-ecosystem messaging. 
+
+Learn more about [Avail here](/docs/introduction-to-avail).
+
+## How does OP Stack work with Avail?
+
+The OP stack has become a popular choice for communities and companies looking to build their own L2 rollups. t’s used by OP Mainnet and is maintained by the Optimism Collective. It’s also a stack which developers have begun to extend and modify. One such modification is using a purpose-built data availability layer like Avail. 
+
+The default DA layer supported by the OP stack is Ethereum. L2 transactions get submitted to the sequencer which is responsible for ordering transactions and creating L2 blocks. Batches of transactions are sent by the sequencer to Ethereum which submits transaction data as calldata. 
+
+The Avail team built the Avail's OP Stack integrations which is allows L2s that are built using the integration to send transaction data to Avail instead of Ethereum, lowering transaction fees by up to 90%. 
+
+Transactions are submitted to the sequencer node in the Avail OP Stack. The op-batcher then submits a transaction batch to a module called op-avail that has been added to submit data to Avail. 
+
+The transaction data is then added to the Avail blockchain and a transaction reference is returned to op-avail which is passed to the op-batcher and submitted to Ethereum as calldata/blobs. The transaction reference posted on Ethereum contains the Avail block hash, sender’s address and nonce of the extrinsic. 
+<br></br>
+
+<img src="/img/op-stack-avail.jpeg" width="100%" height="100%" />
+
+Chains built with the Avail OP Stack inherit the security guarantees of Avail’s nominated proof-of-stake blockchain network.
+
+Get started with building your Avail-powered OP Stack chain today. 
+
+<Cards>
+  <Card icon={<FileIcon />} title="Transaction Lifecycle" href="/docs/build-with-avail/Optimium/op-stack/overview" />
+  <Card icon={<FileIcon />} title="Avail-Powered Optimium (OP Stack)" href="/docs/build-with-avail/Optimium/op-stack/op-stack" />
+  <Card icon={<LinkIcon />} title="OP Stack Adapter" href="https://github.com/availproject/avail-op-stack-adapter" />
+</Cards>

@@ -1,0 +1,113 @@
+# Nexus Architecture
+
+1. **The Nexus STF** - The Nexus Runtime maintains the order against which validity proofs are to be provided, verifies validity proofs to update state roots of all participants. The execution of this runtime is itself proven to provide validity proofs. Currently we are experimenting with both SP1 and Risc0. 
+2. **Sequencer/Orchestrator (The Nexus node)** - The orchestrator is responsible for running in conjunction with Avail, manage proof aggregations for each block, and manage nexus runtime transition and proof generation for each block. 
+3. **Light clients** - Light clients perform DA sampling and keep track of the correct order of Avail. Additionally, they work as light clients for all rollups and chains participating, by verifying nexus proof.
+4. **Adapters** - Adapters are specialized components that allow external rollups to interact with Nexus. They serve as light client (LC) verifiers, running in a zero-knowledge (ZK) environment.
+
+## Nexus Runtime
+
+The Nexus runtime is responsible for verifying state updates of all participants, ensuring that the updates are done as per the order agreed upon by AvailDA consensus. They create a succinct validity proof of having done this, which allows anyone to verify the correctness of the entire ecosystem at a certain height of AvailDA. 
+
+### Nexus STF
+
+The nexus essentially has a very simple state transition function. There are 2 types of transactions. 
+
+1. `Init`: This transaction is to simply register initiate an app account and register its statements, against which state verification is performed.
+2. `StateUpdate`: This is the transaction where the rollups provide the `header hash` until which they have a state root. The proof of this `header hash` having been `previous header hash + 1`, and leading to current `header hash`. On this being a validity rollup, the zk proof for this state update is checked, for optimistic it is updated. 
+
+### State Structure
+
+Nexus state is key ↔ value map defined over rollup accounts where latest state roots of the rollups, and their STF commitments are stored. Key of a rollup account is a `keccak256` hash over the `appID` a rollup intends to use on AvailDA. Nexus uses Jellyfish merkle tree to commit to the state, so non inclusion of a key can be proven.
+
+The rollup account struct is: 
+
+```rust
+{
+    pub statement: StatementDigest,
+    pub state_root: [u8; 32],
+    pub start_nexus_hash: [u8; 32],
+    pub last_proof_height: u64
+}
+```
+
+1. `statement` stores a commitment against which validity proofs are provided. The statement intrinsically commits to the STF of the rollup.  
+2. `state_root` stores the latest state root proven to be correct through validity proof submitted to nexus. 
+3. `start_nexus_hash` stores the nexus height at which the rollup started with its genesis state. This important, as whenever a new validity proof is submitted, the runtime needs to check if the proof is against genesis state being at this height.
+4. `last_proof_height` stores the height against which, the last validity proof was provided. This is important to check when a new proof is submitted, that it is not reverting a previous update.
+
+### Transactions / STF
+
+Transactions are not sent to Nexus but to the Nexus AppID on AvailDA. Nexus is a based rollup. *(Currently in devnet this is not yet implemented)*
+
+There are only two type of transactions that Nexus accepts in devnet. 
+
+1. **Init:** The init transaction initiates the state at app_key to the following if the state is not already initiated. 
+    
+    
+    ```rust
+    InitTxParams {
+        pub statement: StatementDigest(abc),
+        pub app_key: [0,0,0,0,0,0,0,1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,,2,3,4,5,6,7],
+        pub start_nexus_hash: [1,2,3,4......3,2,1],
+    }
+    
+    RollupState {
+        pub statement: StatementDigest(abc),
+        pub state_root: [0,0,0,0......0,0,0],
+        pub start_nexus_hash: [1,2,3,4......3,2,1],
+        pub last_proof_height: 0
+    }
+    ```
+    
+
+1. **StateUpdate:** StateUpdate transaction modifies the state at app_key after the following checks on nexus. 
+    1. nexus_height > last_proof_height. 
+    2. nexus_hash is a part of last 20 stored headers, and nexus_height corresponds to the hash. 
+    3. Check if V(proof, nexus_hash, start_nexus_hash, state_root, statement, app_key) == true. 
+    
+    On successful checks, it leads to the following state update at app_key
+    
+    ```rust
+    StateUpdateTxParams {
+        pub proof: Risc0Proof | SP1Proof,
+        pub app_key: [0,0,0,0,0,0,0,1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,,2,3,4,5,6,7],
+        pub nexus_height: 100,
+        pub nexus_hash: [7,8,9,10......3,2,1],
+        pub state_root: [1,2,3,4......1,2,3]
+    }
+    
+    RollupState {
+        pub statement: StatementDigest(abc),
+        pub state_root: [1,2,3,4......1,2,3],
+        pub start_nexus_hash: [1,2,3,4......3,2,1],
+        pub last_proof_height: 100
+    }
+    ```
+    
+### Nexus Blocks
+    
+    - Nexus generates a block for each Avail header. This allows the rollups to provide DA and ordering guarantees based on their Adapter construction.
+    - At each block, nexus decodes the data on nexus’s AppID for that block, and processes those txs, on successful decoding.
+    - A block header looks like this:
+        
+        ```rust
+        NexusHeader {
+            pub state_root: [1,2,3,4......3,2,1],
+            pub parent_hash: [1,2,3,4......3,2,1],
+            pub avail_hash: [1,2,3,4......3,2,1]
+        }
+        ```
+
+## Rollups interaction
+
+- Rollups aim to update their latest state roots on Nexus, so all stakeholders can read it.
+- Rollups can update their state root at any interval, and nexus does not enforce any minimum requirements.
+- Rollups update their state root with the `StateUpdateTx` transaction, with their validity proof constructed in a form such that the public input apart from the verification key itself is in the following form. 
+`PublicInput{ nexus_hash: [u8; 32], start_nexus_hash: [u8; 32], state_root: [u8; 32], app_key: [u8; 32] }`
+- The `statement ([u8; 32])` stored in the rollup account is synonymous to verification key of the proof. And Nexus uses only this `statement` for verifying the proofs of the rollup, this cannot be changed at any point. For rollups intending to update their `statement`, they have to create a new account.
+- Rollups can use the adapters to create proofs of this form.
+- Adapters can be used as side car services, or can be embedded within their rollup architecture.
+- The definition of the adapter, determines what guarantees are provided on each state update.
+
+     

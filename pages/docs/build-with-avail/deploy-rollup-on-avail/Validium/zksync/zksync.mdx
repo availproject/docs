@@ -1,0 +1,276 @@
+---
+id: zksync
+title: Deploy a ZK Stack Validium with Avail DA
+sidebar_label: Deploy a ZK Stack Validium with Avail DA
+description: 'Discover how to utilize Avail as a data availability layer.'
+keywords:
+  - documentation
+  - avail
+  - develop
+  - build
+  - data availability
+  - da
+  - zksync
+  - zkstack
+  - validium
+image: https://docs.availproject.org/img/avail/AvailDocs.png
+---
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+import { SyncedTabsProvider, SyncedTabs } from '@components/SyncedTabs'
+
+# Deploy a ZK Stack Validium with Avail DA
+
+## Introduction
+
+In this guide, we will deploy a ZK Stack validium powered by Avail DA for secure, cost-efficient, and verifiable data availability. By following along, at the end of this guide, you will have a version of a ZK Stack chain running on your machine on `localhost`.
+
+- [Learn more about the ZK Stack](https://docs.zksync.io/zk-stack)
+
+In this guide, you will go over the following:
+
+- [Setting up your developer environment](#setting-up-your-developer-environment)
+- [Installing & running the ZK Stack](#installing--running-the-zk-stack)
+
+
+## Setting up your developer environment
+
+Ensure you have installed the following prerequisites.
+
+<br/>
+
+| Software                                                                              | Version            |
+| ------------------------------------------------------                                | ------------------ |
+| [**Node.js**](https://nodejs.org/en/)                                                 | Latest LTS Version |
+| [**Git**](https://git-scm.com/)                                                       | OS Default         |
+| [**Docker**](https://www.docker.com/)                                                 | Latest             |
+| [**Docker Compose**](https://docs.docker.com/compose/)                                | Latest             |
+| [**Yarn**](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable)           | v1.22.19           |
+| [**cargo-nextest**](https://nexte.st/)                                                | Latest             |
+| [**sqlx-cli**](https://crates.io/crates/sqlx-cli)                                     | Latest             |
+| [**Foundry**](https://github.com/foundry-rs/foundry)                                  | Latest             |
+| [**Postgres**](https://www.postgresql.org/download/)                                  | Latest             |
+
+
+
+
+After executing the following commands you will have installed all the prerequisites needed and also have cloned the `zksync-era` repository.
+
+Installation commands are based on **Ubuntu 20.04 LTS**:
+> The below installation commands are taken from [setup-dev.md](https://matter-labs.github.io/zksync-era/core/latest/guides/setup-dev.html) from the `zksync-era` repository. For any more troubleshooting, please refer to the original repository.
+
+```bash
+# For VMs only! They don't have SSH keys, so we override SSH with HTTPS
+git config --global url."https://github.com/".insteadOf git@github.com:
+git config --global url."https://".insteadOf git://
+
+# Rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# NVM
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+
+# All necessary stuff
+sudo apt-get update
+sudo apt-get install -y build-essential pkg-config cmake clang lldb lld libssl-dev libpq-dev apt-transport-https ca-certificates curl software-properties-common
+
+# Install docker
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+sudo apt install docker-ce
+sudo usermod -aG docker ${USER}
+
+# Start docker.
+sudo systemctl start docker
+
+## You might need to re-connect (due to usermod change).
+
+# Node & yarn
+nvm install 20
+# Important: there will be a note in the output to load
+# new paths in your local session, either run it or reload the terminal.
+npm install -g yarn
+yarn set version 1.22.19
+
+# For running unit tests
+cargo install cargo-nextest
+# SQL tools
+cargo install sqlx-cli --version 0.8.1
+
+# Foundry ZKsync
+curl -L https://raw.githubusercontent.com/matter-labs/foundry-zksync/main/install-foundry-zksync | bash
+foundryup-zksync
+
+# Non CUDA (GPU) setup, can be skipped if the machine has a CUDA installed for provers
+# Don't do that if you intend to run provers on your machine. Check the prover docs for a setup instead.
+echo "export ZKSYNC_USE_CUDA_STUBS=true" >> ~/.bashrc
+# You will need to reload your `*rc` file here
+```
+
+## Installing & running the ZK Stack
+
+
+### 1. Install ZK Stack CLI
+
+[ZK Stack CLI](https://github.com/matter-labs/zksync-era/tree/main/zkstack_cli) is a toolkit that facilitates the creation and management of ZK Stacks. To install `zkstack`, run the following command:
+
+```bash
+curl -L https://raw.githubusercontent.com/matter-labs/zksync-era/main/zkstack_cli/zkstackup/install | bash
+source ~/.bashrc
+zkstackup
+```
+
+### 2. Clone the zksync-era repository from github
+
+```bash
+git clone git@github.com:matter-labs/zksync-era.git
+cd zksync-era
+```
+
+- Install submodules:
+
+```bash
+git submodule update --init --recursive 
+```
+
+### 3. Running the containers
+
+- We can start running the containers and ecosystem by first cleaning the docker containers and then running the following command:
+
+```bash
+zkstack dev clean all
+```
+
+Now, we are ready to start the DB and Reth containers using `zkstack`. The great thing about this is that `zkstack` handles everything on its own. If you encounter any errors, just make sure your ports are not busy and the `observability` feature is disabled during container setting up.
+
+```bash
+zkstack containers
+```
+
+### 4. Initialize Elastic Chain ecosystem 
+
+- We need to create an Elastic Chain ecosystem now. We will choose all the default options.
+```bash
+zkstack ecosystem init
+```
+
+- Once we have successfully initialized an elastic chain ecosystem, we can create new chains and can choose to create a Validium when prompted. For simplicity, we will choose the default options.
+
+```bash
+zkstack chain create
+```
+
+- Once we have created the chain, we have to finally initialize it and deploy the contracts of the ZK chain:
+    
+```bash
+zkstack chain init
+```
+
+### 5. Configure Avail DA
+
+<Callout type="info">
+**BEFORE YOU BEGIN**<br/>
+Before configuring Avail DA, complete these essential steps:
+1. [`Create an Avail Account`](https://docs.availproject.org/user-guides/accounts): Set up your account to interact with the Avail network
+2. [`Get Testnet Tokens`](https://docs.availproject.org/docs/build-with-avail/interact-with-avail-da/faucet): Obtain AVAIL tokens on the Turing testnet for transactions
+3. [`Create an AppID`](https://docs.availproject.org/docs/build-with-avail/interact-with-avail-da/app-id): Required to identify your application on the Avail network
+</Callout>
+
+After completing these prerequisites, configure your chain to use Avail as the data availability layer by updating two configuration files with the appropriate settings.
+
+Please choose between the [Full Client](#full-client) or [Gas Relay](#gas-relay) configuration below.
+
+#### Full Client
+
+Using the full client requires you to [create an AppID](https://docs.availproject.org/docs/build-with-avail/interact-with-avail-da/app-id) and maintain the Avail balance in your designated data submission account.
+
+1. Add the following to your chain's general config: `zksync-era/chains/$CHAIN_NAME/configs/general.yaml`
+
+<SyncedTabsProvider>
+<SyncedTabs items={['Turing', 'Mainnet']}>
+  <Tabs.Tab>
+    ```yaml
+    da_client:
+      avail:
+        bridge_api_url: https://turing-bridge-api.avail.so
+        timeout_ms: 7200000
+        full_client:
+          api_node_url: wss://turing-rpc.avail.so/ws
+          app_id: YOUR_APP_ID
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+   <Callout type="info">
+    **RPC Access**<br/>
+    To obtain a reliable RPC endpoint for production use, please reach out to our [external partners](https://docs.availproject.org/docs/networks#alternate-endpoints). They provide dedicated endpoint access with enhanced reliability and performance for production-ready infrastructure.
+    </Callout>
+    ```yaml
+    da_client:
+      avail:
+        bridge_api_url: https://bridge-api.avail.so
+        timeout_ms: 7200000
+        full_client:
+          api_node_url: wss://mainnet.avail-rpc.com
+          app_id: YOUR_APP_ID
+    ```
+  </Tabs.Tab>
+</SyncedTabs>
+
+2. Add the following to your chain's secrets config: `zksync-era/chains/$CHAIN_NAME/configs/secrets.yaml`
+
+```yaml
+da:
+  avail:
+    seed_phrase: YOUR_SEED_PHRASE
+```
+
+#### Gas Relay
+
+The gas relay API is in ***private beta***. Using the gas relay allows you to post data to Avail using a relayer and pay fees in a different token (only if supported) without needing to maintain a balance. It is recommended to [create an AppID](https://docs.availproject.org/docs/build-with-avail/interact-with-avail-da/app-id) to use within the gas relay service. Please contact the Avail team if you want access to the gas relay API.
+
+1. Add the following to your chain's general config: `zksync-era/chains/$CHAIN_NAME/configs/general.yaml`
+
+<SyncedTabs items={['Turing', 'Mainnet']}>
+  <Tabs.Tab>
+    ```yaml
+    da_client:
+      avail:
+        bridge_api_url: https://turing-bridge-api.avail.so
+        timeout_ms: 7200000
+        gas_relay:
+          gas_relay_api_url: https://gas-relay.turing.avail.so
+          max_retries: 3
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```yaml
+    da_client:
+      avail:
+        bridge_api_url: https://bridge-api.avail.so 
+        timeout_ms: 7200000
+        gas_relay:
+          gas_relay_api_url: COMING_SOON
+          max_retries: 3
+    ```
+  </Tabs.Tab>
+</SyncedTabs>
+
+</SyncedTabsProvider>
+
+2. Add the following to your chain's secrets config: `zksync-era/chains/$CHAIN_NAME/configs/secrets.yaml`
+
+```yaml
+da:
+  avail:
+    gas_relay_api_key: YOUR_API_KEY
+```
+
+
+### 6. Run ZK chain
+Start the server which will be running the ZK chain. By default, it will be running on `localhost:3150`.
+
+```bash
+zkstack server --chain $CHAIN_NAME
+```
+
+Your ZK chain is now running and you can start using it. For any troubleshooting or issues, please refer to the original repository which you can find [here](https://docs.zksync.io/zk-stack/running-a-zk-chain/quickstart).
