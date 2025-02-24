@@ -10,6 +10,14 @@ import { CustomNavbar } from '@components/Navbar';
 export const metadata: Metadata = {
   title: "Avail docs",
   description: "Avail developer docs built using Nextra V4",
+  keywords: [
+    "Avail Project",
+    "Avail docs",
+    "Data Availability",
+    "Nexus",
+    "Fusion",
+    "Avail API reference",
+  ],
 }
 
 const footer = <Footer/>
@@ -56,7 +64,7 @@ export default async function RootLayout({
           }}  
           
           pageMap={await getPageMap()}
-          docsRepositoryBase="https://github.com/availproject/docs/tree/main/docs"
+          docsRepositoryBase="https://github.com/availproject/docs/tree/main"
           editLink="Edit this page on GitHub"
           sidebar={{ defaultMenuCollapseLevel: 1, autoCollapse: true, toggleButton: true }}
           footer={footer}
