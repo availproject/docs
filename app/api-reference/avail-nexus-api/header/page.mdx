@@ -17,9 +17,35 @@ Use this endpoint to get the Nexus header information for a specific Avail block
 ### Example Request
 
 <Callout type="info">
-The `hex-encoded` params must be supplied without the `0x` prefix.
+1. The `hex-encoded` params must be supplied without the `0x` prefix.
+2. The `hash` param must be a valid Avail block hash from the Turing testnet.
+3. You can query the testnet using the [Subscan explorer](https://avail-turing.subscan.io/) or the [AvailApps explorer](https://turing.explorer.availproject.org/)
 </Callout>
 
 ```bash filename="CURL"
-curl "https://dev.nexus.avail.tools/header?hash=010133f52baede81baf3408ec4be909ac619f2ed98902ffbe318990716ae7b5a"
+curl "https://dev.nexus.avail.tools/header?hash=3b5fc64404e0d3393e25802c4e77eaceb7386b4c1f27a14beb529199076c0067"
 ```
+
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary> Sample Response:</summary>
+
+```json
+{
+    "parent_hash":
+    [14,73,84,96,17,76,228,61,117,13,47,98,237,207,41,228,42,123,230,50,227,200,6,194,165,158,90,124,212,5,101,46],
+
+    "prev_state_root":
+    [172,116,232,187,231,149,109,191,98,93,222,199,59,197,230,134,178,175,223,13,51,75,136,250,169,223,215,161,186,249,241,90],
+    
+    "state_root":
+    [172,116,232,187,231,149,109,191,98,93,222,199,59,197,230,134,178,175,223,13,51,75,136,250,169,223,215,161,186,249,241,90],
+    
+    "tx_root":
+    [110,52,11,156,255,179,122,152,156,165,68,230,187,120,10,44,120,144,29,63,179,55,56,118,133,17,163,6,23,175,160,29],
+    
+    "avail_header_hash":
+    [59,95,198,68,4,224,211,57,62,37,128,44,78,119,234,206,183,56,107,76,31,39,161,75,235,82,145,153,7,108,0,103],
+    
+    "number":301231}
+```
+</details>
