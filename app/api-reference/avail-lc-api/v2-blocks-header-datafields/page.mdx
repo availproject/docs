@@ -16,13 +16,13 @@ Gets the block data if available. Query parameter `fields` specifies whether to 
 <Tabs items={['Local', 'Remote']}>
 
 <Tabs.Tab>
-```sh
+```bash filename="CURL"
 curl "localhost:7007/v2/blocks/{block_number}/data?fields=data,extrinsic"
 ```
 </Tabs.Tab>
 
 <Tabs.Tab>
-```sh
+```bash filename="CURL"
 curl "https://api.lightclient.mainnet.avail.so/v2/blocks/{block_number}/data?fields=data,extrinsic"
 ```
 </Tabs.Tab>
@@ -105,7 +105,7 @@ for an account that has some `AVAIL` tokens. You can learn how to do that [here]
 2. You will also need to run the Avail LC in app-client mode. The command to do all this will 
 look something like this:
 
-```sh
+```bash filename="CURL"
 curl -sL1 avail.sh | bash -s -- --app_id 1 --identity identity.toml --network mainnet
 ```
 </Callout>
