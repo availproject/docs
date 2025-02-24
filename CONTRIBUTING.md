@@ -6,7 +6,7 @@ All pull requests and issues
 > PRs created without approval will be closed. We are open to technical articles on a wide variety of topics related to Avail and Web3 in general. If you have something in mind, please feel free to jump in with an issue on the repo.
 
 <details>
-<summary>**Contribute Changes directly from the Avail Documentation Website**</summary>
+<summary>Contribute Changes directly from the Avail Documentation Website</summary>
 
 Contributing to the Avail Documentation using Github's UIis simple. You'll need a GitHub account and a basic understanding of Markdown syntax to get started.
 
@@ -28,7 +28,7 @@ Contributing to the Avail Documentation using Github's UIis simple. You'll need 
 
 
 <details>
-<summary>**Contribute Changes by setting up a local development environment**</summary>
+<summary>Contribute Changes by setting up a local development environment</summary>
 
 > **Prerequisites**:
 >
@@ -93,6 +93,8 @@ Once you are done with all the changes, save all you files and run:
    ```
 
    Now you can use the Github UI to create a PR from your forked repository to the `main` branch of the `availproject/docs` repository.
+
+</details>
 
 ## License
 
