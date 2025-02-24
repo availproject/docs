@@ -1,0 +1,23 @@
+import { Tabs, Callout } from 'nextra/components'
+
+# Fetch Transaction Status
+
+Use this endpoint to get the status and details of a specific transaction using it's hash.
+
+### Params
+
+- `tx_hash`: Transaction hash (hex-encoded string)
+
+### Response
+
+- Transaction information and its current status, including:
+
+### Example Request
+
+<Callout type="info">
+The `hex-encoded` params must be supplied without the `0x` prefix.
+</Callout>
+
+```bash filename="CURL"
+curl "https://dev.nexus.avail.tools/tx_status?tx_hash=21be1d236b00babc9751852be1b234a0006da45727cc79a872ed01757df36299"
+```

@@ -1,0 +1,84 @@
+import { Tabs, Callout } from 'nextra/components'
+
+# Fetch block by hash or number
+
+Use this endpoint to get information about a specific block. 
+Defaults to latest block if no block hash is provided.
+
+### Params
+
+- `block_hash`: Block hash (hex-encoded string) *(optional)*
+- `block_number`: Block number (integer) *(optional)*
+
+### Response
+
+- Block information, including:
+
+**Still need to fill this out**
+
+### Example Request
+
+<Callout type="info">
+The `hex-encoded` params must be supplied without the `0x` prefix.
+</Callout>
+
+<Tabs items={['latest block', 'specific block']}>
+
+<Tabs.Tab>
+```bash filename="CURL"
+curl "https://dev.nexus.avail.tools/block"
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+<Tabs items={['using block hash', 'using block number']}>
+
+<Tabs.Tab>
+```bash filename="CURL"
+curl "https://dev.nexus.avail.tools/block?block_hash=ac74e8bbe7956dbf625ddec73bc5e686b2afdf0d334b88faa9dfd7a1baf9f15a"
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="CURL"
+curl "https://dev.nexus.avail.tools/block?block_number=144266"
+```
+</Tabs.Tab>
+</Tabs>
+
+</Tabs.Tab>
+</Tabs>
+
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary> Sample Response:</summary>
+
+```json
+{
+  "transactions": [],
+  "header": {
+    "parent_hash": [
+      3, 215, 70, 135, 152, 34, 41, 33, 85, 21, 82, 116, 244, 13, 136, 137,
+      88, 218, 194, 25, 32, 235, 100, 135, 67, 53, 30, 70, 42, 252, 73, 196
+    ],
+    "prev_state_root": [
+      172, 116, 232, 187, 231, 149, 109, 191, 98, 93, 222, 199, 59, 197, 230, 134,
+      178, 175, 223, 13, 51, 75, 136, 250, 169, 223, 215, 161, 186, 249, 241, 90
+    ],
+    "state_root": [
+      172, 116, 232, 187, 231, 149, 109, 191, 98, 93, 222, 199, 59, 197, 230, 134,
+      178, 175, 223, 13, 51, 75, 136, 250, 169, 223, 215, 161, 186, 249, 241, 90
+    ],
+    "tx_root": [
+      110, 52, 11, 156, 255, 179, 122, 152, 156, 165, 68, 230, 187, 120, 10, 44,
+      120, 144, 29, 63, 179, 55, 56, 118, 133, 17, 163, 6, 23, 175, 160, 29
+    ],
+    "avail_header_hash": [
+      171, 70, 154, 151, 190, 78, 42, 250, 154, 168, 207, 78, 122, 85, 203, 93,
+      35, 87, 156, 188, 235, 205, 139, 228, 215, 233, 63, 82, 168, 21, 220, 47
+    ],
+    "number": 144328
+  }
+}
+```
+</details>
