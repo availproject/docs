@@ -6,9 +6,7 @@
 <h1>Avail Project Developer Documentation</h1>
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
 
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
 <h3>The Essential Platform for Modern Blockchains</h3>
 
 </div>
