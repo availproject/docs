@@ -4,11 +4,8 @@
 
 <div align="Center">
 <h1>Avail Documentation</h1>
-</div>
-
-# Avail
-
 > The Unification Layer for Web3
+</div>
 
 This is the official documentation repository for Avail.
 You can find the latest documentation at [docs.availproject.org](https://docs.availproject.org/).
