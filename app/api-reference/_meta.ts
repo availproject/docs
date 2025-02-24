@@ -25,4 +25,10 @@ export default {
   "------": {
     type: "separator",
   },
+
+  "avail-nexus-api": "Avail Nexus API reference",
+
+  "-------": {
+    type: "separator",
+  },
 };
