@@ -1,0 +1,94 @@
+# Avail Nexus Overview
+
+## Background 
+
+We live in a world of early blockchains. A world where rollups are important to solve scalability issues. Very soon in the near future, we will have hundreds or thousands of rollups. Each Rollup will have its own unique features that will be optimized for different purposes. Each dApp can also choose become its own rollup, we've already seen some projects going this route. This abundance of rollups has resulted in both a fragmented UX along with a fragmented liquidity. It will get harder than ever for users and dApps and rollups to envision a future that has seamless communication between them. A modularised world would only be as efficient as the messaging protocol that dictates cross rollup communication.
+
+Cross rollup communication require bridges, and minimal trust assumptions are important for these bridges if they are to be comparable to the security that a monolithic chain offers. When the bridges are between rollups that use the same DA Layer, then they are not crossing trust and security zones, as they all depend on the same consensus and economic security that dictates the ordering (with nuances), but for the bridges to be trustless it is important for a rollup to know if the executions were done correctly, and it has to verify this statement itself so it does not have to trust someone else to provide these guarantees.
+
+## Avail Nexus
+
+Avail Nexus serves as a middleware that enables trustless verification and interoperability between different rollups. This means that Nexus support cross-chain message passing between different rollups and also provides a way to verify the state of a rollup to another rollup or a set of rollups. 
+
+This is done in a trustless way and without the need for a trusted third party since Nexus uses Avail DA as a root of trust. This creates an ideal future where running full nodes is no longer necessary for trustless blockchain interaction. Even mobile phones and smartwatches can verify the correctness of any participating chain using Light Clients. 
+<br/>
+<div align="center">
+<img src="/img/avail-nexus/Avail-nexus-4.png" width="85%" style={{ borderRadius: "1%" }} />
+</div>
+
+The verification is a very simple process. Nexus simply verifies the state of rollups utilizing Nexus by verifying proof submitted to itself. Once verified, other chains can verify state if every chain without writing any custom logic for each other.
+
+Working together, Avail Nexus and Avail DA form a hub that aims to achieve comprehensive verification across all these elements, regardless of which walled garden you operate in. This enables light client implementations for user-side verification, allowing users to download only relevant information. It also facilitates trustless cross-chain communication by performing all necessary verifications before initiating chain interactions.
+
+
+A very simple diagram to explain the flow of Nexus is as follows:
+
+<br/>
+<br/>
+<div align="center">
+<img src="/img/nexus/nexus_1.png" align="center" /> 
+</div>
+<br/>
+
+### Avail Nexus Features 
+
+- **Scalable multichain verification**: Avail Nexus should not only provide multichain verification, but be horizontally scalable to eliminate the throughput constraints of monolithic architectures.
+- **Crosschain state awareness**: Blockchain A should be able to quickly and efficiently verify the state of blockchain B.
+- **Async messaging between blockchains**: Avail Nexus must be able to reliably support asynchronous crosschain message passing between blockchains.
+- **Crosschain sequence verification**: Blockchain A should be able to reliably verify the canonical order of blockchain B.
+- **Map security assumptions**: It should be possible to understand the different security assumptions across different chains.
+- **Remove manual bridging**: Remove the need for users to manually bridge their assets.
+- **Enable end-user verification**: Maintain independent verification at the user level for trustless interaction.
+
+
+### How does Avail Nexus work?
+
+A key part of any blockchain is minimal trust, which is achieved by any entity or individual being able to verify the state of the blockchain. This is done by verifying the state of the blockchain using the block headers. There are also three criteria that are needed to establish trustless verification:
+
+1. **Execution Correctness**: If all the state transtions are correctly executed or not. Avail's STF ensures that you just have to verify a single proof (an aggregated proof from Nexus), to verify the correctness of all participating proofs. Light Clients can simply choose to verify the latest proof.
+2. **Correct Transaction Ordering**: If the transactions are ordered correctly or not. In this, Avail LCs can check for correct ordering of transactions by verifying the latest proof.
+3. **Data Availability**: If the data required to arrive at the latest state is available or not. This is done by Avail LCs doing a Data Availability Sampling (DAS).
+
+
+### Avail Nexus Architecture
+
+The Avail Nexus architecture is designed to be modular and scalable. The architecture is divided into three main components:
+
+1. **Nexus Core**: The core component of Avail Nexus that is responsible for verifying proofs and maintaining the state of the rollups. It is also responsible for crosschain message passing and crosschain sequence verification.
+2. **Nexus Adapter**: The adapter component that is responsible for interfacing with the rollups architectures such as ZK Rollups, Optimistic Rollups, etc. Nexus Adapter is the reason why the Nexus Core and Messaging Layer are compatible with any and all rollups.
+3. **Nexus Messaging Layer**: Messaging Layer is responsible for asynchronous message passing between different rollups. It has two options: a fast intent based model and a slow state root model. The intent model is available to fullfill the transaction needs through a proof system. The State Root model will provide the highest crytographic security and will be fullfilled once the state roots get finalized. This is slower because ZK proof generation takes time but in general is safer and more secure.
+
+[More on the Avail Nexus architecture here](/docs/build-with-avail/avail-nexus/avail-nexus-architecture).
+
+<br/>
+<br/>
+<div align="center">
+<img src="/img/nexus/nexus_2.png" align="center" /> 
+</div>
+
+### ZK & OP Nexus
+
+Nexus will host mutliple paths for achieving the end goal of verifiable settlement and interoperability:
+
+1. **ZK Nexus**: This is the Nexus's cryptographic solution where instead of relying on every chain's proof and verifying them, we rely on a single proof that is generated by the Nexus. This promotes fast and verifiable communication and message passing between chains even if new chains are integrated later in the ecosystem. Any user or chain could later verify state changes in the Nexus Core to settle any and all crosschain transactions. This will be infrastructure that will be critical for the long tail of rollups and appchains who do not have or need high trust liquidity and can focus on their application. 
+
+
+<br/>
+<br/>
+<div align="center">
+<img src="/img/nexus/nexus_3.png" align="center" /> 
+</div>
+<br/>
+<br/>
+
+
+2. **OP Nexus** _**(Reimann)**_: Optimistic Nexus is an intent-based economic gadget to handle the needs of primarily optimistic rollups, but can also be extended to other rollup constructs. 
+
+The idea of OP Nexus is simple: Crosschain transaction are accepted optimistically, and optimistic chains would submit proofs to Nexus to verify actions such as submitting funds to escrow and filling orders. There are no proof generation in optimistic chains, and that is why Avail is attempting a multi-faceted approach to interoperability. 
+
+<br/>
+<br/>
+<div align="center">
+<img src="/img/nexus/nexus_4.png" align="center" /> 
+</div>
+<br/>
