@@ -98,4 +98,4 @@ Once you are done with all the changes, save all you files and run:
 
 ## License
 
-The Avail Project Developer Documentation is licensed under the [MIT License](./LICENSE) free software license.### How to Contribute Changes via the Avail Documentation Website.
+The Avail Project Developer Documentation is licensed under the [MIT License](./LICENSE) free software license.
