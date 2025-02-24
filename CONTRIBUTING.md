@@ -1,12 +1,12 @@
 # Contribution Guidelines
 
-The Documentation team at Avail are the primary maintainers of the Avail Documentation and will review all issues and pull requests created in this repository.
+All pull requests and issues
 
 > ℹ️ Please make sure to create an issue outlining your feedback/content request for the docs before creating a PR.
 > PRs created without approval will be closed. We are open to technical articles on a wide variety of topics related to Avail and Web3 in general. If you have something in mind, please feel free to jump in with an issue on the repo.
 
-## How to Contribute Changes via the Avail Documentation Website
-
+<details>
+<summary>How to Contribute Changes via the Avail Documentation Website</summary>
 Contributing to the Avail Documentation is simple. You'll need a GitHub account and a basic understanding of Markdown syntax to get started.
 
 1. **Locate the Page**: Visit the [Avail Documentation page](https://docs.availproject.org/) you wish to edit.
@@ -21,6 +21,8 @@ Contributing to the Avail Documentation is simple. You'll need a GitHub account 
 
 8. **Additional Information**: Provide a concise summary of the changes you've made. Include screenshots or references if applicable.
 9. **Submit**: Click **Propose changes** to finalize your pull request. This will create a new branch in your fork.
+</details>
+
 
 ## How to Locally Run the Avail Documentation
 
