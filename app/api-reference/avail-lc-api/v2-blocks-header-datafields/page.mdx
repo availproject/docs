@@ -6,8 +6,18 @@ import { Callout } from 'nextra/components'
 **LOOKING FOR INSTRUCTIONS ON HOW TO RUN YOUR OWN LIGHT CLIENT?**<br/>
 You can check out [our docs here](/docs/operate-a-node/run-a-light-client/0010-light-client#running-the-light-client) for instructions on how to run your own light client.
 </Callout>
+<Callout type="warning">
+**Note:**<br/> 
+Light client must be running in `app-mode`to retrieve data. [Click here](/docs/operate-a-node/run-a-light-client/0010-light-client#setting-your-identity-using-identitytoml) for instructions on how to run an Avail Light Client in `app-mode`. 
+</Callout>
+<br/>
+Gets the block data if available. 
 
-Gets the block data if available. Query parameter `fields` specifies whether to return decoded data and encoded extrinsic (with signature). If `fields` parameter is omitted, response contains **hash** and **data**, while **extrinsic** is omitted.
+ Only returns data if the block contains it for the configured `app_id`. If there is no data against the configured `app_id` it returns an empty array.
+
+ Query parameter `fields` specifies whether to return decoded data and encoded extrinsic (with signature). If `fields` parameter is omitted, response contains **hash** and **data**, while **extrinsic** is omitted.
+
+The `data` and `extrinsic` is encoded in `base64` format.
 
 <Tabs items={['CURL', 'Rust']}>
 
@@ -16,13 +26,13 @@ Gets the block data if available. Query parameter `fields` specifies whether to 
 <Tabs items={['Local', 'Remote']}>
 
 <Tabs.Tab>
-```bash filename="CURL"
+```sh
 curl "localhost:7007/v2/blocks/{block_number}/data?fields=data,extrinsic"
 ```
 </Tabs.Tab>
 
 <Tabs.Tab>
-```bash filename="CURL"
+```sh
 curl "https://api.lightclient.mainnet.avail.so/v2/blocks/{block_number}/data?fields=data,extrinsic"
 ```
 </Tabs.Tab>
@@ -89,10 +99,17 @@ If **block_status = "finished"**, data is available and the response is:
 }
 ```
 
-If **block_status** is not **“finished”**, or **app** mode is not enabled, data is not available and the response is:
+If **block_status** is not **“finished”**, or **`app-mode`** is not enabled, data is not available and the response is:
 
 ```yaml
-Bad Request
+Not Found
+```
+If no data is available in the block against the configured `app_id` in `app-mode`: 
+
+```yaml
+{
+  "data_transactions": []
+}
 ```
 </details>
 
@@ -105,7 +122,7 @@ for an account that has some `AVAIL` tokens. You can learn how to do that [here]
 2. You will also need to run the Avail LC in app-client mode. The command to do all this will 
 look something like this:
 
-```bash filename="CURL"
+```sh
 curl -sL1 avail.sh | bash -s -- --app_id 1 --identity identity.toml --network mainnet
 ```
 </Callout>
