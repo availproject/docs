@@ -7,7 +7,7 @@
     "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind",
     "clean:full": "pnpm clean && pnpm install && pnpm build",
     "dev": "next --turbopack",
-    "build": "next build && pnpm postbuild",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "export": "next build && next export"
