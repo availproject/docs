@@ -6,8 +6,9 @@ All pull requests and issues
 > PRs created without approval will be closed. We are open to technical articles on a wide variety of topics related to Avail and Web3 in general. If you have something in mind, please feel free to jump in with an issue on the repo.
 
 <details>
-<summary>How to Contribute Changes via the Avail Documentation Website</summary>
-Contributing to the Avail Documentation is simple. You'll need a GitHub account and a basic understanding of Markdown syntax to get started.
+<summary>**Contribute Changes directly from the Avail Documentation Website**</summary>
+
+Contributing to the Avail Documentation using Github's UIis simple. You'll need a GitHub account and a basic understanding of Markdown syntax to get started.
 
 1. **Locate the Page**: Visit the [Avail Documentation page](https://docs.availproject.org/) you wish to edit.
 2. **Edit Link**: Click on the **Edit this page** link. This will redirect you to the corresponding Markdown file on GitHub.
@@ -20,17 +21,19 @@ Contributing to the Avail Documentation is simple. You'll need a GitHub account 
    > See [GitHub Docs on Linking a Pull Request to an Issue](https://docs.github.com/en/free-pro-team@latest/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword) for guidance.
 
 8. **Additional Information**: Provide a concise summary of the changes you've made. Include screenshots or references if applicable.
+
 9. **Submit**: Click **Propose changes** to finalize your pull request. This will create a new branch in your fork.
+
 </details>
 
 
-## How to Locally Run the Avail Documentation
+<details>
+<summary>**Contribute Changes by setting up a local development environment**</summary>
 
 > **Prerequisites**:
 >
-> - [Node.js](https://nodejs.org/en/download/) (version >= 16.14.1)
-> - [pnpm](https://pnpm.io/installation) 
->   **Note for macOS Users**: Xcode and Command Line Tools are required.
+> - [Node.js](https://nodejs.org/en/download/) (version >= 22 is recommended)
+> - [pnpm](https://pnpm.io/installation)
 
 1. **Fork the repository**
 
@@ -39,7 +42,7 @@ Contributing to the Avail Documentation is simple. You'll need a GitHub account 
 2. **Clone your fork**
 
    ```bash
-   git clone https://github.com/availproject/docs.git
+   git clone https://github.com/<your-username>/docs.git
    ```
 
    This will create a repo named `docs` in your current directory.
@@ -50,33 +53,14 @@ Contributing to the Avail Documentation is simple. You'll need a GitHub account 
    cd docs
    ```
 
-4. **Add Upstream Remote**
-
-   > Refer to [GitHub Docs: Configuring a remote for a fork](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/configuring-a-remote-for-a-fork).
-
-   ```bash
-   git remote add upstream https://github.com/availproject/docs
-   ```
-
    > ℹ️ You can check if the upstream was added correctly by running `git remote -v`
 
-5. **Sync Your Fork**
-
-   > See [GitHub Docs: Syncing a fork](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/syncing-a-fork).
-
-   ```bash
-   git checkout main
-   git fetch upstream
-   git merge upstream/main
-   ```
 
 6. **Install Dependencies**
 
    ```bash
    pnpm install
    ```
-
-   The site is built using Nextra.
 
 7. **Run the Docs Locally**
 
@@ -108,7 +92,7 @@ Once you are done with all the changes, save all you files and run:
    git push origin main
    ```
 
-   Now you can use the Github UI to create a PR from your forked repository to the `staging` branch of the upstream repository.
+   Now you can use the Github UI to create a PR from your forked repository to the `main` branch of the `availproject/docs` repository.
 
 ## License
 
