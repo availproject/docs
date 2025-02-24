@@ -39,3 +39,9 @@ next-env.d.ts
 
 # vscode
 .vscode/
+
+# pagefind
+public/_pagefind
+
+# sitemap
+public/sitemap.xml
