@@ -29,12 +29,11 @@ export const IntroData = [
           topic: "Read more",
           links: [{ link: "/docs/welcome-to-avail-docs", textcolor: "3CA3FC", placeholder: "Start here!"}, 
           {link: "/docs/networks", textcolor: "3CA3FC", placeholder: "Endpoints & networks info"},
+          {link: "/docs/learn-about-avail/avail-apps-explorer", textcolor: "3CA3FC", placeholder: "A guide to Avail explorers"},
           {link: "/docs/build-with-avail/interact-with-avail-da/read-write-on-avail", textcolor: "3CA3FC", placeholder: "Read & write data on Avail DA"},
           {link: "/docs/build-with-avail/deploy-rollup-on-avail", textcolor: "3CA3FC", placeholder: "Deploy your own rollup"},
           {link: "/docs/operate-a-node/run-a-light-client", textcolor: "3CA3FC", placeholder: "Run an Avail light client"},
           {link: "/docs/operate-a-node/run-a-full-node", textcolor: "3CA3FC", placeholder: "Run an Avail node"},
-          {link: "/docs/faqs", textcolor: "3CA3FC", placeholder: "Glossary"},
-          {link: "/docs/faqs", textcolor: "3CA3FC", placeholder: "FAQs"}
           ],
           textcolor: "3FBB80"
         },
@@ -50,6 +49,7 @@ export const IntroData = [
           { link: "/api-reference/avail-lc-api", placeholder: "Avail light client"}, 
           {link: "/api-reference/avail-bridge-api", placeholder: "VectorX bridge"},
           {link: "/api-reference/gas-relay-api", placeholder: "Avail gas relay"},
+          {link: "/api-reference/avail-nexus-api", placeholder: "Avail Nexus"}
         ],
           textcolor: "FE8B6C"
         }
