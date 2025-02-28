@@ -95,6 +95,26 @@ SEED="This is a random seed phrase please replace with your own"
 
 <Tabs.Tab>
 
+<Callout type="warning">
+**AVAIL-DENO HAS BEEN SUNSET**<br/>
+1. The `avail-deno` SDK has been sunset and will not be maintained or upgraded in the future.
+
+2. We recommend you switch to `avail-js`. The SDK will work with `deno` out of the box. \
+Just run `deno run --allow-net your-file-name.ts` to run your `avail-js` code with `deno`.
+</Callout>
+
+1. Make sure `avail-deno` is installed on your system. You can refer to [Deno's docs](https://docs.deno.com/runtime/manual/) for the same.
+
+2. Create a new Deno JS project by running `deno init` in a directory of your choice, and create a new file named `your-file-name.ts`
+in the project.
+
+3. The examples in this reference will interact with the Turing testnet of Avail DA, and will use the correspponding endpoint.
+You can use the [networks page](/docs/networks) to find endpoints for mainnet if you need to.
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
 1. Make sure `rust` and cargo are installed on your system. You can refer to [Rustlang's docs](https://www.rust-lang.org/tools/install) for the same.
 
 2. Create a new Rust project by running `cargo init your-project-name`.
