@@ -84,7 +84,7 @@ await proofManagerClient.updateNexusBlock(...);
 await proofManagerClient.updateChainState(...);
 ```
 
-Now that the proof is fetched, the `ZKSync 2` chain can verify any message or a trasaction by retrieving the **message** from mailbox and verifying the proof by creating a new instance of `ZKSyncVerifier` called `zksyncAdapter`
+Now that the proof is fetched, the `ZKSync 2` chain can verify any message or a transaction by retrieving the **message** from mailbox and verifying the proof by creating a new instance of `ZKSyncVerifier` called `zksyncAdapter`
 
 ```typescript showLineNumbers filename="bridge-mailbox/index.ts"
 const zksyncAdapter = new ZKSyncVerifier({
@@ -278,7 +278,7 @@ const accountDetails: AccountApiResponse = await waitForUpdateOnNexus(paymentNex
       accountDetails.response.account
     )
 ```
-5. We create a instnace of the `ZKSyncVerifier` as `zksyncAdapter`, and defines the expected `PaymentReceipt`.
+5. We create an instance of the `ZKSyncVerifier` as `zksyncAdapter`, and define the expected `PaymentReceipt`.
 
 ```typescript showLineNumbers filename="bridge-mailbox/index.ts"
 
