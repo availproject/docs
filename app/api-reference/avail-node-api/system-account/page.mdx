@@ -72,25 +72,48 @@ The rest of the code should work as is.
 1. Inside `your-file-name.ts`, add the following code:
 
 ```typescript showLineNumbers filename="avail-js"
-import { SDK } from "avail-js-sdk"
+import * as dotenv from 'dotenv';
+import { SDK, Pallets } from 'avail-js-sdk';
 
-const main = async () => {
-  const providerEndpoint = "wss://turing-rpc.avail.so/ws"
-  const sdk = await SDK.New(providerEndpoint)
+dotenv.config();
 
-  const key = "5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk"
-  const value = await sdk.api.query.system.account(key)
-  console.log(value.toHuman())
+export async function getAccountBalance() {
+    // Initialize SDK with Turing endpoint
+    const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
+    
+    // Address to check balance for
+    const address = "5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk";
+    console.log(`Checking balance for address: ${address}`);
+    
+    // Get the current block hash
+    const blockHash = await sdk.client.bestBlockHash();
+    
+    // Get storage at the current block
+    const storageAt = await sdk.client.storageAt(blockHash);
+    
+    // Fetch account information
+    const accountInfo = await Pallets.SystemStorage.Account.fetch(storageAt, address);
+    
+    // Format balances in AVAIL (dividing by 10^18)
+    const free = accountInfo.value.accountData.free.toString();
+    const reserved = accountInfo.value.accountData.reserved.toString();
+    const frozen = accountInfo.value.accountData.frozen.toString();
 
-  process.exit()
+    console.log("The following balances are in the smallest units, divide by 10^18 to get the balance in AVAIL");
+    console.log(`Free Balance: ${free}`);
+    console.log(`Reserved Balance: ${reserved}`);
+    console.log(`Frozen Balance: ${frozen}`);
+    
+    process.exit(0);
 }
 
-main()
+// Execute the function
+getAccountBalance();
 ```
 
 2. Run the code using:
 
-```bash
+```bash filename="terminal"
 ts-node your-file-name.ts
 ```
 </Tabs.Tab>
@@ -137,7 +160,7 @@ async fn main() {
 
 2. Run the code using:
 
-```bash
+```bash filename="terminal"
 cargo run
 ```
 
@@ -226,13 +249,13 @@ func main() {
 
 2. Run the code using:
 
-```bash
+```bash filename="terminal"
 go run main.go
 ```
 
 <Callout type="info">
 If you receive errors related to missing dependencies while trying to execute your code, run:
-```bash
+```bash filename="terminal"
 go mod tidy
 ```
 and try again.
