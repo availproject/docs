@@ -59,7 +59,64 @@ The rest of the code should work as is.
 1. Inside `your-file-name.ts`, add the following code:
 
 ```javascript showLineNumbers filename="avail-js"
+import * as dotenv from 'dotenv';
+import { Account, SDK, Pallets } from 'avail-js-sdk';
 
+dotenv.config();
+
+export async function nominationPoolsNominate() {
+    // Initialize SDK with Turing endpoint
+    const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
+    
+    // Create account from seed in .env file
+    const seed = process.env.SEED;
+    if (!seed) {
+      throw new Error("SEED environment variable is not set");
+    }
+    
+    // Create account from seed
+    const account = Account.new(seed);
+    console.log("Account Address: ", account.address);
+    
+    // Pool ID to nominate from
+    const poolId = 1;
+    console.log(`Pool ID: ${poolId}`);
+    
+    // Validator targets to nominate
+    const validators = [
+      "5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY", // Alice Stash
+      "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty", // Bob
+    ];
+    
+    // Create nominate transaction
+    const tx = sdk.tx.nominationPools.nominate(poolId, validators);
+    console.log("Submitting pool nomination transaction...");
+    
+    // Execute and wait for inclusion
+    const res = await tx.executeWaitForInclusion(account, {});
+    
+    // Check if transaction was successful
+    const isOk = res.isSuccessful();
+    if (isOk === undefined) {
+      throw new Error("Cannot check if transaction was successful");
+    }
+    else if (!isOk) {
+        throw new Error("Transaction failed");
+    }
+    
+    console.log("\nPool nomination completed successfully");
+    
+    // Log all transaction details
+    console.log("\nTransaction Details:");
+    console.log(`Transaction Hash: ${res.txHash}`);
+    console.log(`Block Hash: ${res.blockHash}`);
+    console.log(`Block Number: ${res.blockNumber}`);
+    
+    process.exit(0);
+}
+
+// Execute the function
+nominationPoolsNominate();
 ```
 
 2. Run the code using:
