@@ -64,33 +64,68 @@ The rest of the code should work as is.
 1. Inside `your-file-name.ts`, add the following code:
 
 ```typescript showLineNumbers filename="avail-js"
-import { SDK, WaitFor, Keyring } from "avail-js-sdk"
+import * as dotenv from 'dotenv';
+import { Account, SDK, Pallets } from 'avail-js-sdk';
 
-const main = async () => {
-  const providerEndpoint = "wss://turing-rpc.avail.so/ws";
-  const sdk = await SDK.New(providerEndpoint)
+dotenv.config();
 
-  const Alice = 'This is a random seed phrase please replace with your own';
-  const account = new Keyring({ type: "sr25519" }).addFromUri(Alice)
-  const key = "MyAwesomeKey"
+export async function createApplicationKey() {
 
-  const result = await sdk.tx.dataAvailability.createApplicationKey(key, WaitFor.BlockInclusion, account)
-  if (result.isErr) {
-    console.log(result.reason)
-    process.exit(1)
-  }
+    // Initialize SDK with Turing endpoint
+    const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
+    
+    // Create account from seed in .env file
+    const seed = process.env.SEED;
+    if (!seed) {
+      throw new Error("SEED environment variable is not set");
+    }
+    
+    // Create account from seed
+    const account = Account.new(seed);
+    console.log("Account Address: ", account.address);
 
-  console.log("Key=" + result.event.key + ", Owner=" + result.event.owner + ", Id=" + result.event.id)
-  console.log("TxHash=" + result.txHash + ", BlockHash=" + result.blockHash)
+    // Use a fixed key string
+    const key = "my Application Key Name";
+    
+    // Create application key transaction
+    const tx = sdk.tx.dataAvailability.createApplicationKey(key);
+    console.log("Submitting transaction to create application key...");
+    
+    // Execute and wait for inclusion
+    const res = await tx.executeWaitForInclusion(account, {});
+    
+    // Check if transaction was successful
+    const isOk = res.isSuccessful();
+    if (isOk === undefined) {
+      throw new Error("Cannot check if transaction was successful");
+    }
+    else if (!isOk) {
+        throw new Error("Transaction failed");
+    }
 
-  process.exit()
+    // Extract event data
+    if (res.events === undefined) throw new Error("No events found");
+
+    const event = res.events.findFirst(Pallets.DataAvailabilityEvents.ApplicationKeyCreated);
+    if (event === undefined) throw new Error("ApplicationKeyCreated event not found");
+    
+    const appId = event.id;
+    console.log(`Application created successfully:`);
+    console.log(`Owner: ${event.owner}`);
+    console.log(`Key: ${event.keyToString()}`);
+    console.log(`App Id: ${appId}`);
+    console.log(`Transaction Hash: ${res.txHash}`);
+
+    process.exit(0);
 }
-main()
+
+// Execute the function
+createApplicationKey()
 ```
 
 2. Run the code using:
 
-```bash
+```bash filename="terminal"
 ts-node your-file-name.ts
 ```
 </Tabs.Tab>
@@ -147,7 +182,7 @@ async fn main() {
 
 2. Run the code using:
 
-```bash
+```bash filename="terminal"
 cargo run
 ```
 
@@ -227,13 +262,13 @@ func main() {
 
 2. Run the code using:
 
-```bash
+```bash filename="terminal"
 go run main.go
 ```
 
 <Callout type="info">
 If you receive errors related to missing dependencies while trying to execute your code, run:
-```bash
+```bash filename="terminal"
 go mod tidy
 ```
 and try again.
