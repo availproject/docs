@@ -53,34 +53,64 @@ On failure, a reason of failure is returned. On Success, TransferEvent event, tr
 1. Inside `your-file-name.ts`, add the following code:
 
 ```typescript showLineNumbers filename="avail-js"
-import { SDK, WaitFor, Keyring, BN } from "avail-js-sdk"
+import * as dotenv from 'dotenv';
+import { Account, SDK, BN } from 'avail-js-sdk';
 
-const main = async () => {
-  const providerEndpoint = "wss://turing-rpc.avail.so/ws";
-  const sdk = await SDK.New(providerEndpoint)
+dotenv.config();
 
-  const Alice = 'This is a random seed phrase please replace with your own';
-  const account = new Keyring({ type: "sr25519" }).addFromUri(Alice)
-  const dest = "5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw" // Eve
-  const amount = new BN(10).pow(new BN(18)) // one Avail
-
-  const result = await sdk.tx.balances.transferKeepAlive(dest, amount, WaitFor.BlockInclusion, account)
-  if (result.isErr) {
-    console.log(result.reason)
-    process.exit(1)
-  }
-
-  console.log("From=" + result.event.from + ", To=" + result.event.to + ", Amount=" + result.event.amount)
-  console.log("TxHash=" + result.txHash + ", BlockHash=" + result.blockHash)
-
-  process.exit()
+export async function transferKeepAlive() {
+    // Initialize SDK with Turing endpoint
+    const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
+    
+    // Create account from seed in .env file
+    const seed = process.env.SEED;
+    if (!seed) {
+      throw new Error("SEED environment variable is not set");
+    }
+    
+    // Create account from seed
+    const account = Account.new(seed);
+    console.log("Sender Address: ", account.address);
+    
+    // Destination address to send AVAIL to
+    const destinationAddress = "5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk";
+    console.log("Recipient Address: ", destinationAddress);
+    
+    // Amount to transfer: 12 AVAIL
+    const amount = new BN('12000000000000000000'); // 12 with 18 zeroes
+    console.log("Transfer Amount: 12 AVAIL");
+    
+    // Create transfer transaction
+    const tx = sdk.tx.balances.transferKeepAlive(destinationAddress, amount);
+    console.log("Submitting transfer transaction...");
+    
+    // Execute and wait for inclusion
+    const res = await tx.executeWaitForInclusion(account, {});
+    
+    // Check if transaction was successful
+    const isOk = res.isSuccessful();
+    if (isOk === undefined) {
+      throw new Error("Cannot check if transaction was successful");
+    }
+    else if (!isOk) {
+        throw new Error("Transaction failed");
+    }
+    
+    console.log("Transfer completed successfully");
+    console.log(`Transaction Hash: ${res.txHash}`);
+    console.log(`Block Hash: ${res.blockHash}`);
+    console.log(`Block Number: ${res.blockNumber}`);
+    
+    process.exit(0);
 }
-main()
+
+// Execute the function
+transferKeepAlive();
 ```
 
 2. Run the code using:
 
-```bash
+```bash filename="terminal"
 ts-node your-file-name.ts
 ```
 </Tabs.Tab>
@@ -131,7 +161,7 @@ async fn main() {
 
 2. Run the code using:
 
-```bash
+```bash filename="terminal"
 cargo run
 ```
 </Tabs.Tab>
@@ -218,13 +248,13 @@ func main() {
 
 2. Run the code using:
 
-```bash
+```bash filename="terminal"
 go run main.go
 ```
 
 <Callout type="info">
 If you receive errors related to missing dependencies while trying to execute your code, run:
-```bash
+```bash filename="terminal"
 go mod tidy
 ```
 and try again.
