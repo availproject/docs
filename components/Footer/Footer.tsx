@@ -2,6 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useMobileView } from "../../hooks/useMobileView";
 import { useMemo } from "react";
 import footerStyle from "./Footer.module.css";
@@ -32,7 +33,14 @@ interface FooterLinkTypes {
 
 export const Footer = () => {
   const { resolvedTheme } = useTheme();
-  const isDarkMode = resolvedTheme === "dark";
+  const [mounted, setMounted] = useState(false);
+
+    // Only show the correct logo after component has mounted on client
+    useEffect(() => {
+      setMounted(true);
+    }, []);
+
+    const isDarkMode = mounted && resolvedTheme === "dark";
   const isMobile = useMobileView();
   const footerLinks: FooterLinkTypes[] = [
     {
