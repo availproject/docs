@@ -22,23 +22,38 @@ to eventually be an exhaustive resource for the Avail node API.
 
 <Tabs.Tab>
 
-1.  Make sure `Node-js` is installed on your system. You can refer to [Node-js docs](https://nodejs.org/en/download/package-manager) for the same.
+1. Make sure `Node-js` is installed on your system by running the following command in your terminal:
 
-2. Create a new Node-js project by running `npm init -y` in a directory of your choice, and create a new file named `your-file-name.ts`
+```bash filename="terminal"
+node --version
+```
+If not installed, you can refer to [Node-js docs](https://nodejs.org/en/download/package-manager) for the same.
 
-3. To install the `avail-js-sdk` run the following command in the terminal:
+2. Create a new Node-js project by running the following command in a directory of your choice:
 
-```bash
-npm install avail-js-sdk@0.3.0
+```bash filename="terminal"
+pnpm init
+```
+
+3. To install the `avail-js-sdk` run the following command:
+
+```bash filename="terminal"
+pnpm add avail-js-sdk@0.4.0
 ```
 
 4. Make sure to install the `ts-node` package if you haven't already:
 
-```bash
-npm i -g ts-node
+```bash filename="terminal"
+pnpm add -g ts-node
 ```
 
-5. Create a `tsconfig.json` file in the root of your project and populate it:
+5. Create a `tsconfig.json` file in the root of your project by running:
+
+```bash filename="terminal"
+touch tsconfig.json
+```
+
+6. Populate your `tsconfig.json` with the following configuration:
 
 ```json showLineNumbers filename="tsconfig.json"
 {
@@ -56,25 +71,25 @@ npm i -g ts-node
   "exclude": ["node_modules", "build"]
 }
 ```
-</Tabs.Tab>
 
-<Tabs.Tab>
+7. Create a `.env` file in the root of your project by running:
 
-<Callout type="warning">
-**AVAIL-DENO HAS BEEN SUNSET**<br/>
-1. The `avail-deno` SDK has been sunset and will not be maintained or upgraded in the future.
+```bash filename="terminal"
+pnpm add dotenv && touch .env
+```
 
-2. We recommend you switch to `avail-js`. The SDK will work with `deno` out of the box. \
-Just run `deno run --allow-net your-file-name.ts` to run your `avail-js` code with `deno`.
+8. Put in the Seed Phrase of the account you want to use into the `.env` file:
+
+```env showLineNumbers filename=".env"
+SEED="This is a random seed phrase please replace with your own"
+```
+
+<Callout type="error" emoji="🔥">
+**IMPORTANT**<br/>
+1. Please be **VERY CAREFUL** with your seed phrase.
+2. Make sure to add your `.env` file to your `.gitignore` so that it doesn't get pushed anywhere.
+3. While it is good enough to use an `env` file while testing, try to use better practices while deploying to production.
 </Callout>
-
-1. Make sure `avail-deno` is installed on your system. You can refer to [Deno's docs](https://docs.deno.com/runtime/manual/) for the same.
-
-2. Create a new Deno JS project by running `deno init` in a directory of your choice, and create a new file named `your-file-name.ts`
-in the project.
-
-3. The examples in this reference will interact with the Turing testnet of Avail DA, and will use the correspponding endpoint.
-You can use the [networks page](/docs/networks) to find endpoints for mainnet if you need to.
 
 </Tabs.Tab>
 
