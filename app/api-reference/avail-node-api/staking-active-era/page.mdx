@@ -44,24 +44,43 @@ The rest of the code should work as is.
 1. Inside `your-file-name.ts`, add the following code:
 
 ```typescript showLineNumbers filename="avail-js"
-import { SDK } from "avail-js-sdk"
+import { SDK, Pallets, BN } from "avail-js-sdk";
 
-const main = async () => {
-  const providerEndpoint = "wss://turing-rpc.avail.so/ws"
-  const sdk = await SDK.New(providerEndpoint)
+export async function getActiveEra() {
+  // Initialize SDK with Turing endpoint
+  const sdk = await SDK.New("wss://turing-rpc.avail.so/ws");
 
-  const value = await sdk.api.query.staking.activeEra()
-  console.log(value.toHuman())
+  // Get the current block hash
+  const blockHash = await sdk.client.bestBlockHash();
+  console.log(`Current block hash: ${blockHash}`);
 
-  process.exit()
+  // Get storage at the current block
+  const storageAt = await sdk.client.storageAt(blockHash);
+
+  // Fetch active era information
+  const activeEra = await Pallets.StakingStorage.ActiveEra.fetch(storageAt);
+
+  if (!activeEra) {
+    console.log("No active era found");
+    process.exit(1);
+  }
+
+  // Log all properties of activeEra
+  console.log("\nAll Active Era Properties:");
+  for (const [key, value] of Object.entries(activeEra)) {
+    console.log(`${key}: ${value}`);
+  }
+
+  process.exit(0);
 }
 
-main()
+// Execute the function
+getActiveEra();
 ```
 
 2. Run the code using:
 
-```bash
+```bash filename="terminal"
 ts-node your-file-name.ts
 ```
 
@@ -99,7 +118,7 @@ async fn main() {
 
 2. Run the code using:
 
-```bash
+```bash filename="terminal"
 cargo run
 ```
 
@@ -168,7 +187,7 @@ func main() {
 
 2. Run the code using:
 
-```bash
+```bash filename="terminal"
 go run main.go
 ```
 

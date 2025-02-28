@@ -59,35 +59,12 @@ The rest of the code should work as is.
 1. Inside `your-file-name.ts`, add the following code:
 
 ```javascript showLineNumbers filename="avail-js"
-import { SDK, WaitFor, Keyring } from "avail-js-sdk"
 
-const main = async () => {
-  const providerEndpoint = "wss://turing-rpc.avail.so/ws";
-  const sdk = await SDK.New(providerEndpoint);
- 
-  const Alice = 'This is a random seed phrase please replace with your own'; 
-  const account = new Keyring({ type: "sr25519" }).addFromUri(Alice);
-  const validators: string[] = [
-    "5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY",
-    "5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy",
-  ]
-  const poolId = 1
-
-  const result = await sdk.tx.nominationPools.nominate(poolId, validators, WaitFor.BlockInclusion, account)
-  if (result.isErr) {
-    console.log(result.reason)
-    process.exit(1)
-  }
-
-  console.log(JSON.stringify(result, null, 4))
-  process.exit()
-}
-main()
 ```
 
 2. Run the code using:
 
-```bash
+```bash filename="terminal"
 ts-node your-file-name.ts
 ```
 
@@ -154,7 +131,7 @@ async fn main() {
 
 2. Run the code using:
 
-```bash
+```bash filename="terminal"
 cargo run
 ```
 
@@ -263,7 +240,7 @@ func main() {
 
 2. Run the code using:
 
-```bash
+```bash filename="terminal"
 go run main.go
 ```
 
