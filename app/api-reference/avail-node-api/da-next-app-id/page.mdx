@@ -53,24 +53,34 @@ The rest of the code should work as is.
 1. Inside `your-file-name.ts`, add the following code:
 
 ```typescript showLineNumbers filename="avail-js"
-import { SDK } from "avail-js-sdk"
+import { SDK, Pallets } from 'avail-js-sdk';
 
-const main = async () => {
-  const providerEndpoint = "wss://turing-rpc.avail.so/ws"
-  const sdk = await SDK.New(providerEndpoint)
-
-  const value = await sdk.api.query.dataAvailability.nextAppId()
-  console.log(value.toHuman())
-
-  process.exit()
+export async function getNextAppId() {
+    // Initialize SDK with Turing endpoint
+    const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
+    
+    // Get the current block hash
+    const blockHash = await sdk.client.bestBlockHash();
+    console.log(`Current block hash: ${blockHash}`);
+    
+    // Get storage at the current block
+    const storageAt = await sdk.client.storageAt(blockHash);
+    
+    // Fetch the next available app ID
+    const nextAppId = await Pallets.DataAvailabilityStorage.NextAppId.fetch(storageAt);
+    
+    console.log(`Next available App ID is: ${nextAppId}`);
+    
+    process.exit(0);
 }
 
-main()
+// Execute the function
+getNextAppId();
 ```
 
 2. Run the code using:
 
-```bash
+```bash filename="terminal"
 ts-node your-file-name.ts
 ```
 
@@ -116,7 +126,7 @@ async fn main() {
 
 2. Run the code using:
 
-```bash
+```bash filename="terminal"
 cargo run
 ```
 
@@ -181,7 +191,7 @@ func main() {
 
 2. Run the code using:
 
-```bash
+```bash filename="terminal"
 go run main.go
 ``` 
 

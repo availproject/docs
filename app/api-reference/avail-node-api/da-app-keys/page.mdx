@@ -57,25 +57,43 @@ The rest of the code should work as is.
 1. Inside `your-file-name.ts`, add the following code:
 
 ```typescript showLineNumbers filename="avail-js"
-import { SDK } from "avail-js-sdk"
+import { SDK, Pallets } from 'avail-js-sdk';
 
-const main = async () => {
-  const providerEndpoint = "wss://turing-rpc.avail.so/ws"
-  const sdk = await SDK.New(providerEndpoint)
-
-  const key = "Reserved-2"
-  const value = await sdk.api.query.dataAvailability.appKeys(key)
-  console.log(value.toHuman())
-
-  process.exit()
+export async function getAppIdByKey() {
+    // Initialize SDK with Turing endpoint
+    const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
+    
+    // Get the current block hash
+    const blockHash = await sdk.client.bestBlockHash();
+    console.log(`Current block hash: ${blockHash}`);
+    
+    // Get storage at the current block
+    const storageAt = await sdk.client.storageAt(blockHash);
+    
+    // The key to look up
+    const appKey = "my Application Key Name!!!";
+    
+    // Fetch the app keys entry for this key
+    const entry = await Pallets.DataAvailabilityStorage.AppKeys.fetch(storageAt, appKey);
+    
+    if (entry === null) {
+        console.log(`No app ID found for key: "${appKey}"`);
+    } else {
+        console.log(`App ID: ${entry.value.appId}`);
+        console.log(`Owner: ${entry.value.owner.toSS58()}`);
+        console.log(`Key: ${appKey}`);
+    }
+    
+    process.exit(0);
 }
 
-main()
+// Execute the function
+getAppIdByKey();
 ```
 
 2. Run the code using:
 
-```bash
+```bash filename="terminal"
 ts-node your-file-name.ts
 ```
 </Tabs.Tab>
@@ -118,7 +136,7 @@ async fn main() {
 
 2. Run the code using:
 
-```bash
+```bash filename="terminal"
 cargo run
 ```
 
@@ -236,7 +254,7 @@ func main() {
 
 2. Run the code using:
 
-```bash
+```bash filename="terminal"
 go run main.go
 ```
 
@@ -260,27 +278,48 @@ as a mapping of their names to their owner and index.
 1. Inside `your-file-name.ts`, add the following code:
 
 ```typescript showLineNumbers filename="avail-js"
-import { SDK } from "avail-js-sdk"
+import { SDK, Pallets } from 'avail-js-sdk';
 
-const main = async () => {
-  const providerEndpoint = "wss://turing-rpc.avail.so/ws"
-  const sdk = await SDK.New(providerEndpoint)
-
-  const appKeys = await sdk.api.query.dataAvailability.appKeys.entries()
-  for (const [key, value] of appKeys) {
-    console.log(key.toHuman())
-    console.log(value.toHuman())
-  }
-
-  process.exit()
+export async function getAllAppIds() {
+    // Initialize SDK with Turing endpoint
+    const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
+    
+    // Get the current block hash
+    const blockHash = await sdk.client.bestBlockHash();
+    console.log(`Current block hash: ${blockHash}`);
+    
+    // Get storage at the current block
+    const storageAt = await sdk.client.storageAt(blockHash);
+    
+    // Fetch all app keys entries
+    const entries = await Pallets.DataAvailabilityStorage.AppKeys.fetchAll(storageAt);
+    
+    console.log(`Total number of app IDs: ${entries.length}`);
+    
+    // Display all app IDs and their details
+    entries.forEach((entry) => {
+        console.log(`  App ID: ${entry.value.appId}`);
+        console.log(`  Owner: ${entry.value.owner.toSS58()}`);
+        
+        let keyString = "";
+        try {
+            keyString = new TextDecoder().decode(entry.key);
+            console.log(`  Key (as string): ${keyString}`);
+        } catch (e) {
+            console.log(`  Key (hex): 0x${Buffer.from(entry.key).toString('hex')}`);
+        }
+    });
+    
+    process.exit(0);
 }
 
-main()
+// Execute the function
+getAllAppIds();
 ```
 
 2. Run the code using:
 
-```bash
+```bash filename="terminal"
 ts-node your-file-name.ts
 ```
 </Tabs.Tab>
@@ -324,7 +363,7 @@ async fn main() {
 
 2. Run the code using:
 
-```bash
+```bash filename="terminal"
 cargo run
 ```
 </Tabs.Tab>
@@ -385,7 +424,7 @@ func main() {
 
 2. Run the code using:
 
-```bash
+```bash filename="terminal"
 go run main.go
 ``` 
 
