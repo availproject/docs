@@ -57,19 +57,20 @@ touch tsconfig.json
 
 ```json showLineNumbers filename="tsconfig.json"
 {
-  "compilerOptions": {
-    "target": "es2016",
-    "module": "commonjs",
-    "outDir": "build",
-    "declaration": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "noUnusedParameters": true
-  },
-  "exclude": ["node_modules", "build"]
-}
+    "compilerOptions": {
+      "target": "es2016",
+      "module": "commonjs",
+      "outDir": "build",
+      "declaration": true,
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "strict": true,
+      "skipLibCheck": true,
+      "noUnusedParameters": true
+    },
+    "include": ["**/*.ts", "**/*.js"],
+    "exclude": ["node_modules", "build"]
+} 
 ```
 
 7. Create a `.env` file in the root of your project by running:
