@@ -1,0 +1,225 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Fetch block data from Avail DA using RPC calls
+
+The Avail node supports a variety of RPC calls for fetching block data. This page covers a few 
+different calls that are commonly used to fetch block data:
+
+## Fetch block hash using block number
+
+### Parameters
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+| blockNumber | number        | true    | The block number of the block to fetch (fetches hash of latest block if not provided)|
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+| blockNumber | number        | true    | The block number of the block to fetch (fetches hash of latest block if not provided)|
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+| blockNumber | number        | true    | The block number of the block to fetch (fetches hash of latest block if not provided)|
+
+</Tabs.Tab>
+
+</Tabs>
+
+### Example
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript showLineNumbers filename="avail-js"
+import { SDK } from "avail-js-sdk";
+
+export async function chainGetBlockHash() {
+
+    // Initialize SDK with Turing endpoint
+    const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
+
+    // 1. Gets the block hash for the latest block if no argument is provided
+    // 2. Gets the block hash for the block at the given block number if a block number is provided
+    const hash = await sdk.client.api.rpc.chain.getBlockHash(1451847)
+    console.log("getBlockHash")
+    console.log(hash.toJSON())
+
+    process.exit(0);
+}
+
+// Execute the function
+chainGetBlockHash()
+```
+
+2. Run the script using the following command:
+
+```bash filename="terminal"
+node your-file-name.ts
+```
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+avail-rust empty block to be filled out soon
+</Tabs.Tab>
+
+<Tabs.Tab>
+avail-go empty block to be filled out soon
+</Tabs.Tab>
+
+</Tabs>
+
+## Fetch block header using block hash
+
+### Parameters
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+| blockHash | string        | true     | The hash of the block to fetch (fetches header of latest block if not provided) |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+| blockHash | string        | true     | The hash of the block to fetch (fetches header of latest block if not provided) |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+| blockHash | string        | true     | The hash of the block to fetch (fetches header of latest block if not provided) |
+</Tabs.Tab>
+
+</Tabs>
+
+### Example
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript showLineNumbers filename="avail-js"
+import { SDK } from "avail-js-sdk";
+
+export async function chainGetBlockHeader() {
+
+    // Initialize SDK with Turing endpoint
+    const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
+
+    // 1. Gets the block header for the latest block if no argument is provided
+    // 2. Gets the block header for a specific block if a block hash is provided
+    const header = await sdk.client.api.rpc.chain.getHeader("0x75a6c54bb5ea904e47fa151956992d7cf543bc7c936d78488e311db8e10397c1")
+    console.log("getBlockHeader")
+    console.log(header.toJSON())
+    
+    process.exit(0);
+}
+
+// Execute the function
+chainGetBlockHeader()
+```
+
+2. Run the script using the following command:
+
+```bash filename="terminal"
+node your-file-name.ts
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+avail-rust empty block to be filled out soon
+</Tabs.Tab>
+
+<Tabs.Tab>
+avail-go empty block to be filled out soon
+</Tabs.Tab>
+
+</Tabs>
+
+## Fetch entire block using block hash
+
+### Parameters
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+| blockHash | string        | true     | The hash of the block to fetch (fetches block of latest block if not provided) |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+| blockHash | string        | true     | The hash of the block to fetch (fetches block of latest block if not provided) |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+| blockHash | string        | true     | The hash of the block to fetch (fetches block of latest block if not provided) |
+</Tabs.Tab>
+
+</Tabs>
+
+### Example
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript showLineNumbers filename="avail-js"
+import { SDK } from "avail-js-sdk";
+
+export async function chainGetBlock() {
+
+    // Initialize SDK with Turing endpoint
+    const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
+
+    // 1. Gets the block for the latest block if no argument is provided
+    // 2. Gets block header and body for a specific block if a block hash is provided
+    const block = await sdk.client.api.rpc.chain.getBlock("0x75a6c54bb5ea904e47fa151956992d7cf543bc7c936d78488e311db8e10397c1")
+    console.log("getBlock")
+    console.log(block.toJSON())
+
+    process.exit(0);
+}
+
+// Execute the function
+chainGetBlock()
+```
+
+2. Run the script using the following command:
+
+```bash filename="terminal"
+node your-file-name.ts
+```
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+avail-rust empty block to be filled out soon
+</Tabs.Tab>
+
+<Tabs.Tab>
+avail-go empty block to be filled out soon
+</Tabs.Tab>
+
+</Tabs>
+
+
+
