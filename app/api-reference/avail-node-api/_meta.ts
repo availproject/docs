@@ -39,4 +39,12 @@ export default {
   "nomination-pools-create": "Create a new nomination pool",
   "nomination-pools-create-with-pool-id": "Create a new nomination pool with a specific pool ID",
   "nomination-pools-nominate": "Nominate validator(s) for your nomination pool",
+
+  "RPC Calls": {
+    "type": "separator",
+    "title": "RPC Calls"
+ },
+
+ "chain-get-block": "Fetch block data using different calls",
+ 
 };
