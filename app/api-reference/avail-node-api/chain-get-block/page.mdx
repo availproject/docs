@@ -69,7 +69,37 @@ node your-file-name.ts
 </Tabs.Tab>
 
 <Tabs.Tab>
-avail-rust empty block to be filled out soon
+1. Inside `main.rs`, add the following code:
+
+```rust showLineNumbers filename="avail-rust"
+use avail_rust::prelude::*;
+
+pub async fn get_block_hash() -> Result<(), ClientError> {
+
+    // Create a new SDK instance
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+    // 1. Get the block hash for a specific block if argument is provided
+    // 2. Get the latest block hash if no argument is provided
+    let block_hash = rpc::chain::get_block_hash(&sdk.client, Some(1451847)).await?;
+
+    println!("Latest Block Hash: {:?}", block_hash);
+
+    Ok(())
+}
+
+#[tokio::main]
+async fn main() -> Result<(), ClientError> {
+    get_block_hash().await?;
+    Ok(())
+}
+```
+
+2. Run the script using the following command:
+
+```bash filename="terminal"
+cargo run
+```
 </Tabs.Tab>
 
 <Tabs.Tab>
@@ -140,7 +170,44 @@ node your-file-name.ts
 </Tabs.Tab>
 
 <Tabs.Tab>
-avail-rust empty block to be filled out soon
+1. Inside `main.rs`, add the following code:
+
+```rust showLineNumbers filename="avail-rust"
+use avail_rust::prelude::*;
+
+pub async fn get_block_header() -> Result<(), ClientError> {
+
+    // Create a new SDK instance
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+    // 1. Gets the block header for a specific block if argument is provided
+    // 2. Gets the latest block header if no argument is provided
+    let block_hash = new_h256_from_hex("0x75a6c54bb5ea904e47fa151956992d7cf543bc7c936d78488e311db8e10397c1")?;
+
+    // Get the latest block header
+    let latest_block_header = rpc::chain::get_header(&sdk.client, None).await?;
+
+    // Get the block header for a specific block
+    let block_header = rpc::chain::get_header(&sdk.client, Some(block_hash)).await?;
+
+    println!("Latest Block Header: {:?}", latest_block_header);
+    println!("Block Header: {:?}", block_header);
+
+    Ok(())
+}
+
+#[tokio::main]
+async fn main() -> Result<(), ClientError> {
+    get_block_header().await?;
+    Ok(())
+}
+```
+
+2. Run the script using the following command:
+
+```bash filename="terminal"
+cargo run
+```
 </Tabs.Tab>
 
 <Tabs.Tab>
@@ -212,7 +279,45 @@ node your-file-name.ts
 </Tabs.Tab>
 
 <Tabs.Tab>
-avail-rust empty block to be filled out soon
+1. Inside `main.rs`, add the following code:
+
+```rust showLineNumbers filename="avail-rust"
+use avail_rust::prelude::*;
+
+pub async fn get_block() -> Result<(), ClientError> {
+
+    // Create a new SDK instance
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+    // 1. Get the block for a specific block if argument is provided
+    // 2. Get the latest block if no argument is provided
+    let block_hash = new_h256_from_hex("0x75a6c54bb5ea904e47fa151956992d7cf543bc7c936d78488e311db8e10397c1")?;
+
+    // Get the latest block
+    let latest_block = rpc::chain::get_block(&sdk.client, None).await?;
+
+    // Get the block for a specific block
+    let specific_block = rpc::chain::get_block(&sdk.client, Some(block_hash)).await?;
+
+    println!("Latest Block: {:?}", latest_block);
+
+    // println!(" Specific Block: {:?}", block);
+
+    Ok(())
+}
+
+#[tokio::main]
+async fn main() -> Result<(), ClientError> {
+    get_block().await?;
+    Ok(())
+}
+```
+
+2. Run the script using the following command:
+
+```bash filename="terminal"
+cargo run
+```
 </Tabs.Tab>
 
 <Tabs.Tab>
