@@ -958,7 +958,65 @@ Here is a complete example of how to fetch all the transactions by a particular 
 <Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
 
 <Tabs.Tab>
-avail-js empty block to be filled out soon
+1. Create a file named `your-file-name.ts`
+
+2. Paste the following code into your file:
+
+```typescript showLineNumbers filename="avail-js"
+import { SDK, Block } from 'avail-js-sdk';
+
+export async function fetchTransactionsBySigner() {
+
+    // Initialize SDK with Turing endpoint
+    const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
+    
+    // Block hash and signer address to look up
+    const blockHash = "0x75a6c54bb5ea904e47fa151956992d7cf543bc7c936d78488e311db8e10397c1";
+    const signer = "5CqgQkrDcdg5QrtuxT3H7WszrqgrBMhdwRbmMVXQzc4VSiEg";
+    
+    console.log(`Looking up transactions by signer: ${signer}`);
+    console.log(`In block: ${blockHash}`);
+    
+    // Create a Block object for the specified block hash
+    const block = await Block.New(sdk.client, blockHash);
+    
+    // Get transactions for the specified signer
+    const blockTxs = block.transactions({ txSigner: signer });
+    
+    console.log(`Found ${blockTxs.length} transaction(s)`);
+    
+    // Display information for each transaction
+    if (blockTxs.length === 0) {
+        console.log("No transactions found for this signer");
+    } else {
+        console.log("\nTransaction Details:");
+        for (const tx of blockTxs) {
+            console.log(`Pallet Name: ${tx.palletName()}`);
+            console.log(`Pallet Index: ${tx.palletIndex()}`);
+            console.log(`Call Name: ${tx.callName()}`);
+            console.log(`Call Index: ${tx.callIndex()}`);
+            console.log(`Tx Hash: ${tx.txHash()}`);
+            console.log(`Tx Index: ${tx.txIndex()}`);
+            console.log(`Signer: ${tx.ss58Address()}`);
+            console.log("---");
+        }
+    
+    }
+    
+    console.log("Transaction retrieval completed successfully");
+    process.exit(0);
+}
+
+// Execute the function
+fetchTransactionsBySigner();
+```
+
+3. Run the script using the following command:
+
+```bash filename="terminal"
+ts-node your-file-name.ts
+```
+
 </Tabs.Tab>
 
 <Tabs.Tab>
@@ -978,7 +1036,62 @@ Here is a complete example of how to fetch all the transactions from a particula
 <Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
 
 <Tabs.Tab>
-avail-js empty block to be filled out soon
+1. Create a file named `your-file-name.ts`
+
+2. Paste the following code into your file:
+
+```typescript showLineNumbers filename="avail-js"
+import { SDK, Block } from 'avail-js-sdk';
+
+export async function fetchAllTransactions() {
+
+    // Initialize SDK with Turing endpoint
+    const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
+    
+    // Block hash to look up
+    const blockHash = "0x9016d7953c88115534a602f2d2548c70c4f5b378d86f4bedda82be2655467c5d";
+    
+    console.log(`Looking up all transactions in block: ${blockHash}`);
+    
+    // Create a Block object for the specified block hash
+    const block = await Block.New(sdk.client, blockHash);
+    
+    // Get all transactions in the block
+    const blockTxs = block.transactions();
+    
+    console.log(`Found ${blockTxs.length} transaction(s)`);
+    
+    // Display information for each transaction
+    if (blockTxs.length === 0) {
+        console.log("No transactions found in this block");
+    } else {
+        console.log("\nTransaction Details:");
+        for (const tx of blockTxs) {
+            console.log(`Pallet Name: ${tx.palletName()}`);
+            console.log(`Pallet Index: ${tx.palletIndex()}`);
+            console.log(`Call Name: ${tx.callName()}`);
+            console.log(`Call Index: ${tx.callIndex()}`);
+            console.log(`Tx Hash: ${tx.txHash()}`);
+            console.log(`Tx Index: ${tx.txIndex()}`);
+            console.log(`Signer: ${tx.ss58Address()}`);
+            console.log("---");
+        }
+    }
+    
+    console.log("Transaction retrieval completed successfully");
+    process.exit(0);
+}
+
+// Execute the function
+fetchAllTransactions();
+```
+
+3. Run the script using the following command:
+
+```bash filename="terminal"
+ts-node your-file-name.ts
+```
+
 </Tabs.Tab>
 
 <Tabs.Tab>
