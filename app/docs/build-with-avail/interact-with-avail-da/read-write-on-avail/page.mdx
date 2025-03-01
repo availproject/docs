@@ -951,7 +951,7 @@ go run main.go
 
 ## Fetch all types of transactions on Avail DA [#fetch-all-transactions]
 
-### Fetch all transactions by a particular signer [#fetch-transactions-by-signer]
+### Fetch all transactions by a particular signer in a block [#fetch-transactions-by-signer]
 
 Here is a complete example of how to fetch all the transactions by a particular signer in a particular block:
 
@@ -1020,13 +1020,132 @@ ts-node your-file-name.ts
 </Tabs.Tab>
 
 <Tabs.Tab>
-avail-rust empty block to be filled out soon
+1. Create a file named `main.rs`
+
+2. Paste the following code into your file:
+
+```rust showLineNumbers filename="avail-rust"
+use avail_rust::prelude::*;
+
+pub async fn fetch_transactions_by_signer() -> Result<(), ClientError> {
+
+    // Create a new SDK instance
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+    // Enter the block hash you want to fetch transactions from
+    let block_hash = new_h256_from_hex("0x75a6c54bb5ea904e47fa151956992d7cf543bc7c936d78488e311db8e10397c1")?;
+    // Fetch the Block
+    let block = Block::new(&sdk.client, block_hash).await?;
+
+    // Fetch All Transaction filtered by Signer
+    let account_id = account_id_from_str("5CqgQkrDcdg5QrtuxT3H7WszrqgrBMhdwRbmMVXQzc4VSiEg")?;
+    let block_transactions = block.transactions(Filter::new().tx_signer(account_id.clone()));
+
+    // Printout Block Transactions made by Signer
+    for tx in block_transactions.iter() {
+
+        println!(
+            "Pallet Name: {:?}, Pallet Index: {}, Call Name: {:?}, Call Index: {:?}, Tx Hash: {:?}, Tx Index: {}",
+            tx.pallet_name(),
+            tx.pallet_index(),
+            tx.call_name(),
+            tx.call_index(),
+            tx.tx_hash(),
+            tx.tx_index()
+        );
+
+        println!(
+            "Tx Signer: {:?}, App Id: {:?}, Tip: {:?}, Mortality: {:?}, Nonce: {:?}",
+            tx.ss58address(),
+            tx.app_id(),
+            tx.tip(),
+            tx.mortality(),
+            tx.nonce(),
+        );
+    }
+
+    Ok(())
+}
+
+#[tokio::main]
+async fn main() -> Result<(), ClientError> {
+    fetch_transactions_by_signer().await?;
+    Ok(())
+}
+```
+
+3. Run the script using the following command:
+
+```bash filename="terminal"
+cargo run
+```
+
 </Tabs.Tab>
 
 <Tabs.Tab>
-avail-go empty block to be filled out soon
-</Tabs.Tab>
+1. Create a file named `main.go`
 
+2. Paste the following code into your file:
+
+```go showLineNumbers filename="avail-go"
+package main
+
+import (
+	"fmt"
+	"log"
+
+	"github.com/availproject/avail-go-sdk/primitives"
+
+	SDK "github.com/availproject/avail-go-sdk/sdk"
+)
+
+func main() {
+
+	// Initialize an SDK instance
+	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
+	if err != nil {
+		log.Fatalf("Failed to initialize SDK: %v", err)
+	}
+
+	// Create a block hash
+	blockHash, err := primitives.NewBlockHashFromHexString("0x75a6c54bb5ea904e47fa151956992d7cf543bc7c936d78488e311db8e10397c1")
+	if err != nil {
+		log.Fatalf("Failed to create block hash: %v", err)
+	}
+
+	// Create a block
+	block, err := SDK.NewBlock(sdk.Client, blockHash)
+	if err != nil {
+		log.Fatalf("Failed to create block: %v", err)
+	}
+
+	// Create an account ID
+	accountId, err := primitives.NewAccountIdFromAddress("5CqgQkrDcdg5QrtuxT3H7WszrqgrBMhdwRbmMVXQzc4VSiEg")
+	if err != nil {
+		log.Fatalf("Failed to create account ID: %v", err)
+	}
+
+	// All Transaction filtered by Signer
+	blockTxs := block.Transactions(SDK.Filter{}.WTxSigner(accountId))
+	fmt.Println("Transaction Count: ", len(blockTxs))
+
+	// Printout Block Transactions filtered by Signer
+	for _, tx := range blockTxs {
+		fmt.Println(fmt.Sprintf(`Pallet Name: %v, Pallet Index: %v, Call Name: %v, Call Index: %v, Tx Hash: %v, Tx Index: %v`, tx.PalletName(), tx.PalletIndex(), tx.CallName(), tx.CallIndex(), tx.TxHash(), tx.TxIndex()))
+		fmt.Println(fmt.Sprintf(`Tx Signer: %v, App Id: %v, Tip: %v, Mortality: %v, Nonce: %v`, tx.SS58Address(), tx.AppId(), tx.Tip(), tx.Mortality(), tx.Nonce()))
+	}
+
+	fmt.Println("RunBlockTransactionBySigner finished correctly.")
+}
+```
+
+3. Run the script using the following command:
+
+```bash filename="terminal"
+go run main.go
+```
+
+</Tabs.Tab>
 </Tabs>
 
 ### Fetch all transactions from a particular block [#fetch-transactions-by-block]
@@ -1095,11 +1214,118 @@ ts-node your-file-name.ts
 </Tabs.Tab>
 
 <Tabs.Tab>
-avail-rust empty block to be filled out soon
+1. Create a file named `main.rs`
+
+2. Paste the following code into your file:
+
+```rust showLineNumbers filename="avail-rust"
+use avail_rust::prelude::*;
+
+pub async fn fetch_all_transactions() -> Result<(), ClientError> {
+
+    // Create a new SDK instance
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+    // Enter the block hash you want to fetch transactions from
+    let block_hash = new_h256_from_hex("0x9016d7953c88115534a602f2d2548c70c4f5b378d86f4bedda82be2655467c5d")?;
+    let block = Block::new(&sdk.client, block_hash).await?;
+
+    // Fetch All Transactions
+    let block_transactions = block.transactions(Filter::default());
+
+    // Printout Block Transactions
+    for tx in block_transactions.iter() {
+        println!(
+            "Pallet Name: {:?}, Pallet Index: {}, Call Name: {:?}, Call Index: {:?}, Tx Hash: {:?}, Tx Index: {}",
+            tx.pallet_name(),
+            tx.pallet_index(),
+            tx.call_name(),
+            tx.call_index(),
+            tx.tx_hash(),
+            tx.tx_index()
+        );
+
+        println!(
+            "Tx Signer: {:?}, App Id: {:?}, Tip: {:?}, Mortality: {:?}, Nonce: {:?}",
+            tx.ss58address(),
+            tx.app_id(),
+            tx.tip(),
+            tx.mortality(),
+            tx.nonce(),
+        );
+    }
+
+    Ok(())
+}
+
+#[tokio::main]
+async fn main() -> Result<(), ClientError> {
+    fetch_all_transactions().await?;
+    Ok(())
+}
+```
+
+3. Run the script using the following command:
+
+```bash filename="terminal"
+cargo run
+```
+
 </Tabs.Tab>
 
 <Tabs.Tab>
-avail-go empty block to be filled out soon
+1. Create a file named `main.go`
+
+2. Paste the following code into your file:
+
+```go showLineNumbers filename="avail-go"
+package main
+
+import (
+	"fmt"
+	"log"
+
+	"github.com/availproject/avail-go-sdk/primitives"
+	SDK "github.com/availproject/avail-go-sdk/sdk"
+)
+
+func main() {
+
+	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
+	if err != nil {
+		log.Fatalf("Failed to initialize SDK: %v", err)
+	}
+
+	blockHash, err := primitives.NewBlockHashFromHexString("0x9016d7953c88115534a602f2d2548c70c4f5b378d86f4bedda82be2655467c5d")
+	if err != nil {
+		log.Fatalf("Failed to create block hash: %v", err)
+	}
+
+	block, err := SDK.NewBlock(sdk.Client, blockHash)
+	if err != nil {
+		log.Fatalf("Failed to create block: %v", err)
+	}
+
+	// Fetch All Transactions
+	blockTxs := block.Transactions(SDK.Filter{})
+	fmt.Println("Transaction Count: ", len(blockTxs))
+
+	// Printout Block Transactions
+	for _, tx := range blockTxs {
+		fmt.Println(fmt.Sprintf(`Pallet Name: %v, Pallet Index: %v, Call Name: %v, Call Index: %v, Tx Hash: %v, Tx Index: %v`, tx.PalletName(), tx.PalletIndex(), tx.CallName(), tx.CallIndex(), tx.TxHash(), tx.TxIndex()))
+		fmt.Println(fmt.Sprintf(`Tx Signer: %v, App Id: %v, Tip: %v, Mortality: %v, Nonce: %v`, tx.SS58Address(), tx.AppId(), tx.Tip(), tx.Mortality(), tx.Nonce()))
+	}
+
+	fmt.Println("RunBlockTransactionAll finished correctly.")
+}
+```
+
+3. Run the script using the following command:
+
+```bash filename="terminal"
+go run main.go
+```
+
 </Tabs.Tab>
 
 </Tabs>
