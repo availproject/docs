@@ -32,7 +32,7 @@ export default {
     type: "separator",
   },
 
-  "avail-turbo-da-api": "Avail Turbo DA API reference",
+  "avail-turbo-da-api": "Turbo DA API reference",
 
   "--------": {
     type: "separator",
