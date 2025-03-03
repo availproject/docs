@@ -31,4 +31,11 @@ export default {
   "-------": {
     type: "separator",
   },
+
+  "avail-turbo-da-api": "Turbo DA API reference",
+
+  "--------": {
+    type: "separator",
+  }
+  
 };

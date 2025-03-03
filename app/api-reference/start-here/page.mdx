@@ -2,8 +2,17 @@
 title: Avail API Reference
 ---
 
-import { Tabs } from 'nextra/components'
-import { Callout } from 'nextra/components'
+import { Cards, Image, Callout } from 'nextra/components'
+import { FileIcon, FilesIcon } from '@components/icons'
+import { cloneElement } from 'react'
+
+export default function MdxLayout(props) {
+  return cloneElement(props.children, {
+    components: {
+      img: Image
+    }
+  })
+}
 
 <Callout type="warning">
 
@@ -19,7 +28,10 @@ This entire section is dedicated towards providing a detailed API reference for 
 
 We currently document the following APIs, feel free to reach out to us on [our Discord server](https://discord.gg/AvailProject) if there are any error, or if something you need is missing:
 
-1. `Avail node API`: The most comprehensive way of interacting with the Avail network programmatically.
-2. `Avail light client API`: An easier way of interacting with the network and contributing to it's security.
-3. `Avail bridge API`: Use the `VectorX` bridge programmatically to transfer tokens between Avail and Ethereum.
-4. `Avail Nexus API`: Interact with Avail Nexus to leverage the power of seamless cross-chain communication.
+<Cards num={4}>
+  <Cards.Card icon={<FileIcon />} title="Avail node API" href="/api-reference/avail-node-api" />
+  <Cards.Card icon={<FileIcon />} title="Avail light client API" href="/api-reference/avail-lc-api" />
+  <Cards.Card icon={<FileIcon />} title="Avail bridge API" href="/api-reference/avail-bridge-api" />
+  <Cards.Card icon={<FileIcon />} title="Avail Nexus API" href="/api-reference/avail-nexus-api" />
+  <Cards.Card icon={<FileIcon />} title="Turbo DA API" href="/api-reference/avail-turbo-da-api" />
+</Cards>
