@@ -2,4 +2,79 @@
 title: Get started with Turbo DA
 ---
 
+import { Callout, Steps, Tabs } from 'nextra/components'
+
 # Get started with Turbo DA
+
+<Callout type="warning" emoji="⚠️">
+**TURBO DA IS CURRENTLY IN PRIVATE BETA**<br/>
+Access to Turbo DA is currently limited only to whitelisted users.
+If your team is interested in using Turbo DA, please reach out to us at [business@availproject.org](mailto:business@availproject.org)
+</Callout>
+
+## Introduction
+Avail DA today has a block time of 20 seconds, and a finalization time of 2-3 blocks,
+which is to say about 60 seconds in most cases. While this is more than enough for most use cases, some applications require a faster finality process to power their 
+use cases.
+
+Turbo DA is a solution to this problem. With Turbo DA, you can simply post your data to the Turbo DA API, and the service will give you a lightning-fast pre-confirmation in less than 250 milliseconds.
+Following this, the we will make sure your data is eventually posted to Avail DA, with you not needing to do anything else.
+
+## How to get started
+
+1. Every account on Turbo DA will be given a certain number of '*credits*', measured in `KBs/MBs` of data which is the amount of data they can submit to Turbo DA.
+2. Turbo DA is a highly versatile service, and allows you to buy credits in exchange for a wide variety of ERC-20 tokens.
+3. Follow the steps below to get started:
+
+<Steps>
+
+### Step 1: Reach out to us (This step is only needed while the service is in private beta) [#reach-out]
+
+If your team is interested in using Turbo DA, please reach out to us at [business@availproject.org](mailto:business@availproject.org)
+
+### Step 2: Sign in to the Turbo DA dashboard [#sign-in-dashboard]
+
+Go to the the following dashboard and sign in with your whitelisted account:
+
+|                          | **Mainnet**                                                           | **Turing Testnet**                                                                                                                |
+| ------------------------ | ----------------------------------------------------------------------| ------------------------------------------------------------------------------------|
+| **Frontend**             |   [turbo.availproject.org](https://turbo.availproject.org/)           | [staging.turbo.availproject.org](https://staging.turbo.availproject.org/)           |
+
+### Step 3: Configure your AppID [#configure-appid]
+
+1. We expect developers building on top of Avail DA to have a specific AppID for their application.
+2. Configure this `AppID` in the dashboard, and this is where your data will eventually be posted.
+
+<Callout type="info">
+**NOT FAMILIAR WITH APPIDS?**<br/>
+`AppIDs` are a core concept every developer building on top of Avail DA should be familiar with.
+You can go through [this page in our docs for the same](/docs/learn-about-avail/app-ids).
+</Callout>
+
+<div align="center">
+<img src="/img/turbo-da/turbo-da-2.png" alt="AppID Configuration" />
+</div>
+
+### Step 4: Get your API key [#get-api-key]
+
+Click on the `Generate new key` button to generate a new API key.
+
+<Callout type="warning" emoji="⚠️">
+**IMPORTANT**<br/>
+1. Every API key will only be shown once on the dashboard, so make sure to copy and save it securely.
+2. You can always delete an existing API key, or generate a new one.
+</Callout>
+
+<div align="center">
+<img src="/img/turbo-da/turbo-da-3.png" alt="API Key Generation" />
+</div>
+
+### Step 5: Use the API key to submit data [#submit-data-to-turbo-da]
+
+Once you have your API key, feel free to head on over to our
+[API reference](/api-reference/avail-turbo-da-api) page to start leveraging the power of Turbo DA.
+
+</Steps>
+
+
+
