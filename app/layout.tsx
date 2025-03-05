@@ -18,6 +18,29 @@ export const metadata: Metadata = {
     "Fusion",
     "Avail API reference",
   ],
+
+  // Adding link preview for sharing
+  openGraph: {
+    title: "Avail docs",
+    description: "How to build on Avail.",
+    images: [
+      {
+        url: '/img/docs-link-preview.png',
+        width: 1200,
+        height: 630,
+        alt: 'Avail Documentation',
+      }
+    ],
+    type: 'website',
+  },
+
+  twitter: {
+    card: 'summary_large_image',
+    title: "Avail docs",
+    description: "How to build on Avail.",
+    images: ['/img/docs-link-preview.png'],
+    creator: '@AvailProject',
+  },
 }
 
 const footer = <Footer/>
