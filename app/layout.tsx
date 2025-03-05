@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   // Adding link preview for sharing
   openGraph: {
     title: "Avail docs",
-    description: "How to build on Avail.",
+    description: "Start building on Avail!",
     images: [
       {
         url: '/img/docs-link-preview.png',
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: "Avail docs",
-    description: "How to build on Avail.",
+    description: "Start building on Avail!",
     images: ['/img/docs-link-preview.png'],
     creator: '@AvailProject',
   },
