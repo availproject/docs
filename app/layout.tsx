@@ -8,6 +8,7 @@ import 'nextra-theme-docs/style.css'
 import './globals.css'
 import { CustomNavbar } from '@components/Navbar';
 export const metadata: Metadata = {
+  metadataBase: new URL('https://docs.availproject.org'),
   title: "Avail docs",
   description: "Avail developer docs built using Nextra V4",
   keywords: [
