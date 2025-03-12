@@ -264,3 +264,217 @@ and try again.
 
 
 </Tabs>
+
+## Fetch account information using a simple `curl` request using the Subscan API
+
+1. The [Subscan API](https://support.subscan.io/) can be used to make API queries to the Subscan indexer to make various kinds of queries.
+2. Subscan supports a variety of Substrate-based chains, including Avail DA mainnet and the Turing testnet.
+3. You can either use their publicly available endpoints for the Avail networks, or use a [dedicated endpoint](https://pro.subscan.io/).
+4. The examples below use publicly available Subscan API endpoints for both networks.
+
+<Tabs items={['avail-mainnet', 'turing-testnet']}>
+
+<Callout type="info">
+**You need to have [curl](https://curl.se/) installed to run the following examples.**
+</Callout>
+
+<Tabs.Tab>
+1. Open a terminal and run the following command:
+
+```bash filename="terminal"
+curl --location --request POST 'https://avail.api.subscan.io/api/v2/scan/search' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "key": "<your-avail-address>"
+}'
+```
+
+2. Replace `<your-avail-address>` with the address you want to query.
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```json filename="JSON response"
+{
+    "code": 0,
+    "message": "Success",
+    "generated_at": 1741796675,
+    "data": {
+        "account": {
+            "address": "5HbUMBK8SBKH22qrm2sRDtWNtfyT331tUHpKkFMUKyirkJ6G",
+            "balance": "169389.0977233184983879",
+            "lock": "168914.456888072538284769",
+            "balance_lock": "168914.456888072538284769",
+            "is_evm_contract": false,
+            "account_display": {
+                "address": "5HbUMBK8SBKH22qrm2sRDtWNtfyT331tUHpKkFMUKyirkJ6G"
+            },
+            "substrate_account": null,
+            "evm_account": "",
+            "registrar_info": null,
+            "count_extrinsic": 0,
+            "nft_amount": "0",
+            "extra": null,
+            "display": "",
+            "web": "",
+            "riot": "",
+            "email": "",
+            "legal": "",
+            "twitter": "",
+            "github": "",
+            "matrix": "",
+            "discord": "",
+            "judgements": null,
+            "reserved": "13000000000000000000",
+            "bonded": "168914456888072538284769",
+            "unbonding": "0",
+            "democracy_lock": "0",
+            "conviction_lock": "0",
+            "election_lock": "0",
+            "staking_info": null,
+            "nonce": 0,
+            "role": "validator",
+            "stash": "5HbUMBK8SBKH22qrm2sRDtWNtfyT331tUHpKkFMUKyirkJ6G",
+            "is_council_member": false,
+            "is_techcomm_member": false,
+            "is_registrar": false,
+            "is_fellowship_member": false,
+            "is_module_account": false,
+            "assets_tag": null,
+            "is_erc20": false,
+            "is_erc721": false,
+            "vesting": null,
+            "proxy": {
+                "proxy_account": [
+                    {
+                        "account_display": {
+                            "address": "5HmgLcTCi2trnz4AeEiWs4ngAjALu7o4mFnpKdMBnA8jhFnq"
+                        },
+                        "proxy_type": "Staking"
+                    }
+                ]
+            },
+            "multisig": {
+                "multi_account_member": [
+                    {
+                        "address": "5DfE73hjEYs44JHsuMKzrTMBzkEb6fosaV5xSUEVNjrHwqdB"
+                    },
+                    {
+                        "address": "5DtGLPULvxXoSPvVv2YZdWmCJy8eEYnWj7MwPpdwGgDnFiua"
+                    },
+                    {
+                        "address": "5DyHKiRY2ssTWU4CtbbEPoYFmNKaN2X39KRcgb33fnZqk2Yd"
+                    }
+                ],
+                "threshold": 2
+            },
+            "delegate": null
+        }
+    }
+}
+```
+</details>
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Open a terminal and run the following command:
+
+```bash filename="terminal"
+curl --location --request POST 'https://avail-turing.api.subscan.io/api/v2/scan/search' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "key": "<your-avail-address>"
+}'
+```
+
+2. Replace `<your-avail-address>` with the address you want to query.
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```json filename="JSON response"
+{
+    "code": 0,
+    "message": "Success",
+    "generated_at": 1741798906,
+    "data": {
+        "account": {
+            "address": "5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk",
+            "balance": "16360.7888064893714931",
+            "lock": "1131.93873839810825155",
+            "balance_lock": "1131.93873839810825155",
+            "is_evm_contract": false,
+            "account_display": {
+                "address": "5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk"
+            },
+            "substrate_account": null,
+            "evm_account": "",
+            "registrar_info": null,
+            "count_extrinsic": 54,
+            "nft_amount": "0",
+            "extra": null,
+            "display": "",
+            "web": "",
+            "riot": "",
+            "email": "",
+            "legal": "",
+            "twitter": "",
+            "github": "",
+            "matrix": "",
+            "discord": "",
+            "judgements": null,
+            "reserved": "15100000000000000000",
+            "bonded": "1131938738398108251550",
+            "unbonding": "0",
+            "democracy_lock": "0",
+            "conviction_lock": "0",
+            "election_lock": "0",
+            "staking_info": null,
+            "nonce": 54,
+            "role": "nominator",
+            "stash": "5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk",
+            "is_council_member": false,
+            "is_techcomm_member": false,
+            "is_registrar": false,
+            "is_fellowship_member": false,
+            "is_module_account": false,
+            "assets_tag": null,
+            "is_erc20": false,
+            "is_erc721": false,
+            "is_pool_member": true,
+            "vesting": null,
+            "proxy": {
+                "proxy_account": [
+                    {
+                        "account_display": {
+                            "address": "5GvF6GLPuxbseH5qC9w8doUiCMnT4vGvY3Rznu3Fktdw4N45"
+                        },
+                        "proxy_type": "NonTransfer"
+                    }
+                ]
+            },
+            "multisig": {
+                "multi_account": [
+                    {
+                        "address": "5DSCqHHH3whUA3xgkyVSekXB36Gc47SwsJEHLuab5RnFvNua"
+                    }
+                ]
+            },
+            "delegate": null,
+            "nomination_pool_balance": [
+                {
+                    "pool_id": 3,
+                    "bonded": "100000000000000000000",
+                    "unbonding": "0",
+                    "claimable": "0"
+                }
+            ]
+        }
+    }
+}
+```
+</details>
+</Tabs.Tab>
+
+</Tabs>

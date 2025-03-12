@@ -7,42 +7,11 @@ import { getPageMap } from 'nextra/page-map'
 import 'nextra-theme-docs/style.css'
 import './globals.css'
 import { CustomNavbar } from '@components/Navbar';
-export const metadata: Metadata = {
-  metadataBase: new URL('https://docs.availproject.org'),
-  title: "Avail docs",
-  description: "Avail developer docs built using Nextra V4",
-  keywords: [
-    "Avail Project",
-    "Avail docs",
-    "Data Availability",
-    "Nexus",
-    "Fusion",
-    "Avail API reference",
-  ],
+import { sharedMetadata } from '@components/lib/metadata';
 
-  // Adding link preview for sharing
-  openGraph: {
-    title: "Avail docs",
-    description: "Start building on Avail!",
-    images: [
-      {
-        url: '/img/docs-link-preview.png',
-        width: 1200,
-        height: 630,
-        alt: 'Avail Documentation',
-      }
-    ],
-    type: 'website',
-  },
 
-  twitter: {
-    card: 'summary_large_image',
-    title: "Avail docs",
-    description: "Start building on Avail!",
-    images: ['/img/docs-link-preview.png'],
-    creator: '@AvailProject',
-  },
-}
+// Metadata for the website
+export const metadata = sharedMetadata
 
 const footer = <Footer/>
 
