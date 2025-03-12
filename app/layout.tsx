@@ -10,17 +10,9 @@ import { CustomNavbar } from '@components/Navbar';
 import { sharedMetadata } from '@components/lib/metadata';
 
 
-// Metadata for the website
-export const metadata = sharedMetadata
+export const metadata: Metadata = sharedMetadata
 
 const footer = <Footer/>
-
-const defaultSearchOptions = {
-  preload: true,
-  verbose: false,
-  filters: {},
-  sort: {}
-};
  
 export default async function RootLayout({
   children,
