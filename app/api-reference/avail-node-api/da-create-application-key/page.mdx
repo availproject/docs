@@ -171,6 +171,7 @@ pub async fn create_application_key() -> Result<(), ClientError> {
     };
     let app_id = event.id.0;
     println!("Application Key Created");
+    println!("{}",app_id);
 
     Ok(())
 }
