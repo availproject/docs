@@ -170,7 +170,7 @@ pub async fn create_application_key() -> Result<(), ClientError> {
         return Err("Failed to get Application Key Created Event".into());
     };
     let app_id = event.id.0;
-    println!("Application Key Created: {}", app_id);
+    println!("Application Key Created");
 
     Ok(())
 }
