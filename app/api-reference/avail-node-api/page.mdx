@@ -25,32 +25,32 @@ to eventually be an exhaustive resource for the Avail node API.
 
 1. Make sure `Node-js` is installed on your system by running the following command in your terminal:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd1"
 node --version
 ```
 If not installed, you can refer to [Node-js docs](https://nodejs.org/en/download/package-manager) for the same.
 
 2. Create a new Node-js project by running the following command in a directory of your choice:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd2"
 pnpm init
 ```
 
 3. To install the `avail-js-sdk` run the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd3"
 pnpm add avail-js-sdk@0.4.0
 ```
 
 4. Make sure to install the `ts-node` package if you haven't already:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd4"
 pnpm add -g ts-node
 ```
 
 5. Create a `tsconfig.json` file in the root of your project by running:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd5"
 touch tsconfig.json
 ```
 
@@ -76,13 +76,13 @@ touch tsconfig.json
 
 7. Create a `.env` file in the root of your project by running:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd6"
 pnpm add dotenv && touch .env
 ```
 
 8. Put in the Seed Phrase of the account you want to use into the `.env` file:
 
-```env showLineNumbers filename=".env"
+```env showLineNumbers filename=".env" name="env1"
 SEED="This is a random seed phrase please replace with your own"
 ```
 
@@ -148,13 +148,13 @@ dotenvy = "0.15.7"
 
 4. Create a `.env` file in the root of your project by running the following command:
 
-```bash
+```bash filename="terminal" name="cmd7"
 touch .env
 ```
 
 5. Put in the Seed Phrase of the account you want to use into the `.env` file:
 
-```env showLineNumbers filename=".env"
+```env showLineNumbers filename=".env" name="env2"
 SEED="This is a random seed phrase please replace with your own"
 ```
 
@@ -171,26 +171,26 @@ SEED="This is a random seed phrase please replace with your own"
 
 1. Make sure `go` is installed on your system by running the following command in your terminal:
 
-```bash
+```bash filename="terminal" name="cmd8"
 go version
 ```
 If not installed, you can refer to [Go's docs](https://golang.org/doc/install) for the same.
 
 2. Create a new Go project by initializing a Go module in a directory of your choice. Run the following command:
 
-```bash
+```bash filename="terminal" name="cmd9"
 go mod init your-project-name
 ```
 
 3. To install the avail-go-sdk, use the following command to add it to your project:
 
-``` bash
+``` bash filename="terminal" name="cmd10"
 go get github.com/availproject/avail-go-sdk@v0.2.3
 ```
 
 4. To install the `godotenv` package, use the following command:
 
-```bash
+```bash filename="terminal" name="cmd11"
 go get github.com/joho/godotenv
 ```
 
@@ -203,13 +203,13 @@ go get github.com/joho/godotenv
 
 5. Create a `.env` file in the root of your project by running the following command: 
 
-```bash
+```bash filename="terminal" name="cmd12"
 touch .env
 ```
 
 6. Put in the Seed Phrase of the account you want to use into the `.env` file:
 
-```env showLineNumbers filename=".env"
+```env showLineNumbers filename=".env" name="env3"
 SEED="This is a random seed phrase please replace with your own"
 ```
 
