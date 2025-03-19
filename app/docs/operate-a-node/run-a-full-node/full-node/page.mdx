@@ -17,6 +17,70 @@ There are two main ways of running an Avail node:
 2. By building from source
 3. By running a pre-built image using Docker
 
+<Callout type="info">
+**LOOKING TO BE AN RPC PROVIDER?**<br/>
+
+We welcome all community members who are looking to run an RPC node on Avail.
+While the exact config of your node will depend on you unique requirements, we recommend you use at least these flags to make sure your
+node can be used to access all RPC methods:
+
+```bash showLineNumbers filename="avail-node flags"
+--state-pruning archive
+--blocks-pruning archive
+--rpc-methods Safe
+--rpc-cors all
+--unsafe-rpc-external
+--enable-kate-rpc
+```
+
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Description of the flags:</summary>
+
+- **--state-pruning archive**:
+
+          Specify the state pruning mode.
+          This mode specifies when the block's state (ie, storage) should be pruned (ie, removed) from the database. This setting can only
+          be set on the first creation of the database. Every subsequent run will load the pruning mode from the database and will error
+          if the stored mode doesn't match this CLI value. It is fine to drop this CLI flag for subsequent runs. Possible values: -
+          archive: Keep the state of all blocks. - `archive-canonical`: Keep only the state of finalized blocks. - number Keep the state of
+          the last number of finalized blocks. [default: 256]
+
+- **--blocks-pruning archive**:
+
+          Specify the blocks pruning mode.
+          This mode specifies when the block's body (including justifications) should be pruned (ie, removed) from the database. Possible
+          values: - `archive`: Keep all blocks. - `archive-canonical`: Keep only finalized blocks. - number Keep the last `number` of
+          finalized blocks.
+
+- **--rpc-methods Safe**:
+
+          RPC methods to expose.
+          [default: auto] \
+          Possible values:
+          - auto:   Expose every RPC method only when RPC is listening on `localhost`, otherwise serve only safe RPC methods
+          - safe:   Allow only a safe subset of RPC methods
+          - unsafe: Expose every RPC method (even potentially unsafe ones)
+
+- **--rpc-cors all**:
+
+          Specify browser *origins* allowed to access the HTTP & WS RPC servers.
+          A comma-separated list of origins (protocol://domain or special `null` value). Value of `all` will disable origin validation.
+
+- **--unsafe-rpc-external**:
+
+          Listen to all RPC interfaces.
+
+- **--enable-kate-rpc**:
+
+          Enable the Kate pallet.
+</details>
+
+- Looking for a list of all available config flags? Check out the [last section of this page](/docs/operate-a-node/run-a-full-node/full-node#additional-configs).
+
+</Callout>
+
+
+
 <Tabs items={['Run a pre-built binary' , 'Build from source' , 'Using Docker']}>
 
 
