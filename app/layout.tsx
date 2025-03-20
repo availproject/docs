@@ -29,8 +29,12 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en" dir="ltr" suppressHydrationWarning>
-      <Head  
-    />
+      <Head>
+      <meta property="og:image" content="/img/docs-link-preview.png" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta name="twitter:image" content="/img/docs-link-preview.png" />
+      </Head>
       <body>
         <Layout
           navbar={
