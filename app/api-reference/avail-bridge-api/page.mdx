@@ -9,6 +9,28 @@ import { Callout } from 'nextra/components'
 
 # Avail bridge API reference
 
+<Callout type="warning">
+**TRANSACTION NESTING LIMITATIONS**<br/>
+
+To ensure network stability and security, the Avail network is generally subject to the following limits:
+
+1. **General Transactions**: Transaction nesting is limited to a maximum of 5 levels. Transactions exceeding this limit are not guaranteed to be processed successfully. 
+
+2. **Bridge Transactions (Avail to Ethereum)**: For `vector.sendMessage` operations, only direct calls and nesting only with proxy/multisig (up to 2 levels) are supported. Any other combination is not guaranteed to work.
+
+3. **Data Availability Submissions**: `dataAvailability.submitData` operations should only be performed with standard accounts. 
+
+4. **Batching Restrictions**:
+   - `vector.sendMessage` and `dataAvailability.submitData` calls should not be included in batch calls.
+   - `vector.sendMessage` should not be included in schedule calls. 
+   - Transactions with more than 2 levels of batching are not guaranteed to work.
+
+**Understanding Nesting Levels**:
+- Level 0: Direct call (e.g., `dataAvailability.submitData`)
+- Level 1: One wrapper (e.g., multisig → `dataAvailability.submitData`)
+- Level 2: Two wrappers (e.g., proxy → multisig → `dataAvailability.submitData`)
+</Callout>
+
 <Callout type="info">
 **BEFORE WE START**<br/>
 1. The Avail VectorX bridge can be used to pass messages and tokens between \
