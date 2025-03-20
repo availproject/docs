@@ -1334,22 +1334,18 @@ go run main.go
 
 </Tabs>
 
-
-
-
-
-
-
-
-
-
-
-
-
-{/* ## Estimate fees for your data submission
+## Estimate fees for your data submission
 
 The `avail-js` SDK provides a method to estimate the cost of submitting a particular piece of data to Avail DA.
 Here is how you can use it:
+
+<Tabs items={['avail-js']}>
+
+<Tabs.Tab>
+
+<Tabs items={['Pass data directly', 'Pass data via file']}>
+
+<Tabs.Tab>
 
 ```typescript showLineNumbers filename="avail-js"
 
@@ -1378,4 +1374,54 @@ const calculateCost = async () => {
   }
   
   calculateCost()
-``` */}
+```
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+```typescript showLineNumbers filename="avail-js"
+
+import * as fs from 'fs';
+import { initialize, disconnect } from "avail-js-sdk"
+
+const calculateCost = async () => {
+      // Initialize the avail sdk providerEndpoint
+      const providerEndpoint = await initialize("wss://turing-rpc.avail.so/ws")
+
+      // Dummy sender - insert any address
+      const sender = "5CDGXH8Q9DzD3TnATTG6qm6f4yR1kbECBGUmh2XbEBQ8Jfa5"
+      
+      //10^18 decimals to denominate to AVAIL
+      const DECIMAL = 1000000000000000000
+     
+      // Pass the path to your txt file
+      const filePath = '/Users/abosolute/path/to-your-file/<file-name>.txt';
+      const data = fs.readFileSync(filePath, 'utf8')
+
+		  //Get the estimated cost in AVAIL
+        const cost = await providerEndpoint.tx.dataAvailability.submitData(data).paymentInfo(sender)
+    const costInAvail = (parseInt(cost.partialFee.toString())/DECIMAL).toFixed(6)
+        
+        console.log(`Estimated Fees: ${costInAvail} AVAIL`)
+
+      await disconnect()
+  }
+  
+  calculateCost()
+```
+
+</Tabs.Tab>
+
+</Tabs>
+
+</Tabs.Tab>
+
+</Tabs>
+
+2. Run the script using the following command:
+
+```bash filename="terminal"
+ts-node your-file-name.ts
+```
+
