@@ -56,7 +56,7 @@ touch tsconfig.json
 
 6. Populate your `tsconfig.json` with the following configuration:
 
-```json showLineNumbers filename="tsconfig.json"
+```json showLineNumbers filename="tsconfig.json" name="cmd6"
 {
     "compilerOptions": {
       "target": "es2016",
@@ -76,13 +76,13 @@ touch tsconfig.json
 
 7. Create a `.env` file in the root of your project by running:
 
-```bash filename="terminal" name="cmd6"
+```bash filename="terminal" name="cmd7"
 pnpm add dotenv && touch .env
 ```
 
 8. Put in the Seed Phrase of the account you want to use into the `.env` file:
 
-```env showLineNumbers filename=".env" name="env1"
+```env showLineNumbers filename=".env" name="cmd8"
 SEED="This is a random seed phrase please replace with your own"
 ```
 
@@ -123,7 +123,7 @@ You can use the [networks page](/docs/networks) to find endpoints for mainnet if
 
 3. Paste the following into your `Cargo.toml` file:
 
-```toml showLineNumbers filename="Cargo.toml"
+```toml showLineNumbers filename="Cargo.toml" name="cmd9"
 [workspace]
 
 [package]
@@ -148,13 +148,13 @@ dotenvy = "0.15.7"
 
 4. Create a `.env` file in the root of your project by running the following command:
 
-```bash filename="terminal" name="cmd7"
+```bash filename="terminal" name="cmd10"
 touch .env
 ```
 
 5. Put in the Seed Phrase of the account you want to use into the `.env` file:
 
-```env showLineNumbers filename=".env" name="env2"
+```env showLineNumbers filename=".env" name="cmd11"
 SEED="This is a random seed phrase please replace with your own"
 ```
 
@@ -171,26 +171,26 @@ SEED="This is a random seed phrase please replace with your own"
 
 1. Make sure `go` is installed on your system by running the following command in your terminal:
 
-```bash filename="terminal" name="cmd8"
+```bash filename="terminal" name="cmd12"
 go version
 ```
 If not installed, you can refer to [Go's docs](https://golang.org/doc/install) for the same.
 
 2. Create a new Go project by initializing a Go module in a directory of your choice. Run the following command:
 
-```bash filename="terminal" name="cmd9"
+```bash filename="terminal" name="cmd13"
 go mod init your-project-name
 ```
 
 3. To install the avail-go-sdk, use the following command to add it to your project:
 
-``` bash filename="terminal" name="cmd10"
+``` bash filename="terminal" name="cmd14"
 go get github.com/availproject/avail-go-sdk@v0.2.3
 ```
 
 4. To install the `godotenv` package, use the following command:
 
-```bash filename="terminal" name="cmd11"
+```bash filename="terminal" name="cmd15"
 go get github.com/joho/godotenv
 ```
 
@@ -203,13 +203,13 @@ go get github.com/joho/godotenv
 
 5. Create a `.env` file in the root of your project by running the following command: 
 
-```bash filename="terminal" name="cmd12"
+```bash filename="terminal" name="cmd16"
 touch .env
 ```
 
 6. Put in the Seed Phrase of the account you want to use into the `.env` file:
 
-```env showLineNumbers filename=".env" name="env3"
+```env showLineNumbers filename=".env" name="cmd17"
 SEED="This is a random seed phrase please replace with your own"
 ```
 
