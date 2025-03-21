@@ -71,7 +71,7 @@ attack vector since the rollups building on top of Avail DA can always filter ou
 <Tabs.Tab>
 1. Inside `your-file-name.ts`, paste the following code:
 
-```typescript showLineNumbers filename="avail-js"
+```typescript showLineNumbers filename="avail-js" name="cmd1"
 import * as dotenv from 'dotenv';
 import { Account, SDK, Pallets } from 'avail-js-sdk';
 
@@ -138,7 +138,7 @@ submitData();
 
 2. Run the code using:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd2"
 ts-node your-file-name.ts
 ```
 </Tabs.Tab>
@@ -146,7 +146,7 @@ ts-node your-file-name.ts
 <Tabs.Tab>
 1. Inside `src/main.rs`, paste the following code:
 
-```rust showLineNumbers filename="avail-rust"
+```rust showLineNumbers filename="avail-rust" name="cmd3"
 use dotenvy::dotenv;
 use std::env;
 use avail_rust::prelude::*;
@@ -203,7 +203,7 @@ async fn main() {
 ```
 2. Run the code using:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd4"
 cargo run
 ```
 </Tabs.Tab>
@@ -212,7 +212,7 @@ cargo run
 
 1. Inside `main.go`, paste the following code:
 
-```go showLineNumbers filename="avail-go"
+```go showLineNumbers filename="avail-go" name="cmd5"
 package main
 
 import (
@@ -271,13 +271,13 @@ func main() {
 
 2. Run the code using:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd6"
 go run main.go
 ```
 
 <Callout type="info">
 If you receive errors related to missing dependencies while trying to execute your code, run:
-```bash filename="terminal"
+```bash filename="terminal" name="cmd7"
 go mod tidy
 ```
 and try again.
