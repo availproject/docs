@@ -107,16 +107,16 @@ export async function transferAllowDeath() {
         throw new Error("Transaction failed");
     }
     
-    console.log("Transfer completed successfully");
     console.log(`Transaction Hash: ${res.txHash}`);
     console.log(`Block Hash: ${res.blockHash}`);
     console.log(`Block Number: ${res.blockNumber}`);
+    console.log("Transfer completed successfully");
     
     process.exit(0);
 }
 
 // Execute the function
-transferAllowDeath();   
+transferAllowDeath();
 ```
 
 2. Run the code using:
