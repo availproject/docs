@@ -60,7 +60,7 @@ The rest of the code should work as is.
 
 1. Inside `your-file-name.ts`, add the following code:
 
-```typescript showLineNumbers filename="avail-js"
+```typescript showLineNumbers filename="avail-js" name="cmd1"
 import { SDK, Pallets } from 'avail-js-sdk';
 
 export async function getAppIdByKey() {
@@ -97,7 +97,7 @@ getAppIdByKey();
 
 2. Run the code using:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd2"
 ts-node your-file-name.ts
 ```
 </Tabs.Tab>
@@ -107,7 +107,7 @@ ts-node your-file-name.ts
 
 1. Inside `main.rs`, add the following code:
 
-```rust showLineNumbers filename="avail-rust" showLineNumbers filename="avail-rust"
+```rust showLineNumbers filename="avail-rust" name="cmd3" showLineNumbers filename="avail-rust"
 use avail_rust::prelude::*;
 use avail::data_availability::storage::types::app_keys::Param0;
 
@@ -140,7 +140,7 @@ async fn main() {
 
 2. Run the code using:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd4"
 cargo run
 ```
 
@@ -205,7 +205,7 @@ addresses in the `AccountId32` format.
 
 1. Inside `main.go`, add the following code:
 
-```go showLineNumbers filename="avail-go"
+```go showLineNumbers filename="avail-go" name="cmd5"
 package main
 
 import (
@@ -258,7 +258,7 @@ func main() {
 
 2. Run the code using:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd6"
 go run main.go
 ```
 
@@ -281,7 +281,7 @@ as a mapping of their names to their owner and index.
 
 1. Inside `your-file-name.ts`, add the following code:
 
-```typescript showLineNumbers filename="avail-js"
+```typescript showLineNumbers filename="avail-js" name="cmd1"
 import { SDK, Pallets } from 'avail-js-sdk';
 
 export async function getAllAppIds() {
@@ -323,7 +323,7 @@ getAllAppIds();
 
 2. Run the code using:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd2"
 ts-node your-file-name.ts
 ```
 </Tabs.Tab>
@@ -332,7 +332,7 @@ ts-node your-file-name.ts
 
 1. Inside `main.rs`, add the following code:
 
-```rust showLineNumbers filename="avail-rust" showLineNumbers filename="avail-rust"
+```rust showLineNumbers filename="avail-rust" name="cmd3" showLineNumbers filename="avail-rust"
 use avail_rust::prelude::*;
 
 pub async fn da_app_keys_iter() -> Result<(), ClientError> {
@@ -367,7 +367,7 @@ async fn main() {
 
 2. Run the code using:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd4"
 cargo run
 ```
 </Tabs.Tab>
@@ -376,7 +376,7 @@ cargo run
 
 1. Inside `main.go`, add the following code:
 
-```go showLineNumbers filename="avail-go"
+```go showLineNumbers filename="avail-go" name="cmd5"
 package main
 
 import (
@@ -428,7 +428,7 @@ func main() {
 
 2. Run the code using:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd6"
 go run main.go
 ``` 
 
