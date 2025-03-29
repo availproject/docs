@@ -25,9 +25,14 @@ To set up a dev environment for `avail-js`, please follow the steps [outlined he
 
 <Tabs.Tab>
 
-1. Create a file named `submit-data.ts`
+1. Create a file named `your-file-name.ts`
 
-2. Import the dependencies from `avail-js-sdk` and create a `submitData` function:
+2. Paste the following code into the file:
+
+This pice of code submits:
+- A string named `data` to Avail DA
+- to the `appID` of 89
+- We expect devs to submit data to their own specific `appID`s.
 
 ```typescript showLineNumbers filename="avail-js"
 import * as dotenv from 'dotenv';
@@ -37,24 +42,10 @@ dotenv.config();
  
 export async function submitData() {
 
-
-}
-submitData()
-```
-
-3. Initialize a new instance of the SDK inside the `submitData` function:
-
-```typescript showLineNumbers filename="avail-js"
-
     // Initialize the SDK with a public Turing testnet endpoint
     // You can always switch it out with your own endpoint
     const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
-```
-
-4. Initialize a new wallet using a `12-word seed phrase`, and configure the params for the transaction:
-
-```typescript showLineNumbers filename="avail-js"
-
+    
     // Loading seed phrase and creating an account derived from the seed
     const seed = process.env.SEED;
     if (!seed) {
@@ -68,12 +59,8 @@ submitData()
     // Replace with your own AppID
     const appId = 89;
     console.log(`Submitting data to App Id: ${appId}`);
-```
 
-5. Submit the transaction by calling the `dataAvailability_submitData` extrinsic via the `avail-js` SDK:
-
-```typescript showLineNumbers filename="avail-js"
-    // Create data submission transaction
+     // Create data submission transaction
     const data = "My Data Submission";
     const tx = sdk.tx.dataAvailability.submitData(data);
     console.log("Submitting transaction with data...");
@@ -108,12 +95,15 @@ submitData()
     
     console.log("Data submission completed successfully");
     process.exit(0);
+
+}
+submitData()
 ```
 
-6. Run the script using the following command:
+3. Run the script using the following command:
 
 ```bash filename="terminal"
-ts-node submit-data.ts
+ts-node your-file-name.ts
 ```
 
 </Tabs.Tab>
@@ -121,7 +111,12 @@ ts-node submit-data.ts
 <Tabs.Tab>
 1. Create a file named `main.rs`
 
-2. Import the dependencies from `avail-rust-sdk` and create a `submit_data` function:
+2. Paste the following code into the file:
+
+This pice of code submits:
+- A string named `data` to Avail DA
+- to the `appID` of 1
+- We expect devs to submit data to their own specific `appID`s.
 
 ```rust showLineNumbers filename="avail-rust"
 use dotenvy::dotenv;
@@ -132,19 +127,9 @@ type DataSubmissionCall = avail::data_availability::calls::types::SubmitData;
 
 pub async fn submit_data() -> Result<(), ClientError> {
 
-}
-```
-
-3. Initialize a new instance of the SDK inside the `submit_data` function:
-
-```rust showLineNumbers filename="avail-rust"
     // Create a new SDK instance
 	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
-```
 
-4. Initialize a new wallet using a `12-word seed phrase`, and configure the params for the transaction:
-
-```rust showLineNumbers filename="avail-rust"
     // Loading seed phrase and creating an account derived from the seed
     dotenv().ok();
     let seed = env::var("SEED").expect("SEED environment variable is not set");
@@ -156,11 +141,6 @@ pub async fn submit_data() -> Result<(), ClientError> {
 
     // Data Submission
     let data = String::from("My Data").into_bytes();
-```
-
-5. Submit the transaction by calling the `dataAvailability_submitData` extrinsic via the `avail-rust` SDK:
-
-```rust showLineNumbers filename="avail-rust"
 
     let options = Options::new().app_id(my_application_key);
     let tx = sdk.tx.data_availability.submit_data(data);
@@ -195,7 +175,7 @@ async fn main() {
 }
 ```
 
-6. Run the script using the following command:
+3. Run the script using the following command:
 
 ```bash filename="terminal"
 cargo run
@@ -207,7 +187,12 @@ cargo run
 
 1. Create a file named `main.go`
 
-2. Import the dependencies from `avail-go-sdk` and create a `main` function:
+2. Paste the following code into the file:
+
+This pice of code submits:
+- A string to Avail DA
+- to the `appID` of 89
+- We expect devs to submit data to their own specific `appID`s.
 
 ```go showLineNumbers filename="avail-go"
 package main
@@ -223,13 +208,7 @@ import (
 
 func main() {
 
-}
-```
-
-3. Initialize a new instance of the SDK inside the `main` function:
-
-```go showLineNumbers filename="avail-go"
-	// Load environment variables from .env file
+    	// Load environment variables from .env file
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
@@ -256,12 +235,8 @@ func main() {
 
 	// Configure the application ID
 	appId := uint32(89)
-```
 
-4. Pass the seed phrase and data string as params for the transaction:
-
-```go showLineNumbers filename="avail-go"
-	// Submit data to Avail
+    	// Submit data to Avail
 	tx := sdk.Tx.DataAvailability.SubmitData([]byte("Submitting some data using avail-go-sdk"))
 	res, err := tx.ExecuteAndWatchInclusion(acc, SDK.NewTransactionOptions().WithAppId(appId))
 	if err != nil {
@@ -275,9 +250,11 @@ func main() {
 
 	// Printing out all the values of the transaction
 	fmt.Println(fmt.Sprintf(`Block Hash: %v, Block Index: %v, Tx Hash: %v, Tx Index: %v`, res.BlockHash.ToHexWith0x(), res.BlockNumber, res.TxHash.ToHexWith0x(), res.TxIndex))
+
+}
 ```
 
-5. Run the script using the following command:
+3. Run the script using the following command:
 
 ```bash filename="terminal"
 go run main.go
