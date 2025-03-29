@@ -302,23 +302,15 @@ To check out how to create an AppID on Avail, [refer to this page](/docs/build-w
 <Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
 
 <Tabs.Tab>
-1. Create a file named `read-data.ts`
+1. Create a file named `your-file-name.ts`
 
-2. Import the dependencies from `avail-js-sdk` and create a `readDataByHash` function:
+2. Paste the following code into the file:
 
 ```typescript showLineNumbers filename="avail-js"
 import { initialize } from "avail-js-sdk"
 
 export async function readDataByHash() {
 
-
-}
-readDataByHash()
-```
-
-3. Initialize a new instance of the SDK inside the `readDataByHash` function, and declare the params:
-
-```typescript showLineNumbers filename="avail-js"
     // Initialize SDK with Turing endpoint
     const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
     
@@ -328,21 +320,13 @@ readDataByHash()
     
     console.log(`Looking up transaction: ${txHash}`);
     console.log(`In block: ${blockHash}`);
-```
 
-4. Extract the data:
-
-```typescript showLineNumbers filename="avail-js"
     // Create a Block object for the specified block hash
     const block = await Block.New(sdk.client, blockHash);
     
     // Get data submissions for the specified transaction hash
     const blobs = block.dataSubmissions({ txHash: txHash });
-```
 
-5. Log out the data:
-
-```typescript showLineNumbers filename="avail-js"
     console.log(`Found ${blobs.length} data submission(s)`);
     
     // Display information for each data blob
@@ -362,12 +346,15 @@ readDataByHash()
     
     console.log("Data retrieval completed successfully");
     process.exit(0);
+
+}
+readDataByHash()
 ```
 
-6. Run the script using the following command:
+3. Run the script using the following command:
 
 ```bash filename="terminal"
-ts-node read-data.ts
+ts-node your-file-name.ts
 ```
 </Tabs.Tab>
 
@@ -375,14 +362,42 @@ ts-node read-data.ts
 
 1. Create a file named `main.rs`
 
-2. Import the dependencies from `avail-rust-sdk` and create a `read_data_by_hash` function:
+2. Paste the following code into the file:
 
 ```rust showLineNumbers filename="avail-rust"
 use avail_rust::prelude::*;
 
 pub async fn read_data_by_hash() -> Result<(), ClientError> {
 
+    // Create a new SDK instance
+	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+    
+    let block_hash = new_h256_from_hex("0xd5f95593d91a581d7ce7b8717789298345be4be47e75ba93e7159cfe23083a7b")?;
 
+    let block = Block::new(&sdk.client, block_hash).await?;
+
+    // All Block Blobs by Hash
+    let tx_hash = new_h256_from_hex("0x70d8cc521c341d717f5b11d1898fc7a21f9d894c3617929aaabaea71c4814911")?;
+
+    let blobs = block.data_submissions(Filter::new().tx_hash(tx_hash));
+    assert_eq!(blobs.len(), 1, "");
+
+    let blob = &blobs[0];
+
+    // Printout All Block Blobs by Hash
+    let blob_data = blob.to_ascii().unwrap();
+    assert_eq!(blob.tx_hash, tx_hash, "Tx Hash must be the same");
+
+    println!(
+    "Tx Hash: {:?}, Tx Index: {}, Data: {:?}, App Id: {}, Tx Singer: {:?}",
+    blob.tx_hash,
+    blob.tx_index,
+    blob_data,
+    blob.app_id,
+    blob.ss58address(),
+    );
+
+    Ok(())
 }
 
 #[tokio::main]
@@ -393,50 +408,7 @@ async fn main() {
 }
 ```
 
-3. Initialize a new instance of the SDK inside the `read_data_by_hash` function, and declare the params:
-
-```rust showLineNumbers filename="avail-rust"
-    // Create a new SDK instance
-	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
-    
-    let block_hash = new_h256_from_hex("0xd5f95593d91a581d7ce7b8717789298345be4be47e75ba93e7159cfe23083a7b")?;
-
-    let block = Block::new(&sdk.client, block_hash).await?;
-
-    // All Block Blobs by Hash
-    let tx_hash = new_h256_from_hex("0x70d8cc521c341d717f5b11d1898fc7a21f9d894c3617929aaabaea71c4814911")?;
-```
-
-4. Extract the data:
-
-```rust showLineNumbers filename="avail-rust"
-    let blobs = block.data_submissions(Filter::new().tx_hash(tx_hash));
-    assert_eq!(blobs.len(), 1, "");
-
-    let blob = &blobs[0];
-
-    // Printout All Block Blobs by Hash
-    let blob_data = blob.to_ascii().unwrap();
-    assert_eq!(blob.tx_hash, tx_hash, "Tx Hash must be the same");
-```
-
-5. Log out the data:
-
-```rust showLineNumbers filename="avail-rust"
-    println!(
-        "Tx Hash: {:?}, Tx Index: {}, Data: {:?}, App Id: {}, Tx Singer: {:?}",
-        blob.tx_hash,
-        blob.tx_index,
-        blob_data,
-        blob.app_id,
-        blob.ss58address(),
-    );
-
-    Ok(())
-}
-```
-
-6. Run the script using the following command:
+3. Run the script using the following command:
 
 ```bash filename="terminal"
 cargo run
@@ -447,7 +419,7 @@ cargo run
 
 1. Create a file named `main.go`
 
-2. Import the dependencies from `avail-go-sdk` and create a `main` function:
+2. Paste the following code into the file:
 
 ```go showLineNumbers filename="avail-go"
 package main
@@ -463,13 +435,7 @@ import (
 
 func main() {
 
-}
-```
-
-3. Initialize a new instance of the SDK inside the `main` function, and declare the params:
-
-```go showLineNumbers filename="avail-go"
-	// Initialize an SDK instance
+    // Initialize an SDK instance
 	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
 	if err != nil {
 		log.Fatalf("Failed to initialize SDK: %v", err)
@@ -490,23 +456,15 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create transaction hash: %v", err)
 	}
-```
 
-4. Extract the data:
-
-```go showLineNumbers filename="avail-go"
-	blobs := block.DataSubmissions(SDK.Filter{}.WTxHash(txHash))
+    blobs := block.DataSubmissions(SDK.Filter{}.WTxHash(txHash))
 	if err != nil {
 		log.Fatalf("Failed to create data submissions: %v", err)
 	}
 
 	blob := &blobs[0]
-```
 
-5. Log out the data:
-
-```go showLineNumbers filename="avail-go"
-	// Printout Block Blobs filtered by Transaction Hash
+    // Printout Block Blobs filtered by Transaction Hash
 	accountId, err := primitives.NewAccountIdFromMultiAddress(blob.TxSigner)
 	if err != nil {
 		log.Fatalf("Failed to create account ID: %v", err)
@@ -514,9 +472,11 @@ func main() {
 	fmt.Println(fmt.Sprintf(`Tx Hash: %v, Tx Index: %v, Data: %v, App Id: %v, Signer: %v,`, blob.TxHash, blob.TxIndex, string(blob.Data), blob.AppId, accountId.ToHuman()))
 
 	fmt.Println("RunBlockDataSubmissionByHash finished correctly.")
+
+}
 ```
 
-6. Run the script using the following command:
+3. Run the script using the following command:
 
 ```bash filename="terminal"
 go run main.go
