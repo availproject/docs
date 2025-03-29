@@ -37,12 +37,12 @@ Any account whose balance dips below this amount is *'reaped'*.
 <Tabs.Tab>
 1. Inside `your-file-name.ts`, add the following code:
 
-```typescript showLineNumbers filename="avail-js"
+```typescript showLineNumbers filename="avail-js" name="cmd1"
 import * as dotenv from 'dotenv';
 import { Account, SDK, BN } from 'avail-js-sdk';
- 
+
 dotenv.config();
- 
+
 export async function transferKeepAlive() {
     // Initialize SDK with Turing endpoint
     const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
@@ -81,21 +81,21 @@ export async function transferKeepAlive() {
         throw new Error("Transaction failed");
     }
     
-    console.log("Transfer completed successfully");
     console.log(`Transaction Hash: ${res.txHash}`);
     console.log(`Block Hash: ${res.blockHash}`);
     console.log(`Block Number: ${res.blockNumber}`);
+    console.log("Transfer completed successfully");
     
     process.exit(0);
 }
- 
+
 // Execute the function
 transferKeepAlive();
 ```
 
 2. Run the code using:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd2"
 ts-node your-file-name.ts
 ```
 </Tabs.Tab>
@@ -104,42 +104,42 @@ ts-node your-file-name.ts
 
 1. Inside `main.rs`, add the following code:
 
-```rust showLineNumbers filename="avail-rust"
+```rust showLineNumbers filename="avail-rust" name="cmd3"
 use dotenvy::dotenv;
 use std::env;
 use avail_rust::prelude::*;
 use core::str::FromStr;
-
-pub async fn balances_transfer_keep_alive() -> Result<(), ClientError> {
-
+ 
+pub async fn transfer_keep_alive() -> Result<(), ClientError> {
+ 
     // Create a new SDK instance
     let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
-
+ 
     // Loading seed phrase and creating an account derived from the seed
     dotenv().ok();
     let seed = env::var("SEED").expect("SEED environment variable is not set");
     let account = account::from_secret_uri(&seed)?;
     println!("Account Address: {}", account.public_key().to_account_id());
-
-    // Executing the transaction
+ 
+	// Executing the transaction
     let dest = AccountId::from_str("5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw").unwrap();
-	let amount = 12_345_000_000_000_000_000u128; // 12.345 AVAIL being transferred to the destination account
+	let amount = 1_000_000_000_000_000_000u128; // 1 AVAIL being transferred to the destination account
     let tx = sdk.tx.balances.transfer_keep_alive(dest, amount);
     let res = tx.execute_and_watch_inclusion(&account, Options::default()).await?;
-
+ 
     println!(
         "Block Hash: {:?}, Block Number: {}, Tx Hash: {:?}, Tx Index: {}",
         res.block_hash, res.block_number, res.tx_hash, res.tx_index
     );
-
+    println!("transfer completed successfully");
+ 
     Ok(())
-    
 }
-
-// Add a main function to call balances_transfer_keep_alive
+ 
+// Add a main function to call transfer_keep_alive
 #[tokio::main]
 async fn main() {
-    if let Err(e) = balances_transfer_keep_alive().await {
+    if let Err(e) = transfer_keep_alive().await {
         eprintln!("Error: {:?}", e);
     }
 }
@@ -147,7 +147,7 @@ async fn main() {
 
 2. Run the code using:
 
-```bash filename="terminal"	
+```bash filename="terminal" name="cmd4"	
 cargo run
 ```
 </Tabs.Tab>
@@ -156,7 +156,7 @@ cargo run
 
 1. Inside `main.go`, add the following code:
 
-```go showLineNumbers filename="avail-go"
+```go showLineNumbers filename="avail-go" name="cmd5"
 package main
 
 import (
@@ -229,18 +229,19 @@ func main() {
 
 	// Printing out all the values of the transaction
 	fmt.Println(fmt.Sprintf(`Block Hash: %v, Block Index: %v, Tx Hash: %v, Tx Index: %v`, res.BlockHash.ToHexWith0x(), res.BlockNumber, res.TxHash.ToHexWith0x(), res.TxIndex))
+	fmt.Println("Transfer completed successfully")
 }
 ```
 
 2. Run the code using:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd6"
 go run main.go --config config.json
 ```
 
 <Callout type="info">
 If you receive errors related to missing dependencies while trying to execute your code, run:
-```bash filename="terminal"
+```bash filename="terminal" name="cmd7"
 go mod tidy
 ```
 and try again.
@@ -298,12 +299,12 @@ TxHash=0x45a3ec18b96c2bff0d92d70ba5f0fa904b79a49610e845b72d16ccf7c094533d, Block
 
 1. Inside `your-file-name.ts`, add the following code:
 
-```typescript showLineNumbers filename="avail-js"
+```typescript showLineNumbers filename="avail-js" name="cmd8"
 import * as dotenv from 'dotenv';
 import { Account, SDK, BN } from 'avail-js-sdk';
- 
+
 dotenv.config();
- 
+
 export async function transferAllowDeath() {
     // Initialize SDK with Turing endpoint
     const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
@@ -341,21 +342,21 @@ export async function transferAllowDeath() {
         throw new Error("Transaction failed");
     }
     
-    console.log("Transfer completed successfully");
     console.log(`Transaction Hash: ${res.txHash}`);
     console.log(`Block Hash: ${res.blockHash}`);
     console.log(`Block Number: ${res.blockNumber}`);
+    console.log("Transfer completed successfully");
     
     process.exit(0);
 }
- 
+
 // Execute the function
-transferAllowDeath();   
+transferAllowDeath();
 ```
 
 2. Run the code using:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd9"
 ts-node your-file-name.ts
 ```
 </Tabs.Tab>
@@ -364,38 +365,38 @@ ts-node your-file-name.ts
 
 1. Inside `main.rs`, add the following code:
 
-```rust showLineNumbers filename="avail-rust"
+```rust showLineNumbers filename="avail-rust" name="cmd10"
 use dotenvy::dotenv;
 use std::env;
 use avail_rust::prelude::*;
 use core::str::FromStr;
-
+ 
 pub async fn transfer_allow_death() -> Result<(), ClientError> {
-
+ 
     // Create a new SDK instance
     let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
-
+ 
     // Loading seed phrase and creating an account derived from the seed
     dotenv().ok();
     let seed = env::var("SEED").expect("SEED environment variable is not set");
     let account = account::from_secret_uri(&seed)?;
     println!("Account Address: {}", account.public_key().to_account_id());
-
+ 
     // Executing the transaction
     let dest = AccountId::from_str("5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw").unwrap();
 	let amount = 12_345_000_000_000_000_000u128; // 12.345 AVAIL being transferred to the destination account
     let tx = sdk.tx.balances.transfer_allow_death(dest, amount);
     let res = tx.execute_and_watch_inclusion(&account, Options::default()).await?;
-
+ 
     println!(
         "Block Hash: {:?}, Block Number: {}, Tx Hash: {:?}, Tx Index: {}",
         res.block_hash, res.block_number, res.tx_hash, res.tx_index
     );
-
-    Ok(())
-    
+    println!("transfer completed successfully");
+ 
+    Ok(())  
 }
-
+ 
 // Add a main function to call transfer_allow_death
 #[tokio::main]
 async fn main() {
@@ -407,7 +408,7 @@ async fn main() {
 
 2. Run the code using:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd11"
 cargo run
 ```
 </Tabs.Tab>
@@ -416,7 +417,7 @@ cargo run
 
 1. Inside `main.go`, add the following code:
 
-```go showLineNumbers filename="avail-go"
+```go showLineNumbers filename="avail-go" name="cmd12"
 package main
 
 import (
@@ -489,18 +490,19 @@ func main() {
 
 	// Printing out all the values of the transaction
 	fmt.Println(fmt.Sprintf(`Block Hash: %v, Block Index: %v, Tx Hash: %v, Tx Index: %v`, res.BlockHash.ToHexWith0x(), res.BlockNumber, res.TxHash.ToHexWith0x(), res.TxIndex))
+	fmt.Println("Transfer completed successfully")
 }
 ```
 
 2. Run the code using:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd13"
 go run main.go
 ```
 
 <Callout type="info">
 If you receive errors related to missing dependencies while trying to execute your code, run:
-```bash filename="terminal"
+```bash filename="terminal" name="cmd14"
 go mod tidy
 ```
 and try again.
@@ -539,7 +541,7 @@ TxHash=0x4be89fffca3b7849066c3a7b6b29af318caa49ca12a1ba17610b0a30d97fd30e, Block
 
 1. Inside `your-file-name.ts`, add the following code:
 
-```typescript showLineNumbers filename="avail-js"
+```typescript showLineNumbers filename="avail-js" name="cmd15"
 import * as dotenv from 'dotenv';
 import { Account, SDK } from 'avail-js-sdk';
  
@@ -596,7 +598,7 @@ transferAll();
 
 2. Run the code using:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd16"
 ts-node your-file-name.ts
 ```
 </Tabs.Tab>
@@ -605,7 +607,7 @@ ts-node your-file-name.ts
 
 1. Inside `main.rs`, add the following code:
 
-```rust showLineNumbers filename="avail-rust"
+```rust showLineNumbers filename="avail-rust" name="cmd17"
 use dotenvy::dotenv;
 use std::env;
 use avail_rust::prelude::*;
@@ -652,7 +654,7 @@ async fn main() {
 
 2. Run the code using:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd18"
 cargo run
 ```
 </Tabs.Tab>
@@ -661,7 +663,7 @@ cargo run
 
 1. Inside `main.go`, add the following code:
 
-```go showLineNumbers filename="avail-go"
+```go showLineNumbers filename="avail-go" name="cmd19"
 package main
 
 import (
@@ -733,13 +735,13 @@ func main() {
 
 2. Run the code using:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd20"
 go run main.go
 ```
 
 <Callout type="info">
 If you receive errors related to missing dependencies while trying to execute your code, run:
-```bash filename="terminal"
+```bash filename="terminal" name="cmd21"
 go mod tidy
 ```
 and try again.

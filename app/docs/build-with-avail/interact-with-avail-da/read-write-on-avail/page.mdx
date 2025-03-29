@@ -34,7 +34,7 @@ This pice of code submits:
 - to the `appID` of 89
 - We expect devs to submit data to their own specific `appID`s.
 
-```typescript showLineNumbers filename="avail-js"
+```typescript showLineNumbers filename="avail-js" name="cmd1"
 import * as dotenv from 'dotenv';
 import { Account, SDK, Pallets } from 'avail-js-sdk';
  
@@ -102,7 +102,7 @@ submitData()
 
 3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd2"
 ts-node your-file-name.ts
 ```
 
@@ -118,7 +118,7 @@ This pice of code submits:
 - to the `appID` of 1
 - We expect devs to submit data to their own specific `appID`s.
 
-```rust showLineNumbers filename="avail-rust"
+```rust showLineNumbers filename="avail-rust" name="cmd3"
 use dotenvy::dotenv;
 use std::env;
 use avail_rust::prelude::*;
@@ -177,7 +177,7 @@ async fn main() {
 
 3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd4"
 cargo run
 ```
 
@@ -194,7 +194,7 @@ This pice of code submits:
 - to the `appID` of 89
 - We expect devs to submit data to their own specific `appID`s.
 
-```go showLineNumbers filename="avail-go"
+```go showLineNumbers filename="avail-go" name="cmd5"
 package main
 
 import (
@@ -207,8 +207,7 @@ import (
 )
 
 func main() {
-
-    	// Load environment variables from .env file
+	// Load environment variables from .env file
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
@@ -233,10 +232,8 @@ func main() {
 		log.Fatalf("Failed to initialize SDK: %v", err)
 	}
 
-	// Configure the application ID
+	// Submit data to Avail
 	appId := uint32(89)
-
-    	// Submit data to Avail
 	tx := sdk.Tx.DataAvailability.SubmitData([]byte("Submitting some data using avail-go-sdk"))
 	res, err := tx.ExecuteAndWatchInclusion(acc, SDK.NewTransactionOptions().WithAppId(appId))
 	if err != nil {
@@ -250,15 +247,16 @@ func main() {
 
 	// Printing out all the values of the transaction
 	fmt.Println(fmt.Sprintf(`Block Hash: %v, Block Index: %v, Tx Hash: %v, Tx Index: %v`, res.BlockHash.ToHexWith0x(), res.BlockNumber, res.TxHash.ToHexWith0x(), res.TxIndex))
-
+    fmt.Println("Data submission completed successfully")
 }
 ```
 
 3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd6"
 go run main.go
 ```
+
 </Tabs.Tab>
 
 <Tabs.Tab>
@@ -306,7 +304,7 @@ To check out how to create an AppID on Avail, [refer to this page](/docs/build-w
 
 2. Paste the following code into the file:
 
-```typescript showLineNumbers filename="avail-js"
+```typescript showLineNumbers filename="avail-js" name="cmd7"
 import { initialize } from "avail-js-sdk"
 
 export async function readDataByHash() {
@@ -353,7 +351,7 @@ readDataByHash()
 
 3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd8"
 ts-node your-file-name.ts
 ```
 </Tabs.Tab>
@@ -364,7 +362,7 @@ ts-node your-file-name.ts
 
 2. Paste the following code into the file:
 
-```rust showLineNumbers filename="avail-rust"
+```rust showLineNumbers filename="avail-rust" name="cmd9"
 use avail_rust::prelude::*;
 
 pub async fn read_data_by_hash() -> Result<(), ClientError> {
@@ -396,10 +394,12 @@ pub async fn read_data_by_hash() -> Result<(), ClientError> {
     blob.app_id,
     blob.ss58address(),
     );
+    println!("Data retrieval completed successfully");
 
     Ok(())
 }
 
+// Add a main function to call submit_data
 #[tokio::main]
 async fn main() {
     if let Err(e) = read_data_by_hash().await {
@@ -410,9 +410,10 @@ async fn main() {
 
 3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd10"
 cargo run
 ```
+
 </Tabs.Tab>
 
 <Tabs.Tab>
@@ -421,7 +422,7 @@ cargo run
 
 2. Paste the following code into the file:
 
-```go showLineNumbers filename="avail-go"
+```go showLineNumbers filename="avail-go" name="cmd11"
 package main
 
 import (
@@ -471,16 +472,17 @@ func main() {
 	}
 	fmt.Println(fmt.Sprintf(`Tx Hash: %v, Tx Index: %v, Data: %v, App Id: %v, Signer: %v,`, blob.TxHash, blob.TxIndex, string(blob.Data), blob.AppId, accountId.ToHuman()))
 
-	fmt.Println("RunBlockDataSubmissionByHash finished correctly.")
+	fmt.Println("Data retrieval completed successfully")
 
 }
 ```
 
 3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd12"
 go run main.go
 ```
+
 </Tabs.Tab>
 
 </Tabs>
@@ -498,7 +500,7 @@ go run main.go
 
 2. Paste the following code into the file:
 
-```typescript showLineNumbers filename="avail-js"
+```typescript showLineNumbers filename="avail-js" name="cmd13"
 import * as dotenv from 'dotenv';
 import { SDK, Block } from 'avail-js-sdk';
 
@@ -549,7 +551,7 @@ readDataByAppId()
 
 3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd14"
 ts-node your-file-name.ts
 ```
 </Tabs.Tab>
@@ -560,7 +562,7 @@ ts-node your-file-name.ts
 
 2. Paste the following code into the file:
 
-```rust showLineNumbers filename="avail-rust"
+```rust showLineNumbers filename="avail-rust" name="cmd15"
 use avail_rust::prelude::*;
 
 pub async fn read_data_by_appid() -> Result<(), ClientError> {
@@ -589,6 +591,7 @@ pub async fn read_data_by_appid() -> Result<(), ClientError> {
             blob.ss58address(),
         );
     }
+    println!("Data retrieval completed successfully");
 
     Ok(())
 
@@ -604,9 +607,10 @@ async fn main() {
 
 3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd16"
 cargo run
 ```
+
 </Tabs.Tab>
 
 <Tabs.Tab>
@@ -615,7 +619,7 @@ cargo run
 
 2. Paste the following code into the file:
 
-```go showLineNumbers filename="avail-go"
+```go showLineNumbers filename="avail-go" name="cmd17"
 package main
 
 import (
@@ -666,14 +670,14 @@ func main() {
 		fmt.Println(fmt.Sprintf(`Tx Hash: %v, Tx Index: %v, Data: %v, App Id: %v, Signer: %v,`, blob.TxHash, blob.TxIndex, string(blob.Data), blob.AppId, accountId.ToHuman()))
 	}
 
-	fmt.Println("RunBlockDataSubmissionByAppId finished correctly.")
+	fmt.Println("Data retrieval completed successfully")
 
 }
 ```
 
 3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd18"
 go run main.go
 ```
 
@@ -690,7 +694,7 @@ Here is a complete example of how to fetch all the data submissions for a given 
 
 <Tabs.Tab>
 
-```typescript showLineNumbers filename="avail-js"
+```typescript showLineNumbers filename="avail-js" name="cmd19"
 import * as dotenv from 'dotenv';
 import { SDK, Block } from 'avail-js-sdk';
 
@@ -738,7 +742,7 @@ readDataByBlock();
 
 6. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd20"
 ts-node your-file-name.ts
 ```
 
@@ -746,7 +750,7 @@ ts-node your-file-name.ts
 
 <Tabs.Tab>
 
-```rust showLineNumbers filename="avail-rust"
+```rust showLineNumbers filename="avail-rust" name="cmd21"
 use avail_rust::prelude::*;
 
 pub async fn read_data_by_block() -> Result<(), ClientError> {
@@ -773,6 +777,7 @@ pub async fn read_data_by_block() -> Result<(), ClientError> {
             blob.ss58address(),
         );
     }
+    println!("Data retrieval completed successfully");
 
     Ok(())
 }
@@ -787,7 +792,7 @@ async fn main() {
 
 6. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd22"
 cargo run
 ```
 
@@ -795,7 +800,7 @@ cargo run
 
 <Tabs.Tab>
 
-```go showLineNumbers filename="avail-go"
+```go showLineNumbers filename="avail-go" name="cmd23"
 package main
 
 import (
@@ -803,6 +808,7 @@ import (
 	"log"
 
 	"github.com/availproject/avail-go-sdk/primitives"
+
 	SDK "github.com/availproject/avail-go-sdk/sdk"
 )
 
@@ -838,13 +844,14 @@ func main() {
 		fmt.Println(fmt.Sprintf(`Tx Hash: %v, Tx Index: %v, Data: %v, App Id: %v, Signer: %v,`, blob.TxHash, blob.TxIndex, string(blob.Data), blob.AppId, accountId.ToHuman()))
 	}
 
-	fmt.Println("RunBlockDataSubmissionAll finished correctly.")
+	fmt.Println("Data retrieval completed successfully")
+
 }
 ```
 
 6. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd24"
 go run main.go
 ```
 
@@ -865,7 +872,7 @@ Here is a complete example of how to fetch all the transactions by a particular 
 
 2. Paste the following code into your file:
 
-```typescript showLineNumbers filename="avail-js"
+```typescript showLineNumbers filename="avail-js" name="cmd25"
 import { SDK, Block } from 'avail-js-sdk';
 
 export async function fetchTransactionsBySigner() {
@@ -916,7 +923,7 @@ fetchTransactionsBySigner();
 
 3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd26"
 ts-node your-file-name.ts
 ```
 
@@ -927,7 +934,7 @@ ts-node your-file-name.ts
 
 2. Paste the following code into your file:
 
-```rust showLineNumbers filename="avail-rust"
+```rust showLineNumbers filename="avail-rust" name="cmd27"
 use avail_rust::prelude::*;
 
 pub async fn fetch_transactions_by_signer() -> Result<(), ClientError> {
@@ -967,11 +974,13 @@ pub async fn fetch_transactions_by_signer() -> Result<(), ClientError> {
         );
     }
 
+    println!("Transaction retrieval completed successfully");
+
     Ok(())
 }
 
 #[tokio::main]
-async fn main() -> Result<(), ClientError> {
+async fn main() {
     fetch_transactions_by_signer().await?;
     Ok(())
 }
@@ -979,7 +988,7 @@ async fn main() -> Result<(), ClientError> {
 
 3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd28"
 cargo run
 ```
 
@@ -990,7 +999,7 @@ cargo run
 
 2. Paste the following code into your file:
 
-```go showLineNumbers filename="avail-go"
+```go showLineNumbers filename="avail-go" name="cmd29"
 package main
 
 import (
@@ -1010,20 +1019,18 @@ func main() {
 		log.Fatalf("Failed to initialize SDK: %v", err)
 	}
 
-	// Create a block hash
 	blockHash, err := primitives.NewBlockHashFromHexString("0x75a6c54bb5ea904e47fa151956992d7cf543bc7c936d78488e311db8e10397c1")
 	if err != nil {
 		log.Fatalf("Failed to create block hash: %v", err)
 	}
 
-	// Create a block
 	block, err := SDK.NewBlock(sdk.Client, blockHash)
 	if err != nil {
 		log.Fatalf("Failed to create block: %v", err)
 	}
 
 	// Create an account ID
-	accountId, err := primitives.NewAccountIdFromAddress("5CqgQkrDcdg5QrtuxT3H7WszrqgrBMhdwRbmMVXQzc4VSiEg")
+	accountId, err := primitives.NewAccountIdFromMultiAddress("5CqgQkrDcdg5QrtuxT3H7WszrqgrBMhdwRbmMVXQzc4VSiEg")
 	if err != nil {
 		log.Fatalf("Failed to create account ID: %v", err)
 	}
@@ -1038,17 +1045,19 @@ func main() {
 		fmt.Println(fmt.Sprintf(`Tx Signer: %v, App Id: %v, Tip: %v, Mortality: %v, Nonce: %v`, tx.SS58Address(), tx.AppId(), tx.Tip(), tx.Mortality(), tx.Nonce()))
 	}
 
-	fmt.Println("RunBlockTransactionBySigner finished correctly.")
+	fmt.Println("Transaction retrieval completed successfully")
+
 }
 ```
 
 3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd30"
 go run main.go
 ```
 
 </Tabs.Tab>
+
 </Tabs>
 
 ### Fetch all transactions from a particular block [#fetch-transactions-by-block]
@@ -1062,7 +1071,7 @@ Here is a complete example of how to fetch all the transactions from a particula
 
 2. Paste the following code into your file:
 
-```typescript showLineNumbers filename="avail-js"
+```typescript showLineNumbers filename="avail-js" name="cmd31"
 import { SDK, Block } from 'avail-js-sdk';
 
 export async function fetchAllTransactions() {
@@ -1110,7 +1119,7 @@ fetchAllTransactions();
 
 3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd32"
 ts-node your-file-name.ts
 ```
 
@@ -1121,7 +1130,7 @@ ts-node your-file-name.ts
 
 2. Paste the following code into your file:
 
-```rust showLineNumbers filename="avail-rust"
+```rust showLineNumbers filename="avail-rust" name="cmd33"
 use avail_rust::prelude::*;
 
 pub async fn fetch_all_transactions() -> Result<(), ClientError> {
@@ -1158,6 +1167,8 @@ pub async fn fetch_all_transactions() -> Result<(), ClientError> {
         );
     }
 
+    println!("Transaction retrieval completed successfully");
+
     Ok(())
 }
 
@@ -1170,7 +1181,7 @@ async fn main() -> Result<(), ClientError> {
 
 3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd34"
 cargo run
 ```
 
@@ -1181,7 +1192,7 @@ cargo run
 
 2. Paste the following code into your file:
 
-```go showLineNumbers filename="avail-go"
+```go showLineNumbers filename="avail-go" name="cmd35"
 package main
 
 import (
@@ -1189,6 +1200,7 @@ import (
 	"log"
 
 	"github.com/availproject/avail-go-sdk/primitives"
+
 	SDK "github.com/availproject/avail-go-sdk/sdk"
 )
 
@@ -1219,13 +1231,14 @@ func main() {
 		fmt.Println(fmt.Sprintf(`Tx Signer: %v, App Id: %v, Tip: %v, Mortality: %v, Nonce: %v`, tx.SS58Address(), tx.AppId(), tx.Tip(), tx.Mortality(), tx.Nonce()))
 	}
 
-	fmt.Println("RunBlockTransactionAll finished correctly.")
+	fmt.Println("Transaction retrieval completed successfully")
+
 }
 ```
 
 3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd36"
 go run main.go
 ```
 
@@ -1246,7 +1259,7 @@ Here is how you can use it:
 
 <Tabs.Tab>
 
-```typescript showLineNumbers filename="avail-js"
+```typescript showLineNumbers filename="avail-js" name="cmd37"
 import { initialize, disconnect } from "avail-js-sdk";
 
 const calculateCost = async () => {
@@ -1278,7 +1291,7 @@ calculateCost();
 
 <Tabs.Tab>
 
-```typescript showLineNumbers filename="avail-js"
+```typescript showLineNumbers filename="avail-js" name="cmd38"
 import * as fs from "fs";
 import { initialize, disconnect } from "avail-js-sdk";
 
@@ -1318,7 +1331,6 @@ calculateCost();
 
 2. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd39"
 ts-node your-file-name.ts
 ```
-
