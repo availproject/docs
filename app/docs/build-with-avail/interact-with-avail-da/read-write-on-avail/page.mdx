@@ -494,9 +494,9 @@ go run main.go
 
 <Tabs.Tab>
 
-1. Create a file named `read-data-by-app-id.ts`
+1. Create a file named `your-file-name.ts`
 
-2. Import the dependencies from `avail-js-sdk` and create a `readDataByAppId` function:
+2. Paste the following code into the file:
 
 ```typescript showLineNumbers filename="avail-js"
 import * as dotenv from 'dotenv';
@@ -506,13 +506,6 @@ dotenv.config();
 
 export async function readDataByAppId() {
 
-}
-readDataByAppId()
-```
-
-3. Initialize a new instance of the SDK inside the `readDataByAppId` function, and declare the params:
-
-```typescript showLineNumbers filename="avail-js"
     // Initialize SDK with Turing endpoint
     const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
     
@@ -521,13 +514,8 @@ readDataByAppId()
     const blockHash = "0xd5f95593d91a581d7ce7b8717789298345be4be47e75ba93e7159cfe23083a7b";
 
     console.log(`Looking up data for App ID: ${appId}`);
-    console.log(`In block: ${blockHash}`);  
-```
-
-4. Extract the data:
-
-```typescript showLineNumbers filename="avail-js"
-    
+    console.log(`In block: ${blockHash}`);
+ 
     // Create a Block object for the specified block hash
     const block = await Block.New(sdk.client, blockHash);
     
@@ -535,11 +523,7 @@ readDataByAppId()
     const blobs = block.dataSubmissions({ appId: appId });
     
     console.log(`Found ${blobs.length} data submission(s)`);
-```
 
-5. Log out the data:
-
-```typescript showLineNumbers filename="avail-js"
     // Display information for each data blob
     if (blobs.length === 0) {
         console.log("No data submissions found for this app ID");
@@ -557,12 +541,16 @@ readDataByAppId()
     
     console.log("Data retrieval completed successfully");
     process.exit(0);
+
+
+}
+readDataByAppId()
 ```
 
-6. Run the script using the following command:
+3. Run the script using the following command:
 
 ```bash filename="terminal"
-ts-node read-data-by-app-id.ts
+ts-node your-file-name.ts
 ```
 </Tabs.Tab>
 
@@ -570,26 +558,12 @@ ts-node read-data-by-app-id.ts
 
 1. Create a file named `main.rs`
 
-2. Import the dependencies from `avail-rust-sdk` and create a `read_data_by_app_id` function:
+2. Paste the following code into the file:
 
 ```rust showLineNumbers filename="avail-rust"
 use avail_rust::prelude::*;
 
 pub async fn read_data_by_appid() -> Result<(), ClientError> {
-
-}
-
-#[tokio::main]
-async fn main() {
-    if let Err(e) = read_data_by_appid().await {
-        eprintln!("Error: {:?}", e);
-    }
-}
-```
-
-3. Initialize a new instance of the SDK inside the `read_data_by_app_id` function, and declare the params:
-
-```rust showLineNumbers filename="avail-rust"
 
     // Create a new SDK instance
 	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
@@ -599,17 +573,9 @@ async fn main() {
 
     // All Block Blobs by App Id
     let app_id = 89;
-```
 
-4. Extract the data:
-
-```rust showLineNumbers filename="avail-rust"
     let blobs = block.data_submissions(Filter::new().app_id(app_id));
-```
 
-5. Log out the data:
-
-```rust showLineNumbers filename="avail-rust"
     // Printout All Block Blobs by App Id
     for blob in blobs {
         let blob_data = blob.to_ascii().unwrap();
@@ -625,10 +591,18 @@ async fn main() {
     }
 
     Ok(())
+
+}
+
+#[tokio::main]
+async fn main() {
+    if let Err(e) = read_data_by_appid().await {
+        eprintln!("Error: {:?}", e);
+    }
 }
 ```
 
-6. Run the script using the following command:
+3. Run the script using the following command:
 
 ```bash filename="terminal"
 cargo run
@@ -639,7 +613,7 @@ cargo run
 
 1. Create a file named `main.go`
 
-2. Import the dependencies from `avail-go-sdk` and create a `main` function:
+2. Paste the following code into the file:
 
 ```go showLineNumbers filename="avail-go"
 package main
@@ -655,13 +629,7 @@ import (
 
 func main() {
 
-}
-```
-
-3. Initialize a new instance of the SDK inside the `main` function, and declare the params:
-
-```go showLineNumbers filename="avail-go"
-	// Initialize an SDK instance
+    // Initialize an SDK instance
 	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
 	if err != nil {
 		log.Fatalf("Failed to initialize SDK: %v", err)
@@ -676,23 +644,15 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create block: %v", err)
 	}
-```
 
-4. Extract the data:
-
-```go showLineNumbers filename="avail-go"
-	// Block Blobs filtered by App Id
+    // Block Blobs filtered by App Id
 	appId := uint32(2)
 	blobs := block.DataSubmissions(SDK.Filter{}.WAppId(appId))
 	if err != nil {
 		log.Fatalf("Failed to create data submissions: %v", err)
 	}
-```
 
-5. Log out the data:
-
-```go showLineNumbers filename="avail-go"
-	// Printout Block Blobs filtered by App Id
+    // Printout Block Blobs filtered by App Id
 	for _, blob := range blobs {
 		if blob.AppId != appId {
 			log.Fatalf("Transaction App Ids are not the same.")
@@ -707,9 +667,11 @@ func main() {
 	}
 
 	fmt.Println("RunBlockDataSubmissionByAppId finished correctly.")
+
+}
 ```
 
-6. Run the script using the following command:
+3. Run the script using the following command:
 
 ```bash filename="terminal"
 go run main.go
@@ -777,7 +739,7 @@ readDataByBlock();
 6. Run the script using the following command:
 
 ```bash filename="terminal"
-ts-node read-data-by-block.ts
+ts-node your-file-name.ts
 ```
 
 </Tabs.Tab>
