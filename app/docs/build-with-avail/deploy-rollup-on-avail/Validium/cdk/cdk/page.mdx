@@ -18,3 +18,113 @@ keywords:
 import { Tabs } from 'nextra/components'
 import { Callout } from 'nextra/components'
 import { SyncedTabsProvider, SyncedTabs } from '@components/SyncedTabs'
+
+# Deploy a CDK chain with Avail DA
+
+## Introduction
+
+In this guide, we will walk you through the process of deploying a Polygon CDK Validium chain using Avail as the data availability layer. This setup allows you to leverage the scalability and security of Avail for your rollup.
+
+By following this guide, you will learn how to launch a CDK chain on Local or Sepolia testnet, configure it to use Avail for data availability, and interact with your rollup.
+
+- [Learn more about Polygon CDK](https://docs.polygon.technology/cdk/getting-started/local-deployment/)
+
+In this guide, we will cover:
+
+- [Deploying CDK with AvailDA on local](#deploying-cdk-with-availda-on-local)
+- [Deploying CDK with AvailDA on Sepolia](#deploying-cdk-with-availda-on-sepolia)
+
+## Deploying CDK with AvailDA on Local
+
+<br/>
+
+### Environment:
+
+- CPU: 4 CPUs, amd64
+- Memory: 32 GB
+- Storage: 100 GB
+- OS: Linux
+
+| Software                                                                              | Version            |
+| ------------------------------------------------------                                | ------------------ |
+| [**Node.js**](https://nodejs.org/en/)                                                 | Latest LTS Version |
+| [**Git**](https://git-scm.com/)                                                       | OS Default         |
+| [**Docker**](https://www.docker.com/)                                                 | Latest             |
+| [**Docker Compose**](https://docs.docker.com/compose/)                                | Latest             |
+| [**Yarn**](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable)           | v1.22.19           |
+| [**GO**](https://go.dev/doc/install)                                                  | Latest             |
+| [**Foundry**](https://github.com/foundry-rs/foundry)                                  | Latest             |
+| [**Postgres**](https://www.postgresql.org/download/)                                  | Latest             |
+| [**Make**](https://www.gnu.org/software/make/)                                        | OS Default         |
+| [**Kurtosis**](https://docs.kurtosis.com/install/)                                    | Latest             |
+| [**Polygon-cli**](https://github.com/0xPolygon/polygon-cli)                           | Latest             |
+
+
+After executing the following commands you will have installed all the prerequisites needed.
+
+## Deploy CDK with AvailDA on local
+
+### 1. Build CDK image
+
+[CDK](https://github.com/availproject/cdk) is a modular framework to build and deploy ZKP enabled rollups and validiums. This framework allows you to build a rollup or validium chain with a few simple commands, which is verifiable using zkEVM prover from Polygon.
+
+```bash
+git clone https://github.com/availproject/cdk.git
+git checkout avail-develop-v0.5.1-rc3
+make build-docker
+docker tag cdk availproject/cdk:avail-develop-v0.5.1-rc3
+```
+
+### 2. Build [cdk-zkevm-contracts](https://github.com/availproject/cdk-zkevm-contracts) image with mock AvailDABridge and proof verification
+
+```bash
+git clone https://github.com/RISHABHAGRAWALZRA/kurtosis-cdk.git
+cd kurtosis-cdk/docker
+git checkout avail-develop-v0.2.29
+docker build . \
+  --tag availproject/cdk-zkevm-contracts:avail-develop-v9.0.0-rc.5-pp-fork.12 \
+  --build-arg ZKEVM_CONTRACTS_BRANCH=mock-bridge-avail-develop-v9.0.0-rc.5-pp \
+  --build-arg POLYCLI_VERSION=main \
+  --build-arg FOUNDRY_VERSION=nightly-27cabbd6c905b1273a5ed3ba7c10acce90833d76 \
+  --file zkevm-contracts.Dockerfile
+```
+
+There is a small fix needed because the you will get a GO error in docker. To fix that, you need to change the Go version in the `zkevm-contracts.Dockerfile` and replace version `FROM golang:1.21 AS polycli-builder` to `FROM golang:1.23 AS polycli-builder`.
+
+### 3. Add AvailDA config values in `cdk-node-config.toml`
+
+```bash
+cd kurtosis-cdk/templates/trusted-node
+vim cdk-node-config.toml
+```
+
+Enter your `Seed Phrase` and `appID`. Other information are prefilled for you.
+
+### 4. Run local CDK chain with AvailDA using Kurtosis-cdk
+
+```bash
+cd kurtosis-cdk
+kurtosis run --enclave cdk .
+```
+This command will start a local CDK chain with Avail as the data availability layer. It will take a few minutes to initialize the chain and all the services.
+
+### 5. Chain is up and running
+
+Now you should have a local CDK chain with AvailDA up and running. Try interacting with it as defined in these [docs](https://docs.polygon.technology/cdk/getting-started/local-deployment/#interacting-with-the-chain).
+
+Some useful examples to interact with the chain can be Read/write opertations.
+
+1. First export the RPC URL of your L2 to an environment variable called `ETH_RPC_URL`:
+```bash
+export ETH_RPC_URL="$(kurtosis port print cdk cdk-erigon-node-001 rpc)"
+```
+
+2. Use `cast` to view information about the chain:
+```bash
+cast block-number
+```
+
+3. To View the balance of a pre-funded admin account:
+```bash
+cast balance --ether 0xE34aaF64b29273B7D567FCFc40544c014EEe9970
+```
