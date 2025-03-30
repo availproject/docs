@@ -36,8 +36,6 @@ In this guide, we will cover:
 
 ## Deploying CDK with AvailDA on Local
 
-<br/>
-
 ### Environment:
 
 - CPU: 4 CPUs, amd64
@@ -128,3 +126,109 @@ cast block-number
 ```bash
 cast balance --ether 0xE34aaF64b29273B7D567FCFc40544c014EEe9970
 ```
+
+**Note**: export ETH_RPC_URL="$(kurtosis port print cdk cdk-erigon-node-001 rpc)” in this command the right service name is `cdk-erigon-sequencer-001`
+
+To check Avail Logs of `cdk-node-001`, use `kurtosis service logs -f <enclave-name> <service-id>`
+
+## Deploying CDK with AvailDA on Sepolia
+
+### 1. Build CDK image
+
+[CDK](https://github.com/availproject/cdk) is a modular framework to build and deploy ZKP enabled rollups and validiums. This framework allows you to build a rollup or validium chain with a few simple commands, which is verifiable using zkEVM prover from Polygon.
+
+```bash
+git clone https://github.com/availproject/cdk.git
+git checkout avail-develop-v0.5.1-rc3
+make build-docker
+docker tag cdk availproject/cdk:avail-develop-v0.5.1-rc3
+```
+
+### 2. Build [cdk-zkevm-contracts](https://github.com/availproject/cdk-zkevm-contracts) image with mock AvailDABridge and proof verification
+
+```bash
+git clone https://github.com/RISHABHAGRAWALZRA/kurtosis-cdk.git
+cd kurtosis-cdk/docker
+git checkout avail-develop-v0.2.29
+docker build . \
+  --tag availproject/cdk-zkevm-contracts:avail-develop-v9.0.0-rc.5-pp-fork.12 \
+  --build-arg ZKEVM_CONTRACTS_BRANCH=mock-bridge-avail-develop-v9.0.0-rc.5-pp \
+  --build-arg POLYCLI_VERSION=main \
+  --build-arg FOUNDRY_VERSION=nightly-27cabbd6c905b1273a5ed3ba7c10acce90833d76 \
+  --file zkevm-contracts.Dockerfile
+```
+
+There is a small fix needed because the you will get a GO error in docker. To fix that, you need to change the Go version in the `zkevm-contracts.Dockerfile` and replace version `FROM golang:1.21 AS polycli-builder` to `FROM golang:1.23 AS polycli-builder`.
+
+
+### 3. Modify Deployment scalability
+
+In order to deploy on Sepolia, you need to change the [salt](https://github.com/availproject/kurtosis-cdk/blob/avail-develop-v0.2.29/templates/contract-deploy/deploy_parameters.json#L12) value to avoid a deployment failure. This can be done easily by running this script:
+
+```bash
+if sed --version 2>/dev/null | grep -q GNU; then
+    sed -i 's/"salt": "0x.*",/"salt": "0x'$(xxd -p < /dev/random  | tr -d "\n" | head -c 64)'",/' templates/contract-deploy/deploy_parameters.json
+else
+    sed -i '' 's/"salt": "0x.*",/"salt": "0x'$(xxd -p < /dev/random  | tr -d "\n" | head -c 64)'",/' templates/contract-deploy/deploy_parameters.json
+fi
+```
+
+### 4. Change Finality Time for erigon
+
+We also need to change the finality time for the Erigon node to avoid any waiting time for the contracts deployment to finalize. This can be achieved by using this small snippet of code:
+
+```bash
+if sed --version 2>/dev/null | grep -q GNU; then
+    sed -i 's/zkevm.l1-highest-block-type: finalized/zkevm.l1-highest-block-type: latest/' templates/cdk-erigon/config.yml
+else
+    sed -i '' 's/zkevm.l1-highest-block-type: finalized/zkevm.l1-highest-block-type: latest/' templates/cdk-erigon/config.yml
+fi
+```
+### 5. Deploy CDK to Sepolia file
+
+You need to have a file from Kurtosis-cdk to deploy to Sepolia. Copy the file `deploy-cdk-to-sepolia.yml` from `/kurtosis-cdk/.github/tests/external-l1/deploy-cdk-to-sepolia.yml` or this [link](https://github.com/0xPolygon/kurtosis-cdk/blob/v0.2.29/.github/tests/external-l1/deploy-cdk-to-sepolia.yml). Name this file as `params.yml` in your cdk directory.
+
+Now you need to set necessary configs for deploying to Sepolia. You can do this by running the following command L1 Configs:
+
+```bash
+## L1 Config
+l1_chain_id: 11155111
+# TODO: Create another mnemonic seed phrase for running the contract deployment on L1.
+l1_preallocated_mnemonic: CHANGE_ME
+# TODO: Adjust the amount of ETH you want to spend on this deployment.
+l1_funding_amount: 5ether
+# TODO: Configure the L1 RPC URLs to be valid Sepolia endpoints.
+l1_rpc_url: CHANGE_ME
+l1_ws_url: CHANGE_ME
+```
+In order to Derive application keys, you can use the following command:
+
+```bash
+seed="film crazy inform bind stomach weather cruel hold quarter stage country purpose"
+polycli wallet inspect --mnemonic "$seed" --addresses 9 | \
+jq -r '.Addresses[] | [.ETHAddress, .HexPrivateKey] | @tsv' | \
+awk 'BEGIN{split("sequencer,aggregator,claimtxmanager,timelock,admin,loadtest,agglayer,dac,proofsigner",roles,",")} {print "zkevm_l2_" roles[NR] "address: \"" $1 "\""; print "zkevm_l2" roles[NR] "_private_key: \"0x" $2 "\"\n"}'
+```
+
+### 6. Add AvailDA config values in `cdk-node-config.toml`
+
+```bash
+cd kurtosis-cdk/templates/trusted-node
+vim cdk-node-config.toml
+```
+
+Enter your `Seed Phrase` and `appID`. Other information are prefilled for you.
+
+### 7. Run deployment to Sepolia with AvailDA using Kurtosis-cdk
+
+```bash
+cd kurtosis-cdk
+kurtosis run --enclave cdk . --args-file ./params.yml
+```
+
+### 8. Chain is up and running
+
+Now you should have a CDK chain with AvailDA deployed on Sepolia. You can interact with it using the same methods as mentioned in the local deployment section.
+Try interacting with it as defined in these [docs](https://docs.polygon.technology/cdk/getting-started/local-deployment/#interacting-with-the-chain).
+
+Congratulations! You have successfully deployed a Polygon CDK Validium chain with AvailDA on Local & Sepolia. For anymore information on CDK, you can refer to the [Polygon CDK documentation](https://docs.polygon.technology/cdk/getting-started/local-deployment/).
