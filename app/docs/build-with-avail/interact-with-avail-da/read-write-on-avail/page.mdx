@@ -25,11 +25,16 @@ To set up a dev environment for `avail-js`, please follow the steps [outlined he
 
 <Tabs.Tab>
 
-1. Create a file named `submit-data.ts`
+1. Create a file named `your-file-name.ts`
 
-2. Import the dependencies from `avail-js-sdk` and create a `submitData` function:
+2. Paste the following code into the file:
 
-```typescript showLineNumbers filename="avail-js"
+This pice of code submits:
+- A string named `data` to Avail DA
+- to the `appID` of 89
+- We expect devs to submit data to their own specific `appID`s.
+
+```typescript showLineNumbers filename="avail-js" name="cmd1"
 import * as dotenv from 'dotenv';
 import { Account, SDK, Pallets } from 'avail-js-sdk';
  
@@ -37,24 +42,10 @@ dotenv.config();
  
 export async function submitData() {
 
-
-}
-submitData()
-```
-
-3. Initialize a new instance of the SDK inside the `submitData` function:
-
-```typescript showLineNumbers filename="avail-js"
-
     // Initialize the SDK with a public Turing testnet endpoint
     // You can always switch it out with your own endpoint
     const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
-```
-
-4. Initialize a new wallet using a `12-word seed phrase`, and configure the params for the transaction:
-
-```typescript showLineNumbers filename="avail-js"
-
+    
     // Loading seed phrase and creating an account derived from the seed
     const seed = process.env.SEED;
     if (!seed) {
@@ -68,12 +59,8 @@ submitData()
     // Replace with your own AppID
     const appId = 89;
     console.log(`Submitting data to App Id: ${appId}`);
-```
 
-5. Submit the transaction by calling the `dataAvailability_submitData` extrinsic via the `avail-js` SDK:
-
-```typescript showLineNumbers filename="avail-js"
-    // Create data submission transaction
+     // Create data submission transaction
     const data = "My Data Submission";
     const tx = sdk.tx.dataAvailability.submitData(data);
     console.log("Submitting transaction with data...");
@@ -108,12 +95,15 @@ submitData()
     
     console.log("Data submission completed successfully");
     process.exit(0);
+
+}
+submitData()
 ```
 
-6. Run the script using the following command:
+3. Run the script using the following command:
 
-```bash filename="terminal"
-ts-node submit-data.ts
+```bash filename="terminal" name="cmd2"
+ts-node your-file-name.ts
 ```
 
 </Tabs.Tab>
@@ -121,9 +111,14 @@ ts-node submit-data.ts
 <Tabs.Tab>
 1. Create a file named `main.rs`
 
-2. Import the dependencies from `avail-rust-sdk` and create a `submit_data` function:
+2. Paste the following code into the file:
 
-```rust showLineNumbers filename="avail-rust"
+This pice of code submits:
+- A string named `data` to Avail DA
+- to the `appID` of 1
+- We expect devs to submit data to their own specific `appID`s.
+
+```rust showLineNumbers filename="avail-rust" name="cmd3"
 use dotenvy::dotenv;
 use std::env;
 use avail_rust::prelude::*;
@@ -132,19 +127,9 @@ type DataSubmissionCall = avail::data_availability::calls::types::SubmitData;
 
 pub async fn submit_data() -> Result<(), ClientError> {
 
-}
-```
-
-3. Initialize a new instance of the SDK inside the `submit_data` function:
-
-```rust showLineNumbers filename="avail-rust"
     // Create a new SDK instance
 	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
-```
 
-4. Initialize a new wallet using a `12-word seed phrase`, and configure the params for the transaction:
-
-```rust showLineNumbers filename="avail-rust"
     // Loading seed phrase and creating an account derived from the seed
     dotenv().ok();
     let seed = env::var("SEED").expect("SEED environment variable is not set");
@@ -156,11 +141,6 @@ pub async fn submit_data() -> Result<(), ClientError> {
 
     // Data Submission
     let data = String::from("My Data").into_bytes();
-```
-
-5. Submit the transaction by calling the `dataAvailability_submitData` extrinsic via the `avail-rust` SDK:
-
-```rust showLineNumbers filename="avail-rust"
 
     let options = Options::new().app_id(my_application_key);
     let tx = sdk.tx.data_availability.submit_data(data);
@@ -195,9 +175,9 @@ async fn main() {
 }
 ```
 
-6. Run the script using the following command:
+3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd4"
 cargo run
 ```
 
@@ -207,9 +187,14 @@ cargo run
 
 1. Create a file named `main.go`
 
-2. Import the dependencies from `avail-go-sdk` and create a `main` function:
+2. Paste the following code into the file:
 
-```go showLineNumbers filename="avail-go"
+This pice of code submits:
+- A string to Avail DA
+- to the `appID` of 89
+- We expect devs to submit data to their own specific `appID`s.
+
+```go showLineNumbers filename="avail-go" name="cmd5"
 package main
 
 import (
@@ -222,13 +207,6 @@ import (
 )
 
 func main() {
-
-}
-```
-
-3. Initialize a new instance of the SDK inside the `main` function:
-
-```go showLineNumbers filename="avail-go"
 	// Load environment variables from .env file
 	err := godotenv.Load()
 	if err != nil {
@@ -254,14 +232,8 @@ func main() {
 		log.Fatalf("Failed to initialize SDK: %v", err)
 	}
 
-	// Configure the application ID
-	appId := uint32(89)
-```
-
-4. Pass the seed phrase and data string as params for the transaction:
-
-```go showLineNumbers filename="avail-go"
 	// Submit data to Avail
+	appId := uint32(89)
 	tx := sdk.Tx.DataAvailability.SubmitData([]byte("Submitting some data using avail-go-sdk"))
 	res, err := tx.ExecuteAndWatchInclusion(acc, SDK.NewTransactionOptions().WithAppId(appId))
 	if err != nil {
@@ -275,13 +247,16 @@ func main() {
 
 	// Printing out all the values of the transaction
 	fmt.Println(fmt.Sprintf(`Block Hash: %v, Block Index: %v, Tx Hash: %v, Tx Index: %v`, res.BlockHash.ToHexWith0x(), res.BlockNumber, res.TxHash.ToHexWith0x(), res.TxIndex))
+    fmt.Println("Data submission completed successfully")
+}
 ```
 
-5. Run the script using the following command:
+3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd6"
 go run main.go
 ```
+
 </Tabs.Tab>
 
 <Tabs.Tab>
@@ -325,23 +300,15 @@ To check out how to create an AppID on Avail, [refer to this page](/docs/build-w
 <Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
 
 <Tabs.Tab>
-1. Create a file named `read-data.ts`
+1. Create a file named `your-file-name.ts`
 
-2. Import the dependencies from `avail-js-sdk` and create a `readDataByHash` function:
+2. Paste the following code into the file:
 
-```typescript showLineNumbers filename="avail-js"
+```typescript showLineNumbers filename="avail-js" name="cmd7"
 import { initialize } from "avail-js-sdk"
 
 export async function readDataByHash() {
 
-
-}
-readDataByHash()
-```
-
-3. Initialize a new instance of the SDK inside the `readDataByHash` function, and declare the params:
-
-```typescript showLineNumbers filename="avail-js"
     // Initialize SDK with Turing endpoint
     const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
     
@@ -351,21 +318,13 @@ readDataByHash()
     
     console.log(`Looking up transaction: ${txHash}`);
     console.log(`In block: ${blockHash}`);
-```
 
-4. Extract the data:
-
-```typescript showLineNumbers filename="avail-js"
     // Create a Block object for the specified block hash
     const block = await Block.New(sdk.client, blockHash);
     
     // Get data submissions for the specified transaction hash
     const blobs = block.dataSubmissions({ txHash: txHash });
-```
 
-5. Log out the data:
-
-```typescript showLineNumbers filename="avail-js"
     console.log(`Found ${blobs.length} data submission(s)`);
     
     // Display information for each data blob
@@ -385,12 +344,15 @@ readDataByHash()
     
     console.log("Data retrieval completed successfully");
     process.exit(0);
+
+}
+readDataByHash()
 ```
 
-6. Run the script using the following command:
+3. Run the script using the following command:
 
-```bash filename="terminal"
-ts-node read-data.ts
+```bash filename="terminal" name="cmd8"
+ts-node your-file-name.ts
 ```
 </Tabs.Tab>
 
@@ -398,27 +360,13 @@ ts-node read-data.ts
 
 1. Create a file named `main.rs`
 
-2. Import the dependencies from `avail-rust-sdk` and create a `read_data_by_hash` function:
+2. Paste the following code into the file:
 
-```rust showLineNumbers filename="avail-rust"
+```rust showLineNumbers filename="avail-rust" name="cmd9"
 use avail_rust::prelude::*;
 
 pub async fn read_data_by_hash() -> Result<(), ClientError> {
 
-
-}
-
-#[tokio::main]
-async fn main() {
-    if let Err(e) = read_data_by_hash().await {
-        eprintln!("Error: {:?}", e);
-    }
-}
-```
-
-3. Initialize a new instance of the SDK inside the `read_data_by_hash` function, and declare the params:
-
-```rust showLineNumbers filename="avail-rust"
     // Create a new SDK instance
 	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
     
@@ -428,11 +376,7 @@ async fn main() {
 
     // All Block Blobs by Hash
     let tx_hash = new_h256_from_hex("0x70d8cc521c341d717f5b11d1898fc7a21f9d894c3617929aaabaea71c4814911")?;
-```
 
-4. Extract the data:
-
-```rust showLineNumbers filename="avail-rust"
     let blobs = block.data_submissions(Filter::new().tx_hash(tx_hash));
     assert_eq!(blobs.len(), 1, "");
 
@@ -441,38 +385,44 @@ async fn main() {
     // Printout All Block Blobs by Hash
     let blob_data = blob.to_ascii().unwrap();
     assert_eq!(blob.tx_hash, tx_hash, "Tx Hash must be the same");
-```
 
-5. Log out the data:
-
-```rust showLineNumbers filename="avail-rust"
     println!(
-        "Tx Hash: {:?}, Tx Index: {}, Data: {:?}, App Id: {}, Tx Singer: {:?}",
-        blob.tx_hash,
-        blob.tx_index,
-        blob_data,
-        blob.app_id,
-        blob.ss58address(),
+    "Tx Hash: {:?}, Tx Index: {}, Data: {:?}, App Id: {}, Tx Singer: {:?}",
+    blob.tx_hash,
+    blob.tx_index,
+    blob_data,
+    blob.app_id,
+    blob.ss58address(),
     );
+    println!("Data retrieval completed successfully");
 
     Ok(())
 }
+
+// Add a main function to call submit_data
+#[tokio::main]
+async fn main() {
+    if let Err(e) = read_data_by_hash().await {
+        eprintln!("Error: {:?}", e);
+    }
+}
 ```
 
-6. Run the script using the following command:
+3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd10"
 cargo run
 ```
+
 </Tabs.Tab>
 
 <Tabs.Tab>
 
 1. Create a file named `main.go`
 
-2. Import the dependencies from `avail-go-sdk` and create a `main` function:
+2. Paste the following code into the file:
 
-```go showLineNumbers filename="avail-go"
+```go showLineNumbers filename="avail-go" name="cmd11"
 package main
 
 import (
@@ -486,13 +436,7 @@ import (
 
 func main() {
 
-}
-```
-
-3. Initialize a new instance of the SDK inside the `main` function, and declare the params:
-
-```go showLineNumbers filename="avail-go"
-	// Initialize an SDK instance
+    // Initialize an SDK instance
 	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
 	if err != nil {
 		log.Fatalf("Failed to initialize SDK: %v", err)
@@ -513,37 +457,32 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create transaction hash: %v", err)
 	}
-```
 
-4. Extract the data:
-
-```go showLineNumbers filename="avail-go"
-	blobs := block.DataSubmissions(SDK.Filter{}.WTxHash(txHash))
+    blobs := block.DataSubmissions(SDK.Filter{}.WTxHash(txHash))
 	if err != nil {
 		log.Fatalf("Failed to create data submissions: %v", err)
 	}
 
 	blob := &blobs[0]
-```
 
-5. Log out the data:
-
-```go showLineNumbers filename="avail-go"
-	// Printout Block Blobs filtered by Transaction Hash
+    // Printout Block Blobs filtered by Transaction Hash
 	accountId, err := primitives.NewAccountIdFromMultiAddress(blob.TxSigner)
 	if err != nil {
 		log.Fatalf("Failed to create account ID: %v", err)
 	}
 	fmt.Println(fmt.Sprintf(`Tx Hash: %v, Tx Index: %v, Data: %v, App Id: %v, Signer: %v,`, blob.TxHash, blob.TxIndex, string(blob.Data), blob.AppId, accountId.ToHuman()))
 
-	fmt.Println("RunBlockDataSubmissionByHash finished correctly.")
+	fmt.Println("Data retrieval completed successfully")
+
+}
 ```
 
-6. Run the script using the following command:
+3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd12"
 go run main.go
 ```
+
 </Tabs.Tab>
 
 </Tabs>
@@ -557,11 +496,11 @@ go run main.go
 
 <Tabs.Tab>
 
-1. Create a file named `read-data-by-app-id.ts`
+1. Create a file named `your-file-name.ts`
 
-2. Import the dependencies from `avail-js-sdk` and create a `readDataByAppId` function:
+2. Paste the following code into the file:
 
-```typescript showLineNumbers filename="avail-js"
+```typescript showLineNumbers filename="avail-js" name="cmd13"
 import * as dotenv from 'dotenv';
 import { SDK, Block } from 'avail-js-sdk';
 
@@ -569,13 +508,6 @@ dotenv.config();
 
 export async function readDataByAppId() {
 
-}
-readDataByAppId()
-```
-
-3. Initialize a new instance of the SDK inside the `readDataByAppId` function, and declare the params:
-
-```typescript showLineNumbers filename="avail-js"
     // Initialize SDK with Turing endpoint
     const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
     
@@ -584,13 +516,8 @@ readDataByAppId()
     const blockHash = "0xd5f95593d91a581d7ce7b8717789298345be4be47e75ba93e7159cfe23083a7b";
 
     console.log(`Looking up data for App ID: ${appId}`);
-    console.log(`In block: ${blockHash}`);  
-```
-
-4. Extract the data:
-
-```typescript showLineNumbers filename="avail-js"
-    
+    console.log(`In block: ${blockHash}`);
+ 
     // Create a Block object for the specified block hash
     const block = await Block.New(sdk.client, blockHash);
     
@@ -598,11 +525,7 @@ readDataByAppId()
     const blobs = block.dataSubmissions({ appId: appId });
     
     console.log(`Found ${blobs.length} data submission(s)`);
-```
 
-5. Log out the data:
-
-```typescript showLineNumbers filename="avail-js"
     // Display information for each data blob
     if (blobs.length === 0) {
         console.log("No data submissions found for this app ID");
@@ -620,12 +543,16 @@ readDataByAppId()
     
     console.log("Data retrieval completed successfully");
     process.exit(0);
+
+
+}
+readDataByAppId()
 ```
 
-6. Run the script using the following command:
+3. Run the script using the following command:
 
-```bash filename="terminal"
-ts-node read-data-by-app-id.ts
+```bash filename="terminal" name="cmd14"
+ts-node your-file-name.ts
 ```
 </Tabs.Tab>
 
@@ -633,26 +560,12 @@ ts-node read-data-by-app-id.ts
 
 1. Create a file named `main.rs`
 
-2. Import the dependencies from `avail-rust-sdk` and create a `read_data_by_app_id` function:
+2. Paste the following code into the file:
 
-```rust showLineNumbers filename="avail-rust"
+```rust showLineNumbers filename="avail-rust" name="cmd15"
 use avail_rust::prelude::*;
 
 pub async fn read_data_by_appid() -> Result<(), ClientError> {
-
-}
-
-#[tokio::main]
-async fn main() {
-    if let Err(e) = read_data_by_appid().await {
-        eprintln!("Error: {:?}", e);
-    }
-}
-```
-
-3. Initialize a new instance of the SDK inside the `read_data_by_app_id` function, and declare the params:
-
-```rust showLineNumbers filename="avail-rust"
 
     // Create a new SDK instance
 	let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
@@ -662,17 +575,9 @@ async fn main() {
 
     // All Block Blobs by App Id
     let app_id = 89;
-```
 
-4. Extract the data:
-
-```rust showLineNumbers filename="avail-rust"
     let blobs = block.data_submissions(Filter::new().app_id(app_id));
-```
 
-5. Log out the data:
-
-```rust showLineNumbers filename="avail-rust"
     // Printout All Block Blobs by App Id
     for blob in blobs {
         let blob_data = blob.to_ascii().unwrap();
@@ -686,25 +591,35 @@ async fn main() {
             blob.ss58address(),
         );
     }
+    println!("Data retrieval completed successfully");
 
     Ok(())
+
+}
+
+#[tokio::main]
+async fn main() {
+    if let Err(e) = read_data_by_appid().await {
+        eprintln!("Error: {:?}", e);
+    }
 }
 ```
 
-6. Run the script using the following command:
+3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd16"
 cargo run
 ```
+
 </Tabs.Tab>
 
 <Tabs.Tab>
 
 1. Create a file named `main.go`
 
-2. Import the dependencies from `avail-go-sdk` and create a `main` function:
+2. Paste the following code into the file:
 
-```go showLineNumbers filename="avail-go"
+```go showLineNumbers filename="avail-go" name="cmd17"
 package main
 
 import (
@@ -718,13 +633,7 @@ import (
 
 func main() {
 
-}
-```
-
-3. Initialize a new instance of the SDK inside the `main` function, and declare the params:
-
-```go showLineNumbers filename="avail-go"
-	// Initialize an SDK instance
+    // Initialize an SDK instance
 	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
 	if err != nil {
 		log.Fatalf("Failed to initialize SDK: %v", err)
@@ -739,23 +648,15 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create block: %v", err)
 	}
-```
 
-4. Extract the data:
-
-```go showLineNumbers filename="avail-go"
-	// Block Blobs filtered by App Id
+    // Block Blobs filtered by App Id
 	appId := uint32(2)
 	blobs := block.DataSubmissions(SDK.Filter{}.WAppId(appId))
 	if err != nil {
 		log.Fatalf("Failed to create data submissions: %v", err)
 	}
-```
 
-5. Log out the data:
-
-```go showLineNumbers filename="avail-go"
-	// Printout Block Blobs filtered by App Id
+    // Printout Block Blobs filtered by App Id
 	for _, blob := range blobs {
 		if blob.AppId != appId {
 			log.Fatalf("Transaction App Ids are not the same.")
@@ -769,12 +670,14 @@ func main() {
 		fmt.Println(fmt.Sprintf(`Tx Hash: %v, Tx Index: %v, Data: %v, App Id: %v, Signer: %v,`, blob.TxHash, blob.TxIndex, string(blob.Data), blob.AppId, accountId.ToHuman()))
 	}
 
-	fmt.Println("RunBlockDataSubmissionByAppId finished correctly.")
+	fmt.Println("Data retrieval completed successfully")
+
+}
 ```
 
-6. Run the script using the following command:
+3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd18"
 go run main.go
 ```
 
@@ -791,7 +694,7 @@ Here is a complete example of how to fetch all the data submissions for a given 
 
 <Tabs.Tab>
 
-```typescript showLineNumbers filename="avail-js"
+```typescript showLineNumbers filename="avail-js" name="cmd19"
 import * as dotenv from 'dotenv';
 import { SDK, Block } from 'avail-js-sdk';
 
@@ -839,15 +742,15 @@ readDataByBlock();
 
 6. Run the script using the following command:
 
-```bash filename="terminal"
-ts-node read-data-by-block.ts
+```bash filename="terminal" name="cmd20"
+ts-node your-file-name.ts
 ```
 
 </Tabs.Tab>
 
 <Tabs.Tab>
 
-```rust showLineNumbers filename="avail-rust"
+```rust showLineNumbers filename="avail-rust" name="cmd21"
 use avail_rust::prelude::*;
 
 pub async fn read_data_by_block() -> Result<(), ClientError> {
@@ -874,6 +777,7 @@ pub async fn read_data_by_block() -> Result<(), ClientError> {
             blob.ss58address(),
         );
     }
+    println!("Data retrieval completed successfully");
 
     Ok(())
 }
@@ -888,7 +792,7 @@ async fn main() {
 
 6. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd22"
 cargo run
 ```
 
@@ -896,7 +800,7 @@ cargo run
 
 <Tabs.Tab>
 
-```go showLineNumbers filename="avail-go"
+```go showLineNumbers filename="avail-go" name="cmd23"
 package main
 
 import (
@@ -904,6 +808,7 @@ import (
 	"log"
 
 	"github.com/availproject/avail-go-sdk/primitives"
+
 	SDK "github.com/availproject/avail-go-sdk/sdk"
 )
 
@@ -939,13 +844,14 @@ func main() {
 		fmt.Println(fmt.Sprintf(`Tx Hash: %v, Tx Index: %v, Data: %v, App Id: %v, Signer: %v,`, blob.TxHash, blob.TxIndex, string(blob.Data), blob.AppId, accountId.ToHuman()))
 	}
 
-	fmt.Println("RunBlockDataSubmissionAll finished correctly.")
+	fmt.Println("Data retrieval completed successfully")
+
 }
 ```
 
 6. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd24"
 go run main.go
 ```
 
@@ -966,7 +872,7 @@ Here is a complete example of how to fetch all the transactions by a particular 
 
 2. Paste the following code into your file:
 
-```typescript showLineNumbers filename="avail-js"
+```typescript showLineNumbers filename="avail-js" name="cmd25"
 import { SDK, Block } from 'avail-js-sdk';
 
 export async function fetchTransactionsBySigner() {
@@ -1017,7 +923,7 @@ fetchTransactionsBySigner();
 
 3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd26"
 ts-node your-file-name.ts
 ```
 
@@ -1028,7 +934,7 @@ ts-node your-file-name.ts
 
 2. Paste the following code into your file:
 
-```rust showLineNumbers filename="avail-rust"
+```rust showLineNumbers filename="avail-rust" name="cmd27"
 use avail_rust::prelude::*;
 
 pub async fn fetch_transactions_by_signer() -> Result<(), ClientError> {
@@ -1068,11 +974,13 @@ pub async fn fetch_transactions_by_signer() -> Result<(), ClientError> {
         );
     }
 
+    println!("Transaction retrieval completed successfully");
+
     Ok(())
 }
 
 #[tokio::main]
-async fn main() -> Result<(), ClientError> {
+async fn main() {
     fetch_transactions_by_signer().await?;
     Ok(())
 }
@@ -1080,7 +988,7 @@ async fn main() -> Result<(), ClientError> {
 
 3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd28"
 cargo run
 ```
 
@@ -1091,7 +999,7 @@ cargo run
 
 2. Paste the following code into your file:
 
-```go showLineNumbers filename="avail-go"
+```go showLineNumbers filename="avail-go" name="cmd29"
 package main
 
 import (
@@ -1111,20 +1019,18 @@ func main() {
 		log.Fatalf("Failed to initialize SDK: %v", err)
 	}
 
-	// Create a block hash
 	blockHash, err := primitives.NewBlockHashFromHexString("0x75a6c54bb5ea904e47fa151956992d7cf543bc7c936d78488e311db8e10397c1")
 	if err != nil {
 		log.Fatalf("Failed to create block hash: %v", err)
 	}
 
-	// Create a block
 	block, err := SDK.NewBlock(sdk.Client, blockHash)
 	if err != nil {
 		log.Fatalf("Failed to create block: %v", err)
 	}
 
 	// Create an account ID
-	accountId, err := primitives.NewAccountIdFromAddress("5CqgQkrDcdg5QrtuxT3H7WszrqgrBMhdwRbmMVXQzc4VSiEg")
+	accountId, err := primitives.NewAccountIdFromMultiAddress("5CqgQkrDcdg5QrtuxT3H7WszrqgrBMhdwRbmMVXQzc4VSiEg")
 	if err != nil {
 		log.Fatalf("Failed to create account ID: %v", err)
 	}
@@ -1139,17 +1045,19 @@ func main() {
 		fmt.Println(fmt.Sprintf(`Tx Signer: %v, App Id: %v, Tip: %v, Mortality: %v, Nonce: %v`, tx.SS58Address(), tx.AppId(), tx.Tip(), tx.Mortality(), tx.Nonce()))
 	}
 
-	fmt.Println("RunBlockTransactionBySigner finished correctly.")
+	fmt.Println("Transaction retrieval completed successfully")
+
 }
 ```
 
 3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd30"
 go run main.go
 ```
 
 </Tabs.Tab>
+
 </Tabs>
 
 ### Fetch all transactions from a particular block [#fetch-transactions-by-block]
@@ -1163,7 +1071,7 @@ Here is a complete example of how to fetch all the transactions from a particula
 
 2. Paste the following code into your file:
 
-```typescript showLineNumbers filename="avail-js"
+```typescript showLineNumbers filename="avail-js" name="cmd31"
 import { SDK, Block } from 'avail-js-sdk';
 
 export async function fetchAllTransactions() {
@@ -1211,7 +1119,7 @@ fetchAllTransactions();
 
 3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd32"
 ts-node your-file-name.ts
 ```
 
@@ -1222,7 +1130,7 @@ ts-node your-file-name.ts
 
 2. Paste the following code into your file:
 
-```rust showLineNumbers filename="avail-rust"
+```rust showLineNumbers filename="avail-rust" name="cmd33"
 use avail_rust::prelude::*;
 
 pub async fn fetch_all_transactions() -> Result<(), ClientError> {
@@ -1259,6 +1167,8 @@ pub async fn fetch_all_transactions() -> Result<(), ClientError> {
         );
     }
 
+    println!("Transaction retrieval completed successfully");
+
     Ok(())
 }
 
@@ -1271,7 +1181,7 @@ async fn main() -> Result<(), ClientError> {
 
 3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd34"
 cargo run
 ```
 
@@ -1282,7 +1192,7 @@ cargo run
 
 2. Paste the following code into your file:
 
-```go showLineNumbers filename="avail-go"
+```go showLineNumbers filename="avail-go" name="cmd35"
 package main
 
 import (
@@ -1290,6 +1200,7 @@ import (
 	"log"
 
 	"github.com/availproject/avail-go-sdk/primitives"
+
 	SDK "github.com/availproject/avail-go-sdk/sdk"
 )
 
@@ -1320,13 +1231,14 @@ func main() {
 		fmt.Println(fmt.Sprintf(`Tx Signer: %v, App Id: %v, Tip: %v, Mortality: %v, Nonce: %v`, tx.SS58Address(), tx.AppId(), tx.Tip(), tx.Mortality(), tx.Nonce()))
 	}
 
-	fmt.Println("RunBlockTransactionAll finished correctly.")
+	fmt.Println("Transaction retrieval completed successfully")
+
 }
 ```
 
 3. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd36"
 go run main.go
 ```
 
@@ -1347,7 +1259,7 @@ Here is how you can use it:
 
 <Tabs.Tab>
 
-```typescript showLineNumbers filename="avail-js"
+```typescript showLineNumbers filename="avail-js" name="cmd37"
 import { initialize, disconnect } from "avail-js-sdk";
 
 const calculateCost = async () => {
@@ -1379,7 +1291,7 @@ calculateCost();
 
 <Tabs.Tab>
 
-```typescript showLineNumbers filename="avail-js"
+```typescript showLineNumbers filename="avail-js" name="cmd38"
 import * as fs from "fs";
 import { initialize, disconnect } from "avail-js-sdk";
 
@@ -1419,7 +1331,6 @@ calculateCost();
 
 2. Run the script using the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd39"
 ts-node your-file-name.ts
 ```
-

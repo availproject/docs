@@ -20,12 +20,12 @@ To query basic information about an account, including it's balance, you need to
 <Tabs.Tab>
 1. Inside `your-file-name.ts`, add the following code:
 
-```typescript showLineNumbers filename="avail-js"
+```typescript showLineNumbers filename="avail-js" name="cmd1"
 import * as dotenv from 'dotenv';
 import { SDK, Pallets } from 'avail-js-sdk';
-
+ 
 dotenv.config();
-
+ 
 export async function getAccountBalance() {
     // Initialize SDK with Turing endpoint
     const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
@@ -47,22 +47,23 @@ export async function getAccountBalance() {
     const free = accountInfo.value.accountData.free.toString();
     const reserved = accountInfo.value.accountData.reserved.toString();
     const frozen = accountInfo.value.accountData.frozen.toString();
-
+ 
     console.log("The following balances are in the smallest units, divide by 10^18 to get the balance in AVAIL");
     console.log(`Free Balance: ${free}`);
     console.log(`Reserved Balance: ${reserved}`);
     console.log(`Frozen Balance: ${frozen}`);
+    console.log("Account information fetched successfully");
     
     process.exit(0);
 }
-
+ 
 // Execute the function
-getAccountBalance(); 
+getAccountBalance();
 ```
 
 2. Run the code using:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd2"
 ts-node your-file-name.ts
 ```
 </Tabs.Tab>
@@ -70,24 +71,22 @@ ts-node your-file-name.ts
 <Tabs.Tab>
 1. Inside `main.rs`, add the following code:
 
-```rust showLineNumbers filename="avail-rust"
-
+```rust showLineNumbers filename="avail-rust" name="cmd3"
 use avail_rust::prelude::*;
 use core::str::FromStr;
-
+ 
 pub async fn system_account() -> Result<(), ClientError> {
-
+ 
     // Create a new SDK instance
     let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
-
-
+ 
     let account_id = AccountId::from_str("5CqgQkrDcdg5QrtuxT3H7WszrqgrBMhdwRbmMVXQzc4VSiEg").unwrap();
-
+ 
     let block_hash = sdk.client.best_block_hash().await?;
     let storage = sdk.client.storage().at(block_hash);
     let address = avail::storage().system().account(account_id);
     let result = storage.fetch(&address).await?;
-
+ 
     if let Some(account) = result {
         println!("Consumers: {}", account.consumers);
         println!("Data: {:?}", account.data);
@@ -95,22 +94,25 @@ pub async fn system_account() -> Result<(), ClientError> {
         println!("Providers: {}", account.providers);
         println!("Sufficients: {}", account.sufficients);
     }
-
+ 
     Ok(())
 }
-
+ 
 // Add a main function to call system_account
 #[tokio::main]
 async fn main() {
     if let Err(e) = system_account().await {
         eprintln!("Error: {:?}", e);
     }
+    else {
+        println!("Account information fetched successfully");
+    }
 }
 ```
 
 2. Run the code using:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd4"
 cargo run
 ```
 
@@ -119,7 +121,7 @@ cargo run
 <Tabs.Tab>
 1. Inside `main.go`, add the following code:
 
-```go showLineNumbers filename="avail-go"
+```go showLineNumbers filename="avail-go" name="cmd5"
 package main
 
 import (
@@ -170,19 +172,20 @@ func main() {
 	fmt.Println("Free Balance: ", val.Value.AccountData.Free.ToHuman())
 	fmt.Println("Reserved Balance: ", val.Value.AccountData.Reserved.ToHuman())
 	fmt.Println("Frozen Balance: ", val.Value.AccountData.Frozen.ToHuman())
+	fmt.Println("Account information fetched successfully")
 
 }
 ```
 
 2. Run the code using:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd6"
 go run main.go
 ```
 
 <Callout type="info">
 If you receive errors related to missing dependencies while trying to execute your code, run:
-```bash filename="terminal"
+```bash filename="terminal" name="cmd7"
 go mod tidy
 ```
 and try again.
@@ -256,7 +259,7 @@ Free balance: 28.3046577073 AVAIL
 <Tabs.Tab>
 1. Open a terminal and run the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd8"
 curl --location --request POST 'https://avail.api.subscan.io/api/v2/scan/search' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -355,7 +358,7 @@ curl --location --request POST 'https://avail.api.subscan.io/api/v2/scan/search'
 
 1. Open a terminal and run the following command:
 
-```bash filename="terminal"
+```bash filename="terminal" name="cmd9"
 curl --location --request POST 'https://avail-turing.api.subscan.io/api/v2/scan/search' \
 --header 'Content-Type: application/json' \
 --data-raw '{

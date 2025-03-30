@@ -58,7 +58,7 @@ The rest of the code should work as is.
 
 ```typescript showLineNumbers filename="avail-js" name="cmd1"
 import { SDK, Pallets } from 'avail-js-sdk';
-
+ 
 export async function getNextAppId() {
     // Initialize SDK with Turing endpoint
     const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
@@ -74,10 +74,11 @@ export async function getNextAppId() {
     const nextAppId = await Pallets.DataAvailabilityStorage.NextAppId.fetch(storageAt);
     
     console.log(`Next available App ID is: ${nextAppId}`);
+    console.log("App ID fetched successfully");
     
     process.exit(0);
 }
-
+ 
 // Execute the function
 getNextAppId();
 ```
@@ -104,26 +105,29 @@ ts-node your-file-name.ts
 
 ```rust showLineNumbers filename="avail-rust" name="cmd3" showLineNumbers filename="avail-rust"
 use avail_rust::prelude::*;
-
+ 
 pub async fn da_next_app_id() -> Result<(), ClientError> {
-
+ 
     // Create a new SDK instance
     let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
-
+ 
     let block_hash = sdk.client.best_block_hash().await?;
     let storage = sdk.client.storage().at(block_hash);
     let address = avail::storage().data_availability().next_app_id();
     let result = storage.fetch_or_default(&address).await?;
-
+ 
     println!("Next available App ID is: {:?}", result);
     Ok(())
 }
-
+ 
 // Add a main function to call da_next_app_id
 #[tokio::main]
 async fn main() {
     if let Err(e) = da_next_app_id().await {
         eprintln!("Error: {:?}", e);
+    }
+    else {
+        println!("App ID fetched successfully");
     }
 }
 ```
@@ -190,6 +194,7 @@ func main() {
 	}
 
 	fmt.Printf("Next available App ID is: %v\n", nextAppId)
+	fmt.Println("App ID fetched successfully")
 }
 ```
 
