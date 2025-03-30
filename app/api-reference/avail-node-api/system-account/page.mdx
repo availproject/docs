@@ -75,9 +75,9 @@ The rest of the code should work as is.
 ```typescript showLineNumbers filename="avail-js" name="cmd1"
 import * as dotenv from 'dotenv';
 import { SDK, Pallets } from 'avail-js-sdk';
-
+ 
 dotenv.config();
-
+ 
 export async function getAccountBalance() {
     // Initialize SDK with Turing endpoint
     const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
@@ -99,15 +99,16 @@ export async function getAccountBalance() {
     const free = accountInfo.value.accountData.free.toString();
     const reserved = accountInfo.value.accountData.reserved.toString();
     const frozen = accountInfo.value.accountData.frozen.toString();
-
+ 
     console.log("The following balances are in the smallest units, divide by 10^18 to get the balance in AVAIL");
     console.log(`Free Balance: ${free}`);
     console.log(`Reserved Balance: ${reserved}`);
     console.log(`Frozen Balance: ${frozen}`);
+    console.log("Account information fetched successfully");
     
     process.exit(0);
 }
-
+ 
 // Execute the function
 getAccountBalance();
 ```
@@ -126,19 +127,19 @@ ts-node your-file-name.ts
 ```rust showLineNumbers filename="avail-rust" name="cmd3" showLineNumbers filename="avail-rust"
 use avail_rust::prelude::*;
 use core::str::FromStr;
-
+ 
 pub async fn system_account() -> Result<(), ClientError> {
-
+ 
     // Create a new SDK instance
     let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
-
+ 
     let account_id = AccountId::from_str("5CqgQkrDcdg5QrtuxT3H7WszrqgrBMhdwRbmMVXQzc4VSiEg").unwrap();
-
+ 
     let block_hash = sdk.client.best_block_hash().await?;
     let storage = sdk.client.storage().at(block_hash);
     let address = avail::storage().system().account(account_id);
     let result = storage.fetch(&address).await?;
-
+ 
     if let Some(account) = result {
         println!("Consumers: {}", account.consumers);
         println!("Data: {:?}", account.data);
@@ -146,15 +147,18 @@ pub async fn system_account() -> Result<(), ClientError> {
         println!("Providers: {}", account.providers);
         println!("Sufficients: {}", account.sufficients);
     }
-
+ 
     Ok(())
 }
-
+ 
 // Add a main function to call system_account
 #[tokio::main]
 async fn main() {
     if let Err(e) = system_account().await {
         eprintln!("Error: {:?}", e);
+    }
+    else {
+        println!("Account information fetched successfully");
     }
 }
 ```
@@ -244,6 +248,7 @@ func main() {
 	fmt.Println("Free Balance: ", val.Value.AccountData.Free.ToHuman())
 	fmt.Println("Reserved Balance: ", val.Value.AccountData.Reserved.ToHuman())
 	fmt.Println("Frozen Balance: ", val.Value.AccountData.Frozen.ToHuman())
+	fmt.Println("Account information fetched successfully")
 
 }
 ```
