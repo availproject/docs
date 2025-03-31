@@ -305,10 +305,10 @@ To check out how to create an AppID on Avail, [refer to this page](/docs/build-w
 2. Paste the following code into the file:
 
 ```typescript showLineNumbers filename="avail-js" name="cmd7"
-import { initialize } from "avail-js-sdk"
-
+import { SDK, Block } from 'avail-js-sdk';
+ 
 export async function readDataByHash() {
-
+ 
     // Initialize SDK with Turing endpoint
     const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
     
@@ -318,13 +318,13 @@ export async function readDataByHash() {
     
     console.log(`Looking up transaction: ${txHash}`);
     console.log(`In block: ${blockHash}`);
-
+ 
     // Create a Block object for the specified block hash
     const block = await Block.New(sdk.client, blockHash);
     
     // Get data submissions for the specified transaction hash
     const blobs = block.dataSubmissions({ txHash: txHash });
-
+ 
     console.log(`Found ${blobs.length} data submission(s)`);
     
     // Display information for each data blob
@@ -344,7 +344,7 @@ export async function readDataByHash() {
     
     console.log("Data retrieval completed successfully");
     process.exit(0);
-
+ 
 }
 readDataByHash()
 ```
