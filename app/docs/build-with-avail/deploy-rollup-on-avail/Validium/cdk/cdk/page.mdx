@@ -45,14 +45,10 @@ In this guide, we will cover:
 
 | Software                                                                              | Version            |
 | ------------------------------------------------------                                | ------------------ |
-| [**Node.js**](https://nodejs.org/en/)                                                 | Latest LTS Version |
 | [**Git**](https://git-scm.com/)                                                       | OS Default         |
 | [**Docker**](https://www.docker.com/)                                                 | Latest             |
 | [**Docker Compose**](https://docs.docker.com/compose/)                                | Latest             |
-| [**Yarn**](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable)           | v1.22.19           |
 | [**GO**](https://go.dev/doc/install)                                                  | Latest             |
-| [**Foundry**](https://github.com/foundry-rs/foundry)                                  | Latest             |
-| [**Postgres**](https://www.postgresql.org/download/)                                  | Latest             |
 | [**Make**](https://www.gnu.org/software/make/)                                        | OS Default         |
 | [**Kurtosis**](https://docs.kurtosis.com/install/)                                    | Latest             |
 | [**Polygon-cli**](https://github.com/0xPolygon/polygon-cli)                           | Latest             |
@@ -76,7 +72,7 @@ docker tag cdk availproject/cdk:avail-develop-v0.5.1-rc3
 ### 2. Build [cdk-zkevm-contracts](https://github.com/availproject/cdk-zkevm-contracts) image with mock AvailDABridge and proof verification
 
 ```bash
-git clone https://github.com/RISHABHAGRAWALZRA/kurtosis-cdk.git
+git clone https://github.com/availproject/kurtosis-cdk.git
 cd kurtosis-cdk/docker
 git checkout avail-develop-v0.2.29
 docker build . \
@@ -114,7 +110,7 @@ Some useful examples to interact with the chain can be Read/write opertations.
 
 1. First export the RPC URL of your L2 to an environment variable called `ETH_RPC_URL`:
 ```bash
-export ETH_RPC_URL="$(kurtosis port print cdk cdk-erigon-node-001 rpc)"
+export ETH_RPC_URL="$(kurtosis port print cdk cdk-erigon-sequencer-001 rpc)"
 ```
 
 2. Use `cast` to view information about the chain:
@@ -126,8 +122,6 @@ cast block-number
 ```bash
 cast balance --ether 0xE34aaF64b29273B7D567FCFc40544c014EEe9970
 ```
-
-**Note**: export ETH_RPC_URL="$(kurtosis port print cdk cdk-erigon-node-001 rpc)” in this command the right service name is `cdk-erigon-sequencer-001`
 
 To check Avail Logs of `cdk-node-001`, use `kurtosis service logs -f <enclave-name> <service-id>`
 
@@ -144,15 +138,15 @@ make build-docker
 docker tag cdk availproject/cdk:avail-develop-v0.5.1-rc3
 ```
 
-### 2. Build [cdk-zkevm-contracts](https://github.com/availproject/cdk-zkevm-contracts) image with mock AvailDABridge and proof verification
+### 2. Build [cdk-zkevm-contracts](https://github.com/availproject/cdk-zkevm-contracts) image with Sepolia AvailDABridge and proof verification
 
 ```bash
-git clone https://github.com/RISHABHAGRAWALZRA/kurtosis-cdk.git
-cd kurtosis-cdk/docker
+git clone https://github.com/availproject/kurtosis-cdk.git
 git checkout avail-develop-v0.2.29
+cd kurtosis-cdk/docker
 docker build . \
   --tag availproject/cdk-zkevm-contracts:avail-develop-v9.0.0-rc.5-pp-fork.12 \
-  --build-arg ZKEVM_CONTRACTS_BRANCH=mock-bridge-avail-develop-v9.0.0-rc.5-pp \
+  --build-arg ZKEVM_CONTRACTS_BRANCH=avail-develop-v9.0.0-rc.5-pp \
   --build-arg POLYCLI_VERSION=main \
   --build-arg FOUNDRY_VERSION=nightly-27cabbd6c905b1273a5ed3ba7c10acce90833d76 \
   --file zkevm-contracts.Dockerfile
