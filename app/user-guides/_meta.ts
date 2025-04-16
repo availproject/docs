@@ -5,7 +5,7 @@ export default {
     "identity": "Set an on-chain identity",
     "avail-snap": "Use Avail with MetaMask",
     "ledger-avail": "Use a ledger wallet on Avail",
-    "vectorx": "Bridge AVAIL to Ethereum",
+    "bridge-avail": "Bridge AVAIL to different chains",
     "staking-governance": "Staking & Governance on Avail",
     "avail-funds-recovery": {
         "display": "hidden"

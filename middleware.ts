@@ -132,6 +132,10 @@ export function middleware(request: NextRequest) {
       destination: `${origin}/user-guides/vectorx`,
     },
     {
+      source: '/user-guides/vectorx',
+      destination: `${origin}/user-guides/bridge-avail/avail-ethereum`,
+    },
+    {
       source: '/docs/end-user-guide/ledger-avail',
       destination: `${origin}/user-guides/ledger-avail`,
     },
