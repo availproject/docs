@@ -34,9 +34,7 @@ In this guide, we will cover:
 - [Deploying CDK with AvailDA on local](#deploying-cdk-with-availda-on-local)
 - [Deploying CDK with AvailDA on Sepolia](#deploying-cdk-with-availda-on-sepolia)
 
-## Deploying CDK with AvailDA on Local
-
-### Environment:
+## Prerequisites:
 
 - CPU: 4 CPUs, amd64
 - Memory: 32 GB
@@ -48,15 +46,17 @@ In this guide, we will cover:
 | [**Git**](https://git-scm.com/)                                                       | OS Default         |
 | [**Docker**](https://www.docker.com/)                                                 | Latest             |
 | [**Docker Compose**](https://docs.docker.com/compose/)                                | Latest             |
+| [**Kurtosis**](https://docs.kurtosis.com/install/)                                    | Latest             |
 | [**GO**](https://go.dev/doc/install)                                                  | Latest             |
 | [**Make**](https://www.gnu.org/software/make/)                                        | OS Default         |
-| [**Kurtosis**](https://docs.kurtosis.com/install/)                                    | Latest             |
 | [**Polygon-cli**](https://github.com/0xPolygon/polygon-cli)                           | Latest             |
+| [**Foundry**](https://book.getfoundry.sh/getting-started/installation)                | Latest             |
 
 
 After executing the following commands you will have installed all the prerequisites needed.
 
-## Deploy CDK with AvailDA on local
+
+## Deploying CDK with AvailDA on Local
 
 ### 1. Build CDK image
 
@@ -64,9 +64,10 @@ After executing the following commands you will have installed all the prerequis
 
 ```bash
 git clone https://github.com/availproject/cdk.git
-git checkout avail-develop-v0.5.1-rc3
+cd cdk
+git checkout avail-develop-v0.5.3-rc1
 make build-docker
-docker tag cdk availproject/cdk:avail-develop-v0.5.1-rc3
+docker tag cdk availproject/cdk:avail-develop-v0.5.3-rc1
 ```
 
 ### 2. Build [cdk-zkevm-contracts](https://github.com/availproject/cdk-zkevm-contracts) image with mock AvailDABridge and proof verification
@@ -74,16 +75,14 @@ docker tag cdk availproject/cdk:avail-develop-v0.5.1-rc3
 ```bash
 git clone https://github.com/availproject/kurtosis-cdk.git
 cd kurtosis-cdk/docker
-git checkout avail-develop-v0.2.29
+git checkout avail-develop-v0.3.4
 docker build . \
-  --tag availproject/cdk-zkevm-contracts:avail-develop-v9.0.0-rc.5-pp-fork.12 \
-  --build-arg ZKEVM_CONTRACTS_BRANCH=mock-bridge-avail-develop-v9.0.0-rc.5-pp \
-  --build-arg POLYCLI_VERSION=main \
-  --build-arg FOUNDRY_VERSION=nightly-27cabbd6c905b1273a5ed3ba7c10acce90833d76 \
+  --tag availproject/cdk-zkevm-contracts:avail-develop-v9.0.0-rc.6-pp-fork.12 \
+  --build-arg ZKEVM_CONTRACTS_BRANCH=mock-bridge-avail-develop-v9.0.0-rc.6-pp \
+  --build-arg POLYCLI_VERSION="v0.1.73" \
+  --build-arg FOUNDRY_VERSION=stable \
   --file zkevm-contracts.Dockerfile
 ```
-
-There is a small fix needed because the you will get a GO error in docker. To fix that, you need to change the Go version in the `zkevm-contracts.Dockerfile` and replace version `FROM golang:1.21 AS polycli-builder` to `FROM golang:1.23 AS polycli-builder`.
 
 ### 3. Add AvailDA config values in `cdk-node-config.toml`
 
@@ -133,31 +132,28 @@ To check Avail Logs of `cdk-node-001`, use `kurtosis service logs -f <enclave-na
 
 ```bash
 git clone https://github.com/availproject/cdk.git
-git checkout avail-develop-v0.5.1-rc3
+git checkout avail-develop-v0.5.3-rc1
 make build-docker
-docker tag cdk availproject/cdk:avail-develop-v0.5.1-rc3
+docker tag cdk availproject/cdk:avail-develop-v0.5.3-rc1
 ```
 
 ### 2. Build [cdk-zkevm-contracts](https://github.com/availproject/cdk-zkevm-contracts) image with Sepolia AvailDABridge and proof verification
 
 ```bash
 git clone https://github.com/availproject/kurtosis-cdk.git
-git checkout avail-develop-v0.2.29
+git checkout avail-develop-v0.3.4
 cd kurtosis-cdk/docker
 docker build . \
-  --tag availproject/cdk-zkevm-contracts:avail-develop-v9.0.0-rc.5-pp-fork.12 \
-  --build-arg ZKEVM_CONTRACTS_BRANCH=avail-develop-v9.0.0-rc.5-pp \
-  --build-arg POLYCLI_VERSION=main \
-  --build-arg FOUNDRY_VERSION=nightly-27cabbd6c905b1273a5ed3ba7c10acce90833d76 \
+  --tag availproject/cdk-zkevm-contracts:avail-develop-v9.0.0-rc.6-pp-fork.12 \
+  --build-arg ZKEVM_CONTRACTS_BRANCH=avail-develop-v9.0.0-rc.6-pp \
+  --build-arg POLYCLI_VERSION="v0.1.73" \
+  --build-arg FOUNDRY_VERSION=stable \
   --file zkevm-contracts.Dockerfile
 ```
 
-There is a small fix needed because the you will get a GO error in docker. To fix that, you need to change the Go version in the `zkevm-contracts.Dockerfile` and replace version `FROM golang:1.21 AS polycli-builder` to `FROM golang:1.23 AS polycli-builder`.
-
-
 ### 3. Modify Deployment scalability
 
-In order to deploy on Sepolia, you need to change the [salt](https://github.com/availproject/kurtosis-cdk/blob/avail-develop-v0.2.29/templates/contract-deploy/deploy_parameters.json#L12) value to avoid a deployment failure. This can be done easily by running this script:
+In order to deploy on Sepolia, you need to change the [salt](https://github.com/availproject/kurtosis-cdk/blob/avail-develop-v0.2.29/templates/contract-deploy/deploy_parameters.json#L12) value to avoid a deployment failure. This can be done easily by running this script in `kurtosis-cdk`:
 
 ```bash
 if sed --version 2>/dev/null | grep -q GNU; then
