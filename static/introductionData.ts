@@ -12,7 +12,7 @@ export const IntroData = [
           {link: "/user-guides/avail-proxy", textcolor: "3CA3FC", placeholder: "Proxy accounts"},
           {link: "/user-guides/avail-snap", textcolor: "3CA3FC", placeholder: "Avail DA with MetaMask"},
           {link: "/user-guides/ledger-avail", textcolor: "3CA3FC", placeholder: "Hardware wallet on Avail"},
-          {link: "/user-guides/vectorx", textcolor: "3CA3FC", placeholder: "Bridge AVAIL to Ethereum"},
+          {link: "/user-guides/bridge-avail", textcolor: "3CA3FC", placeholder: "Bridge AVAIL to different chains"},
           {link: "/user-guides/staking-governance", textcolor: "3CA3FC", placeholder: "Staking & governance"},
           ],
           textcolor: "2FB3EA"
