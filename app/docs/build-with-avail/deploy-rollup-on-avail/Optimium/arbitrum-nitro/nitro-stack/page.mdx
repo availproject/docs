@@ -41,11 +41,26 @@ This guide is based on [Arbitrum Orbit Quickstart](https://docs.arbitrum.io/laun
     ```bash
     git clone https://github.com/availproject/arbitrum-orbit-sdk.git
     git checkout avail-develop-upstream-v0.20.1
-    cd arbitrum-orbit-sdk/examples/create-avail-rollup-eth
+    cd arbitrum-orbit-sdk
+    ```
+
+Install and build 
+
+    ```bash
+    npm i && npm run build
     ```
     
 ### Step-2: Create `.env` file
-    Create a copy of `.env.sample` as `.env` file and edit the following:
+
+    Go to `examples/create-avail-rollup-eth` and create a copy of `.env.example` as `.env` file inside.
+    
+
+    ```bash
+    cd examples/create-avail-rollup-eth
+    cp env.example .env
+    ```
+    
+    then edit the `.env` file for the following:
 
 - Set EVM account keys of settlement layer
     
@@ -88,15 +103,15 @@ This guide is based on [Arbitrum Orbit Quickstart](https://docs.arbitrum.io/laun
     npm run deploy-avail-orbit-rollup
     ```
     
-- You will find this kind of log
+- Here is a sample response of logs that you may see:
       <br/>
       <p align="center">
       <img src="/img/nitro-stack-1.png" alt="nitro-stack"/>
       </p>
     
-- You will get to see two files added `nodeConfig.json` and `orbitSetupScriptConfig.json`, which will be need in next step spin and set up avail orbit rollup
+- You will get to see two files added `nodeConfig.json` and `orbitSetupScriptConfig.json`, which will be need in the next step to spin and set up Avail Orbit Rollup.
 
-Before proceeding, let's briefly review what just happened:
+#### Before proceeding, let's briefly review what just happened:
 
 1. You submitted a deployment transaction to an Orbit "factory" smart contract on the Arbitrum Sepolia testnet, the public L2 chain that your local Orbit chain will settle transactions to.
 2. This Orbit smart contract then initialized your Orbit chain's base contracts with the values that you specified in the previous step, and deployed these base contracts to the Arbitrum Sepolia testnet.
