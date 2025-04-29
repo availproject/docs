@@ -10,6 +10,7 @@ export default {
         "operate-a-node": "Run a node",
         "glossary": "Glossary",
         "faqs": "FAQs",
+        "bug-bounty": "Bug Bounty",
         "archived-content": {
             "display": "hidden"
         }
