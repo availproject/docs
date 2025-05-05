@@ -222,3 +222,34 @@ Now you should have a CDK chain with AvailDA deployed on Sepolia. You can intera
 Try interacting with it as defined in these [docs](https://docs.polygon.technology/cdk/getting-started/local-deployment/#interacting-with-the-chain).
 
 Congratulations! You have successfully deployed a Polygon CDK Validium chain with AvailDA on Local & Sepolia. For anymore information on CDK, you can refer to the [Polygon CDK documentation](https://docs.polygon.technology/cdk/getting-started/local-deployment/).
+
+
+## Enable DA attestation verification over Avail Bridge (optional) 
+
+The default depolyment of Polygon CDK validium chain using AvailDA, is with DA attestation verfication disabled over [AvailAttestation](https://github.com/availproject/cdk-zkevm-contracts/blob/avail-develop-v9.0.0-rc.6-pp/contracts/v2/consensus/validium/AvailAttestation.sol#L38) 
+
+To learn more about DA attestation verification, follow [this](https://docs.availproject.org/docs/build-with-avail/vectorx)
+
+To enable the verification, follow these steps
+
+### 1. Enable the bridge verification on CDK node
+
+There is a config called `bridge_enabled` in `kurtosis-cdk/templates/trusted-node` for sequencer-sender and aggregator component of CDK, Make it `true`
+
+### 2. Enable the bridge verfication on `AvailAttestation` contract
+
+```bash
+cast send <availAttestationAddress> "setAvailBridgeVerificationEnabled(bool)" true \
+--private-key <key> \
+--rpc-url https://sepolia.drpc.org
+```
+
+<Callout type="info">
+This feature is available for both local and Sepolia deployement, and have these same steps to follow
+</Callout>
+
+Now you will able to see the DA attestation verification happening over the Polygon CDK chain.
+
+
+
+Congratulations! You have successfully deployed a Polygon CDK Validium chain with AvailDA on Local & Sepolia. For anymore information on CDK, you can refer to the Polygon CDK documentation 
