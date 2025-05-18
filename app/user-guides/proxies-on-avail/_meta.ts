@@ -1,4 +1,4 @@
 export default {
-    "avail-proxy": "Proxy accounts on Avail",
-    "avail-pure-proxy": "Pure proxy accounts on Avail",
+    "avail-proxy": "Proxy accounts",
+    "avail-pure-proxy": "Pure proxy accounts",
 }

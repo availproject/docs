@@ -5,11 +5,67 @@ id: proxies-on-avail
 description: "Proxy accounts on Avail"
 ---
 
-import { Cards } from 'nextra/components'
+import { Cards, Callout } from 'nextra/components'
 import { FileIcon, FilesIcon } from '@components/icons'
 
 # Proxy accounts on Avail
 
-<Cards>
-  <Cards.Card icon={<FileIcon/>} title="Proxy accounts on Avail" href="/user-guides/proxies-on-avail/proxy-accounts" />
+## Introduction
+
+A *'proxy'* of an account on Avail DA is simply another account on the network that has the power to sign transactions on behalf of the 
+original account, also known as the *'proxied'* account.
+
+We can also configure the proxy to only have permission to sign a subset of all possible transactions on behalf of the proxied account.
+
+We will learn more about this later.
+
+## 'Proxy' vs 'Pure proxy'
+
+You can create two types of proxies on Avail DA:
+
+### Proxy accounts
+
+When creating a proxy for an account you own, you choose the exact address of the proxy, which may or may not
+be an address that you control.
+You can do this using the `proxy.addProxy` extrinsic. The Avail Apps explorer provides a convenient UI abstraction for this,
+instructions for which can be found here:
+
+<Cards num={1}>
+  <Cards.Card icon={<FileIcon/>} title="Proxy accounts" href="/user-guides/proxies-on-avail/avail-proxy" />
 </Cards>
+
+> 👉 The key principle to note here that is that you can create a proxy account that is not under your control.
+
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary><b>For Example</b></summary>
+
+You might have an account with a significant amount of funds that you want to stake on the network without taking on the
+responsibility of managing the staking operation itself.
+
+You may, in this scenario, choose to add a friend's account as a proxy to your original account, but with the stipulation that
+this proxy can only sign staking-related operations on your behalf.
+
+You therefore have a situation where a second person has the power to stake funds on your behalf, but without the ability to outright
+transfer your tokens away.
+</details>
+
+<Callout type="warning">
+1. The example above was a hypothetical scenario. Please take care while delegating responsibilities to proxies that you do not control.
+2. You can always revoke a specific proxy's permissions using the `proxy.removeProxy` extrinsic.
+</Callout>
+
+### Pure proxy accounts
+
+When creating a pure proxy for an account you own, you do not get to choose the address of the proxy.
+Therein lies the key difference between a proxy and a pure proxy.
+While you get a deterministic address in the first case, the proxy address is randomly assigned in the second.
+You can create a pure proxy using the `proxy.createPure` extrinsic.
+The instructions for this can be found here:
+
+<Cards num={1}>
+  <Cards.Card icon={<FileIcon/>} title="Pure proxy accounts" href="/user-guides/proxies-on-avail/avail-pure-proxy" />
+</Cards>
+
+<Callout>
+Since nobody actually owns the private key of a pure proxy, it cannot be compromised via a private key leak.
+</Callout>
