@@ -21,11 +21,13 @@ The guide will have two parts:
 - The first part will go over adding and removing a pure proxy for an account you own.
 - The second part will go over setting up a qwqwqwqqqqwqwqwqw
 
-## Create & remove a pure proxy for a single account
+## Create a pure proxy for a single account
 
 <Callout type="info">
 The proxy types remain the same for a pure proxy, you can go over them again [in our docs here](/user-guides/proxies-on-avail/avail-proxy#proxy-types)
 </Callout>
+
+<Steps>
 
 ### Go to the Explorer
 
@@ -124,6 +126,16 @@ There are two ways to do this:
 <img src="/img/pure-proxy/pure-proxy-8.png" alt="pure proxy address"/>
 </p>
 
+3. Check that the pure proxy address is listed under the *'Proxied'* section, and that your original account
+is set up as an `any` proxy for the pure proxy.
+
+<br/>
+<p align="center">
+<img src="/img/pure-proxy/pure-proxy-9.png" alt="pure proxy address"/>
+</p>
+
+</Steps>
+
 <Callout type="info">
 **WHAT DID WE JUST DO?**<br/>
 
@@ -132,3 +144,43 @@ There are two ways to do this:
 3. 'Pure Proxy 1' thus acts as a proxied account and we can use it to sign transactions on-chain,
 even though we don't have access to it's private key.
 </Callout>
+
+## Set up a multisig committee with the pure proxy
+
+In this section, we will expand over what we learned till now to set up a multisig committee
+that will be able to securely sign transactions on-chain through a multisig proxy that will be able to sign transactions
+on behalf of the keyless proxied account we just derived.
+Here is how it will work:
+
+1. Any proposal or transaction that needs to be executed by the committee will be signed on-chain by the proxied account.
+2. The proxied account in-turn will be controlled by a multisig account that will act as it's proxy.
+3. This multisig will have a threshold of 2 out of 3 members.
+
+The structure will look like this:
+
+<br/>
+<p align="center">
+<img src="/img/pure-proxy/pure-proxy-10.png" alt="multisig committee structure"/>
+</p>
+
+<Steps>
+
+### Create a multisig with the signer addresses
+
+1. If you need instructions to set up a multisig wallet, please go through [this page in our docs](/user-guides/avail-multisig).
+2. Here is what my multisig looks like, you might need to change the number of signers or the threshold according to your needs.
+
+<br/>
+<p align="center">
+<img src="/img/pure-proxy/pure-proxy-11.png" alt="multisig wallet"/>
+</p>
+
+<Callout type="info">
+**TIP**<br/>
+If your multisig needs to have signatory addresses that are not owned by you, add them to your address book
+before setting up the multisig.
+</Callout>
+
+### zxzxx
+
+</Steps>
