@@ -13,8 +13,8 @@ We recommend going through the previous page on [proxy accounts](/user-guides/pr
 </Callout>
 
 The previous guide went over assigning ***existing*** accounts as proxies for your own account.
-The following guide will teach you how to set up proxies that are not owned by anybody, but can still be used
-to sign transactions on behalf of the proxied account.
+The following guide will teach you how to set up proxied accounts that are not owned by anybody, but can still be used
+to sign transactions on using accounts that we own, which act as proxies for these keyless proxied accounts.
 
 The guide will have two parts:
 
@@ -124,4 +124,11 @@ There are two ways to do this:
 <img src="/img/pure-proxy/pure-proxy-8.png" alt="pure proxy address"/>
 </p>
 
-### Remove the pure proxy
+<Callout type="info">
+**WHAT DID WE JUST DO?**<br/>
+
+1. We started with an account that we own, in my case '*Original Account*'.
+2. We have turned that original account into an `any proxy` for this new account, in my case '*Pure Proxy 1*'.
+3. 'Pure Proxy 1' thus acts as a proxied account and we can use it to sign transactions on-chain,
+even though we don't have access to it's private key.
+</Callout>
