@@ -18,8 +18,8 @@ to sign transactions on using accounts that we own, which act as proxies for the
 
 The guide will have two parts:
 
-- The first part will go over adding and removing a pure proxy for an account you own.
-- The second part will go over setting up a qwqwqwqqqqwqwqwqw
+- Creating a pure proxy for a single account.
+- Creating a multisig committee with the pure proxy.
 
 ## Create a pure proxy for a single account
 
@@ -44,7 +44,7 @@ In my case, I start out with the highlighted account.
 1. Go to the [Extrinsics section](https://explorer.avail.so/#/extrinsics) of the explorer.
 2. Select the `proxy` pallet.
 3. Select the `createPure` extrinsic.
-4. Fill in the values of the parameters according to your needs.
+4. Fill in the values of the parameters according to your needs. Use a positive integer for the `index` field that you haven't used before.
 
 <br/>
 <p align="center">
@@ -181,6 +181,55 @@ If your multisig needs to have signatory addresses that are not owned by you, ad
 before setting up the multisig.
 </Callout>
 
-### zxzxx
+### Set up the multisig as a proxy for the pure proxy
+
+> 👉 Make sure the pure proxy has some funds to pay for the transaction fees before proceeding.
+
+1. Go to the [accounts page](https://explorer.availproject.org/#/accounts) of the explorer.
+2. Click on the *'Manage proxies'* button next to the pure proxy address.
+
+<br/>
+<p align="center">
+<img src="/img/pure-proxy/pure-proxy-12.png" alt="pure proxy address"/>
+</p>
+
+3. Click on the *'Add proxy'* button and select your multisig address from the dropdown menu as the proxy.
+
+<br/>
+<p align="center">
+<img src="/img/pure-proxy/pure-proxy-13.png" alt="pure proxy address"/>
+</p>
+
+4. Submit the transaction by clicking on the *'Submit Transaction'* button.
+5. Once the transaction is successful, you should see that the pure proxy account now has two proxies.
+
+<br/>
+<p align="center">
+<img src="/img/pure-proxy/pure-proxy-14.png" alt="pure proxy address"/>
+</p>
+
+### Remove the original account as a proxy for the pure proxy
+
+1. Go back to the 'manage proxies' UI for the pure proxy, and click on the 'X' button next to the original account.
+2. Submit the transaction by clicking on the *'Submit Transaction'* button.
+
+<br/>
+<p align="center">
+<img src="/img/pure-proxy/pure-proxy-15.png" alt="pure proxy address"/>
+</p>
+
+3. Once the transaction is successful, you should see that the pure proxy account now has only one proxy.
+
+<br/>
+<p align="center">
+<img src="/img/pure-proxy/pure-proxy-16.png" alt="pure proxy address"/>
+</p>
 
 </Steps>
+
+## Final notes
+
+Hurray! You have successfully set up a multisig committee with the pure proxy.
+
+1. In this setup, you will never need to rotate the pure proxy account, since nobody has it's private key, and thus it can't be compromised.
+2. You can easily rotate the controlling multisig by adding another multisig as a proxy for the pure proxy, and then removing the old multisig as a proxy.
