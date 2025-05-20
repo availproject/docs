@@ -76,6 +76,29 @@ The instructions for this can be found here:
   <Cards.Card icon={<FileIcon/>} title="Pure proxy accounts" href="/user-guides/proxies-on-avail/avail-pure-proxy" />
 </Cards>
 
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary><b>Why would you want a pure proxy?</b></summary>
+
+You will see this more clearly in the [dedicated guide for setting up pure proxies](/user-guides/proxies-on-avail/avail-pure-proxy), but the
+short answer is that using a pure proxy setup allows you to conveniently rotate the any proxy behind the pure proxy without having to
+move funds out of the pure proxy.
+
+This is especially useful when the pure proxy is being used to hold funds on behalf of a committee that
+needs to vote on proposals using a multisig, which acts as the any proxy for the pure proxy.
+
+For example:
+
+1. Consider that a pure proxy account is being used to stake `AVAIL` on the network on behalf of a committee of 3 people.
+The committee votes on proposals using a multisig, which acts as the any proxy for the pure proxy.
+
+2. If one of the committee members needs to be replaced, a fresh multisig will need to be setup to accommodate the new member.
+
+3. With a pure proxy setup, the old multisig can simply be rotated out in favour of the new multisig without having to unstake or move funds
+   out of the pure proxy.
+
+4. Any other way of implementing this would require an unstaking of funds followed by a migration into a new account.
+</details>
+
 <Callout>
 Since nobody actually owns the private key of a pure proxy, it cannot be compromised via a private key leak.
 </Callout>
