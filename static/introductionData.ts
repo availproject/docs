@@ -9,7 +9,7 @@ export const IntroData = [
           topic: "Read more",
           links: [{ link: "/user-guides/accounts", textcolor: "3CA3FC", placeholder: "Set up an Avail wallet"}, 
           {link: "/user-guides/avail-multisig", textcolor: "3CA3FC", placeholder: "Multisig accounts"},
-          {link: "/user-guides/avail-proxy", textcolor: "3CA3FC", placeholder: "Proxy accounts"},
+          {link: "/user-guides/proxies-on-avail", textcolor: "3CA3FC", placeholder: "Proxy accounts"},
           {link: "/user-guides/avail-snap", textcolor: "3CA3FC", placeholder: "Avail DA with MetaMask"},
           {link: "/user-guides/ledger-avail", textcolor: "3CA3FC", placeholder: "Hardware wallet on Avail"},
           {link: "/user-guides/bridge-avail", textcolor: "3CA3FC", placeholder: "Bridge AVAIL to different chains"},

@@ -1,0 +1,106 @@
+---
+title: "Proxy accounts on Avail"
+asIndexPage: true
+id: proxies-on-avail
+description: "Proxy accounts on Avail"
+---
+
+import { Cards, Callout } from 'nextra/components'
+import { FileIcon, FilesIcon } from '@components/icons'
+
+# Proxy accounts on Avail
+
+## Introduction
+
+A *'proxy'* of an account on Avail DA is simply another account on the network that has the power to sign transactions on behalf of the 
+original account, also known as the *'proxied'* account.
+
+We can also configure the proxy to only have permission to sign a subset of all possible transactions on behalf of the proxied account.
+We will learn more about this later.
+
+<Callout>
+**MAKE SURE YOU'RE COMFORTABLE WITH THE LINGO**<br/>
+- *'Proxy'* - A proxy is an account that has the power to sign transactions on behalf of the proxied account.
+- *'Proxied'* - Refers to the original account that the proxies are signing for.
+- *'Any proxy'* - An account that has the power to sign any type of transaction on behalf of the proxied account.
+You can have many different types of proxies on Avail network. Refer to [this section in our docs](/user-guides/proxies-on-avail/avail-proxy#proxy-types) for more information.
+</Callout>
+
+## 'Proxy' vs 'Pure proxy'
+
+You can create two types of proxies on Avail DA:
+
+<br/>
+<div align='center'>
+<img src="/img/proxy-intro/Proxy-vs-pure-proxy.png" alt="Proxy vs pure proxy" />
+</div>
+
+### Proxy accounts
+
+When creating a proxy for an account you own, you choose the exact address of the proxy, which may or may not
+be an address that you control.
+You can do this using the `proxy.addProxy` extrinsic. The Avail Apps explorer provides a convenient UI abstraction for this,
+instructions for which can be found here:
+
+<Cards num={1}>
+  <Cards.Card icon={<FileIcon/>} title="Proxy accounts" href="/user-guides/proxies-on-avail/avail-proxy" />
+</Cards>
+
+> 👉 The key principle to note here that is that you can create a proxy account that is not under your control.
+
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary><b>For Example</b></summary>
+
+You might have an account with a significant amount of funds that you want to stake on the network without taking on the
+responsibility of managing the staking operation itself.
+
+You may, in this scenario, choose to add a friend's account as a proxy to your original account, but with the stipulation that
+this proxy can only sign staking-related operations on your behalf.
+
+You therefore have a situation where a second person has the power to stake funds on your behalf, but without the ability to outright
+transfer your tokens away.
+</details>
+
+<Callout type="warning">
+1. The example above was a hypothetical scenario. Please take care while delegating responsibilities to proxies that you do not control.
+2. You can always revoke a specific proxy's permissions using the `proxy.removeProxy` extrinsic.
+</Callout>
+
+### Pure proxy accounts
+
+When creating a pure proxy for an account you own, you do not get to choose the address of the proxy.
+Therein lies the key difference between a proxy and a pure proxy.
+While you get a deterministic address in the first case, the proxy address is randomly assigned in the second.
+You can create a pure proxy using the `proxy.createPure` extrinsic.
+The instructions for this can be found here:
+
+<Cards num={1}>
+  <Cards.Card icon={<FileIcon/>} title="Pure proxy accounts" href="/user-guides/proxies-on-avail/avail-pure-proxy" />
+</Cards>
+
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary><b>Why would you want a pure proxy?</b></summary>
+
+You will see this more clearly in the [dedicated guide for setting up pure proxies](/user-guides/proxies-on-avail/avail-pure-proxy), but the
+short answer is that using a pure proxy setup allows you to conveniently rotate the any proxy behind the pure proxy without having to
+move funds out of the pure proxy.
+
+This is especially useful when the pure proxy is being used to hold funds on behalf of a committee that
+needs to vote on proposals using a multisig, which acts as the any proxy for the pure proxy.
+
+For example:
+
+1. Consider that a pure proxy account is being used to stake `AVAIL` on the network on behalf of a committee of 3 people.
+The committee votes on proposals using a multisig, which acts as the any proxy for the pure proxy.
+
+2. If one of the committee members needs to be replaced, a fresh multisig will need to be setup to accommodate the new member.
+
+3. With a pure proxy setup, the old multisig can simply be rotated out in favour of the new multisig without having to unstake or move funds
+   out of the pure proxy.
+
+4. Any other way of implementing this would require an unstaking of funds followed by a migration into a new account.
+</details>
+
+<Callout>
+Since nobody actually owns the private key of a pure proxy, it cannot be compromised via a private key leak.
+</Callout>

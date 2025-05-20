@@ -148,6 +148,10 @@ export function middleware(request: NextRequest) {
       destination: `${origin}/user-guides/avail-proxy`,
     },
     {
+      source: '/user-guides/avail-proxy',
+      destination: `${origin}/user-guides/proxies-on-avail/avail-proxy`,
+    },
+    {
       source: '/docs/end-user-guide/avail-snap',
       destination: `${origin}/user-guides/avail-snap`,
     },
