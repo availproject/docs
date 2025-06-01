@@ -1,0 +1,22 @@
+---
+title: "author-submit-extrinsic"
+description: "Manually Submit an extrinsic to the network"
+keywords: ["author_submitExtrinsic", "submitExtrinsic"]
+---
+
+import { Callout } from 'nextra/components'
+
+# Manually submit an extrinsic to the network
+
+<Callout type="info">
+**WE RECOMMEND USING THE AVAIL SDKs DIRECTLY**<br/>
+1. The `author_submitExtrinsic` RPC call is a low-level API that allows you to manually submit any extrinsic to the Avail network using a signed hash.
+2. We recommend using our dedicated SDKs instead of using this RPC call directly for convenience.
+3. The SDKs themselves use this RPC call internally, and offer a higher level of abstraction for interacting with the network.
+</Callout>
+
+<Callout type="info">
+**KNOW THE DIFFERENCE**<br/>
+1. `author_submitExtrinsic` & `author_submitAndWatchExtrinsic` are different RPC calls that serve different, but similar purposes.
+2. We recommend not using the latter directly either. You can read about the problems with it [in this page in our docs](/api-reference/avail-node-api/author-submit-and-watch-extrinsic).
+</Callout>
