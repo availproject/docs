@@ -11,20 +11,68 @@ import { Callout } from 'nextra/components'
 
 ## Setting up the dev environment
 
-Set up your dev environment with `curl`:
+<Callout type="info">
+**BEFORE WE START**
 
-<Tabs items={['CURL']}>
+1. The Nexus SDK is designed for browser environments and requires a bundler (Next.js, Webpack, Vite) to properly resolve dependencies.
+2. The SDK requires wallet provider integration for Web3 functionality.
+3. These instructions use Next.js, but other frameworks can be used.
+</Callout>
 
+## Setting up the dev environment
+
+<Tabs items={['Next.js']}>
 <Tabs.Tab>
+1. Make sure `Node.js` is installed on your system by running the following command in your terminal:
 
-1. To use the Avail Nexus SDK with `curl`, you just need to have `curl` installed on your system. 
-You can check if it is installed by running:
-
-```bash filename="CURL"
-curl --version
+```bash filename="terminal" name="cmd1"
+node --version
 ```
 
-2. If this does not work, go to [curl's website](https://curl.se/) to install it on your system. 
-</Tabs.Tab>
+If not installed, you can refer to [Node.js docs](https://nodejs.org/en/download/package-manager) for installation.
 
+2. Make sure `pnpm` is installed on your system:
+
+```bash filename="terminal" name="cmd2"
+pnpm --version
+```
+
+If not installed, install it globally:
+
+```bash filename="terminal" name="cmd3"
+npm install -g pnpm
+```
+
+3. Create a new Next.js project by running the following command in a directory of your choice:
+
+```bash filename="terminal" name="cmd4"
+pnpm create next-app@latest your-nexus-project --typescript --tailwind --eslint --app
+```
+
+4. Navigate to your project directory:
+
+```bash filename="terminal" name="cmd5"
+cd your-nexus-project
+```
+
+5. Install the Nexus SDK:
+
+```bash filename="terminal" name="cmd6"
+pnpm add avail-nexus-sdk@0.0.3-dev.3
+```
+
+6. Install required Web3 dependencies:
+
+```bash filename="terminal" name="cmd7"
+pnpm add wagmi viem @tanstack/react-query connectkit zustand immer
+```
+
+7. (*optional*): We will often refer to the Github repo of the demo app we made to showcase the Nexus SDK.
+If you want to follow the code in there, you will need to add the following UI dependencies:
+
+```bash filename="terminal" name="cmd8"
+pnpm add @radix-ui/react-accordion @radix-ui/react-dialog @radix-ui/react-label @radix-ui/react-progress @radix-ui/react-radio-group @radix-ui/react-scroll-area @radix-ui/react-select @radix-ui/react-separator @radix-ui/react-slot @radix-ui/react-tabs class-variance-authority clsx lucide-react next-themes sonner tailwind-merge
+```
+
+</Tabs.Tab>
 </Tabs>
