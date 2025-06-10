@@ -7,438 +7,68 @@ import { Callout, Steps, Tabs } from 'nextra/components'
 # Getting started with the Avail Nexus SDK
 
 <Callout type="info">
-**Note:** Code for a demo app is available [on Github here](https://github.com/availproject/avail-nexus-demo).
+**Note:** We built a Next.js demo app that uses the Avail Nexus SDK to implement a unified Web3 experience.
+
+1. You can use the app here: [avail-nexus-demo-five.vercel.app](https://avail-nexus-demo-five.vercel.app/)
+2. You can find the code for the app here: [availproject/avail-nexus-demo](https://github.com/availproject/avail-nexus-demo).
 </Callout>
 
+
+There's a few simple steps to get started with the Avail Nexus SDK in your web app.
 
 <Steps>
 
-### Set up your Web3 Provider
+### Make sure your web app has an injected wallet provider
 
-You need to set up a wallet provider for your application to connect with the user's wallet. The Web3Provider component handles the foundational Web3 infrastructure including wallet connection, chain configuration, and connection state management.
+Any EIP-1193 provider works (MetaMask, WalletConnect v2, etc.).
 
-Create `src/provider/Web3Provider.tsx`:
+## Initialize the SDK
 
-```typescript showLineNumbers filename="src/provider/Web3Provider.tsx"
-"use client";
-import { WagmiProvider, createConfig, http, useAccount } from "wagmi";
-import {
-  arbitrum,
-  base,
-  linea,
-  mainnet,
-  optimism,
-  polygon,
-} from "wagmi/chains";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ConnectKitProvider, getDefaultConfig } from "connectkit";
-import { NexusProvider } from "./NexusProvider";
-import { useState, useEffect } from "react";
-
-const config = createConfig(
-  getDefaultConfig({
-    chains: [mainnet, arbitrum, base, optimism, polygon, linea],
-    transports: {
-      [mainnet.id]: http(mainnet.rpcUrls.default.http[0]),
-      [arbitrum.id]: http(arbitrum.rpcUrls.default.http[0]),
-      [base.id]: http(base.rpcUrls.default.http[0]),
-      [optimism.id]: http(optimism.rpcUrls.default.http[0]),
-      [polygon.id]: http(polygon.rpcUrls.default.http[0]),
-      [linea.id]: http(linea.rpcUrls.default.http[0]),
-    },
-
-    walletConnectProjectId:
-      process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID ??
-      "5ccff0b96382c3591b17a986fc9b4b11",
-
-    // Required App Info
-    appName: "Avail Nexus",
-
-    // Optional App Info
-    appDescription: "Avail Nexus",
-    appUrl: "https://www.availproject.org/",
-    appIcon:
-      "https://www.availproject.org/_next/static/media/avail_logo.9c818c5a.png",
-  })
-);
-
-const queryClient = new QueryClient();
-
-const InternalProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isConnected, setIsConnected] = useState(false);
-  const { isConnected: accountConnected } = useAccount();
-
-  useEffect(() => {
-    setIsConnected(accountConnected);
-  }, [accountConnected]);
-
-  const handleConnection = () => {
-    setIsConnected(true);
-  };
-
-  const handleDisconnection = () => {
-    setIsConnected(false);
-  };
-
-  return (
-    <ConnectKitProvider
-      theme="retro"
-      onConnect={handleConnection}
-      onDisconnect={handleDisconnection}
-    >
-      <NexusProvider isConnected={isConnected}>{children}</NexusProvider>
-    </ConnectKitProvider>
-  );
-};
-
-export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <InternalProvider>{children}</InternalProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
-  );
-};
-```
+You need to initialize the SDK with the wallet provider by calling the `.initialize()` method.
+The app must use this method before any other SDK methods are called.
 
 <Callout type="info">
-**Web3Provider Breakdown:**
-- **WagmiProvider:** Provides wallet connection infrastructure and handles multiple chains (Ethereum, Arbitrum, Base, Optimism, Polygon, Linea)
-- **QueryClientProvider:** Manages async state and caching for Web3 operations
-- **InternalProvider:** Tracks wallet connection state using wagmi's `useAccount()` hook
-- **ConnectKitProvider:** Provides the wallet connection UI and handles connection/disconnection events
-- **NexusProvider:** Receives the `isConnected` state and manages the Nexus SDK lifecycle
+**FOR EXAMPLE:**
 
-This creates a four-layer provider structure that handles everything from basic Web3 infrastructure to Nexus-specific functionality.
+1. the Avail demo app loads the `<Web3Provider>` component before anything else in the [layout.tsx](https://github.com/availproject/avail-nexus-demo/blob/main/src/app/layout.tsx#L33) file.
+2. When a wallet is connected,`<Web3Provider>` flips `isConnected` to `true` and is passed down as a prop to `NexusProvider`.
+3. [NexusProvider](https://github.com/availproject/avail-nexus-demo/blob/main/src/provider/NexusProvider.tsx) in turn initializes the SDK by calling `sdk.initialize(window.ethereum)`.
 </Callout>
 
-### Set up the Nexus Provider
+### Fetch balances
 
-Create the Nexus-specific provider that wraps the SDK functionality. This provider manages the SDK lifecycle and handles the connection state from your Web3 provider.
+To test if your app has been able to set up the SDK correctly, try calling the `getUnifiedBalances()` method.
 
-Create `src/provider/NexusProvider.tsx`:
+Here is an example of how to do that:
 
-```typescript showLineNumbers filename="src/provider/NexusProvider.tsx"
-"use client";
-
-import {
-  NexusSDK,
-  OnAllowanceHookData,
-  OnIntentHookData,
-} from "avail-nexus-sdk";
-import React, {
-  createContext,
-  useContext,
-  ReactNode,
-  useState,
-  useEffect,
-  useMemo,
-  useCallback,
-  SetStateAction,
-  Dispatch,
-} from "react";
-
-interface NexusContextType {
-  nexusSdk: NexusSDK | undefined;
-  isInitialized: boolean;
-  allowanceModal: OnAllowanceHookData | null;
-  setAllowanceModal: Dispatch<SetStateAction<OnAllowanceHookData | null>>;
-  intentModal: OnIntentHookData | null;
-  setIntentModal: Dispatch<SetStateAction<OnIntentHookData | null>>;
-}
-
-const NexusContext = createContext<NexusContextType | undefined>(undefined);
-
-interface NexusProviderProps {
-  children: ReactNode;
-  isConnected: boolean;
-}
-
-export const NexusProvider: React.FC<NexusProviderProps> = ({
-  children,
-  isConnected,
-}) => {
-  const [nexusSdk, setNexusSdk] = useState<NexusSDK | undefined>(undefined);
-  const [isInitialized, setIsInitialized] = useState<boolean>(false);
-  const [allowanceModal, setAllowanceModal] =
-    useState<OnAllowanceHookData | null>(null);
-  const [intentModal, setIntentModal] = useState<OnIntentHookData | null>(null);
-
-  const initializeSDK = useCallback(async () => {
-    if (isConnected && !nexusSdk) {
-      try {
-        const sdk = new NexusSDK();
-        await sdk.initialize(window.ethereum);
-        setNexusSdk(sdk);
-        setIsInitialized(true);
-        
-        // Set up transaction hooks
-        sdk.setOnAllowanceHook(async (data) => {
-          setAllowanceModal(data);
-        });
-        
-        sdk.setOnIntentHook((data) => {
-          setIntentModal(data);
-        });
-      } catch (error) {
-        console.error("Failed to initialize NexusSDK:", error);
-        setIsInitialized(false);
-      }
-    }
-  }, [isConnected, nexusSdk]);
-
-  const cleanupSDK = useCallback(() => {
-    if (nexusSdk) {
-      nexusSdk.removeAllCaEventListeners();
-      nexusSdk.deinit();
-      setNexusSdk(undefined);
-      setIsInitialized(false);
-    }
-  }, [nexusSdk]);
-
-  useEffect(() => {
-    if (!isConnected) {
-      cleanupSDK();
-    } else {
-      initializeSDK();
-    }
-
-    return () => {
-      cleanupSDK();
-    };
-  }, [isConnected, cleanupSDK, initializeSDK]);
-
-  const contextValue: NexusContextType = useMemo(
-    () => ({
-      nexusSdk,
-      isInitialized,
-      allowanceModal,
-      setAllowanceModal,
-      intentModal,
-      setIntentModal,
-    }),
-    [nexusSdk, isInitialized, allowanceModal, intentModal]
-  );
-
-  return (
-    <NexusContext.Provider value={contextValue}>
-      {children}
-    </NexusContext.Provider>
-  );
-};
-
-export const useNexus = () => {
-  const context = useContext(NexusContext);
-  if (context === undefined) {
-    throw new Error("useNexus must be used within a NexusProvider");
-  }
-  return context;
-};
+```typescript showLineNumbers filename="Typescript"
+const balances = await sdk.getUnifiedBalances();
+console.log('All balances:', balances);
 ```
 
-<Callout type="info">
-**Key Points:**
-- The `NexusProvider` receives an `isConnected` prop from the Web3Provider
-- It automatically initializes the SDK when a wallet is connected
-- The provider sets up hooks for allowance and intent management (needed for transactions)
-- It provides the `useNexus` hook for components to access the SDK
-</Callout>
-
-### Update your layout
-
-Modify your `app/layout.tsx` to include the Web3Provider at the root level:
-
-```typescript showLineNumbers filename="app/layout.tsx"
-import type { Metadata } from "next";
-import "./globals.css";
-import { Web3Provider } from "@/provider/Web3Provider";
-
-export const metadata: Metadata = {
-  title: "Nexus SDK Demo",
-  description: "Nexus SDK Demo",
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body>
-        <Web3Provider>
-          {children}
-        </Web3Provider>
-      </body>
-    </html>
-  );
-}
-```
-
-<Callout type="warning">
-**Important:** The Web3Provider includes the NexusProvider internally, so you don't need to wrap your components with NexusProvider separately.
-</Callout>
-
-### Create your main page
-
-Set up a basic page that includes wallet connection capability:
-
-```typescript showLineNumbers filename="app/page.tsx"
-"use client";
-import { ConnectKitButton } from "connectkit";
-import UnifiedBalance from "@/components/UnifiedBalance";
-
-export default function Home() {
-  return (
-    <main className="w-full h-screen">
-      <div className="w-full h-full flex flex-col gap-y-6 items-center justify-center">
-        <h1 className="text-4xl font-bold">Nexus SDK Demo</h1>
-        <ConnectKitButton />
-        <UnifiedBalance />
-      </div>
-    </main>
-  );
-}
-```
-
-### Fetch unified balances
-
-Create a component that demonstrates the core SDK functionality - fetching unified balances across all supported chains:
-
-```typescript showLineNumbers filename="components/UnifiedBalance.tsx"
-"use client";
-import React, { useEffect, useState, useCallback } from "react";
-import { useNexus } from "@/provider/NexusProvider";
-import { UnifiedBalanceResponse } from "avail-nexus-sdk";
-
-const UnifiedBalance = () => {
-  const { nexusSdk, isInitialized } = useNexus();
-  const [balance, setBalance] = useState<UnifiedBalanceResponse[] | undefined>(
-    undefined
-  );
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchUnifiedBalance = useCallback(async () => {
-    // Guard: Only proceed if SDK is initialized
-    if (!nexusSdk || !isInitialized) return;
-
-    try {
-      setIsLoading(true);
-      setError(null);
-      const unifiedBalance = await nexusSdk.getUnifiedBalances();
-      console.log("Unified Balance:", unifiedBalance);
-      setBalance(unifiedBalance);
-    } catch (error: unknown) {
-      console.error("Unable to fetch balance", error);
-      setError(
-        error instanceof Error ? error.message : "Failed to fetch balance"
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  }, [nexusSdk, isInitialized]);
-
-  useEffect(() => {
-    fetchUnifiedBalance();
-  }, [fetchUnifiedBalance]);
-
-  // Show connection prompt if SDK not initialized
-  if (!isInitialized) {
-    return (
-      <div className="text-center">
-        <p>Please connect your wallet to view balances</p>
-      </div>
-    );
-  }
-
-  // Show error state
-  if (error) {
-    return (
-      <div className="text-center text-red-500">
-        <p>Error: {error}</p>
-      </div>
-    );
-  }
-
-  // Show loading state
-  if (isLoading) {
-    return (
-      <div className="text-center">
-        <p>Loading balances...</p>
-      </div>
-    );
-  }
-
-  // Render balances
-  return (
-    <div className="w-full max-w-2xl mx-auto">
-      <h2 className="text-2xl font-semibold mb-4">Your Unified Balances</h2>
-      
-      {balance && balance.length > 0 ? (
-        <div className="space-y-4">
-          {balance
-            .filter((token) => parseFloat(token.balance) > 0)
-            .map((token) => (
-              <div key={token.symbol} className="p-4 border rounded-lg">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <h3 className="font-semibold">{token.symbol}</h3>
-                    <p className="text-sm text-gray-600">
-                      ${token.balanceInFiat.toFixed(2)}
-                    </p>
-                  </div>
-                  <p className="text-lg font-medium">{token.balance}</p>
-                </div>
-                
-                {/* Chain breakdown */}
-                <div className="mt-2 space-y-1">
-                  {token.breakdown
-                    .filter((chain) => parseFloat(chain.balance) > 0)
-                    .map((chain) => (
-                      <div key={chain.chain.id} className="flex justify-between text-sm">
-                        <span>{chain.chain.name}</span>
-                        <span>{chain.balance}</span>
-                      </div>
-                    ))}
-                </div>
-              </div>
-            ))}
-        </div>
-      ) : (
-        <p>No balances found or all balances are zero.</p>
-      )}
-    </div>
-  );
-};
-
-export default UnifiedBalance;
-```
-
-### Test your setup
-
-1. **Start your development server:**
-   ```bash filename="terminal" name="cmd1"
-   pnpm i && pnpm dev
-   ```
-
-2. **Connect your wallet** using the ConnectKit button
-
-3. **View your balances** - The unified balance component should automatically fetch and display your token balances across all supported chains
-
-<Callout type="success">
-**Success!** You should now see your unified balances displayed, showing tokens across multiple chains in a single view.
-</Callout>
-
-<Callout type="info">
-**What happens behind the scenes:**
-
-1. **Web3Provider** sets up wallet infrastructure and tracks connection state
-2. **NexusProvider** receives the connection state and initializes the SDK with `window.ethereum`
-3. **SDK Initialization** sets up transaction hooks and marks the SDK as ready
-4. **Component Render** uses the `useNexus` hook to access the initialized SDK
-5. **Balance Fetch** calls `nexusSdk.getUnifiedBalances()` to aggregate balances across chains
-</Callout>
+> You can also refer to the [UnifiedBalanceResponse](https://github.com/availproject/avail-nexus-demo/blob/main/src/components/unified-balance.tsx) 
+component's implementation for further reference.
 
 </Steps>
+
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>What do we mean by "unified balance"?</summary>
+
+Unified balance shows all the liquidity in a user's EOA account across multiple chains in one view. It lets users transact seamlessly on any chain without needing bridges or pre-provisioning gas for token swaps. Chain abstraction handles all the complexity involved in a cross-chain transaction while enabling better UX through a single intent approval.
+
+For instance, let us take the case where a user intends to spend 18 USDC on Scroll and does not have any balance on Scroll.
+
+- Optimism: 0.1 ETH, O USDT, 0 USDC
+- Arbitrum: 0 ETH, 12 USDT, 0 USDC
+- Base: 0 ETH, 10 USDT, 0 USDC
+- Scroll: 0 ETH, 0 USDT, 0 USDC
+
+To spend 18 USDC on Scroll (destination chain) with the given liquidity fragmentation, it would typically require multiple clicks and steps for swapping or bridging different assets available on the source chains, so that user can convert the assets to the desired token balance on Scroll.
+
+Through chain abstraction and ability to swap cross-chain, users have the convenience to view the consolidated token balance across supported tokens and chains. This simplifies the process of sending 18 USDC on Optimism, as users can sign the intent without the need for bridging, swapping, or considering the optimal routes.
+
+The cross-chain swap enables users to:
+
+- Spend assets on any destination chain without prior liquidity.
+- Collate payable amount by combining multiple supported assets across source chains to address liquidity fragmentation.
+</details>

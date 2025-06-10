@@ -4,8 +4,7 @@ title: Avail Nexus SDK reference
 asIndexPage: true
 ---
 
-import { Tabs } from 'nextra/components'
-import { Callout } from 'nextra/components'
+import { Callout, Steps, Tabs } from 'nextra/components'
 
 # Avail Nexus SDK reference
 
@@ -14,37 +13,53 @@ import { Callout } from 'nextra/components'
 <Callout type="info">
 **BEFORE WE START**
 
-1. The Nexus SDK is designed for browser environments and requires an injected wallet provider (e.g. MetaMask, WalletConnect, etc.).
+1. The Nexus SDK is designed for browser environments and requires an injected wallet provider (e.g. MetaMask, WalletConnect, etc.)
 2. The SDK cannot be used in any server-side environments.
 </Callout>
 
 ## Setting up the dev environment
 
-1. Install the Nexus SDK using your package manager of choice:
+<Steps>
+
+### Set up a frontend project with an injected wallet provider
+
+Any stack frontend works, even a plain HTML & JS project, as long as it can provide an injected wallet provider to the SDK.
+
+
+### Install the Nexus SDK
+
+Use any package manager of your choice to install the Nexus SDK:
 
 <Tabs items={['npm', 'yarn', 'pnpm']}>
 
 <Tabs.Tab>
-```bash showLineNumbers filename="Terminal"
+```bash filename="Terminal"
 npm install avail-nexus-sdk@0.0.3-dev.3
 ```
 </Tabs.Tab>
 
 
 <Tabs.Tab>
-```bash showLineNumbers filename="Terminal"
+```bash filename="Terminal"
 yarn add avail-nexus-sdk@0.0.3-dev.3
 ```
 </Tabs.Tab>
 
 
 <Tabs.Tab>
-```bash showLineNumbers filename="Terminal"
+```bash  filename="Terminal"
 pnpm add avail-nexus-sdk@0.0.3-dev.3
 ```
-
 </Tabs.Tab>
+
 </Tabs>
 
-2. Set up a frontend project in your preferred manner.
-Any stack frontend works, as long as it can provide an injected wallet provider to the SDK.
+<Callout type="info">
+We built a minimal demo app using Next.js that uses the Avail Nexus SDK:
+
+1. You can use the app here: [avail-nexus-demo-five.vercel.app](https://avail-nexus-demo-five.vercel.app/)
+2. You can find the code for the app here: [availproject/avail-nexus-demo](https://github.com/availproject/avail-nexus-demo).
+</Callout>
+
+</Steps>
+
