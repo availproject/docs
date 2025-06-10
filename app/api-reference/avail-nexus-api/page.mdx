@@ -14,65 +14,37 @@ import { Callout } from 'nextra/components'
 <Callout type="info">
 **BEFORE WE START**
 
-1. The Nexus SDK is designed for browser environments and requires a bundler (Next.js, Webpack, Vite) to properly resolve dependencies.
-2. The SDK requires wallet provider integration for Web3 functionality.
-3. These instructions use Next.js, but other frameworks can be used.
+1. The Nexus SDK is designed for browser environments and requires an injected wallet provider (e.g. MetaMask, WalletConnect, etc.).
+2. The SDK cannot be used in any server-side environments.
 </Callout>
 
 ## Setting up the dev environment
 
-<Tabs items={['Next.js']}>
+1. Install the Nexus SDK using your package manager of choice:
+
+<Tabs items={['npm', 'yarn', 'pnpm']}>
+
 <Tabs.Tab>
-1. Make sure `Node.js` is installed on your system by running the following command in your terminal:
-
-```bash filename="terminal" name="cmd1"
-node --version
+```bash showLineNumbers filename="Terminal"
+npm install avail-nexus-sdk@0.0.3-dev.3
 ```
+</Tabs.Tab>
 
-If not installed, you can refer to [Node.js docs](https://nodejs.org/en/download/package-manager) for installation.
 
-2. Make sure `pnpm` is installed on your system:
-
-```bash filename="terminal" name="cmd2"
-pnpm --version
+<Tabs.Tab>
+```bash showLineNumbers filename="Terminal"
+yarn add avail-nexus-sdk@0.0.3-dev.3
 ```
+</Tabs.Tab>
 
-If not installed, install it globally:
 
-```bash filename="terminal" name="cmd3"
-npm install -g pnpm
-```
-
-3. Create a new Next.js project by running the following command in a directory of your choice:
-
-```bash filename="terminal" name="cmd4"
-pnpm create next-app@latest your-nexus-project --typescript --tailwind --eslint --app
-```
-
-4. Navigate to your project directory:
-
-```bash filename="terminal" name="cmd5"
-cd your-nexus-project
-```
-
-5. Install the Nexus SDK:
-
-```bash filename="terminal" name="cmd6"
+<Tabs.Tab>
+```bash showLineNumbers filename="Terminal"
 pnpm add avail-nexus-sdk@0.0.3-dev.3
-```
-
-6. Install required Web3 dependencies:
-
-```bash filename="terminal" name="cmd7"
-pnpm add wagmi viem @tanstack/react-query connectkit zustand immer
-```
-
-7. (*optional*): We will often refer to the Github repo of the demo app we made to showcase the Nexus SDK.
-If you want to follow the code in there, you will need to add the following UI dependencies:
-
-```bash filename="terminal" name="cmd8"
-pnpm add @radix-ui/react-accordion @radix-ui/react-dialog @radix-ui/react-label @radix-ui/react-progress @radix-ui/react-radio-group @radix-ui/react-scroll-area @radix-ui/react-select @radix-ui/react-separator @radix-ui/react-slot @radix-ui/react-tabs class-variance-authority clsx lucide-react next-themes sonner tailwind-merge
 ```
 
 </Tabs.Tab>
 </Tabs>
+
+2. Set up a frontend project in your preferred manner.
+Any stack frontend works, as long as it can provide an injected wallet provider to the SDK.
