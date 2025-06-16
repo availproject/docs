@@ -36,6 +36,8 @@ Here is how a dev could program an intent to deposit USDC into an AAVE contract 
 in a single flow:
 
 ```typescript showLineNumbers filename="Typescript"
+import { NexusSDK } from 'avail-nexus-sdk'
+
 async function bridgeAndDepositToDeFi() {
   const sdk = new NexusSDK();
   await sdk.initialize(window.ethereum);
@@ -102,8 +104,8 @@ interface BridgeAndDepositResult {
 <Callout type="info">
 **ADVANCED EXAMPLES**<br/>
 - The Nexus SDK provides a `simulateBridgeAndDeposit()` method that allows you to simulate your intent before executing it.
-[You can go through the example here](/api-reference/avail-nexus-api/api-reference#bridge-and-deposit-with-advanced-options)
+[You can go through the docs here](/api-reference/avail-nexus-api/api-reference#bridge-and-deposit-with-advanced-options)
 
 - You can also bridge and deposit to multiple contracts on the destination chain in one go.
-[You can go through the example here](/api-reference/avail-nexus-api/api-reference#multiple-defi-protocol-deposits)
+[You can go through the docs here](/api-reference/avail-nexus-api/api-reference#multiple-defi-protocol-deposits)
 </Callout>
