@@ -1,0 +1,59 @@
+---
+title: "Bridge tokens using the Nexus SDK"
+---
+
+import { Callout, Tabs } from 'nextra/components'
+
+# `bridge(params)`
+
+Use the `bridge` function to bridge tokens from one chain to another.
+
+## Parameters
+
+```typescript showLineNumbers filename="Typescript"
+interface BridgeParams {
+  token: SUPPORTED_TOKENS;
+  amount: number | string;
+  chainId: SUPPORTED_CHAINS_IDS;
+  gas?: bigint;
+}
+```
+
+## Bridge Example
+
+<Callout type="warning">
+Please go through the [overview page](/api-reference/avail-nexus-api/overview) to understand how to set up the SDK and the required hooks before using any SDK function that moves around user funds.
+</Callout>
+
+Here are some minimal examples of how to use the `bridge` function:
+
+```typescript showLineNumbers filename="Typescript"
+// Simple bridge operation
+await sdk.bridge({
+  token: 'USDC',
+  amount: 100, // 100 USDC
+  chainId: 137, // to Polygon
+});
+ 
+// Bridge with custom gas limit
+await sdk.bridge({
+  token: 'ETH',
+  amount: '0.5', // 0.5 ETH as string
+  chainId: 42161, // to Arbitrum
+  gas: 100000n, // custom gas limit
+});
+ 
+// Bridge from string amounts
+await sdk.bridge({
+  token: 'USDT',
+  amount: '1000.50', // precise amount as string
+  chainId: 10, // to Optimism
+});
+```
+
+<Callout type="info">
+**ADVANCED EXAMPLES**<br/>
+- You can also use the `bridgeSimulation` function to sanity check your bridge intent before executing it.
+[You can go through the docs here](/api-reference/avail-nexus-api/api-reference#transaction-simulation)
+- For a complete example on how to set up hooks and handle errors, [you can go through the docs here](/api-reference/avail-nexus-api/api-reference#complete-bridge-flow-with-error-handling)
+</Callout>
