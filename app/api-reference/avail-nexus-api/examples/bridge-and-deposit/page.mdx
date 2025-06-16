@@ -1,0 +1,109 @@
+---
+title: "Bridge + Deposit with the Nexus SDK"
+---
+
+import { Callout, Tabs } from 'nextra/components'
+
+# `bridgeAndDeposit(params)`
+
+Bridges tokens to a *target chain* and immediately deposits them into a
+contract (or any address) on that chain.
+Useful for flows like *“bridge 500 USDC to Base and stake it in a lending pool in a single click.”*
+
+
+
+## Parameters
+
+```typescript showLineNumbers filename="Typescript"
+interface BridgeAndDepositParams {
+  toChainId: SUPPORTED_CHAINS_IDS; // e.g. 137 for Polygon
+  token: SUPPORTED_TOKENS; // e.g. 'USDC', 'ETH'
+  amount: string; // e.g. "5000"
+  recipient?: `0x${string}`; // e.g. "0x1234567890123456789012345678901234567890"
+  deposit?: Omit<DepositParams, 'toChainId'>; // Optional deposit parameters
+  enableTransactionPolling?: boolean; // Enable transaction polling
+  transactionTimeout?: number; // Transaction timeout in milliseconds
+  // Global options for transaction confirmation
+  waitForReceipt?: boolean;
+  receiptTimeout?: number;
+  requiredConfirmations?: number;
+}
+```
+
+## Bridge & Deposit Example
+
+Here is how a dev could program an intent to deposit USDC into an AAVE contract on Ethereum
+in a single flow:
+
+```typescript showLineNumbers filename="Typescript"
+async function bridgeAndDepositToDeFi() {
+  const sdk = new NexusSDK();
+  await sdk.initialize(window.ethereum);
+
+  // Aave lending pool deposit example
+  const aaveV3PoolAddress = '0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2';
+  const aaveV3PoolAbi = [
+    {
+      type: 'function',
+      name: 'supply',
+      inputs: [
+        { name: 'asset', type: 'address' },
+        { name: 'amount', type: 'uint256' },
+        { name: 'onBehalfOf', type: 'address' },
+        { name: 'referralCode', type: 'uint16' },
+      ],
+      outputs: [],
+      stateMutability: 'nonpayable',
+    },
+  ];
+
+  try {
+    const result = await sdk.bridgeAndDeposit({
+      token: 'USDC',
+      amount: '1000', // Bridge 1000 USDC
+      toChainId: 1, // to Ethereum mainnet
+      deposit: {
+        contractAddress: aaveV3PoolAddress,
+        contractAbi: aaveV3PoolAbi,
+        functionName: 'supply',
+        functionParams: [
+          '0xA0b86a33E6411e3Ab02b73D2F75bDaCfDCeA51c8', // USDC address on mainnet
+          '1000000000', // 1000 USDC (6 decimals)
+          '0xUserAddress', // Supply on behalf of user
+          0, // No referral code
+        ],
+      },
+      waitForReceipt: true,
+      requiredConfirmations: 2,
+    });
+
+    console.log('✅ Bridge and deposit to Aave completed!');
+    console.log('Deposit transaction:', result.depositTransactionHash);
+    console.log('View on explorer:', result.depositExplorerUrl);
+
+    return result;
+  } catch (error) {
+    console.error('❌ Bridge and deposit failed:', error);
+    throw error;
+  }
+}
+```
+
+## Return Value
+
+```typescript showLineNumbers filename="Typescript"
+interface BridgeAndDepositResult {
+  depositTransactionHash?: string;
+  depositExplorerUrl?: string;
+  toChainId: number;
+}
+```
+
+<Callout type="info">
+**ADVANCED EXAMPLES**<br/>
+- The Nexus SDK provides a `simulateBridgeAndDeposit()` method that allows you to simulate your intent before executing it.
+[You can go through the example here](/api-reference/avail-nexus-api/api-reference#bridge-and-deposit-with-advanced-options)
+
+- You can also bridge and deposit to multiple contracts on the destination chain in one go.
+[You can go through the example here](/api-reference/avail-nexus-api/api-reference#multiple-defi-protocol-deposits)
+</Callout>
