@@ -22,17 +22,66 @@ There's a few simple steps to get started with the Avail Nexus SDK in your web a
 
 Any EIP-1193 provider works (MetaMask, WalletConnect v2, etc.).
 
-### Initialize the SDK
-
-You need to initialize the SDK with the wallet provider by calling the `.initialize()` method.
-The app must use this method before any other SDK methods are called.
-
 <Callout type="info">
 **FOR EXAMPLE:**
 
 1. the Avail demo app loads the `<Web3Provider>` component before anything else in the [layout.tsx](https://github.com/availproject/avail-nexus-demo/blob/main/src/app/layout.tsx#L33) file.
 2. When a wallet is connected,`<Web3Provider>` flips `isConnected` to `true` and is passed down as a prop to `NexusProvider`.
 3. [NexusProvider](https://github.com/availproject/avail-nexus-demo/blob/main/src/provider/NexusProvider.tsx) in turn initializes the SDK by calling `sdk.initialize(window.ethereum)`.
+</Callout>
+
+### Initialize the SDK
+
+You need to initialize the SDK with the wallet provider by calling the `.initialize()` method.
+The app must use this method before any other SDK methods are called.
+
+<Callout>
+The app must use await until the `initialize()` call is complete, before invoking any of the other Avail Nexus SDK functions
+listed in the [API Reference](/api-reference/avail-nexus-api/api-reference).
+</Callout>
+
+### Set up Allowance Hook
+
+Use this hook to enable unified balance by letting the app users confirm allowances for chain abstracted transactions.
+
+```typescript showLineNumbers filename="Typescript"
+sdk.setOnAllowanceHook(async ({ allow, deny, sources }) => {
+    // This is a hook for the dev to show user the allowances that need to be setup for the current tx to happen
+    // where,
+    // sources: an array of objects with minAllowance, chainID, token symbol, etc.
+    // allow(allowances): continues the transaction flow with the specified allowances; `allowances` is an array with the chosen allowance for each of the requirements (allowances.length === sources.length), either 'min', 'max', a bigint or a string
+    // deny(): stops the flow
+});
+```
+
+<Callout>
+The demo app uses this hook to render an allowance modal to the user.
+1. [Calling the `setOnAllowanceHook`](https://github.com/availproject/avail-nexus-demo/blob/main/src/provider/NexusProvider.tsx#L55)
+2. [Implementing the Allowance Modal](https://github.com/availproject/avail-nexus-demo/blob/main/src/components/nexus-modals/allowance-modal.tsx)
+</Callout>
+
+### Set up Intent Hook
+
+Use this hook to show the:
+
+1. Intent: Intent data containing sources and fees for display purpose
+2. Funds Source: Exact source of funds required to fulfill the intent
+3. Fees: Total fee required to fulfill the intent
+
+```typescript showLineNumbers filename="Typescript"
+sdk.setOnIntentHook(({ intent, allow, deny, refresh }) => {
+
+    // intent: Intent data containing sources and fees for display purpose
+    // allow(): accept the current intent and continue the flow
+    // deny(): deny the intent and stop the flow
+    // refresh(): should be on a timer of 5s to refresh the intent (old intents might fail due to fee changes if not refreshed)
+});
+```
+
+<Callout>
+The demo app uses this hook to render an intent modal to the user.
+1. [Calling the `setOnIntentHook`](https://github.com/availproject/avail-nexus-demo/blob/main/src/provider/NexusProvider.tsx#L63)
+2. [Implementing the Intent Modal](https://github.com/availproject/avail-nexus-demo/blob/main/src/components/nexus-modals/intent-modal.tsx)
 </Callout>
 
 ### Fetch balances
@@ -46,8 +95,10 @@ const balances = await sdk.getUnifiedBalances();
 console.log('All balances:', balances);
 ```
 
-> You can also refer to the [UnifiedBalanceResponse](https://github.com/availproject/avail-nexus-demo/blob/main/src/components/unified-balance.tsx) 
+<Callout>
+You can also refer to the [UnifiedBalanceResponse](https://github.com/availproject/avail-nexus-demo/blob/main/src/components/unified-balance.tsx) 
 component's implementation for further reference.
+</Callout>
 
 </Steps>
 
