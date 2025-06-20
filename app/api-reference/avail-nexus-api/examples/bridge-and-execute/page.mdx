@@ -1,0 +1,86 @@
+---
+title: "Bridge + Deposit with the Nexus SDK"
+---
+
+import { Callout, Tabs } from 'nextra/components'
+
+# `bridgeAndExecute(params)`
+
+Bridges tokens to a *target chain* and immediately deposits them into a
+contract (or any address) on that chain.
+Useful for flows like *“bridge 500 USDC to Base and stake it in a lending pool in a single click.”*
+
+
+
+## Parameters
+
+```typescript showLineNumbers filename="Typescript"
+interface BridgeAndExecuteParams {
+  toChainId: SUPPORTED_CHAINS_IDS;
+  token: SUPPORTED_TOKENS;
+  amount: string;
+  recipient?: `0x${string}`;
+  execute?: Omit<ExecuteParams, 'toChainId'>;
+  enableTransactionPolling?: boolean;
+  transactionTimeout?: number;
+  // Global options for transaction confirmation
+  waitForReceipt?: boolean;
+  receiptTimeout?: number;
+  requiredConfirmations?: number;
+}
+```
+
+## Bridge & Execute Example
+
+Here is how a dev could program an intent using the `bridgeAndExecute` function with proper error handling:
+
+```typescript showLineNumbers filename="Typescript"
+import type { BridgeAndExecuteResult } from 'avail-nexus-sdk';
+
+try {
+  const result: BridgeAndExecuteResult = await sdk.bridgeAndExecute({
+    token: 'USDC',
+    amount: '1000',
+    toChainId: 1,
+    execute: {
+      contractAddress: '0x...',
+      contractAbi: abi,
+      functionName: 'deposit',
+      functionParams: [amount, userAddress],
+    },
+    waitForReceipt: true,
+  });
+
+  console.log('✅ Bridge and execute completed!');
+  if (result.executeTransactionHash) {
+    console.log('Execute transaction:', result.executeTransactionHash);
+    console.log('View on explorer:', result.executeExplorerUrl);
+  }
+} catch (error) {
+  if (error.message.includes('User denied')) {
+    console.log('User cancelled transaction');
+  } else if (error.message.includes('Bridge phase failed')) {
+    console.error('Bridge failed:', error);
+  } else if (error.message.includes('Execute phase failed')) {
+    console.error('Execute failed:', error);
+  } else {
+    console.error('Operation failed:', error);
+  }
+}
+```
+
+## Return Value
+
+```typescript showLineNumbers filename="Typescript"
+interface BridgeAndExecuteResult {
+  executeTransactionHash?: string;
+  executeExplorerUrl?: string;
+  toChainId: number;
+}
+```
+
+<Callout type="info">
+**ADVANCED EXAMPLES**<br/>
+- You can also bridge and execute to multiple contracts on the destination chain in one go.
+[You can go through the docs here](/api-reference/avail-nexus-api/api-reference#multiple-defi-protocol-deposits)
+</Callout>
