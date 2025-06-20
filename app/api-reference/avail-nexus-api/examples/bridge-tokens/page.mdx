@@ -51,6 +51,16 @@ await sdk.bridge({
 });
 ```
 
+## Return Value
+
+```typescript showLineNumbers filename="Typescript"
+interface BridgeResult {
+  success: boolean;
+  error?: string;
+  explorerUrl?: string;
+}
+```
+
 <Callout type="info">
 **ADVANCED EXAMPLES**<br/>
 - You can also use the `bridgeSimulation` function to sanity check your bridge intent before executing it.

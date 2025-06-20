@@ -45,6 +45,16 @@ await sdk.transfer({
 });
 ```
 
+## Return Value
+
+```typescript showLineNumbers filename="Typescript"
+interface TransferResult {
+  success: boolean;
+  error?: string;
+  explorerUrl?: string;
+}
+```
+
 <Callout type="info">
 **ADVANCED EXAMPLES**<br/>
 - You can also use the `transferSimulation` function to sanity check your transfer intent before executing it.
