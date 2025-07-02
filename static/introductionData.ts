@@ -50,7 +50,7 @@ export const IntroData = [
           links: [{ link: "/api-reference/avail-node-api", placeholder: "Avail node"}, 
           { link: "/api-reference/avail-lc-api", placeholder: "Avail light client"}, 
           {link: "/api-reference/avail-bridge-api", placeholder: "VectorX bridge"},
-          {link: "/api-reference/avail-nexus-api", placeholder: "Avail Nexus"},
+          {link: "/api-reference/avail-nexus-sdk", placeholder: "Avail Nexus SDK"},
           {link: "/api-reference/avail-turbo-da-api", placeholder: "Turbo DA"},
         ],
           textcolor: "FE8B6C"

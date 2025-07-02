@@ -1,0 +1,125 @@
+---
+title: "Getting started with the Avail Nexus SDK"
+---
+
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Getting started with the Avail Nexus SDK
+
+<Callout type="info">
+**Note:** We built a Next.js demo app that uses the Avail Nexus SDK to implement a unified Web3 experience.
+
+1. You can use the app here: [avail-nexus-demo-five.vercel.app](https://avail-nexus-demo-five.vercel.app/)
+2. You can find the code for the app here: [availproject/avail-nexus-demo](https://github.com/availproject/avail-nexus-demo).
+</Callout>
+
+
+There's a few simple steps to get started with the Avail Nexus SDK in your web app.
+
+<Steps>
+
+### Make sure your web app has an injected wallet provider
+
+Any EIP-1193 provider works (MetaMask, WalletConnect v2, etc.).
+
+<Callout type="info">
+**FOR EXAMPLE:**
+
+1. the Avail demo app loads the `<Web3Provider>` component before anything else in the [layout.tsx](https://github.com/availproject/avail-nexus-demo/blob/main/src/app/layout.tsx#L33) file.
+2. When a wallet is connected,`<Web3Provider>` flips `isConnected` to `true` and is passed down as a prop to `NexusProvider`.
+3. [NexusProvider](https://github.com/availproject/avail-nexus-demo/blob/main/src/provider/NexusProvider.tsx) in turn initializes the SDK by calling `sdk.initialize(window.ethereum)`.
+</Callout>
+
+### Initialize the SDK
+
+You need to initialize the SDK with the wallet provider by calling the `.initialize()` method.
+The app must use this method before any other SDK methods are called.
+
+<Callout>
+The app must use await until the `initialize()` call is complete, before invoking any of the other Avail Nexus SDK functions
+listed in the [API Reference](/api-reference/avail-nexus-sdk/api-reference).
+</Callout>
+
+### Set up Allowance Hook
+
+Use this hook to enable unified balance by letting the app users confirm allowances for chain abstracted transactions.
+
+```typescript showLineNumbers filename="Typescript"
+sdk.setOnAllowanceHook(async ({ allow, deny, sources }) => {
+    // This is a hook for the dev to show user the allowances that need to be setup for the current tx to happen
+    // where,
+    // sources: an array of objects with minAllowance, chainID, token symbol, etc.
+    // allow(allowances): continues the transaction flow with the specified allowances; `allowances` is an array with the chosen allowance for each of the requirements (allowances.length === sources.length), either 'min', 'max', a bigint or a string
+    // deny(): stops the flow
+});
+```
+
+<Callout>
+The demo app uses this hook to render an allowance modal to the user.
+1. [Calling the `setOnAllowanceHook`](https://github.com/availproject/avail-nexus-demo/blob/main/src/provider/NexusProvider.tsx#L55)
+2. [Implementing the Allowance Modal](https://github.com/availproject/avail-nexus-demo/blob/main/src/components/nexus-modals/allowance-modal.tsx)
+</Callout>
+
+### Set up Intent Hook
+
+Use this hook to show the:
+
+1. Intent: Intent data containing sources and fees for display purpose
+2. Funds Source: Exact source of funds required to fulfill the intent
+3. Fees: Total fee required to fulfill the intent
+
+```typescript showLineNumbers filename="Typescript"
+sdk.setOnIntentHook(({ intent, allow, deny, refresh }) => {
+
+    // intent: Intent data containing sources and fees for display purpose
+    // allow(): accept the current intent and continue the flow
+    // deny(): deny the intent and stop the flow
+    // refresh(): should be on a timer of 5s to refresh the intent (old intents might fail due to fee changes if not refreshed)
+});
+```
+
+<Callout>
+The demo app uses this hook to render an intent modal to the user.
+1. [Calling the `setOnIntentHook`](https://github.com/availproject/avail-nexus-demo/blob/main/src/provider/NexusProvider.tsx#L63)
+2. [Implementing the Intent Modal](https://github.com/availproject/avail-nexus-demo/blob/main/src/components/nexus-modals/intent-modal.tsx)
+</Callout>
+
+### Fetch balances
+
+To test if your app has been able to set up the SDK correctly, try calling the `getUnifiedBalances()` method.
+
+Here is an example of how to do that:
+
+```typescript showLineNumbers filename="Typescript"
+const balances = await sdk.getUnifiedBalances();
+console.log('All balances:', balances);
+```
+
+<Callout>
+You can also refer to the [UnifiedBalanceResponse](https://github.com/availproject/avail-nexus-demo/blob/main/src/components/unified-balance.tsx) 
+component's implementation for further reference.
+</Callout>
+
+</Steps>
+
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>What do we mean by "unified balance"?</summary>
+
+Unified balance shows all the liquidity in a user's EOA account across multiple chains in one view. It lets users transact seamlessly on any chain without needing bridges or pre-provisioning gas for token swaps. Chain abstraction handles all the complexity involved in a cross-chain transaction while enabling better UX through a single intent approval.
+
+For instance, let us take the case where a user intends to spend 18 USDC on Scroll and does not have any balance on Scroll.
+
+- Optimism: 0.1 ETH, O USDT, 0 USDC
+- Arbitrum: 0 ETH, 12 USDT, 0 USDC
+- Base: 0 ETH, 10 USDT, 0 USDC
+- Scroll: 0 ETH, 0 USDT, 0 USDC
+
+To spend 18 USDC on Scroll (destination chain) with the given liquidity fragmentation, it would typically require multiple clicks and steps for swapping or bridging different assets available on the source chains, so that user can convert the assets to the desired token balance on Scroll.
+
+Through chain abstraction and ability to swap cross-chain, users have the convenience to view the consolidated token balance across supported tokens and chains. This simplifies the process of sending 18 USDC on Optimism, as users can sign the intent without the need for bridging, swapping, or considering the optimal routes.
+
+The cross-chain swap enables users to:
+
+- Spend assets on any destination chain without prior liquidity.
+- Collate payable amount by combining multiple supported assets across source chains to address liquidity fragmentation.
+</details>

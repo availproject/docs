@@ -1,0 +1,67 @@
+---
+image: "/img/docs-link-preview.png"
+title: Avail Nexus SDK reference
+asIndexPage: true
+---
+
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Avail Nexus SDK reference
+
+## Setting up the dev environment
+
+<Callout type="info">
+**BEFORE WE START**
+
+1. The Nexus SDK is designed for browser environments and requires an injected wallet provider (e.g. MetaMask, WalletConnect, etc.)
+2. The SDK cannot be used in any server-side environments.
+3. You can find the nexus-sdk repo here: [availproject/nexus-sdk](https://github.com/availproject/nexus-sdk)
+4. You can find the Nexus SDK on npm here: [npmjs.com/package/avail-nexus-sdk](https://www.npmjs.com/package/avail-nexus-sdk)
+</Callout>
+
+## Setting up the dev environment
+
+<Steps>
+
+### Set up a frontend project with an injected wallet provider
+
+Any stack frontend works, even a plain HTML & JS project, as long as it can provide an injected wallet provider to the SDK.
+
+
+### Install the Nexus SDK
+
+Use any package manager of your choice to install the Nexus SDK:
+
+<Tabs items={['npm', 'yarn', 'pnpm']}>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+npm install avail-nexus-sdk
+```
+</Tabs.Tab>
+
+
+<Tabs.Tab>
+```bash filename="Terminal"
+yarn add avail-nexus-sdk
+```
+</Tabs.Tab>
+
+
+<Tabs.Tab>
+```bash  filename="Terminal"
+pnpm add avail-nexus-sdk
+```
+</Tabs.Tab>
+
+</Tabs>
+
+<Callout type="info">
+We built a minimal demo app using Next.js that uses the Avail Nexus SDK:
+
+1. You can use the app here: [avail-nexus-demo-five.vercel.app](https://avail-nexus-demo-five.vercel.app/)
+2. You can find the code for the app here: [availproject/avail-nexus-demo](https://github.com/availproject/avail-nexus-demo).
+</Callout>
+
+</Steps>
+
