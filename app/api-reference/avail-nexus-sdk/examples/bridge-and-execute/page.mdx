@@ -112,6 +112,16 @@ function App() {
   );
 }
 ```
+<Callout>
+`buildFunctionParams` receives the validated UX input (token, amount, destination chainId) plus the connected wallet address and must return the encoded functionParams 
+(and optional ETH value) used in the destination call.
+
+The library then:
+
+- Bridges the asset to toChainId.
+- Sets ERC-20 allowance if required.
+- Executes contractAddress.functionName(functionParams, { value }).
+</Callout>
 
 ### Pre-filled Bridge & Execute
 
