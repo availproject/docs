@@ -1,86 +1,174 @@
 ---
-title: "Bridge + Deposit with the Nexus SDK"
+title: "Bridge and Execute using the BridgeAndExecuteButton widget of the Nexus SDK"
 ---
 
 import { Callout, Tabs } from 'nextra/components'
 
-# `bridgeAndExecute(params)`
-
-Bridges tokens to a *target chain* and immediately deposits them into a
-contract (or any address) on that chain.
-Useful for flows like *“bridge 500 USDC to Base and stake it in a lending pool in a single click.”*
-
-
-
-## Parameters
-
-```typescript showLineNumbers filename="Typescript"
-interface BridgeAndExecuteParams {
-  toChainId: SUPPORTED_CHAINS_IDS;
-  token: SUPPORTED_TOKENS;
-  amount: string;
-  recipient?: `0x${string}`;
-  execute?: Omit<ExecuteParams, 'toChainId'>;
-  enableTransactionPolling?: boolean;
-  transactionTimeout?: number;
-  // Global options for transaction confirmation
-  waitForReceipt?: boolean;
-  receiptTimeout?: number;
-  requiredConfirmations?: number;
-}
-```
-
-## Bridge & Execute Example
-
-Here is how a dev could program an intent using the `bridgeAndExecute` function with proper error handling:
-
-```typescript showLineNumbers filename="Typescript"
-import type { BridgeAndExecuteResult } from 'avail-nexus-sdk';
-
-try {
-  const result: BridgeAndExecuteResult = await sdk.bridgeAndExecute({
-    token: 'USDC',
-    amount: '1000',
-    toChainId: 1,
-    execute: {
-      contractAddress: '0x...',
-      contractAbi: abi,
-      functionName: 'deposit',
-      functionParams: [amount, userAddress],
-    },
-    waitForReceipt: true,
-  });
-
-  console.log('✅ Bridge and execute completed!');
-  if (result.executeTransactionHash) {
-    console.log('Execute transaction:', result.executeTransactionHash);
-    console.log('View on explorer:', result.executeExplorerUrl);
-  }
-} catch (error) {
-  if (error.message.includes('User denied')) {
-    console.log('User cancelled transaction');
-  } else if (error.message.includes('Bridge phase failed')) {
-    console.error('Bridge failed:', error);
-  } else if (error.message.includes('Execute phase failed')) {
-    console.error('Execute failed:', error);
-  } else {
-    console.error('Operation failed:', error);
-  }
-}
-```
-
-## Return Value
-
-```typescript showLineNumbers filename="Typescript"
-interface BridgeAndExecuteResult {
-  executeTransactionHash?: string;
-  executeExplorerUrl?: string;
-  toChainId: number;
-}
-```
+# `<BridgeAndExecuteButton>`
 
 <Callout type="info">
-**ADVANCED EXAMPLES**<br/>
-- You can also bridge and execute to multiple contracts on the destination chain in one go.
-[You can go through the docs here](/api-reference/avail-nexus-sdk/api-reference#multiple-defi-protocol-deposits)
+**SET UP THE SDK BEFORE YOU START:**
+
+You can find the SDK setup instructions in the [Overview](/api-reference/avail-nexus-sdk/overview) page.
 </Callout>
+
+Use the `BridgeAndExecuteButton` component to provide a pre-built interface that handles bridging tokens to a destination chain and then executing a smart contract function on that chain in a single flow.
+
+The widget automatically manages the bridge + execute flow, UI modals, transaction state, and token approvals. \
+Useful for flows like *“bridge 500 USDC to Base and stake it in a lending pool in a single click.”*
+
+<Callout type="info">
+**Note:**<br/>
+
+1. We made a small demo website that implements the `BridgeAndExecuteButton` widget.
+Check it out here: [nexus-ui-components-demo.vercel.app](https://nexus-ui-components-demo.vercel.app/)
+
+2. If you just want to see an example that uses the `BridgeAndExecuteButton` widget,
+refer to the repo here: [nexus-ui-components-demo](https://github.com/availproject/nexus-ui-components-demo/blob/main/src/components/nexus.tsx#L52)
+</Callout>
+
+## Props
+
+```typescript showLineNumbers filename="Typescript"
+interface BridgeAndExecuteButtonProps {
+  contractAddress: `0x${string}`;
+  contractAbi: Abi;
+  functionName: string;
+  buildFunctionParams: DynamicParamBuilder;
+  prefill?: {
+    toChainId?: SUPPORTED_CHAINS_IDS;
+    token?: SUPPORTED_TOKENS;
+    amount?: string;
+  };
+  children: (props: { 
+    onClick: () => void; 
+    isLoading: boolean; 
+    disabled: boolean;
+  }) => ReactNode;
+  className?: string;
+}
+
+type DynamicParamBuilder = (
+  token: SUPPORTED_TOKENS,
+  amount: string,
+  chainId: SUPPORTED_CHAINS_IDS,
+  userAddress: `0x${string}`
+) => {
+  functionParams: readonly unknown[];
+  value?: string;
+};
+```
+
+## Example
+
+<Callout type="info">
+**Note:** \
+Refer to the [API reference](/api-reference/avail-nexus-sdk/api-reference) for a full list of supported tokens and chains,
+as well as more examples of how to use the `BridgeAndExecuteButton` widget.
+</Callout>
+
+Here are examples of how to use the `BridgeAndExecuteButton` widget:
+
+### Basic Bridge & Execute Button
+
+```tsx showLineNumbers filename="App.tsx"
+import { BridgeAndExecuteButton, TOKEN_METADATA, TOKEN_CONTRACT_ADDRESSES } from '@avail-project/nexus';
+import { parseUnits } from 'viem';
+
+function App() {
+  return (
+    <BridgeAndExecuteButton
+      contractAddress="0x794a61358D6845594F94dc1DB02A252b5b4814aD"
+      contractAbi={[
+        {
+          name: 'supply',
+          type: 'function',
+          stateMutability: 'nonpayable',
+          inputs: [
+            { name: 'asset', type: 'address' },
+            { name: 'amount', type: 'uint256' },
+            { name: 'onBehalfOf', type: 'address' },
+            { name: 'referralCode', type: 'uint16' },
+          ],
+          outputs: [],
+        },
+      ]}
+      functionName="supply"
+      buildFunctionParams={(token, amount, chainId, userAddress) => {
+        const decimals = TOKEN_METADATA[token].decimals;
+        const amountWei = parseUnits(amount, decimals);
+        const tokenAddr = TOKEN_CONTRACT_ADDRESSES[token][chainId];
+        return { 
+          functionParams: [tokenAddr, amountWei, userAddress, 0],
+          value: '0' // No ETH value for ERC-20 token supply
+        };
+      }}
+    >
+      {({ onClick, isLoading, disabled }) => (
+        <button onClick={onClick} disabled={disabled || isLoading}>
+          {isLoading ? 'Processing…' : 'Bridge & Supply to AAVE'}
+        </button>
+      )}
+    </BridgeAndExecuteButton>
+  );
+}
+```
+<Callout>
+`buildFunctionParams` receives the validated UX input (token, amount, destination chainId) plus the connected wallet address and must return the encoded functionParams 
+(and optional ETH value) used in the destination call.
+
+The library then:
+
+- Bridges the asset to toChainId.
+- Sets ERC-20 allowance if required.
+- Executes `contractAddress.functionName(functionParams, { value })`.
+</Callout>
+
+### Pre-filled Bridge & Execute
+
+```tsx showLineNumbers filename="App.tsx"
+import { BridgeAndExecuteButton, TOKEN_METADATA, TOKEN_CONTRACT_ADDRESSES } from '@avail-project/nexus';
+import { parseUnits } from 'viem';
+
+function App() {
+  return (
+    <BridgeAndExecuteButton
+      contractAddress="0x794a61358D6845594F94dc1DB02A252b5b4814aD"
+      contractAbi={[
+        {
+          name: 'supply',
+          type: 'function',
+          stateMutability: 'nonpayable',
+          inputs: [
+            { name: 'asset', type: 'address' },
+            { name: 'amount', type: 'uint256' },
+            { name: 'onBehalfOf', type: 'address' },
+            { name: 'referralCode', type: 'uint16' },
+          ],
+          outputs: [],
+        },
+      ]}
+      functionName="supply"
+      buildFunctionParams={(token, amount, chainId, userAddress) => {
+        const decimals = TOKEN_METADATA[token].decimals;
+        const amountWei = parseUnits(amount, decimals);
+        const tokenAddr = TOKEN_CONTRACT_ADDRESSES[token][chainId];
+        return { 
+          functionParams: [tokenAddr, amountWei, userAddress, 0]
+        };
+      }}
+      prefill={{
+        toChainId: 42161,    // Arbitrum
+        token: 'USDT',
+        amount: '100'
+      }}
+    >
+      {({ onClick, isLoading, disabled }) => (
+        <button onClick={onClick} disabled={disabled || isLoading}>
+          {isLoading ? 'Processing…' : 'Bridge 100 USDT to Arbitrum & Supply to AAVE'}
+        </button>
+      )}
+    </BridgeAndExecuteButton>
+  );
+}
+```

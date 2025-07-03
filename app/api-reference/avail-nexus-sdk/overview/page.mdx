@@ -7,97 +7,138 @@ import { Callout, Steps, Tabs } from 'nextra/components'
 # Getting started with the Avail Nexus SDK
 
 <Callout type="info">
-**Note:** We built a Next.js demo app that uses the Avail Nexus SDK to implement a unified Web3 experience.
+**Note:** We built a React demo app that uses the Avail Nexus SDK UI components to implement a unified Web3 experience.
 
-1. You can use the app here: [avail-nexus-demo-five.vercel.app](https://avail-nexus-demo-five.vercel.app/)
-2. You can find the code for the app here: [availproject/avail-nexus-demo](https://github.com/availproject/avail-nexus-demo).
+1. You can use the app here: [nexus-ui-components-demo.vercel.app](https://nexus-ui-components-demo.vercel.app/)
+2. You can find the code for the app here: [availproject/nexus-ui-components-demo](https://github.com/availproject/nexus-ui-components-demo).
 </Callout>
 
+The Avail Nexus SDK provides both headless functionality and pre-built React UI components. This guide covers the **React UI components** which offer the fastest way to integrate chain abstraction into your React app.
 
-There's a few simple steps to get started with the Avail Nexus SDK in your web app.
+<Callout type="info">
+The SDK provides `BridgeButton`, `TransferButton`, and `BridgeAndExecuteButton` components. Each widget is covered in detail in the following pages.
+</Callout>
 
 <Steps>
 
-### Make sure your web app has an injected wallet provider
+### Wrap your app with `NexusProvider`
 
-Any EIP-1193 provider works (MetaMask, WalletConnect v2, etc.).
+Add the `NexusProvider` to your app's root component to enable SDK functionality (`layout.tsx` for Next.js, `App.tsx` for Remix, etc.):
+
+```tsx showLineNumbers filename="__root.tsx"
+import { NexusProvider } from '@avail-project/nexus';
+
+export default function Root() {
+  return (
+    <NexusProvider
+      config={{
+        network: 'testnet', // "mainnet" (default) or "testnet"
+      }}
+    >
+      <App />
+    </NexusProvider>
+  );
+}
+```
 
 <Callout type="info">
-**FOR EXAMPLE:**
+**FOR EXAMPLE:**<br/>
 
-1. the Avail demo app loads the `<Web3Provider>` component before anything else in the [layout.tsx](https://github.com/availproject/avail-nexus-demo/blob/main/src/app/layout.tsx#L33) file.
-2. When a wallet is connected,`<Web3Provider>` flips `isConnected` to `true` and is passed down as a prop to `NexusProvider`.
-3. [NexusProvider](https://github.com/availproject/avail-nexus-demo/blob/main/src/provider/NexusProvider.tsx) in turn initializes the SDK by calling `sdk.initialize(window.ethereum)`.
+The demo app sets up the `NexusProvider` in the [__root.tsx](https://github.com/availproject/nexus-ui-components-demo/blob/main/src/routes/__root.tsx#L50) file, 
+wrapping the entire application with both wallet authentication (Privy) and the Nexus provider.
 </Callout>
 
-### Initialize the SDK
+### Forward the user's wallet provider
 
-You need to initialize the SDK with the wallet provider by calling the `.initialize()` method.
-The app must use this method before any other SDK methods are called.
+Connect your wallet library to the Nexus SDK by forwarding the provider:
 
-<Callout>
-The app must use await until the `initialize()` call is complete, before invoking any of the other Avail Nexus SDK functions
-listed in the [API Reference](/api-reference/avail-nexus-sdk/api-reference).
-</Callout>
+```tsx showLineNumbers filename="WalletBridge.tsx"
+import { useEffect } from 'react';
+import { useAccount } from '@wagmi/react'; // any wallet lib works
+import { useNexus } from '@avail-project/nexus';
 
-### Set up Allowance Hook
+export function WalletBridge() {
+  const { connector, isConnected } = useAccount();
+  const { setProvider } = useNexus();
 
-Use this hook to enable unified balance by letting the app users confirm allowances for chain abstracted transactions.
+  useEffect(() => {
+    if (isConnected && connector?.getProvider) {
+      connector.getProvider().then(setProvider);
+    }
+  }, [isConnected, connector, setProvider]);
 
-```typescript showLineNumbers filename="Typescript"
-sdk.setOnAllowanceHook(async ({ allow, deny, sources }) => {
-    // This is a hook for the dev to show user the allowances that need to be setup for the current tx to happen
-    // where,
-    // sources: an array of objects with minAllowance, chainID, token symbol, etc.
-    // allow(allowances): continues the transaction flow with the specified allowances; `allowances` is an array with the chosen allowance for each of the requirements (allowances.length === sources.length), either 'min', 'max', a bigint or a string
-    // deny(): stops the flow
-});
+  return null;
+}
 ```
 
 <Callout>
-The demo app uses this hook to render an allowance modal to the user.
-1. [Calling the `setOnAllowanceHook`](https://github.com/availproject/avail-nexus-demo/blob/main/src/provider/NexusProvider.tsx#L55)
-2. [Implementing the Allowance Modal](https://github.com/availproject/avail-nexus-demo/blob/main/src/components/nexus-modals/allowance-modal.tsx)
+**Any wallet library works:** The example shows Wagmi, but you can use Privy, RainbowKit, ConnectKit, or any library that provides an EIP-1193 provider.
+
+The demo app uses Privy and forwards the provider in [connect-wallet.tsx](https://github.com/availproject/nexus-ui-components-demo/blob/main/src/components/connect-wallet.tsx#L16).
 </Callout>
 
-### Set up Intent Hook
+### Drop a widget into your UI
 
-Use this hook to show the:
+Use the pre-built UI components for common chain abstraction operations. The following example
+shows how you would use the bridge, but other widgets are covered in the following pages:
 
-1. Intent: Intent data containing sources and fees for display purpose
-2. Funds Source: Exact source of funds required to fulfill the intent
-3. Fees: Total fee required to fulfill the intent
+```tsx showLineNumbers filename="App.tsx"
+import {
+  BridgeButton,
+} from '@avail-project/nexus';
 
-```typescript showLineNumbers filename="Typescript"
-sdk.setOnIntentHook(({ intent, allow, deny, refresh }) => {
+/*  Bridge ----------------------------------------------------------- */
+<BridgeButton prefill={{ chainId: 137, token: 'USDC', amount: '100' }}>
+  {({ onClick, isLoading }) => (
+    <button onClick={onClick} disabled={isLoading}>
+      {isLoading ? 'Bridging…' : 'Bridge 100 USDC → Polygon'}
+    </button>
+  )}
+</BridgeButton>
+```
 
-    // intent: Intent data containing sources and fees for display purpose
-    // allow(): accept the current intent and continue the flow
-    // deny(): deny the intent and stop the flow
-    // refresh(): should be on a timer of 5s to refresh the intent (old intents might fail due to fee changes if not refreshed)
-});
+### Fetch the unified balance for a user
+
+You can access the SDK directly through the `useNexus` hook to call any headless SDK methods, including balance fetching:
+
+```tsx showLineNumbers filename="BalanceComponent.tsx"
+import { useNexus } from '@avail-project/nexus';
+import { useEffect, useState } from 'react';
+
+function BalanceComponent() {
+  const { sdk } = useNexus();
+  const [balances, setBalances] = useState([]);
+
+  useEffect(() => {
+    async function fetchBalances() {
+      if (sdk) {
+        // Get all balances across chains
+        const allBalances = await sdk.getUnifiedBalances();
+        setBalances(allBalances);
+
+        // Or get balance for specific token
+        const usdcBalance = await sdk.getUnifiedBalance('USDC');
+        console.log('USDC balance:', usdcBalance);
+      }
+    }
+
+    fetchBalances();
+  }, [sdk]);
+
+  return (
+    <div>
+      {balances.map((asset) => (
+        <div key={asset.symbol}>
+          {asset.symbol}: {asset.balance}
+        </div>
+      ))}
+    </div>
+  );
+}
 ```
 
 <Callout>
-The demo app uses this hook to render an intent modal to the user.
-1. [Calling the `setOnIntentHook`](https://github.com/availproject/avail-nexus-demo/blob/main/src/provider/NexusProvider.tsx#L63)
-2. [Implementing the Intent Modal](https://github.com/availproject/avail-nexus-demo/blob/main/src/components/nexus-modals/intent-modal.tsx)
-</Callout>
-
-### Fetch balances
-
-To test if your app has been able to set up the SDK correctly, try calling the `getUnifiedBalances()` method.
-
-Here is an example of how to do that:
-
-```typescript showLineNumbers filename="Typescript"
-const balances = await sdk.getUnifiedBalances();
-console.log('All balances:', balances);
-```
-
-<Callout>
-You can also refer to the [UnifiedBalanceResponse](https://github.com/availproject/avail-nexus-demo/blob/main/src/components/unified-balance.tsx) 
-component's implementation for further reference.
+**No manual initialization needed:** The `useNexus` hook gives you direct access to the initialized SDK instance. You don't need to call `initialize()` manually - the `NexusProvider` handles this automatically when a wallet provider is connected.
 </Callout>
 
 </Steps>
