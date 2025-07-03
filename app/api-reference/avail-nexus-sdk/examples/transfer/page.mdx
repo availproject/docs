@@ -1,68 +1,94 @@
 ---
-title: "Transfer tokens using the Nexus SDK"
+title: "Transfer tokens using the TransferButton widget of the Nexus SDK"
 ---
 
 import { Callout, Tabs } from 'nextra/components'
 
-# `transfer(params)`
-
-Use the `transfer` function to send funds from the unified balance to any wallet (EOA) on any chain using approved source chain funds.
-
-## Parameters
-
-```typescript showLineNumbers filename="Typescript"
-interface TransferParams {
-  token: SUPPORTED_TOKENS;
-  amount: number | string;
-  chainId: SUPPORTED_CHAINS_IDS;
-  recipient: `0x${string}`;
-}
-```
-
-## Transfer Example
-
-<Callout type="warning">
-Please go through the [overview page](/api-reference/avail-nexus-sdk/overview) to understand how to set up the SDK and the required hooks before using any SDK function that moves around user funds.
-</Callout>
-
-Here are some minimal examples of how to use the `transfer` function:
-
-```typescript showLineNumbers filename="Typescript"
-// Transfer to specific recipient
-await sdk.transfer({
-  token: 'ETH',
-  amount: 1,
-  chainId: 1, // on Ethereum
-  recipient: '0x742d35Cc6634C0532925a3b8D4C9db96c4b4Db45',
-});
- 
-// Transfer USDC on Polygon
-await sdk.transfer({
-  token: 'USDC',
-  amount: '250.75',
-  chainId: 137,
-  recipient: '0xRecipientAddress',
-});
-```
-
-## Return Value
-
-```typescript showLineNumbers filename="Typescript"
-interface TransferResult {
-  success: boolean;
-  error?: string;
-  explorerUrl?: string;
-}
-```
+# `<TransferButton>`
 
 <Callout type="info">
-**ADVANCED EXAMPLES**<br/>
-- You can also use the `transferSimulation` function to sanity check your transfer intent before executing it.
-[You can go through the docs here](/api-reference/avail-nexus-sdk/api-reference#transaction-simulation)
-- For a complete example on how to set up hooks and handle errors, [you can go through the docs here](/api-reference/avail-nexus-sdk/api-reference#complete-bridge-flow-with-error-handling)
+**SET UP THE SDK BEFORE YOU START:**
+
+You can find the SDK setup instructions in the [Overview](/api-reference/avail-nexus-sdk/overview) page.
 </Callout>
 
+Use the `TransferButton` component to provide a pre-built transfer interface that handles token transfers to any wallet address on any supported chain. 
+The widget automatically manages the transfer flow, UI modals, and transaction state.
 
+<Callout type="info">
+**Note:**
+1. We made a small demo website that implements the `TransferButton` widget.
+Check it out here: [nexus-ui-components-demo.vercel.app](https://nexus-ui-components-demo.vercel.app/)
 
+2. If you just want to see an example that uses the `TransferButton` widget,
+refer to the repo here: [nexus-ui-components-demo](https://github.com/availproject/nexus-ui-components-demo/blob/main/src/components/nexus.tsx#L34)
+</Callout>
 
+## Props
 
+```typescript showLineNumbers filename="Typescript"
+interface TransferButtonProps {
+  prefill?: TransferConfig;
+  children: (props: { onClick: () => void; isLoading: boolean }) => ReactNode;
+  className?: string;
+}
+
+interface TransferConfig {
+  chainId?: number;
+  token?: SUPPORTED_TOKENS;
+  amount?: string;
+  recipient?: `0x${string}`;
+}
+```
+
+## Example
+
+<Callout type="info">
+**Note:** \
+Refer to the [API reference](/api-reference/avail-nexus-sdk/api-reference) for a full list of supported tokens and chains.
+</Callout>
+
+Here are examples of how to use the `TransferButton` widget:
+
+### Basic Transfer Button
+
+```tsx showLineNumbers filename="App.tsx"
+import { TransferButton } from '@avail-project/nexus';
+
+function App() {
+  return (
+    <TransferButton>
+      {({ onClick, isLoading }) => (
+        <button onClick={onClick} disabled={isLoading}>
+          {isLoading ? 'Processing...' : 'Send Funds'}
+        </button>
+      )}
+    </TransferButton>
+  );
+}
+```
+
+### Pre-filled Transfer Button
+
+```tsx showLineNumbers filename="App.tsx"
+import { TransferButton } from '@avail-project/nexus';
+
+function App() {
+  return (
+    <TransferButton 
+      prefill={{ 
+        chainId: 137,           // Polygon
+        token: 'USDC', 
+        amount: '100',
+        recipient: '0x742d35Cc6634C0532925a3b8D4C9db96c4b4Db45'
+      }}
+    >
+      {({ onClick, isLoading }) => (
+        <button onClick={onClick} disabled={isLoading}>
+          {isLoading ? 'Transferring...' : 'Send 100 USDC to Polygon'}
+        </button>
+      )}
+    </TransferButton>
+  );
+}
+```
