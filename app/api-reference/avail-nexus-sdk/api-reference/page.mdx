@@ -14,6 +14,9 @@ The Avail Nexus SDK provides a comprehensive set of APIs for cross-chain bridgin
 
 ### Supported chains
 
+<Tabs items={['Mainnet', 'Testnet']}>
+
+<Tabs.Tab>
 #### Mainnet Chains
 
 | Network   | Chain ID | Native Currency | Status |
@@ -24,21 +27,23 @@ The Avail Nexus SDK provides a comprehensive set of APIs for cross-chain bridgin
 | Arbitrum  | 42161    | ETH             | ✅     |
 | Avalanche | 43114    | AVAX            | ✅     |
 | Base      | 8453     | ETH             | ✅     |
-| Linea     | 59144    | ETH             | ✅     |
 | Scroll    | 534351   | ETH             | ✅     |
+</Tabs.Tab>
+
+<Tabs.Tab>
 
 #### Testnet Chains
 
 | Network          | Chain ID | Native Currency | Status |
 | ---------------- | -------- | --------------- | ------ |
-| Ethereum Sepolia | 11155111 | ETH             | ✅     |
 | Optimism Sepolia | 11155420 | ETH             | ✅     |
 | Polygon Amoy     | 80002    | MATIC           | ✅     |
 | Arbitrum Sepolia | 421614   | ETH             | ✅     |
-| Avalanche Fuji   | 43113    | AVAX            | ✅     |
 | Base Sepolia     | 84532    | ETH             | ✅     |
-| Linea Sepolia    | 59141    | ETH             | ✅     |
-| Scroll Sepolia   | 534352   | ETH             | ✅     |
+</Tabs.Tab>
+
+</Tabs>
+
 
 <details className="border p-3 rounded-md bg-[#EFF6FF]">
 <summary>How to fetch supported chains from the SDK?</summary>
@@ -55,16 +60,6 @@ SUPPORTED_CHAINS.AVALANCHE;    // 43114
 SUPPORTED_CHAINS.BASE;         // 8453
 SUPPORTED_CHAINS.LINEA;        // 59144
 SUPPORTED_CHAINS.SCROLL;       // 534351
-
-// Testnet Chain IDs
-SUPPORTED_CHAINS.ETHEREUM_SEPOLIA;  // 11155111
-SUPPORTED_CHAINS.OPTIMISM_SEPOLIA;  // 11155420
-SUPPORTED_CHAINS.POLYGON_AMOY;      // 80002
-SUPPORTED_CHAINS.ARBITRUM_SEPOLIA;  // 421614
-SUPPORTED_CHAINS.AVALANCHE_FUJI;    // 43113
-SUPPORTED_CHAINS.BASE_SEPOLIA;      // 84532
-SUPPORTED_CHAINS.LINEA_SEPOLIA;     // 59141
-SUPPORTED_CHAINS.SCROLL_SEPOLIA;    // 534352
 ```
 </details>
 
