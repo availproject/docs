@@ -378,6 +378,26 @@ export function middleware(request: NextRequest) {
       source: '/docs/the-avail-trinity/avail-nexus',
       destination: `${origin}/docs/introduction-to-avail/avail-nexus`,
     },
+
+    // Avail Nexus SDK redirects
+    {
+      source: '/docs/build-with-avail/avail-nexus',
+      destination: `${origin}/api-reference/avail-nexus-sdk`,
+    },
+    {
+      source: '/docs/build-with-avail/avail-nexus/avail-nexus-architecture',
+      destination: `${origin}/api-reference/avail-nexus-sdk`,
+    },
+    {
+      source: '/docs/build-with-avail/avail-nexus/avail-nexus-tutorial',
+      destination: `${origin}/api-reference/avail-nexus-sdk`,
+    },
+    {
+      source: '/docs/build-with-avail/avail-nexus/overview',
+      destination: `${origin}/api-reference/avail-nexus-sdk`,
+    },
+
+    
     {
       source: '/about/introduction',
       destination: `${origin}/docs/introduction-to-avail`,
