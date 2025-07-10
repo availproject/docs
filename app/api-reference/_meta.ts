@@ -8,31 +8,31 @@ export default {
     display: "hidden",
   },
 
-  "avail-node-api": "Avail node API reference",
+  "avail-node-api": "Avail Node API",
 
   "---": {
     type: "separator",
   },
 
-  "avail-lc-api": "Avail light client API reference",
+  "avail-lc-api": "Avail Light Client API",
 
   "----": {
     type: "separator",
   },
 
-  "avail-bridge-api": "Avail bridge API reference",
+  "avail-bridge-api": "Avail Bridge API",
 
   "------": {
     type: "separator",
   },
 
-  "avail-nexus-sdk": "Avail Nexus SDK reference",
+  "avail-nexus-sdk": "Avail Nexus SDK API",
 
   "-------": {
     type: "separator",
   },
 
-  "avail-turbo-da-api": "Turbo DA API reference",
+  "avail-turbo-da-api": "Turbo DA API",
 
   "--------": {
     type: "separator",

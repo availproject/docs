@@ -6,18 +6,17 @@ image: '/img/docs-link-preview.png'
 
 import { Callout, Steps, Tabs } from 'nextra/components'
 
-# Avail Nexus SDK configuration & API reference
+# Avail Nexus SDK API Reference
 
 The Avail Nexus SDK provides a comprehensive set of APIs for cross-chain bridging, token transfers, and balance management across multiple EVM chains.
 
-## Configuration options
+## Configuration Options
 
-### Supported chains
+### Supported Chains
 
 <Tabs items={['Mainnet', 'Testnet']}>
 
 <Tabs.Tab>
-#### Mainnet Chains
 
 | Network   | Chain ID | Native Currency | Status |
 | --------- | -------- | --------------- | ------ |
@@ -31,8 +30,6 @@ The Avail Nexus SDK provides a comprehensive set of APIs for cross-chain bridgin
 </Tabs.Tab>
 
 <Tabs.Tab>
-
-#### Testnet Chains
 
 | Network          | Chain ID | Native Currency | Status |
 | ---------------- | -------- | --------------- | ------ |
@@ -116,8 +113,6 @@ const executeResult = await sdk.execute({
 });
 ```
 
-
-
 ## Core API Methods
 
 ### Initialization
@@ -135,7 +130,7 @@ const sdk = new NexusSDK({ network: 'testnet' as NexusNetwork });
 await sdk.initialize(window.ethereum); // Returns: Promise<void>
 ```
 
-### Balance Operations
+### Unified Balance
 
 ```typescript showLineNumbers filename="Typescript"
 import type { UserAsset, TokenBalance } from @avail-project/nexus;
@@ -147,7 +142,7 @@ const balances: UserAsset[] = await sdk.getUnifiedBalances();
 const usdcBalance: UserAsset | undefined = await sdk.getUnifiedBalance('USDC');
 ```
 
-### Bridge Operations
+### Bridge
 
 ```typescript showLineNumbers filename="Typescript"
 import type { BridgeParams, BridgeResult, SimulationResult } from @avail-project/nexus;
@@ -167,7 +162,7 @@ const simulation: SimulationResult = await sdk.simulateBridge({
 });
 ```
 
-### Transfer Operations
+### Transfer
 
 ```typescript showLineNumbers filename="Typescript"
 import type { TransferParams, TransferResult } from @avail-project/nexus;
@@ -184,7 +179,7 @@ const result: TransferResult = await sdk.transfer({
 const simulation: SimulationResult = await sdk.simulateTransfer(transferParams);
 ```
 
-### Execute Operations
+### Execute
 
 ```typescript showLineNumbers filename="Typescript"
 import type {
@@ -263,7 +258,7 @@ console.log('Approval required:', simulation.metadata?.approvalRequired);
 console.log('Bridge receive amount:', simulation.metadata?.bridgeReceiveAmount);
 ```
 
-### Allowance Management
+### Allowance
 
 ```typescript showLineNumbers filename="Typescript"
 import type { AllowanceResponse } from @avail-project/nexus;
@@ -278,7 +273,7 @@ await sdk.setAllowance(137, ['USDC'], 1000000n);
 await sdk.revokeAllowance(137, ['USDC']);
 ```
 
-### Intent Management
+### Intent
 
 ```typescript showLineNumbers filename="Typescript"
 import type { RequestForFunds } from @avail-project/nexus;
@@ -325,7 +320,7 @@ const hexChainId: string = sdk.utils.chainIdToHex(137);
 const decimalChainId: number = sdk.utils.hexToChainId('0x89');
 ```
 
-### Event Handling
+### Events
 
 ```typescript showLineNumbers filename="Typescript"
 import type { OnIntentHook, OnAllowanceHook, EventListener } from '@avail-project/nexus';
@@ -425,8 +420,6 @@ The SDK now emits exactly two event names around bridgeAndExecute():
 This replaces the legacy `BRIDGE_*`, `APPROVAL_*`, `EXECUTE_*`, `OPERATION_*`, and `TRANSFER_*` events.
 </Callout>
 
-
-
 ### Provider Methods
 
 ```typescript showLineNumbers filename="Typescript"
@@ -507,7 +500,7 @@ console.log('Gas used:', result.gasUsed);
 console.log('Confirmations:', result.confirmations);
 ```
 
-### Bridge and Execute with Error Handling
+### Handle Bridge & Execute Errors
 
 ```typescript showLineNumbers filename="Typescript"
 import type { BridgeAndExecuteResult } from '@avail-project/nexus';
@@ -543,7 +536,6 @@ try {
   }
 }
 ```
-
 ### Complete Portfolio Management
 
 ```typescript showLineNumbers filename="Typescript"
@@ -565,7 +557,6 @@ for (const asset of balances) {
   }
 }
 ```
-
 ## Error Handling
 
 ```typescript showLineNumbers filename="Typescript"
@@ -591,12 +582,11 @@ try {
   }
 }
 ```
-
 ## Troubleshooting
 
 ### Common Issues
 
-1. **SDK not initialized**: Always call `await sdk.initialize(provider)` before using other methods
-2. **Unsupported chain/token**: Check supported chains and tokens using `sdk.isSupportedChain()` and `sdk.isSupportedToken()`
-3. **Insufficient allowance**: Use allowance management methods to check and set appropriate allowances
-4. **Provider issues**: Ensure your Web3 provider is properly connected and on a supported network
+1. **SDK not initialized**: Always call `await sdk.initialize(provider)` before using other methods.
+2. **Unsupported chain/token**: Check supported chains and tokens using `sdk.isSupportedChain()` and `sdk.isSupportedToken()`.
+3. **Insufficient allowance**: Use allowance management methods to check and set appropriate allowances.
+4. **Provider issues**: Ensure your Web3 provider is properly connected and on a supported network.

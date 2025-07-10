@@ -1,17 +1,18 @@
 ---
-title: "Getting started with the Avail Nexus SDK"
+title: "Get Started"
 ---
 
-import { Callout, Steps, Tabs } from 'nextra/components'
+import { Callout, Steps, Tabs } from 'nextra/components';
 
-# Getting started with the Avail Nexus SDK
+# Get Started
 
 <Callout type="info">
-**Note:** We built a React demo app that uses the Avail Nexus SDK UI components to implement a unified Web3 experience.
+    We built a React demo app that uses the Avail Nexus SDK UI components to implement a unified Web3 experience.
 
-1. You can use the app here: [nexus-ui-components-demo.vercel.app](https://nexus-ui-components-demo.vercel.app/)
-2. You can find the code for the app here: [availproject/nexus-ui-components-demo](https://github.com/availproject/nexus-ui-components-demo).
+    1. You can use the app here: [`nexus-ui-components-demo.vercel.app`](https://nexus-ui-components-demo.vercel.app/)
+    2. You can find the code for the app here: [`availproject/nexus-ui-components-demo`](https://github.com/availproject/nexus-ui-components-demo)
 </Callout>
+
 
 The Avail Nexus SDK provides both headless functionality and pre-built React UI components. This guide covers the **React UI components** which offer the fastest way to integrate chain abstraction into your React app.
 
@@ -21,9 +22,11 @@ The SDK provides `BridgeButton`, `TransferButton`, and `BridgeAndExecuteButton` 
 
 <Steps>
 
-### Wrap your app with `NexusProvider`
+### Get `NexusProvider`
 
-Add the `NexusProvider` to your app's root component to enable SDK functionality (`layout.tsx` for Next.js, `App.tsx` for Remix, etc.):
+Wrap your app with the `NexusProvider`.
+
+Enable the Nexus SDK functionality by adding the `NexusProvider` to your app's root component. (For e.g.,`layout.tsx` in Next.js or `App.tsx` in Remix, etc.):
 
 ```tsx showLineNumbers filename="__root.tsx"
 import { NexusProvider } from '@avail-project/nexus';
@@ -48,7 +51,9 @@ The demo app sets up the `NexusProvider` in the [__root.tsx](https://github.com/
 wrapping the entire application with both wallet authentication (Privy) and the Nexus provider.
 </Callout>
 
-### Forward the user's wallet provider
+### Set Wallet Provider
+
+Forward the user's wallet provider.
 
 Connect your wallet library to the Nexus SDK by forwarding the provider:
 
@@ -77,7 +82,9 @@ export function WalletBridge() {
 The demo app uses Privy and forwards the provider in [connect-wallet.tsx](https://github.com/availproject/nexus-ui-components-demo/blob/main/src/components/connect-wallet.tsx#L16).
 </Callout>
 
-### Drop a widget into your UI
+### Use UI Widget
+
+Drop a widget into your UI.
 
 Use the pre-built UI components for common chain abstraction operations. The following example
 shows how you would use the bridge, but other widgets are covered in the following pages:
@@ -97,7 +104,9 @@ import {
 </BridgeButton>
 ```
 
-### Fetch the unified balance for a user
+### Access Unified Balance
+
+Fetch the unified balance for a user.
 
 You can access the SDK directly through the `useNexus` hook to call any headless SDK methods, including balance fetching:
 
