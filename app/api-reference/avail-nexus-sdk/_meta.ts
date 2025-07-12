@@ -1,6 +1,6 @@
 export default {
 
-    "overview": "Getting Started",
-    "examples": "Important Examples",
+    "overview": "Get Started",
+    "examples": "Examples",
     "api-reference": "API Reference",
 }

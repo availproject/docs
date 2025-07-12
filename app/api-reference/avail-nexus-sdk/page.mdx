@@ -1,34 +1,38 @@
 ---
 image: "/img/docs-link-preview.png"
-title: Avail Nexus SDK reference
+title: Avail Nexus SDK Reference
 asIndexPage: true
 ---
 
-import { Callout, Steps, Tabs } from 'nextra/components'
+import { Callout, Steps, Tabs } from 'nextra/components';
 
-# Avail Nexus SDK reference
+# Avail Nexus
 
-## Setting up the dev environment
+## Prerequisites
 
 <Callout type="info">
 **BEFORE WE START**
 
-1. The Nexus SDK is designed for browser environments and requires an injected wallet provider (e.g. MetaMask, WalletConnect, etc.)
-2. The SDK cannot be used in any server-side environments.
-3. To use the UI components of the SDK, you will need a React-based dev environment.
-4. You can find the nexus-sdk repo here: [availproject/nexus-sdk](https://github.com/availproject/nexus-sdk)
-5. You can find the Nexus SDK on npm here: [npmjs.com/package/@avail-project/nexus](https://www.npmjs.com/package/@avail-project/nexus)
+1. The Nexus SDK requires an injected wallet provider (e.g. MetaMask, WalletConnect, etc.)
+2. It is designed for client-side browser environments and **cannot be used** in any server-side environments.
+3. You will need a React-based dev environment to use the SDK UI components.
+4. GitHub: [`availproject/nexus-sdk`](https://github.com/availproject/nexus-sdk)
+5. `npm.js` Package: [`@avail-project/nexus`](https://www.npmjs.com/package/@avail-project/nexus)
 </Callout>
 
-## Setting up the dev environment
+## Dev Environment Setup
 
 <Steps>
 
-### Set up a frontend project with a React-based dev environment
+### Use React Frontend
+
+Set up a React Frontend Project.
 
 Any React-based dev environment works, including React frameworks like Next.js, Remix, Gatsby, or build tools like Vite, Create React App, and Webpack.
 
-### Install the Nexus SDK
+### Install SDK
+
+Install the Nexus SDK.
 
 Use any package manager of your choice to install the Nexus SDK:
 
@@ -57,10 +61,10 @@ pnpm add @avail-project/nexus
 </Tabs>
 
 <Callout type="info">
-We built a minimal demo app that uses the Avail Nexus SDK UI components:
+    We built a React demo app that uses the Avail Nexus SDK UI components to implement a unified Web3 experience.
 
-1. You can use the app here: [nexus-ui-components-demo.vercel.app](https://nexus-ui-components-demo.vercel.app/)
-2. You can find the code for the app here: [availproject/nexus-ui-components-demo](https://github.com/availproject/nexus-ui-components-demo).
+    1. You can use the app here: [`nexus-ui-components-demo.vercel.app`](https://nexus-ui-components-demo.vercel.app/)
+    2. You can find the code for the app here: [`availproject/nexus-ui-components-demo`](https://github.com/availproject/nexus-ui-components-demo)
 </Callout>
 
 </Steps>
