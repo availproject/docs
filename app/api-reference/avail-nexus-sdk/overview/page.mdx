@@ -57,28 +57,40 @@ wrapping the entire application with both wallet authentication (Privy) and the 
 
 <Tabs.Tab>
 
-### Set Wallet Provider
+### Use UI Components
 
-Forward the user's wallet provider.
+Forward the user's wallet provider and drop a widget into your UI.
+The UI components handle the SDK initialization for you.
 
-Connect your wallet library to the Nexus SDK by forwarding the provider:
+The following example shows how you would use the bridge button, but other widgets are covered in the following pages:
 
 ```tsx showLineNumbers filename="WalletBridge.tsx"
+// Complete example showing both wallet provider setup AND widget usage
 import { useEffect } from 'react';
-import { useAccount } from '@wagmi/react'; // any wallet lib works
-import { useNexus } from '@avail-project/nexus/ui';
+import { useAccount } from '@wagmi/react';
+import { useNexus, BridgeButton } from '@avail-project/nexus/ui';
 
-export function WalletBridge() {
+function MyApp() {
   const { connector, isConnected } = useAccount();
   const { setProvider } = useNexus();
 
+  // Forward wallet provider
   useEffect(() => {
     if (isConnected && connector?.getProvider) {
       connector.getProvider().then(setProvider);
     }
   }, [isConnected, connector, setProvider]);
 
-  return null;
+  // Use UI widgets (initialization happens automatically)
+  return (
+    <BridgeButton prefill={{ chainId: 137, token: 'USDC', amount: '100' }}>
+      {({ onClick, isLoading }) => (
+        <button onClick={onClick} disabled={isLoading}>
+          {isLoading ? 'Bridging…' : 'Bridge 100 USDC → Polygon'}
+        </button>
+      )}
+    </BridgeButton>
+  );
 }
 ```
 
@@ -87,28 +99,6 @@ export function WalletBridge() {
 
 The demo app uses Privy and forwards the provider in [connect-wallet.tsx](https://github.com/availproject/nexus-ui-components-demo/blob/main/src/components/connect-wallet.tsx#L16).
 </Callout>
-
-### Use UI Widget
-
-Drop a widget into your UI.
-
-Use the pre-built UI components for common chain abstraction operations. The following example
-shows how you would use the bridge, but other widgets are covered in the following pages:
-
-```tsx showLineNumbers filename="App.tsx"
-import {
-  BridgeButton,
-} from '@avail-project/nexus';
-
-/*  Bridge ----------------------------------------------------------- */
-<BridgeButton prefill={{ chainId: 137, token: 'USDC', amount: '100' }}>
-  {({ onClick, isLoading }) => (
-    <button onClick={onClick} disabled={isLoading}>
-      {isLoading ? 'Bridging…' : 'Bridge 100 USDC → Polygon'}
-    </button>
-  )}
-</BridgeButton>
-```
 
 </Tabs.Tab>
 
@@ -152,8 +142,7 @@ function MyComponent() {
 **WHAT THIS MEANS?**<br/>
 
 1. The `useNexus` hook now shares the initialized SDK instance with the UI components.
-2. Earlier the end user would have needed to sign two signatures, one for the SDK to be able to fetch their unified balance,
-and one for the SDK to use the UI components to sign transactions.
+2. You can initialize the SDK manually, and then use the UI components to sign transactions.
 3. With the shared state, just one signature is needed to initialize the SDK and use the UI components.
 </Callout>
 
