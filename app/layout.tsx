@@ -1,6 +1,6 @@
-import { Layout, Navbar } from 'nextra-theme-docs'
+import { Layout, Navbar, Link } from 'nextra-theme-docs'
 import { Footer } from "@components/Footer/Footer";
-import { Head, Search } from 'nextra/components'
+import { Head, Search, Banner } from 'nextra/components'
 import { Metadata } from "next";
 import { ReactNode } from "react";
 import { getPageMap } from 'nextra/page-map'
@@ -21,6 +21,16 @@ const defaultSearchOptions = {
   filters: {},
   sort: {}
 };
+
+const banner = (
+  <Banner dismissible={true}>
+    Avail Nexus is now live!{" "}
+    <Link href="https://docs.availproject.org/api-reference/avail-nexus-sdk" className="text-current!">
+    Check out our docs
+    </Link>
+     to get started.
+  </Banner>
+)
  
 export default async function RootLayout({
   children,
@@ -37,6 +47,7 @@ export default async function RootLayout({
       </Head>
       <body>
         <Layout
+          banner={banner}
           navbar={
             <Navbar
               logo={
