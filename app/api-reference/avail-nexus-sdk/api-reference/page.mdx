@@ -69,20 +69,82 @@ SUPPORTED_CHAINS.SCROLL;       // 534351
 ```
 </details>
 
-## Quick Start (Headless SDK)
+## Quick Start
 
+### Get Started
+
+1. While [this page](/api-reference/avail-nexus-sdk) already contains instructions for getting started with the SDK,
+we also provide two optimized entry points for devs looking to work with specific use cases
+
+<Tabs items={['Headless', 'React UI']}>
+
+<Tabs.Tab>
+
+<Tabs items={['npm', 'yarn', 'pnpm']}>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+npm install @avail-project/nexus/core
+```
+</Tabs.Tab>
+
+
+<Tabs.Tab>
+```bash filename="Terminal"
+yarn add @avail-project/nexus/core
+```
+</Tabs.Tab>
+
+
+<Tabs.Tab>
+```bash  filename="Terminal"
+pnpm add @avail-project/nexus/core
+```
+</Tabs.Tab>
+
+</Tabs>
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+<Tabs items={['npm', 'yarn', 'pnpm']}>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+npm install @avail-project/nexus/ui
+```
+</Tabs.Tab>
+
+
+<Tabs.Tab>
+```bash filename="Terminal"
+yarn add @avail-project/nexus/ui
+```
+</Tabs.Tab>
+
+
+<Tabs.Tab>
+```bash  filename="Terminal"
+pnpm add @avail-project/nexus/ui
+```
+</Tabs.Tab>
+
+</Tabs>
+
+</Tabs.Tab>
+
+</Tabs>
+
+<Tabs items={['Headless SDK', 'React UI SDK']}>
+
+<Tabs.Tab>
 ```typescript showLineNumbers filename="Typescript"
-import { NexusSDK } from '@avail-project/nexus';
+import { NexusSDK } from '@avail-project/nexus/core';
 
 // Initialize SDK
-const sdk = new NexusSDK();
-await sdk.initialize(provider); // Your Web3 provider
-
-// Or initialize with specific network environment
-const nexusSdk = new NexusSDK({
-  network: 'testnet', // Testnet
-});
-await nexusSdk.initialize(provider);
+const sdk = new NexusSDK({ network: 'mainnet' });
+await sdk.initialize(provider); // Your wallet provider
 
 // Get unified balances
 const balances = await sdk.getUnifiedBalances();
@@ -95,23 +157,74 @@ const bridgeResult = await sdk.bridge({
   chainId: 137, // to Polygon
 });
 
-// Transfer tokens
+// Transfer tokens (automatically optimized)
 const transferResult = await sdk.transfer({
   token: 'ETH',
   amount: 0.1,
-  chainId: 1,
+  chainId: 1, // Uses direct transfer if ETH + gas available on Ethereum
   recipient: '0x742d35Cc6634C0532925a3b8D4C9db96c4b4Db45',
 });
 
-// Execute smart contract interactions
 const executeResult = await sdk.execute({
-  toChainId: 1,
-  contractAddress: '0x...',
-  contractAbi: [...],
-  functionName: 'deposit',
-  functionParams: [amount, userAddress],
+  contractAddress,
+  contractAbi: contractAbi,
+  functionName: functionName,
+  buildFunctionParams: (
+    token: SUPPORTED_TOKENS,
+    amount: string,
+    chainId: SUPPORTED_CHAINS_IDS,
+    user: `0x${string}`,
+  ) => {
+    const decimals = TOKEN_METADATA[token].decimals;
+    const amountWei = parseUnits(amount, decimals);
+    const tokenAddr = TOKEN_CONTRACT_ADDRESSES[token][chainId];
+    return { functionParams: [tokenAddr, amountWei, user, 0] };
+  },
+  value: ethValue,
+  tokenApproval: {
+    token: 'USDC',
+    amount: '100000000',
+  },
 });
 ```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+```typescript showLineNumbers filename="Typescript"
+import NexusProvider, {
+  useNexus,
+  BridgeButton,
+  TransferButton,
+  BridgeAndExecuteButton
+} from '@avail-project/nexus/ui';
+
+// 1. Wrap your app
+function App() {
+  return (
+    <NexusProvider config={{ network: 'mainnet'  }}> // {network: 'testnet', debug: true} for testnet and debug logs
+      <YourApp />
+    </NexusProvider>
+  );
+}
+
+// 2. Use components
+function YourComponent() {
+  return (
+    <BridgeButton prefill={{ token: 'USDC', amount: '100', chainId: 137 }}>
+      {({ onClick, isLoading }) => (
+        <button onClick={onClick} disabled={isLoading}>
+          {isLoading ? 'Processing...' : 'Bridge USDC'}
+        </button>
+      )}
+    </BridgeButton>
+  );
+}
+```
+
+</Tabs.Tab>
+
+</Tabs>
 
 ## Core API Methods
 
