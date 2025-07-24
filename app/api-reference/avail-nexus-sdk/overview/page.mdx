@@ -20,6 +20,11 @@ The Avail Nexus SDK provides both headless functionality and pre-built React UI 
 The SDK provides `BridgeButton`, `TransferButton`, and `BridgeAndExecuteButton` components. Each widget is covered in detail in the following pages.
 </Callout>
 
+## Use built-in UI components
+
+The Avail Nexus SDK provides some built-in React widgets that make it easier for devs to
+integrate the SDK into their existing React app.
+
 <Steps>
 
 ### Get `NexusProvider`
@@ -60,7 +65,7 @@ Connect your wallet library to the Nexus SDK by forwarding the provider:
 ```tsx showLineNumbers filename="WalletBridge.tsx"
 import { useEffect } from 'react';
 import { useAccount } from '@wagmi/react'; // any wallet lib works
-import { useNexus } from '@avail-project/nexus';
+import { useNexus } from '@avail-project/nexus/ui';
 
 export function WalletBridge() {
   const { connector, isConnected } = useAccount();
@@ -104,53 +109,37 @@ import {
 </BridgeButton>
 ```
 
-### Access Unified Balance
+</Steps>
 
-Fetch the unified balance for a user.
+## Manual initialization
 
-You can access the SDK directly through the `useNexus` hook to call any headless SDK methods, including balance fetching:
+In addition to wrapping your app with the `NexusProvider`, you can also manually initialize the SDK.
+The code snippet below shows how:
 
-```tsx showLineNumbers filename="BalanceComponent.tsx"
-import { useNexus } from '@avail-project/nexus';
-import { useEffect, useState } from 'react';
+```tsx showLineNumbers filename="App.tsx"
+import { useNexus } from '@avail-project/nexus/ui';
 
-function BalanceComponent() {
-  const { sdk } = useNexus();
-  const [balances, setBalances] = useState([]);
+function MyComponent() {
+  const { initializeSdk, sdk, isSdkInitialized } = useNexus();
 
-  useEffect(() => {
-    async function fetchBalances() {
-      if (sdk) {
-        // Get all balances across chains
-        const allBalances = await sdk.getUnifiedBalances();
-        setBalances(allBalances);
+  const handleInitialize = async () => {
+    const provider = await window.ethereum; // or get from your wallet library
+    await initializeSdk(provider); // Initializes both SDK and UI state
 
-        // Or get balance for specific token
-        const usdcBalance = await sdk.getUnifiedBalance('USDC');
-        console.log('USDC balance:', usdcBalance);
-      }
-    }
+    // Now you can use SDK methods directly
+    const balances = await sdk.getUnifiedBalances();
+    console.log('Balances:', balances);
 
-    fetchBalances();
-  }, [sdk]);
+    // UI components will already be initialized when used
+  };
 
   return (
-    <div>
-      {balances.map((asset) => (
-        <div key={asset.symbol}>
-          {asset.symbol}: {asset.balance}
-        </div>
-      ))}
-    </div>
+    <button onClick={handleInitialize} disabled={isSdkInitialized}>
+      {isSdkInitialized ? 'SDK Ready' : 'Initialize SDK'}
+    </button>
   );
 }
 ```
-
-<Callout>
-**No manual initialization needed:** The `useNexus` hook gives you direct access to the initialized SDK instance. You don't need to call `initialize()` manually - the `NexusProvider` handles this automatically when a wallet provider is connected.
-</Callout>
-
-</Steps>
 
 <details className="border p-3 rounded-md bg-[#EFF6FF]">
 <summary>What do we mean by "unified balance"?</summary>
