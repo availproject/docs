@@ -5,7 +5,7 @@ export enum ROUTES {
     ECOSYSTEM = '/ecosystem',
     SOLUTIONS = '/solutions',
     DISCORD = 'https://discord.gg/AvailProject',
-    GITHUB = 'https://github.com    /availproject',
+    GITHUB = 'https://github.com/availproject',
     TWITTER = 'https://twitter.com/AvailProject',
     LINKEDIN = 'https://www.linkedin.com/company/availproject/',
     DOCUMENTATION = 'https://availproject.github.io/',
