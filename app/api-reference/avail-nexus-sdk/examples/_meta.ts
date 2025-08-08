@@ -1,7 +1,5 @@
 export default {
 
-    "fetch-unified-balances": "Unified Balance",
-    "transfer": "Transfer",
-    "bridge-tokens": "Bridge",
-    "bridge-and-execute": "Bridge & Execute"
+    "nexus-sdk-core": "Core SDK methods",
+    "nexus-sdk-ui": "UI Components",
 }
