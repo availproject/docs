@@ -1,6 +1,7 @@
 export default {
 
     "overview": "Get Started",
-    "examples": "Examples",
+    "nexus-sdk-core": "Core SDK",
+    "nexus-sdk-ui": "UI Components",
     "api-reference": "API Reference",
 }
