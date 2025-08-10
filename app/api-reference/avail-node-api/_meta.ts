@@ -49,6 +49,8 @@ export default {
   },
 
   "chain-get-block": "Fetch block data using different calls",
+  "grandpa-block-justification": "Fetch GRANDPA justification for a block",
+  "system-fetch-events": "Fetch events for a block",
 
   "author-submit-extrinsic": {
     display: "hidden",
