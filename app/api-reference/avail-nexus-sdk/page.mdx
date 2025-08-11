@@ -25,23 +25,10 @@ import { Callout, Steps, Tabs } from 'nextra/components';
 
 ### Set Up a Frontend environment
 
-<Tabs items={['Core SDK', 'UI Components']}>
+The Avail Nexus SDK requires a wallet provider to be injected into the browser environment.
+If your frontend can do that, it's good enough.
 
-<Tabs.Tab>
-You can use the core headless SDK in any client-side browser environment, provided it receives an injected wallet provider.
-
-</Tabs.Tab>
-
-<Tabs.Tab>
-Set up a React-based Frontend Project. 
-
-This includes React frameworks like Next.js, Remix, Gatsby, or build tools like Vite, Create React App, and Webpack.
-
-</Tabs.Tab>
-
-</Tabs>
-
-### Install SDK
+### Install the  SDK
 
 Install the Nexus SDK.
 
@@ -71,12 +58,13 @@ pnpm add @avail-project/nexus
 
 </Tabs>
 
-<Callout type="info">
-    We built a React demo app that uses the Avail Nexus SDK UI components to implement a unified Web3 experience.
+### Core SDK vs UI Components
 
-    1. You can use the app here: [`nexus-ui-components-demo.vercel.app`](https://nexus-ui-components-demo.vercel.app/)
-    2. You can find the code for the app here: [`availproject/nexus-ui-components-demo`](https://github.com/availproject/nexus-ui-components-demo)
-</Callout>
+The Nexus SDK provides optimized entrypoints for the two different use cases:
+
+1. **Core SDK**: A headless version of the SDK that allows devs to use Avail Nexus without
+a React-based frontend environment.
+2. **UI Components**: A set of React components that make it easier to integrate Avail Nexus into a React-based frontend environments.
 
 </Steps>
 
