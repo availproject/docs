@@ -14,21 +14,32 @@ import { Callout, Steps, Tabs } from 'nextra/components';
 **BEFORE WE START**
 
 1. The Nexus SDK requires an injected wallet provider (e.g. MetaMask, WalletConnect, etc.)
-2. It is designed for client-side browser environments and **cannot be used** in any server-side environments.
-3. You will need a React-based dev environment to use the SDK UI components.
-4. GitHub: [`availproject/nexus-sdk`](https://github.com/availproject/nexus-sdk)
-5. `npm.js` Package: [`@avail-project/nexus`](https://www.npmjs.com/package/@avail-project/nexus)
+2. It is designed for client-side browser environments and **cannot be used** in server-side environments.
+3. GitHub: [`availproject/nexus-sdk`](https://github.com/availproject/nexus-sdk)
+4. `npm.js` Package: [`@avail-project/nexus`](https://www.npmjs.com/package/@avail-project/nexus)
 </Callout>
 
 ## Dev Environment Setup
 
 <Steps>
 
-### Use React Frontend
+### Set Up a Frontend environment
 
-Set up a React Frontend Project.
+<Tabs items={['Core SDK', 'UI Components']}>
 
-Any React-based dev environment works, including React frameworks like Next.js, Remix, Gatsby, or build tools like Vite, Create React App, and Webpack.
+<Tabs.Tab>
+You can use the core headless SDK in any client-side browser environment, provided it receives an injected wallet provider.
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+Set up a React-based Frontend Project. 
+
+This includes React frameworks like Next.js, Remix, Gatsby, or build tools like Vite, Create React App, and Webpack.
+
+</Tabs.Tab>
+
+</Tabs>
 
 ### Install SDK
 
