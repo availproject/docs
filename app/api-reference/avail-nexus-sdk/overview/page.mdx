@@ -14,9 +14,7 @@ import { Callout, Steps, Tabs } from 'nextra/components';
 </Callout>
 
 
-This page helps you do two things, with both the Core (headless) SDK and the React UI widgets:
-1) Initialize the SDK and view unified balances
-2) Send your first transaction (transfer/bridge)
+This page shows you how to initialize the Nexus SDK, with both the Core (headless) SDK and the UI widgets.
 
 <Callout type="info">
 **MAKE SURE YOUR DEV ENVIRONMENT IS SET UP BEFORE PROCEEDING**<br/>
@@ -155,7 +153,7 @@ function MyComponent() {
   const { initializeSdk, sdk, isSdkInitialized } = useNexus();
 
   const handleInitialize = async () => {
-    const provider = await window.ethereum; // or get from your wallet library
+    const provider = window.ethereum; // or get from your wallet library
     await initializeSdk(provider); // Initializes both SDK and UI state
 
     // Now you can use SDK methods directly
