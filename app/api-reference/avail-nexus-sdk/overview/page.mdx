@@ -92,63 +92,9 @@ So if your app needs to display unified balances before a widget is used, you ne
 will not need to re-initialize the SDK when they are used.
 </details>
 
-
-
-asa
-
 <Tabs items={['Auto Initialization', 'Manual Initialization']}>
 
 <Tabs.Tab>
-
-assas
-
-</Tabs.Tab>
-
-<Tabs.Tab>
-asas
-
-</Tabs.Tab>
-
-</Tabs>
-
-</Tabs.Tab>
-
-</Tabs>
-
-### Get `NexusProvider`
-
-Wrap your app with the `NexusProvider`.
-
-Enable the Nexus SDK functionality by adding the `NexusProvider` to your app's root component. (For e.g.,`layout.tsx` in Next.js or `App.tsx` in Remix, etc.):
-
-```tsx showLineNumbers filename="__root.tsx"
-import { NexusProvider } from '@avail-project/nexus/ui';
-
-export default function Root() {
-  return (
-    <NexusProvider
-      config={{
-        network: 'testnet', // "mainnet" (default) or "testnet"
-      }}
-    >
-      <App />
-    </NexusProvider>
-  );
-}
-```
-
-<Callout type="info">
-**FOR EXAMPLE:**<br/>
-
-The demo app sets up the `NexusProvider` in the [__root.tsx](https://github.com/availproject/nexus-ui-components-demo/blob/main/src/routes/__root.tsx#L50) file, 
-wrapping the entire application with both wallet authentication (Privy) and the Nexus provider.
-</Callout>
-
-<Tabs items={['Use UI Widgets', 'Manual Initialization']}>
-
-<Tabs.Tab>
-
-### Use UI Widgets
 
 Forward the user's wallet provider and drop a widget into your UI.
 The UI widgets handle the SDK initialization for you.
@@ -195,8 +141,6 @@ The demo app uses Privy and forwards the provider in [connect-wallet.tsx](https:
 
 <Tabs.Tab>
 
-### Manual initialization
-
 You can also manually initialize the SDK instead of leaving it up to the UI widgets.
 The code snippet below shows how:
 
@@ -240,6 +184,17 @@ function MyComponent() {
 </Tabs.Tab>
 
 </Tabs>
+
+</Tabs.Tab>
+
+</Tabs>
+
+<Callout type="info">
+**FOR EXAMPLE:**<br/>
+
+The demo app sets up the `NexusProvider` in the [__root.tsx](https://github.com/availproject/nexus-ui-components-demo/blob/main/src/routes/__root.tsx#L50) file, 
+wrapping the entire application with both wallet authentication (Privy) and the Nexus provider.
+</Callout>
 
 <details className="border p-3 rounded-md bg-[#EFF6FF]">
 <summary>What do we mean by "unified balance"?</summary>
