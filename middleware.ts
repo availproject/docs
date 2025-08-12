@@ -784,6 +784,25 @@ export function middleware(request: NextRequest) {
     {
       source: "/docs/learn-about-avail/faqs",
       destination: `${origin}/docs/faqs`
+    },
+
+    // Avail Nexus SDK docs revamp redirects start here
+
+    {
+      source: "/api-reference/avail-nexus-sdk/examples/fetch-unified-balances",
+      destination: `${origin}/api-reference/avail-nexus-sdk/nexus-sdk-ui/fetch-unified-balances`
+    },
+    {
+      source: "/api-reference/avail-nexus-sdk/examples/transfer",
+      destination: `${origin}/api-reference/avail-nexus-sdk/nexus-sdk-ui/transfer`
+    },
+    {
+      source: "/api-reference/avail-nexus-sdk/examples/bridge-tokens",
+      destination: `${origin}/api-reference/avail-nexus-sdk/nexus-sdk-ui/bridge-tokens`
+    },
+    {
+      source: "/api-reference/avail-nexus-sdk/examples/bridge-and-execute",
+      destination: `${origin}/api-reference/avail-nexus-sdk/nexus-sdk-ui/bridge-and-execute`
     }
   ];
 
