@@ -7,22 +7,113 @@ import { Callout, Steps, Tabs } from 'nextra/components';
 # Get Started
 
 <Callout type="info">
-    We built a React demo app that uses the Avail Nexus SDK UI components to implement a unified Web3 experience.
+    We built a React demo app that uses the Avail Nexus SDK UI widgets to implement a unified Web3 experience.
 
     1. You can use the app here: [`nexus-ui-components-demo.vercel.app`](https://nexus-ui-components-demo.vercel.app/)
     2. You can find the code for the app here: [`availproject/nexus-ui-components-demo`](https://github.com/availproject/nexus-ui-components-demo)
 </Callout>
 
 
-The Avail Nexus SDK provides both headless functionality and pre-built React UI components. This guide covers the **React UI components** which offer the fastest way to integrate chain abstraction into your React app.
+This page helps you do two things, with both the Core (headless) SDK and the React UI widgets:
+1) Initialize the SDK and view unified balances
+2) Send your first transaction (transfer/bridge)
 
 <Callout type="info">
-The SDK provides `BridgeButton`, `TransferButton`, and `BridgeAndExecuteButton` components. Each widget is covered in detail in the following pages.
+**MAKE SURE YOUR DEV ENVIRONMENT IS SET UP BEFORE PROCEEDING**<br/>
+
+Go through this [page in our docs](/api-reference/avail-nexus-sdk) for more details.
 </Callout>
 
+### Initialize the SDK
 
-The Avail Nexus SDK provides some built-in React widgets that make it easier for devs to
-integrate the SDK into their existing React app.
+<Tabs items={['Core (Headless)', 'UI Widgets']}>
+
+<Tabs.Tab>
+
+1. Import the SDK and initialize it with the network you want to use.
+2. Inject the wallet provider into the SDK.
+
+<Callout type="info">
+**LOOKING FOR LIST OF SUPPORTED NETWORKS?**<br/>
+Check out our [API reference](/api-reference/avail-nexus-sdk/api-reference#supported-chains) for a complete list.
+</Callout>
+
+```ts showLineNumbers filename="Initialize-Core"
+import { NexusSDK, type NexusNetwork } from '@avail-project/nexus/core';
+
+const network: NexusNetwork = 'mainnet'; // or 'testnet', default is 'mainnet'
+const sdk = new NexusSDK({ network });
+
+// Injecting the wallet provider into the SDK
+await sdk.initialize(window.ethereum);
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Wrap your app with the `NexusProvider` at the root of your app.
+For example, this is how you would do it in a Next.js app using the `app` directory:
+
+```tsx showLineNumbers filename="layout.tsx"
+import { NexusProvider } from '@avail-project/nexus/ui';
+
+export default function Root() {
+  return (
+    <NexusProvider
+      config={{
+        network: 'testnet', // "mainnet" (default) or "testnet"
+      }}
+    >
+      <App />
+    </NexusProvider>
+  );
+}
+```
+
+Once the `NexusProvider` is set up, you have two ways to initialize the SDK:
+
+- **Auto Initialization**: 
+The UI widgets handle the SDK initialization for you. You just need to forward the wallet provider
+using the `setProvider` function. When you next use a widget, the SDK will be initialized automatically.
+
+- **Manual Initialization**: You can also explicitly call the `initializeSdk(provider)` function to
+have a finer control over when the SDK is initialized.
+
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Why would you want to manually initialize the SDK?</summary>
+
+The first question that might come to mind is why would a dev bother 
+with manual initialization when the SDK does provide an option to have it done automatically under the hood.
+
+1. If the SDK is first initialized when you use a widget, you can't use it to fetch unified balances before a widget is used, since the SDK is not initialized yet.
+So if your app needs to display unified balances before a widget is used, you need to manually initialize the SDK.
+
+2. The initialized state of the SDK is stored in the UI state, so the widget
+will not need to re-initialize the SDK when they are used.
+</details>
+
+
+
+asa
+
+<Tabs items={['Auto Initialization', 'Manual Initialization']}>
+
+<Tabs.Tab>
+
+assas
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+asas
+
+</Tabs.Tab>
+
+</Tabs>
+
+</Tabs.Tab>
+
+</Tabs>
 
 ### Get `NexusProvider`
 
@@ -53,14 +144,14 @@ The demo app sets up the `NexusProvider` in the [__root.tsx](https://github.com/
 wrapping the entire application with both wallet authentication (Privy) and the Nexus provider.
 </Callout>
 
-<Tabs items={['Use UI Components', 'Manual Initialization']}>
+<Tabs items={['Use UI Widgets', 'Manual Initialization']}>
 
 <Tabs.Tab>
 
-### Use UI Components
+### Use UI Widgets
 
 Forward the user's wallet provider and drop a widget into your UI.
-The UI components handle the SDK initialization for you.
+The UI widgets handle the SDK initialization for you.
 
 The following example shows how you would use the bridge button, but other widgets are covered in the following pages:
 
@@ -106,7 +197,7 @@ The demo app uses Privy and forwards the provider in [connect-wallet.tsx](https:
 
 ### Manual initialization
 
-You can also manually initialize the SDK instead of leaving it up to the UI components.
+You can also manually initialize the SDK instead of leaving it up to the UI widgets.
 The code snippet below shows how:
 
 <Callout>
@@ -127,7 +218,7 @@ function MyComponent() {
     const balances = await sdk.getUnifiedBalances();
     console.log('Balances:', balances);
 
-    // UI components will already be initialized when used
+    // UI widgets will already be initialized when used
   };
 
   return (
@@ -141,9 +232,9 @@ function MyComponent() {
 <Callout type="info">
 **WHAT THIS MEANS?**<br/>
 
-1. The `useNexus` hook now shares the initialized SDK instance with the UI components.
-2. You can initialize the SDK manually, and then use the UI components to sign transactions.
-3. With the shared state, just one signature is needed to initialize the SDK and use the UI components.
+1. The `useNexus` hook now shares the initialized SDK instance with the UI widgets.
+2. You can initialize the SDK manually, and then use the UI widgets to sign transactions.
+3. With the shared state, just one signature is needed to initialize the SDK and use the UI widgets.
 </Callout>
 
 </Tabs.Tab>
