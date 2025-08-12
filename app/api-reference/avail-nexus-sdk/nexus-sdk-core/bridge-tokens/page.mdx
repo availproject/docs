@@ -1,10 +1,10 @@
 ---
-title: "Bridge tokens with BridgeButton widget"
+title: "Bridge tokens using the .bridge() method"
 ---
 
 import { Callout, Tabs } from 'nextra/components'
 
-# `<BridgeButton>`
+# `.bridge()`
 
 <Callout type="info">
 **SET UP THE SDK BEFORE YOU START:**
@@ -12,84 +12,46 @@ import { Callout, Tabs } from 'nextra/components'
 You can find the SDK setup instructions in the [Overview](/api-reference/avail-nexus-sdk/overview) page.
 </Callout>
 
-Use the `BridgeButton` component to provide a pre-built bridge interface that handles token bridging between supported chains. 
-The widget automatically manages the bridge flow, UI modals, and transaction state.
+The `.bridge()` method can be used to bridge any of the supported tokens between any of the supported chains.
 
-<Callout type="info">
-**Note:**<br/>
-
-1. We made a small demo website that implements the `BridgeButton` widget.
-Check it out here: [nexus-ui-components-demo.vercel.app](https://nexus-ui-components-demo.vercel.app/)
-
-2. If you just want to see an example that uses the `BridgeButton` widget,
-refer to the repo here: [nexus-ui-components-demo](https://github.com/availproject/nexus-ui-components-demo/blob/main/src/components/nexus.tsx#L20)
-</Callout>
-
-## Props
+## Parameters
 
 ```typescript showLineNumbers filename="Typescript"
-interface BridgeButtonProps {
-  prefill?: BridgeConfig;
-  children: (props: { onClick: () => void; isLoading: boolean }) => ReactNode;
-  className?: string;
-}
-
-interface BridgeConfig {
-  token?: SUPPORTED_TOKENS;
-  amount?: number | string;
-  chainId?: SUPPORTED_CHAINS_IDS;
+interface BridgeParams {
+  token: SUPPORTED_TOKENS;
+  amount: number | string;
+  chainId: SUPPORTED_CHAINS_IDS;
   gas?: bigint;
 }
 ```
 
 ## Example
 
-<Callout type="info">
-**Note:** \
-Refer to the [API reference](/api-reference/avail-nexus-sdk/api-reference) for a full list of supported tokens and chains,
-as well as more examples of how to use the `BridgeButton` widget.
-</Callout>
+```typescript showLineNumbers filename="Typescript"
+import type { BridgeParams, BridgeResult, SimulationResult } from '@avail-project/nexus/core';
 
-Here are examples of how to use the `BridgeButton` widget:
+// Bridge tokens between chains
+const result: BridgeResult = await sdk.bridge({
+  token: 'USDC',
+  amount: 100,
+  chainId: 137,
+} as BridgeParams);
 
-### Basic Bridge Button
-
-```tsx showLineNumbers filename="App.tsx"
-import {NexusProvider, BridgeButton } from '@avail-project/nexus/ui';
-
-function App() {
-  return (
-    <BridgeButton>
-      {({ onClick, isLoading }) => (
-        <button onClick={onClick} disabled={isLoading}>
-          {isLoading ? 'Loading...' : 'Open Bridge'}
-        </button>
-      )}
-    </BridgeButton>
-  );
-}
+// Simulate bridge to preview costs
+const simulation: SimulationResult = await sdk.simulateBridge({
+  token: 'USDC',
+  amount: 100,
+  chainId: 137,
+});
 ```
 
-### Pre-filled Bridge Button
+## Return Value
 
-```tsx showLineNumbers filename="App.tsx"
-import { NexusProvider, BridgeButton } from '@avail-project/nexus/ui';
-
-function App() {
-  return (
-    <BridgeButton 
-      prefill={{ 
-        chainId: 137,
-        token: 'USDC', 
-        amount: '100'
-      }}
-    >
-      {({ onClick, isLoading }) => (
-        <button onClick={onClick} disabled={isLoading}>
-          {isLoading ? 'Bridging...' : 'Bridge 100 USDC to Polygon'}
-        </button>
-      )}
-    </BridgeButton>
-  );
+```typescript showLineNumbers filename="Typescript"
+interface BridgeResult {
+  success: boolean;
+  error?: string;
+  explorerUrl?: string;
+  transactionHash?: string;
 }
 ```

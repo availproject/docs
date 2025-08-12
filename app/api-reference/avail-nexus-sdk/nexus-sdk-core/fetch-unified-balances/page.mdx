@@ -1,23 +1,17 @@
 ---
-title: "Fetch unified balance of a user"
+title: "Fetch unified balances (Core SDK)"
 ---
 
-import { Callout, Steps, Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
 # `getUnifiedBalances()` & `getUnifiedBalance()`
 
 <Callout type="info">
-**SET UP THE SDK BEFORE YOU START:**
-
-You can find the SDK setup instructions in the [Overview](/api-reference/avail-nexus-sdk/overview) page.
+<b>Set up the SDK first.</b><br/>
+Follow the initialization steps in the [Overview page](/api-reference/avail-nexus-sdk/overview) (Core SDK tab).
 </Callout>
 
-Use these functions to fetch consolidated token balances across all supported chains. 
-This shows users their total available liquidity without needing to check each chain individually.
-
-<Callout type="info">
-**Note:** Check out the [API reference](/api-reference/avail-nexus-sdk/api-reference) for a full list of supported tokens and chains.
-</Callout>
+Use these functions to fetch consolidated token balances across all supported chains for an EOA. This lets you show a user's total liquidity without checking each chain individually.
 
 ## Parameters
 
@@ -41,16 +35,14 @@ await sdk.getUnifiedBalance(symbol: string): Promise<UserAsset | undefined>
 
 ## Example
 
-Here are some minimal examples of how to use the functions to fetch the unified balance of a user:
-
 ```typescript showLineNumbers filename="Typescript"
+import type { UserAsset, TokenBalance } from '@avail-project/nexus/core';
+
 // Get all balances across chains
-const allBalances = await sdk.getUnifiedBalances();
-console.log('All balances:', allBalances);
+const balances: UserAsset[] = await sdk.getUnifiedBalances();
 
 // Get balance for specific token
-const usdcBalance = await sdk.getUnifiedBalance('USDC');
-console.log('USDC balance:', usdcBalance);
+const usdcBalance: UserAsset | undefined = await sdk.getUnifiedBalance('USDC');
 ```
 
 ## Return Value
