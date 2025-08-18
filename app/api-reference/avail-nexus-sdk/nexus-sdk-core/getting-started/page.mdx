@@ -1,0 +1,41 @@
+---
+title: "Getting Started"
+description: "Get Started with the headless version of the Avail Nexus SDK"
+---
+
+import { Callout, Steps, Tabs } from 'nextra/components';
+
+# Getting Started with the Avail Nexus SDK (Headless)
+
+<Callout type="info">
+**Headless SDK vs UI Widgets**<br/>
+
+Go through this [page in our docs](/api-reference/avail-nexus-sdk) to decide which version of the SDK
+is better suited for your use case.
+</Callout>
+
+<Callout>
+The headless version of the Nexus SDK is designed to work with
+any JavaScript based frontend environment as long as you can
+inject a wallet provider into the SDK.
+</Callout>
+
+## Initialize the SDK
+
+1. Import the SDK and initialize it with the network you want to use.
+2. Inject the wallet provider into the SDK.
+
+<Callout type="info">
+**LOOKING FOR LIST OF SUPPORTED NETWORKS?**<br/>
+Check out our [API reference](/api-reference/avail-nexus-sdk/api-reference#supported-chains) for a complete list.
+</Callout>
+
+```ts showLineNumbers filename="Initialize-Core"
+import { NexusSDK, type NexusNetwork } from '@avail-project/nexus/core';
+
+const network: NexusNetwork = 'mainnet'; // or 'testnet', default is 'mainnet'
+const sdk = new NexusSDK({ network });
+
+// Injecting the wallet provider into the SDK
+await sdk.initialize(window.ethereum);
+```
