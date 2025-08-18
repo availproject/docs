@@ -11,11 +11,12 @@ import { Steps } from 'nextra/components'
 
 ## How to run an Avail node 
 
-There are two main ways of running an Avail node:
+There are four main ways of running an Avail node:
 
 1. By running a pre-built binary.
 2. By building from source
 3. By running a pre-built image using Docker
+4. By assisted deployment with an infrastructure provider
 
 <Callout type="info">
 **LOOKING TO BE AN RPC PROVIDER?**<br/>
@@ -81,7 +82,7 @@ required to make sure your node can be used to access all RPC methods:
 
 
 
-<Tabs items={['Run a pre-built binary' , 'Build from source' , 'Using Docker']}>
+<Tabs items={['Run a pre-built binary' , 'Build from source' , 'Using Docker', 'Assisted Deployment]}>
 
 
 <Tabs.Tab>
@@ -390,6 +391,72 @@ docker logs -f <container_id>
 2024-04-30 16:40:19 💤 Idle (12 peers), best: #143245 (0x0b16…c2ac), finalized #143243 (0x1de9…4a0b), ⬇ 33.4kiB/s ⬆ 40.9kiB/s    
 2024-04-30 16:40:20 ✨ Imported #143246 (0x8289…0798)    
 ```
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+[OnFinality](https://onfinality.io) is a blockchain native infrastructure provider supporting the Avail ecosystem with private Archive, Full, and Validator nodes. Your Avail node will be fully synced and ready to use within minutes.
+
+<Callout type="info">
+To run a node with OnFinality, first [Sign Up](https://app.onfinality.io/signup) for an OnFinality account. 
+
+In this guide we will show you how to run a self-service Avail node. For a fully managed setup please contact support@onfinality.io
+</Callout>
+
+1. Open the [OnFinality Portal](https://app.onfinality.io) and navigate to the "Dedicated Nodes" menu
+
+2. Select "Avail" > "Deploy Node"
+
+<p align="center">
+<img src="/img/onfinality-avail-1.png" alt="Deploy Avail Node with OnFinality - Select Avail" width="95%"/>
+</p>
+
+3. Enter your node's configuration, including:
+
+- **Name:** The name you wish to give your node. If you connect to Telemetry this name will be public
+- **Node Type:** Full, Archive, or Validator. Note: Lightning Restore is supported for Archive and Validator so your node will sync faster.
+- **Image Version:** The (Recommended) version is... recommended!
+- **Region:** Select the region which is closest to your applications which will use the node. Look out for the Lightning Restore icon for faster syncing.
+- **Configuration:** The Compute size and storage of your node. If in doubt, start with the recommended configuration and scale as necessary.
+
+<p align="center">
+<img src="/img/onfinality-avail-2.png" alt="Deploy Avail Node with OnFinality - Select Configuration" width="95%"/>
+</p>
+
+Press "Next".
+
+4. Review your node's Launch Arguments. See the complete commands and arguments supported by Avail at the bottom of this page.
+
+
+<p align="center">
+<img src="/img/onfinality-avail-3.png" alt="Deploy Avail Node with OnFinality - Review Launch Arguments" width="95%"/>
+</p>
+
+Press "Next".
+
+5. Review your node's configuration and press "Deploy Node"
+
+
+<p align="center">
+<img src="/img/onfinality-avail-4.png" alt="Deploy Avail Node with OnFinality - Review Deployment" width="95%"/>
+</p>
+
+6. Your node will initialize and be ready within several minutes. Confirm that the Syncing Status is "Synced" and the CPU is within a healthy range.
+
+<p align="center">
+<img src="/img/onfinality-avail-5.png" alt="Deploy Avail Node with OnFinality - Get API Endpoints" width="95%"/>
+</p>
+
+Congratulations, your Avail node is now ready to use! 
+
+Copy the API Endpoints and fire away
+
+<Callout type="info">
+The team at OnFinality will update your node for you as new Avail image versions are released.
+
+For more information, visit OnFinality's guide to [Maintaining and Upgrading your Dedicated Node](https://documentation.onfinality.io/support/maintain-and-upgrade-your-dedicated-node)
+</Callout>
 
 </Tabs.Tab>
 
