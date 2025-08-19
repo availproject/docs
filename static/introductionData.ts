@@ -1,5 +1,46 @@
 
 export const IntroData = [
+
+  {
+    title: "Avail Nexus",
+    description:
+      "Build with the unification layer of web3",
+      links: [
+        {
+          topic: "Read more",
+          links: [{ link: "/api-reference/avail-node-api", placeholder: "Introduction to Avail Nexus"}, 
+          { link: "/api-reference/avail-lc-api", placeholder: "Quickstart"}, 
+          {link: "/api-reference/avail-bridge-api", placeholder: "Supported Chains & Tokens"},
+          {link: "/api-reference/avail-nexus-sdk", placeholder: "Avail Nexus SDK"},
+          {link: "/api-reference/avail-turbo-da-api", placeholder: "Examples"},
+          {link: "/api-reference/avail-turbo-da-api", placeholder: "API Reference"},
+          {link: "/api-reference/avail-turbo-da-api", placeholder: "Release Notes"},
+        ],
+          textcolor: "FE8B6C"
+        }
+      ]
+  },
+  {
+    title: "Avail DA",
+    description:
+      "Deploy on the most scalable data availability layer of web3",
+      links: [
+        {
+          topic: "Read more",
+          links: [{ link: "/docs/welcome-to-avail-docs", textcolor: "3CA3FC", placeholder: "Start here!"}, 
+          {link: "/docs/networks", textcolor: "3CA3FC", placeholder: "Endpoints & networks info"},
+          {link: "/docs/learn-about-avail/avail-apps-explorer", textcolor: "3CA3FC", placeholder: "A guide to Avail explorers"},
+          {link: "/docs/build-with-avail/interact-with-avail-da/read-write-on-avail", textcolor: "3CA3FC", placeholder: "Read & write data on Avail DA"},
+          {link: "/docs/build-with-avail/deploy-rollup-on-avail", textcolor: "3CA3FC", placeholder: "Deploy your own rollup"},
+          {link: "/docs/operate-a-node/run-a-light-client", textcolor: "3CA3FC", placeholder: "Run an Avail light client"},
+          {link: "/docs/operate-a-node/run-a-full-node", textcolor: "3CA3FC", placeholder: "Run an Avail node"},
+          {link: "/docs/operate-a-node/become-a-validator", textcolor: "3CA3FC", placeholder: "Run an Avail validator"},
+          {link: "/docs/bug-bounty", textcolor: "3CA3FC", placeholder: "Report a Bug"},
+          ],
+          textcolor: "3FBB80"
+        },
+      ]
+  },
   {
     title: "User guides",
     description:
@@ -19,42 +60,4 @@ export const IntroData = [
         },
       ]
   },
-  
-  {
-    title: "Developer docs",
-    description:
-      "Build on the infrastructure layer unifying web3",
-      links: [
-        {
-          topic: "Read more",
-          links: [{ link: "/docs/welcome-to-avail-docs", textcolor: "3CA3FC", placeholder: "Start here!"}, 
-          {link: "/docs/networks", textcolor: "3CA3FC", placeholder: "Endpoints & networks info"},
-          {link: "/docs/learn-about-avail/avail-apps-explorer", textcolor: "3CA3FC", placeholder: "A guide to Avail explorers"},
-          {link: "/docs/build-with-avail/interact-with-avail-da/read-write-on-avail", textcolor: "3CA3FC", placeholder: "Read & write data on Avail DA"},
-          {link: "/docs/build-with-avail/deploy-rollup-on-avail", textcolor: "3CA3FC", placeholder: "Deploy your own rollup"},
-          {link: "/docs/operate-a-node/run-a-light-client", textcolor: "3CA3FC", placeholder: "Run an Avail light client"},
-          {link: "/docs/operate-a-node/run-a-full-node", textcolor: "3CA3FC", placeholder: "Run an Avail node"},
-          {link: "/docs/operate-a-node/become-a-validator", textcolor: "3CA3FC", placeholder: "Run an Avail validator"},
-          {link: "/docs/bug-bounty", textcolor: "3CA3FC", placeholder: "Report a Bug"},
-          ],
-          textcolor: "3FBB80"
-        },
-      ]
-  },
-  {
-    title: "API reference",
-    description:
-      "A comprehensive API reference for Avail's developer tooling!",
-      links: [
-        {
-          links: [{ link: "/api-reference/avail-node-api", placeholder: "Avail node"}, 
-          { link: "/api-reference/avail-lc-api", placeholder: "Avail light client"}, 
-          {link: "/api-reference/avail-bridge-api", placeholder: "VectorX bridge"},
-          {link: "/api-reference/avail-nexus-sdk", placeholder: "Avail Nexus SDK"},
-          {link: "/api-reference/avail-turbo-da-api", placeholder: "Turbo DA"},
-        ],
-          textcolor: "FE8B6C"
-        }
-      ]
-  }
 ];
