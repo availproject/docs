@@ -3,6 +3,9 @@
   "version": "0.2.0",
   "license": "MIT",
   "private": true,
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "clean": "rm -rf node_modules .next && rm pnpm-lock.yaml",
     "postbuild": "next-sitemap && pagefind --site .next/server/app --output-path public/_pagefind",
