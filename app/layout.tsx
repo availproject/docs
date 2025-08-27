@@ -74,7 +74,7 @@ export default async function RootLayout({
           pageMap={await getPageMap()}
           docsRepositoryBase="https://github.com/availproject/docs/tree/main"
           editLink="Edit this page on GitHub"
-          sidebar={{ defaultMenuCollapseLevel: 1, autoCollapse: true, toggleButton: true }}
+          sidebar={{ defaultMenuCollapseLevel: 2, autoCollapse: true, toggleButton: true }}
           footer={footer}
           search={
             <Search

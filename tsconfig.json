@@ -29,6 +29,6 @@
       "strictNullChecks": true,
       "noUncheckedIndexedAccess": true
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/user-guides/_meta.ts", "app/docs/_meta.ts", "app/_meta.ts"],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/user-guides/_meta.ts", "app/da/_meta.ts", "app/_meta.ts"],
     "exclude": ["node_modules", ".next"]
   }

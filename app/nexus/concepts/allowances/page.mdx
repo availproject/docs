@@ -1,0 +1,46 @@
+---
+image: "/img/docs-link-preview.png"
+title: Allowances
+---
+
+# Allowances
+
+The Nexus SDKs requires allowances.
+
+Through allowances, a user permits the use of EOA funds in the source chains.
+The protocol uses these funds to pay the gas fee and the transaction amount
+on the destination chain.
+
+The default allowance limit set in the CA SDK for each supported chain is `unlimited`.
+
+Developers can change the allowance for each chain abstracted transaction.
+They can do this using the `setOnAllowanceHook` hook.
+
+Users can review the chain abstracted transaction details via [[concept-intent|intent]]. 
+The intent details list the amounts collected per source chain to transact on the
+destination chain. Users can choose to accept or reject a chain abstracted transaction.
+They cannot change allowances specified by the developers.
+
+Until a user **permits** allowance, the Avail
+Vault contracts on the source chains cannot collect the user funds.
+
+By approving allowances for chain abstraction on the source chains, users can:
+
+* Spend anywhere with funds from two or more source chains.
+* Bypass bridging to enable liquidity on the destination chain.
+* Transact on newer chains with zero or insufficient liquidity.
+
+Users must pay a **gas fee to set up the allowance**. This is besides the
+gas fee payable for the transaction on the destination chain.
+
+## How Allowances Work?
+
+Here is how the allowances enables chain abstracted transactions:
+
+1. User approves the protocol to access funds from two or more source chains.
+2. Protocol unifies user balance across these chains.
+3. Unified funds go into protocol vaults.
+4. The protocol presents the user with an intent to transact on the destination along with amount and fee details.
+5. The user signs the intent. Solvers then supply liquidity in the user's EOA to transact on the destination chain.
+6. User can now transact on any destination chain and pay gas fee.
+7. The protocol settles transactions with the solvers using the funds collected on the source chains.

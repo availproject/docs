@@ -5,18 +5,18 @@ export default {
       display: "hidden",
     },
 
+    'nexus': {
+      type: "page",
+      title: "Nexus",
+    },
+
+    'da': {
+      type: "page",
+      title: "Data Availability",
+    },
     'user-guides': {
-        type: 'page',
-        title: 'User Guides',
-    },
-    docs: {
-      type: "page",
-      title: "Docs",
-    },
-    
-    'api-reference': {
-      type: "page",
-      title: "API Reference",
+      type: 'page',
+      title: 'User Guides',
     },
 
     'Versions': {

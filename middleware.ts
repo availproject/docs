@@ -784,7 +784,506 @@ export function middleware(request: NextRequest) {
     {
       source: "/docs/learn-about-avail/faqs",
       destination: `${origin}/docs/faqs`
+    },
+
+
+    // Nexus sdk Redirects for Nexus launch docs reorg
+
+    {
+      source: "/api-reference/avail-nexus-sdk",
+      destination: `${origin}/nexus/avail-nexus-sdk`
+    },
+    {
+      source: "/api-reference/avail-nexus-sdk/overview",
+      destination: `${origin}/nexus/avail-nexus-sdk/overview`,
+    },
+    {
+      source: "/api-reference/avail-nexus-sdk/api-reference",
+      destination: `${origin}/nexus/avail-nexus-sdk/api-reference`,
+    },
+    {
+      source: "/api-reference/avail-nexus-sdk/examples",
+      destination: `${origin}/nexus/avail-nexus-sdk/examples`,
+    },
+    {
+      source: "/api-reference/avail-nexus-sdk/examples/fetch-unified-balances",
+      destination: `${origin}/nexus/avail-nexus-sdk/examples/fetch-unified-balances`,
+    },
+    {
+      source: "/api-reference/avail-nexus-sdk/examples/transfer",
+      destination: `${origin}/nexus/avail-nexus-sdk/examples/transfer`,
+    },
+    {
+      source: "/api-reference/avail-nexus-sdk/examples/bridge-tokens",
+      destination: `${origin}/nexus/avail-nexus-sdk/examples/bridge-tokens`,
+    },
+    {
+      source: "/api-reference/avail-nexus-sdk/examples/bridge-and-execute",
+      destination: `${origin}/nexus/avail-nexus-sdk/examples/bridge-and-execute`,
+    },
+
+    // Docs top-level redirects for Nexus launch docs reorg
+
+    {
+      source: "/docs/welcome-to-avail-docs",
+      destination: `${origin}/da/welcome-to-avail-docs`,
+    },
+
+    {
+      source: "/docs/archived-content",
+      destination: `${origin}/da/archived-content`,
+    },
+    {
+      source: "/docs/bug-bounty",
+      destination: `${origin}/da/bug-bounty`,
+    },
+    {
+      source: "/docs/build-with-avail",
+      destination: `${origin}/da/build-with-avail`,
+    },
+    {
+      source: "/docs/build-with-avail/interact-with-avail-da",
+      destination: `${origin}/da/build-with-avail/interact-with-avail-da`,
+    },
+    {
+      source: "/docs/build-with-avail/interact-with-avail-da/faucet",
+      destination: `${origin}/da/build-with-avail/interact-with-avail-da/faucet`,
+    },
+    {
+      source: "/docs/build-with-avail/interact-with-avail-da/app-id",
+      destination: `${origin}/da/build-with-avail/interact-with-avail-da/app-id`,
+    },
+    {
+      source: "/docs/build-with-avail/interact-with-avail-da/read-write-on-avail",
+      destination: `${origin}/da/build-with-avail/interact-with-avail-da/read-write-on-avail`,
+    },
+    {
+      source: "/docs/build-with-avail/interact-with-avail-da/query-balances",
+      destination: `${origin}/da/build-with-avail/interact-with-avail-da/query-balances`,
+    },
+    {
+      source: "/docs/build-with-avail/interact-with-avail-da/transfer-balances",
+      destination: `${origin}/da/build-with-avail/interact-with-avail-da/transfer-balances`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Optimium",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Optimium`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Optimium/op-stack",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Optimium/op-stack`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Optimium/op-stack/overview",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Optimium/op-stack/overview`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Optimium/op-stack/op-stack",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Optimium/op-stack/op-stack`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Optimium/arbitrum-nitro",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Optimium/arbitrum-nitro`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Optimium/arbitrum-nitro/overview",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Optimium/arbitrum-nitro/overview`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Optimium/arbitrum-nitro/nitro-stack",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Optimium/arbitrum-nitro/nitro-stack`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/zkevm",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/zkevm`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/zkevm/overview",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/zkevm/overview`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/zkevm/zkevm",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/zkevm/zkevm`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/cdk",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/cdk`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/cdk/cdk",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/cdk/cdk`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/madara",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/madara`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/madara/overview",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/madara/overview`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/madara/madara",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/madara/madara`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/zksync",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/zksync`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/zksync/zksync",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/zksync/zksync`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/sovereign-rollups",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/sovereign-rollups`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/sovereign-rollups/cosmos-avail-module",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/sovereign-rollups/cosmos-avail-module`,
+    },
+    {
+      source: "/docs/build-with-avail/turbo-da",
+      destination: `${origin}/da/build-with-avail/turbo-da`,
+    },
+    {
+      source: "/docs/build-with-avail/vectorx",
+      destination: `${origin}/da/build-with-avail/vectorx`,
+    },
+    {
+      source: "/docs/clash-of-nodes",
+      destination: `${origin}/da/clash-of-nodes`,
+    },
+    {
+      source: "/docs/faqs",
+      destination: `${origin}/da/faqs`,
+    },
+    {
+      source: "/docs/glossary",
+      destination: `${origin}/da/glossary`,
+    },
+    {
+      source: "/docs/learn-about-avail",
+      destination: `${origin}/da/learn-about-avail`,
+    },
+    {
+      source: "/docs/learn-about-avail/app-ids",
+      destination: `${origin}/da/learn-about-avail/app-ids`,
+    },
+    {
+      source: "/docs/learn-about-avail/avail-apps-explorer",
+      destination: `${origin}/da/learn-about-avail/avail-apps-explorer`,
+    },
+    {
+      source: "/docs/learn-about-avail/tx-pricing",
+      destination: `${origin}/da/learn-about-avail/tx-pricing`,
+    },
+    {
+      source: "/docs/networks",
+      destination: `${origin}/da/networks`,
+    },
+    {
+      source: "/docs/operate-a-node",
+      destination: `${origin}/da/operate-a-node`,
+    },
+    {
+      source: "/docs/operate-a-node/deployment-options",
+      destination: `${origin}/da/operate-a-node/deployment-options`,
+    },
+    {
+      source: "/docs/operate-a-node/node-types",
+      destination: `${origin}/da/operate-a-node/node-types`,
+    },
+    {
+      source: "/docs/operate-a-node/become-a-validator",
+      destination: `${origin}/da/operate-a-node/become-a-validator`,
+    },
+    {
+      source: "/docs/operate-a-node/become-a-validator/0010-basics",
+      destination: `${origin}/da/operate-a-node/become-a-validator/0010-basics`,
+    },
+    {
+      source: "/docs/operate-a-node/become-a-validator/0020-simple-deployment",
+      destination: `${origin}/da/operate-a-node/become-a-validator/0020-simple-deployment`,
+    },
+    {
+      source: "/docs/operate-a-node/become-a-validator/0030-session-keys",
+      destination: `${origin}/da/operate-a-node/become-a-validator/0030-session-keys`,
+    },
+    {
+      source: "/docs/operate-a-node/become-a-validator/backup-your-validator",
+      destination: `${origin}/da/operate-a-node/become-a-validator/backup-your-validator`,
+    },
+    {
+      source: "/docs/operate-a-node/become-a-validator/monitor-your-validator",
+      destination: `${origin}/da/operate-a-node/become-a-validator/monitor-your-validator`,
+    },
+    {
+      source: "/docs/operate-a-node/become-a-validator/stake-your-validator",
+      destination: `${origin}/da/operate-a-node/become-a-validator/stake-your-validator`,
+    },
+    {
+      source: "/docs/operate-a-node/become-a-validator/upgrade-your-validator",
+      destination: `${origin}/da/operate-a-node/become-a-validator/upgrade-your-validator`,
+    },
+    {
+      source: "/docs/operate-a-node/become-a-validator/chill-your-validator",
+      destination: `${origin}/da/operate-a-node/become-a-validator/chill-your-validator`,
+    },
+    {
+      source: "/docs/operate-a-node/run-a-full-node",
+      destination: `${origin}/da/operate-a-node/run-a-full-node`,
+    },
+    {
+      source: "/docs/operate-a-node/run-a-full-node/overview",
+      destination: `${origin}/da/operate-a-node/run-a-full-node/overview`,
+    },
+    {
+      source: "/docs/operate-a-node/run-a-full-node/full-node",
+      destination: `${origin}/da/operate-a-node/run-a-full-node/full-node`,
+    },
+    {
+      source: "/docs/operate-a-node/run-a-light-client",
+      destination: `${origin}/da/operate-a-node/run-a-light-client`,
+    },
+    {
+      source: "/docs/operate-a-node/run-a-light-client/Overview",
+      destination: `${origin}/da/operate-a-node/run-a-light-client/Overview`,
+    },
+    {
+      source: "/docs/operate-a-node/run-a-light-client/0010-light-client",
+      destination: `${origin}/da/operate-a-node/run-a-light-client/0010-light-client`,
+    },
+    {
+      source: "/docs/operate-a-node/run-a-light-client/light-client-challenge",
+      destination: `${origin}/da/operate-a-node/run-a-light-client/light-client-challenge`,
+    },
+
+
+    // API reference redirects for Nexus launch docs reorg
+
+    {
+      source: "/api-reference/start-here",
+      destination: `${origin}/da/api-reference`,
+    },
+    {
+      source: "/api-reference",
+      destination: `${origin}/da/api-reference`,
+    },
+
+    {
+      source: "/api-reference/gas-relay-deprecated",
+      destination: `${origin}/da/api-reference/gas-relay-deprecated`,
+    },
+    
+    // Avail Node API
+    {
+      source: "/api-reference/avail-node-api",
+      destination: `${origin}/da/api-reference/avail-node-api`,
+    },
+    {
+      source: "/api-reference/avail-node-api/author-submit-extrinsic",
+      destination: `${origin}/da/api-reference/avail-node-api/author-submit-extrinsic`,
+    },
+    {
+      source: "/api-reference/avail-node-api/author-submit-and-watch-extrinsic",
+      destination: `${origin}/da/api-reference/avail-node-api/author-submit-and-watch-extrinsic`,
+    },
+    {
+      source: "/api-reference/avail-node-api/balances-transfer-all",
+      destination: `${origin}/da/api-reference/avail-node-api/balances-transfer-all`,
+    },
+    {
+      source: "/api-reference/avail-node-api/balances-transfer-allow-death",
+      destination: `${origin}/da/api-reference/avail-node-api/balances-transfer-allow-death`,
+    },
+    {
+      source: "/api-reference/avail-node-api/balances-transfer-keep-alive",
+      destination: `${origin}/da/api-reference/avail-node-api/balances-transfer-keep-alive`,
+    },
+    {
+      source: "/api-reference/avail-node-api/chain-get-block",
+      destination: `${origin}/da/api-reference/avail-node-api/chain-get-block`,
+    },
+    {
+      source: "/api-reference/avail-node-api/da-app-keys",
+      destination: `${origin}/da/api-reference/avail-node-api/da-app-keys`,
+    },
+    {
+      source: "/api-reference/avail-node-api/da-create-application-key",
+      destination: `${origin}/da/api-reference/avail-node-api/da-create-application-key`,
+    },
+    {
+      source: "/api-reference/avail-node-api/da-next-app-id",
+      destination: `${origin}/da/api-reference/avail-node-api/da-next-app-id`,
+    },
+    {
+      source: "/api-reference/avail-node-api/da-submit-data",
+      destination: `${origin}/da/api-reference/avail-node-api/da-submit-data`,
+    },
+    {
+      source: "/api-reference/avail-node-api/nomination-pools-create",
+      destination: `${origin}/da/api-reference/avail-node-api/nomination-pools-create`,
+    },
+    {
+      source: "/api-reference/avail-node-api/nomination-pools-create-with-pool-id",
+      destination: `${origin}/da/api-reference/avail-node-api/nomination-pools-create-with-pool-id`,
+    },
+    {
+      source: "/api-reference/avail-node-api/nomination-pools-join",
+      destination: `${origin}/da/api-reference/avail-node-api/nomination-pools-join`,
+    },
+    {
+      source: "/api-reference/avail-node-api/nomination-pools-nominate",
+      destination: `${origin}/da/api-reference/avail-node-api/nomination-pools-nominate`,
+    },
+    {
+      source: "/api-reference/avail-node-api/staking-active-era",
+      destination: `${origin}/da/api-reference/avail-node-api/staking-active-era`,
+    },
+    {
+      source: "/api-reference/avail-node-api/staking-bond",
+      destination: `${origin}/da/api-reference/avail-node-api/staking-bond`,
+    },
+    {
+      source: "/api-reference/avail-node-api/staking-chill",
+      destination: `${origin}/da/api-reference/avail-node-api/staking-chill`,
+    },
+    {
+      source: "/api-reference/avail-node-api/staking-nominate",
+      destination: `${origin}/da/api-reference/avail-node-api/staking-nominate`,
+    },
+    {
+      source: "/api-reference/avail-node-api/staking-unbond",
+      destination: `${origin}/da/api-reference/avail-node-api/staking-unbond`,
+    },
+    {
+      source: "/api-reference/avail-node-api/staking-validate",
+      destination: `${origin}/da/api-reference/avail-node-api/staking-validate`,
+    },
+    {
+      source: "/api-reference/avail-node-api/system-account",
+      destination: `${origin}/da/api-reference/avail-node-api/system-account`,
+    },
+    
+    // Avail Light Client API
+    {
+      source: "/api-reference/avail-lc-api",
+      destination: `${origin}/da/api-reference/avail-lc-api`,
+    },
+    {
+      source: "/api-reference/avail-lc-api/v1-deprecated",
+      destination: `${origin}/da/api-reference/avail-lc-api/v1-deprecated`,
+    },
+    {
+      source: "/api-reference/avail-lc-api/v2-version",
+      destination: `${origin}/da/api-reference/avail-lc-api/v2-version`,
+    },
+    {
+      source: "/api-reference/avail-lc-api/v2-status",
+      destination: `${origin}/da/api-reference/avail-lc-api/v2-status`,
+    },
+    {
+      source: "/api-reference/avail-lc-api/v2-blocks",
+      destination: `${origin}/da/api-reference/avail-lc-api/v2-blocks`,
+    },
+    {
+      source: "/api-reference/avail-lc-api/v2-blocks-header",
+      destination: `${origin}/da/api-reference/avail-lc-api/v2-blocks-header`,
+    },
+    {
+      source: "/api-reference/avail-lc-api/v2-blocks-header-datafields",
+      destination: `${origin}/da/api-reference/avail-lc-api/v2-blocks-header-datafields`,
+    },
+    {
+      source: "/api-reference/avail-lc-api/v2-submit",
+      destination: `${origin}/da/api-reference/avail-lc-api/v2-submit`,
+    },
+    {
+      source: "/api-reference/avail-lc-api/v2-subscriptions",
+      destination: `${origin}/da/api-reference/avail-lc-api/v2-subscriptions`,
+    },
+    {
+      source: "/api-reference/avail-lc-api/v2-ws-status",
+      destination: `${origin}/da/api-reference/avail-lc-api/v2-ws-status`,
+    },
+    {
+      source: "/api-reference/avail-lc-api/v2-ws-submit",
+      destination: `${origin}/da/api-reference/avail-lc-api/v2-ws-submit`,
+    },
+    {
+      source: "/api-reference/avail-lc-api/v2-ws-version",
+      destination: `${origin}/da/api-reference/avail-lc-api/v2-ws-version`,
+    },
+    
+    // Avail Bridge API
+    {
+      source: "/api-reference/avail-bridge-api",
+      destination: `${origin}/da/api-reference/avail-bridge-api`,
+    },
+    {
+      source: "/api-reference/avail-bridge-api/liveness",
+      destination: `${origin}/da/api-reference/avail-bridge-api/liveness`,
+    },
+    {
+      source: "/api-reference/avail-bridge-api/info",
+      destination: `${origin}/da/api-reference/avail-bridge-api/info`,
+    },
+    {
+      source: "/api-reference/avail-bridge-api/eth-head",
+      destination: `${origin}/da/api-reference/avail-bridge-api/eth-head`,
+    },
+    {
+      source: "/api-reference/avail-bridge-api/avail-head",
+      destination: `${origin}/da/api-reference/avail-bridge-api/avail-head`,
+    },
+    {
+      source: "/api-reference/avail-bridge-api/merkle-proof",
+      destination: `${origin}/da/api-reference/avail-bridge-api/merkle-proof`,
+    },
+    {
+      source: "/api-reference/avail-bridge-api/storage-proof",
+      destination: `${origin}/da/api-reference/avail-bridge-api/storage-proof`,
+    },
+    {
+      source: "/api-reference/avail-bridge-api/vector-send-message",
+      destination: `${origin}/da/api-reference/avail-bridge-api/vector-send-message`,
+    },
+    {
+      source: "/api-reference/avail-bridge-api/vector-send-tokens",
+      destination: `${origin}/da/api-reference/avail-bridge-api/vector-send-tokens`,
+    },
+    
+    // Turbo DA API
+    {
+      source: "/api-reference/avail-turbo-da-api",
+      destination: `${origin}/da/api-reference/avail-turbo-da-api`,
+    },
+    {
+      source: "/api-reference/avail-turbo-da-api/submit-data",
+      destination: `${origin}/da/api-reference/avail-turbo-da-api/submit-data`,
+    },
+    {
+      source: "/api-reference/avail-turbo-da-api/submit-raw-data",
+      destination: `${origin}/da/api-reference/avail-turbo-da-api/submit-raw-data`,
+    },
+    {
+      source: "/api-reference/avail-turbo-da-api/get-pre-image",
+      destination: `${origin}/da/api-reference/avail-turbo-da-api/get-pre-image`,
+    },
+    {
+      source: "/api-reference/avail-turbo-da-api/get-submission-info",
+      destination: `${origin}/da/api-reference/avail-turbo-da-api/get-submission-info`,
     }
+
+    
   ];
 
   // we need to check for both with and without "/docs/" prefix
@@ -796,14 +1295,18 @@ export function middleware(request: NextRequest) {
   ];
 
   for (const path of pathsToCheck) {
-    const redirectRule = redirects.find((rule) => {
-      const normalizedSource = normalizePath(rule.source);
-      return normalizedSource === path || path.startsWith(normalizedSource);
-    });
+    const normalizedRedirects = redirects
+      .map((rule) => ({ ...rule, _src: normalizePath(rule.source) }))
+      .sort((a, b) => b._src.length - a._src.length); // longest source first
 
-    if (redirectRule) {
-      // console.log('Redirecting:', path, 'to', redirectRule.destination);
-      return NextResponse.redirect(redirectRule.destination, { status: 301 });
+    const best = normalizedRedirects.find(({ _src }) =>
+      path === _src || path.startsWith(_src + '/')
+    );
+
+    if (best) {
+      const suffix = path.slice(best._src.length); // preserves subpath
+      const destination = best.destination + suffix;
+      return NextResponse.redirect(destination, { status: 301 });
     }
   }
 

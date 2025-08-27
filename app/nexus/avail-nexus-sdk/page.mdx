@@ -1,0 +1,85 @@
+---
+image: "/img/docs-link-preview.png"
+title: Avail Nexus SDK Reference
+asIndexPage: true
+---
+
+import { Callout, Steps, Tabs } from 'nextra/components';
+
+# Avail Nexus
+
+A powerful TypeScript SDK for cross-chain operations, token bridging, and unified balance management across multiple EVM chains.
+
+## Get Started 
+
+The Nexus SDK is split into two main packages:
+
+1. [**@avail-project/nexus**](https://github.com/availproject/nexus-sdk/tree/feat/bifurcation/packages/core): Headless SDK for cross-chain operations
+    - No React dependencies required
+    - Direct Chain Abstraction integration
+
+### Install:
+
+<Tabs items={['npm', 'yarn', 'pnpm']}>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+npm install @avail-project/nexus
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+yarn add @avail-project/nexus
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+pnpm add @avail-project/nexus
+```
+</Tabs.Tab>
+
+</Tabs>
+
+<Callout type="info">
+
+1. The headless SDK still requires an injected wallet provider (e.g. MetaMask, WalletConnect, etc.)
+2. It is designed for client-side browser environments and **cannot be used** in any server-side environments.
+</Callout>
+
+2. [**@avail-project/nexus-widgets**](https://github.com/availproject/nexus-sdk/blob/feat/bifurcation/packages/widgets): Convenient React components for plug-n-play
+    - Ready-to-use React components for seamless integration
+    - Drop-in bridge, transfer, bridge-and-execute and execute components
+
+### Install:
+
+<Tabs items={['npm', 'yarn', 'pnpm']}>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+npm install @avail-project/nexus-widgets
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+yarn add @avail-project/nexus-widgets
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+pnpm add @avail-project/nexus-widgets
+```
+</Tabs.Tab>
+
+</Tabs>
+
+
+<Callout type="info">
+**YOU WILL NEED A REACT-BASED FRONTEND**<br/>
+
+1. Any React-based dev environment works, including React frameworks like Next.js, Remix, Gatsby, or build tools like Vite, Create React App, and Webpack.
+2. You also need the following peer dependencies: `react` , `react-dom`, `viem`.
+</Callout>
