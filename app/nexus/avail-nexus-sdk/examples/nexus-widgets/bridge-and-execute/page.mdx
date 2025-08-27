@@ -17,46 +17,29 @@ Use the `BridgeAndExecuteButton` component to provide a pre-built interface that
 The widget automatically manages the bridge + execute flow, UI modals, transaction state, and token approvals. \
 Useful for flows like *“bridge 500 USDC to Base and stake it in a lending pool in a single click.”*
 
-<Callout type="info">
-**Note:**<br/>
-
-1. We made a small demo website that implements the `BridgeAndExecuteButton` widget.
-Check it out here: [nexus-ui-components-demo.vercel.app](https://nexus-ui-components-demo.vercel.app/)
-
-2. If you just want to see an example that uses the `BridgeAndExecuteButton` widget,
-refer to the repo here: [nexus-ui-components-demo](https://github.com/availproject/nexus-ui-components-demo/blob/main/src/components/nexus.tsx#L52)
-</Callout>
-
 ## Props
 
 ```typescript showLineNumbers filename="Typescript"
-interface BridgeAndExecuteButtonProps {
-  contractAddress: `0x${string}`;
-  contractAbi: Abi;
-  functionName: string;
-  buildFunctionParams: DynamicParamBuilder;
-  prefill?: {
-    toChainId?: SUPPORTED_CHAINS_IDS;
-    token?: SUPPORTED_TOKENS;
-    amount?: string;
-  };
-  children: (props: { 
-    onClick: () => void; 
-    isLoading: boolean; 
-    disabled: boolean;
-  }) => ReactNode;
-  className?: string;
-}
-
 type DynamicParamBuilder = (
   token: SUPPORTED_TOKENS,
   amount: string,
   chainId: SUPPORTED_CHAINS_IDS,
-  userAddress: `0x${string}`
+  userAddress: `0x${string}`,
 ) => {
   functionParams: readonly unknown[];
-  value?: string;
+  value?: string; // wei; defaults to "0"
 };
+
+interface BridgeAndExecuteButtonProps {
+  title?: string; // Will appear once intialization is completed
+  contractAddress: `0x${string}`; // REQUIRED
+  contractAbi: Abi; // REQUIRED
+  functionName: string; // REQUIRED
+  buildFunctionParams: DynamicParamBuilder; // REQUIRED
+  prefill?: { toChainId?: number; token?: SUPPORTED_TOKENS; amount?: string };
+  className?: string;
+  children(props: { onClick(): void; isLoading: boolean; disabled: boolean }): React.ReactNode;
+}
 ```
 
 ## Example
@@ -72,46 +55,41 @@ Here are examples of how to use the `BridgeAndExecuteButton` widget:
 ### Basic Bridge & Execute Button
 
 ```tsx showLineNumbers filename="App.tsx"
-import { NexusProvider, BridgeAndExecuteButton, TOKEN_METADATA, TOKEN_CONTRACT_ADDRESSES } from '@avail-project/nexus/ui';
-import { parseUnits } from 'viem';
-
-function App() {
-  return (
-    <BridgeAndExecuteButton
-      contractAddress="0x794a61358D6845594F94dc1DB02A252b5b4814aD"
-      contractAbi={[
-        {
-          name: 'supply',
-          type: 'function',
-          stateMutability: 'nonpayable',
-          inputs: [
-            { name: 'asset', type: 'address' },
-            { name: 'amount', type: 'uint256' },
-            { name: 'onBehalfOf', type: 'address' },
-            { name: 'referralCode', type: 'uint16' },
-          ],
-          outputs: [],
-        },
-      ]}
-      functionName="supply"
-      buildFunctionParams={(token, amount, chainId, userAddress) => {
-        const decimals = TOKEN_METADATA[token].decimals;
-        const amountWei = parseUnits(amount, decimals);
-        const tokenAddr = TOKEN_CONTRACT_ADDRESSES[token][chainId];
-        return { 
-          functionParams: [tokenAddr, amountWei, userAddress, 0],
-          value: '0' // No ETH value for ERC-20 token supply
-        };
-      }}
-    >
-      {({ onClick, isLoading, disabled }) => (
-        <button onClick={onClick} disabled={disabled || isLoading}>
-          {isLoading ? 'Processing…' : 'Bridge & Supply to AAVE'}
-        </button>
-      )}
-    </BridgeAndExecuteButton>
-  );
-}
+<BridgeAndExecuteButton
+  contractAddress="0x794a61358D6845594F94dc1DB02A252b5b4814aD" // Aave Pool
+  contractAbi={
+    [
+      {
+        name: 'supply',
+        type: 'function',
+        stateMutability: 'nonpayable',
+        inputs: [
+          { name: 'asset', type: 'address' },
+          { name: 'amount', type: 'uint256' },
+          { name: 'onBehalfOf', type: 'address' },
+          { name: 'referralCode', type: 'uint16' },
+        ],
+        outputs: [],
+      },
+    ] as const
+  }
+  functionName="supply"
+  buildFunctionParams={(token, amount, chainId, userAddress) => {
+    const decimals = TOKEN_METADATA[token].decimals;
+    const amountWei = parseUnits(amount, decimals);
+    const tokenAddress = TOKEN_CONTRACT_ADDRESSES[token][chainId];
+    return {
+      functionParams: [tokenAddress, amountWei, userAddress, 0],
+    };
+  }}
+  prefill={{ toChainId: 1, token: 'USDC' }}
+>
+  {({ onClick, isLoading, disabled }) => (
+    <button onClick={onClick} disabled={isLoading || disabled}>
+      {isLoading ? 'Processing…' : 'Bridge & Supply to Aave'}
+    </button>
+  )}
+</BridgeAndExecuteButton>
 ```
 <Callout>
 `buildFunctionParams` receives the validated UX input (token, amount, destination chainId) plus the connected wallet address and must return the encoded functionParams 

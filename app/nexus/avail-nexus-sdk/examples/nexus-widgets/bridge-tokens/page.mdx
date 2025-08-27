@@ -29,9 +29,10 @@ refer to the repo here: [nexus-ui-components-demo](https://github.com/availproje
 
 ```typescript showLineNumbers filename="Typescript"
 interface BridgeButtonProps {
-  prefill?: BridgeConfig;
-  children: (props: { onClick: () => void; isLoading: boolean }) => ReactNode;
+  title?: string; // Will appear once intialization is completed
+  prefill?: Partial<BridgeParams>; // chainId, token, amount
   className?: string;
+  children(props: { onClick(): void; isLoading: boolean }): React.ReactNode;
 }
 
 interface BridgeConfig {
