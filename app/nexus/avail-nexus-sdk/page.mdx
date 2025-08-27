@@ -8,33 +8,17 @@ import { Callout, Steps, Tabs } from 'nextra/components';
 
 # Avail Nexus
 
-## Prerequisites
+A powerful TypeScript SDK for cross-chain operations, token bridging, and unified balance management across multiple EVM chains.
 
-<Callout type="info">
-**BEFORE WE START**
+## Get Started 
 
-1. The Nexus SDK requires an injected wallet provider (e.g. MetaMask, WalletConnect, etc.)
-2. It is designed for client-side browser environments and **cannot be used** in any server-side environments.
-3. You will need a React-based dev environment to use the SDK UI components.
-4. GitHub: [`availproject/nexus-sdk`](https://github.com/availproject/nexus-sdk)
-5. `npm.js` Package: [`@avail-project/nexus`](https://www.npmjs.com/package/@avail-project/nexus)
-</Callout>
+The Nexus SDK is split into two main packages:
 
-## Dev Environment Setup
+1. [**@avail-project/nexus**](https://github.com/availproject/nexus-sdk/tree/feat/bifurcation/packages/core): Headless SDK for cross-chain operations
+    - No React dependencies required
+    - Direct Chain Abstraction integration
 
-<Steps>
-
-### Use React Frontend
-
-Set up a React Frontend Project.
-
-Any React-based dev environment works, including React frameworks like Next.js, Remix, Gatsby, or build tools like Vite, Create React App, and Webpack.
-
-### Install SDK
-
-Install the Nexus SDK.
-
-Use any package manager of your choice to install the Nexus SDK:
+### Install:
 
 <Tabs items={['npm', 'yarn', 'pnpm']}>
 
@@ -44,16 +28,14 @@ npm install @avail-project/nexus
 ```
 </Tabs.Tab>
 
-
 <Tabs.Tab>
 ```bash filename="Terminal"
 yarn add @avail-project/nexus
 ```
 </Tabs.Tab>
 
-
 <Tabs.Tab>
-```bash  filename="Terminal"
+```bash filename="Terminal"
 pnpm add @avail-project/nexus
 ```
 </Tabs.Tab>
@@ -61,11 +43,43 @@ pnpm add @avail-project/nexus
 </Tabs>
 
 <Callout type="info">
-    We built a React demo app that uses the Avail Nexus SDK UI components to implement a unified Web3 experience.
 
-    1. You can use the app here: [`nexus-ui-components-demo.vercel.app`](https://nexus-ui-components-demo.vercel.app/)
-    2. You can find the code for the app here: [`availproject/nexus-ui-components-demo`](https://github.com/availproject/nexus-ui-components-demo)
+1. The headless SDK still requires an injected wallet provider (e.g. MetaMask, WalletConnect, etc.)
+2. It is designed for client-side browser environments and **cannot be used** in any server-side environments.
 </Callout>
 
-</Steps>
+2. [**@avail-project/nexus-widgets**](https://github.com/availproject/nexus-sdk/blob/feat/bifurcation/packages/widgets): Convenient React components for plug-n-play
+    - Ready-to-use React components for seamless integration
+    - Drop-in bridge, transfer, bridge-and-execute and execute components
 
+### Install:
+
+<Tabs items={['npm', 'yarn', 'pnpm']}>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+npm install @avail-project/nexus-widgets
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+yarn add @avail-project/nexus-widgets
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+pnpm add @avail-project/nexus-widgets
+```
+</Tabs.Tab>
+
+</Tabs>
+
+
+<Callout type="info">
+**YOU WILL NEED A REACT-BASED FRONTEND**<br/>
+
+1. Any React-based dev environment works, including React frameworks like Next.js, Remix, Gatsby, or build tools like Vite, Create React App, and Webpack.
+2. You also need the following peer dependencies: `react` , `react-dom`, `viem`.
+</Callout>
