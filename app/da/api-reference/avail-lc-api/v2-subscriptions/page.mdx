@@ -1,0 +1,180 @@
+---
+image: '/img/docs-link-preview.png'
+---
+
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# WebSocket API
+
+The Avail light client WebSocket API allows real-time communication between a client and a server over a 
+persistent connection. The Web socket API can be used on its own or in combination with HTTP API to enable different pull/push use cases.
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary> HTTPS vs WSS</summary>
+`HTTP` and `Websocket` are two different ways of communicating with a server. `HTTP` is a request-response protocol,
+where a connection persists for only so long as the request is being processed. In contrast, a websocket connection
+persists for as long as the client and server are connected. This allows for real-time communication between the two,
+and enables the client to fetch information from the server as soon as it is available, without having to
+poll the server for updates.
+</details>
+
+<Callout type="info">
+HOW TO CONNECT TO THE WEBSOCKET SERVER <br/>
+You cannot use `CURL` to send websocket commands, since `CURL` cannot maintain a persistent connection.
+Although there are a variety of librariries we can use, the following examples are using [wscat](https://github.com/websockets/wscat).
+
+To install `wscat`, simply run:
+```sh
+npm install -g wscat
+```
+</Callout>
+
+## Get started with the Websocket Avail LC API
+
+1. The Avail LC Websocket API generates a unique `subscription_id` upon request. 
+2. This ID is used to connect to the websocket server.
+3. The `v2/subscriptions` method creates subscriptions for given topics. In case of reconnects, the user needs to subscribe again.
+
+### Generate a subscription ID
+
+1. The very first step in using the Avail LC Websocket API is to generate a subscription ID.
+2. You can do that using a simple `Curl` request to the `v2/subscriptions` endpoint.
+
+
+Request:
+
+<Tabs items={['CURL', 'Rust']}>
+
+<Tabs.Tab>
+<Tabs items={['Local', 'Remote']}>
+
+<Tabs.Tab>
+```bash filename="CURL"
+curl -X POST "http://localhost:7007/v2/subscriptions" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "topics": ["header-verified", "confidence-achieved", "data-verified"],
+           "data_fields": ["data", "extrinsic"]
+         }'
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="CURL"
+curl -X POST "https://api.lightclient.mainnet.avail.so/v2/subscriptions" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "topics": ["header-verified", "confidence-achieved", "data-verified"],
+           "data_fields": ["data", "extrinsic"]
+         }'
+```
+</Tabs.Tab>
+</Tabs>
+
+</Tabs.Tab>
+
+
+<Tabs.Tab>
+```rust
+use reqwest::{Client, StatusCode};
+use serde::{Deserialize, Serialize};
+use serde_json::json;
+
+#[derive(Debug, Serialize, Deserialize)]
+struct SubscriptionResponse {
+    subscription_id: String,
+}
+
+const LIGHT_CLIENT_URL: &str = "https://api.lightclient.mainnet.avail.so";
+
+#[tokio::main]
+async fn main() {
+    let client = Client::new();
+    let subscriptions_url = format!("{LIGHT_CLIENT_URL}/v2/subscriptions");
+    let topics = vec!["header-verified", "confidence-achieved", "data-verified"];
+    let data_fields = vec!["data", "extrinsic"];
+
+    let response = client.post(&subscriptions_url)
+        .header("Content-Type", "application/json")
+        .body(json!({ "topics": topics, "data_fields": data_fields }).to_string())
+        .send()
+        .await
+        .unwrap();
+
+    match response.status() {
+        StatusCode::OK => {
+            let subscription_response: SubscriptionResponse = response.json().await.unwrap();
+            println!("Subscription ID: {}", subscription_response.subscription_id);
+        }
+        _ => {
+            eprintln!("Failed to create subscription: {}", response.status());
+        }
+    }
+    // ...error handling...
+}
+```
+</Tabs.Tab>
+</Tabs>
+
+
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary> Sample Response:</summary>
+
+```yaml
+{
+  "subscription_id": "{subscription-id}"
+}
+```
+</details>
+
+### Initialize the Websocket connection
+
+You can use this method to actually connect to Avail light client web socket. Multiple connections are currently allowed.
+
+To connect to the Avail LC websocket API, you need:
+
+1. Access to a [running Light Client](/docs/operate-a-node/run-a-light-client/0010-light-client#running-the-light-client).
+2. A subscription ID generated using the [`v2/subscriptions`](#v2subscriptions) method.
+3. to run this wscat command in the terminal:
+
+<Tabs items={['Local', 'Remote']}>
+<Tabs.Tab>
+```sh
+wscat -c ws://127.0.0.1:7007/v2/ws/{subscription-id}
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```sh
+wscat -c wss://api.lightclient.mainnet.avail.so/v2/ws/{subscription-id}
+```
+</Tabs.Tab>
+</Tabs>
+
+Your terminal should look something like this:
+<br/>
+<img src="/img/websocket-connection.png" alt="Avail-fusion" width="100%"/>
+
+<Callout type="info">
+Please note that you will regularly receive information related to the topics you chose to subscribe to
+for as long as the `ws` connection persists, even if you don't actually send any messages.
+</Callout>
+
+Every request should contain unique **request_id** field, used to correlate request with response.
+
+## Subscription IDs vs Request IDs
+
+Each time you use the [`v2/subscriptions`](#v2subscriptions) method, you will receive a unique **subscription_id**. 
+This ID is used to connect to the websocket server. 
+
+Each of these IDs will be of the [UUID4 format](https://www.uuidgenerator.net/version4).
+
+Coming to requests, every request you make to the websocket server should contain a **request_id** field,
+which will need to be a UUID4 value. You can choose to use a single, random UUID4 value to send all your requests,
+or you can use a unique UUID4 value for each request you send. The choice is yours.
+
+Using a single UUID4 value is simple, but using a unique UUID4 value for each request can help you 
+correlate each response with a unique request.
+
+The Avail LC API was designed with dev experience in mind, and this way you can choose the way that suits you best.

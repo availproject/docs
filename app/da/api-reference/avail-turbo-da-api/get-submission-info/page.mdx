@@ -1,0 +1,59 @@
+---
+image: '/img/docs-link-preview.png'
+---
+
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Get Submission Information
+<Callout type="info">
+**NEED AN API KEY?**<br/>
+Contact our team to get an API key for accessing the Turbo DA API endpoints.
+</Callout>
+
+> **Endpoint:** `GET /v1/get_submission_info`
+
+Retrieves metadata and status information about a previous data submission to Turbo DA.
+
+## Parameters
+- `x-api-key` - Your API authentication key (required)
+- `submission_id` - The unique identifier received when data was submitted (query parameter)
+
+## Response
+- Metadata about the submission including status, transaction details, and timestamps
+
+<Tabs items={['CURL']}>
+
+<Tabs.Tab>
+```bash filename="Fetching submission info against your submission ID"
+curl -X GET 'https://staging.turbo-api.availproject.org/v1/get_submission_info?submission_id=YOUR_SUBMISSION_ID' \
+-H 'x-api-key: YOUR_API_KEY'
+```
+</Tabs.Tab>
+</Tabs>
+
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```json
+{
+  "data": {
+    "amount_data": "20.00 B",
+    "block_hash": "0x087c21csd7cdc3d08y007eb940b0883175a20a22965e61819d533efa8d601aec1",
+    "block_number": 1465348,
+    "created_at": "2023-06-15T10:30:45Z",
+    "data_billed": "1024",
+    "data_hash": "0xc30f0eadacfc1579a2a6cee3b3154bf5df8f41ac824d555e74363b6fc55df8f8",
+    "fees": "124443109311818076",
+    "tx_hash": "0xff57e96bee175118f8c3779241469170b692a3d91697182af92774e594963969",
+    "tx_index": 1,
+    "user_id": "user@example.com"
+  },
+  "error": null,
+  "id": "7b8f9e2a-c531-4d45-8c7a-1b2d3e4f5g6h",
+  "state": "Finalized",
+}
+```
+
+> If the submission ID is invalid or not found, you'll receive an appropriate HTTP error code with an error message:
+
+</details>

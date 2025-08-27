@@ -1064,7 +1064,225 @@ export function middleware(request: NextRequest) {
     {
       source: "/docs/operate-a-node/run-a-light-client/light-client-challenge",
       destination: `${origin}/da/operate-a-node/run-a-light-client/light-client-challenge`,
+    },
+
+
+    // API reference redirects for Nexus launch docs reorg
+
+    {
+      source: "/api-reference/start-here",
+      destination: `${origin}/da/api-reference`,
+    },
+    {
+      source: "/api-reference",
+      destination: `${origin}/da/api-reference`,
+    },
+
+    {
+      source: "/api-reference/gas-relay-deprecated",
+      destination: `${origin}/da/api-reference/gas-relay-deprecated`,
+    },
+    
+    // Avail Node API
+    {
+      source: "/api-reference/avail-node-api",
+      destination: `${origin}/da/api-reference/avail-node-api`,
+    },
+    {
+      source: "/api-reference/avail-node-api/author-submit-extrinsic",
+      destination: `${origin}/da/api-reference/avail-node-api/author-submit-extrinsic`,
+    },
+    {
+      source: "/api-reference/avail-node-api/author-submit-and-watch-extrinsic",
+      destination: `${origin}/da/api-reference/avail-node-api/author-submit-and-watch-extrinsic`,
+    },
+    {
+      source: "/api-reference/avail-node-api/balances-transfer-all",
+      destination: `${origin}/da/api-reference/avail-node-api/balances-transfer-all`,
+    },
+    {
+      source: "/api-reference/avail-node-api/balances-transfer-allow-death",
+      destination: `${origin}/da/api-reference/avail-node-api/balances-transfer-allow-death`,
+    },
+    {
+      source: "/api-reference/avail-node-api/balances-transfer-keep-alive",
+      destination: `${origin}/da/api-reference/avail-node-api/balances-transfer-keep-alive`,
+    },
+    {
+      source: "/api-reference/avail-node-api/chain-get-block",
+      destination: `${origin}/da/api-reference/avail-node-api/chain-get-block`,
+    },
+    {
+      source: "/api-reference/avail-node-api/da-app-keys",
+      destination: `${origin}/da/api-reference/avail-node-api/da-app-keys`,
+    },
+    {
+      source: "/api-reference/avail-node-api/da-create-application-key",
+      destination: `${origin}/da/api-reference/avail-node-api/da-create-application-key`,
+    },
+    {
+      source: "/api-reference/avail-node-api/da-next-app-id",
+      destination: `${origin}/da/api-reference/avail-node-api/da-next-app-id`,
+    },
+    {
+      source: "/api-reference/avail-node-api/da-submit-data",
+      destination: `${origin}/da/api-reference/avail-node-api/da-submit-data`,
+    },
+    {
+      source: "/api-reference/avail-node-api/nomination-pools-create",
+      destination: `${origin}/da/api-reference/avail-node-api/nomination-pools-create`,
+    },
+    {
+      source: "/api-reference/avail-node-api/nomination-pools-create-with-pool-id",
+      destination: `${origin}/da/api-reference/avail-node-api/nomination-pools-create-with-pool-id`,
+    },
+    {
+      source: "/api-reference/avail-node-api/nomination-pools-join",
+      destination: `${origin}/da/api-reference/avail-node-api/nomination-pools-join`,
+    },
+    {
+      source: "/api-reference/avail-node-api/nomination-pools-nominate",
+      destination: `${origin}/da/api-reference/avail-node-api/nomination-pools-nominate`,
+    },
+    {
+      source: "/api-reference/avail-node-api/staking-active-era",
+      destination: `${origin}/da/api-reference/avail-node-api/staking-active-era`,
+    },
+    {
+      source: "/api-reference/avail-node-api/staking-bond",
+      destination: `${origin}/da/api-reference/avail-node-api/staking-bond`,
+    },
+    {
+      source: "/api-reference/avail-node-api/staking-chill",
+      destination: `${origin}/da/api-reference/avail-node-api/staking-chill`,
+    },
+    {
+      source: "/api-reference/avail-node-api/staking-nominate",
+      destination: `${origin}/da/api-reference/avail-node-api/staking-nominate`,
+    },
+    {
+      source: "/api-reference/avail-node-api/staking-unbond",
+      destination: `${origin}/da/api-reference/avail-node-api/staking-unbond`,
+    },
+    {
+      source: "/api-reference/avail-node-api/staking-validate",
+      destination: `${origin}/da/api-reference/avail-node-api/staking-validate`,
+    },
+    {
+      source: "/api-reference/avail-node-api/system-account",
+      destination: `${origin}/da/api-reference/avail-node-api/system-account`,
+    },
+    
+    // Avail Light Client API
+    {
+      source: "/api-reference/avail-lc-api",
+      destination: `${origin}/da/api-reference/avail-lc-api`,
+    },
+    {
+      source: "/api-reference/avail-lc-api/v1-deprecated",
+      destination: `${origin}/da/api-reference/avail-lc-api/v1-deprecated`,
+    },
+    {
+      source: "/api-reference/avail-lc-api/v2-version",
+      destination: `${origin}/da/api-reference/avail-lc-api/v2-version`,
+    },
+    {
+      source: "/api-reference/avail-lc-api/v2-status",
+      destination: `${origin}/da/api-reference/avail-lc-api/v2-status`,
+    },
+    {
+      source: "/api-reference/avail-lc-api/v2-blocks",
+      destination: `${origin}/da/api-reference/avail-lc-api/v2-blocks`,
+    },
+    {
+      source: "/api-reference/avail-lc-api/v2-blocks-header",
+      destination: `${origin}/da/api-reference/avail-lc-api/v2-blocks-header`,
+    },
+    {
+      source: "/api-reference/avail-lc-api/v2-blocks-header-datafields",
+      destination: `${origin}/da/api-reference/avail-lc-api/v2-blocks-header-datafields`,
+    },
+    {
+      source: "/api-reference/avail-lc-api/v2-submit",
+      destination: `${origin}/da/api-reference/avail-lc-api/v2-submit`,
+    },
+    {
+      source: "/api-reference/avail-lc-api/v2-subscriptions",
+      destination: `${origin}/da/api-reference/avail-lc-api/v2-subscriptions`,
+    },
+    {
+      source: "/api-reference/avail-lc-api/v2-ws-status",
+      destination: `${origin}/da/api-reference/avail-lc-api/v2-ws-status`,
+    },
+    {
+      source: "/api-reference/avail-lc-api/v2-ws-submit",
+      destination: `${origin}/da/api-reference/avail-lc-api/v2-ws-submit`,
+    },
+    {
+      source: "/api-reference/avail-lc-api/v2-ws-version",
+      destination: `${origin}/da/api-reference/avail-lc-api/v2-ws-version`,
+    },
+    
+    // Avail Bridge API
+    {
+      source: "/api-reference/avail-bridge-api",
+      destination: `${origin}/da/api-reference/avail-bridge-api`,
+    },
+    {
+      source: "/api-reference/avail-bridge-api/liveness",
+      destination: `${origin}/da/api-reference/avail-bridge-api/liveness`,
+    },
+    {
+      source: "/api-reference/avail-bridge-api/info",
+      destination: `${origin}/da/api-reference/avail-bridge-api/info`,
+    },
+    {
+      source: "/api-reference/avail-bridge-api/eth-head",
+      destination: `${origin}/da/api-reference/avail-bridge-api/eth-head`,
+    },
+    {
+      source: "/api-reference/avail-bridge-api/avail-head",
+      destination: `${origin}/da/api-reference/avail-bridge-api/avail-head`,
+    },
+    {
+      source: "/api-reference/avail-bridge-api/merkle-proof",
+      destination: `${origin}/da/api-reference/avail-bridge-api/merkle-proof`,
+    },
+    {
+      source: "/api-reference/avail-bridge-api/storage-proof",
+      destination: `${origin}/da/api-reference/avail-bridge-api/storage-proof`,
+    },
+    {
+      source: "/api-reference/avail-bridge-api/vector-send-message",
+      destination: `${origin}/da/api-reference/avail-bridge-api/vector-send-message`,
+    },
+    {
+      source: "/api-reference/avail-bridge-api/vector-send-tokens",
+      destination: `${origin}/da/api-reference/avail-bridge-api/vector-send-tokens`,
+    },
+    
+    // Turbo DA API
+    {
+      source: "/api-reference/avail-turbo-da-api",
+      destination: `${origin}/da/api-reference/avail-turbo-da-api`,
+    },
+    {
+      source: "/api-reference/avail-turbo-da-api/submit-data",
+      destination: `${origin}/da/api-reference/avail-turbo-da-api/submit-data`,
+    },
+    {
+      source: "/api-reference/avail-turbo-da-api/submit-raw-data",
+      destination: `${origin}/da/api-reference/avail-turbo-da-api/submit-raw-data`,
+    },
+    {
+      source: "/api-reference/avail-turbo-da-api/get-pre-image",
+      destination: `${origin}/da/api-reference/avail-turbo-da-api/get-pre-image`,
+    },
+    {
+      source: "/api-reference/avail-turbo-da-api/get-submission-info",
+      destination: `${origin}/da/api-reference/avail-turbo-da-api/get-submission-info`,
     }
+
     
   ];
 

@@ -1,0 +1,374 @@
+---
+image: '/img/docs-link-preview.png'
+---
+
+import { Callout, Steps, Tabs } from 'nextra/components'
+ 
+# Create a new nomination pool with a specific pool ID
+
+On-chain name of method: `nominationPools_createWithPoolId`
+
+## Parameters
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                        |
+| --------- | ------------- | -------- | -------------------------------------------------- |
+| amount    | BN            | false    | The amount of funds to delegate to the pool        |
+| root      | string        | false    | The account to set as [`PoolRoles::root`]          |
+| nominator | string        | false    | The account to set as the [`PoolRoles::nominator`] |
+| bouncer   | string        | false    | The account to set as the [`PoolRoles::bouncer`]   |
+| poolId    | number        | false    | pool id                                            |
+| waitFor   | WaitFor       | false    | wait for block inclusion or finalization           |
+| account   | KeyringPair   | false    | account that will send and sign the transaction    |
+| options   | SignerOptions | true     | used to overwrite existing signer options          |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type        | optional | description                                        |
+| --------- | ----------- | -------- | -------------------------------------------------- |
+| amount    | u128        | false    | The amount of funds to delegate to the pool        |
+| root      | &str        | false    | The account to set as [`PoolRoles::root`]          |
+| nominator | &str        | false    | The account to set as the [`PoolRoles::nominator`] |
+| bouncer   | &str        | false    | The account to set as the [`PoolRoles::bouncer`]   |
+| pool id   | u32         | false    | pool id                                            |
+| waitFor   | WaitFor     | false    | wait for block inclusion or finalization           |
+| account   | KeyringPair | false    | account that will send and sign the transaction    |
+| options   | Options     | true     | transaction parameters                             |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type        | optional | description                                        |
+| --------- | ----------- | -------- | -------------------------------------------------- |
+| amount    | u128        | false    | The amount of funds to delegate to the pool        |
+| root      | &str        | false    | The account to set as [`PoolRoles::root`]          |
+| nominator | &str        | false    | The account to set as the [`PoolRoles::nominator`] |
+| bouncer   | &str        | false    | The account to set as the [`PoolRoles::bouncer`]   |
+| pool id   | u32         | false    | pool id                                            |
+| waitFor   | WaitFor     | false    | wait for block inclusion or finalization           |
+| account   | KeyringPair | false    | account that will send and sign the transaction    |
+| options   | Options     | true     | transaction parameters                             |
+</Tabs.Tab>
+
+</Tabs>
+
+## Returns
+
+On failure, a reason for the failure is returned. On success, the function will return a object of type `PoolCreateWithPoolIdTxSuccess`.
+This object contains the details of the transaction and your newly created nomination pool.
+
+## Minimal example
+
+<Callout type="info">
+1. You will need to set up the dev environment required to run this example. 
+For instructions, [check out our docs here](/api-reference/avail-node-api#setting-up-the-dev-environment).
+
+2. If you're sending an extrinsic (i.e conducting a transaction) you will need to replace the demo seed phrase with your own seed phrase.
+The rest of the code should work as is.
+</Callout>
+
+<Callout type="warning">
+1. The minimum amount of `AVAIL` required to create a nomination pool is `10_000 AVAIL`.
+2. You need to allocate privileges to some accounts while creating the pool.
+
+<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#]">
+<summary>Different roles within a nomination pool</summary>
+
+A pool consists of 4 roles, each of which having different responsibilities in managing the running of the pool.
+1. Root: Can change the nominator, bouncer, or itself. Further, it can perform any of the actions the nominator or bouncer can.
+2. Depositor: Creates the pool and is the initial member. The depositor can only leave the pool once all other members have left. Once they leave by withdrawing, the pool is fully removed from the system.
+3. Nominator: Can select the validators the pool nominates.
+4. Bouncer: Can change the pool's state and kick (permissionlessly unbond/withdraw) members if the pool is blocked.
+
+</details>
+
+</Callout>
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript showLineNumbers filename="avail-js" name="cmd1"
+import * as dotenv from 'dotenv';
+import { Account, SDK, BN, Pallets } from 'avail-js-sdk';
+
+dotenv.config();
+
+export async function nominationPoolsCreateWithPoolId() {
+    // Initialize SDK with Turing endpoint
+    const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
+    
+    // Create account from seed in .env file
+    const seed = process.env.SEED;
+    if (!seed) {
+      throw new Error("SEED environment variable is not set");
+    }
+    
+    // Create account from seed
+    const account = Account.new(seed);
+    console.log("Account Address: ", account.address);
+    
+    // Initial deposit amount: 10,000 AVAIL
+    const amount = new BN(10).pow(new BN(18)).mul(new BN(10000)); // 10,000 AVAIL
+    console.log("Initial Deposit: 10,000 AVAIL");
+    
+    // Pool roles - using Alice's address for all roles
+    const root = "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"; // Alice
+    const nominator = "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"; // Alice
+    const bouncer = "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"; // Alice
+    const poolId = 0; // Specific pool ID to create
+    
+    // Create pool with ID transaction
+    const tx = sdk.tx.nominationPools.createWithPoolId(amount, root, nominator, bouncer, poolId);
+    console.log("Submitting create pool with ID transaction...");
+    
+    // Execute and wait for inclusion 
+    const res = await tx.executeWaitForInclusion(account, {});
+    
+    // Check if transaction was successful
+    const isOk = res.isSuccessful();
+    if (isOk === undefined) {
+      throw new Error("Cannot check if transaction was successful");
+    }
+    else if (!isOk) {
+        throw new Error("Transaction failed");
+    }
+    
+    console.log("\nPool creation with ID completed successfully");
+    // Log all transaction details
+    console.log("\nTransaction Details:");
+    console.log(`Transaction Hash: ${res.txHash}`);
+    console.log(`Block Hash: ${res.blockHash}`);
+    console.log(`Block Number: ${res.blockNumber}`);
+    
+    process.exit(0);
+}
+
+// Execute the function
+nominationPoolsCreateWithPoolId();
+```
+
+2. Run the code using:
+
+```bash filename="terminal" name="cmd2"
+ts-node your-file-name.ts
+```
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```js
+{
+    "isErr": false,
+    "event": {
+        "depositor": "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty",
+        "poolId": "0"
+    },
+    "event2": {
+        "member": "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty",
+        "poolId": "0",
+        "bonded": "10000",
+        "joined": "true"
+    },
+    "events": [...],
+    "txHash": "0x6b50caed7950e67934cabbf88a1f7dc2e7e995ac608402f91a4db19be0da5c41",
+    "txIndex": 1,
+    "blockHash": "0xc06df7dbb1e404f54499f942479ddcffc92665c021ea07c2798fc2f354f403d3",
+    "blockNumber": 6
+}
+```
+</details>
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.rs`, add the following code:
+
+```rust showLineNumbers filename="avail-rust" name="cmd3"
+use dotenvy::dotenv;
+use std::env;
+use avail_rust::prelude::*;
+use core::str::FromStr;
+
+pub async fn nomination_pools_create_with_pool_id() -> Result<(), ClientError> {
+
+    // Create a new SDK instance
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+    // Loading seed phrase and creating an account derived from the seed
+    dotenv().ok();
+    let seed = env::var("SEED").expect("SEED environment variable is not set");
+    let account = account::from_secret_uri(&seed)?;
+
+    //Setting the amount to bond and the pool id
+	let amount = 10_000_000_000_000_000_000_000u128; // 10_000 Avail tokens
+    let pool_id = 1; // You need to use a pool id that is not already in use
+
+    //Setting the root, nominator and bouncer
+    let root = account.public_key().to_account_id(); //Setting the root to be the account itself
+
+    let nominator = AccountId::from_str("5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk").unwrap();
+    let bouncer = AccountId::from_str("5D7LgWT5J6MVRa6PvTTXUfd9VvggEcguvPnnWAGK44CJKFEq").unwrap();
+
+    //Executing the transaction
+    let tx = sdk.tx.nomination_pools.create_with_pool_id(amount, root, nominator, bouncer, pool_id);
+    let res = tx.execute_and_watch_inclusion(&account, Options::new()).await?;
+    assert_eq!(res.is_successful(), Some(true));
+    
+    println!(
+        "Block Hash: {:?}, Block Number: {}, Tx Hash: {:?}, Tx Index: {}",
+        res.block_hash, res.block_number, res.tx_hash, res.tx_index
+    );
+
+    Ok(())
+}
+
+
+#[tokio::main]
+async fn main() {
+    if let Err(e) = nomination_pools_create_with_pool_id().await {
+        eprintln!("Error: {:?}", e);
+    }
+}
+```
+
+2. Run the code using:
+
+```bash filename="terminal" name="cmd4"
+cargo run
+```
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+```rust showLineNumbers filename="avail-rust" name="cmd3"
+PoolCreateWithPoolIdTxSuccess {
+    event: Created {
+        depositor: AccountId32(...),
+        pool_id: 0,
+    },
+    event2: Bonded {
+        member: AccountId32(...),
+        pool_id: 0,
+        bonded: 1000000000000000000000000,
+        joined: true,
+    },
+    events: ExtrinsicEvents {
+        ext_hash: 0xaa16bad7378608bda89476353a61c1ae1ecc36166f0c5adda50cd563162889db,
+        idx: 1,
+        events: Events {
+            event_bytes: [],
+            start_idx: 1,
+            num_events: 19,
+        },
+    },
+    tx_hash: 0xaa16bad7378608bda89476353a61c1ae1ecc36166f0c5adda50cd563162889db,
+    tx_index: 1,
+    block_hash: 0xc04789228e6fa209119336ac33bcd6280b6b0c22e5ef9125c36b9f4a04e58adc,
+    block_number: 32,
+}
+```
+</details>
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.go`, add the following code:
+
+```go showLineNumbers filename="avail-go" name="cmd5"
+package main
+
+import (
+	"fmt"
+	"log"
+	"os"
+
+	"github.com/availproject/avail-go-sdk/metadata"
+	"github.com/availproject/avail-go-sdk/primitives"
+	SDK "github.com/availproject/avail-go-sdk/sdk"
+	"github.com/joho/godotenv"
+)
+
+func main() {
+	// Load environment variables from .env file
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	// Make sure the SEED environment variable is set
+	seed := os.Getenv("SEED")
+	if seed == "" {
+		log.Fatal("SEED environment variable is not set")
+	}
+
+	// Create an account from the SEED environment variable
+	acc, err := SDK.Account.NewKeyPair(seed)
+	if err != nil {
+		log.Fatalf("Failed to create account: %v", err)
+	}
+	fmt.Println("Your account Address: " + acc.SS58Address(42))
+
+	// Initialize an SDK instance
+	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
+	if err != nil {
+		log.Fatalf("Failed to initialize SDK: %v", err)
+	}
+
+	// Set the amount, pool ID, and addresses
+	amount, err := metadata.NewBalanceFromString("1000000000000000000000000") // Example amount
+	if err != nil {
+		log.Fatalf("Failed to create balance: %v", err)
+	}
+	poolId := uint32(1)
+
+	rootAddress, err := primitives.NewAccountIdFromAddress("5DqMavSQikX9eMzwHKiC8xS6VWB2yCd5gGQuQq7KheM2Mgc7")
+	if err != nil {
+		log.Fatalf("Failed to convert root address: %v", err)
+	}
+	nominatorAddress, err := primitives.NewAccountIdFromAddress("5FphMk7DhSdq7jXsQCVQthw7XTiCWxdA9ZS6V43rKeJzvya9")
+	if err != nil {
+		log.Fatalf("Failed to convert nominator address: %v", err)
+	}
+	bouncerAddress, err := primitives.NewAccountIdFromAddress("5G9fM7DhSdq7jXsQCVQthw7XTiCWxdA9ZS6V43rKeJzvya9")
+	if err != nil {
+		log.Fatalf("Failed to convert bouncer address: %v", err)
+	}
+
+	// Convert addresses to MultiAddress
+	root := rootAddress.ToMultiAddress()
+	nominator := nominatorAddress.ToMultiAddress()
+	bouncer := bouncerAddress.ToMultiAddress()
+
+	// Create the CreateWithPoolId transaction
+	tx := sdk.Tx.NominationPools.CreateWithPoolId(amount, root, nominator, bouncer, poolId)
+
+	// Execute the transaction
+	res, err := tx.ExecuteAndWatchInclusion(acc, SDK.NewTransactionOptions())
+	if err != nil {
+		log.Fatalf("Transaction failed: %v", err)
+	}
+
+	// Check if the transaction was successful
+	if !res.IsSuccessful().UnsafeUnwrap() {
+		log.Fatal("Transaction was not successful")
+	}
+
+	fmt.Println("CreateWithPoolId transaction successful")
+	fmt.Printf("Block Hash: %v, Block Number: %v, Tx Hash: %v, Tx Index: %v\n", res.BlockHash.ToHexWith0x(), res.BlockNumber, res.TxHash.ToHexWith0x(), res.TxIndex)
+}
+```
+
+2. Run the code using:
+
+```bash filename="terminal" name="cmd6"
+go run main.go
+```
+
+</Tabs.Tab>
+
+</Tabs>

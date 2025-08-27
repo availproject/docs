@@ -1,0 +1,481 @@
+---
+image: '/img/docs-link-preview.png'
+---
+
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Fetch block data from Avail DA using RPC calls
+
+The Avail node supports a variety of RPC calls for fetching block data. This page covers a few 
+different calls that are commonly used to fetch block data:
+
+## Fetch block hash using block number [#block-hash-using-block-number]
+
+### Parameters
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+| blockNumber | number        | true    | The block number of the block to fetch (fetches hash of latest block if not provided)|
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+| blockNumber | number        | true    | The block number of the block to fetch (fetches hash of latest block if not provided)|
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+| blockNumber | number        | true    | The block number of the block to fetch (fetches hash of latest block if not provided)|
+
+</Tabs.Tab>
+
+</Tabs>
+
+### Example
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript showLineNumbers filename="avail-js" name="cmd1"
+import { SDK } from "avail-js-sdk";
+
+export async function chainGetBlockHash() {
+
+    // Initialize SDK with Turing endpoint
+    const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
+
+    // 1. Gets the block hash for the latest block if no argument is provided
+    // 2. Gets the block hash for the block at the given block number if a block number is provided
+    const hash = await sdk.client.api.rpc.chain.getBlockHash(1451847)
+    console.log("getBlockHash")
+    console.log(hash.toJSON())
+
+    process.exit(0);
+}
+
+// Execute the function
+chainGetBlockHash()
+```
+
+2. Run the script using the following command:
+
+```bash filename="terminal"
+node your-file-name.ts
+```
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+1. Inside `main.rs`, add the following code:
+
+```rust showLineNumbers filename="avail-rust" name="cmd3"
+use avail_rust::prelude::*;
+
+pub async fn get_block_hash() -> Result<(), ClientError> {
+
+    // Create a new SDK instance
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+    // 1. Get the block hash for a specific block if argument is provided
+    // 2. Get the latest block hash if no argument is provided
+    let block_hash = rpc::chain::get_block_hash(&sdk.client, Some(1451847)).await?;
+
+    println!("Latest Block Hash: {:?}", block_hash);
+
+    Ok(())
+}
+
+#[tokio::main]
+async fn main() -> Result<(), ClientError> {
+    get_block_hash().await?;
+    Ok(())
+}
+```
+
+2. Run the script using the following command:
+
+```bash filename="terminal" name="cmd4"
+cargo run
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+1. Inside `main.go`, add the following code:
+
+```go showLineNumbers filename="avail-go" name="cmd5"
+package main
+
+import (
+	"fmt"
+	"log"
+
+	prim "github.com/availproject/avail-go-sdk/primitives"
+	SDK "github.com/availproject/avail-go-sdk/sdk"
+)
+
+func main() {
+
+	// Initialize an SDK instance
+	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
+	if err != nil {
+		log.Fatalf("Failed to initialize SDK: %v", err)
+	}
+
+	// Get the latest block hash by not passing any parameters
+	latestBlockHash, err := sdk.Client.Rpc.Chain.GetBlockHash(prim.None[uint32]())
+	if err != nil {
+		log.Fatalf("Failed to get the leatest block hash: %v", err)
+	}
+
+	// Print the block hash
+	fmt.Println("Latest Block Hash: ", latestBlockHash)
+
+	// Get a specific block hash by passing the block number
+	specificBlockHash, err := sdk.Client.Rpc.Chain.GetBlockHash(prim.Some[uint32](1451847))
+	if err != nil {
+		log.Fatalf("Failed to get the specific block hash: %v", err)
+	}
+
+	// Print the block hash
+	fmt.Println("Specific Block Hash: ", specificBlockHash)
+}
+```
+
+2. Run the script using the following command:
+
+```bash filename="terminal" name="cmd6"
+go run main.go
+```
+
+</Tabs.Tab>
+
+</Tabs>
+
+## Fetch block header using block hash [#block-header-using-block-hash]
+
+### Parameters
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+| blockHash | string        | true     | The hash of the block to fetch (fetches header of latest block if not provided) |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+| blockHash | string        | true     | The hash of the block to fetch (fetches header of latest block if not provided) |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+| blockHash | string        | true     | The hash of the block to fetch (fetches header of latest block if not provided) |
+</Tabs.Tab>
+
+</Tabs>
+
+### Example
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript showLineNumbers filename="avail-js" name="cmd1"
+import { SDK } from "avail-js-sdk";
+
+export async function chainGetBlockHeader() {
+
+    // Initialize SDK with Turing endpoint
+    const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
+
+    // 1. Gets the block header for the latest block if no argument is provided
+    // 2. Gets the block header for a specific block if a block hash is provided
+    const header = await sdk.client.api.rpc.chain.getHeader("0x75a6c54bb5ea904e47fa151956992d7cf543bc7c936d78488e311db8e10397c1")
+    console.log("getBlockHeader")
+    console.log(header.toJSON())
+    
+    process.exit(0);
+}
+
+// Execute the function
+chainGetBlockHeader()
+```
+
+2. Run the script using the following command:
+
+```bash filename="terminal"
+node your-file-name.ts
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+1. Inside `main.rs`, add the following code:
+
+```rust showLineNumbers filename="avail-rust" name="cmd3"
+use avail_rust::prelude::*;
+
+pub async fn get_block_header() -> Result<(), ClientError> {
+
+    // Create a new SDK instance
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+    // 1. Gets the block header for a specific block if argument is provided
+    // 2. Gets the latest block header if no argument is provided
+    let block_hash = new_h256_from_hex("0x75a6c54bb5ea904e47fa151956992d7cf543bc7c936d78488e311db8e10397c1")?;
+
+    // Get the latest block header
+    let latest_block_header = rpc::chain::get_header(&sdk.client, None).await?;
+
+    // Get the block header for a specific block
+    let block_header = rpc::chain::get_header(&sdk.client, Some(block_hash)).await?;
+
+    println!("Latest Block Header: {:?}", latest_block_header);
+    println!("Block Header: {:?}", block_header);
+
+    Ok(())
+}
+
+#[tokio::main]
+async fn main() -> Result<(), ClientError> {
+    get_block_header().await?;
+    Ok(())
+}
+```
+
+2. Run the script using the following command:
+
+```bash filename="terminal" name="cmd4"
+cargo run
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+1. Inside `main.go`, add the following code:
+
+```go showLineNumbers filename="avail-go" name="cmd5"
+package main
+
+import (
+	"fmt"
+	"log"
+
+	prim "github.com/availproject/avail-go-sdk/primitives"
+	SDK "github.com/availproject/avail-go-sdk/sdk"
+)
+
+func main() {
+
+	// Initialize an SDK instance
+	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
+	if err != nil {
+		log.Fatalf("Failed to initialize SDK: %v", err)
+	}
+
+	// Get the latest block hash by not passing any parameters
+	latestBlockHeader, err := sdk.Client.Rpc.Chain.GetHeader(prim.None[prim.H256]())
+	if err != nil {
+		log.Fatalf("Failed to get the latest block header: %v", err)
+	}
+
+	// Print the block header
+	fmt.Println("Latest Block Header: ", latestBlockHeader)
+
+	// Get a specific block header by passing the block hash
+
+	blockHash, err := prim.NewH256FromHexString("0x75a6c54bb5ea904e47fa151956992d7cf543bc7c936d78488e311db8e10397c1")
+	if err != nil {
+		log.Fatalf("Failed to create H256 from hex: %v", err)
+	}
+
+	specificBlockHeader, err := sdk.Client.Rpc.Chain.GetHeader(prim.Some[prim.H256](blockHash))
+	if err != nil {
+		log.Fatalf("Failed to get the specific block header: %v", err)
+	}
+
+	// Print the block header
+	fmt.Println("Specific Block Header: ", specificBlockHeader)
+}
+```
+
+2. Run the script using the following command:
+
+```bash filename="terminal" name="cmd6"
+go run main.go
+```
+</Tabs.Tab>
+
+</Tabs>
+
+## Fetch entire block using block hash [#block-using-block-hash]
+
+### Parameters
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+| blockHash | string        | true     | The hash of the block to fetch (fetches block of latest block if not provided) |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+| blockHash | string        | true     | The hash of the block to fetch (fetches block of latest block if not provided) |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                           |
+| --------- | ------------- | -------- | ----------------------------------------------------- |
+| blockHash | string        | true     | The hash of the block to fetch (fetches block of latest block if not provided) |
+</Tabs.Tab>
+
+</Tabs>
+
+### Example
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript showLineNumbers filename="avail-js" name="cmd1"
+import { SDK } from "avail-js-sdk";
+
+export async function chainGetBlock() {
+
+    // Initialize SDK with Turing endpoint
+    const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
+
+    // 1. Gets the block for the latest block if no argument is provided
+    // 2. Gets block header and body for a specific block if a block hash is provided
+    const block = await sdk.client.api.rpc.chain.getBlock("0x75a6c54bb5ea904e47fa151956992d7cf543bc7c936d78488e311db8e10397c1")
+    console.log("getBlock")
+    console.log(block.toJSON())
+
+    process.exit(0);
+}
+
+// Execute the function
+chainGetBlock()
+```
+
+2. Run the script using the following command:
+
+```bash filename="terminal"
+node your-file-name.ts
+```
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+1. Inside `main.rs`, add the following code:
+
+```rust showLineNumbers filename="avail-rust" name="cmd3"
+use avail_rust::prelude::*;
+
+pub async fn get_block() -> Result<(), ClientError> {
+
+    // Create a new SDK instance
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+    // 1. Get the block for a specific block if argument is provided
+    // 2. Get the latest block if no argument is provided
+    let block_hash = new_h256_from_hex("0x75a6c54bb5ea904e47fa151956992d7cf543bc7c936d78488e311db8e10397c1")?;
+
+    // Get the latest block
+    let latest_block = rpc::chain::get_block(&sdk.client, None).await?;
+
+    // Get the block for a specific block
+    let specific_block = rpc::chain::get_block(&sdk.client, Some(block_hash)).await?;
+
+    println!("Latest Block: {:?}", latest_block);
+
+    // println!(" Specific Block: {:?}", block);
+
+    Ok(())
+}
+
+#[tokio::main]
+async fn main() -> Result<(), ClientError> {
+    get_block().await?;
+    Ok(())
+}
+```
+
+2. Run the script using the following command:
+
+```bash filename="terminal" name="cmd4"
+cargo run
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+1. Inside `main.go`, add the following code:
+
+```go showLineNumbers filename="avail-go" name="cmd5"
+package main
+
+import (
+	"fmt"
+	"log"
+
+	prim "github.com/availproject/avail-go-sdk/primitives"
+	SDK "github.com/availproject/avail-go-sdk/sdk"
+)
+
+func main() {
+
+	// Initialize an SDK instance
+	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
+	if err != nil {
+		log.Fatalf("Failed to initialize SDK: %v", err)
+	}
+
+	// Get the latest block by not passing any parameters
+	latestBlock, err := sdk.Client.Rpc.Chain.GetBlock(prim.None[prim.H256]())
+	if err != nil {
+		log.Fatalf("Failed to get the latest block: %v", err)
+	}
+
+	// Print the block
+	fmt.Println("Latest Block: ", latestBlock)
+
+	// Get a specific block by passing the block hash
+	blockHash, err := prim.NewH256FromHexString("0x75a6c54bb5ea904e47fa151956992d7cf543bc7c936d78488e311db8e10397c1")
+	if err != nil {
+		log.Fatalf("Failed to create H256 from hex: %v", err)
+	}
+	specificBlock, err := sdk.Client.Rpc.Chain.GetBlock(prim.Some(blockHash))
+	if err != nil {
+		log.Fatalf("Failed to get the specific block: %v", err)
+	}
+
+	// Print the block
+	fmt.Println("Specific Block: ", specificBlock)
+}
+```
+
+2. Run the script using the following command:
+
+```bash filename="terminal" name="cmd6"
+go run main.go
+```
+
+</Tabs.Tab>
+
+</Tabs>
+
+
+

@@ -1,0 +1,37 @@
+---
+image: '/img/docs-link-preview.png'
+---
+
+
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Get current Ethereum head
+
+## Request
+
+- `Path`: `/eth/head`
+- `Method type`: `GET`
+
+## Example Request
+
+<Tabs items={['CURL']}>
+
+<Tabs.Tab>
+    
+```bash filename="CURL"
+curl https://turing-bridge-api.avail.so/eth/head
+```
+
+</Tabs.Tab>
+</Tabs>
+
+## Example response
+
+```json showLineNumbers filename="Example JSON response"
+{
+  "slot":4454752,
+  "timestamp":1709191840,
+  "timestampDiff":1716
+}
+```

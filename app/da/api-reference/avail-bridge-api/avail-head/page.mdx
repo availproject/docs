@@ -1,0 +1,37 @@
+---
+image: '/img/docs-link-preview.png'
+---
+
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Get current Avail head
+
+## Request
+
+- `Path`: `/avl/head`
+- `Method type`: `GET`
+
+## Example Request
+
+<Tabs items={['CURL']}>
+
+<Tabs.Tab>
+    
+```bash filename="CURL"
+curl https://turing-bridge-api.avail.so/avl/head
+```
+
+</Tabs.Tab>
+</Tabs>
+
+## Example response
+
+```json showLineNumbers filename="Example JSON response"
+{
+  "data":{
+    "end":512738,
+    "start":488581
+    }
+}
+```

@@ -1,0 +1,21 @@
+---
+title: "author-submit-and-watch-extrinsic"
+description: "Manually submit an extrinsic to the network and wait for finalization"
+keywords: ["author_submitAndWatchExtrinsic", "submitAndWatchExtrinsic", "submitAndWatch"]
+---
+
+import { Callout } from 'nextra/components'
+
+# Manually submit an extrinsic to the network and wait for finalization
+
+<Callout type="error">
+**`author_submitAndWatchExtrinsic` IS NOT RECOMMENDED FOR USE RIGHT NOW**<br/>
+
+1. Avail builds on top of the [Polkadot SDK](https://docs.polkadot.com/develop/parachains/intro-polkadot-sdk/#substrate) (formerly known as Substrate)
+and implements most of it's underlying calls and extrinsics.
+2. The `author_submitAndWatchExtrinsic` RPC call is known to be buggy and unreliable, and as such, not recommended for use.
+3. We recommend most devs [use our dedicated SDKs](/api-reference/avail-node-api) instead of trying to use this RPC call directly.
+4. You can read more about the problem in this Github issue: https://github.com/paritytech/subxt/issues/1668
+5. Since the problem is upstream, we can't fix it directly.
+6. We will keep this page updated with any new information :) 
+</Callout>

@@ -1,0 +1,273 @@
+---
+image: '/img/docs-link-preview.png'
+---
+
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Transfer all funds from one account to another
+
+On-chain name of extrinsic: `balances_transferAll`
+
+## Parameters
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+| parameter | type          | optional | description                                      |
+| --------- | ------------- | -------- | ------------------------------------------------ |
+| dest      | string        | false    | account that will receive funds                  |
+| keepAlive | boolean       | false    | if set to false it will reap the account as well |
+| waitFor   | WaitFor       | false    | wait for block inclusion or finalization         |
+| account   | KeyringPair   | false    | account that will send and sign the transaction  |
+| options   | SignerOptions | true     | used to overwrite existing signer options        |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter | type        | optional | description                                      |
+| --------- | ----------- | -------- | ------------------------------------------------ |
+| dest      | &str        | false    | account that will receive funds                  |
+| keepAlive | bool        | false    | if set to false it will reap the account as well |
+| waitFor   | WaitFor     | false    | wait for block inclusion or finalization         |
+| account   | KeyringPair | false    | account that will send and sign the transaction  |
+</Tabs.Tab>
+
+<Tabs.Tab>
+| parameter        | type     | optional | description                                            |
+| ---------------- | -------- | -------- | ------------------------------------------------------ |
+| api              | API      | false    | api for avail chain                                    |
+| dest             | string   | false    | account that will receive funds                        |
+| WaitForInclusion | WaitFor  | false    | wait for block inclusion or finalization               |
+| Seed             | Mnemonic | false    | seed of the account that needs to sign the transaction |
+</Tabs.Tab>
+
+</Tabs>
+
+## Return value
+
+On failure, a reason of failure is returned. On Success, TransferEvent event, KilledAccount (optionally) event, transaction hash and block
+hash is returned.
+
+## Minimal Example
+
+<Callout type="info">
+1. You will need to set up the dev environment required to run this example. 
+For instructions, [check out our docs here](/api-reference/avail-node-api#setting-up-the-dev-environment).
+
+2. If you're sending an extrinsic (i.e conducting a transaction) you will need to replace the demo seed phrase with your own seed phrase.
+The rest of the code should work as is.
+</Callout>
+
+<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+
+<Tabs.Tab>
+
+1. Inside `your-file-name.ts`, add the following code:
+
+```typescript showLineNumbers filename="avail-js" name="cmd1"
+import * as dotenv from 'dotenv';
+import { Account, SDK } from 'avail-js-sdk';
+
+dotenv.config();
+
+export async function transferAll() {
+    // Initialize SDK with Turing endpoint
+    const sdk = await SDK.New('wss://turing-rpc.avail.so/ws');
+    
+    // Create account from seed in .env file
+    const seed = process.env.SEED;
+    if (!seed) {
+      throw new Error("SEED environment variable is not set");
+    }
+    
+    // Create account from seed
+    const account = Account.new(seed);
+    console.log("Sender Address: ", account.address);
+    
+    // Destination address to send all available AVAIL to
+    const destinationAddress = "5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk";
+    console.log("Recipient Address: ", destinationAddress);
+    
+    // Setting this value to false will reap your account
+    const keepAlive = true;
+    
+    // Create transfer all transaction
+    const tx = sdk.tx.balances.transferAll(destinationAddress, keepAlive);
+    console.log("Submitting transfer all transaction...");
+    
+    // Execute and wait for inclusion
+    const res = await tx.executeWaitForInclusion(account, {});
+    
+    // Check if transaction was successful
+    const isOk = res.isSuccessful();
+    if (isOk === undefined) {
+      throw new Error("Cannot check if transaction was successful");
+    }
+    else if (!isOk) {
+        throw new Error("Transaction failed");
+    }
+
+    console.log(`Transaction Hash: ${res.txHash}`);
+    console.log(`Block Hash: ${res.blockHash}`);
+    console.log(`Block Number: ${res.blockNumber}`);
+    console.log("Transfer completed successfully");
+
+    process.exit(0);
+}
+
+// Execute the function
+transferAll();
+```
+
+2. Run the code using:
+
+```bash filename="terminal" name="cmd2"
+ts-node your-file-name.ts
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.rs`, add the following code:
+
+```rust showLineNumbers filename="avail-rust" name="cmd3"
+use dotenvy::dotenv;
+use std::env;
+use avail_rust::prelude::*;
+use core::str::FromStr;
+
+pub async fn transfer_all() -> Result<(), ClientError> {
+
+    // Create a new SDK instance
+    let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+
+    // Loading seed phrase and creating an account derived from the seed
+    dotenv().ok();
+    let seed = env::var("SEED").expect("SEED environment variable is not set");
+    let account = account::from_secret_uri(&seed)?;
+    println!("Account Address: {}", account.public_key().to_account_id());
+
+    // Executing the transaction
+    let dest = AccountId::from_str("5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk").unwrap();
+
+    // Please take note of the `keep_alive` bool parameter
+    // If set to true (which is the case right now), the transfer transaction will leave the origin account with a small balance
+    // that is above the existential deposit and prevents the account from being reaped
+
+    // Set the `keep_alive` parameter to `false` only if you are ok with the origin account being reaped
+    let tx = sdk.tx.balances.transfer_all(dest, true);
+    let res = tx.execute_and_watch_inclusion(&account, Options::default()).await?;
+
+    println!(
+        "Block Hash: {:?}, Block Number: {}, Tx Hash: {:?}, Tx Index: {}",
+        res.block_hash, res.block_number, res.tx_hash, res.tx_index
+    );
+
+    Ok(())
+}
+
+// Add a main function to call transfer_all
+#[tokio::main]
+async fn main() {
+    if let Err(e) = transfer_all().await {
+        eprintln!("Error: {:?}", e);
+    }
+}
+```
+
+2. Run the code using:
+
+```bash filename="terminal" name="cmd4"
+cargo run
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+1. Inside `main.go`, add the following code:
+
+```go showLineNumbers filename="avail-go" name="cmd5"
+package main
+
+import (
+	"fmt"
+	"log"
+	"os"
+
+	"github.com/availproject/avail-go-sdk/primitives"
+	SDK "github.com/availproject/avail-go-sdk/sdk"
+	"github.com/joho/godotenv"
+)
+
+func main() {
+	// Load environment variables from .env file
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	// Make sure the SEED environment variable is set
+	seed := os.Getenv("SEED")
+	if seed == "" {
+		log.Fatal("SEED environment variable is not set")
+	}
+
+	// Create an account from the SEED environment variable
+	acc, err := SDK.Account.NewKeyPair(seed)
+	if err != nil {
+		log.Fatalf("Failed to create account: %v", err)
+	}
+	fmt.Println("Your account Address: " + acc.SS58Address(42))
+
+	// Initialize an SDK instance
+	sdk, err := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
+	if err != nil {
+		log.Fatalf("Failed to initialize SDK: %v", err)
+	}
+
+	// Convert the hex string to a MultiAddress
+	destAddress, err := primitives.NewAccountIdFromAddress("5DDY2yzh8uCysYFAiRSTeQVwtZSKNF49CkQkyPH852xvrYKk")
+	if err != nil {
+		log.Fatalf("Failed to convert address: %v", err)
+	}
+	dest := destAddress.ToMultiAddress()
+
+	// Set to false if you don't want to keep the account alive
+	keepAlive := true
+
+	// Transferring all funds
+	tx := sdk.Tx.Balances.TransferAll(dest, keepAlive)
+
+	// Execute the transaction
+	res, err := tx.ExecuteAndWatchInclusion(acc, SDK.NewTransactionOptions())
+	if err != nil {
+		log.Fatalf("Transaction failed: %v", err)
+	}
+
+	// Check if the transaction was successful
+	if !res.IsSuccessful().UnsafeUnwrap() {
+		log.Fatal("Transaction was not successful")
+	}
+
+	fmt.Println("Transaction successful")
+
+	// Printing out all the values of the transaction
+	fmt.Println(fmt.Sprintf(`Block Hash: %v, Block Index: %v, Tx Hash: %v, Tx Index: %v`, res.BlockHash.ToHexWith0x(), res.BlockNumber, res.TxHash.ToHexWith0x(), res.TxIndex))
+}
+```
+
+2. Run the code using:
+
+```bash filename="terminal" name="cmd6"
+go run main.go
+```
+
+<Callout type="info">
+If you receive errors related to missing dependencies while trying to execute your code, run:
+```bash filename="terminal"
+go mod tidy
+```
+and try again.
+</Callout>
+</Tabs.Tab>
+
+</Tabs>

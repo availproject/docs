@@ -1,0 +1,41 @@
+---
+image: "/img/docs-link-preview.png"
+title: Avail API Reference
+asIndexPage: true
+---
+
+import { Cards, Image, Callout } from 'nextra/components'
+import { FileIcon, FilesIcon } from '@components/icons'
+import { cloneElement } from 'react'
+
+export default function MdxLayout(props) {
+  return cloneElement(props.children, {
+    components: {
+      img: Image
+    }
+  })
+}
+
+<Callout type="warning">
+
+1. This section is dedicated towards providing a detailed API reference for all of Avail's APIs and SDKs.
+2. If you are working with older versions of Avail's SDKs, please refer to the menu next to the search bar to access the old API docs.
+
+</Callout>
+<br/>
+
+# Avail API reference
+
+This entire section is dedicated towards providing a detailed API reference for all of Avail's dev tooling.
+
+We currently document the following APIs: 
+
+<Cards num={4}>
+  <Cards.Card icon={<FileIcon />} title="Avail node API" href="/api-reference/avail-node-api" />
+  <Cards.Card icon={<FileIcon />} title="Avail light client API" href="/api-reference/avail-lc-api" />
+  <Cards.Card icon={<FileIcon />} title="Avail bridge API" href="/api-reference/avail-bridge-api" />
+  <Cards.Card icon={<FileIcon />} title="Turbo DA API" href="/api-reference/avail-turbo-da-api" />
+</Cards>
+
+Questions? Errors? Something missing?
+Feel free to reach out to us on [our Discord server](https://discord.gg/AvailProject).
