@@ -10,7 +10,7 @@ export default {
       title: "Nexus",
     },
 
-    'docs': {
+    'da': {
       type: "page",
       title: "Data Availability",
     },

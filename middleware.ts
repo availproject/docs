@@ -787,7 +787,7 @@ export function middleware(request: NextRequest) {
     },
 
 
-    // Redirects for Nexus launch docs reorg
+    // Nexus sdk Redirects for Nexus launch docs reorg
 
     {
       source: "/api-reference/avail-nexus-sdk",
@@ -821,6 +821,250 @@ export function middleware(request: NextRequest) {
       source: "/api-reference/avail-nexus-sdk/examples/bridge-and-execute",
       destination: `${origin}/nexus/avail-nexus-sdk/examples/bridge-and-execute`,
     },
+
+    // Docs top-level redirects for Nexus launch docs reorg
+
+    {
+      source: "/docs/welcome-to-avail-docs",
+      destination: `${origin}/da/welcome-to-avail-docs`,
+    },
+
+    {
+      source: "/docs/archived-content",
+      destination: `${origin}/da/archived-content`,
+    },
+    {
+      source: "/docs/bug-bounty",
+      destination: `${origin}/da/bug-bounty`,
+    },
+    {
+      source: "/docs/build-with-avail",
+      destination: `${origin}/da/build-with-avail`,
+    },
+    {
+      source: "/docs/build-with-avail/interact-with-avail-da",
+      destination: `${origin}/da/build-with-avail/interact-with-avail-da`,
+    },
+    {
+      source: "/docs/build-with-avail/interact-with-avail-da/faucet",
+      destination: `${origin}/da/build-with-avail/interact-with-avail-da/faucet`,
+    },
+    {
+      source: "/docs/build-with-avail/interact-with-avail-da/app-id",
+      destination: `${origin}/da/build-with-avail/interact-with-avail-da/app-id`,
+    },
+    {
+      source: "/docs/build-with-avail/interact-with-avail-da/read-write-on-avail",
+      destination: `${origin}/da/build-with-avail/interact-with-avail-da/read-write-on-avail`,
+    },
+    {
+      source: "/docs/build-with-avail/interact-with-avail-da/query-balances",
+      destination: `${origin}/da/build-with-avail/interact-with-avail-da/query-balances`,
+    },
+    {
+      source: "/docs/build-with-avail/interact-with-avail-da/transfer-balances",
+      destination: `${origin}/da/build-with-avail/interact-with-avail-da/transfer-balances`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Optimium",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Optimium`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Optimium/op-stack",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Optimium/op-stack`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Optimium/op-stack/overview",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Optimium/op-stack/overview`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Optimium/op-stack/op-stack",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Optimium/op-stack/op-stack`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Optimium/arbitrum-nitro",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Optimium/arbitrum-nitro`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Optimium/arbitrum-nitro/overview",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Optimium/arbitrum-nitro/overview`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Optimium/arbitrum-nitro/nitro-stack",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Optimium/arbitrum-nitro/nitro-stack`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/zkevm",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/zkevm`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/zkevm/overview",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/zkevm/overview`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/zkevm/zkevm",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/zkevm/zkevm`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/cdk",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/cdk`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/cdk/cdk",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/cdk/cdk`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/madara",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/madara`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/madara/overview",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/madara/overview`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/madara/madara",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/madara/madara`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/zksync",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/zksync`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/zksync/zksync",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/zksync/zksync`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/sovereign-rollups",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/sovereign-rollups`,
+    },
+    {
+      source: "/docs/build-with-avail/deploy-rollup-on-avail/sovereign-rollups/cosmos-avail-module",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/sovereign-rollups/cosmos-avail-module`,
+    },
+    {
+      source: "/docs/build-with-avail/turbo-da",
+      destination: `${origin}/da/build-with-avail/turbo-da`,
+    },
+    {
+      source: "/docs/build-with-avail/vectorx",
+      destination: `${origin}/da/build-with-avail/vectorx`,
+    },
+    {
+      source: "/docs/clash-of-nodes",
+      destination: `${origin}/da/clash-of-nodes`,
+    },
+    {
+      source: "/docs/faqs",
+      destination: `${origin}/da/faqs`,
+    },
+    {
+      source: "/docs/glossary",
+      destination: `${origin}/da/glossary`,
+    },
+    {
+      source: "/docs/learn-about-avail",
+      destination: `${origin}/da/learn-about-avail`,
+    },
+    {
+      source: "/docs/learn-about-avail/app-ids",
+      destination: `${origin}/da/learn-about-avail/app-ids`,
+    },
+    {
+      source: "/docs/learn-about-avail/avail-apps-explorer",
+      destination: `${origin}/da/learn-about-avail/avail-apps-explorer`,
+    },
+    {
+      source: "/docs/learn-about-avail/tx-pricing",
+      destination: `${origin}/da/learn-about-avail/tx-pricing`,
+    },
+    {
+      source: "/docs/networks",
+      destination: `${origin}/da/networks`,
+    },
+    {
+      source: "/docs/operate-a-node",
+      destination: `${origin}/da/operate-a-node`,
+    },
+    {
+      source: "/docs/operate-a-node/deployment-options",
+      destination: `${origin}/da/operate-a-node/deployment-options`,
+    },
+    {
+      source: "/docs/operate-a-node/node-types",
+      destination: `${origin}/da/operate-a-node/node-types`,
+    },
+    {
+      source: "/docs/operate-a-node/become-a-validator",
+      destination: `${origin}/da/operate-a-node/become-a-validator`,
+    },
+    {
+      source: "/docs/operate-a-node/become-a-validator/0010-basics",
+      destination: `${origin}/da/operate-a-node/become-a-validator/0010-basics`,
+    },
+    {
+      source: "/docs/operate-a-node/become-a-validator/0020-simple-deployment",
+      destination: `${origin}/da/operate-a-node/become-a-validator/0020-simple-deployment`,
+    },
+    {
+      source: "/docs/operate-a-node/become-a-validator/0030-session-keys",
+      destination: `${origin}/da/operate-a-node/become-a-validator/0030-session-keys`,
+    },
+    {
+      source: "/docs/operate-a-node/become-a-validator/backup-your-validator",
+      destination: `${origin}/da/operate-a-node/become-a-validator/backup-your-validator`,
+    },
+    {
+      source: "/docs/operate-a-node/become-a-validator/monitor-your-validator",
+      destination: `${origin}/da/operate-a-node/become-a-validator/monitor-your-validator`,
+    },
+    {
+      source: "/docs/operate-a-node/become-a-validator/stake-your-validator",
+      destination: `${origin}/da/operate-a-node/become-a-validator/stake-your-validator`,
+    },
+    {
+      source: "/docs/operate-a-node/become-a-validator/upgrade-your-validator",
+      destination: `${origin}/da/operate-a-node/become-a-validator/upgrade-your-validator`,
+    },
+    {
+      source: "/docs/operate-a-node/become-a-validator/chill-your-validator",
+      destination: `${origin}/da/operate-a-node/become-a-validator/chill-your-validator`,
+    },
+    {
+      source: "/docs/operate-a-node/run-a-full-node",
+      destination: `${origin}/da/operate-a-node/run-a-full-node`,
+    },
+    {
+      source: "/docs/operate-a-node/run-a-full-node/overview",
+      destination: `${origin}/da/operate-a-node/run-a-full-node/overview`,
+    },
+    {
+      source: "/docs/operate-a-node/run-a-full-node/full-node",
+      destination: `${origin}/da/operate-a-node/run-a-full-node/full-node`,
+    },
+    {
+      source: "/docs/operate-a-node/run-a-light-client",
+      destination: `${origin}/da/operate-a-node/run-a-light-client`,
+    },
+    {
+      source: "/docs/operate-a-node/run-a-light-client/Overview",
+      destination: `${origin}/da/operate-a-node/run-a-light-client/Overview`,
+    },
+    {
+      source: "/docs/operate-a-node/run-a-light-client/0010-light-client",
+      destination: `${origin}/da/operate-a-node/run-a-light-client/0010-light-client`,
+    },
+    {
+      source: "/docs/operate-a-node/run-a-light-client/light-client-challenge",
+      destination: `${origin}/da/operate-a-node/run-a-light-client/light-client-challenge`,
+    }
     
   ];
 
