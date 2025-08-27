@@ -26,8 +26,6 @@ export default {
     type: "separator",
   },
 
-  "avail-nexus-sdk": "Avail Nexus SDK API",
-
   "-------": {
     type: "separator",
   },

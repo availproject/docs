@@ -784,7 +784,44 @@ export function middleware(request: NextRequest) {
     {
       source: "/docs/learn-about-avail/faqs",
       destination: `${origin}/docs/faqs`
-    }
+    },
+
+
+    // Redirects for Nexus launch docs reorg
+
+    {
+      source: "/api-reference/avail-nexus-sdk",
+      destination: `${origin}/nexus/avail-nexus-sdk`
+    },
+    {
+      source: "/api-reference/avail-nexus-sdk/overview",
+      destination: `${origin}/nexus/avail-nexus-sdk/overview`,
+    },
+    {
+      source: "/api-reference/avail-nexus-sdk/api-reference",
+      destination: `${origin}/nexus/avail-nexus-sdk/api-reference`,
+    },
+    {
+      source: "/api-reference/avail-nexus-sdk/examples",
+      destination: `${origin}/nexus/avail-nexus-sdk/examples`,
+    },
+    {
+      source: "/api-reference/avail-nexus-sdk/examples/fetch-unified-balances",
+      destination: `${origin}/nexus/avail-nexus-sdk/examples/fetch-unified-balances`,
+    },
+    {
+      source: "/api-reference/avail-nexus-sdk/examples/transfer",
+      destination: `${origin}/nexus/avail-nexus-sdk/examples/transfer`,
+    },
+    {
+      source: "/api-reference/avail-nexus-sdk/examples/bridge-tokens",
+      destination: `${origin}/nexus/avail-nexus-sdk/examples/bridge-tokens`,
+    },
+    {
+      source: "/api-reference/avail-nexus-sdk/examples/bridge-and-execute",
+      destination: `${origin}/nexus/avail-nexus-sdk/examples/bridge-and-execute`,
+    },
+    
   ];
 
   // we need to check for both with and without "/docs/" prefix
@@ -796,14 +833,18 @@ export function middleware(request: NextRequest) {
   ];
 
   for (const path of pathsToCheck) {
-    const redirectRule = redirects.find((rule) => {
-      const normalizedSource = normalizePath(rule.source);
-      return normalizedSource === path || path.startsWith(normalizedSource);
-    });
+    const normalizedRedirects = redirects
+      .map((rule) => ({ ...rule, _src: normalizePath(rule.source) }))
+      .sort((a, b) => b._src.length - a._src.length); // longest source first
 
-    if (redirectRule) {
-      // console.log('Redirecting:', path, 'to', redirectRule.destination);
-      return NextResponse.redirect(redirectRule.destination, { status: 301 });
+    const best = normalizedRedirects.find(({ _src }) =>
+      path === _src || path.startsWith(_src + '/')
+    );
+
+    if (best) {
+      const suffix = path.slice(best._src.length); // preserves subpath
+      const destination = best.destination + suffix;
+      return NextResponse.redirect(destination, { status: 301 });
     }
   }
 
