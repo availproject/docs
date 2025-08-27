@@ -18,10 +18,6 @@ export default {
       type: 'page',
       title: 'User Guides',
     },
-    'api-reference': {
-      type: "page",
-      title: "API Reference",
-    },
 
     'Versions': {
       type: 'menu',
