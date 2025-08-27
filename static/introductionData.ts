@@ -8,13 +8,10 @@ export const IntroData = [
       links: [
         {
           topic: "Read more",
-          links: [{ link: "/api-reference/avail-node-api", placeholder: "Introduction to Avail Nexus"}, 
-          { link: "/api-reference/avail-lc-api", placeholder: "Quickstart"}, 
-          {link: "/api-reference/avail-bridge-api", placeholder: "Supported Chains & Tokens"},
-          {link: "/api-reference/avail-nexus-sdk", placeholder: "Avail Nexus SDK"},
-          {link: "/api-reference/avail-turbo-da-api", placeholder: "Examples"},
-          {link: "/api-reference/avail-turbo-da-api", placeholder: "API Reference"},
-          {link: "/api-reference/avail-turbo-da-api", placeholder: "Release Notes"},
+          links: [{ link: "/nexus/introduction-to-nexus", placeholder: "Introduction to Avail Nexus"}, 
+          { link: "/nexus/concepts/unified-balance", placeholder: "What is a Unified Balance?"}, 
+          {link: "/nexus/avail-nexus-sdk/api-reference#supported-chains", placeholder: "Supported Chains & Tokens"},
+          {link: "/nexus/avail-nexus-sdk", placeholder: "Avail Nexus SDK Reference"},
         ],
           textcolor: "FE8B6C"
         }
@@ -32,8 +29,6 @@ export const IntroData = [
           {link: "/docs/learn-about-avail/avail-apps-explorer", textcolor: "3CA3FC", placeholder: "A guide to Avail explorers"},
           {link: "/docs/build-with-avail/interact-with-avail-da/read-write-on-avail", textcolor: "3CA3FC", placeholder: "Read & write data on Avail DA"},
           {link: "/docs/build-with-avail/deploy-rollup-on-avail", textcolor: "3CA3FC", placeholder: "Deploy your own rollup"},
-          {link: "/docs/operate-a-node/run-a-light-client", textcolor: "3CA3FC", placeholder: "Run an Avail light client"},
-          {link: "/docs/operate-a-node/run-a-full-node", textcolor: "3CA3FC", placeholder: "Run an Avail node"},
           {link: "/docs/operate-a-node/become-a-validator", textcolor: "3CA3FC", placeholder: "Run an Avail validator"},
           {link: "/docs/bug-bounty", textcolor: "3CA3FC", placeholder: "Report a Bug"},
           ],
