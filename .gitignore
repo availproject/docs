@@ -46,3 +46,8 @@ public/_pagefind
 # sitemap
 public/sitemap.xml
 public/sitemap-0.xml
+
+# markdown exports
+public/nexus
+public/da
+public/user-guides
