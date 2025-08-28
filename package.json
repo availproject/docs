@@ -4,7 +4,7 @@
   "license": "MIT",
   "private": true,
   "engines": {
-    "node": "20.x"
+    "node": "22.x"
   },
   "scripts": {
     "clean": "rm -rf node_modules .next && rm pnpm-lock.yaml",
@@ -27,8 +27,8 @@
     "eslint": "^9.21.0",
     "eslint-config-next": "^15.1.7",
     "next": "^15.1.7",
-    "nextra": "^4.2.13",
-    "nextra-theme-docs": "^4.2.13",
+    "nextra": "^4.4.0",
+    "nextra-theme-docs": "^4.4.0",
     "postcss": "^8.5.3",
     "posthog-js": "^1.223.3",
     "react": "^19.0.0",
