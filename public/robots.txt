@@ -7,3 +7,10 @@ Host: https://docs.availproject.org
 
 # Sitemaps
 Sitemap: https://docs.availproject.org/sitemap.xml
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
