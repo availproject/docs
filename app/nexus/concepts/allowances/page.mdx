@@ -11,13 +11,13 @@ Through allowances, a user permits the use of EOA funds in the source chains.
 The protocol uses these funds to pay the gas fee and the transaction amount
 on the destination chain.
 
-The default allowance limit set in the CA SDK for each supported chain is `unlimited`.
+The default allowance limit set in the Nexus SDK for each supported chain is `unlimited`.
 
 Developers can change the allowance for each chain abstracted transaction.
 They can do this using the `setOnAllowanceHook` hook.
 
-Users can review the chain abstracted transaction details via [[concept-intent|intent]]. 
-The intent details list the amounts collected per source chain to transact on the
+Users can review the chain abstracted transaction details via [intents](/nexus/concepts/intent). 
+An intent details list the amounts collected per source chain to transact on the
 destination chain. Users can choose to accept or reject a chain abstracted transaction.
 They cannot change allowances specified by the developers.
 
