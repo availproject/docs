@@ -1281,6 +1281,11 @@ export function middleware(request: NextRequest) {
     {
       source: "/api-reference/avail-turbo-da-api/get-submission-info",
       destination: `${origin}/da/api-reference/avail-turbo-da-api/get-submission-info`,
+    },
+
+    {
+      source: "/nexus/avail-nexus-sdk/api-reference",
+      destination: `${origin}/nexus/avail-nexus-sdk/examples/nexus-core/api-reference`,
     }
 
     

@@ -1,18 +1,17 @@
 ---
-title: 'Avail Nexus SDK API Reference'
-description: 'Complete API reference for the Avail Nexus SDK including initialization, network configuration, bridging, transfers, and utility functions'
+title: 'Avail Nexus headless SDK API Reference'
+description: 'Complete API reference for the Avail Nexus headless SDK including initialization, network configuration, bridging, transfers, and utility functions'
 image: '/img/docs-link-preview.png'
 ---
 
 import { Callout, Steps, Tabs } from 'nextra/components'
 
-# Avail Nexus SDK API Reference
+# Avail Nexus (Headless) SDK API Reference
 
-The Avail Nexus SDK provides a comprehensive set of APIs for cross-chain bridging, token transfers, and balance management across multiple EVM chains.
+The Avail Nexus headlessSDK provides a comprehensive set of APIs for cross-chain bridging, token transfers, and balance management across multiple EVM chains.
 
-<Tabs items={['Headless SDK', 'React UI SDK']}>
+## Quick Start
 
-<Tabs.Tab>
 ```typescript showLineNumbers filename="Typescript"
 import { NexusSDK } from '@avail-project/nexus';
 
@@ -23,6 +22,19 @@ await sdk.initialize(provider); // Your wallet provider
 // Get unified balances
 const balances = await sdk.getUnifiedBalances();
 console.log('All balances:', balances);
+
+// Get swap-specific balances
+const swapBalances = await sdk.getSwapBalances();
+console.log('Swap balances:', swapBalances);
+
+// Swap tokens (EXACT_IN - specify input amount)
+const swapResult = await sdk.swap({
+  fromAmount: parseUnits('100', 6), // 100 USDC
+  fromChainID: 137, // Polygon
+  fromTokenAddress: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174', // USDC on Polygon
+  toChainID: 1, // Ethereum
+  toTokenAddress: '0xA0b86a33E6441E02ad58c70b70fa3c2b3c3e74C9', // ETH on Ethereum
+});
 
 // Bridge tokens
 const bridgeResult = await sdk.bridge({
@@ -61,44 +73,6 @@ const executeResult = await sdk.execute({
   },
 });
 ```
-</Tabs.Tab>
-
-<Tabs.Tab>
-
-```typescript showLineNumbers filename="Typescript"
-import { NexusProvider,
-  useNexus,
-  BridgeButton,
-  TransferButton,
-  BridgeAndExecuteButton
-} from '@avail-project/nexus-widgets';
-
-// 1. Wrap your app
-function App() {
-  return (
-    <NexusProvider config={{ network: 'mainnet'  }}> // {network: 'testnet', debug: true} for testnet and debug logs
-      <YourApp />
-    </NexusProvider>
-  );
-}
-
-// 2. Use components
-function YourComponent() {
-  return (
-    <BridgeButton prefill={{ token: 'USDC', amount: '100', chainId: 137 }}>
-      {({ onClick, isLoading }) => (
-        <button onClick={onClick} disabled={isLoading}>
-          {isLoading ? 'Processing...' : 'Bridge USDC'}
-        </button>
-      )}
-    </BridgeButton>
-  );
-}
-```
-
-</Tabs.Tab>
-
-</Tabs>
 
 ## Configuration Options
 
@@ -163,11 +137,13 @@ SUPPORTED_CHAINS.SCROLL;       // 534351
 ```
 </details>
 
-## Headless API Reference
+
+## API Reference
 
 ### Initialization
 
 ```typescript showLineNumbers filename="Typescript"
+import { NexusSDK } from '@avail-project/nexus';
 import type { NexusNetwork } from '@avail-project/nexus';
 
 // Mainnet (default)
@@ -180,6 +156,122 @@ const sdk = new NexusSDK({ network: 'testnet' as NexusNetwork });
 await sdk.initialize(window.ethereum); // Returns: Promise<void>
 ```
 
+### Event Handling
+
+```typescript showLineNumbers filename="Typescript"
+import type { OnIntentHook, OnAllowanceHook, EventListener } from '@avail-project/nexus';
+
+// Intent approval flows
+sdk.setOnIntentHook(({ intent, allow, deny, refresh }: Parameters<OnIntentHook>[0]) => {
+  // This is a hook for the dev to show user the intent, the sources and associated fees
+
+  // intent: Intent data containing sources and fees for display purpose
+
+  // allow(): accept the current intent and continue the flow
+
+  // deny(): deny the intent and stop the flow
+
+  // refresh(): should be on a timer of 5s to refresh the intent
+  // (old intents might fail due to fee changes if not refreshed)
+  if (userConfirms) allow();
+  else deny();
+});
+
+// Allowance approvals
+sdk.setOnAllowanceHook(({ allow, deny, sources }: Parameters<OnAllowanceHook>[0]) => {
+  // This is a hook for the dev to show user the allowances that need to be setup
+  // for the current tx to happen.
+
+  // sources: an array of objects with minAllowance, chainID, token symbol, etc.
+
+  // allow(allowances): continues the transaction flow with `allowances` array
+  // allowances.length === sources.length;
+  // valid values are "max" | "min" | string | bigint
+
+  // deny(): stops the flow
+  allow(['min']); // or ['max'] or custom amounts
+});
+
+// Account/chain changes
+sdk.onAccountChanged((account) => console.log('Account:', account));
+sdk.onChainChanged((chainId) => console.log('Chain:', chainId));
+```
+
+#### Progress Events for All Operations
+
+```typescript showLineNumbers filename="Typescript"
+import { NEXUS_EVENTS, ProgressStep } from '@avail-project/nexus';
+
+// Bridge & Execute Progress
+const unsubscribeBridgeExecuteExpected = sdk.nexusEvents.on(
+  NEXUS_EVENTS.BRIDGE_EXECUTE_EXPECTED_STEPS,
+  (steps: ProgressStep[]) => {
+    console.log(
+      'Bridge & Execute steps →',
+      steps.map((s) => s.typeID),
+    );
+  },
+);
+
+const unsubscribeBridgeExecuteCompleted = sdk.nexusEvents.on(
+  NEXUS_EVENTS.BRIDGE_EXECUTE_COMPLETED_STEPS,
+  (step: ProgressStep) => {
+    console.log('Bridge & Execute completed →', step.typeID, step.data);
+
+    if (step.typeID === 'IS' && step.data.explorerURL) {
+      console.log('View transaction:', step.data.explorerURL);
+    }
+  },
+);
+
+// Transfer & Bridge Progress (optimized operations)
+const unsubscribeTransferExpected = sdk.nexusEvents.on(
+  NEXUS_EVENTS.EXPECTED_STEPS,
+  (steps: ProgressStep[]) => {
+    console.log(
+      'Transfer/Bridge steps →',
+      steps.map((s) => s.typeID),
+    );
+    // For direct transfers: ['CS', 'TS', 'IS'] (3 steps, ~5-15s)
+  },
+);
+
+const unsubscribeTransferCompleted = sdk.nexusEvents.on(
+  NEXUS_EVENTS.STEP_COMPLETE,
+  (step: ProgressStep) => {
+    console.log('Transfer/Bridge completed →', step.typeID, step.data);
+
+    if (step.typeID === 'IS' && step.data.explorerURL) {
+      // Transaction submitted with hash - works for both direct and CA
+      console.log('Transaction hash:', step.data.transactionHash);
+      console.log('Explorer URL:', step.data.explorerURL);
+    }
+  },
+);
+
+// Cleanup
+return () => {
+  unsubscribeBridgeExecuteExpected();
+  unsubscribeBridgeExecuteCompleted();
+  unsubscribeTransferExpected();
+  unsubscribeTransferCompleted();
+};
+```
+
+The SDK emits **consistent event patterns** for all operations:
+
+**Bridge & Execute Operations:**
+
+1. `bridge_execute_expected_steps` - _once_ with full ordered array of `ProgressStep`s
+2. `bridge_execute_completed_steps` - _many_; one per finished step with runtime data
+
+**Transfer & Bridge Operations:**
+
+1. `expected_steps` - _once_ with full ordered array of `ProgressStep`s
+2. `step_complete` - _many_; one per finished step with runtime data
+
+All events include the same `typeID` structure and runtime `data` such as `transactionHash`, `explorerURL`, `confirmations`, `error`, etc. This provides consistent progress tracking whether using optimized direct operations or chain abstraction.
+
 ### Unified Balance(s)
 
 ```typescript showLineNumbers filename="Typescript"
@@ -190,6 +282,9 @@ const balances: UserAsset[] = await sdk.getUnifiedBalances();
 
 // Get balance for specific token
 const usdcBalance: UserAsset | undefined = await sdk.getUnifiedBalance('USDC');
+
+// Get swap balances
+const swapBalances: SwapBalances = await sdk.getSwapBalances();
 
 ```
 
@@ -277,7 +372,7 @@ const result: ExecuteResult = await sdk.execute({
   buildFunctionParams: (
     token: SUPPORTED_TOKENS,
     amount: string,
-    chainId: SUPPORTED_CHAIN_IDS,
+    chainId: SUPPORTED_CHAINS_IDS,
     userAddress: `0x${string}`,
   ) => {
     const decimals = TOKEN_METADATA[token].decimals;
@@ -325,7 +420,7 @@ const bridgeAndExecuteResult: BridgeAndExecuteResult = await sdk.bridgeAndExecut
     buildFunctionParams: (
       token: SUPPORTED_TOKENS,
       amount: string,
-      chainId: SUPPORTED_CHAIN_IDS,
+      chainId: SUPPORTED_CHAINS_IDS,
       userAddress: `0x${string}`,
     ) => {
       const decimals = TOKEN_METADATA[token].decimals;
@@ -352,6 +447,133 @@ console.log('Total estimated cost:', simulation.totalEstimatedCost);
 
 console.log('Approval required:', simulation.metadata?.approvalRequired);
 console.log('Bridge receive amount:', simulation.metadata?.bridgeReceiveAmount);
+```
+
+### Swap Operations
+
+```typescript showLineNumbers filename="Typescript"
+import type { SwapInput, SwapResult, SwapBalances } from '@avail-project/nexus';
+
+// EXACT_IN Swap - Specify exact input amount, variable output
+const exactInSwap: SwapResult = await sdk.swap({
+  fromAmount: parseUnits('100', 6), // Exactly 100 USDC
+  fromChainID: 137, // Polygon
+  fromTokenAddress: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174', // USDC on Polygon
+  toChainID: 1, // Ethereum
+  toTokenAddress: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', // WETH on Ethereum
+});
+
+// EXACT_OUT Swap - Specify exact output amount, variable input
+const exactOutSwap: SwapResult = await sdk.swap({
+  toAmount: parseUnits('1', 18), // Exactly 1 ETH output
+  toChainID: 1, // Ethereum
+  toTokenAddress: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', // WETH on Ethereum
+  // fromAmount, fromChainID, fromTokenAddress determined automatically
+},   {
+  swapIntentHook: async (data: SwapIntentHook) => {
+    // use this to capture the intent allow, reject and refresh functions
+    const {intent, allow, reject, refresh} = data;
+    // Use it to handle user interaction
+    //
+    // setSwapIntent(intent);
+    // setAllowCallback(allow);
+    // setRejectCallback(reject);
+    // setRefreshCallback(refresh);
+
+    // or directly approve or reject the intent
+    allow()
+  },);
+
+// Cross-chain swap with custom options
+const crossChainSwap: SwapResult = await sdk.swap(
+  {
+    fromAmount: parseUnits('50', 6), // 50 USDC
+    fromChainID: 42161, // Arbitrum
+    fromTokenAddress: '0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8', // USDC on Arbitrum
+    toChainID: 10, // Optimism
+    toTokenAddress: '0x4200000000000000000000000000000000000006', // WETH on Optimism
+  },
+  {
+    swapIntentHook: async (data: SwapIntentHook) => {
+      // use this to capture the intent allow, reject and refresh functions
+      const {intent, allow, reject, refresh} = data;
+      // Use it to handle user interaction or display transaction details
+
+      // setSwapIntent(intent);
+      // setAllowCallback(allow);
+      // setRejectCallback(reject);
+      // setRefreshCallback(refresh);
+
+      // or directly approve or reject the intent
+      // calling allow processes the txn
+      allow()
+    },
+  }
+);
+
+// Handle swap results
+if (exactInSwap.success) {
+  console.log('✅ Swap successful!');
+  console.log('Source transaction:', exactInSwap.sourceExplorerUrl);
+  console.log('Destination transaction:', exactInSwap.destinationExplorerUrl);
+} else {
+  console.error('❌ Swap failed:', exactInSwap.error);
+}
+
+// Get swap-specific balances for better UX
+const swapBalances: SwapBalances = await sdk.getSwapBalances();
+console.log('Available for swapping:', swapBalances);
+```
+
+<Callout type="info">
+**Note:**
+
+- **Source chains/tokens** are restricted to what `getSwapSupportedChainsAndTokens()` returns
+- **Destination chains/tokens** can be any supported chain and token address
+- `DESTINATION_SWAP_TOKENS` provides popular destination options but is not exhaustive
+</Callout>
+
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>`Swap` Types</summary>
+
+**EXACT_IN Swaps:**
+- You specify exactly how much you want to spend (`fromAmount`)
+- Output amount varies based on market conditions and fees
+- Use case: "I want to swap all my 100 USDC"
+
+**EXACT_OUT Swaps:**
+- You specify exactly how much you want to receive (`toAmount`)
+- Input amount varies based on market conditions and fees
+- Use case: "I need exactly 1 ETH for a specific purpose"
+</details>
+
+#### Swap Progress Events
+
+```typescript showLineNumbers filename="Typescript"
+import { NEXUS_EVENTS } from '@avail-project/nexus';
+
+// Listen for swap progress updates
+const unsubscribeSwapSteps = sdk.nexusEvents.on(
+  NEXUS_EVENTS.SWAP_STEPS,
+  (step) => {
+    console.log('Swap step:', step.type);
+
+    if (step.type === 'SOURCE_SWAP_HASH' && step.explorerURL) {
+      console.log('Source transaction:', step.explorerURL);
+    }
+
+    if (step.type === 'DESTINATION_SWAP_HASH' && step.explorerURL) {
+      console.log('Destination transaction:', step.explorerURL);
+    }
+
+    if (step.type === 'SWAP_COMPLETE' && step.completed) {
+      console.log('✅ Swap completed successfully!');
+    }
+  },
+);
+
+// Cleanup
+unsubscribeSwapSteps();
 ```
 
 ### Allowance Management
@@ -411,134 +633,20 @@ const isSupportedToken: boolean = sdk.utils.isSupportedToken('USDC');
 // Get supported chains
 const chains: Array<{ id: number; name: string; logo: string }> = sdk.utils.getSupportedChains();
 
+// Swap discovery utilities
+const swapOptions: SwapSupportedChainsResult = sdk.utils.getSwapSupportedChainsAndTokens();
+
 // Chain ID conversion
 const hexChainId: string = sdk.utils.chainIdToHex(137);
 const decimalChainId: number = sdk.utils.hexToChainId('0x89');
 ```
-
-### Event Handling
-
-```typescript showLineNumbers filename="Typescript"
-import type { OnIntentHook, OnAllowanceHook, EventListener } from '@avail-project/nexus';
-
-// Intent approval flows
-sdk.setOnIntentHook(({ intent, allow, deny, refresh }: Parameters<OnIntentHook>[0]) => {
-  // This is a hook for the dev to show user the intent, the sources and associated fees
-
-  // intent: Intent data containing sources and fees for display purpose
-
-  // allow(): accept the current intent and continue the flow
-
-  // deny(): deny the intent and stop the flow
-
-  // refresh(): should be on a timer of 5s to refresh the intent
-  // (old intents might fail due to fee changes if not refreshed)
-  if (userConfirms) allow();
-  else deny();
-});
-
-// Allowance approvals
-sdk.setOnAllowanceHook(({ allow, deny, sources }: Parameters<OnAllowanceHook>[0]) => {
-  // This is a hook for the dev to show user the allowances that need to be setup
-  // for the current tx to happen.
-
-  // sources: an array of objects with minAllowance, chainID, token symbol, etc.
-
-  // allow(allowances): continues the transaction flow with `allowances` array
-  // allowances.length === sources.length;
-  // valid values are "max" | "min" | string | bigint
-
-  // deny(): stops the flow
-  allow(['min']); // or ['max'] or custom amounts
-});
-
-// Account/chain changes
-sdk.onAccountChanged((account) => console.log('Account:', account));
-sdk.onChainChanged((chainId) => console.log('Chain:', chainId));
-```
-
-### Progress Events for All Operations
-
-```typescript showLineNumbers filename="Typescript"
-import { NEXUS_EVENTS, ProgressStep } from '@avail-project/nexus';
-
-// Bridge & Execute Progress
-const unsubscribeBridgeExecuteExpected = sdk.nexusEvents.on(
-  NEXUS_EVENTS.BRIDGE_EXECUTE_EXPECTED_STEPS,
-  (steps: ProgressStep[]) => {
-    console.log(
-      'Bridge & Execute steps →',
-      steps.map((s) => s.typeID),
-    );
-  },
-);
-
-const unsubscribeBridgeExecuteCompleted = sdk.nexusEvents.on(
-  NEXUS_EVENTS.BRIDGE_EXECUTE_COMPLETED_STEPS,
-  (step: ProgressStep) => {
-    console.log('Bridge & Execute completed →', step.typeID, step.data);
-
-    if (step.typeID === 'IS' && step.data.explorerURL) {
-      console.log('View transaction:', step.data.explorerURL);
-    }
-  },
-);
-
-// Transfer & Bridge Progress (optimized operations)
-const unsubscribeTransferExpected = sdk.nexusEvents.on(
-  NEXUS_EVENTS.EXPECTED_STEPS,
-  (steps: ProgressStep[]) => {
-    console.log(
-      'Transfer/Bridge steps →',
-      steps.map((s) => s.typeID),
-    );
-    // For direct transfers: ['CS', 'TS', 'IS'] (3 steps, ~5-15s)
-  },
-);
-
-const unsubscribeTransferCompleted = sdk.nexusEvents.on(
-  NEXUS_EVENTS.STEP_COMPLETE,
-  (step: ProgressStep) => {
-    console.log('Transfer/Bridge completed →', step.typeID, step.data);
-
-    if (step.typeID === 'IS' && step.data.explorerURL) {
-      // Transaction submitted with hash - works for both direct and CA
-      console.log('Transaction hash:', step.data.transactionHash);
-      console.log('Explorer URL:', step.data.explorerURL);
-    }
-  },
-);
-
-// Cleanup
-return () => {
-  unsubscribeBridgeExecuteExpected();
-  unsubscribeBridgeExecuteCompleted();
-  unsubscribeTransferExpected();
-  unsubscribeTransferCompleted();
-};
-```
-
-The SDK emits consistent event patterns for all operations:
-
-- Bridge & Execute Operations:
-
-`bridge_execute_expected_steps`: once with full ordered array of ProgressSteps
-`bridge_execute_completed_steps`: many; one per finished step with runtime data
-
-- Transfer & Bridge Operations:
-
-`expected_steps`: once; with full ordered array of ProgressSteps
-`step_complete` :many; one per finished step with runtime data
-
-All events include the same `typeID` structure and runtime `data` such as `transactionHash`, `explorerURL`, `confirmations`, `error`, etc. 
-This provides consistent progress tracking whether using optimized direct operations or chain abstraction.
 
 ### Provider Methods
 
 ```typescript showLineNumbers filename="Typescript"
 import type { EthereumProvider, RequestArguments } from '@avail-project/nexus';
 
-// Get enhanced provider
+// Get chain abstracted provider
 const provider: EthereumProvider = sdk.getEVMProviderWithCA();
 
 // Make EIP-1193 requests
@@ -551,9 +659,9 @@ const result = await sdk.request({
 await sdk.deinit();
 ```
 
-## Usage Examples
+### Usage Examples
 
-### Basic Bridge with Result Handling
+#### Basic Bridge with Result Handling
 
 ```typescript showLineNumbers filename="Typescript"
 import { NexusSDK, type BridgeResult } from '@avail-project/nexus';
@@ -581,7 +689,7 @@ try {
 }
 ```
 
-### Execute with Receipt Confirmation
+#### Execute with Receipt Confirmation
 
 ```typescript showLineNumbers filename="Typescript"
 import type { ExecuteResult } from '@avail-project/nexus';
@@ -606,7 +714,7 @@ const result: ExecuteResult = await sdk.execute({
   buildFunctionParams: (
     token: SUPPORTED_TOKENS,
     amount: string,
-    chainId: SUPPORTED_CHAIN_IDS,
+    chainId: SUPPORTED_CHAINS_IDS,
     userAddress: `0x${string}`,
   ) => {
     const decimals = TOKEN_METADATA[token].decimals;
@@ -629,67 +737,7 @@ console.log('Gas used:', result.gasUsed);
 console.log('Confirmations:', result.confirmations);
 ```
 
-### Bridge and Execute with Error Handling
-
-```typescript showLineNumbers filename="Typescript"
-import type { BridgeAndExecuteResult } from '@avail-project/nexus';
-
-try {
-  const result: BridgeAndExecuteResult = await sdk.bridgeAndExecute({
-    token: 'USDC',
-    amount: '1000',
-    toChainId: 1,
-    execute: {
-      contractAddress: '0xA238Dd80C259a72e81d7e4664a9801593F98d1c5',
-      contractAbi: [
-        {
-          inputs: [
-            { internalType: 'address', name: 'asset', type: 'address' },
-            { internalType: 'uint256', name: 'amount', type: 'uint256' },
-            { internalType: 'address', name: 'onBehalfOf', type: 'address' },
-            { internalType: 'uint16', name: 'referralCode', type: 'uint16' },
-          ],
-          name: 'supply',
-          outputs: [],
-          stateMutability: 'nonpayable',
-          type: 'function',
-        },
-      ],
-      functionName: 'supply',
-      buildFunctionParams: (token, amount, chainId, userAddress) => {
-        const decimals = TOKEN_METADATA[token].decimals;
-        const amountWei = parseUnits(amount, decimals);
-        const tokenAddress = TOKEN_CONTRACT_ADDRESSES[token][chainId];
-        return {
-          functionParams: [tokenAddress, amountWei, userAddress, 0],
-        };
-      },
-      tokenApproval: {
-        token: 'USDC',
-        amount: '1000000000',
-      },
-    },
-    waitForReceipt: true,
-  });
-
-  console.log('✅ Bridge and execute completed!');
-  if (result.executeTransactionHash) {
-    console.log('Execute transaction:', result.executeTransactionHash);
-    console.log('View on explorer:', result.executeExplorerUrl);
-  }
-} catch (error) {
-  if (error.message.includes('User denied')) {
-    console.log('User cancelled transaction');
-  } else if (error.message.includes('Bridge phase failed')) {
-    console.error('Bridge failed:', error);
-  } else if (error.message.includes('Execute phase failed')) {
-    console.error('Execute failed:', error);
-  } else {
-    console.error('Operation failed:', error);
-  }
-}
-```
-### Complete Portfolio Management
+#### Complete Portfolio Management
 
 ```typescript showLineNumbers filename="Typescript"
 import type { UserAsset, ChainMetadata } from '@avail-project/nexus';
@@ -710,7 +758,8 @@ for (const asset of balances) {
   }
 }
 ```
-## Error Handling
+
+### Error Handling
 
 ```typescript showLineNumbers filename="Typescript"
 import type { BridgeResult } from '@avail-project/nexus';
@@ -735,11 +784,52 @@ try {
   }
 }
 ```
-## Troubleshooting
 
-### Common Issues
+```typescript showLineNumbers filename="Typescript"
+import type { ExecuteSimulation, ExecuteResult } from '@avail-project/nexus';
 
-1. **SDK not initialized**: Always call `await sdk.initialize(provider)` before using other methods.
-2. **Unsupported chain/token**: Check supported chains and tokens using `sdk.isSupportedChain()` and `sdk.isSupportedToken()`.
-3. **Insufficient allowance**: Use allowance management methods to check and set appropriate allowances.
-4. **Provider issues**: Ensure your Web3 provider is properly connected and on a supported network.
+// Simulate before executing
+const simulation: ExecuteSimulation = await sdk.simulateExecute(params);
+if (simulation.success) {
+  const result: ExecuteResult = await sdk.execute(params);
+}
+
+// Cleanup when done
+sdk.removeAllListeners();
+await sdk.deinit();
+```
+
+## TypeScript Support
+
+The SDK is fully typed with comprehensive TypeScript definitions. Import the types you need:
+
+```typescript showLineNumbers filename="Typescript"
+import type {
+  BridgeParams,
+  BridgeResult,
+  TransferParams,
+  TransferResult,
+  ExecuteParams,
+  ExecuteResult,
+  ExecuteSimulation,
+  BridgeAndExecuteParams,
+  BridgeAndExecuteResult,
+  SimulationResult,
+  SwapInput,
+  SwapResult,
+  SwapBalances,
+  SwapSupportedChainsResult,
+  DESTINATION_SWAP_TOKENS,
+  UserAsset,
+  TokenBalance,
+  AllowanceResponse,
+  ChainMetadata,
+  TokenMetadata,
+  OnIntentHook,
+  OnAllowanceHook,
+  EthereumProvider,
+  RequestArguments,
+  EventListener,
+  NexusNetwork,
+} from '@avail-project/nexus';
+```
