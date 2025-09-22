@@ -36,6 +36,24 @@ export const IntroData = [
         },
       ]
   },
+
+  {
+    title: "Tutorials",
+    description:
+      "Hands-on tutorials to help you build with Avail",
+      links: [
+        {
+          topic: "Read more",
+          links: [{ link: "/tutorials/tut-1", textcolor: "3CA3FC", placeholder: "Tutorial 1"}, 
+          {link: "/tutorials/tut-2", textcolor: "3CA3FC", placeholder: "Tutorial 2"},
+          {link: "/tutorials/tut-3", textcolor: "3CA3FC", placeholder: "Tutorial 3"},
+          {link: "/tutorials/tut-4", textcolor: "3CA3FC", placeholder: "Tutorial 4"},
+          {link: "/tutorials/tut-5", textcolor: "3CA3FC", placeholder: "Tutorial 5"},
+          ],
+          textcolor: "9C3D3D"
+        },
+      ]
+  },
   {
     title: "User guides",
     description:
