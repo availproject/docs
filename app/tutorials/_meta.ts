@@ -1,4 +1,10 @@
 export default {
+
+    "Nexus Tutorials": {
+        type: "separator",
+        title: "Nexus Tutorials",
+      },
+
     "tut-1": "Tutorial-1",
     "tut-2": "Tutorial-2",
     "tut-3": "Tutorial-3",
