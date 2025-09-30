@@ -17,7 +17,7 @@ import { Callout, Steps, Tabs } from 'nextra/components';
 
 <Callout type="info">
 **WANT TO SKIP THE TUTORIAL?**<br/>
-We also created two template repos for devs to easily get started with the Nexus SDK using Next JS and Vite.
+We created two template repos for devs to easily get started with the Nexus SDK using Next JS and Vite.
 We recommend going through the tutorial first, but to each their own:
 
 1. [availproject/nexus-nextjs-template](https://github.com/availproject/nexus-nextjs-template)
@@ -82,7 +82,7 @@ In this section we will create a minimal Next JS page with 4 buttons:
 3. The third button will be used to fetch the unified balances using the Nexus SDK.
 4. The fourth button will de-initialize the SDK using the `deinit()` function.
 
-### Set up a Next JS project
+### Set up a basic Next JS project
 
 1. Navigate into a directory of your choice and create a new Next JS project at it's root:
 
@@ -99,8 +99,6 @@ pnpm add @avail-project/nexus-core@0.0.3-beta.0
 3. Update the `src/app/page.tsx` file to the following:
 
 ```tsx filename="src/app/page.tsx"
-import { useNexus } from "@avail-project/nexus-core";
-
 export default function Home() {
   return <div>Hello Nexus!</div>;
 }
@@ -138,8 +136,9 @@ You can check out a complete list of the supported networks [here](/nexus/avail-
 2. Now fill the page with the following helper functions:
 
 ```tsx filename="src/lib/nexus.ts"
+
+// Thin wrapper that calls sdk.isInitialized() from the SDK
 export function isInitialized() {
-//Helper function from the SDK to check if the SDK is initialized
   return sdk.isInitialized();
 }
 
@@ -322,19 +321,19 @@ export default function Page() {
 }
 ```
 <Callout type="info">
-`sdk.fetchUnifiedBalances()` returns a JSON object with the balances of the user on each of the supported chains.
+`sdk.getUnifiedBalances()` returns a JSON object with the balances of the user on each of the supported chains.
 We're rendering it out on the screen raw to keep the tutorial simple, but you can always format it as you please.
 </Callout>
 
 **What's Happening Here?**
 
 1. We use the `useState` hook to manage the initialization status and balances of the SDK.
-2. Some basic CSS is applied to the buttons to arrange them in a grid.
-3. Some buttons are conditionally rendered based on the initialization status of the SDK.
+2. Some basic CSS is applied to the buttons to arrange them in a column.
+3. Some buttons are conditionally toggled based on the initialization status of the SDK.
 4. All in all, clicking through the buttons will allow you to initialize the SDK, fetch balances for a user, and de-initialize the SDK.
 
 
-## Think About What You Just Did Here
+## Think About What You Just Did Here!!!
 
 In just a few lines of code, you leveraged the power of the Nexus SDK to fetch a list of tokens that the user holds across several different chains.
 You can now move around those tokens as you please, the possibilities are endless!
@@ -344,16 +343,3 @@ different chains into `ETH` on `Arbitrum`.
 
 Once you have a wallet connected and the SDK initialized, you can do all of this and more!
 
-Let us now move over to the final section of the tutorial where you will learn how to accomplish the same result using the
-`nexus-widgets` package inside a `Vite` project.
-
-## Initialize the Nexus SDK using Vite (A minimal example using nexus-widgets)
-
-### Objective
-
-In this section we will create a minimal Vite project with 4 buttons:
-
-1. The first button will be used to connect a wallet to the app.
-2. The second button will be used to initialize the SDK using `nexus-widgets`.
-3. The third button will be used to fetch the unified balances using the Nexus SDK.
-4. The fourth button will de-initialize the SDK using the `deinit()` function.
