@@ -321,6 +321,10 @@ export default function Page() {
   );
 }
 ```
+<Callout type="info">
+`sdk.fetchUnifiedBalances()` returns a JSON object with the balances of the user on each of the supported chains.
+We're rendering it out on the screen raw to keep the tutorial simple, but you can always format it as you please.
+</Callout>
 
 **What's Happening Here?**
 
@@ -329,8 +333,27 @@ export default function Page() {
 3. Some buttons are conditionally rendered based on the initialization status of the SDK.
 4. All in all, clicking through the buttons will allow you to initialize the SDK, fetch balances for a user, and de-initialize the SDK.
 
-<Callout type="info">
-`sdk.fetchUnifiedBalances()` returns a JSON object with the balances of the user on each of the supported chains.
-We're rendering it out on the screen raw to keep the tutorial simple, but you can always format it as you please.
-</Callout>
 
+## Think About What You Just Did Here
+
+In just a few lines of code, you leveraged the power of the Nexus SDK to fetch a list of tokens that the user holds across several different chains.
+You can now move around those tokens as you please, the possibilities are endless!
+
+You might want to bridge one of the tokens across chains, or maybe you want to swap all existing tokens of your user spread across
+different chains into `ETH` on `Arbitrum`.
+
+Once you have a wallet connected and the SDK initialized, you can do all of this and more!
+
+Let us now move over to the final section of the tutorial where you will learn how to accomplish the same result using the
+`nexus-widgets` package inside a `Vite` project.
+
+## Initialize the Nexus SDK using Vite (A minimal example using nexus-widgets)
+
+### Objective
+
+In this section we will create a minimal Vite project with 4 buttons:
+
+1. The first button will be used to connect a wallet to the app.
+2. The second button will be used to initialize the SDK using `nexus-widgets`.
+3. The third button will be used to fetch the unified balances using the Nexus SDK.
+4. The fourth button will de-initialize the SDK using the `deinit()` function.
