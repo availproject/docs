@@ -14,6 +14,12 @@ export default {
       type: "page",
       title: "Data Availability",
     },
+
+    'tutorials': {
+      type: "page",
+      title: "Tutorials",
+    },
+
     'user-guides': {
       type: 'page',
       title: 'User Guides',
