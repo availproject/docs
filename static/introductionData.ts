@@ -44,7 +44,7 @@ export const IntroData = [
       links: [
         {
           topic: "Read more",
-          links: [{ link: "/tutorials/nexus-initialization", textcolor: "3CA3FC", placeholder: "Use Nexus SDK with Next JS & Vite"}, 
+          links: [{ link: "/tutorials/nexus-initialization", textcolor: "3CA3FC", placeholder: "Initialize Nexus SDK with Next JS"}, 
           {link: "/tutorials/tut-2", textcolor: "3CA3FC", placeholder: "Tutorial 2"},
           {link: "/tutorials/tut-3", textcolor: "3CA3FC", placeholder: "Tutorial 3"},
           {link: "/tutorials/tut-4", textcolor: "3CA3FC", placeholder: "Tutorial 4"},
