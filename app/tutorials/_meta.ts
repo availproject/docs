@@ -5,7 +5,7 @@ export default {
         title: "Nexus Tutorials",
       },
 
-    "nexus-initialization": "Initialize the Nexus SDK using Next JS and Vite",
+    "nexus-initialization": "Initialize the Nexus SDK using Next JS",
     "tut-2": "Tutorial-2",
     "tut-3": "Tutorial-3",
     "tut-4": "Tutorial-4",
