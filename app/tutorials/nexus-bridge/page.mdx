@@ -1,0 +1,51 @@
+---
+title: "Bridge tokens using the Nexus SDK"
+description: "This tutorial will teach you about the .bridge() function of the Nexus SDK"
+keywords:
+  - docs
+  - Avail Nexus
+  - Nexus SDK
+  - bridge
+---
+
+import { Callout, Steps, Tabs } from 'nextra/components';
+
+# Bridge tokens using the Nexus SDK
+
+This tutorial will cover the bridging functionality of the Nexus SDK,
+covered under the `bridge()` function.
+
+We will use the [Nexus Next JS template repo](https://github.com/availproject/nexus-nextjs-template) to
+make the setup process easier.
+
+## Start the template locally
+
+1. Clone the template repo:
+
+```bash filename="Terminal"
+git clone https://github.com/availproject/nexus-nextjs-template.git
+```
+
+2. Install the dependencies:
+
+```bash filename="Terminal"
+cd nexus-nextjs-template
+pnpm install
+```
+
+3. Set up the `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` environment variable by creating a `.env.local` file:
+
+```dotenv filename=".env"
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=YOUR_PROJECT_ID
+```
+
+<Callout type="info">
+**Note:**<br/>
+Log in to your [WalletConnect](https://walletconnect.network/) account and create a project to get your project ID.
+</Callout>
+
+4. Run the dev server:
+
+```bash filename="Terminal"
+pnpm dev
+```
