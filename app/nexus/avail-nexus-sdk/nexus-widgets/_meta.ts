@@ -1,6 +1,6 @@
 export default {
     "transfer": "Transfer",
-    "bridge-tokens": "Bridge",
+    "bridge": "Bridge",
     "bridge-and-execute": "Bridge & Execute",
     "api-reference": "API Reference"
 }

@@ -1,4 +1,4 @@
 export default {
-
-    "examples": "Examples",
+    "nexus-core": "Nexus (Headless)",
+    "nexus-widgets": "Nexus Widgets"
 }

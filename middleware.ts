@@ -1293,7 +1293,44 @@ export function middleware(request: NextRequest) {
     {
       source: "/nexus/avail-nexus-sdk/overview",
       destination: `${origin}/nexus/overview`,
-    }
+    },
+
+    {
+      source: "/nexus/avail-nexus-sdk/examples/nexus-core/fetch-unified-balances",
+      destination: `${origin}/nexus/avail-nexus-sdk/nexus-core/fetch-unified-balances`,
+    },
+    {
+      source: "/nexus/avail-nexus-sdk/examples/nexus-core/transfer",
+      destination: `${origin}/nexus/avail-nexus-sdk/nexus-core/transfer`,
+    },
+    {
+      source: "/nexus/avail-nexus-sdk/examples/nexus-core/bridge-tokens",
+      destination: `${origin}/nexus/avail-nexus-sdk/nexus-core/bridge`,
+    },
+    {
+      source: "/nexus/avail-nexus-sdk/examples/nexus-core/bridge-and-execute",
+      destination: `${origin}/nexus/avail-nexus-sdk/nexus-core/bridge-and-execute`,
+    },
+    {
+      source: "/nexus/avail-nexus-sdk/examples/nexus-core/api-reference",
+      destination: `${origin}/nexus/avail-nexus-sdk/nexus-core/api-reference`,
+    },
+    {
+      source: "/nexus/avail-nexus-sdk/examples/nexus-widgets/transfer",
+      destination: `${origin}/nexus/avail-nexus-sdk/nexus-widgets/transfer`,
+    },
+    {
+      source: "/nexus/avail-nexus-sdk/examples/nexus-widgets/bridge-tokens",
+      destination: `${origin}/nexus/avail-nexus-sdk/nexus-widgets/bridge`,
+    },
+    {
+      source: "/nexus/avail-nexus-sdk/examples/nexus-widgets/bridge-and-execute",
+      destination: `${origin}/nexus/avail-nexus-sdk/nexus-widgets/bridge-and-execute`,
+    },
+    {
+      source: "/nexus/avail-nexus-sdk/examples/nexus-widgets/api-reference",
+      destination: `${origin}/nexus/avail-nexus-sdk/nexus-widgets/api-reference`,
+    },
 
     
   ];
