@@ -12,6 +12,7 @@ export const IntroData = [
           { link: "/nexus/concepts/unified-balance", placeholder: "What is a Unified Balance?"}, 
           {link: "/nexus/avail-nexus-sdk/api-reference#supported-chains", placeholder: "Supported Chains & Tokens"},
           {link: "/nexus/avail-nexus-sdk", placeholder: "Avail Nexus SDK Reference"},
+          {link: "/nexus/nexus-cheatsheet", placeholder: "Nexus cheat sheet"},
         ],
           textcolor: "FE8B6C"
         }

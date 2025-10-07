@@ -1,0 +1,67 @@
+---
+image: "/img/docs-link-preview.png"
+title: Nexus cheat sheet
+description: "A single page to find all external links and resources to help you get started with Avail Nexus"
+---
+
+import { Callout, Steps, Tabs, Cards } from 'nextra/components';
+import { FileIcon, FilesIcon, LinkIcon, GithubIcon24 } from '@components/icons'
+
+
+# Nexus cheat sheet
+
+We created this page to make it easier for devs to navigate between all the links and resources related to Avail Nexus.
+Feel free to suggest any additions you think are missing.
+
+## Nexus SDK
+
+The most convenient way to interact with the decentralized solver network powering Avail Nexus is through the Nexus SDK.
+
+Link to the Nexus SDK Github repo:
+
+<Cards num={2} >
+<Cards.Card title="Nexus SDK" href="https://github.com/availproject/nexus-sdk" target="_blank" rel="noopener noreferrer" icon={<GithubIcon24 className="svg-inherit" />} arrow />
+</Cards>
+
+The overall Nexus SDK is split into two main packages:
+
+### Nexus-core
+
+The headless version , for fine-grained control over the Nexus SDK.
+
+<Cards num={2}>
+    <Cards.Card title="Github Link" icon={<GithubIcon24 className="svg-inherit"  />} href="https://github.com/availproject/nexus-sdk/tree/main/packages/core" target="_blank" rel="noopener noreferrer" arrow />
+    <Cards.Card title="npm page" icon={<LinkIcon />} href="https://www.npmjs.com/package/@avail-project/nexus-core?activeTab=code" target="_blank" rel="noopener noreferrer" arrow />
+</Cards>
+
+We also built a demo app with `nexus-core` to provide more reference code:
+
+<Cards num={2}>
+    <Cards.Card title="Nexus Headless Demo" icon={<LinkIcon />} href="https://avail-nexus-demo-five.vercel.app/" target="_blank" rel="noopener noreferrer" arrow />
+    <Cards.Card title="Github Link" icon={<GithubIcon24 className="svg-inherit"  />} href="https://github.com/availproject/avail-nexus-demo" target="_blank" rel="noopener noreferrer" arrow />
+</Cards>
+
+### Nexus-widgets
+
+Comes with built-in UI components to make it easier to integrate the Nexus SDK into your React app.
+
+<Cards num={2}>
+    <Cards.Card title="Github Link" icon={<GithubIcon24 className="svg-inherit"  />} href="https://github.com/availproject/nexus-sdk/tree/main/packages/widgets" target="_blank" rel="noopener noreferrer" arrow />
+    <Cards.Card title="npm page" icon={<LinkIcon />} href="https://www.npmjs.com/package/@avail-project/nexus-widgets?activeTab=code" target="_blank" rel="noopener noreferrer" arrow />
+</Cards>
+
+We also built a demo app with `nexus-widgets` to provide more reference code:
+
+<Cards num={2}>
+    <Cards.Card title="Nexus Widgets Demo" icon={<LinkIcon />} href="https://nexus-demo.availproject.org/" target="_blank" rel="noopener noreferrer" arrow />
+    <Cards.Card title="Github Link" icon={<GithubIcon24 className="svg-inherit"  />} href="https://github.com/availproject/nexus-ui-components-demo" target="_blank" rel="noopener noreferrer" arrow />
+</Cards>
+
+## Nexus SDK templates
+
+Clone these repos to quickly get started with the Nexus SDK using `Next JS` or `Vite`.
+
+<Cards num={2}>
+    <Cards.Card title="Nexus Next JS Template" icon={<LinkIcon />} href="https://github.com/availproject/nexus-nextjs-template" target="_blank" rel="noopener noreferrer" arrow />
+    <Cards.Card title="Nexus Vite Template" icon={<LinkIcon />} href="https://github.com/availproject/nexus-vite-template" target="_blank" rel="noopener noreferrer" arrow />
+</Cards>
