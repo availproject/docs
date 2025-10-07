@@ -1286,6 +1286,13 @@ export function middleware(request: NextRequest) {
     {
       source: "/nexus/avail-nexus-sdk/api-reference",
       destination: `${origin}/nexus/avail-nexus-sdk/examples/nexus-core/api-reference`,
+    },
+
+    // Nexus redirects due to the decision taken to not go with the Tutorials top-level 
+
+    {
+      source: "/nexus/avail-nexus-sdk/overview",
+      destination: `${origin}/nexus/overview`,
     }
 
     
