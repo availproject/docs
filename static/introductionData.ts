@@ -9,7 +9,9 @@ export const IntroData = [
         {
           topic: "Read more",
           links: [{ link: "/nexus/introduction-to-nexus", placeholder: "Introduction to Avail Nexus"}, 
-          { link: "/nexus/concepts/unified-balance", placeholder: "What is a Unified Balance?"}, 
+          { link: "/nexus/concepts/unified-balance", placeholder: "What is a Unified Balance?"},
+          { link: "/nexus/nexus-overview", placeholder: "Get Started with the Nexus SDK"},
+          { link: "/nexus/nexus-quickstart", placeholder: "Quickstart"},
           {link: "/nexus/avail-nexus-sdk/api-reference#supported-chains", placeholder: "Supported Chains & Tokens"},
           {link: "/nexus/avail-nexus-sdk", placeholder: "Avail Nexus SDK Reference"},
           {link: "/nexus/nexus-cheatsheet", placeholder: "Nexus cheat sheet"},
