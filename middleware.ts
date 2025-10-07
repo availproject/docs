@@ -1292,7 +1292,11 @@ export function middleware(request: NextRequest) {
 
     {
       source: "/nexus/avail-nexus-sdk/overview",
-      destination: `${origin}/nexus/overview`,
+      destination: `${origin}/nexus/nexus-overview`,
+    },
+    {
+      source: "/nexus/avail-nexus-sdk/overview",
+      destination: `${origin}/nexus/nexus-quickstart`,
     },
 
     {
