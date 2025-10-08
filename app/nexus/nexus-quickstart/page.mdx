@@ -6,7 +6,7 @@ import { Callout, Steps, Tabs } from 'nextra/components';
 
 # Get Started
 
-This page will help you get started with `nexus` as well as `nexus-widgets`.
+This page will help you get started with `nexus-core` as well as `nexus-widgets`.
 
 {/* <Callout type="info">
     We built a React demo app that uses the Avail Nexus SDK UI components to implement a unified Web3 experience.
@@ -16,13 +16,13 @@ This page will help you get started with `nexus` as well as `nexus-widgets`.
 </Callout> */}
 
 
-## Nexus (headless)
+## Nexus Core
 
 <Callout type="info">
-We also made a demo app for the headless package to make it easier for devs to get on-boarded with the Avail Nexus SDK.
-You can visit the Nexus (headless) demo app here: [avail-headless-nexus-demo.avail.so](https://avail-headless-nexus-demo.avail.so/)
+We also made a demo app for the headless package to make it easier for devs to get on-boarded with the Avail Nexus SDK:
 
-- [Github](https://github.com/availproject/avail-nexus-demo)
+- [avail-headless-nexus-demo.avail.so](https://avail-headless-nexus-demo.avail.so/)
+- [Github repo for the demo app](https://github.com/availproject/avail-nexus-demo)
 </Callout>
 
 Getting started with the headless Nexus SDK is simple.
@@ -33,7 +33,15 @@ Getting started with the headless Nexus SDK is simple.
 
 The Nexus SDK requires an injected wallet provider (e.g. RainbowKit, ConnectKit, etc.)
 
+<Callout type="info">
+To be clear, even a basic injected provider using the `window.ethereum` object will work, but we recommend using a dedicated wallet provider.
+</Callout>
+
 ### Initialize the SDK
+
+<Callout type="info">
+A more complete example of getting started with `nexus-core` can be found [in this page of our docs](/nexus/nexus-examples/nexus-initialization-basic). 
+</Callout>
 
 Choose the network type you want to use and initialize the SDK with the wallet provider.
 
@@ -56,10 +64,10 @@ await sdk.initialize(window.ethereum); // Returns: Promise<void>
 ## Nexus-Widgets (React)
 
 <Callout type="info">
-We also made a demo app for the widgets package to make it easier for devs to get on-boarded with the Avail Nexus SDK.
-You can visit the Nexus (widgets) demo app here: [nexus-ui-components-demo.avail.so](https://nexus-ui-components-demo.avail.so/)
+We also made a demo app for the widgets package to make it easier for devs to get on-boarded with the Avail Nexus SDK:
 
-- [Github](https://github.com/availproject/nexus-ui-components-demo)
+- [nexus-ui-components-demo.avail.so](https://nexus-ui-components-demo.avail.so/)
+- [Github repo for the demo app](https://github.com/availproject/nexus-ui-components-demo)
 </Callout>
 
 The `nexus-widgets` package is a set of React components that make it easier to integrate the Nexus SDK into your React app.
