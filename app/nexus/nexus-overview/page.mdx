@@ -5,7 +5,7 @@ title: Nexus SDK Overview
 
 import { Callout, Steps, Tabs } from 'nextra/components';
 
-# Avail Nexus
+# Nexus SDK Overview
 
 A powerful TypeScript SDK for cross-chain operations, token bridging, and unified balance management across multiple EVM chains.
 
@@ -13,7 +13,7 @@ A powerful TypeScript SDK for cross-chain operations, token bridging, and unifie
 
 The Nexus SDK is split into two main packages:
 
-1. [**@avail-project/nexus**](https://github.com/availproject/nexus-sdk/tree/main/packages/core): Headless SDK for cross-chain operations
+1. [**@avail-project/nexus-core**](https://github.com/availproject/nexus-sdk/tree/main/packages/core): Headless SDK for cross-chain operations
     - No React dependencies required
     - Direct Chain Abstraction integration
 
@@ -23,19 +23,19 @@ The Nexus SDK is split into two main packages:
 
 <Tabs.Tab>
 ```bash filename="Terminal"
-npm install @avail-project/nexus
+npm install @avail-project/nexus-core
 ```
 </Tabs.Tab>
 
 <Tabs.Tab>
 ```bash filename="Terminal"
-yarn add @avail-project/nexus
+yarn add @avail-project/nexus-core
 ```
 </Tabs.Tab>
 
 <Tabs.Tab>
 ```bash filename="Terminal"
-pnpm add @avail-project/nexus
+pnpm add @avail-project/nexus-core
 ```
 </Tabs.Tab>
 
@@ -47,7 +47,7 @@ pnpm add @avail-project/nexus
 2. It is designed for client-side browser environments and **cannot be used** in any server-side environments.
 </Callout>
 
-2. [**@avail-project/nexus-widgets**](https://github.com/availproject/nexus-sdk/tree/main/packages/widgets): Convenient React components for plug-n-play
+2. [**@avail-project/nexus-widgets**](https://github.com/availproject/nexus-sdk/tree/main/packages/widgets): Convenient React components for a plug-n-play experience.
     - Ready-to-use React components for seamless integration
     - Drop-in bridge, transfer, bridge-and-execute and execute components
 
