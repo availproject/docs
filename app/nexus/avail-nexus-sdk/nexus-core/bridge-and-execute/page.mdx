@@ -12,6 +12,15 @@ import { Callout, Steps, Tabs } from 'nextra/components'
 You can find the SDK setup instructions in the [Overview](/api-reference/avail-nexus-sdk/overview) page.
 </Callout>
 
+Use the `bridgeAndExecute()` function to bridge a token and execute a contract function on the recipient chain in a single flow.
+
+## Method signature
+
+```typescript showLineNumbers filename="Typescript"
+async bridgeAndExecute(params: BridgeAndExecuteParams): Promise<BridgeAndExecuteResult>
+async simulateBridgeAndExecute(params: BridgeAndExecuteParams): Promise<BridgeAndExecuteSimulationResult>
+```
+
 ## Parameters
 
 ```typescript showLineNumbers filename="Typescript"
@@ -20,6 +29,7 @@ export interface BridgeAndExecuteParams {
   token: SUPPORTED_TOKENS;
   amount: number | string;
   recipient?: `0x${string}`;
+  sourceChains?: number[];
   execute?: Omit<ExecuteParams, 'toChainId'>;
   enableTransactionPolling?: boolean;
   transactionTimeout?: number;
@@ -32,7 +42,7 @@ export interface BridgeAndExecuteParams {
 }
 ```
 
-# Example
+## Example
 
 ```typescript showLineNumbers filename="Typescript"
 import type {
@@ -42,7 +52,7 @@ import type {
   BridgeAndExecuteParams,
   BridgeAndExecuteResult,
   BridgeAndExecuteSimulationResult,
-} from '@avail-project/nexus';
+} from '@avail-project/nexus-core';
 
 // Execute contract functions with dynamic parameter builder - Compound V3 Supply
 const result: ExecuteResult = await sdk.execute({
@@ -94,6 +104,7 @@ const bridgeAndExecuteResult: BridgeAndExecuteResult = await sdk.bridgeAndExecut
   token: 'USDC',
   amount: '100000000', // 100 USDC (6 decimals)
   toChainId: 1, // Ethereum
+  sourceChains: [8453], // Only use USDC from `Base` as source for bridge
   execute: {
     contractAddress: '0xa354F35829Ae975e850e23e9615b11Da1B3dC4DE', // Yearn USDC Vault
     contractAbi: [
@@ -142,6 +153,8 @@ console.log('Bridge receive amount:', simulation.metadata?.bridgeReceiveAmount);
 ```
 
 ## Return Value
+
+The return value is a `BridgeAndExecuteResult` object.
 
 ```typescript showLineNumbers filename="Typescript"
 export interface BridgeAndExecuteResult {
