@@ -13,34 +13,20 @@ import { Callout, Tabs } from 'nextra/components'
 2. We also [created a tutorial](/nexus/nexus-examples/nexus-initialization-basic) to make it easier to understand how devs need to initialize the Nexus SDK in their project.
 </Callout>
 
-Use the `BridgeButton` component to provide a pre-built bridge interface that handles token bridging between supported chains. 
+Use the `BridgeButton` component to provide a pre-built bridge interface that handles token bridging between supported chains.
+
 The widget automatically manages the bridge flow, UI modals, and transaction state.
-
-<Callout type="info">
-**Note:**<br/>
-
-1. We made a small demo website that implements the `BridgeButton` widget.
-Check it out here: [nexus-ui-components-demo.vercel.app](https://nexus-ui-components-demo.vercel.app/)
-
-2. If you just want to see an example that uses the `BridgeButton` widget,
-refer to the repo here: [nexus-ui-components-demo](https://github.com/availproject/nexus-ui-components-demo/blob/main/src/components/nexus.tsx#L20)
-</Callout>
 
 ## Props
 
 ```typescript showLineNumbers filename="Typescript"
-interface BridgeButtonProps {
-  title?: string; // Will appear once intialization is completed
-  prefill?: Partial<BridgeParams>; // chainId, token, amount
-  className?: string;
-  children(props: { onClick(): void; isLoading: boolean }): React.ReactNode;
-}
+import type { BridgeParams } from '@avail-project/nexus-core';
 
-interface BridgeConfig {
-  token?: SUPPORTED_TOKENS;
-  amount?: number | string;
-  chainId?: SUPPORTED_CHAINS_IDS;
-  gas?: bigint;
+interface BridgeButtonProps {
+  title?: string; // Appears in the modal header once initialization completes
+  prefill?: Partial<BridgeParams>; // chainId, token, amount (locked in the UI)
+  className?: string; // Applied to the wrapper div around your trigger content
+  children(props: { onClick(): void; isLoading: boolean }): React.ReactNode; // render prop trigger
 }
 ```
 
@@ -79,16 +65,16 @@ import { NexusProvider, BridgeButton } from '@avail-project/nexus-widgets';
 
 function App() {
   return (
-    <BridgeButton 
-      prefill={{ 
-        chainId: 137,
-        token: 'USDC', 
-        amount: '100'
+    <BridgeButton
+      prefill={{
+        chainId: 137,  // Polygon (destination)
+        token: 'USDC',
+        amount: '100',
       }}
     >
       {({ onClick, isLoading }) => (
         <button onClick={onClick} disabled={isLoading}>
-          {isLoading ? 'Bridging...' : 'Bridge 100 USDC to Polygon'}
+          {isLoading ? 'Bridging…' : 'Bridge 100 USDC to Polygon'}
         </button>
       )}
     </BridgeButton>

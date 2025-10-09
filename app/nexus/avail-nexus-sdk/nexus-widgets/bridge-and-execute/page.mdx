@@ -21,25 +21,17 @@ Useful for flows like *“bridge 500 USDC to Base and stake it in a lending pool
 ## Props
 
 ```typescript showLineNumbers filename="Typescript"
-type DynamicParamBuilder = (
-  token: SUPPORTED_TOKENS,
-  amount: string,
-  chainId: SUPPORTED_CHAINS_IDS,
-  userAddress: `0x${string}`,
-) => {
-  functionParams: readonly unknown[];
-  value?: string; // wei; defaults to "0"
-};
-
-interface BridgeAndExecuteButtonProps {
-  title?: string; // Will appear once intialization is completed
-  contractAddress: `0x${string}`; // REQUIRED
-  contractAbi: Abi; // REQUIRED
-  functionName: string; // REQUIRED
-  buildFunctionParams: DynamicParamBuilder; // REQUIRED
-  prefill?: { toChainId?: number; token?: SUPPORTED_TOKENS; amount?: string };
-  className?: string;
-  children(props: { onClick(): void; isLoading: boolean; disabled: boolean }): React.ReactNode;
+export interface BridgeAndExecuteButtonProps extends BaseComponentProps {
+  contractAddress: `0x${string}`;
+  contractAbi: Abi;
+  functionName: string;
+  buildFunctionParams: DynamicParamBuilder;
+  prefill?: {
+    toChainId?: SUPPORTED_CHAINS_IDS;
+    token?: SUPPORTED_TOKENS;
+    amount?: string;
+  };
+  children: (props: { onClick: () => void; isLoading: boolean; disabled: boolean }) => ReactNode;
 }
 ```
 
