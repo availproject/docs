@@ -1,0 +1,58 @@
+---
+image: "/img/docs-link-preview.png"
+title: Avail Nexus SDK Reference
+asIndexPage: true
+---
+
+import { Callout, Steps, Tabs, Cards } from 'nextra/components'
+import { FileIcon, LinkIcon, GithubIcon24 } from '@components/icons'
+
+# Avail Nexus SDK Reference
+
+This section contains dedicated pages for the main functions exposed by the Avail Nexus SDK as part of \
+`nexus-core` and `nexus-widgets`.
+
+## Common Utils and Constants
+
+In these files you can find a suite of helper function exposed by the SDK, as well as some constants and addresses that are used throughout the SDK.
+
+<Cards num={2}>
+    <Cards.Card title="Utils" icon={<GithubIcon24 className="svg-inherit"  />} href="https://github.com/availproject/nexus-sdk/blob/main/packages/commons/utils/index.ts" target="_blank" rel="noopener noreferrer" arrow />
+    <Cards.Card title="Constants" icon={<GithubIcon24 className="svg-inherit"  />} href="https://github.com/availproject/nexus-sdk/blob/main/packages/commons/constants/index.ts" target="_blank" rel="noopener noreferrer" arrow />
+</Cards>
+
+## Nexus Core
+
+### Links
+<Cards num={2}>
+    <Cards.Card title="Github Link" icon={<GithubIcon24 className="svg-inherit"  />} href="https://github.com/availproject/nexus-sdk/tree/main/packages/core" target="_blank" rel="noopener noreferrer" arrow />
+    <Cards.Card title="npm page" icon={<LinkIcon />} href="https://www.npmjs.com/package/@avail-project/nexus-core?activeTab=code" target="_blank" rel="noopener noreferrer" arrow />
+</Cards>
+
+### Docs
+
+<Cards num={3}>
+    <Cards.Card title="Unified Balance" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/nexus-core/fetch-unified-balances" />
+    <Cards.Card title="Bridge" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/nexus-core/bridge" />
+    <Cards.Card title="Transfer" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/nexus-core/transfer" />
+    <Cards.Card title="Bridge and Execute" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/nexus-core/bridge-and-execute" />
+    <Cards.Card title="API Reference" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/nexus-core/api-reference" />
+</Cards>
+
+## Nexus Widgets
+
+### Links
+
+<Cards num={2}>
+    <Cards.Card title="Github Link" icon={<GithubIcon24 className="svg-inherit"  />} href="https://github.com/availproject/nexus-sdk/tree/main/packages/widgets" target="_blank" rel="noopener noreferrer" arrow />
+    <Cards.Card title="npm page" icon={<LinkIcon />} href="https://www.npmjs.com/package/@avail-project/nexus-widgets?activeTab=code" target="_blank" rel="noopener noreferrer" arrow />
+</Cards>
+
+### Docs
+
+<Cards num={3}>
+    <Cards.Card title="Transfer Button" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/nexus-widgets/transfer" />
+    <Cards.Card title="Bridge Button" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/nexus-widgets/bridge" />
+    <Cards.Card title="Bridge and Execute Button" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/nexus-widgets/bridge-and-execute" />
+    <Cards.Card title="API Reference" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/nexus-widgets/api-reference" />
+</Cards>
