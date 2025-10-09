@@ -1,0 +1,296 @@
+---
+title: "Add Porto Wallet to Your Nexus SDK Project"
+description: "Learn how to enhance your existing Nexus SDK project with Porto Wallet for secure wallet connection"
+keywords:
+  - docs
+  - Avail Nexus
+  - Next JS
+  - Porto Wallet
+  - Nexus SDK enhancement
+  - Wallet connection
+---
+
+import { Callout, Steps, Tabs } from 'nextra/components';
+
+# Add Porto Wallet to Your Nexus SDK Project
+
+<Callout type="info">
+**PREREQUISITE**<br/>
+This tutorial assumes you have already completed the [basic Nexus SDK tutorial](/nexus/nexus-examples/nexus-initialization-basic). 
+If you haven't, please go through that first to set up your base project.
+</Callout>
+
+## What You'll Learn
+
+By the end of this tutorial you will have:
+
+1. Enhanced your existing Nexus SDK project with Porto Wallet
+2. Added secure wallet connection with iframe-based authentication
+3. Integrated Porto with Wagmi for better wallet management
+4. Maintained all existing Nexus SDK functionality
+
+## Why Add Porto Wallet?
+
+Porto Wallet provides several advantages over the basic EIP-1193 approach:
+
+- **Secure Authentication**: Iframe-based wallet connection for enhanced security
+- **No Browser Extensions**: Works without requiring wallet browser extensions
+- **Cross-Platform**: Works on desktop and mobile devices
+- **User-Friendly**: Simple and intuitive wallet connection experience
+- **Wagmi Integration**: Seamless integration with popular React wallet libraries
+
+## Install Porto Wallet Dependencies
+
+Add the required packages to your existing project:
+
+```bash filename="Terminal"
+pnpm add porto wagmi viem @tanstack/react-query
+```
+
+## Configure Porto Wallet
+
+### 1. Create Wagmi Configuration
+
+Create a new file at `src/lib/wagmi.ts`:
+
+```tsx filename="src/lib/wagmi.ts"
+import { http, createConfig, createStorage } from 'wagmi';
+import { mainnet, arbitrum, polygon, optimism, base, avalanche } from 'wagmi/chains';
+import { porto } from 'wagmi/connectors';
+
+// Create a safe storage that works in both server and client environments
+const safeStorage = typeof window !== 'undefined' ? localStorage : {
+  getItem: () => null,
+  setItem: () => {},
+  removeItem: () => {},
+};
+
+export const config = createConfig({
+  chains: [mainnet, arbitrum, polygon, optimism, base, avalanche],
+  connectors: [porto()],
+  storage: createStorage({ storage: safeStorage }),
+  transports: {
+    [mainnet.id]: http(),
+    [arbitrum.id]: http(),
+    [polygon.id]: http(),
+    [optimism.id]: http(),
+    [base.id]: http(),
+    [avalanche.id]: http(),
+  },
+});
+```
+
+### 2. Create Providers Component
+
+Create a new file at `src/components/providers.tsx`:
+
+```tsx filename="src/components/providers.tsx"
+'use client';
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { WagmiProvider } from 'wagmi';
+import { config } from '@/lib/wagmi';
+
+const queryClient = new QueryClient();
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        {children}
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
+}
+```
+
+### 3. Update Layout
+
+Update your `src/app/layout.tsx` to wrap your app with the providers:
+
+```tsx filename="src/app/layout.tsx"
+import { Providers } from '@/components/providers';
+import './globals.css';
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body>
+        <Providers>
+          {children}
+        </Providers>
+      </body>
+    </html>
+  );
+}
+```
+
+## Update Your Components
+
+### 1. Replace Connect Button
+
+Update your `src/components/connect-button.tsx` to use Porto Wallet:
+
+```tsx filename="src/components/connect-button.tsx"
+'use client';
+
+import { useConnect, useConnectors, useAccount } from 'wagmi';
+
+export default function ConnectWalletButton({ className }: { className?: string }) {
+  const connect = useConnect();
+  const connectors = useConnectors();
+  const { isConnected, address } = useAccount();
+
+  const handleConnect = () => {
+    const portoConnector = connectors.find((connector: any) => connector.name === 'Porto');
+    if (portoConnector) {
+      connect.connect({ connector: portoConnector });
+    }
+  };
+
+  if (isConnected) {
+    return (
+      <div className="flex items-center gap-2">
+        <span className="text-sm text-gray-600">
+          Connected: {address?.slice(0, 6)}...{address?.slice(-4)}
+        </span>
+      </div>
+    );
+  }
+
+  return (
+    <button className={className} onClick={handleConnect}>
+      Connect with Porto Wallet
+    </button>
+  );
+}
+```
+
+### 2. Update Init Button
+
+Update your `src/components/init-button.tsx` to use Wagmi's connector:
+
+```tsx filename="src/components/init-button.tsx"
+'use client';
+
+import { useAccount } from 'wagmi';
+import { initializeWithProvider, isInitialized } from '../lib/nexus';
+
+export default function InitButton({
+  className,
+  onReady,
+}: { className?: string; onReady?: () => void }) {
+  const { connector } = useAccount();
+  
+  const onClick = async () => {
+    try {
+      // Get the provider from the connected wallet
+      const provider = await connector?.getProvider();
+      if (!provider) throw new Error('No provider found');
+      
+      // We're calling our wrapper function from the lib/nexus.ts file here.
+      await initializeWithProvider(provider);
+      onReady?.();
+      alert('Nexus initialized');
+    } catch (e: any) {
+      alert(e?.message ?? 'Init failed');
+    }
+  };
+  return <button className={className} onClick={onClick} disabled={isInitialized()}>Initialize Nexus</button>;
+}
+```
+
+### 3. Update Main Page
+
+Update your `src/app/page.tsx` to show wallet connection status:
+
+```tsx filename="src/app/page.tsx"
+'use client';
+
+import { useState } from 'react';
+import { useAccount } from 'wagmi';
+import ConnectWalletButton from '@/components/connect-button';
+import InitButton from '@/components/init-button';
+import FetchUnifiedBalanceButton from '@/components/fetch-unified-balance-button';
+import DeinitButton from '@/components/de-init-button';
+import { isInitialized } from '@/lib/nexus';
+
+export default function Page() {
+  const { isConnected } = useAccount();
+  const [initialized, setInitialized] = useState(isInitialized());
+  const [balances, setBalances] = useState<any>(null);
+
+  const btn =
+    'px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 ' +
+    'disabled:opacity-50 disabled:cursor-not-allowed';
+
+  return (
+    <main className="min-h-screen flex items-center justify-center">
+      <div className="flex flex-col items-center gap-4">
+        <ConnectWalletButton className={btn} />
+        <InitButton className={btn} onReady={() => setInitialized(true)} />
+        <FetchUnifiedBalanceButton className={btn} onResult={(r) => setBalances(r)} />
+        <DeinitButton className={btn} onDone={() => { setInitialized(false); setBalances(null); }} />
+
+        <div className="mt-2">
+          <b>Wallet Status:</b> {isConnected ? 'Connected' : 'Not connected'}
+        </div>
+        <div className="mt-2">
+          <b>Nexus SDK Initialization Status:</b> {initialized ? 'Initialized' : 'Not initialized'}
+        </div>
+
+        {balances && (
+          <pre className="whitespace-pre-wrap">{JSON.stringify(balances, null, 2)}</pre>
+        )}
+      </div>
+    </main>
+  );
+}
+```
+
+## Development Setup
+
+<Callout type="warning">
+**HTTPS Required**<br/>
+Porto Wallet requires a secure origin (HTTPS) to function correctly. In development, you can enable HTTPS in Next.js by using the `--experimental-https` flag:
+
+```bash
+pnpm dev --experimental-https
+```
+
+Make sure your development environment supports HTTPS to avoid issues with Porto's iframe integration.
+</Callout>
+
+## What Changed?
+
+The only changes from your basic tutorial are:
+
+1. **Added Porto Wallet packages** - 4 new dependencies
+2. **Created Wagmi config** - Chain and connector configuration
+3. **Added providers** - Wagmi and React Query providers
+4. **Updated connect button** - Now uses Porto Wallet connector
+5. **Updated init button** - Uses Wagmi's connector instead of window.ethereum
+6. **Added wallet status** - Shows connection status
+
+**Everything else stays exactly the same!** Your Nexus SDK setup, balance fetching, and de-initialization all work identically.
+
+## Benefits You Now Have
+
+- **Secure Authentication**: Iframe-based wallet connection for enhanced security
+- **No Extensions Required**: Works without browser wallet extensions
+- **Cross-Platform**: Works on desktop and mobile devices
+- **Wagmi Integration**: Seamless integration with popular React wallet libraries
+- **Better UX**: Professional wallet connection experience
+
+## Next Steps
+
+Your Nexus SDK project now has a secure wallet connection experience while maintaining all the same functionality. You can continue building with the same Nexus SDK methods you learned in the basic tutorial!
+
+<Callout type="info">
+**Want to learn more?**<br/>
+Check out the [Porto Wallet documentation](https://porto.sh/sdk) for more customization options and advanced features.
+</Callout>
