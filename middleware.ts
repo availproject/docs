@@ -1294,10 +1294,10 @@ export function middleware(request: NextRequest) {
       source: "/nexus/avail-nexus-sdk/overview",
       destination: `${origin}/nexus/nexus-overview`,
     },
-    {
-      source: "/nexus/avail-nexus-sdk/overview",
-      destination: `${origin}/nexus/nexus-quickstart`,
-    },
+    // {
+    //   source: "/nexus/avail-nexus-sdk/overview",
+    //   destination: `${origin}/nexus/nexus-quickstart`,
+    // },
 
     {
       source: "/nexus/avail-nexus-sdk/examples/nexus-core/fetch-unified-balances",
