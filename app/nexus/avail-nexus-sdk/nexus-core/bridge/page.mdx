@@ -14,6 +14,13 @@ You can find the SDK setup instructions in the [Overview](/api-reference/avail-n
 
 Use the `bridge()` function to bridge a specific token from one (*or many*) chains to a single chain.
 
+## Method signature
+
+```typescript showLineNumbers filename="Typescript"
+async bridge(params: BridgeParams): Promise<BridgeResult>
+async simulateBridge(params: BridgeParams): Promise<SimulationResult>
+```
+
 ## Parameters
 
 ```typescript showLineNumbers filename="Typescript"

@@ -14,6 +14,13 @@ You can find the SDK setup instructions in the [Overview](/nexus/avail-nexus-sdk
 
 Use the `transfer()` function to convert multiple tokens from multiple chains to a single token on a single chain.
 
+## Method signature
+
+```typescript showLineNumbers filename="Typescript"
+async transfer(params: TransferParams): Promise<TransferResult>
+async simulateTransfer(params: TransferParams): Promise<SimulationResult>
+```
+
 ## Parameters
 
 ```typescript showLineNumbers filename="Typescript"
