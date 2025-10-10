@@ -98,7 +98,7 @@ pnpm add @avail-project/nexus-core
 
 3. Update the `src/app/page.tsx` file to the following:
 
-```tsx filename="src/app/page.tsx"
+```tsx filename="src/app/page.tsx" showLineNumbers
 export default function Home() {
   return <div>Hello Nexus!</div>;
 }
@@ -120,7 +120,7 @@ This will help keep the code clean and make it easier to understand the flow of 
 
 1. Create a file at `src/lib/nexus.ts` and add the following code:
 
-```tsx filename="src/lib/nexus.ts"
+```tsx filename="src/lib/nexus.ts" showLineNumbers
 import { NexusSDK } from '@avail-project/nexus-core';
 
 export const sdk = new NexusSDK({ network: 'testnet'});
@@ -135,7 +135,7 @@ You can check out a complete list of the supported networks [here](/nexus/avail-
 
 2. Now fill the page with the following helper functions:
 
-```tsx filename="src/lib/nexus.ts"
+```tsx showLineNumbers filename="src/lib/nexus.ts"
 
 // Thin wrapper that calls sdk.isInitialized() from the SDK
 export function isInitialized() {
@@ -189,7 +189,7 @@ Create four new files in the `src/components` directory:
 
 This component will be used to connect a `EIP-1193` compatible wallet to the app.
 
-```tsx filename="src/components/connect-button.tsx"
+```tsx filename="src/components/connect-button.tsx" showLineNumbers
 'use client';
 
 export default function ConnectButton({ className }: { className?: string }) {
@@ -213,7 +213,7 @@ This tutorial only covers the **default injected provider** (`window.ethereum`).
 
 </Callout>
 
-```tsx filename="src/components/init-button.tsx"
+```tsx filename="src/components/init-button.tsx" showLineNumbers
 'use client';
 
 import { initializeWithProvider, isInitialized } from '../lib/nexus';
@@ -242,7 +242,7 @@ export default function InitButton({
 
 This component will be used to fetch the unified balances using the Nexus SDK.
 
-```tsx filename="src/components/fetch-unified-balance-button.tsx"
+```tsx filename="src/components/fetch-unified-balance-button.tsx" showLineNumbers
 'use client';
 
 import { getUnifiedBalances, isInitialized } from '../lib/nexus';
@@ -265,7 +265,7 @@ export default function FetchUnifiedBalanceButton({
 
 This component will be used to de-initialize the SDK using the `deinit()` function.
 
-```tsx filename="src/components/de-init-button.tsx"
+```tsx filename="src/components/de-init-button.tsx" showLineNumbers
 'use client';
 
 import { deinit, isInitialized } from '../lib/nexus';
@@ -289,7 +289,7 @@ export default function DeinitButton({
 
 Update the `src/app/page.tsx` file to the following:
 
-```tsx filename="src/app/page.tsx"
+```tsx filename="src/app/page.tsx" showLineNumbers
 'use client';
 
 import { useState } from 'react';

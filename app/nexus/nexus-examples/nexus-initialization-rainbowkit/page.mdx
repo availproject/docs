@@ -40,7 +40,7 @@ Navigate to the root of your project that you created in the [basic Nexus SDK tu
 
 Add the required packages to your existing project:
 
-```bash filename="Terminal"
+```bash filename="Terminal" showLineNumbers
 pnpm add @rainbow-me/rainbowkit wagmi viem @tanstack/react-query
 ```
 
@@ -50,7 +50,7 @@ pnpm add @rainbow-me/rainbowkit wagmi viem @tanstack/react-query
 
 Create a new file at `src/lib/wagmi.ts`:
 
-```tsx filename="src/lib/wagmi.ts"
+```tsx filename="src/lib/wagmi.ts" showLineNumbers
 import { getDefaultConfig } from '@rainbow-me/rainbowkit';
 import { mainnet, arbitrum, polygon, optimism, base, avalanche } from 'wagmi/chains';
 
@@ -70,7 +70,7 @@ You need to get a Project ID from [WalletConnect Cloud](https://cloud.walletconn
 
 Create a new file at `src/components/providers.tsx`:
 
-```tsx filename="src/components/providers.tsx"
+```tsx filename="src/components/providers.tsx" showLineNumbers
 'use client';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -98,7 +98,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
 Update your `src/app/layout.tsx` to wrap your app with the providers:
 
-```tsx filename="src/app/layout.tsx"
+```tsx filename="src/app/layout.tsx" showLineNumbers
 import { Providers } from '@/components/providers';
 import './globals.css';
 
@@ -125,7 +125,7 @@ export default function RootLayout({
 
 Update your `src/components/connect-button.tsx` to use RainbowKit:
 
-```tsx filename="src/components/connect-button.tsx"
+```tsx filename="src/components/connect-button.tsx" showLineNumbers
 'use client';
 
 import { ConnectButton } from '@rainbow-me/rainbowkit';
@@ -230,7 +230,7 @@ export default function ConnectWalletButton({ className }: { className?: string 
 
 Update your `src/components/init-button.tsx` to use Wagmi's connector:
 
-```tsx filename="src/components/init-button.tsx"
+```tsx filename="src/components/init-button.tsx" showLineNumbers
 'use client';
 
 import { useAccount } from 'wagmi';
@@ -274,7 +274,7 @@ const provider = await connector?.getProvider();
 
 Update your `src/app/page.tsx` to show wallet connection status:
 
-```tsx filename="src/app/page.tsx"
+```tsx filename="src/app/page.tsx" showLineNumbers
 'use client';
 
 import { useState } from 'react';
