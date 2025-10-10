@@ -29,17 +29,14 @@ By the end of this tutorial you will have:
 3. Added support for multiple wallet providers
 4. Maintained all existing Nexus SDK functionality
 
-## Why Add RainbowKit?
-
-RainbowKit provides several advantages over the basic EIP-1193 approach:
-
-- **Better UX**: Professional wallet connection UI
-- **Multiple Wallets**: Support for 20+ wallet providers
-- **Chain Switching**: Easy network switching
-- **Account Management**: Better account display and management
-- **Mobile Support**: Works with mobile wallets
+--- 
+<Callout type="info">
+Check out the [RainbowKit docs](https://rainbowkit.com/docs/introduction) for latest information on how to use and customize it. 
+</Callout>
 
 ## Install RainbowKit Dependencies
+
+Navigate to the root of your project that you created in the [basic Nexus SDK tutorial](/nexus/nexus-examples/nexus-initialization-basic#initialize-the-nexus-sdk-using-next-js-a-minimal-example-using-nexus-core).
 
 Add the required packages to your existing project:
 
@@ -262,6 +259,16 @@ export default function InitButton({
   return <button className={className} onClick={onClick} disabled={isInitialized()}>Initialize Nexus</button>;
 }
 ```
+The lines of interest for us is majorly what's here below:
+```ts
+const provider = await connector?.getProvider();
+      if (!provider) throw new Error('No provider found');
+      // We're calling our wrapper function from the lib/nexus.ts file here.
+      await initializeWithProvider(provider);
+```
+- Since RainbowKit uses `wagmi`, you can easily get the EIP-1193 Provider of your connected wallet with `useAccount`
+- Here, we import `useAccount` hook from `wagmi`, and get the `connector` property from which we can call `getProvider()` which returns the EIP-1193 Provider for the connected wallet. This makes it very easy for any RainbowKit connected wallet to initialize the Nexus SDK and unlock crosschain features.
+- Once we have the `provider`, we can pass it into our helper function to initialize Nexus.
 
 ### 3. Update Main Page
 
@@ -323,14 +330,6 @@ The only changes from your basic tutorial are:
 6. **Added wallet status** - Shows connection status
 
 **Everything else stays exactly the same!** Your Nexus SDK setup, balance fetching, and de-initialization all work identically.
-
-## Benefits You Now Have
-
-- **Professional UI**: Beautiful wallet connection interface
-- **Multiple Wallets**: Support for MetaMask, WalletConnect, Coinbase, and more
-- **Chain Switching**: Easy network switching with visual indicators
-- **Account Management**: Better account display with balances
-- **Mobile Support**: Works with mobile wallets
 
 ## Next Steps
 
