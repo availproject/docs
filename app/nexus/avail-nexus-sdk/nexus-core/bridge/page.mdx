@@ -1,0 +1,87 @@
+---
+title: "Bridge tokens using the Nexus SDK"
+---
+
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# `bridge()`
+
+<Callout type="info">
+**SET UP THE SDK BEFORE YOU START:**
+
+1. You can find the SDK setup instructions in the [Quickstart](/nexus/nexus-quickstart) page.
+2. We also [created a tutorial](/nexus/nexus-examples/nexus-initialization-basic) to make it easier to understand how devs need to initialize the Nexus SDK in their project.
+</Callout>
+
+Use the `bridge()` function to bridge a specific token from one (*or many*) chains to a single chain.
+
+## Method signature
+
+```typescript showLineNumbers filename="Typescript"
+async bridge(params: BridgeParams): Promise<BridgeResult>
+async simulateBridge(params: BridgeParams): Promise<SimulationResult>
+```
+
+## Parameters
+
+```typescript showLineNumbers filename="Typescript"
+/**
+ * Parameters for bridging tokens.
+ */
+export interface BridgeParams {
+  token: SUPPORTED_TOKENS;
+  amount: number | string;
+  chainId: SUPPORTED_CHAINS_IDS;
+  gas?: bigint;
+  sourceChains?: number[];
+}
+```
+
+<Callout type="info">
+1. `chainID` refers to the Chain ID of the recipient chain.
+2. `sourceChains` is an optional param that takes an array of chainIDs.
+Use this if you want only some of your funds to be used for bridging..
+Helpful if you want to maintain your holdings on some chains.
+</Callout>
+
+## Example
+
+```typescript showLineNumbers filename="Typescript"
+import type { BridgeParams, BridgeResult, SimulationResult } from '@avail-project/nexus-core';
+
+// Bridge tokens between chains
+const result: BridgeResult = await sdk.bridge({
+  token: 'USDC',
+  amount: 100,
+  chainId: 137,
+  sourceChains: [84532, 80002], // Only use USDC from `Base Sepolia` and `Polygon Amoy` as sources for the bridge
+} as BridgeParams);
+
+// Simulate bridge to preview costs
+// Note that you can avoid using optional params
+const simulation: SimulationResult = await sdk.simulateBridge({
+  token: 'USDC',
+  amount: 100,
+  chainId: 137,
+});
+```
+
+## Return Value
+
+The return value is a `BridgeResult` object, which is a union type.
+
+```typescript showLineNumbers filename="Typescript"
+/**
+ * Result structure for bridge transactions.
+ */
+export type BridgeResult =
+  | { 
+    success: false; 
+    error: string;
+    }
+  | {
+      success: true;
+      explorerUrl: string;
+      transactionHash?: string;
+    };
+```

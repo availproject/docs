@@ -1,0 +1,83 @@
+---
+title: "Bridge tokens with BridgeButton widget"
+---
+
+import { Callout, Tabs } from 'nextra/components'
+
+# `<BridgeButton>`
+
+<Callout type="info">
+**SET UP THE SDK BEFORE YOU START:**
+
+1. You can find the SDK setup instructions in the [Quickstart](/nexus/nexus-quickstart) page.
+2. We also [created a tutorial](/nexus/nexus-examples/nexus-initialization-basic) to make it easier to understand how devs need to initialize the Nexus SDK in their project.
+</Callout>
+
+Use the `BridgeButton` component to provide a pre-built bridge interface that handles token bridging between supported chains.
+
+The widget automatically manages the bridge flow, UI modals, and transaction state.
+
+## Props
+
+```typescript showLineNumbers filename="Typescript"
+import type { BridgeParams } from '@avail-project/nexus-core';
+
+interface BridgeButtonProps {
+  title?: string; // Appears in the modal header once initialization completes
+  prefill?: Partial<BridgeParams>; // chainId, token, amount (locked in the UI)
+  className?: string; // Applied to the wrapper div around your trigger content
+  children(props: { onClick(): void; isLoading: boolean }): React.ReactNode; // render prop trigger
+}
+```
+
+## Example
+
+<Callout type="info">
+**Note:** \
+Refer to the [API reference](/api-reference/avail-nexus-sdk/api-reference) for a full list of supported tokens and chains,
+as well as more examples of how to use the `BridgeButton` widget.
+</Callout>
+
+Here are examples of how to use the `BridgeButton` widget:
+
+### Basic Bridge Button
+
+```tsx showLineNumbers filename="App.tsx"
+import {NexusProvider, BridgeButton } from '@avail-project/nexus-widgets';
+
+function App() {
+  return (
+    <BridgeButton>
+      {({ onClick, isLoading }) => (
+        <button onClick={onClick} disabled={isLoading}>
+          {isLoading ? 'Loading...' : 'Open Bridge'}
+        </button>
+      )}
+    </BridgeButton>
+  );
+}
+```
+
+### Pre-filled Bridge Button
+
+```tsx showLineNumbers filename="App.tsx"
+import { NexusProvider, BridgeButton } from '@avail-project/nexus-widgets';
+
+function App() {
+  return (
+    <BridgeButton
+      prefill={{
+        chainId: 137,  // Polygon (destination)
+        token: 'USDC',
+        amount: '100',
+      }}
+    >
+      {({ onClick, isLoading }) => (
+        <button onClick={onClick} disabled={isLoading}>
+          {isLoading ? 'Bridging…' : 'Bridge 100 USDC to Polygon'}
+        </button>
+      )}
+    </BridgeButton>
+  );
+}
+```

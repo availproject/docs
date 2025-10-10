@@ -1,0 +1,341 @@
+---
+title: "Add RainbowKit to Your Nexus SDK Project"
+description: "Learn how to enhance your existing Nexus SDK project with RainbowKit for better wallet connection experience"
+keywords:
+  - docs
+  - Avail Nexus
+  - Next JS
+  - RainbowKit
+  - Nexus SDK enhancement
+  - Wallet connection
+---
+
+import { Callout, Steps, Tabs } from 'nextra/components';
+
+# Add RainbowKit to Your Nexus SDK Project
+
+<Callout type="info">
+**PREREQUISITE**<br/>
+This tutorial assumes you have already completed the [basic Nexus SDK tutorial](/nexus/nexus-examples/nexus-initialization-basic). 
+If you haven't, please go through that first to set up your base project.
+</Callout>
+
+## What You'll Learn
+
+By the end of this tutorial you will have:
+
+1. Enhanced your existing Nexus SDK project with RainbowKit
+2. Improved the wallet connection experience with better UI
+3. Added support for multiple wallet providers
+4. Maintained all existing Nexus SDK functionality
+
+--- 
+<Callout type="info">
+Check out the [RainbowKit docs](https://rainbowkit.com/docs/introduction) for latest information on how to use and customize it. 
+</Callout>
+
+## Install RainbowKit Dependencies
+
+Navigate to the root of your project that you created in the [basic Nexus SDK tutorial](/nexus/nexus-examples/nexus-initialization-basic#initialize-the-nexus-sdk-using-next-js-a-minimal-example-using-nexus-core).
+
+Add the required packages to your existing project:
+
+```bash filename="Terminal" showLineNumbers
+pnpm add @rainbow-me/rainbowkit wagmi viem @tanstack/react-query
+```
+
+## Configure RainbowKit
+
+### 1. Create Wagmi Configuration
+
+Create a new file at `src/lib/wagmi.ts`:
+
+```tsx filename="src/lib/wagmi.ts" showLineNumbers
+import { getDefaultConfig } from '@rainbow-me/rainbowkit';
+import { mainnet, arbitrum, polygon, optimism, base, avalanche } from 'wagmi/chains';
+
+export const config = getDefaultConfig({
+  appName: 'Nexus SDK with RainbowKit',
+  projectId: 'YOUR_PROJECT_ID', // Get this from https://cloud.walletconnect.com/
+  chains: [mainnet, arbitrum, polygon, optimism, base, avalanche],
+  ssr: true, // If your dApp uses server side rendering (SSR)
+});
+```
+
+<Callout type="warning">
+You need to get a Project ID from [WalletConnect Cloud](https://cloud.walletconnect.com/) for RainbowKit to work properly. This is free and only takes a few minutes to set up.
+</Callout>
+
+### 2. Create Providers Component
+
+Create a new file at `src/components/providers.tsx`:
+
+```tsx filename="src/components/providers.tsx" showLineNumbers
+'use client';
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { WagmiProvider } from 'wagmi';
+import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { config } from '@/lib/wagmi';
+import '@rainbow-me/rainbowkit/styles.css';
+
+const queryClient = new QueryClient();
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider>
+          {children}
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
+}
+```
+
+### 3. Update Layout
+
+Update your `src/app/layout.tsx` to wrap your app with the providers:
+
+```tsx filename="src/app/layout.tsx" showLineNumbers
+import { Providers } from '@/components/providers';
+import './globals.css';
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body>
+        <Providers>
+          {children}
+        </Providers>
+      </body>
+    </html>
+  );
+}
+```
+
+## Update Your Components
+
+### 1. Replace Connect Button
+
+Update your `src/components/connect-button.tsx` to use RainbowKit:
+
+```tsx filename="src/components/connect-button.tsx" showLineNumbers
+'use client';
+
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+
+export default function ConnectWalletButton({ className }: { className?: string }) {
+  return (
+    <ConnectButton.Custom>
+      {({
+        account,
+        chain,
+        openAccountModal,
+        openChainModal,
+        openConnectModal,
+        authenticationStatus,
+        mounted,
+      }) => {
+        const ready = mounted && authenticationStatus !== 'loading';
+        const connected =
+          ready &&
+          account &&
+          chain &&
+          (!authenticationStatus ||
+            authenticationStatus === 'authenticated');
+
+        return (
+          <div
+            {...(!ready && {
+              'aria-hidden': 'true',
+              'style': {
+                opacity: 0,
+                pointerEvents: 'none',
+                userSelect: 'none',
+              },
+            })}
+          >
+            {(() => {
+              if (!connected) {
+                return (
+                  <button className={className} onClick={openConnectModal} type="button">
+                    Connect Wallet
+                  </button>
+                );
+              }
+
+              if (chain.unsupported) {
+                return (
+                  <button className={className} onClick={openChainModal} type="button">
+                    Wrong network
+                  </button>
+                );
+              }
+
+              return (
+                <div style={{ display: 'flex', gap: 12 }}>
+                  <button
+                    className={className}
+                    onClick={openChainModal}
+                    style={{ display: 'flex', alignItems: 'center' }}
+                    type="button"
+                  >
+                    {chain.hasIcon && (
+                      <div
+                        style={{
+                          background: chain.iconBackground,
+                          width: 12,
+                          height: 12,
+                          borderRadius: 999,
+                          overflow: 'hidden',
+                          marginRight: 4,
+                        }}
+                      >
+                        {chain.iconUrl && (
+                          <img
+                            alt={chain.name ?? 'Chain icon'}
+                            src={chain.iconUrl}
+                            style={{ width: 12, height: 12 }}
+                          />
+                        )}
+                      </div>
+                    )}
+                    {chain.name}
+                  </button>
+
+                  <button className={className} onClick={openAccountModal} type="button">
+                    {account.displayName}
+                    {account.displayBalance
+                      ? ` (${account.displayBalance})`
+                      : ''}
+                  </button>
+                </div>
+              );
+            })()}
+          </div>
+        );
+      }}
+    </ConnectButton.Custom>
+  );
+}
+```
+
+### 2. Update Init Button
+
+Update your `src/components/init-button.tsx` to use Wagmi's connector:
+
+```tsx filename="src/components/init-button.tsx" showLineNumbers
+'use client';
+
+import { useAccount } from 'wagmi';
+import { initializeWithProvider, isInitialized } from '../lib/nexus';
+
+export default function InitButton({
+  className,
+  onReady,
+}: { className?: string; onReady?: () => void }) {
+  const { connector } = useAccount();
+  
+  const onClick = async () => {
+    try {
+      // Get the provider from the connected wallet
+      const provider = await connector?.getProvider();
+      if (!provider) throw new Error('No provider found');
+      
+      // We're calling our wrapper function from the lib/nexus.ts file here.
+      await initializeWithProvider(provider);
+      onReady?.();
+      alert('Nexus initialized');
+    } catch (e: any) {
+      alert(e?.message ?? 'Init failed');
+    }
+  };
+  return <button className={className} onClick={onClick} disabled={isInitialized()}>Initialize Nexus</button>;
+}
+```
+The lines of interest for us is majorly what's here below:
+```ts
+const provider = await connector?.getProvider();
+      if (!provider) throw new Error('No provider found');
+      // We're calling our wrapper function from the lib/nexus.ts file here.
+      await initializeWithProvider(provider);
+```
+- Since RainbowKit uses `wagmi`, you can easily get the EIP-1193 Provider of your connected wallet with `useAccount`
+- Here, we import `useAccount` hook from `wagmi`, and get the `connector` property from which we can call `getProvider()` which returns the EIP-1193 Provider for the connected wallet. This makes it very easy for any RainbowKit connected wallet to initialize the Nexus SDK and unlock crosschain features.
+- Once we have the `provider`, we can pass it into our helper function to initialize Nexus.
+
+### 3. Update Main Page
+
+Update your `src/app/page.tsx` to show wallet connection status:
+
+```tsx filename="src/app/page.tsx" showLineNumbers
+'use client';
+
+import { useState } from 'react';
+import { useAccount } from 'wagmi';
+import ConnectWalletButton from '@/components/connect-button';
+import InitButton from '@/components/init-button';
+import FetchUnifiedBalanceButton from '@/components/fetch-unified-balance-button';
+import DeinitButton from '@/components/de-init-button';
+import { isInitialized } from '@/lib/nexus';
+
+export default function Page() {
+  const { isConnected } = useAccount();
+  const [initialized, setInitialized] = useState(isInitialized());
+  const [balances, setBalances] = useState<any>(null);
+
+  const btn =
+    'px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 ' +
+    'disabled:opacity-50 disabled:cursor-not-allowed';
+
+  return (
+    <main className="min-h-screen flex items-center justify-center">
+      <div className="flex flex-col items-center gap-4">
+        <ConnectWalletButton className={btn} />
+        <InitButton className={btn} onReady={() => setInitialized(true)} />
+        <FetchUnifiedBalanceButton className={btn} onResult={(r) => setBalances(r)} />
+        <DeinitButton className={btn} onDone={() => { setInitialized(false); setBalances(null); }} />
+
+        <div className="mt-2">
+          <b>Wallet Status:</b> {isConnected ? 'Connected' : 'Not connected'}
+        </div>
+        <div className="mt-2">
+          <b>Nexus SDK Initialization Status:</b> {initialized ? 'Initialized' : 'Not initialized'}
+        </div>
+
+        {balances && (
+          <pre className="whitespace-pre-wrap">{JSON.stringify(balances, null, 2)}</pre>
+        )}
+      </div>
+    </main>
+  );
+}
+```
+
+## What Changed?
+
+The only changes from your basic tutorial are:
+
+1. **Added RainbowKit packages** - 4 new dependencies
+2. **Created Wagmi config** - Chain and app configuration
+3. **Added providers** - RainbowKit and Wagmi providers
+4. **Updated connect button** - Now uses RainbowKit's ConnectButton
+5. **Updated init button** - Uses Wagmi's connector instead of window.ethereum
+6. **Added wallet status** - Shows connection status
+
+**Everything else stays exactly the same!** Your Nexus SDK setup, balance fetching, and de-initialization all work identically.
+
+## Next Steps
+
+Your Nexus SDK project now has a much better wallet connection experience while maintaining all the same functionality. You can continue building with the same Nexus SDK methods you learned in the basic tutorial!
+
+<Callout type="info">
+**Want to learn more?**<br/>
+Check out the [RainbowKit documentation](https://www.rainbowkit.com/docs) for more customization options and advanced features.
+</Callout>

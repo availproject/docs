@@ -4,82 +4,55 @@ title: Avail Nexus SDK Reference
 asIndexPage: true
 ---
 
-import { Callout, Steps, Tabs } from 'nextra/components';
+import { Callout, Steps, Tabs, Cards } from 'nextra/components'
+import { FileIcon, LinkIcon, GithubIcon24 } from '@components/icons'
 
-# Avail Nexus
+# Avail Nexus SDK Reference
 
-A powerful TypeScript SDK for cross-chain operations, token bridging, and unified balance management across multiple EVM chains.
+This section contains dedicated pages for the main functions exposed by the Avail Nexus SDK as part of \
+`nexus-core` and `nexus-widgets`.
 
-## Get Started 
+## Nexus Core
 
-The Nexus SDK is split into two main packages:
+### Links
+<Cards num={2}>
+    <Cards.Card title="Github Link" icon={<GithubIcon24 className="svg-inherit"  />} href="https://github.com/availproject/nexus-sdk/tree/main/packages/core" target="_blank" rel="noopener noreferrer" arrow />
+    <Cards.Card title="npm page" icon={<LinkIcon />} href="https://www.npmjs.com/package/@avail-project/nexus-core?activeTab=code" target="_blank" rel="noopener noreferrer" arrow />
+</Cards>
 
-1. [**@avail-project/nexus**](https://github.com/availproject/nexus-sdk/tree/main/packages/core): Headless SDK for cross-chain operations
-    - No React dependencies required
-    - Direct Chain Abstraction integration
+### Docs
 
-### Install:
+<Cards num={3}>
+    <Cards.Card title="Unified Balance" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/nexus-core/fetch-unified-balances" />
+    <Cards.Card title="Bridge" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/nexus-core/bridge" />
+    <Cards.Card title="Transfer" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/nexus-core/transfer" />
+    <Cards.Card title="Bridge and Execute" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/nexus-core/bridge-and-execute" />
+    <Cards.Card title="API Reference" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/nexus-core/api-reference" />
+</Cards>
 
-<Tabs items={['npm', 'yarn', 'pnpm']}>
+## Nexus Widgets
 
-<Tabs.Tab>
-```bash filename="Terminal"
-npm install @avail-project/nexus
-```
-</Tabs.Tab>
+### Links
 
-<Tabs.Tab>
-```bash filename="Terminal"
-yarn add @avail-project/nexus
-```
-</Tabs.Tab>
+<Cards num={2}>
+    <Cards.Card title="Github Link" icon={<GithubIcon24 className="svg-inherit"  />} href="https://github.com/availproject/nexus-sdk/tree/main/packages/widgets" target="_blank" rel="noopener noreferrer" arrow />
+    <Cards.Card title="npm page" icon={<LinkIcon />} href="https://www.npmjs.com/package/@avail-project/nexus-widgets?activeTab=code" target="_blank" rel="noopener noreferrer" arrow />
+</Cards>
 
-<Tabs.Tab>
-```bash filename="Terminal"
-pnpm add @avail-project/nexus
-```
-</Tabs.Tab>
+### Docs
 
-</Tabs>
+<Cards num={3}>
+    <Cards.Card title="Transfer Button" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/nexus-widgets/transfer" />
+    <Cards.Card title="Bridge Button" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/nexus-widgets/bridge" />
+    <Cards.Card title="Bridge and Execute Button" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/nexus-widgets/bridge-and-execute" />
+    <Cards.Card title="API Reference" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/nexus-widgets/api-reference" />
+</Cards>
 
-<Callout type="info">
+## Common Utils and Constants
 
-1. The headless SDK still requires an injected wallet provider (e.g. MetaMask, WalletConnect, etc.)
-2. It is designed for client-side browser environments and **cannot be used** in any server-side environments.
-</Callout>
+In these files you can find a suite of helper function exposed by the SDK, as well as some constants and addresses that are used throughout the SDK.
 
-2. [**@avail-project/nexus-widgets**](https://github.com/availproject/nexus-sdk/tree/main/packages/widgets): Convenient React components for plug-n-play
-    - Ready-to-use React components for seamless integration
-    - Drop-in bridge, transfer, bridge-and-execute and execute components
-
-### Install:
-
-<Tabs items={['npm', 'yarn', 'pnpm']}>
-
-<Tabs.Tab>
-```bash filename="Terminal"
-npm install @avail-project/nexus-widgets
-```
-</Tabs.Tab>
-
-<Tabs.Tab>
-```bash filename="Terminal"
-yarn add @avail-project/nexus-widgets
-```
-</Tabs.Tab>
-
-<Tabs.Tab>
-```bash filename="Terminal"
-pnpm add @avail-project/nexus-widgets
-```
-</Tabs.Tab>
-
-</Tabs>
-
-
-<Callout type="info">
-**YOU WILL NEED A REACT-BASED FRONTEND**<br/>
-
-1. Any React-based dev environment works, including React frameworks like Next.js, Remix, Gatsby, or build tools like Vite, Create React App, and Webpack.
-2. You also need the following peer dependencies: `react` , `react-dom`, `viem`.
-</Callout>
+<Cards num={2}>
+    <Cards.Card title="Utils" icon={<GithubIcon24 className="svg-inherit"  />} href="https://github.com/availproject/nexus-sdk/blob/main/packages/commons/utils/index.ts" target="_blank" rel="noopener noreferrer" arrow />
+    <Cards.Card title="Constants" icon={<GithubIcon24 className="svg-inherit"  />} href="https://github.com/availproject/nexus-sdk/blob/main/packages/commons/constants/index.ts" target="_blank" rel="noopener noreferrer" arrow />
+</Cards>

@@ -89,4 +89,36 @@
   width: 100%;
   object-fit: cover;
 }
-  
+
+
+/* make the SVG follow surrounding text color */
+.svg-inherit { color: inherit; }
+
+/* always recolor fills; don't add a stroke unless it already exists */
+.svg-inherit * { fill: currentColor; }
+.svg-inherit [fill="none"] { fill: none; }
+.svg-inherit [stroke]:not([stroke="none"]) { stroke: currentColor; }
+
+/* 24×24 container, centers any aspect-ratio icon */
+.icon-24 {
+  width: 24;
+  height: 24;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+
+/* scale the SVG so the larger dimension becomes 24px */
+.icon-24 > svg {
+  max-width: 50%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+}
+
+
+/* color inheritance (from earlier) */
+.svg-inherit { color: inherit; }
+.svg-inherit [fill]:not([fill="none"]) { fill: currentColor; }
+.svg-inherit [stroke]:not([stroke="none"]) { stroke: currentColor; }

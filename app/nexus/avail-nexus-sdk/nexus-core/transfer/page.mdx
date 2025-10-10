@@ -1,0 +1,101 @@
+---
+title: "Transfer tokens using the Nexus SDK"
+---
+
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# `transfer()`
+
+<Callout type="info">
+**SET UP THE SDK BEFORE YOU START:**
+
+You can find the SDK setup instructions in the [Overview](/nexus/avail-nexus-sdk/nexus-core/api-reference/) page.
+</Callout>
+
+Use the `transfer()` function to convert multiple tokens from multiple chains to a single token on a single chain.
+
+## Method signature
+
+```typescript showLineNumbers filename="Typescript"
+async transfer(params: TransferParams): Promise<TransferResult>
+async simulateTransfer(params: TransferParams): Promise<SimulationResult>
+```
+
+## Parameters
+
+```typescript showLineNumbers filename="Typescript"
+/**
+ * Parameters for transferring tokens.
+ */
+export interface TransferParams {
+  token: SUPPORTED_TOKENS;
+  amount: number | string;
+  chainId: SUPPORTED_CHAINS_IDS;
+  recipient: `0x${string}`;
+  sourceChains?: number[];
+}
+```
+
+<Callout type="info">
+1. `chainID` refers to the Chain ID of the recipient chain.
+2. `sourceChains` is an optional param that takes an array of chainIDs.
+Use this if you want only some of your funds to be used for the transfer.
+Helpful if you want to maintain your holdings on some chains.
+</Callout>
+
+## Example
+
+```typescript showLineNumbers filename="Typescript"
+import type { TransferParams, TransferResult, SimulationResult } from '@avail-project/nexus-core';
+
+// Smart transfer with automatic optimization
+const result: TransferResult = await sdk.transfer({
+  token: 'USDC', // Convert selected tokens to USDC
+  amount: 100,
+  chainId: 42161, // Transfer selected funds to Arbitrum
+  recipient: '0x...',
+  sourceChains: [84532, 80002], // Only use ETH from `Base Sepolia` and `Polygon Amoy` as sources for the transfer
+} as TransferParams);
+
+// The SDK automatically:
+// 1. Checks if you have USDC + ETH for gas on Arbitrum
+// 2. Uses direct EVM transfer if available (faster, cheaper)
+// 3. Falls back to chain abstraction if local funds insufficient
+
+// Simulate transfer to preview costs and optimization path
+const simulation: SimulationResult = await sdk.simulateTransfer({
+  token: 'USDC',
+  amount: 100,
+  chainId: 42161,
+  recipient: '0x...',
+  sourceChains: [84532, 80002], 
+});
+
+// Check if direct transfer will be used
+console.log('Fees:', simulation.intent.fees);
+// For direct transfers: gasSupplied shows actual native token cost
+// For CA transfers: includes additional CA routing fees
+```
+
+## Return Value
+
+The return value is a `TransferResult` object, which is a union type.
+
+```typescript showLineNumbers filename="Typescript"
+/**
+ * Result structure for transfer transactions.
+ */
+export type TransferResult =
+
+// Upon success, returns the transaction hash and explorer url
+  | {
+      success: true;
+      transactionHash: string;
+      explorerUrl: string;
+    }
+  // Upon failure, returns the error message
+  | {
+      success: false;
+      error: string;
+    };
+```
