@@ -19,6 +19,7 @@
   },
   "keywords": [],
   "dependencies": {
+    "@cookbookdev/docsbot": "^4.25.15",
     "@tailwindcss/postcss": "^4.0.8",
     "@types/node": "^22.13.5",
     "@types/react": "^19.0.10",

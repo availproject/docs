@@ -8,6 +8,7 @@ import 'nextra-theme-docs/style.css'
 import './globals.css'
 import { CustomNavbar } from '@components/Navbar';
 import { sharedMetadata } from '@components/lib/metadata';
+import Script from 'next/script'
 
 
 // Metadata for the website
@@ -87,6 +88,41 @@ export default async function RootLayout({
         >
           {children}
         </Layout>
+        <Script
+          id="cookbook-init"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+(function () {
+  function initAskCookbook() {
+    const PUBLIC_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWVmNjQ4MzI0OTAwMDkyN2MxMWJjNDQiLCJpYXQiOjE3MTAxODc2NTEsImV4cCI6MjAyNTc2MzY1MX0.FUjNryJOMucu7VoqOFP940qFeD7w_5kBEkvTVaP38tA";
+    let el = document.getElementById("__cookbook");
+    if (!el) {
+      el = document.createElement("div");
+      el.id = "__cookbook";
+      el.dataset.apiKey = PUBLIC_API_KEY;
+      document.body.appendChild(el);
+    }
+    let s = document.getElementById("__cookbook-script");
+    if (!s) {
+      s = document.createElement("script");
+      s.id = "__cookbook-script";
+      s.src = "https://cdn.jsdelivr.net/npm/@cookbookdev/docsbot/dist/standalone/index.cjs.js";
+      s.async = true;
+      document.head.appendChild(s);
+    }
+    const blocker = (e) => e.stopPropagation();
+    document.addEventListener("cookbook:modal:state:change", (e) => {
+      const isOpen = e.detail?.isOpen;
+      if (isOpen) document.body.addEventListener("keydown", blocker, { capture: true });
+      else document.body.removeEventListener("keydown", blocker, { capture: true });
+    });
+  }
+  if (document.readyState === "complete") initAskCookbook();
+  else window.addEventListener("load", initAskCookbook);
+})();`,
+          }}
+        />
       </body>
     </html>
   );
