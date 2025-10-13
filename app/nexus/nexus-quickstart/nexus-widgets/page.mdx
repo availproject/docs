@@ -1,0 +1,121 @@
+---
+title: "Nexus Widgets"
+description: "Get started with Nexus Widgets"
+image: "/img/docs-link-preview.png"
+---
+
+## Nexus-Widgets (React)
+
+<Callout type="info">
+We also made a demo app for the widgets package to make it easier for devs to get on-boarded with the Avail Nexus SDK:
+
+- [nexus-ui-components-demo.avail.so](https://nexus-ui-components-demo.avail.so/)
+- [Github repo for the demo app](https://github.com/availproject/nexus-ui-components-demo)
+</Callout>
+
+The `nexus-widgets` package is a set of React components that make it easier to integrate the Nexus SDK into your React app.
+
+<Steps>
+
+### Wrap your app with `NexusProvider`
+
+```tsx showLineNumbers filename="root-of-your-app.tsx"
+import { NexusProvider } from '@avail-project/nexus-widgets';
+
+export default function App() {
+  return (
+    <NexusProvider
+      config={{
+        debug: false, // true to view debug logs
+        network: 'testnet', // "mainnet" (default) or "testnet"
+      }}
+    >
+      <YourApp />
+    </NexusProvider>
+  );
+}
+```
+
+<Callout type="info">
+**FOR EXAMPLE:**<br/>
+
+The demo app sets up the `NexusProvider` in the [__root.tsx](https://github.com/availproject/nexus-ui-components-demo/blob/main/src/routes/__root.tsx#L50) file, 
+wrapping the entire application with both wallet authentication (Privy) and the Nexus provider.
+</Callout>
+
+<Tabs items={['Use UI Components', 'Manual Initialization']}>
+
+<Tabs.Tab>
+
+### Forward the wallet provider
+
+```tsx showLineNumbers filename="wallet-provider.tsx"
+import { useEffect } from 'react';
+import { useAccount } from '@wagmi/react'; // any wallet lib works
+import { useNexus } from '@avail-project/nexus-widgets';
+
+export function WalletBridge() {
+  const { connector, isConnected } = useAccount();
+  const { setProvider } = useNexus();
+
+  useEffect(() => {
+    if (isConnected && connector?.getProvider) {
+      connector.getProvider().then(setProvider);
+    }
+  }, [isConnected, connector, setProvider]);
+
+  return null;
+}
+```
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+### Manual initialization
+
+You can also manually initialize the SDK instead of leaving it up to the UI components.
+The code snippet below shows how:
+
+<Callout>
+You still need to wrap your app with the `NexusProvider` before proceeding with the manual initialization.
+</Callout>
+
+```tsx showLineNumbers filename="App.tsx"
+import { useNexus } from '@avail-project/nexus-widgets';
+
+function MyComponent() {
+  const { initializeSdk, sdk, isSdkInitialized } = useNexus();
+
+  const handleInitialize = async () => {
+    const provider = await window.ethereum; // or get from your wallet library
+    await initializeSdk(provider); // Initializes both SDK and UI state
+
+    // Now you can use SDK methods directly
+    const balances = await sdk.getUnifiedBalances();
+    console.log('Balances:', balances);
+
+    // UI components will already be initialized when used
+  };
+
+  return (
+    <button onClick={handleInitialize} disabled={isSdkInitialized}>
+      {isSdkInitialized ? 'SDK Ready' : 'Initialize SDK'}
+    </button>
+  );
+}
+```
+
+<Callout type="info">
+**WHAT THIS MEANS?**<br/>
+
+1. The `useNexus` hook now shares the initialized SDK instance with the UI components.
+2. You can initialize the SDK manually, and then use the UI components to sign transactions.
+3. With the shared state, just one signature is needed to initialize the SDK and use the UI components.
+</Callout>
+
+</Tabs.Tab>
+
+</Tabs>
+
+</Steps>

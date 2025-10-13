@@ -46,7 +46,8 @@ pnpm add @rainbow-me/rainbowkit wagmi viem @tanstack/react-query
 
 ## Configure RainbowKit
 
-### 1. Create Wagmi Configuration
+<Steps>
+### Create Wagmi Configuration
 
 Create a new file at `src/lib/wagmi.ts`:
 
@@ -66,7 +67,7 @@ export const config = getDefaultConfig({
 You need to get a Project ID from [WalletConnect Cloud](https://cloud.walletconnect.com/) for RainbowKit to work properly. This is free and only takes a few minutes to set up.
 </Callout>
 
-### 2. Create Providers Component
+### Create Providers Component
 
 Create a new file at `src/components/providers.tsx`:
 
@@ -94,7 +95,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 }
 ```
 
-### 3. Update Layout
+### Update Layout
 
 Update your `src/app/layout.tsx` to wrap your app with the providers:
 
@@ -118,10 +119,13 @@ export default function RootLayout({
   );
 }
 ```
+</Steps>
 
 ## Update Your Components
 
-### 1. Replace Connect Button
+<Steps>
+
+### Replace Connect Button
 
 Update your `src/components/connect-button.tsx` to use RainbowKit:
 
@@ -226,7 +230,7 @@ export default function ConnectWalletButton({ className }: { className?: string 
 }
 ```
 
-### 2. Update Init Button
+### Update Init Button
 
 Update your `src/components/init-button.tsx` to use Wagmi's connector:
 
@@ -270,7 +274,7 @@ const provider = await connector?.getProvider();
 - Here, we import `useAccount` hook from `wagmi`, and get the `connector` property from which we can call `getProvider()` which returns the EIP-1193 Provider for the connected wallet. This makes it very easy for any RainbowKit connected wallet to initialize the Nexus SDK and unlock crosschain features.
 - Once we have the `provider`, we can pass it into our helper function to initialize Nexus.
 
-### 3. Update Main Page
+### Update Main Page
 
 Update your `src/app/page.tsx` to show wallet connection status:
 
@@ -317,6 +321,7 @@ export default function Page() {
   );
 }
 ```
+</Steps>
 
 ## What Changed?
 
