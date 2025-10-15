@@ -20,7 +20,7 @@ const sdk = new NexusSDK({ network: 'mainnet' });
 await sdk.initialize(provider); // Your wallet provider
 
 // Get unified balances
-const balances = await sdk.getUnifiedBalances();
+const balances = await sdk.getUnifiedBalances( true );
 console.log('All balances:', balances);
 
 // Bridge tokens
@@ -248,9 +248,10 @@ All events include the same `typeID` structure and runtime `data` such as `trans
 import type { UserAsset, TokenBalance } from '@avail-project/nexus-core';
 
 // Get all balances across chains
-const balances: UserAsset[] = await sdk.getUnifiedBalances();
+const balances: UserAsset[] = await sdk.getUnifiedBalances( true );
 
 // Get balance for specific token
+// You can optionally include swappable assets as well
 const usdcBalance: UserAsset | undefined = await sdk.getUnifiedBalance('USDC');
 ```
 
