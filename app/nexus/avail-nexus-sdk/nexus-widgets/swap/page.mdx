@@ -1,0 +1,81 @@
+---
+title: Swap tokens with SwapButton widget
+---
+
+import { Callout, Tabs } from 'nextra/components'
+
+# `<SwapButton>`
+
+<Callout type="info">
+**SET UP THE SDK BEFORE YOU START:**
+
+1. You can find the SDK setup instructions in the [Quickstart](/nexus/nexus-quickstart) page.
+2. We also [created a tutorial](/nexus/nexus-examples/nexus-initialization-basic) to make it easier to understand how devs need to initialize the Nexus SDK in their project.
+</Callout>
+
+Use the `SwapButton` component for a pre-built interface that handles cross-chain token swaps.
+
+The widget automatically manages the swap flow, UI modals, and transaction state.
+
+## Props
+
+```typescript showLineNumbers filename="Typescript"
+import type { SwapInputData } from '@avail-project/nexus-widgets';
+
+interface SwapButtonProps {
+  title?: string; // Appears in the modal header once initialization completes
+  prefill?: Omit<SwapInputData, 'toAmount'>; // EXACT_IN prefill only
+  className?: string;
+  children(props: { onClick(): void; isLoading: boolean }): React.ReactNode;
+}
+```
+
+## Example
+
+```tsx showLineNumbers filename="App.tsx"
+// Multi-step cross-chain swap with destination selection
+<SwapButton>
+  {({ onClick, isLoading }) => (
+    <div className="swap-card bg-gradient-to-r from-purple-500 to-blue-600 p-6 rounded-lg text-white">
+      <h3 className="text-xl font-bold mb-2">Cross-Chain Swap</h3>
+      <p className="mb-4">Swap tokens across any supported chains</p>
+      <button
+        onClick={onClick}
+        disabled={isLoading}
+        className="bg-white text-purple-600 px-6 py-2 rounded-full font-semibold hover:bg-gray-100"
+      >
+        {isLoading ? (
+          <div className="flex items-center">
+            <Spinner className="mr-2" />
+            Processing Swap...
+          </div>
+        ) : (
+          'Start Swap'
+        )}
+      </button>
+    </div>
+  )}
+</SwapButton>
+
+// Fixed-route swap for arbitrage or specific pairs
+<SwapButton
+  prefill={{
+    fromChainID: 42161, // Arbitrum
+    fromTokenAddress: 'USDC',
+    toChainID: 10, // Optimism
+    toTokenAddress: '0x4200000000000000000000000000000000000006', // WETH
+    fromAmount: '1000',
+  }}
+>
+  {({ onClick, isLoading }) => (
+    <div className="arbitrage-card">
+      <h3>Arbitrage Opportunity</h3>
+      <p>Better WETH rates on Optimism</p>
+      <button onClick={onClick} disabled={isLoading}>
+        {isLoading ? 'Executing...' : 'Swap 1000 USDC → WETH'}
+      </button>
+    </div>
+  )}
+</SwapButton>
+```
+
