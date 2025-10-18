@@ -1,0 +1,170 @@
+---
+title: Swap tokens using the Nexus SDK
+description: Use the `swap()` function to swap tokens between chains using the Nexus SDK
+image: '/img/docs-link-preview.png'
+---
+
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# `swapWithExactIn()` & `swapWithExactOut()`
+
+<Callout type="info">
+**SET UP THE SDK BEFORE YOU START:**
+
+You can find the SDK setup instructions in the [Overview](/nexus/avail-nexus-sdk/nexus-core/api-reference/) page.
+</Callout>
+
+Use these functions to swap tokens between chains.
+
+- Use `swapWithExactIn()` when you want to spend only a specific amount of tokens from your sources.
+- Use `swapWithExactOut()` when you want to receive a specific amount of tokens to your destination.
+
+## Method signature
+
+```typescript showLineNumbers filename="Typescript"
+async swapWithExactIn(params: ExactInSwapInput, options?: SwapInputOptionalParams): Promise<SwapResult>
+async swapWithExactOut(params: ExactOutSwapInput, options?: SwapInputOptionalParams): Promise<SwapResult>
+```
+
+## Parameters
+
+<Tabs items={['swapWithExactIn', 'swapWithExactOut']}>
+
+<Tabs.Tab>
+
+```typescript showLineNumbers filename="Typescript"
+interface ExactInSwapInput {
+  from?: {
+    chainId: number;
+    amount: bigint;
+    tokenAddress: Hex;
+  }[];
+  toChainId: number;
+  toTokenAddress: Hex;
+}
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+```typescript showLineNumbers filename="Typescript"
+interface ExactOutSwapInput {
+  toChainId: number;
+  toTokenAddress: Hex;
+  toAmount: bigint;
+}
+```
+</Tabs.Tab>
+</Tabs>
+
+<Callout>
+**swapIntentHook (optional, but recommended)**<br/>
+This hook is a convenient way to allow the user to review the swap intent and approve or reject it.
+
+```typescript showLineNumbers filename="Typescript"
+type SwapIntentHook {
+  allow: () => void;
+  deny: () => void;
+  intent: SwapIntent;
+  refresh: () => Promise<SwapIntent>;
+}
+```
+</Callout>
+
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>How to query the list of supported chains and tokens?</summary>
+
+The swap functions support a variety of chains and tokens. You can use this util function to query the updated list:
+
+```typescript showLineNumbers filename="Typescript"
+// Get supported source chains and tokens for swaps
+const supportedOptions: SupportedChainsResult = sdk.utils.getSwapSupportedChainsAndTokens();
+console.log('Supported source chains and tokens:', supportedOptions);
+```
+</details>
+
+## Example
+
+```typescript showLineNumbers filename="Typescript"
+import type { ExactInSwapInput, SwapIntentHook, ExactOutSwapInput,  SwapResult } from '@avail-project/nexus-core';
+
+
+// Swap tokens (EXACT_IN - specify input amount)
+
+const swapWithExactInInput: ExactInSwapInput = {
+  from: [
+    {
+      chainId: inputData.fromChainID,
+      amount: parseUnits(
+        fromAmountStr.toString(),
+        TOKEN_METADATA[inputData?.fromTokenAddress]?.decimals,
+      ),
+      tokenAddress: actualFromTokenAddress as `0x${string}`,
+    },
+  ],
+  toChainId: inputData.toChainID,
+  toTokenAddress: actualToTokenAddress as `0x${string}`,
+};
+
+const swapWithExactInResult = await sdk.swapWithExactIn(swapWithExactInInput, {swapIntentHook : async (data: Parameters<SwapIntentHook>[0]) => {
+  // use this to capture the intent allow, reject and refresh functions
+  const {intent, allow, deny, refresh} = data;
+  // Use it to handle user interaction or display transaction details
+
+  // setSwapIntent(intent);
+  // setAllowCallback(allow);
+  // setRejectCallback(reject);
+  // setRefreshCallback(refresh);
+
+  // or directly approve or reject the intent
+  // calling allow processes the txn
+  allow()
+}});
+
+// Swap tokens (EXACT_OUT - only specify destination chain, token and amount)
+
+const swapWithExactOutInput: ExactOutSwapInput = {
+  toChainId: inputData.toChainID,
+  toTokenAddress: actualToTokenAddress as `0x${string}`,
+  toAmount: 0n // bigint
+};
+
+const swapWithExactOutResult = await sdk.swapWithExactOut(swapWithExactOutInput, {swapIntentHook : async (data: Parameters<SwapIntentHook>[0]) => {
+  // use this to capture the intent allow, reject and refresh functions
+  const {intent, allow, reject, refresh} = data;
+  // Use it to handle user interaction or display transaction details
+
+  // setSwapIntent(intent);
+  // setAllowCallback(allow);
+  // setRejectCallback(reject);
+  // setRefreshCallback(refresh);
+
+  // or directly approve or reject the intent
+  // calling allow processes the txn
+  allow()
+}});
+
+
+// Handle swap results
+if (swapWithExactInResult.success) {
+  console.log('✅ Swap successful!');
+  console.log('Source transaction:', exactInSwap.result.sourceSwaps);
+  console.log('Destination transaction:', exactInSwap.result.destinationSwap);
+  console.log('Explorer URL:', exactInSwap.result.explorerURL);
+} else {
+  console.error('❌ Swap failed:', exactInSwap.error);
+}
+```
+
+## Return Value
+
+The return value is a `SwapResult` object, which is a union type.
+
+```typescript showLineNumbers filename="Typescript"
+export type SwapResult =
+  | {
+      success: true;
+      result: SuccessfulSwapResult;
+    }
+  | { success: false; error: string };
+```
