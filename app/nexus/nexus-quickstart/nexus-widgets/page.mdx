@@ -1,12 +1,12 @@
 ---
 title: "Nexus Widgets"
-description: "Get started with Nexus Widgets"
+description: "Get started with the Nexus Widgets package"
 image: "/img/docs-link-preview.png"
 ---
 
 import { Callout, Steps, Tabs } from 'nextra/components'
 
-# Nexus-Widgets (React)
+# Nexus Widgets
 
 This page will help you quickly get started with `nexus-widgets`.
 
@@ -15,6 +15,11 @@ We also made a demo app for the widgets package to make it easier for devs to ge
 
 - [nexus-ui-components-demo.avail.so](https://nexus-ui-components-demo.avail.so/)
 - [Github repo for the demo app](https://github.com/availproject/nexus-ui-components-demo)
+</Callout>
+
+<Callout type="info">
+- For more docs on `nexus-widgets`, you can refer to the [Nexus SDK reference](/nexus/avail-nexus-sdk/nexus-widgets/).
+- Also refer to the [API reference](/nexus/avail-nexus-sdk/nexus-widgets/api-reference) for a complete feature list.
 </Callout>
 
 The `nexus-widgets` package is a set of React components that make it easier to integrate the Nexus SDK into your React app.
@@ -39,19 +44,27 @@ export default function App() {
   );
 }
 ```
+<Callout type="info">
+Using Nexus-widgets, initialization can be done in two ways:
+
+1) **Auto**: The UI components initialize the SDK automatically when invoked, provided a provider is set. 
+2) **Manual**: You call `initializeSdk(provider)` yourself.
+
+In both cases, **hooks are mandatory** for bridge/transfer/execute flows; events are optional.
+</Callout>
 
 <Callout type="info">
 **FOR EXAMPLE:**<br/>
 
 The demo app sets up the `NexusProvider` in the [__root.tsx](https://github.com/availproject/nexus-ui-components-demo/blob/main/src/routes/__root.tsx#L50) file, 
-wrapping the entire application with both wallet authentication (Privy) and the Nexus provider.
+wrapping the entire application with both wallet authentication and the Nexus provider.
 </Callout>
 
-<Tabs items={['Use UI Components', 'Manual Initialization']}>
+<Tabs items={['Auto Initialization (via UI Components)', 'Manual Initialization']}>
 
 <Tabs.Tab>
 
-### Forward the wallet provider
+#### Forward the wallet provider
 
 ```tsx showLineNumbers filename="wallet-provider.tsx"
 import { useEffect } from 'react';
@@ -76,13 +89,12 @@ export function WalletBridge() {
 
 <Tabs.Tab>
 
-### Manual initialization
+### Manual Initialization
 
 You can also manually initialize the SDK instead of leaving it up to the UI components.
-The code snippet below shows how:
 
 <Callout>
-You still need to wrap your app with the `NexusProvider` before proceeding with the manual initialization.
+You still need to wrap your app with the `NexusProvider` before proceeding with manual initialization.
 </Callout>
 
 ```tsx showLineNumbers filename="App.tsx"
@@ -96,10 +108,10 @@ function MyComponent() {
     await initializeSdk(provider); // Initializes both SDK and UI state
 
     // Now you can use SDK methods directly
-    const balances = await sdk.getUnifiedBalances();
+    // false (default): CA-applicable token balances
+    // true: include all balances, including swappable tokens
+    const balances = await sdk.getUnifiedBalances(false);
     console.log('Balances:', balances);
-
-    // UI components will already be initialized when used
   };
 
   return (
@@ -110,16 +122,27 @@ function MyComponent() {
 }
 ```
 
-<Callout type="info">
-**WHAT THIS MEANS?**<br/>
-
-1. The `useNexus` hook now shares the initialized SDK instance with the UI components.
-2. You can initialize the SDK manually, and then use the UI components to sign transactions.
-3. With the shared state, just one signature is needed to initialize the SDK and use the UI components.
-</Callout>
-
 </Tabs.Tab>
 
 </Tabs>
 
+<Callout>
+**WHAT ABOUT THE HOOKS?**<br/>
+
+1. It is mandatory to set up some hooks to use the SDK effectively. Without these hooks, the flow will **not progress at all**.
+You can read more about them in the [Nexus Core Quickstart](/nexus/nexus-quickstart/nexus-core) page.
+
+2. The widgets provided under the `nexus-widgets` set up the hooks for you when you use them.
+This means that you don't need to set up the hooks manually when you use the widgets.
+</Callout>
+
 </Steps>
+
+### Prefill behavior for the widgets
+
+`prefill` lets you lock specific inputs as read-only to enforce a flow (e.g., restrict destination chain or token). Values passed in `prefill` appear as **read-only** fields.  
+Examples (supported keys):
+- `BridgeButton`: `chainId`, `token`, `amount`
+- `TransferButton`: `chainId`, `token`, `amount`, `recipient`
+- `BridgeAndExecuteButton`: `toChainId`, `token`, `amount`
+- `SwapButton`: `fromChainID`, `toChainID`, `fromTokenAddress`, `toTokenAddress`, `fromAmount`, `toAmount`
