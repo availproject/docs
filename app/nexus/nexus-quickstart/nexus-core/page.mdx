@@ -6,9 +6,6 @@ image: "/img/docs-link-preview.png"
 
 import { Callout, Steps, Tabs } from 'nextra/components';
 
-# Get Started
-
-This page will help you get started with `nexus-core` as well as `nexus-widgets`.
 
 {/* <Callout type="info">
     We built a React demo app that uses the Avail Nexus SDK UI components to implement a unified Web3 experience.
@@ -18,7 +15,9 @@ This page will help you get started with `nexus-core` as well as `nexus-widgets`
 </Callout> */}
 
 
-## Nexus Core
+# Nexus-core
+
+This page will help you quickly get started with `nexus-core`.
 
 <Callout type="info">
 We also made a demo app for the headless package to make it easier for devs to get on-boarded with the Avail Nexus SDK:
@@ -61,5 +60,125 @@ const sdk = new NexusSDK({ network: 'testnet' as NexusNetwork });
 await sdk.initialize(window.ethereum); // Returns: Promise<void>
 
 ```
+
+### Set up hooks for the SDK
+
+<Callout type="warning">
+- Hooks are **mandatory**. If these are not set up then once the intent is created the flow will **not progress at all**.  
+- Events are optional (recommended), but hooks must be covered during initialization.
+</Callout>
+
+Hooks let your app approve/deny the transaction intent and manage token allowances before the SDK proceeds.
+
+The SDK provides two hooks for this purpose:
+- `setOnIntentHook`: This hook is used to approve/deny the transaction intent. Use it
+to allow your users to approve or reject the final intent.
+- `setOnAllowanceHook`: This hook is used to manage token allowances. Use it to allow your users to approve or reject the required token allowances.
+
+```ts showLineNumbers filename="hooks.ts"
+// Assuming `sdk` is initialized from the previous step
+
+// Intent approval: show routes/fees to user, then allow() or deny().
+// Tip: call refresh() periodically (e.g., every 5s) to keep fees current.
+sdk.setOnIntentHook(({ intent, allow, deny, refresh }) => {
+  // Show intent in your UI. Example decision:
+  const userConfirms = true; // replace with your UI logic
+  if (userConfirms) allow();
+  else deny();
+
+  // Optionally set up a timer to refresh quotes:
+  // setInterval(() => refresh(), 5000);
+});
+
+// Allowance approval: specify spend permissions per required source.
+// Valid values: 'min' | 'max' | string | bigint (array length must match sources.length)
+sdk.setOnAllowanceHook(({ allow, deny, sources }) => {
+  // Show allowances needed to user, then:
+  allow(['min']); // or ['max'] or custom per source
+  // Call deny() to cancel.
+});
+```
+
+### (Optional, but recommended) Subcsribe to progress events
+
+<Callout>
+Events help you monitor progress and show hashes/links in the UI.
+</Callout>
+
+The SDK emits the following events:
+
+**Bridge & Execute Operations:**
+
+- `BRIDGE_EXECUTE_EXPECTED_STEPS`: Emitted when the intent for the bridge and execute operation is created.
+Contains an ordered array of `ProgressStep` objects.
+- `BRIDGE_EXECUTE_COMPLETED_STEPS`: Emits per completed step of the intent's fulfillment, contains a `ProgressStep` object in each emission.
+
+**Transfer & Bridge Operations:**
+
+- `EXPECTED_STEPS`: Emitted when the intent for the transfer or bridge operation is created.
+Contains an ordered array of `ProgressStep` objects.
+- `STEP_COMPLETE`: Emits per completed step of the intent's fulfillment, contains a `ProgressStep` object in each emission.
+
+Here is a complete example of how you can subscribe to these events:
+
+```ts showLineNumbers filename="events.ts"
+import { NEXUS_EVENTS, ProgressStep } from '@avail-project/nexus-core';
+
+// Bridge & Execute Progress
+const unsubscribeBridgeExecuteExpected = sdk.nexusEvents.on(
+  NEXUS_EVENTS.BRIDGE_EXECUTE_EXPECTED_STEPS,
+  (steps: ProgressStep[]) => {
+    console.log(
+      'Bridge & Execute steps →',
+      steps.map((s) => s.typeID),
+    );
+  },
+);
+
+const unsubscribeBridgeExecuteCompleted = sdk.nexusEvents.on(
+  NEXUS_EVENTS.BRIDGE_EXECUTE_COMPLETED_STEPS,
+  (step: ProgressStep) => {
+    console.log('Bridge & Execute completed →', step.typeID, step.data);
+
+    if (step.typeID === 'IS' && step.data.explorerURL) {
+      console.log('View transaction:', step.data.explorerURL);
+    }
+  },
+);
+
+// Transfer & Bridge Progress (optimized operations)
+const unsubscribeTransferExpected = sdk.nexusEvents.on(
+  NEXUS_EVENTS.EXPECTED_STEPS,
+  (steps: ProgressStep[]) => {
+    console.log(
+      'Transfer/Bridge steps →',
+      steps.map((s) => s.typeID),
+    );
+    // For direct transfers: ['CS', 'TS', 'IS'] (3 steps, ~5-15s)
+  },
+);
+
+const unsubscribeTransferCompleted = sdk.nexusEvents.on(
+  NEXUS_EVENTS.STEP_COMPLETE,
+  (step: ProgressStep) => {
+    console.log('Transfer/Bridge completed →', step.typeID, step.data);
+
+    if (step.typeID === 'IS' && step.data.explorerURL) {
+      // Transaction submitted with hash - works for both direct and CA
+      console.log('Transaction hash:', step.data.transactionHash);
+      console.log('Explorer URL:', step.data.explorerURL);
+    }
+  },
+);
+
+// Cleanup
+return () => {
+  unsubscribeBridgeExecuteExpected();
+  unsubscribeBridgeExecuteCompleted();
+  unsubscribeTransferExpected();
+  unsubscribeTransferCompleted();
+};
+```
+
 </Steps>
 
