@@ -1,0 +1,148 @@
+---
+title: "Nexus Widgets"
+description: "Get started with the Nexus Widgets package"
+image: "/img/docs-link-preview.png"
+---
+
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Nexus Widgets
+
+This page will help you quickly get started with `nexus-widgets`.
+
+<Callout type="info">
+We also made a demo app for the widgets package to make it easier for devs to get on-boarded with the Avail Nexus SDK:
+
+- [nexus-ui-components-demo.avail.so](https://nexus-ui-components-demo.avail.so/)
+- [Github repo for the demo app](https://github.com/availproject/nexus-ui-components-demo)
+</Callout>
+
+<Callout type="info">
+- For more docs on `nexus-widgets`, you can refer to the [Nexus SDK reference](/nexus/avail-nexus-sdk).
+- Also refer to the [API reference](/nexus/avail-nexus-sdk/nexus-widgets/api-reference) for a complete feature list.
+</Callout>
+
+The `nexus-widgets` package is a set of React components that make it easier to integrate the Nexus SDK into your React app.
+
+<Steps>
+
+### Wrap your app with `NexusProvider`
+
+```tsx showLineNumbers filename="root-of-your-app.tsx"
+import { NexusProvider } from '@avail-project/nexus-widgets';
+
+export default function App() {
+  return (
+    <NexusProvider
+      config={{
+        debug: false, // true to view debug logs
+        network: 'testnet', // "mainnet" (default) or "testnet"
+      }}
+    >
+      <YourApp />
+    </NexusProvider>
+  );
+}
+```
+<Callout type="info">
+Using Nexus-widgets, initialization can be done in two ways:
+
+1) **Auto**: The UI components initialize the SDK automatically when invoked, provided a provider is set. 
+2) **Manual**: You call `initializeSdk(provider)` yourself.
+
+In both cases, **hooks are mandatory** for bridge/transfer/execute flows; events are optional.
+</Callout>
+
+<Callout type="info">
+**FOR EXAMPLE:**<br/>
+
+The demo app sets up the `NexusProvider` in the [__root.tsx](https://github.com/availproject/nexus-ui-components-demo/blob/main/src/routes/__root.tsx#L50) file, 
+wrapping the entire application with both wallet authentication and the Nexus provider.
+</Callout>
+
+<Tabs items={['Auto Initialization (via UI Components)', 'Manual Initialization']}>
+
+<Tabs.Tab>
+
+#### Forward the wallet provider
+
+```tsx showLineNumbers filename="wallet-provider.tsx"
+import { useEffect } from 'react';
+import { useAccount } from '@wagmi/react'; // any wallet lib works
+import { useNexus } from '@avail-project/nexus-widgets';
+
+export function WalletBridge() {
+  const { connector, isConnected } = useAccount();
+  const { setProvider } = useNexus();
+
+  useEffect(() => {
+    if (isConnected && connector?.getProvider) {
+      connector.getProvider().then(setProvider);
+    }
+  }, [isConnected, connector, setProvider]);
+
+  return null;
+}
+```
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+### Manual Initialization
+
+You can also manually initialize the SDK instead of leaving it up to the UI components.
+
+<Callout>
+You still need to wrap your app with the `NexusProvider` before proceeding with manual initialization.
+</Callout>
+
+```tsx showLineNumbers filename="App.tsx"
+import { useNexus } from '@avail-project/nexus-widgets';
+
+function MyComponent() {
+  const { initializeSdk, sdk, isSdkInitialized } = useNexus();
+
+  const handleInitialize = async () => {
+    const provider = await window.ethereum; // or get from your wallet library
+    await initializeSdk(provider); // Initializes both SDK and UI state
+
+    // Now you can use SDK methods directly
+    // false (default): CA-applicable token balances
+    // true: include all balances, including swappable tokens
+    const balances = await sdk.getUnifiedBalances(false);
+    console.log('Balances:', balances);
+  };
+
+  return (
+    <button onClick={handleInitialize} disabled={isSdkInitialized}>
+      {isSdkInitialized ? 'SDK Ready' : 'Initialize SDK'}
+    </button>
+  );
+}
+```
+
+</Tabs.Tab>
+
+</Tabs>
+
+<Callout>
+**WHAT ABOUT THE HOOKS?**<br/>
+
+1. It is mandatory to set up some hooks to use the SDK effectively. Without these hooks, the flow will **not progress at all**.
+You can read more about them in the [Nexus Core Quickstart](/nexus/nexus-quickstart/nexus-core) page.
+
+2. The widgets provided under the `nexus-widgets` set up the hooks for you when you use them.
+This means that you don't need to set up the hooks manually when you use the widgets.
+</Callout>
+
+</Steps>
+
+### Prefill behavior for the widgets
+
+`prefill` lets you lock specific inputs as read-only to enforce a flow (e.g., restrict destination chain or token). Values passed in `prefill` appear as **read-only** fields.  
+Examples (supported keys):
+- `BridgeButton`: `chainId`, `token`, `amount`
+- `TransferButton`: `chainId`, `token`, `amount`, `recipient`
+- `BridgeAndExecuteButton`: `toChainId`, `token`, `amount`
+- `SwapButton`: `fromChainID`, `toChainID`, `fromTokenAddress`, `toTokenAddress`, `fromAmount`, `toAmount`
