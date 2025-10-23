@@ -12,7 +12,7 @@ import { Callout, Steps, Tabs } from 'nextra/components'
 You can find the SDK setup instructions in the [Overview](/nexus/avail-nexus-sdk/nexus-core/api-reference/) page.
 </Callout>
 
-Use the `transfer()` function to convert multiple tokens from multiple chains to a single token on a single chain.
+Use the `transfer()` function to source a token from multiple source chains to a single destination chain.
 
 ## Method signature
 
@@ -50,7 +50,7 @@ import type { TransferParams, TransferResult, SimulationResult } from '@avail-pr
 
 // Smart transfer with automatic optimization
 const result: TransferResult = await sdk.transfer({
-  token: 'USDC', // Convert selected tokens to USDC
+  token: 'USDC', // Token to be bridged and transferred
   amount: 100,
   chainId: 42161, // Transfer selected funds to Arbitrum
   recipient: '0x...',
@@ -58,9 +58,9 @@ const result: TransferResult = await sdk.transfer({
 } as TransferParams);
 
 // The SDK automatically:
-// 1. Checks if you have USDC + ETH for gas on Arbitrum
-// 2. Uses direct EVM transfer if available (faster, cheaper)
-// 3. Falls back to chain abstraction if local funds insufficient
+// 1. Checks if you have USDC + native token for gas on destination chain
+// 2. Uses the normal direct token transfer if sufficient funds are available on destination chain (faster, cheaper)
+// 3. Falls back to chain abstraction and sources the token from other chains if local funds are insufficient
 
 // Simulate transfer to preview costs and optimization path
 const simulation: SimulationResult = await sdk.simulateTransfer({
