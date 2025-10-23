@@ -19,7 +19,7 @@ import { Callout } from "nextra/components";
 
 ## Introduction
 
-Embark on setting up your own OP stack chain in [alt-da mode](https://docs.optimism.io/stack/beta-features/alt-da-mode) using Avail as Data Availabilty layer . This guide targets Ethereum's Sepolia testnet and Avail Turing testnet. For a detailed understanding, review the [<ins>Optimism Documentation</ins>](https://stack.optimism.io/docs/build/getting-started/#know-before-you-go).
+Embark on setting up your own OP stack chain in [alt-da mode](https://docs.optimism.io/stack/beta-features/alt-da-mode) using Avail as Data Availability layer . This guide targets Ethereum's Sepolia testnet and Avail Turing testnet. For a detailed understanding, review the [<ins>Optimism Documentation</ins>](https://stack.optimism.io/docs/build/getting-started/#know-before-you-go).
 
 ## Prerequisites
 
@@ -225,7 +225,7 @@ Deploy essential L1 contracts for the chain’s functionality:
 2. Generate `intent.toml` and `state.json` file for deployment configuration:
 
    ```bash
-   ## Intent and state file intialization 
+   ## Intent and state file initialization 
    ./bin/op-deployer init --l1-chain-id <YOUR_L1_CHAIN_ID> --l2-chain-ids <YOUR_L2_CHAIN_ID> --workdir .deployer --intent-type custom
    ```
 
@@ -430,7 +430,7 @@ Deploy essential L1 contracts for the chain’s functionality:
    --throttle-threshold=0
    ```
 
-   Adjust the `--max-channel-duration=n` setting to balance transaction frequency on L1 and the operational costs of the batcher. Recommended is a minumum of 2 since avail block time is 20s and ethereum's 12sec.
+   Adjust the `--max-channel-duration=n` setting to balance transaction frequency on L1 and the operational costs of the batcher. Recommended is a minimum of 2 since avail block time is 20s and ethereum's 12sec.
 
 
 ### `op-proposer`

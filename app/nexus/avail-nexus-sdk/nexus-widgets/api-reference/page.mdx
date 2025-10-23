@@ -13,7 +13,7 @@ The Avail Nexus SDK provides a comprehensive set of APIs for cross-chain bridgin
 <Callout type="info">
 **Note:** <br/>
 This page will focus on the UI widgets available as part of the Avail Nexus SDK.
-If you are looking for the API reference for the headless SDK, please refer to [this](/nexus/avail-nexus-sdk/examples/nexus-core/api-reference) page.
+If you are looking for the API reference for the Nexus Core SDK, please refer to [this](/nexus/avail-nexus-sdk/examples/nexus-core/api-reference) page.
 </Callout>
 
 ## Quick Start
@@ -221,7 +221,7 @@ Bridge tokens between chains with a customizable button interface.
 
 ```tsx showLineNumbers filename="TSX"
 interface BridgeButtonProps {
-  title?: string; // Will appear once intialization is completed
+  title?: string; // Will appear once initialization is completed
   prefill?: Partial<BridgeParams>; // chainId, token, amount
   className?: string;
   children(props: { onClick(): void; isLoading: boolean }): React.ReactNode;
@@ -246,7 +246,7 @@ Send tokens to any address with automatic optimization (direct transfer when pos
 
 ```tsx showLineNumbers filename="TSX"
 interface TransferButtonProps {
-  title?: string; // Will appear once intialization is completed
+  title?: string; // Will appear once initialization is completed
   prefill?: Partial<TransferParams>; // chainId, token, amount, recipient
   className?: string;
   children(props: { onClick(): void; isLoading: boolean }): React.ReactNode;
@@ -288,7 +288,7 @@ type DynamicParamBuilder = (
 };
 
 interface BridgeAndExecuteButtonProps {
-  title?: string; // Will appear once intialization is completed
+  title?: string; // Will appear once initialization is completed
   contractAddress: `0x${string}`; // REQUIRED
   contractAbi: Abi; // REQUIRED
   functionName: string; // REQUIRED
