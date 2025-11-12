@@ -19,7 +19,7 @@ Use these functions to fetch consolidated token balances across all supported ch
 **Note:** Check out the [API reference](/api-reference/avail-nexus-sdk/api-reference) for a full list of supported tokens and chains.
 </Callout>
 
-## Method signatures
+## Method signature
 
 ```typescript showLineNumbers filename="Typescript"
 async getUnifiedBalances(includeSwappableBalances?: boolean): Promise<UserAsset[]>
@@ -29,15 +29,6 @@ async getUnifiedBalances(includeSwappableBalances?: boolean): Promise<UserAsset[
 
 - `includeSwappableBalances` (boolean, optional): Optionally include swappable balances in the response.
 Defaults to `false`.
-
-### `getUnifiedBalances()`
-
-Fetches the unified balance of all tokens across all chains for a user.
-
-```typescript showLineNumbers filename="Typescript"
-// No parameters required
-await sdk.getUnifiedBalances(includeSwappableBalances: boolean): Promise<UserAsset[]>
-```
 
 ## Example
 

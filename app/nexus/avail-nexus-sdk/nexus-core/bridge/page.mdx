@@ -14,12 +14,24 @@ import { Callout, Steps, Tabs } from 'nextra/components'
 </Callout>
 
 Use the `bridge()` function to bridge a specific token from one (*or many*) chains to a single chain.
+Use the `simulateBridge()` function to simulate the bridge transaction to preview the costs and fees, before actually executing the transaction.
+
+<Callout type="info">
+**Note:** Check out the [API reference](/api-reference/avail-nexus-sdk/api-reference) for a full list of supported tokens and chains.
+</Callout>
 
 ## Method signature
 
 ```typescript showLineNumbers filename="Typescript"
-async bridge(params: BridgeParams): Promise<BridgeResult>
-async simulateBridge(params: BridgeParams): Promise<SimulationResult>
+async bridge(
+  params: BridgeParams,
+  options?: { onEvent?: (event: { name: 'STEPS_LIST' | 'STEP_COMPLETE'; args: unknown }) => void }
+): Promise<BridgeResult>
+
+async simulateBridge(
+  params: BridgeParams,
+): Promise<SimulationResult>
+
 ```
 
 ## Parameters
@@ -29,59 +41,117 @@ async simulateBridge(params: BridgeParams): Promise<SimulationResult>
  * Parameters for bridging tokens.
  */
 export interface BridgeParams {
-  token: SUPPORTED_TOKENS;
+  recipient?: Hex;
+  token: string;
   amount: number | string;
-  chainId: SUPPORTED_CHAINS_IDS;
+  chainId: number;
   gas?: bigint;
   sourceChains?: number[];
 }
 ```
 
-<Callout type="info">
-1. `chainID` refers to the Chain ID of the recipient chain.
-2. `sourceChains` is an optional param that takes an array of chainIDs.
-Use this if you want only some of your funds to be used for bridging..
-Helpful if you want to maintain your holdings on some chains.
-</Callout>
+- `BridgeParams`: Parameters for bridging tokens.
+  - `recipient` (Hex, optional): The recipient address. Default's to the address of the user.
+  - `token` (string, required): The token to be bridged.
+  - `amount` (number | string, required): The amount of tokens to be bridged.
+  - `chainId` (number, required): The chain ID of the destination chain.
+  - `gas` (bigint, optional): The gas limit for the bridge transaction. 
+  - `sourceChains` (number[], optional): The chain IDs of the source chains to be used for the bridge. Useful if you want to maintain your holdings on some chains.
+- `options`: Optional parameters for the event listener.
 
 ## Example
 
 ```typescript showLineNumbers filename="Typescript"
 import type { BridgeParams, BridgeResult, SimulationResult } from '@avail-project/nexus-core';
 
-// Bridge tokens between chains
-const result: BridgeResult = await sdk.bridge({
-  token: 'USDC',
-  amount: 100,
-  chainId: 137,
-  sourceChains: [84532, 80002], // Only use USDC from `Base Sepolia` and `Polygon Amoy` as sources for the bridge
-} as BridgeParams);
+const bridgeResult = await sdk.bridge(
+  { 
+  token: 'USDC', 
+  amount: '83.50', 
+  chainId: 137 
+});
 
 // Simulate bridge to preview costs
 // Note that you can avoid using optional params
-const simulation: SimulationResult = await sdk.simulateBridge({
-  token: 'USDC',
-  amount: 100,
-  chainId: 137,
-});
+const bridgeSimulation = await sdk.simulateBridge(
+  { 
+    token: 'USDC', 
+    amount: '83.50', 
+    chainId: 137 
+  });
+
+console.log('Bridge result:', bridgeResult);
+console.log('Bridge simulation:', bridgeSimulation);
 ```
 
 ## Return Value
 
-The return value is a `BridgeResult` object, which is a union type.
+### `bridge()`
+
+The return value is a `BridgeResult` object.
 
 ```typescript showLineNumbers filename="Typescript"
 /**
  * Result structure for bridge transactions.
  */
-export type BridgeResult =
-  | { 
-    success: false; 
-    error: string;
-    }
-  | {
-      success: true;
-      explorerUrl: string;
-      transactionHash?: string;
-    };
+export type BridgeResult = {
+  explorerUrl: string;
+};
+```
+
+### `simulateBridge()`
+
+The return value is a `SimulationResult` object.
+
+```typescript showLineNumbers filename="Typescript"
+export interface SimulationResult {
+  intent: ReadableIntent;
+  token: TokenInfo;
+}
+
+export type ReadableIntent = {
+  allSources: {
+    amount: string;
+    chainID: number;
+    chainLogo: string | undefined;
+    chainName: string;
+    contractAddress: `0x${string}`;
+  }[];
+  destination: {
+    amount: string;
+    chainID: number;
+    chainLogo: string | undefined;
+    chainName: string;
+  };
+  fees: {
+    caGas: string;
+    gasSupplied: string;
+    protocol: string;
+    solver: string;
+    total: string;
+  };
+  sources: {
+    amount: string;
+    chainID: number;
+    chainLogo: string | undefined;
+    chainName: string;
+    contractAddress: `0x${string}`;
+  }[];
+  sourcesTotal: string;
+  token: {
+    decimals: number;
+    logo: string | undefined;
+    name: string;
+    symbol: string;
+  };
+};
+
+
+type TokenInfo = {
+  contractAddress: `0x${string}`;
+  decimals: number;
+  logo: string;
+  name: string;
+  symbol: string;
+};
 ```

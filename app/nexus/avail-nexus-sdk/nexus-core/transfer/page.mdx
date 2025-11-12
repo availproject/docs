@@ -1,47 +1,61 @@
 ---
-title: "Transfer tokens using the Nexus SDK"
+title: "Bridge and transfer tokens using the Nexus SDK"
 ---
 
 import { Callout, Steps, Tabs } from 'nextra/components'
 
-# `transfer()`
+# `bridgeAndTransfer()`
 
 <Callout type="info">
 **SET UP THE SDK BEFORE YOU START:**
 
-You can find the SDK setup instructions in the [Overview](/nexus/avail-nexus-sdk/nexus-core/api-reference/) page.
+1. You can find the SDK setup instructions in the [Quickstart](/nexus/nexus-quickstart) page.
+2. We also [created a tutorial](/nexus/nexus-examples/nexus-initialization-basic) to make it easier to understand how devs need to initialize the Nexus SDK in their project.
 </Callout>
 
-Use the `transfer()` function to source a token from multiple source chains to a single destination chain.
+Use the `bridgeAndTransfer()` function to source a token from multiple source chains to a single destination chain.
+Use the `simulateBridgeAndTransfer()` function to simulate the bridge and transfer transaction to preview the costs and fees, before actually executing the transaction.
+
+<Callout type="info">
+**Note:** Check out the [API reference](/api-reference/avail-nexus-sdk/api-reference) for a full list of supported tokens and chains.
+</Callout>
 
 ## Method signature
 
 ```typescript showLineNumbers filename="Typescript"
-async transfer(params: TransferParams): Promise<TransferResult>
-async simulateTransfer(params: TransferParams): Promise<SimulationResult>
+async bridgeAndTransfer(
+  params: TransferParams,
+  options?: { onEvent?: (event: { name: 'STEPS_LIST' | 'STEP_COMPLETE' | 'SWAP_STEP_COMPLETE'; args: unknown }) => void }
+): Promise<TransferResult>
+
+async simulateBridgeAndTransfer(
+  params: TransferParams,
+): Promise<BridgeAndExecuteSimulationResult>
+
 ```
 
 ## Parameters
 
 ```typescript showLineNumbers filename="Typescript"
 /**
- * Parameters for transferring tokens.
+ * Parameters for bridging and transferring tokens.
  */
 export interface TransferParams {
-  token: SUPPORTED_TOKENS;
-  amount: number | string;
-  chainId: SUPPORTED_CHAINS_IDS;
+  token: string;
+  amount: string;
+  chainId: number;
   recipient: `0x${string}`;
   sourceChains?: number[];
 }
 ```
 
-<Callout type="info">
-1. `chainID` refers to the Chain ID of the recipient chain.
-2. `sourceChains` is an optional param that takes an array of chainIDs.
-Use this if you want only some of your funds to be used for the transfer.
-Helpful if you want to maintain your holdings on some chains.
-</Callout>
+- `TransferParams`: Parameters for transferring tokens.
+  - `token` (string, required): The token to be bridged and transferred.
+  - `amount` (string, required): The amount of tokens to be bridged and transferred.
+  - `chainId` (number, required): The chain ID of the destination chain.
+  - `recipient` (`0x${string}`, required): The recipient address.
+  - `sourceChains` (number[], optional): The chain IDs of the source chains to be used for the transfer. Useful if you want to maintain your holdings on some chains.
+- `options`: Optional parameters for the event listener.
 
 ## Example
 
@@ -49,53 +63,54 @@ Helpful if you want to maintain your holdings on some chains.
 import type { TransferParams, TransferResult, SimulationResult } from '@avail-project/nexus-core';
 
 // Smart transfer with automatic optimization
-const result: TransferResult = await sdk.transfer({
-  token: 'USDC', // Token to be bridged and transferred
-  amount: 100,
-  chainId: 42161, // Transfer selected funds to Arbitrum
-  recipient: '0x...',
-  sourceChains: [84532, 80002], // Only use ETH from `Base Sepolia` and `Polygon Amoy` as sources for the transfer
-} as TransferParams);
+const bridgeAndTransferResult = await sdk.bridgeAndTransfer(
+  {
+    token: 'ETH',
+    amount: "1.5",
+    chainId: 1, // Ethereum
+    recipient: '0x742d35Cc6634C0532925a3b8D4C9db96c4b4Db45',
+  },
+  {
+    onEvent: (event) => {
+      if (event.name === NEXUS_EVENTS.STEPS_LIST) console.log('Transfer steps:', event.args);
+      if (event.name === NEXUS_EVENTS.STEP_COMPLETE) console.log('Step completed:', event.args);
+    },
+  },
+);
 
-// The SDK automatically:
-// 1. Checks if you have USDC + native token for gas on destination chain
-// 2. Uses the normal direct token transfer if sufficient funds are available on destination chain (faster, cheaper)
-// 3. Falls back to chain abstraction and sources the token from other chains if local funds are insufficient
-
-// Simulate transfer to preview costs and optimization path
-const simulation: SimulationResult = await sdk.simulateTransfer({
-  token: 'USDC',
-  amount: 100,
-  chainId: 42161,
-  recipient: '0x...',
-  sourceChains: [84532, 80002], 
+const bridgeAndTransferSimulation = await sdk.simulateBridgeAndTransfer({
+  token: 'ETH',
+  amount: "1.5",
+  chainId: 1,
+  recipient: '0x742d35Cc6634C0532925a3b8D4C9db96c4b4Db45',
 });
 
-// Check if direct transfer will be used
-console.log('Fees:', simulation.intent.fees);
-// For direct transfers: gasSupplied shows actual native token cost
-// For CA transfers: includes additional CA routing fees
+console.log('Bridge and transfer simulation:', bridgeAndTransferSimulation);
 ```
 
 ## Return Value
 
-The return value is a `TransferResult` object, which is a union type.
+### `bridgeAndTransfer()`
+
+The return value is a `TransferResult` object.
 
 ```typescript showLineNumbers filename="Typescript"
 /**
  * Result structure for transfer transactions.
  */
-export type TransferResult =
+export type TransferResult = {
+  transactionHash: string;
+  explorerUrl: string;
+};
+```
 
-// Upon success, returns the transaction hash and explorer url
-  | {
-      success: true;
-      transactionHash: string;
-      explorerUrl: string;
-    }
-  // Upon failure, returns the error message
-  | {
-      success: false;
-      error: string;
-    };
+### `simulateBridgeAndTransfer()`
+
+The return value is a `BridgeAndExecuteSimulationResult` object.
+
+```typescript showLineNumbers filename="Typescript"
+export type BridgeAndExecuteSimulationResult = {
+  bridgeSimulation: SimulationResult | null;
+  executeSimulation: ExecuteSimulation;
+};
 ```
