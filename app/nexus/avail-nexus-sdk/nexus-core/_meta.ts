@@ -1,5 +1,5 @@
 export default {
-    "fetch-unified-balances": "Unified Balance",
+    "fetch-unified-balances": "Fetch Unified Balance",
     "transfer": "Transfer",
     "bridge": "Bridge",
     "bridge-and-execute": "Bridge & Execute",

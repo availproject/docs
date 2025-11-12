@@ -1,10 +1,10 @@
 ---
-title: "Fetch unified balance of a user"
+title: "Fetch the unified balance of a user"
 ---
 
 import { Callout, Steps, Tabs } from 'nextra/components'
 
-# `getUnifiedBalances()` & `getUnifiedBalance()`
+# `getUnifiedBalances()`
 
 <Callout type="info">
 **SET UP THE SDK BEFORE YOU START:**
@@ -22,13 +22,13 @@ Use these functions to fetch consolidated token balances across all supported ch
 ## Method signatures
 
 ```typescript showLineNumbers filename="Typescript"
-async getUnifiedBalances(): Promise<UserAsset[]>
-async getUnifiedBalance(symbol: string): Promise<UserAsset | undefined>
+async getUnifiedBalances(includeSwappableBalances?: boolean): Promise<UserAsset[]>
 ```
 
 ## Parameters
 
-- `symbol` (string, required for `getUnifiedBalance`): Token symbol, e.g. `'USDC' | 'USDT' | 'ETH'`.
+- `includeSwappableBalances` (boolean, optional): Optionally include swappable balances in the response.
+Defaults to `false`.
 
 ### `getUnifiedBalances()`
 
@@ -36,45 +36,30 @@ Fetches the unified balance of all tokens across all chains for a user.
 
 ```typescript showLineNumbers filename="Typescript"
 // No parameters required
-await sdk.getUnifiedBalances(): Promise<UserAsset[]>
-```
-
-### `getUnifiedBalance(symbol)`
-
-Fetches the unified balance of a specific token across all chains for a user.
-
-```typescript showLineNumbers filename="Typescript"
-// Takes a token symbol parameter
-await sdk.getUnifiedBalance(symbol: string): Promise<UserAsset | undefined>
+await sdk.getUnifiedBalances(includeSwappableBalances: boolean): Promise<UserAsset[]>
 ```
 
 ## Example
 
-Here are some minimal examples of how to use the functions to fetch the unified balance of a user:
+Here is a minimal example of how to use the `getUnifiedBalances()` function to fetch the unified balance of a user:
 
 ```typescript showLineNumbers filename="Typescript"
-// Get all balances across chains
+
+// Get all balances across chains without including swappable balances
 const allBalances = await sdk.getUnifiedBalances();
 console.log('All balances:', allBalances);
 
-// Get balance for specific token
-const usdcBalance = await sdk.getUnifiedBalance('USDC');
-console.log('USDC balance:', usdcBalance);
+// Get all balances across chains including swappable balances
+const allBalancesIncludingSwappableBalances = await sdk.getUnifiedBalances(true);
+console.log('All balances:', allBalancesIncludingSwappableBalances);
 ```
 
 ## Return Value
 
-- `getUnifiedBalances()`: Returns `Promise<UserAsset[]>` - Array of `UserAsset` class instances
-- `getUnifiedBalance(symbol)`: Returns `Promise<UserAsset | undefined>` - Single `UserAsset` instance or undefined
+- `getUnifiedBalances()`: Returns `Promise<UserAsset[]>` - Array of `UserAsset` objects.
 
 ```typescript showLineNumbers filename="Typescript"
-class UserAsset {
-  value: UserAssetDatum;           // The actual data
-  get balance(): string;           // Getter for balance
-}
-
-// The underlying data structure for `UserAsset`
-export type UserAssetDatum = {
+export type UserAsset = {
   abstracted?: boolean;
   balance: string;
   balanceInFiat: number;
