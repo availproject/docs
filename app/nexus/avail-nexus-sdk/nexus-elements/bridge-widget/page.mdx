@@ -1,3 +1,95 @@
-----
-title: "Nexus Elements"
 ---
+title: "Nexus Elements - Bridge Widget"
+---
+
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Fast Bridge
+
+Use this widget to bridge tokens across chains.
+Prefill inputs and hook into lifecycle callbacks for a seamless UX.
+
+<Callout type="info">
+This widget is built on top of the `bridge()` function from the `@avail-project/nexus-core` SDK.
+You can read more about the function in the [Nexus Core SDK reference](/nexus/avail-nexus-sdk/nexus-core/bridge).
+</Callout>
+
+## Install
+
+<Tabs items={['pnpm', 'npm', 'yarn']}>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+pnpm dlx shadcn@latest add https://elements.nexus.availproject.org/r/fast-bridge.json  
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+npx shadcn@latest add https://elements.nexus.availproject.org/r/fast-bridge.json 
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+yarn dlx shadcn@latest add https://elements.nexus.availproject.org/r/fast-bridge.json 
+```
+</Tabs.Tab>
+
+</Tabs>
+
+## Props
+
+```typescript showLineNumbers filename="Typescript"
+interface FastBridgeProps {
+  connectedAddress: Address;
+  prefill?: {
+    token: SUPPORTED_TOKENS;
+    chainId: SUPPORTED_CHAINS_IDS;
+    amount?: string;
+    recipient?: Address;
+  };
+  onComplete?: () => void;
+  onStart?: () => void;
+  onError?: (message: string) => void;
+}
+```
+
+- `connectedAddress`: The address of the wallet connected to the app.
+- `prefill`: The prefill inputs for the bridge.
+    - `token`: can be one of the `SUPPORTED_TOKENS` from the `@avail-project/nexus-core` SDK.
+    - `chainId`: can be one of the `SUPPORTED_CHAINS_IDS` from the `@avail-project/nexus-core` SDK.
+    - `amount`: the amount of tokens to bridge.
+    - `recipient`: the address to bridge the tokens to.
+- `onComplete`: The callback function to be called when the bridge is complete.
+- `onStart`: The callback function to be called when the bridge starts.
+- `onError`: The callback function to be called when the bridge transaction errors out.
+
+## Usage
+
+## Usage
+
+```typescript showLineNumbers filename="Typescript"
+import FastBridge from '@/components/fast-bridge/fast-bridge';
+
+export default function Page({ address }: { address: `0x${string}` }) {
+  return (
+    <FastBridge
+      connectedAddress={address}
+      onStart={() => console.log('Bridge started')}
+      onComplete={() => console.log('Bridge completed')}
+      onError={(m) => console.error('Bridge error:', m)}
+    />
+  );
+}### Prefill example
+
+<FastBridge
+  connectedAddress={address}
+  prefill={{
+    token: 'USDC',
+    chainId: 8453,                // Base
+    amount: '100',                // string amount
+    recipient: '0xRecipient...'   // optional
+  }}
+
+```
