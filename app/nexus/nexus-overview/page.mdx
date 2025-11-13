@@ -4,16 +4,18 @@ title: Nexus SDK Overview
 ---
 
 import { Callout, Steps, Tabs } from 'nextra/components';
+import { Cards } from 'nextra/components';
+import { FileIcon } from '@components/icons'
 
 # Nexus SDK Overview
 
 A powerful TypeScript SDK for cross-chain operations, token bridging, and unified balance management across multiple EVM chains.
 
-## Get Started 
+## Nexus Core
 
-The Nexus SDK is split into two main packages:
+The core functionality of the Nexus SDK is provided by the `@avail-project/nexus-core` package.
 
-1. [**@avail-project/nexus-core**](https://github.com/availproject/nexus-sdk/tree/main/packages/core): Headless SDK for cross-chain operations
+- [**@avail-project/nexus-core**](https://github.com/availproject/nexus-sdk/tree/main/packages/core): Headless SDK for cross-chain operations
     - No React dependencies required
     - Direct Chain Abstraction integration
 
@@ -41,13 +43,18 @@ pnpm add @avail-project/nexus-core
 
 </Tabs>
 
+### Next Steps
+
+<Cards num={2}>
+    <Cards.Card title="Nexus Core SDK Reference" href="/nexus/avail-nexus-sdk/nexus-core" icon={<FileIcon />} />
+    <Cards.Card title="Nexus Core Quickstart" href="/nexus/nexus-quickstart/nexus-core" icon={<FileIcon />} />
+</Cards>
+
 <Callout type="info">
 
 1. Nexus Core SDK still requires an injected wallet provider (e.g. MetaMask, WalletConnect, etc.)
 2. It is designed for client-side browser environments and **cannot be used** in any server-side environments.
 </Callout>
-
-
 
 <Callout type="info">
 **YOU WILL NEED A REACT-BASED FRONTEND**<br/>
@@ -55,3 +62,49 @@ pnpm add @avail-project/nexus-core
 1. Any React-based dev environment works, including React frameworks like Next.js, Remix, Gatsby, or build tools like Vite, Create React App, and Webpack.
 2. You also need the following peer dependencies: `react` , `react-dom`, `viem`.
 </Callout>
+
+## Nexus Elements
+
+A shadcn-based component library that allows devs to integrate working components that use the Nexus SDK effectively and conveniently.
+Nexus Elements currently provides the following components:
+
+1. Unified Balance Widget (unified-balance)
+2. Deposit Widget (deposit)
+3. Fast Bridge Widget (fast-bridge)
+4. Swaps Widget (swaps)
+
+### Install:
+
+1. Install `shadcn/ui` into your project. Refer to [shadcn/ui installation guide](https://ui.shadcn.com/docs/installation) for more details.
+
+2. Install the components you need using the shadcn CLI. For example, this is how
+you would install the unified balance widget:
+
+<Tabs items={['npm', 'yarn', 'pnpm']}>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+npx shadcn@latest add https://elements.nexus.availproject.org/r/unified-balance.json
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+yarn dlx shadcn@latest add https://elements.nexus.availproject.org/r/unified-balance.json
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+pnpm dlx shadcn@latest add https://elements.nexus.availproject.org/r/unified-balance.json
+```
+</Tabs.Tab>
+
+</Tabs>
+
+### Next Steps
+
+<Cards num={2}>
+    <Cards.Card title="Nexus Elements SDK Reference" href="/nexus/avail-nexus-sdk/nexus-elements" icon={<FileIcon />} />
+    <Cards.Card title="Nexus Elements Quickstart" href="/nexus/nexus-quickstart/nexus-elements" icon={<FileIcon />} />
+</Cards>
