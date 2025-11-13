@@ -13,7 +13,46 @@ import { Callout, Steps, Tabs } from 'nextra/components'
 2. We also [created a tutorial](/nexus/nexus-examples/nexus-initialization-basic) to make it easier to understand how devs need to initialize the Nexus SDK in their project.
 </Callout>
 
-Use the `bridgeAndExecute()` function to bridge a token and execute a contract function on the recipient chain in a single flow.
+The `bridgeAndExecute` method enables **atomic cross-chain operations** - allowing you to bridge assets from one chain to another and immediately execute a smart contract call in a single transaction. This eliminates the need for multiple steps and reduces the risk of MEV attacks, failed transactions, or price slippage that can occur when bridging and executing separately.
+
+### Key Benefits
+
+- **Atomic Execution**: Both the bridge and subsequent operation succeed or fail together
+- **Reduced Complexity**: Single transaction instead of multiple steps
+- **Improved User Experience**: Users get their desired outcome in one interaction
+- **Cost Efficiency**: Potentially lower overall gas costs
+- **MEV Protection**: Minimizes front-running opportunities
+
+### Common Use Cases
+
+- Bridging tokens and immediately swapping to another token
+- Cross-chain yield farming deposits
+- Bridging NFTs and listing them on a marketplace
+- Cross-chain liquidity provision
+- Bridging and staking in one transaction
+
+## How It Works
+
+The `bridgeAndExecute` process follows this sequence:
+
+### Step 1: Initiation
+Your dApp calls the `bridgeAndExecute` method with both the bridging parameters and the execution payload for the destination chain.
+
+### Step 2: Source Chain Processing
+- Tokens are locked or burned on the source chain
+- Bridge message is emitted with both the asset transfer details and execution instructions
+
+### Step 3: Cross-Chain Messaging
+The bridge protocol relays the message to the destination chain, ensuring the execution payload is included.
+
+### Step 4: Atomic Execution on Destination
+On the destination chain:
+1. Tokens are minted or released to the user
+2. The specified contract is immediately called with the provided calldata
+3. Both operations are atomic - if either fails, the entire transaction reverts
+
+### Step 5: Confirmation
+Your application receives a response with transaction details to track the operation.
 
 ## Method signature
 
@@ -28,6 +67,7 @@ async simulateBridgeAndExecute(params: BridgeAndExecuteParams): Promise<BridgeAn
 export interface BridgeAndExecuteParams {
   toChainId: SUPPORTED_CHAINS_IDS;
   token: SUPPORTED_TOKENS;
+  // Token address on source chain
   amount: number | string;
   recipient?: `0x${string}`;
   sourceChains?: number[];
@@ -41,6 +81,24 @@ export interface BridgeAndExecuteParams {
   // Optional recent approval transaction hash to consider in simulation
   recentApprovalTxHash?: string;
 }
+```
+
+## Handling responses
+The `bridgeAndExecute` method handles responses differently depending on the bridge protocol and chain configurations. Here's how to properly handle both scenarios.
+
+### Synchronous response 
+
+Some bridges (like those with instant finality or optimistic execution) provide immediate confirmation:
+```typescript
+try {
+
+```
+### Asynchronous response
+
+Most cross-chain operations require waiting for destination chain finality:
+
+```typescript
+
 ```
 
 ## Example
