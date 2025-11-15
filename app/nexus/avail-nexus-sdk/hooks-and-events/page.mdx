@@ -1,0 +1,152 @@
+--- 
+title: 'Hooks and Events'
+description: 'Hooks and Events for the Nexus SDK'
+image: '/img/docs-link-preview.png'
+---
+
+import { Callout } from 'nextra/components'
+
+# Hooks and Events
+
+The Nexus SDK comes baked in with some helpful hooks and error codes to make your development experience easier.
+
+## onEvent
+
+Supported by all main SDK functions, this hook allows you to subscribe to progress events for submitted transactions.
+
+### Signature
+  
+```typescript showLineNumbers filename="Typescript"
+/**
+ * EventUnion is a union type of all possible event types.
+ */
+type EventUnion =
+  | { name: 'STEPS_LIST'; args: BridgeStepType[] }
+  | { name: 'STEP_COMPLETE'; args: BridgeStepType }
+  | { name: 'SWAP_STEP_COMPLETE'; args: SwapStepType };
+
+type OnEventParam = {
+  onEvent?: (event: EventUnion) => void;
+};
+```
+
+### Example
+
+Use `onEvent` to log the progress of a transaction to the console:
+
+```typescript showLineNumbers filename="Typescript"
+const bridgeResult = await sdk.bridge(
+  {
+    token: 'USDC',
+    amount: 1_500_000n,
+    recipient: '0x...' // Optional
+    toChainId: 137, // Polygon
+  },
+  {
+    onEvent: (event) => {
+      if (event.name === NEXUS_EVENTS.STEPS_LIST) console.log('Bridge steps:', event.args);
+      if (event.name === NEXUS_EVENTS.STEP_COMPLETE) console.log('Step completed:', event.args);
+    },
+  },
+);
+```
+
+<Callout type="info">
+`STEPS_LIST` is emitted with `bridge()`, `bridgeAndTransfer()` and `bridgeAndExecute()`.
+`swapWithExactIn()` and `swapWithExactOut()` however do emit `SWAP_STEP_COMPLETE` instead.
+</Callout>
+
+```typescript showLineNumbers filename="Typescript"
+const swapResult = await sdk.swapWithExactIn(
+  {
+    from: [{ chainId: 10, amount: 1_000_000n, tokenAddress: '0x...' }],
+    toChainId: 8453,
+    toTokenAddress: '0x...',
+  },
+  {
+    onEvent: (event) => {
+      if (event.name === NEXUS_EVENTS.SWAP_STEP_COMPLETE) {
+        console.log('Swap step:', event.args);
+      }
+    },
+  },
+);
+
+```
+
+## onIntentHook
+
+This hook allows you to give your user a way to approve or deny the intent.
+
+### Signature
+
+```typescript showLineNumbers filename="Typescript"
+type OnIntentHookData = {
+  allow: () => void;
+  deny: () => void;
+  intent: ReadableIntent; // human-readable breakdown of sources, destination, fees
+  refresh: (selectedSources?: number[]) => Promise<ReadableIntent>; // recompute plan
+};
+```
+
+- Call `allow()` to continue or `deny()` to abort. Model this behaviour behind `allow` and `deny` buttons in your UI.
+- If you need to re-plan (e.g., change source chains), call `refresh(...)` and re-render.
+- On allow, the SDK marks `INTENT_ACCEPTED` and proceeds to the allowance phase (if required).
+ 
+### Example
+
+```typescript showLineNumbers filename="Typescript"
+sdk.setOnIntentHook(({ intent, allow, deny, refresh }) => {
+  // Render the plan and fees to the user using `intent`
+  // Optionally let the user change source chains
+  if (userApproves) allow();
+  else deny();
+});
+```
+
+- If you don't set this hook, the SDK defaults to allowing the intent automatically.
+- After acceptance, allowance approvals (if any) are handled via `onAllowance`.
+
+## onAllowanceHook
+
+Use this hook to allow your users to approve or deny any additional allowances that are required for an intent to go through.
+
+### Signature
+
+```typescript showLineNumbers filename="Typescript"
+type OnAllowanceHookData = {
+  allow: (values: Array<'max' | 'min' | bigint | string>) => void;
+  deny: () => void;
+  sources: {
+    allowance: { current: string; minimum: string };
+    chain: { id: number; logo: string; name: string };
+    token: { contractAddress: `0x${string}`; decimals: number; logo: string; name: string; symbol: string };
+  }[];
+};
+```
+
+- Call `allow(values)` to approve the allowances. `values` is an array of strings, numbers, or bigints that represent the amount of the allowance.
+- Call `deny()` to abort if the user does not want to approve the allowances.
+- `sources` is an array of objects that represent the sources of the allowances.
+
+### Example
+
+```typescript showLineNumbers filename="Typescript"
+sdk.setOnAllowanceHook(({ allow, deny, sources }) => {
+  // `sources` is an array of objects with minAllowance, chainID, token symbol, etc.
+  // allow(values): continues the transaction flow with the specified allowances; 
+  // `values` is an array with the chosen allowance for each of the requirements (values.length === sources.length), either 'min', 'max', a bigint or a string
+  // deny(): stops the flow
+  if (userApproves) allow(['min']); // or ['max'] or custom per source
+  else deny();
+});
+```
+
+- Values:
+  - 'min': set minimum required allowance for that source
+  - 'max': set unlimited (maxUint256) for that source`
+
+Behavior:
+- Fires after the intent is accepted via `setOnIntentHook`.
+- If not set, the SDK defaults to `min` for each source.
+- Progress events for approvals appear via `onEvent` as allowance steps complete.
