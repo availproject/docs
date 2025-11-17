@@ -1,6 +1,6 @@
 export default {
     "nexus-core": "Nexus Core",
     "nexus-elements": "Nexus Elements",
-    "hooks-and-events": "Hooks and Events",
+    "hooks-and-errors": "Hooks and Errors",
     "common-utils-and-constants": "Common Utils and Constants",
 }
