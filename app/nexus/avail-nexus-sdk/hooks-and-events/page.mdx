@@ -4,17 +4,20 @@ description: 'Hooks and Events for the Nexus SDK'
 image: '/img/docs-link-preview.png'
 ---
 
-import { Callout } from 'nextra/components'
+import { Callout, Cards } from 'nextra/components'
+import { FileIcon, LinkIcon, GithubIcon24 } from '@components/icons'
 
 # Hooks and Events
 
 The Nexus SDK comes baked in with some helpful hooks and error codes to make your development experience easier.
 
-## onEvent
+## Hooks
+
+### onEvent
 
 Supported by all main SDK functions, this hook allows you to subscribe to progress events for submitted transactions.
 
-### Signature
+#### Signature
   
 ```typescript showLineNumbers filename="Typescript"
 /**
@@ -30,7 +33,7 @@ type OnEventParam = {
 };
 ```
 
-### Example
+#### Example
 
 Use `onEvent` to log the progress of a transaction to the console:
 
@@ -74,11 +77,11 @@ const swapResult = await sdk.swapWithExactIn(
 
 ```
 
-## onIntentHook
+### onIntentHook
 
 This hook allows you to give your user a way to approve or deny the intent.
 
-### Signature
+#### Signature
 
 ```typescript showLineNumbers filename="Typescript"
 type OnIntentHookData = {
@@ -93,7 +96,7 @@ type OnIntentHookData = {
 - If you need to re-plan (e.g., change source chains), call `refresh(...)` and re-render.
 - On allow, the SDK marks `INTENT_ACCEPTED` and proceeds to the allowance phase (if required).
  
-### Example
+#### Example
 
 ```typescript showLineNumbers filename="Typescript"
 sdk.setOnIntentHook(({ intent, allow, deny, refresh }) => {
@@ -107,11 +110,42 @@ sdk.setOnIntentHook(({ intent, allow, deny, refresh }) => {
 - If you don't set this hook, the SDK defaults to allowing the intent automatically.
 - After acceptance, allowance approvals (if any) are handled via `onAllowance`.
 
-## onAllowanceHook
+### onSwapIntentHook
+
+Use this hook to prompt the user to approve or deny the swap plan before execution begins.
+
+#### Signature
+
+```typescript showLineNumbers filename="Typescript"
+type OnSwapIntentHookData = {
+  allow: () => void;
+  deny: () => void;
+  intent: SwapIntent;
+  refresh: () => Promise<SwapIntent>;
+};
+```
+
+Lifecycle:
+- Called during `swapWithExactIn()` / `swapWithExactOut()` after a route is computed and before the actual swap is executed.
+- `refresh()` recomputes the route (e.g., after user changes inputs); call `allow()` to proceed or `deny()` to abort.
+- If you don't set this hook, the SDK defaults to allowing the swap automatically.
+
+#### Example
+
+```typescript showLineNumbers filename="Typescript"
+sdk.setOnSwapIntentHook(({ intent, allow, deny, refresh }) => {
+  // Render swap route and destination details from `intent`
+  // Optionally call `refresh()` if the user tweaks inputs
+  if (userApproves) allow();
+  else deny();
+});
+```
+
+### onAllowanceHook
 
 Use this hook to allow your users to approve or deny any additional allowances that are required for an intent to go through.
 
-### Signature
+#### Signature
 
 ```typescript showLineNumbers filename="Typescript"
 type OnAllowanceHookData = {
@@ -129,7 +163,7 @@ type OnAllowanceHookData = {
 - Call `deny()` to abort if the user does not want to approve the allowances.
 - `sources` is an array of objects that represent the sources of the allowances.
 
-### Example
+#### Example
 
 ```typescript showLineNumbers filename="Typescript"
 sdk.setOnAllowanceHook(({ allow, deny, sources }) => {
@@ -150,3 +184,92 @@ Behavior:
 - Fires after the intent is accepted via `setOnIntentHook`.
 - If not set, the SDK defaults to `min` for each source.
 - Progress events for approvals appear via `onEvent` as allowance steps complete.
+
+## Error Codes
+
+### Recommended Error Handling Pattern
+
+The Nexus SDK uses the `NexusError` class to throw errors.
+It extends the built-in `Error` class and adds a `code` property to the error object.
+
+```typescript showLineNumbers filename="Typescript"
+function handleNexusError(err: unknown) {
+  if (err instanceof NexusError) {
+    console.error(`[${err.code}] ${err.message}`);
+
+    if (err.data?.context) {
+      console.error(`Context: ${err.data.context}`);
+    }
+
+    if (err.data?.details) {
+      console.error('Details:', err.data.details);
+    }
+
+    switch (err.code) {
+      case ERROR_CODES.USER_DENIED_INTENT:
+      case ERROR_CODES.USER_DENIED_ALLOWANCE:
+        alert('You rejected the transaction. Please try again.');
+        break;
+
+      case ERROR_CODES.INSUFFICIENT_BALANCE:
+        alert('Your wallet does not have enough funds.');
+        break;
+
+      case ERROR_CODES.TRON_DEPOSIT_FAIL:
+      case ERROR_CODES.FUEL_DEPOSIT_FAIL:
+        console.warn('Deposit failed');
+        // Possibly ask user to retry
+        break;
+
+      default:
+        // Unknown but typed error
+        console.error('Unexpected NexusError:', err.toJSON());
+    }
+
+    // Optional:
+    logErrorToService(err.toJSON());
+  } else {
+    // Non-Nexus errors (network, library, etc.)
+    console.error('Unexpected error:', err);
+  }
+}
+```
+
+### Complete List of ERROR_CODES
+
+The Nexus SDK also provides a list of error codes that can be used to
+identify the type of error that occurred, and handle them accordingly.
+
+You can view the list of error codes and their signatures respectively in the Nexus SDK Github repo:
+<Cards num={2}>
+    <Cards.Card title="nexusError.ts" icon={<GithubIcon24 className="svg-inherit"  />} href="https://github.com/availproject/nexus-sdk/blob/main/src/sdk/ca-base/nexusError.ts" target="_blank" rel="noopener noreferrer" arrow />
+    <Cards.Card title="errors.ts" icon={<GithubIcon24 className="svg-inherit"  />} href="https://github.com/availproject/nexus-sdk/blob/main/src/sdk/ca-base/errors.ts" target="_blank" rel="noopener noreferrer" arrow />
+</Cards>
+    
+```typescript showLineNumbers filename="Typescript"
+import { ERROR_CODES } from '@avail-project/nexus-core';
+
+export const ERROR_CODES = {
+  INVALID_VALUES_ALLOWANCE_HOOK: 'INVALID_VALUES_ALLOWANCE_HOOK',
+  SDK_NOT_INITIALIZED: 'SDK_NOT_INITIALIZED',
+  CHAIN_NOT_FOUND: 'CHAIN_NOT_FOUND',
+  INTERNAL_ERROR: 'INTERNAL_ERROR',
+  TOKEN_NOT_SUPPORTED: 'TOKEN_NOT_SUPPORTED',
+  TRON_DEPOSIT_FAIL: 'TRON_DEPOSIT_FAIL',
+  TRON_APPROVAL_FAIL: 'TRON_APPROVAL_FAIL',
+  FUEL_DEPOSIT_FAIL: 'FUEL_DEPOSIT_FAIL',
+  LIQUIDITY_TIMEOUT: 'LIQUIDITY_TIMEOUT',
+  USER_DENIED_INTENT: 'USER_DENIED_INTENT',
+  USER_DENIED_ALLOWANCE: 'USER_DENIED_ALLOWANCE',
+  USER_DENIED_INTENT_SIGNATURE: 'USER_DENIED_INTENT_SIGNATURE',
+  INSUFFICIENT_BALANCE: 'INSUFFICIENT_BALANCE',
+  WALLET_NOT_CONNECTED: 'WALLET_NOT_CONNECTED',
+  USER_DENIED_SIWE_SIGNATURE: 'USER_DENIED_SIWE_SIGNATURE',
+  FETCH_GAS_PRICE_FAILED: 'FETCH_GAS_PRICE_FAILED',
+  SIMULATION_FAILED: 'SIMULATION_FAILED',
+  CONNECT_ACCOUNT_FAILED: 'CONNECT_ACCOUNT_FAILED',
+  VAULT_CONTRACT_NOT_FOUND: 'VAULT_CONTRACT_NOT_FOUND',
+  SLIPPAGE_EXCEEDED_ALLOWANCE: 'SLIPPAGE_EXCEEDED_ALLOWANCE',
+  RFF_FEE_EXPIRED: 'RFF_FEE_EXPIRED',
+} as const;
+```
