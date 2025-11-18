@@ -10,8 +10,13 @@ Use this widget to bridge tokens across chains.
 Prefill inputs and hook into lifecycle callbacks for a seamless UX.
 
 <Callout type="info">
-This widget is built on top of the `bridge()` function from the `@avail-project/nexus-core` SDK.
-You can read more about the function in the [Nexus Core SDK reference](/nexus/avail-nexus-sdk/nexus-core/bridge).
+**MAIN POINTS TO NOTE:**<br/>
+
+1. This widget calls `bridge()` under the hood if the `recipient === connectedAddress`.
+2. If the `recipient !== connectedAddress`, `bridgeAndTransfer()` is called.
+3. You can read more about these underlying functions in the [Nexus Core SDK reference](/nexus/avail-nexus-sdk/nexus-core).
+4. You can find a Quickstart example for using `nexus-elements` in [Nexus Elements Quickstart](/nexus/nexus-quickstart/nexus-elements). This tutorial
+shows you how to integrate `nexus-elements` into a Vite-based project using a pre-configured template.
 </Callout>
 
 ## Install
@@ -67,9 +72,8 @@ interface FastBridgeProps {
 
 ## Usage
 
-## Usage
-
 ```typescript showLineNumbers filename="Typescript"
+"use client";
 import FastBridge from '@/components/fast-bridge/fast-bridge';
 
 export default function Page({ address }: { address: `0x${string}` }) {
@@ -81,7 +85,9 @@ export default function Page({ address }: { address: `0x${string}` }) {
       onError={(m) => console.error('Bridge error:', m)}
     />
   );
-}### Prefill example
+}
+
+### Prefill example
 
 <FastBridge
   connectedAddress={address}
