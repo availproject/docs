@@ -1,0 +1,77 @@
+---
+title: "Events emitted by the bridge methods"
+---
+
+import { Callout, Steps, Tabs, Cards } from 'nextra/components'
+import { FileIcon, LinkIcon, GithubIcon24 } from '@components/icons'
+
+# Bridge methods events
+
+This page documents the events emitted by the following methods:
+
+- `bridge()`
+- `bridgeAndTransfer()`
+- `bridgeAndExecute()`
+
+- These methods emit `NEXUS_EVENTS.STEPS_LIST` when the intent for the bridge operation is created. It emits an array of `BridgeStepType` objects.
+- Listen to this event to get the steps list for the bridge operation.
+- `NEXUS_EVENTS.STEP_COMPLETE` is emitted for each completed step of the intent's fulfillment, contains a single `BridgeStepType` object per emission.
+
+<Callout type="info">
+- The `bridgeAndTransfer()` method emits event steps corresponding to the execution of the transfer operation on the destination chain, in addition to the steps for the bridge operation.
+- The `bridge()` method just emits the steps for the bridge operation.
+- In case `bridgeAndTransfer()` or `bridgeAndExecute()` don't need to bridge to complete the intent on the destination chain, they will just emit the steps for the transfer or execute operation respectively.
+</Callout>
+
+## Signature
+
+```typescript showLineNumbers filename="Typescript"
+type EventUnion =
+  | { name: 'STEPS_LIST'; args: BridgeStepType[] }
+  | { name: 'SWAP_STEP_COMPLETE'; args: SwapStepType } // Only emitted by `swapWithExactIn()` and `swapWithExactOut()`
+  | { name: 'STEP_COMPLETE'; args: BridgeStepType };
+
+export type OnEventParam = {
+  onEvent?: (event: EventUnion) => void;
+};
+
+type BridgeStepType =
+
+// Event types for bridge operations
+  | ReturnType<typeof ALLOWANCE_APPROVAL_REQUEST>
+  | ReturnType<typeof ALLOWANCE_APPROVAL_MINED>
+  | ReturnType<typeof INTENT_DEPOSIT_REQUEST>
+  | ReturnType<typeof INTENT_SUBMITTED>
+  | ReturnType<typeof INTENT_COLLECTION>
+  | typeof INTENT_ACCEPTED
+  | typeof INTENT_HASH_SIGNED
+  | typeof INTENT_DEPOSITS_CONFIRMED
+  | typeof INTENT_COLLECTION_COMPLETE
+  | typeof INTENT_FULFILLED
+  | typeof ALLOWANCE_COMPLETE
+
+  // Event types for execute operations
+  | typeof EXECUTE_APPROVAL_STEP
+  | typeof EXECUTE_TRANSACTION_CONFIRMED
+  | typeof EXECUTE_TRANSACTION_SENT;
+```
+
+You can check out the type definitions for each step type here:
+
+<Cards num={1}>
+    <Cards.Card icon={<GithubIcon24 className="svg-inherit" />} title="Bridge steps" href="https://github.com/availproject/nexus-sdk/blob/main/src/commons/types/bridge-steps.ts" target="_blank" rel="noopener noreferrer" arrow />
+</Cards>
+
+### Usage Example
+
+```typescript showLineNumbers filename="Typescript"
+sdk.bridge({...}, {
+  onEvent: (event) => {
+    if(event.name === NEXUS_EVENTS.STEPS_LIST) {
+      // Store list of steps
+    } else if(event.name === NEXUS_EVENTS.STEP_COMPLETE) {
+      // Mark step as done
+    }
+  }
+});
+```

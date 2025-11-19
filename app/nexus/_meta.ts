@@ -6,5 +6,4 @@ export default {
     "nexus-examples": "More examples with Nexus SDK",
     "avail-nexus-sdk": "Nexus SDK Reference",
     "nexus-cheatsheet": "Nexus cheat sheet",
-    "faqs": "FAQs",
 }

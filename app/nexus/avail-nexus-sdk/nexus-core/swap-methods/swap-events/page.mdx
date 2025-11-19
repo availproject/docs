@@ -1,0 +1,73 @@
+---
+title: "Events emitted by the swap methods"
+---
+
+import { Callout, Steps, Tabs, Cards } from 'nextra/components'
+import { FileIcon, LinkIcon, GithubIcon24 } from '@components/icons'
+
+# Swap methods events
+
+This page documents the events emitted by the following methods:
+
+- `swapWithExactIn()`
+- `swapWithExactOut()`
+
+- These methods emit `NEXUS_EVENTS.SWAP_STEP_COMPLETE` for each completed step of the swap operation.
+- No initial event that returns the steps beforehand is emitted.
+
+## Signature
+
+```typescript showLineNumbers filename="Typescript"
+type EventUnion =
+  | { name: 'STEPS_LIST'; args: BridgeStepType[] }
+  | { name: 'SWAP_STEP_COMPLETE'; args: SwapStepType } // Only emitted by `swapWithExactIn()` and `swapWithExactOut()`
+  | { name: 'STEP_COMPLETE'; args: BridgeStepType };
+
+export type OnEventParam = {
+  onEvent?: (event: EventUnion) => void;
+};
+
+export type SwapStepType =
+  | ReturnType<typeof SWAP_STEPS.CREATE_PERMIT_EOA_TO_EPHEMERAL>
+  | ReturnType<typeof SWAP_STEPS.CREATE_PERMIT_FOR_SOURCE_SWAP>
+  | ReturnType<typeof SWAP_STEPS.DESTINATION_SWAP_BATCH_TX>
+  | ReturnType<typeof SWAP_STEPS.DESTINATION_SWAP_HASH>
+  | ReturnType<typeof SWAP_STEPS.DETERMINING_SWAP>
+  | ReturnType<typeof SWAP_STEPS.RFF_ID>
+  | ReturnType<typeof SWAP_STEPS.SOURCE_SWAP_BATCH_TX>
+  | ReturnType<typeof SWAP_STEPS.SOURCE_SWAP_HASH>
+  | typeof SWAP_STEPS.SWAP_COMPLETE
+  | typeof SWAP_STEPS.SWAP_START;
+
+```
+
+You can check out the type definitions for each step type here:
+
+<Cards num={1}>
+    <Cards.Card icon={<GithubIcon24 className="svg-inherit" />} title="Swap steps" href="https://github.com/availproject/nexus-sdk/blob/main/src/commons/types/swap-steps.ts" target="_blank" rel="noopener noreferrer" arrow />
+</Cards>
+
+## Usage Example
+
+```typescript showLineNumbers filename="Typescript"
+      const result = await nexusSDK.swapWithExactIn(swapInput, {
+        onEvent: (event) => {
+          if (event.name === NEXUS_EVENTS.SWAP_STEP_COMPLETE) {
+            const step = event.args as SwapStepType & {
+              explorerURL?: string;
+              completed?: boolean;
+            };
+            if (step?.type === "SOURCE_SWAP_HASH" && step.explorerURL) {
+              setSourceExplorerUrl(step.explorerURL);
+            }
+            if (step?.type === "DESTINATION_SWAP_HASH" && step.explorerURL) {
+              setDestinationExplorerUrl(step.explorerURL);
+            }
+            onStepComplete(step);
+          }
+        },
+      });
+      if (!result?.success) {
+        throw new Error(result?.error || "Swap failed");
+      }
+```

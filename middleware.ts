@@ -1301,7 +1301,7 @@ export function middleware(request: NextRequest) {
 
     {
       source: "/nexus/avail-nexus-sdk/examples/nexus-core/fetch-unified-balances",
-      destination: `${origin}/nexus/avail-nexus-sdk/nexus-core/fetch-unified-balances`,
+      destination: `${origin}/nexus/avail-nexus-sdk/nexus-core/bridge-methods/fetch-unified-balances`,
     },
     {
       source: "/nexus/avail-nexus-sdk/examples/nexus-core/transfer",
