@@ -4,8 +4,8 @@ description: "Get started with Nexus Core"
 image: "/img/docs-link-preview.png"
 ---
 
-import { Callout, Steps } from 'nextra/components';
-
+import { Callout, Steps, Tabs, Cards } from 'nextra/components';
+import { FileIcon, FilesIcon } from '@components/icons';
 
 {/* <Callout type="info">
     We built a React demo app that uses the Avail Nexus SDK UI components to implement a unified Web3 experience.
@@ -17,13 +17,15 @@ import { Callout, Steps } from 'nextra/components';
 
 # Nexus Core Quickstart
 
-This page will help you quickly get started with `nexus-core`.
+This page will help you quickly get started with `nexus-core`, using a Next JS template.
 
 <Callout type="info">
-We also made a demo app for Nexus Core to make it easier for devs to get on-boarded with the Avail Nexus SDK:
+**PREFER VITE?**<br/>
 
-- [avail-headless-nexus-demo.avail.so](https://avail-headless-nexus-demo.avail.so/)
-- [Github repo for the demo app](https://github.com/availproject/avail-nexus-demo)
+We prepared two template repos for devs to get started with `nexus-core` as easily as possible:
+
+1. [nexus-nextjs-template](https://github.com/availproject/nexus-nextjs-template)
+2. [nexus-vite-template](https://github.com/availproject/nexus-vite-template)
 </Callout>
 
 <Callout type="info">
@@ -33,157 +35,211 @@ We also made a demo app for Nexus Core to make it easier for devs to get on-boar
 
 Getting started with the headless Nexus SDK is simple.
 
+
+
 <Steps>
 
-### Make sure to have a wallet provider
+### Clone the template repo
 
-The Nexus SDK requires an injected wallet provider (e.g. RainbowKit, ConnectKit, etc.)
+Clone the repo by running this command in your terminal:
 
-<Callout type="info">
-To be clear, even a basic injected provider using the `window.ethereum` object will work, but we recommend using a dedicated wallet provider.
-</Callout>
+<Tabs items={['git clone', 'github CLI']}>
 
-### Initialize the SDK
-
-<Callout type="info">
-A more complete example of getting started with `nexus-core` can be found [in this page of our docs](/nexus/nexus-examples/nexus-initialization-basic). 
-</Callout>
-
-Choose the network type you want to use and initialize the SDK with the wallet provider.
-
-```typescript showLineNumbers filename="Typescript"
-import { NexusSDK } from '@avail-project/nexus-core';
-import type { NexusNetwork } from '@avail-project/nexus-core';
-
-// Mainnet (default)
-const sdk = new NexusSDK();
-
-// Testnet
-const sdk = new NexusSDK({ network: 'testnet' as NexusNetwork });
-
-// Initialize with provider (required)
-await sdk.initialize(window.ethereum); // Returns: Promise<void>
-
+<Tabs.Tab>
+```bash filename="Terminal"
+git clone https://github.com/availproject/nexus-nextjs-template
 ```
+</Tabs.Tab>
 
-### Set up hooks for the SDK
-
-<Callout type="warning">
-- Hooks are **mandatory**. If these are not set up then once the intent is created the flow will **not progress at all**.  
-- Events are optional (recommended), but hooks must be covered during initialization.
-</Callout>
-
-Hooks let your app approve/deny the transaction intent and manage token allowances before the SDK proceeds.
-
-The SDK provides two hooks for this purpose:
-- `setOnIntentHook`: This hook is used to approve/deny the transaction intent. Use it
-to allow your users to approve or reject the final intent.
-- `setOnAllowanceHook`: This hook is used to manage token allowances. Use it to allow your users to approve or reject the required token allowances.
-
-```ts showLineNumbers filename="hooks.ts"
-// Assuming `sdk` is initialized from the previous step
-
-// Intent approval: show routes/fees to user, then allow() or deny().
-// Tip: call refresh() periodically (e.g., every 5s) to keep fees current.
-sdk.setOnIntentHook(({ intent, allow, deny, refresh }) => {
-  // Show intent in your UI. Example decision:
-  const userConfirms = true; // replace with your UI logic
-  if (userConfirms) allow();
-  else deny();
-
-  // Optionally set up a timer to refresh quotes:
-  // setInterval(() => refresh(), 5000);
-});
-
-// Allowance approval: specify spend permissions per required source.
-// Valid values: 'min' | 'max' | string | bigint (array length must match sources.length)
-sdk.setOnAllowanceHook(({ allow, deny, sources }) => {
-  // Show allowances needed to user, then:
-  allow(['min']); // or ['max'] or custom per source
-  // Call deny() to cancel.
-});
+<Tabs.Tab>
+```bash filename="Terminal"
+gh repo clone availproject/nexus-nextjs-template
 ```
+</Tabs.Tab>
 
-### (Optional, but recommended) Subscribe to progress events
+</Tabs>
 
-<Callout>
-Events help you monitor progress and show hashes/links in the UI.
-</Callout>
+### Install the dependencies
 
-The SDK emits the following events:
+In this template, we use ConnectKit with Wagmi & Viem for a seamless wallet connection experience, with cross-chain support being powered by `@avail-project/nexus-core`. \
+Install the dependencies by opening a terminal in the root of the project and running this command:
 
-**Bridge & Execute Operations:**
+<Tabs items={['pnpm', 'npm', 'yarn']}>
 
-- `BRIDGE_EXECUTE_EXPECTED_STEPS`: Emitted when the intent for the bridge and execute operation is created.
-Contains an ordered array of `ProgressStep` objects.
-- `BRIDGE_EXECUTE_COMPLETED_STEPS`: Emits per completed step of the intent's fulfillment, contains a `ProgressStep` object in each emission.
+<Tabs.Tab>
+```bash filename="Terminal"
+pnpm install
+```
+</Tabs.Tab>
 
-**Transfer & Bridge Operations:**
+<Tabs.Tab>
+```bash filename="Terminal"
+npm install
+```
+</Tabs.Tab>
 
-- `EXPECTED_STEPS`: Emitted when the intent for the transfer or bridge operation is created.
-Contains an ordered array of `ProgressStep` objects.
-- `STEP_COMPLETE`: Emits per completed step of the intent's fulfillment, contains a `ProgressStep` object in each emission.
+<Tabs.Tab>
+```bash filename="Terminal"
+yarn install
+```
+</Tabs.Tab>
 
-Here is a complete example of how you can subscribe to these events:
+</Tabs>
 
-```ts showLineNumbers filename="events.ts"
-import { NEXUS_EVENTS, ProgressStep } from '@avail-project/nexus-core';
+### Uncomment `initializeNexus()` in `NexusProvider.tsx`
 
-// Bridge & Execute Progress
-const unsubscribeBridgeExecuteExpected = sdk.nexusEvents.on(
-  NEXUS_EVENTS.BRIDGE_EXECUTE_EXPECTED_STEPS,
-  (steps: ProgressStep[]) => {
-    console.log(
-      'Bridge & Execute steps →',
-      steps.map((s) => s.typeID),
-    );
-  },
-);
+Go to `src/components/nexus/NexusProvider.tsx` and uncomment the `initializeNexus()` function.
+This function:
 
-const unsubscribeBridgeExecuteCompleted = sdk.nexusEvents.on(
-  NEXUS_EVENTS.BRIDGE_EXECUTE_COMPLETED_STEPS,
-  (step: ProgressStep) => {
-    console.log('Bridge & Execute completed →', step.typeID, step.data);
+1. Fetches the EIP-1193 Provider from the connected wallet.
+2. Initializes the Nexus SDK if it is not already initialized.
+3. Fetches the unified balances of the connected wallet.
 
-    if (step.typeID === 'IS' && step.data.explorerURL) {
-      console.log('View transaction:', step.data.explorerURL);
+This page is also where we register the hooks for the Nexus SDK and store the data in the context.
+You can read more about hooks here:
+
+<Cards num={1}>
+<Cards.Card title="Hooks and Errors" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/hooks-and-errors" />
+</Cards>
+
+```tsx showLineNumbers filename="src/components/nexus/NexusProvider.tsx"
+  const initializeNexus = async (provider: EthereumProvider) => {
+    setLoading(true);
+    try {
+      if (sdk.isInitialized()) throw new Error("Nexus is already initialized");
+      await sdk.initialize(provider);
+      setNexusSDK(sdk);
+      initChainsAndTokens();
+      const [unifiedBalanceResult, rates] = await Promise.allSettled([
+        sdk?.getUnifiedBalances(true),
+        sdk?.utils?.getCoinbaseRates(),
+      ]);
+
+      if (unifiedBalanceResult.status === "fulfilled") {
+        unifiedBalance.current = unifiedBalanceResult.value;
+      }
+
+      if (rates?.status === "fulfilled") {
+        // Coinbase returns "units per USD" (e.g., 1 USD = 0.00028 ETH).
+        // Convert to "USD per unit" (e.g., 1 ETH = ~$3514) for straightforward UI calculations.
+
+        const usdPerUnit: Record<string, number> = {};
+
+        for (const [symbol, value] of Object.entries(rates ?? {})) {
+          const unitsPerUsd = Number.parseFloat(String(value));
+          if (Number.isFinite(unitsPerUsd) && unitsPerUsd > 0) {
+            usdPerUnit[symbol.toUpperCase()] = 1 / unitsPerUsd;
+          }
+        }
+
+        for (const token of ["ETH", "USDC", "USDT"]) {
+          usdPerUnit[token] ??= 1;
+        }
+        exchangeRate.current = usdPerUnit;
+      }
+    } catch (error) {
+      console.error("Error initializing Nexus:", error);
+    } finally {
+      setLoading(false);
     }
-  },
-);
+  };
+  ```
 
-// Transfer & Bridge Progress (optimized operations)
-const unsubscribeTransferExpected = sdk.nexusEvents.on(
-  NEXUS_EVENTS.EXPECTED_STEPS,
-  (steps: ProgressStep[]) => {
-    console.log(
-      'Transfer/Bridge steps →',
-      steps.map((s) => s.typeID),
-    );
-    // For direct transfers: ['CS', 'TS', 'IS'] (3 steps, ~5-15s)
-  },
-);
+### Update the `Web3Provider.tsx` file
 
-const unsubscribeTransferCompleted = sdk.nexusEvents.on(
-  NEXUS_EVENTS.STEP_COMPLETE,
-  (step: ProgressStep) => {
-    console.log('Transfer/Bridge completed →', step.typeID, step.data);
+Go to `src/providers/Web3Provider.tsx` and:
 
-    if (step.typeID === 'IS' && step.data.explorerURL) {
-      // Transaction submitted with hash - works for both direct and CA
-      console.log('Transaction hash:', step.data.transactionHash);
-      console.log('Explorer URL:', step.data.explorerURL);
-    }
-  },
-);
+1. Uncomment the `walletConnectProjectId` variable. you can get an API key from [WalletConnect Cloud](https://cloud.walletconnect.com/).
+Set up the variable in the `.env` file at the root of the project.
 
-// Cleanup
-return () => {
-  unsubscribeBridgeExecuteExpected();
-  unsubscribeBridgeExecuteCompleted();
-  unsubscribeTransferExpected();
-  unsubscribeTransferCompleted();
+2. Uncomment the `transports` object.
+This object is used to set up the chains that you want to support.
+
+3. Uncomment the `Web3Provider` component. We wrap our `NexusProvider` with `WagmiProvider` so that it can borrow
+the EIP-1193 Provider from the connected wallet.
+The `ConnectKitProvider` is used to provide a pre-configured WalletConnect modal for the user to connect their wallet.
+The wallet provider itself comes from Wagmi.
+
+
+```tsx showLineNumbers filename="src/providers/Web3Provider.tsx"
+const Web3Provider = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <NexusProvider>
+          <ConnectKitProvider theme="soft" mode="light">
+            {children}
+          </ConnectKitProvider>
+        </NexusProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
 };
 ```
 
+### Wrap everything in `Web3Provider`
+
+Go to `src/app/layout.tsx` and uncomment the `Web3Provider` component.
+This will wrap our entire app and provide the necessary context for the Nexus SDK to work.
+
+```tsx showLineNumbers filename="src/app/layout.tsx"
+import Web3Provider from "@/providers/Web3Provider";
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body><Web3Provider>{children}</Web3Provider></body>
+    </html>
+  );
+}
+```
+
+### Run the app
+
+Run the app by running this command in your terminal:
+
+<Tabs items={['pnpm', 'npm', 'yarn']}>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+pnpm run dev
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+npm run dev
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+yarn dev
+```
+</Tabs.Tab>
+
+</Tabs>
+
+Your app should now be running at `http://localhost:3000`.
+Play around with the code to tweak the existing components or add new ones.
+
+Or maybe you'd like to add a pre-configured React component to your app?
+<Cards num={1}>
+<Cards.Card title="Nexus Elements Quickstart" icon={<FileIcon />} href="/nexus/nexus-quickstart/nexus-elements" />
+</Cards>
+
 </Steps>
 
+## What's next?
+
+Congratulations on finishing the quickstart!
+Feel free to explore the following resources to learn more about the Nexus SDK:
+
+<Cards num={2}>
+<Cards.Card title="Nexus Core SDK Reference" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/nexus-core" />
+<Cards.Card title="Nexus Core API Reference" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/nexus-core/api-reference" />
+</Cards>
