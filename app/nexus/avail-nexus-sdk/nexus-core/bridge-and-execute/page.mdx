@@ -84,22 +84,89 @@ export interface BridgeAndExecuteParams {
 ```
 
 ## Handling responses
-The `bridgeAndExecute` method handles responses differently depending on the bridge protocol and chain configurations. Here's how to properly handle both scenarios.
 
-### Synchronous response 
+The `bridgeAndExecute` call returns a `BridgeAndExecuteResult` object. You can use its fields to show status to users or to poll block explorers for progress.
+
+Note that the `bridgeAndExecute` method handles responses differently depending on the bridge protocol and chain configurations. Below are minimal examples on how you can work with the responses.
+
+### Immediate confirmation bridges
 
 Some bridges (like those with instant finality or optimistic execution) provide immediate confirmation:
-```typescript
-try {
-
-```
-### Asynchronous response
-
-Most cross-chain operations require waiting for destination chain finality:
+Use the hashes and explorer URLs returned by the bridge call to surface immediate confirmations. The bridge transaction hash is available right away, so you can link to it and begin polling while the destination execution continues.
 
 ```typescript
+import { NexusSDK } from '@avail-project/nexus-core';
+import type { BridgeAndExecuteResult } from '@avail-project/nexus-core';
+
+const sdk = new NexusSDK(/* ... */);
+
+const result: BridgeAndExecuteResult = await sdk.bridgeAndExecute(params);
+
+if (result.success) {
+  // Show immediate bridge confirmation
+  if (result.bridgeTransactionHash && result.bridgeExplorerUrl) {
+    console.log(`Bridge submitted: ${result.bridgeExplorerUrl}`);
+  }
+
+  // Track follow-up approval or execution hashes when present
+  if (result.approvalTransactionHash) {
+    console.log(`Approval tx: ${result.approvalTransactionHash}`);
+  }
+  if (result.executeTransactionHash && result.executeExplorerUrl) {
+    console.log(`Execute tx: ${result.executeExplorerUrl}`);
+  }
+} else {
+  console.error(`Bridge and execute failed: ${result.error}`);
+}
+```
+
+**What to do with the response in your user experience**
+- Use the bridge hash/URL to show an immediate “bridge submitted” banner.
+- Start polling the bridge transaction for completion on the source chain.
+- Surface execution details (hash/URL) when available to help users follow the destination action.
+
+### Destination chain finality bridges
+
+For bridges that only finalize after the destination chain confirms the execution, rely on the destination transaction hash to track finality. The response flags whether the bridge step was skipped and always includes the target chain ID so you can pick the correct explorer.
+
+```typescript
+import { NexusSDK } from '@avail-project/nexus-core';
+import type { BridgeAndExecuteResult } from '@avail-project/nexus-core';
+
+const sdk = new NexusSDK(/* ... */);
+
+const result: BridgeAndExecuteResult = await sdk.bridgeAndExecute({
+  ...params,
+  waitForReceipt: true,           // wait for receipt on the destination chain
+  requiredConfirmations: 3,       // enforce destination finality
+});
+
+if (result.success) {
+  // Bridge may be skipped if funds already exist on the destination
+  if (result.bridgeSkipped) {
+    console.log('Bridge skipped; executed directly on destination chain');
+  }
+
+  // Wait for the destination execution to reach finality
+  if (result.executeTransactionHash) {
+    await pollForConfirmations({
+      txHash: result.executeTransactionHash,
+      chainId: result.toChainId,
+      minConfirmations: 3,
+    });
+    console.log('Destination execution finalized');
+  }
+} else {
+  console.error(`Bridge and execute failed: ${result.error}`);
+}
 
 ```
+
+**What to do with the response in your user experience**
+- Respect `bridgeSkipped` to avoid showing bridge progress when the SDK executes directly.
+- Use `toChainId` and the execution hash to poll the destination chain until the required confirmations are met.
+- Present finality status updates (e.g., “Waiting for 3 confirmations on chain X”).
+
 
 ## Example
 
