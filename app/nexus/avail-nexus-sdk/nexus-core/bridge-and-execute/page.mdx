@@ -85,7 +85,7 @@ export interface BridgeAndExecuteParams {
 
 ## Handling responses
 
-The `bridgeAndExecute` call returns a `BridgeAndExecuteResult` object. You can use its fields to show status to users or to poll block explorers for progress.
+The `bridgeAndExecute` call returns a `BridgeAndExecuteResult` [object](). You can use its fields to show status to users or to poll block explorers for progress.
 
 Note that the `bridgeAndExecute` method handles responses differently depending on the bridge protocol and chain configurations. Below are minimal examples on how you can work with the responses.
 
@@ -167,8 +167,11 @@ if (result.success) {
 - Use `toChainId` and the execution hash to poll the destination chain until the required confirmations are met.
 - Present finality status updates (e.g., “Waiting for 3 confirmations on chain X”).
 
+## Examples
 
-## Example
+### Example 1
+
+The following examples showcases the use of the `bridgeAndExecute` call. The example bridges USDC from Base to Ethereum and then deposits the USDC to the `Yearn USDC Vault`.
 
 ```typescript showLineNumbers filename="Typescript"
 import type {
@@ -276,6 +279,53 @@ console.log('Total estimated cost:', simulation.totalEstimatedCost);
 
 console.log('Approval required:', simulation.metadata?.approvalRequired);
 console.log('Bridge receive amount:', simulation.metadata?.bridgeReceiveAmount);
+```
+
+### Example 2
+
+The following examples showcases the use of the `bridgeAndExecute` call. The example bridges native ETH from Arbitrum and stakes it in the `Lido stETH` vault on Ethereum. 
+
+Only the `bridgeAndExecute` call part of the first example has changed. Note that native ETH deposit does not require setting `tokenApproval`. 
+
+```typescript
+...
+
+// Bridge native ETH from Arbitrum and stake into Lido stETH on Ethereum
+const lidoStakeResult: BridgeAndExecuteResult = await sdk.bridgeAndExecute({
+  token: 'ETH',
+  amount: '0.5', // Bridge 0.5 ETH
+  toChainId: 1, // Stake on Ethereum mainnet
+  sourceChains: [42161], // Bridge from Arbitrum
+  execute: {
+    contractAddress: '0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84', // Lido stETH
+    contractAbi: [
+      {
+        inputs: [{ internalType: 'address', name: '_referral', type: 'address' }],
+        name: 'submit',
+        outputs: [{ internalType: 'uint256', name: 'stETH', type: 'uint256' }],
+        stateMutability: 'payable',
+        type: 'function',
+      },
+    ],
+    functionName: 'submit',
+    buildFunctionParams: (
+      token: SUPPORTED_TOKENS,
+      amount: string,
+      chainId: SUPPORTED_CHAINS_IDS,
+      userAddress: `0x${string}`,
+    ) => {
+      const amountWei = parseUnits(amount, 18);
+      return {
+        // Stake without referral and send the bridged ETH as msg.value
+        functionParams: ['0x0000000000000000000000000000000000000000'],
+        value: amountWei.toString(),
+      };
+    },
+  },
+  waitForReceipt: true,
+} as BridgeAndExecuteParams);
+...
+
 ```
 
 ## Return Value
