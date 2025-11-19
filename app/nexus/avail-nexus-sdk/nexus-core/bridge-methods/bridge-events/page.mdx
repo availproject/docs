@@ -14,7 +14,7 @@ This page documents the events emitted by the following methods:
 - `bridgeAndExecute()`
 
 - These methods emit `NEXUS_EVENTS.STEPS_LIST` when the intent for the bridge operation is created. It emits an array of `BridgeStepType` objects.
-- Listen to this event to get the steps list for the bridge operation.
+- Use a callback function to listen to the `NEXUS_EVENTS.STEPS_LIST` event to get the steps list for the bridge operation.
 - `NEXUS_EVENTS.STEP_COMPLETE` is emitted for each completed step of the intent's fulfillment, contains a single `BridgeStepType` object per emission.
 
 <Callout type="info">
