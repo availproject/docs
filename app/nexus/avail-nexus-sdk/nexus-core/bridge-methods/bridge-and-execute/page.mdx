@@ -50,6 +50,26 @@ export interface BridgeAndExecuteParams {
   requiredConfirmations?: number;
   recentApprovalTxHash?: string;
 }
+
+export interface ExecuteParams {
+  toChainId: number;
+  to: Hex;
+  value?: bigint;
+  data?: Hex;
+  gas?: bigint;
+  gasPrice?: bigint;
+  enableTransactionPolling?: boolean;
+  transactionTimeout?: number;
+  // Transaction receipt confirmation options
+  waitForReceipt?: boolean;
+  receiptTimeout?: number;
+  requiredConfirmations?: number;
+  tokenApproval?: {
+    token: string;
+    amount: bigint;
+    spender: Hex;
+  };
+}
 ```
 
 - `BridgeAndExecuteParams`: Parameters for using the `bridgeAndExecute()` function.
