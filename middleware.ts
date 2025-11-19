@@ -806,8 +806,8 @@ export function middleware(request: NextRequest) {
       destination: `${origin}/nexus/avail-nexus-sdk/examples`,
     },
     {
-      source: "/api-reference/avail-nexus-sdk/examples/fetch-unified-balances",
-      destination: `${origin}/nexus/avail-nexus-sdk/examples/fetch-unified-balances`,
+      source: "/api-reference/avail-nexus-sdk/examples/fetch-bridge-balances",
+      destination: `${origin}/nexus/avail-nexus-sdk/examples/fetch-bridge-balances`,
     },
     {
       source: "/api-reference/avail-nexus-sdk/examples/transfer",
@@ -1300,8 +1300,8 @@ export function middleware(request: NextRequest) {
     // },
 
     {
-      source: "/nexus/avail-nexus-sdk/examples/nexus-core/fetch-unified-balances",
-      destination: `${origin}/nexus/avail-nexus-sdk/nexus-core/bridge-methods/fetch-unified-balances`,
+      source: "/nexus/avail-nexus-sdk/examples/nexus-core/fetch-bridge-balances",
+      destination: `${origin}/nexus/avail-nexus-sdk/nexus-core/bridge-methods/fetch-bridge-balances`,
     },
     {
       source: "/nexus/avail-nexus-sdk/examples/nexus-core/transfer",
