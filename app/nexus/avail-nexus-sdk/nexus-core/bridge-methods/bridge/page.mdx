@@ -25,7 +25,7 @@ Use the `simulateBridge()` function to simulate the bridge transaction to previe
 ```typescript showLineNumbers filename="Typescript"
 async bridge(
   params: BridgeParams,
-  options?: { onEvent?: (event: { name: 'STEPS_LIST' | 'STEP_COMPLETE'; args: unknown }) => void }
+  options?: OnEventParam,
 ): Promise<BridgeResult>
 
 async simulateBridge(
@@ -43,8 +43,8 @@ async simulateBridge(
 export interface BridgeParams {
   recipient?: Hex;
   token: string;
-  amount: number | string;
-  chainId: number;
+  amount: bigint;
+  toChainId: number;
   gas?: bigint;
   sourceChains?: number[];
 }
@@ -67,8 +67,8 @@ import type { BridgeParams, BridgeResult, SimulationResult } from '@avail-projec
 const bridgeResult = await sdk.bridge(
   { 
   token: 'USDC', 
-  amount: '83.50', 
-  chainId: 137 
+  amount: 83.50, 
+  toChainId: 137 
 });
 
 // Simulate bridge to preview costs
@@ -76,8 +76,8 @@ const bridgeResult = await sdk.bridge(
 const bridgeSimulation = await sdk.simulateBridge(
   { 
     token: 'USDC', 
-    amount: '83.50', 
-    chainId: 137 
+    amount: 83.50, 
+    toChainId: 137 
   });
 
 console.log('Bridge result:', bridgeResult);
