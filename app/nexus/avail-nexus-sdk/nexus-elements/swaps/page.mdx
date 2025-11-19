@@ -1,0 +1,117 @@
+---
+title: "Nexus Elements - Swaps"
+---
+
+import { Callout, Tabs, Cards } from 'nextra/components'
+
+import { FileIcon, GithubIcon24 } from '@components/icons'
+
+
+# Swaps
+
+Let users swap assets across chains with either an exact-in (fixed input amount) or exact-out (fixed output amount).
+
+
+<Callout type="info">
+**MAIN POINTS TO NOTE:**<br/>
+1. Setting `exactIn` to `true` (default) renders the Exact-In flow which calls `swapWithExactIn()` under the hood; `false` renders the Exact-Out flow which calls `swapWithExactOut()`.  
+2. Prefill objects (`exactInprefill`, `exactOutprefill`) become read-only in the UI.
+3. The widget streams `NEXUS_EVENTS.SWAP_STEP_COMPLETE` updates to keep the transaction progress UI in sync and exposes `onStart`, `onError`, `onComplete` callbacks.
+</Callout>
+
+## Install
+
+You can find the source code for the Swaps Widget here:
+<Cards num={1}>
+<Cards.Card icon={< GithubIcon24 className="svg-inherit" />} title="Swaps Widget" href="https://github.com/availproject/nexus-elements/blob/main/registry/nexus-elements/swaps/swaps.tsx" target="_blank" rel="noopener noreferrer" arrow />
+</Cards>
+
+To install the Swaps Widget into your project, you can use the following command:
+
+<Tabs items={['pnpm', 'npm', 'yarn']}>
+
+<Tabs.Tab> 
+```bash filename="Terminal"
+pnpm dlx shadcn@latest add https://elements.nexus.availproject.org/r/swaps.json
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+npx shadcn@latest add https://elements.nexus.availproject.org/r/swaps.json
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+yarn dlx shadcn@latest add https://elements.nexus.availproject.org/r/swaps.json
+```
+</Tabs.Tab>
+
+</Tabs>
+
+## Props
+
+```typescript showLineNumbers filename="TypeScript"
+interface SwapsProps {
+  exactIn?: boolean;
+  onComplete?: (amount?: string) => void;
+  onStart?: () => void;
+  onError?: (message: string) => void;
+  exactInprefill?: {
+    fromChainID?: number;
+    fromToken?: string;
+    fromAmount?: string;
+    toChainID?: number;
+    toToken?: string;
+  };
+  exactOutprefill?: {
+    toAmount?: string;
+    toChainID?: number;
+    toToken?: string;
+  };
+}
+```
+
+- `exactIn`: Whether to use the exact-in flow. Set to `true` by default.
+- `onComplete`: Callback function called when the swap is complete.
+- `onStart`: Callback function called when the swap begins.
+- `onError`: Callback function called when the swap fails.
+- `exactInprefill`: Optional prefill object for the exact-in flow.
+- `exactOutprefill`: Optional prefill object for the exact-out flow.
+
+## Usage
+
+### Exact In
+
+```tsx showLineNumbers filename="tsx"
+<Swaps
+  exactIn
+  onComplete={completeCurrent}
+  onError={handleError}
+  onStart={handleStart}
+  exactInprefill={{
+    fromToken: "USDC",
+    fromChainID: SUPPORTED_CHAINS.BASE,
+    fromAmount: "100",
+    toToken: "USDT",
+    toChainID: SUPPORTED_CHAINS.ARBITRUM,
+  }}
+/>
+```
+
+### Exact Out
+
+```tsx showLineNumbers filename="tsx"
+<Swaps
+  exactIn={false}
+  onComplete={completeCurrent}
+  onError={handleError}
+  onStart={handleStart}
+  exactOutprefill={{
+    toToken: "USDT",
+    toChainID: SUPPORTED_CHAINS.ARBITRUM,
+    toAmount: "100",
+  }}
+/>
+```

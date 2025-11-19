@@ -2,7 +2,9 @@
 title: "Nexus Elements - Bridge Widget"
 ---
 
-import { Callout, Steps, Tabs } from 'nextra/components'
+import { Callout, Steps, Tabs, Cards } from 'nextra/components'
+
+import { FileIcon, GithubIcon24 } from '@components/icons'
 
 # Fast Bridge
 
@@ -20,6 +22,13 @@ shows you how to integrate `nexus-elements` into a Vite-based project using a pr
 </Callout>
 
 ## Install
+
+You can find the source code for the Fast Bridge Widget here:
+<Cards num={1}>
+<Cards.Card icon={< GithubIcon24 className="svg-inherit" />} title="Fast Bridge Widget" href="https://github.com/availproject/nexus-elements/blob/main/registry/nexus-elements/fast-bridge/fast-bridge.tsx" target="_blank" rel="noopener noreferrer" arrow />
+</Cards>
+
+To install the Fast Bridge Widget into your project, you can use the following command:
 
 <Tabs items={['pnpm', 'npm', 'yarn']}>
 
@@ -72,30 +81,30 @@ interface FastBridgeProps {
 
 ## Usage
 
-```typescript showLineNumbers filename="Typescript"
+```tsx showLineNumbers filename="tsx"
 "use client";
 import FastBridge from '@/components/fast-bridge/fast-bridge';
 
-export default function Page({ address }: { address: `0x${string}` }) {
-  return (
-    <FastBridge
-      connectedAddress={address}
-      onStart={() => console.log('Bridge started')}
-      onComplete={() => console.log('Bridge completed')}
-      onError={(m) => console.error('Bridge error:', m)}
-    />
-  );
-}
+<FastBridge
+  connectedAddress={address}
+  onComplete={completeCurrent}
+  prefill={{
+    token: "USDC",
+    chainId: SUPPORTED_CHAINS.BASE,
+  }}
+  onError={handleError}
+  onStart={handleStart}
+/>
 
-### Prefill example
+// Prefill example
+// Any prefill values become Read-only in the UI
 
 <FastBridge
   connectedAddress={address}
   prefill={{
     token: 'USDC',
-    chainId: 8453,                // Base
+    chainId: 8453,                // Base chain ID
     amount: '100',                // string amount
-    recipient: '0xRecipient...'   // optional
+    recipient: '0xRecipient...'   // optional recipient address
   }}
-
 ```

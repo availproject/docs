@@ -1,0 +1,112 @@
+---
+title: "Nexus Elements - Transfer Widget"
+---
+
+import { Callout, Tabs, Cards } from 'nextra/components'
+
+import { FileIcon, GithubIcon24 } from '@components/icons'
+
+
+# Fast Transfer
+
+Use this widget to transfer assets cross-chain to **another** address. Prefill fields when you know the destination ahead of time, or let users input every value.
+
+<Callout type="info">
+**MAIN POINTS TO NOTE:**<br/>
+1. This widget calls `bridgeAndTransfer()` from, so a recipient address is required.<br/>
+2. Prefilled `token`, `chainId`, `amount`, or `recipient` values become read-only in the UI to guard intent integrity.<br/>
+3. The widget auto-handles allowance prompts, "Accept/Deny" intent confirmation, and shows per-step progress with explorer links once the transfer starts.
+4. You can read more about the `bridgeAndTransfer()` function in the [Nexus Core SDK reference](/nexus/avail-nexus-sdk/nexus-core/bridge-methods/transfer).
+</Callout>
+
+## Install
+
+You can find the source code for the Fast Transfer Widget here:
+<Cards num={1}>
+<Cards.Card icon={< GithubIcon24 className="svg-inherit" />} title="Fast Transfer Widget" href="https://github.com/availproject/nexus-elements/blob/main/registry/nexus-elements/transfer/transfer.tsx" target="_blank" rel="noopener noreferrer" arrow />
+</Cards>
+
+To install the Fast Transfer Widget into your project, you can use the following command:
+
+<Tabs items={['pnpm', 'npm', 'yarn']}>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+pnpm dlx shadcn@latest add https://elements.nexus.availproject.org/r/fast-transfer.json
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+npx shadcn@latest add https://elements.nexus.availproject.org/r/fast-transfer.json
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+yarn dlx shadcn@latest add https://elements.nexus.availproject.org/r/fast-transfer.json
+```
+</Tabs.Tab>
+
+</Tabs>
+
+## Props
+
+```typescript showLineNumbers filename="TypeScript"
+
+interface FastTransferProps {
+  prefill?: {
+    token: SUPPORTED_TOKENS;
+    chainId: SUPPORTED_CHAINS_IDS;
+    amount?: string;
+    recipient?: Address;
+  };
+  onComplete?: () => void;
+  onStart?: () => void;
+  onError?: (message: string) => void;
+}
+```
+
+- `prefill`: optional defaults for chain/token/amount/recipient. Any field you pass becomes read-only in the widget to preserve your intent.
+- `onStart`: fires right before the widget calls `bridgeAndTransfer()`.
+- `onComplete`: fires after the transfer finishes and balances refresh.
+- `onError`: receives the human-readable message returned from `handleNexusError()`.
+
+## Usage
+
+```tsx showLineNumbers filename="tsx"
+"use client";
+
+import { useAccount } from "wagmi";
+import FastTransfer from "@/components/transfer/transfer";
+
+export default function TransferWidget() {
+  const { address } = useAccount();
+
+  if (!address) {
+    return <p>Connect a wallet to transfer funds.</p>;
+  }
+
+  return (
+    <FastTransfer
+      onStart={() => console.log("Transfer started")}
+      onComplete={() => console.log("Transfer completed")}
+      onError={(message) => console.error("Transfer failed:", message)}
+    />
+  );
+}
+
+// Prefill example
+// any prefill values become read-only in the UI
+
+<FastTransfer
+  onStart={() => console.log("Transfer started")}
+  onComplete={() => console.log("Transfer completed")}
+  prefill={{
+    token: "USDC",
+    chainId: 8453,           // Base
+    amount: "250",
+    recipient: "0xRecipient..." as `0x${string}`,
+  }}
+/>
+```

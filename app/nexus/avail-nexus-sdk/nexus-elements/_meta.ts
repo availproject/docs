@@ -1,6 +1,7 @@
 export default {
-    "unified-balance-widget": "Unified Balance Widget",
-    "deposit-widget": "Deposit Widget",
-    "bridge-widget": "Bridge Widget",
-    "swaps-widget": "Swaps Widget",
+    "unified-balance": "Unified Balance",
+    "fast-transfer": "Fast Transfer",
+    "fast-bridge": "Fast Bridge",
+    "deposit": "Deposit",
+    "swaps": "Swaps",
 }
