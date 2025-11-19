@@ -1,6 +1,6 @@
 ### Tutorial: Bridge from Base to Ethereum and Stake USDC in Aave
 
-The snippets above are great for quick reference, but the following walkthrough shows how to wire up a complete bridge → stake experience that:
+The following example shows how to wire up a complete bridge → stake experience that:
 
 1. Bridges 5,000,000 USDC (5,000 USDC with 6 decimals) from **Base (chainId 8453)**.
 2. Stakes the bridged USDC inside **Aave v3 on Ethereum mainnet (chainId 1)** by calling `Pool.supply` at `0x87870Bca3F3fD6335C3F4ce8392D69350B4FA4E2`.
