@@ -28,17 +28,24 @@ async swapWithExactIn(
 ## Parameters
 
 ```typescript showLineNumbers filename="Typescript"
-export interface ExactOutSwapInput {
+export interface ExactInSwapInput {
+  from: {
+    chainId: number;
+    amount: bigint;
+    tokenAddress: Hex;
+  }[];
   toChainId: number;
   toTokenAddress: Hex;
-  toAmount: bigint;
 }
 ```
 
 - `ExactInSwapInput`: Parameters for using the `swapWithExactIn()` function.
+  - `from`: An array of objects with the following properties:
+    - `chainId` (number, required): The chain ID of the source chain.
+    - `amount` (bigint, required): The amount of tokens to be swapped from.
+    - `tokenAddress` (Hex, required): The address of the token to be swapped from.
   - `toChainId` (number, required): The chain ID of the destination chain.
   - `toTokenAddress` (Hex, required): The address of the token to be swapped to.
-  - `toAmount` (bigint, required): The amount of tokens to be swapped to.
 
 - `options`: Optional parameters for the event listener.
 
@@ -64,8 +71,6 @@ console.log('Swap with exact in result:', swapWithExactInResult);
 ```
 
 ## Return Value
-
-### `swapWithExactIn()`
 
 The return value is a `SwapResult` object.
 
