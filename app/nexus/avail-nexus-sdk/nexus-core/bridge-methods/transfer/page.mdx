@@ -25,7 +25,7 @@ Use the `simulateBridgeAndTransfer()` function to simulate the bridge and transf
 ```typescript showLineNumbers filename="Typescript"
 async bridgeAndTransfer(
   params: TransferParams,
-  options?: { onEvent?: (event: { name: 'STEPS_LIST' | 'STEP_COMPLETE' | 'SWAP_STEP_COMPLETE'; args: unknown }) => void }
+  options?: OnEventParam,
 ): Promise<TransferResult>
 
 async simulateBridgeAndTransfer(
@@ -42,8 +42,8 @@ async simulateBridgeAndTransfer(
  */
 export interface TransferParams {
   token: string;
-  amount: string;
-  chainId: number;
+  amount: bigint;
+  toChainId: number;
   recipient: `0x${string}`;
   sourceChains?: number[];
 }
