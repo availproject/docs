@@ -1,0 +1,110 @@
+---
+title: "Nexus Elements - Bridge Widget"
+---
+
+import { Callout, Steps, Tabs, Cards } from 'nextra/components'
+
+import { FileIcon, GithubIcon24 } from '@components/icons'
+
+# Fast Bridge
+
+Use this widget to bridge tokens across chains.
+Prefill inputs and hook into lifecycle callbacks for a seamless UX.
+
+<Callout type="info">
+**MAIN POINTS TO NOTE:**<br/>
+
+1. This widget calls `bridge()` under the hood if the `recipient === connectedAddress`.
+2. If the `recipient !== connectedAddress`, `bridgeAndTransfer()` is called.
+3. You can read more about these underlying functions in the [Nexus Core SDK reference](/nexus/avail-nexus-sdk/nexus-core).
+4. You can find a Quickstart example for using `nexus-elements` in [Nexus Elements Quickstart](/nexus/nexus-quickstart/nexus-elements). This tutorial
+shows you how to integrate `nexus-elements` into a Vite-based project using a pre-configured template.
+</Callout>
+
+## Install
+
+You can find the source code for the Fast Bridge Widget here:
+<Cards num={1}>
+<Cards.Card icon={< GithubIcon24 className="svg-inherit" />} title="Fast Bridge Widget" href="https://github.com/availproject/nexus-elements/blob/main/registry/nexus-elements/fast-bridge/fast-bridge.tsx" target="_blank" rel="noopener noreferrer" arrow />
+</Cards>
+
+To install the Fast Bridge Widget into your project, you can use the following command:
+
+<Tabs items={['pnpm', 'npm', 'yarn']}>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+pnpm dlx shadcn@latest add https://elements.nexus.availproject.org/r/fast-bridge.json  
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+npx shadcn@latest add https://elements.nexus.availproject.org/r/fast-bridge.json 
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+yarn dlx shadcn@latest add https://elements.nexus.availproject.org/r/fast-bridge.json 
+```
+</Tabs.Tab>
+
+</Tabs>
+
+## Props
+
+```typescript showLineNumbers filename="Typescript"
+interface FastBridgeProps {
+  connectedAddress: Address;
+  prefill?: {
+    token: SUPPORTED_TOKENS;
+    chainId: SUPPORTED_CHAINS_IDS;
+    amount?: string;
+    recipient?: Address;
+  };
+  onComplete?: () => void;
+  onStart?: () => void;
+  onError?: (message: string) => void;
+}
+```
+
+- `connectedAddress`: The address of the wallet connected to the app.
+- `prefill`: The prefill inputs for the bridge.
+    - `token`: can be one of the `SUPPORTED_TOKENS` from the `@avail-project/nexus-core` SDK.
+    - `chainId`: can be one of the `SUPPORTED_CHAINS_IDS` from the `@avail-project/nexus-core` SDK.
+    - `amount`: the amount of tokens to bridge.
+    - `recipient`: the address to bridge the tokens to.
+- `onComplete`: The callback function to be called when the bridge is complete.
+- `onStart`: The callback function to be called when the bridge starts.
+- `onError`: The callback function to be called when the bridge transaction errors out.
+
+## Usage
+
+```tsx showLineNumbers filename="tsx"
+"use client";
+import FastBridge from '@/components/fast-bridge/fast-bridge';
+
+<FastBridge
+  connectedAddress={address}
+  onComplete={completeCurrent}
+  prefill={{
+    token: "USDC",
+    chainId: SUPPORTED_CHAINS.BASE,
+  }}
+  onError={handleError}
+  onStart={handleStart}
+/>
+
+// Prefill example
+// Any prefill values become Read-only in the UI
+
+<FastBridge
+  connectedAddress={address}
+  prefill={{
+    token: 'USDC',
+    chainId: 8453,                // Base chain ID
+    amount: '100',                // string amount
+    recipient: '0xRecipient...'   // optional recipient address
+  }}
+```

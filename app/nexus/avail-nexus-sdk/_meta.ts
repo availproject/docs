@@ -1,4 +1,5 @@
 export default {
     "nexus-core": "Nexus Core",
-    "nexus-widgets": "Nexus Widgets"
+    "nexus-elements": "Nexus Elements",
+    "hooks-and-errors": "Hooks and Errors",
 }

@@ -1,0 +1,157 @@
+---
+title: "Bridge tokens using the Nexus SDK"
+---
+
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# `bridge()`
+
+<Callout type="info">
+**SET UP THE SDK BEFORE YOU START:**
+
+1. You can find the SDK setup instructions in the [Quickstart](/nexus/nexus-quickstart) page.
+2. We also [created a tutorial](/nexus/nexus-examples/nexus-initialization-basic) to make it easier to understand how devs need to initialize the Nexus SDK in their project.
+</Callout>
+
+Use the `bridge()` function to bridge a specific token from one (*or many*) chains to a single chain.
+Use the `simulateBridge()` function to simulate the bridge transaction to preview the costs and fees, before actually executing the transaction.
+
+<Callout type="info">
+**Note:** Check out the [API reference](/api-reference/avail-nexus-sdk/api-reference) for a full list of supported tokens and chains.
+</Callout>
+
+## Method signature
+
+```typescript showLineNumbers filename="Typescript"
+async bridge(
+  params: BridgeParams,
+  options?: OnEventParam,
+): Promise<BridgeResult>
+
+async simulateBridge(
+  params: BridgeParams,
+): Promise<SimulationResult>
+
+```
+
+## Parameters
+
+```typescript showLineNumbers filename="Typescript"
+/**
+ * Parameters for bridging tokens.
+ */
+export interface BridgeParams {
+  recipient?: Hex;
+  token: string;
+  amount: bigint;
+  toChainId: number;
+  gas?: bigint;
+  sourceChains?: number[];
+}
+```
+
+- `BridgeParams`: Parameters for bridging tokens.
+  - `recipient` (Hex, optional): The recipient address. Default's to the address of the user.
+  - `token` (string, required): The token to be bridged.
+  - `amount` (number | string, required): The amount of tokens to be bridged.
+  - `chainId` (number, required): The chain ID of the destination chain.
+  - `gas` (bigint, optional): The gas limit for the bridge transaction. 
+  - `sourceChains` (number[], optional): The chain IDs of the source chains to be used for the bridge. Useful if you want to maintain your holdings on some chains.
+- `options`: Optional parameters for the event listener.
+
+## Example
+
+```typescript showLineNumbers filename="Typescript"
+import type { BridgeParams, BridgeResult, SimulationResult } from '@avail-project/nexus-core';
+
+const bridgeResult = await sdk.bridge(
+  { 
+  token: 'USDC', 
+  amount: 83.50, 
+  toChainId: 137 
+});
+
+// Simulate bridge to preview costs
+// Note that you can avoid using optional params
+const bridgeSimulation = await sdk.simulateBridge(
+  { 
+    token: 'USDC', 
+    amount: 83.50, 
+    toChainId: 137 
+  });
+
+console.log('Bridge result:', bridgeResult);
+console.log('Bridge simulation:', bridgeSimulation);
+```
+
+## Return Value
+
+### `bridge()`
+
+The return value is a `BridgeResult` object.
+
+```typescript showLineNumbers filename="Typescript"
+/**
+ * Result structure for bridge transactions.
+ */
+export type BridgeResult = {
+  explorerUrl: string;
+};
+```
+
+### `simulateBridge()`
+
+The return value is a `SimulationResult` object.
+
+```typescript showLineNumbers filename="Typescript"
+export interface SimulationResult {
+  intent: ReadableIntent;
+  token: TokenInfo;
+}
+
+export type ReadableIntent = {
+  allSources: {
+    amount: string;
+    chainID: number;
+    chainLogo: string | undefined;
+    chainName: string;
+    contractAddress: `0x${string}`;
+  }[];
+  destination: {
+    amount: string;
+    chainID: number;
+    chainLogo: string | undefined;
+    chainName: string;
+  };
+  fees: {
+    caGas: string;
+    gasSupplied: string;
+    protocol: string;
+    solver: string;
+    total: string;
+  };
+  sources: {
+    amount: string;
+    chainID: number;
+    chainLogo: string | undefined;
+    chainName: string;
+    contractAddress: `0x${string}`;
+  }[];
+  sourcesTotal: string;
+  token: {
+    decimals: number;
+    logo: string | undefined;
+    name: string;
+    symbol: string;
+  };
+};
+
+
+type TokenInfo = {
+  contractAddress: `0x${string}`;
+  decimals: number;
+  logo: string;
+  name: string;
+  symbol: string;
+};
+```
