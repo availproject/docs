@@ -47,7 +47,14 @@ export interface ExactInSwapInput {
   - `toChainId` (number, required): The chain ID of the destination chain.
   - `toTokenAddress` (Hex, required): The address of the token to be swapped to.
 
-- `options`: Optional parameters for the event listener.
+- `options`: `OnEventParam` (optional): Optional callback function to listen to the events emitted by the swap operation.
+  - `onEvent`: SDK emits these events as the transaction progresses. This is helpful to add when trying to display transaction progress to the user. With this you receive:
+    - `SWAP_STEP_COMPLETE`: A single `SwapStepType` that is emitted for each completed step of the intent's fulfillment.
+ 
+ <Callout>
+1. Either of the `Swap` methods don't emit `STEPS_LIST` events.
+2. You can check out the type definitions for each step type in the [Swap Events](/nexus/avail-nexus-sdk/nexus-core/swap-methods/swap-events) page.
+</Callout>
 
 ## Example
 
@@ -92,5 +99,14 @@ export type ChainSwap = {
   chainId: number;
   swaps: Swap[];
   txHash: Hex;
+};
+
+export type Swap = {
+  inputAmount: bigint;
+  inputContract: Hex;
+  inputDecimals: number;
+  outputAmount: bigint;
+  outputContract: Hex;
+  outputDecimals: number;
 };
 ```

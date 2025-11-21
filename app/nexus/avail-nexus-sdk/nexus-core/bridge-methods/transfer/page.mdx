@@ -51,23 +51,30 @@ export interface TransferParams {
 
 - `TransferParams`: Parameters for transferring tokens.
   - `token` (string, required): The token to be bridged and transferred.
-  - `amount` (string, required): The amount of tokens to be bridged and transferred.
-  - `chainId` (number, required): The chain ID of the destination chain.
+  - `amount` (bigint, required): The amount of tokens to be bridged and transferred.
+  - `toChainId` (number, required): The chain ID of the destination chain.
   - `recipient` (`0x${string}`, required): The recipient address.
   - `sourceChains` (number[], optional): The chain IDs of the source chains to be used for the transfer. Useful if you want to maintain your holdings on some chains.
-- `options`: Optional parameters for the event listener.
+- `options`: `OnEventParam` (optional): Optional callback function to listen to the events emitted by the transfer operation.
+  - `onEvent`: SDK emits these events as the transaction progresses. This is helpful to add when trying to display transaction progress to the user. With this you receive:
+    - `STEPS_LIST`: An ordered array of `BridgeStepType` objects. This array contains the steps that will be executed to fulfill the intent.
+    - `STEP_COMPLETE`: A single `BridgeStepType` that is emitted for each completed step of the intent's fulfillment.
+ 
+ <Callout>
+You can check out the type definitions for each step type in the [Bridge Events](/nexus/avail-nexus-sdk/nexus-core/bridge-methods/bridge-events) page.
+</Callout>
 
 ## Example
 
 ```typescript showLineNumbers filename="Typescript"
-import type { TransferParams, TransferResult, SimulationResult } from '@avail-project/nexus-core';
+import { TransferParams, TransferResult, NEXUS_EVENTS } from '@avail-project/nexus-core';
 
 // Smart transfer with automatic optimization
 const bridgeAndTransferResult = await sdk.bridgeAndTransfer(
   {
-    token: 'ETH',
-    amount: "1.5",
-    chainId: 1, // Ethereum
+    token: 'USDC',
+    amount: 1_530_000n, // 1.53 USDC (6 decimals)
+    toChainId: 1, // Ethereum
     recipient: '0x742d35Cc6634C0532925a3b8D4C9db96c4b4Db45',
   },
   {
@@ -78,10 +85,12 @@ const bridgeAndTransferResult = await sdk.bridgeAndTransfer(
   },
 );
 
+console.log('Bridge and transfer result:', bridgeAndTransferResult);
+
 const bridgeAndTransferSimulation = await sdk.simulateBridgeAndTransfer({
-  token: 'ETH',
-  amount: "1.5",
-  chainId: 1,
+  token: 'USDC',
+  amount: 1_530_000n, // 1.53 USDC (6 decimals)
+  toChainId: 1,
   recipient: '0x742d35Cc6634C0532925a3b8D4C9db96c4b4Db45',
 });
 
