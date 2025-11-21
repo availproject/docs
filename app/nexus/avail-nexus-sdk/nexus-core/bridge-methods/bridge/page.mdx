@@ -58,7 +58,7 @@ export interface BridgeParams {
   - `gas` (bigint, optional): The gas limit for the bridge transaction. 
   - `sourceChains` (number[], optional): The chain IDs of the source chains to be used for the bridge. Useful if you want to maintain your holdings on some chains.
 - `options`: `OnEventParam` (optional): Optional callback function to listen to the events emitted by the bridge operation.
-  - `onEvent`: Invoked by the SDK to send progress callbacks to the developer. You'll receive:
+  - `onEvent`: SDK emits these events as the transaction progresses. This is helpful to add when trying to display transaction progress to the user. With this you receive:
     - `STEPS_LIST`: An ordered array of `BridgeStepType` objects. This array contains the steps that will be executed to fulfill the intent.
     - `STEP_COMPLETE`: A single `BridgeStepType` that is emitted for each completed step of the intent's fulfillment.
  
