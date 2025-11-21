@@ -53,34 +53,61 @@ export interface BridgeParams {
 - `BridgeParams`: Parameters for bridging tokens.
   - `recipient` (Hex, optional): The recipient address. Default's to the address of the user.
   - `token` (string, required): The token to be bridged.
-  - `amount` (number | string, required): The amount of tokens to be bridged.
-  - `chainId` (number, required): The chain ID of the destination chain.
+  - `amount` (bigint, required): The amount of tokens to be bridged.
+  - `toChainId` (number, required): The chain ID of the destination chain.
   - `gas` (bigint, optional): The gas limit for the bridge transaction. 
   - `sourceChains` (number[], optional): The chain IDs of the source chains to be used for the bridge. Useful if you want to maintain your holdings on some chains.
-- `options`: Optional parameters for the event listener.
+- `options`: `OnEventParam` (optional): Optional callback function to listen to the events emitted by the bridge operation.
+  - `onEvent`: Invoked by the SDK to send progress callbacks to the developer. You'll receive:
+    - `STEPS_LIST`: An ordered array of `BridgeStepType` objects. This array contains the steps that will be executed to fulfill the intent.
+    - `STEP_COMPLETE`: A single `BridgeStepType` that is emitted for each completed step of the intent's fulfillment.
+ 
+ <Callout>
+You can check out the type definitions for each step type in the [Bridge Events](/nexus/avail-nexus-sdk/nexus-core/bridge-methods/bridge-events) page.
+</Callout>
+
+{/* <details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary> Sample Response:</summary> */}
 
 ## Example
 
 ```typescript showLineNumbers filename="Typescript"
-import type { BridgeParams, BridgeResult, SimulationResult } from '@avail-project/nexus-core';
+import { BridgeParams, BridgeResult, NEXUS_EVENTS } from '@avail-project/nexus-core';
 
-const bridgeResult = await sdk.bridge(
-  { 
-  token: 'USDC', 
-  amount: 83.50, 
-  toChainId: 137 
-});
+const bridgeResult: BridgeResult = await sdk.bridge(
+  {
+    token: 'USDC',
+    amount: 83_500_000n, // 83.5 USDC (6 decimals)
+    toChainId: 137, // Polygon
+  } satisfies BridgeParams,
+  {
+    onEvent: (event) => {
+      if (event.name === NEXUS_EVENTS.STEPS_LIST) {
+        // render steps if you wish to display them to the user
+      } else if (event.name === NEXUS_EVENTS.STEP_COMPLETE) {
+        // Returned per step of intent fulfillment. You can use this to mark the step as done and show the explorer URL if present.
+        const step = event.args;
+        if (step.type === 'INTENT_SUBMITTED') {
+          const url = (step as any).data?.explorerURL;
+          if (url) console.log('Explorer:', url);
+        }
+      }
+    },
+  }
+);
+
+console.log('Bridge result:', bridgeResult);
+
 
 // Simulate bridge to preview costs
 // Note that you can avoid using optional params
-const bridgeSimulation = await sdk.simulateBridge(
-  { 
-    token: 'USDC', 
-    amount: 83.50, 
-    toChainId: 137 
-  });
+const amount = sdk.convertTokenReadableAmountToBigInt('83.5', 'USDC', 137); // Alternative way to pass the amount using a helper function from the SDK
+const bridgeSimulation = await sdk.simulateBridge({
+  token: 'USDC',
+  amount,
+  toChainId: 137,
+});
 
-console.log('Bridge result:', bridgeResult);
 console.log('Bridge simulation:', bridgeSimulation);
 ```
 
