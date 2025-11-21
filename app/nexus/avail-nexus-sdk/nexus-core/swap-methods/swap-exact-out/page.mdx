@@ -39,8 +39,66 @@ export interface ExactOutSwapInput {
   - `toTokenAddress` (Hex, required): The address of the token to be swapped to.
   - `toAmount` (bigint, required): The amount of tokens to be swapped to.
 
-- `options`: Optional parameters for the event listener.
+- `options`: `OnEventParam` (optional): Optional callback function to listen to the events emitted by the swap operation.
+  - `onEvent`: SDK emits these events as the transaction progresses. This is helpful to add when trying to display transaction progress to the user. With this you receive:
+    - `SWAP_STEP_COMPLETE`: A single `SwapStepType` that is emitted for each completed step of the intent's fulfillment.
+ 
+ <Callout>
+1. Either of the `Swap` methods don't emit `STEPS_LIST` events.
+2. You can check out the type definitions for each step type in the [Swap Events](/nexus/avail-nexus-sdk/nexus-core/swap-methods/swap-events) page.
+</Callout>
+
 
 ## Example
 
 ```typescript showLine numbers filename="Typescript"
+import { SwapResult, NEXUS_EVENTS } from '@avail-project/nexus-core';
+
+const swapWithExactOutResult = await sdk.swapWithExactOut({
+  toChainId: 1,
+  toTokenAddress: '0x...',
+  toAmount: 1_000_000n,
+}, {
+  onEvent: (event) => {
+    if (event.name === NEXUS_EVENTS.SWAP_STEP_COMPLETE) {
+      console.log('Swap step complete:', event.args);
+    }
+  },
+});
+
+console.log('Swap with exact out result:', swapWithExactOutResult);
+```
+
+## Return Value
+
+The return value is a `SwapResult` object.
+
+```typescript showLine numbers filename="Typescript"
+export type SwapResult =
+  | {
+      success: true;
+      result: SuccessfulSwapResult;
+    }
+  | { success: false; error: string };
+
+export type SuccessfulSwapResult = {
+  sourceSwaps: ChainSwap[];
+  explorerURL: string;
+  destinationSwap: ChainSwap | null;
+};
+
+export type ChainSwap = {
+  chainId: number;
+  swaps: Swap[];
+  txHash: Hex;
+};
+
+export type Swap = {
+  inputAmount: bigint;
+  inputContract: Hex;
+  inputDecimals: number;
+  outputAmount: bigint;
+  outputContract: Hex;
+  outputDecimals: number;
+};
+```
