@@ -23,6 +23,19 @@ Link to the Nexus SDK Github repo:
 <Cards.Card title="Nexus SDK" href="https://github.com/availproject/nexus-sdk" target="_blank" rel="noopener noreferrer" icon={<GithubIcon24 className="svg-inherit" />} arrow />
 </Cards>
 
+### Nexus SDK templates
+
+Clone these repos to quickly get started with the Nexus SDK using `Next JS` or `Vite`.
+
+<Cards num={2}>
+    <Cards.Card title="Nexus Next JS Template" icon={<LinkIcon />} href="https://github.com/availproject/nexus-nextjs-template" target="_blank" rel="noopener noreferrer" arrow />
+    <Cards.Card title="Nexus Vite Template" icon={<LinkIcon />} href="https://github.com/availproject/nexus-vite-template" target="_blank" rel="noopener noreferrer" arrow />
+</Cards>
+
+<Callout>
+You might notice that some of the code in the Next JS template has been commented out. This is because the template is being used as a base for the [Nexus-core Quickstart](/nexus/nexus-quickstart/nexus-core) page.
+</Callout>
+
 The overall Nexus SDK is split into two main packages:
 
 ### Nexus-core
@@ -30,15 +43,27 @@ The overall Nexus SDK is split into two main packages:
 The headless version , for fine-grained control over the Nexus SDK.
 
 <Cards num={2}>
+    <Cards.Card title="Nexus Core Quickstart" href="/nexus/nexus-quickstart/nexus-core" icon={<FileIcon />} />
+    <Cards.Card title="Nexus Core SDK Reference" href="/nexus/avail-nexus-sdk/nexus-core" icon={<FileIcon />} />
+</Cards>
+
+<Cards num={2}>
     <Cards.Card title="Github Link" icon={<GithubIcon24 className="svg-inherit"  />} href="https://github.com/availproject/nexus-sdk/tree/main/packages/core" target="_blank" rel="noopener noreferrer" arrow />
     <Cards.Card title="npm page" icon={<LinkIcon />} href="https://www.npmjs.com/package/@avail-project/nexus-core?activeTab=readme" target="_blank" rel="noopener noreferrer" arrow />
 </Cards>
 
-We also built a demo app with `nexus-core` to provide more reference code:
+### Nexus-elements
+
+The Nexus Elements package is a shadcn-based component library that allows devs to integrate working components that use the Nexus SDK effectively and conveniently.
 
 <Cards num={2}>
-    <Cards.Card title="Nexus Core Demo" icon={<LinkIcon />} href="https://avail-nexus-demo-five.vercel.app/" target="_blank" rel="noopener noreferrer" arrow />
-    <Cards.Card title="Github Link" icon={<GithubIcon24 className="svg-inherit"  />} href="https://github.com/availproject/avail-nexus-demo" target="_blank" rel="noopener noreferrer" arrow />
+    <Cards.Card title="Nexus Elements Quickstart" href="/nexus/nexus-quickstart/nexus-elements" icon={<FileIcon />} />
+    <Cards.Card title="Nexus Elements SDK Reference" href="/nexus/avail-nexus-sdk/nexus-elements" icon={<FileIcon />} />
+</Cards>
+
+<Cards num={2}>
+    <Cards.Card title="Nexus Elements Showcase" href="https://elements.nexus.availproject.org/" icon={<LinkIcon />}  arrow target="_blank" rel="noopener noreferrer" />
+    <Cards.Card title="Nexus Elements Github Repo" href="https://github.com/availproject/nexus-elements" icon={<GithubIcon24 />}  arrow target="_blank" rel="noopener noreferrer" />
 </Cards>
 
 ### Common Utils and Constants
@@ -46,15 +71,35 @@ We also built a demo app with `nexus-core` to provide more reference code:
 In these files you can find a suite of helper function exposed by the SDK, as well as some constants and addresses that are used throughout the SDK.
 
 <Cards num={2}>
-    <Cards.Card title="Utils" icon={<GithubIcon24 className="svg-inherit"  />} href="https://github.com/availproject/nexus-sdk/blob/main/packages/commons/utils/index.ts" target="_blank" rel="noopener noreferrer" arrow />
-    <Cards.Card title="Constants" icon={<GithubIcon24 className="svg-inherit"  />} href="https://github.com/availproject/nexus-sdk/blob/main/packages/commons/constants/index.ts" target="_blank" rel="noopener noreferrer" arrow />
+    <Cards.Card title="Utils" icon={<GithubIcon24 className="svg-inherit"  />} href="https://github.com/availproject/nexus-sdk/blob/develop/src/commons/utils/format.ts" target="_blank" rel="noopener noreferrer" arrow />
+    <Cards.Card title="Constants" icon={<GithubIcon24 className="svg-inherit"  />} href="https://github.com/availproject/nexus-sdk/blob/develop/src/commons/constants/index.ts" target="_blank" rel="noopener noreferrer" arrow />
 </Cards>
 
-## Nexus SDK templates
+### Hooks and Events
 
-Clone these repos to quickly get started with the Nexus SDK using `Next JS` or `Vite`.
+The SDK provides several hooks for handling user interactions and progress events during transactions.
+
+#### Docs
+
+<Cards num={1}>
+    <Cards.Card title="Hooks and Errors" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/hooks-and-errors" />
+</Cards>
+
+#### Github Links
 
 <Cards num={2}>
-    <Cards.Card title="Nexus Next JS Template" icon={<LinkIcon />} href="https://github.com/availproject/nexus-nextjs-template" target="_blank" rel="noopener noreferrer" arrow />
-    <Cards.Card title="Nexus Vite Template" icon={<LinkIcon />} href="https://github.com/availproject/nexus-vite-template" target="_blank" rel="noopener noreferrer" arrow />
+    <Cards.Card title="Event Types (OnEventParam)" icon={<GithubIcon24 className="svg-inherit" />} href="https://github.com/availproject/nexus-sdk/blob/develop/src/commons/types/index.ts#L537-L544" target="_blank" rel="noopener noreferrer" arrow />
+    <Cards.Card title="Intent & Allowance Hooks" icon={<GithubIcon24 className="svg-inherit" />} href="https://github.com/availproject/nexus-sdk/blob/develop/src/commons/types/index.ts#L424-L460" target="_blank" rel="noopener noreferrer" arrow />
+    <Cards.Card title="Swap Intent Hook" icon={<GithubIcon24 className="svg-inherit" />} href="https://github.com/availproject/nexus-sdk/blob/develop/src/commons/types/swap-types.ts#L113-L120" target="_blank" rel="noopener noreferrer" arrow />
+    <Cards.Card title="Bridge Step Types" icon={<GithubIcon24 className="svg-inherit" />} href="https://github.com/availproject/nexus-sdk/blob/develop/src/commons/types/bridge-steps.ts" target="_blank" rel="noopener noreferrer" arrow />
+    <Cards.Card title="Swap Step Types" icon={<GithubIcon24 className="svg-inherit" />} href="https://github.com/availproject/nexus-sdk/blob/develop/src/commons/types/swap-steps.ts" target="_blank" rel="noopener noreferrer" arrow />
+</Cards>
+
+### Error Handling
+
+The SDK uses typed errors for better error handling and debugging.
+
+<Cards num={2}>
+    <Cards.Card title="NexusError Class" icon={<GithubIcon24 className="svg-inherit" />} href="https://github.com/availproject/nexus-sdk/blob/develop/src/sdk/ca-base/nexusError.ts" target="_blank" rel="noopener noreferrer" arrow />
+    <Cards.Card title="Error Codes & Helpers" icon={<GithubIcon24 className="svg-inherit" />} href="https://github.com/availproject/nexus-sdk/blob/develop/src/sdk/ca-base/errors.ts" target="_blank" rel="noopener noreferrer" arrow />
 </Cards>

@@ -5,7 +5,7 @@ title: Nexus SDK Overview
 
 import { Callout, Steps, Tabs } from 'nextra/components';
 import { Cards } from 'nextra/components';
-import { FileIcon } from '@components/icons'
+import { FileIcon, GithubIcon24, LinkIcon } from '@components/icons'
 
 # Nexus SDK Overview
 
@@ -25,19 +25,19 @@ The core functionality of the Nexus SDK is provided by the `@avail-project/nexus
 
 <Tabs.Tab>
 ```bash filename="Terminal"
-npm install @avail-project/nexus-core
+npm install @avail-project/nexus-core@1.0.0-rc.3
 ```
 </Tabs.Tab>
 
 <Tabs.Tab>
 ```bash filename="Terminal"
-yarn add @avail-project/nexus-core
+yarn add @avail-project/nexus-core@1.0.0-rc.3
 ```
 </Tabs.Tab>
 
 <Tabs.Tab>
 ```bash filename="Terminal"
-pnpm add @avail-project/nexus-core
+pnpm add @avail-project/nexus-core@1.0.0-rc.3
 ```
 </Tabs.Tab>
 
@@ -56,22 +56,16 @@ pnpm add @avail-project/nexus-core
 2. It is designed for client-side browser environments and **cannot be used** in any server-side environments.
 </Callout>
 
-<Callout type="info">
-**YOU WILL NEED A REACT-BASED FRONTEND**<br/>
-
-1. Any React-based dev environment works, including React frameworks like Next.js, Remix, Gatsby, or build tools like Vite, Create React App, and Webpack.
-2. You also need the following peer dependencies: `react` , `react-dom`, `viem`.
-</Callout>
-
 ## Nexus Elements
 
 A shadcn-based component library that allows devs to integrate working components that use the Nexus SDK effectively and conveniently.
 Nexus Elements currently provides the following components:
 
-1. Unified Balance Widget (unified-balance)
-2. Deposit Widget (deposit)
-3. Fast Bridge Widget (fast-bridge)
-4. Swaps Widget (swaps)
+1. Unified Balance Widget (UnififedBalance)
+2. Fast Transfer Widget (FastTransfer)
+3. Fast Bridge Widget (FastBridge)
+4. Deposit Widget (NexusDeposit)
+5. Swaps Widget (Swaps)
 
 ### Install:
 
@@ -101,6 +95,13 @@ pnpm dlx shadcn@latest add https://elements.nexus.availproject.org/r/unified-bal
 </Tabs.Tab>
 
 </Tabs>
+
+### Nexus Elements in Action
+
+<Cards num={2}>
+    <Cards.Card title="Nexus Elements Showcase" href="https://elements.nexus.availproject.org/" icon={<LinkIcon />}  arrow target="_blank" rel="noopener noreferrer" />
+    <Cards.Card title="Nexus Elements Github Repo" href="https://github.com/availproject/nexus-elements" icon={<GithubIcon24 />}  arrow target="_blank" rel="noopener noreferrer" />
+</Cards>
 
 ### Next Steps
 

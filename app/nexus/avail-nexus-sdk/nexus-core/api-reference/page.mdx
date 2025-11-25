@@ -19,10 +19,6 @@ import { NexusSDK, NEXUS_EVENTS } from '@avail-project/nexus-core';
 const sdk = new NexusSDK({ network: 'mainnet' });
 await sdk.initialize(provider); // Your EVM-compatible wallet provider
 
-// (Optional) Add TRON support
-const tronLinkAdapter = new TronLinkAdapter();
-sdk.addTron(tronLinkAdapter);
-
 // ---------------------------
 // 1️⃣ Get unified balances
 // ---------------------------
@@ -35,9 +31,9 @@ console.log('Balances:', balances);
 const bridgeResult = await sdk.bridge(
   {
     token: 'USDC',
-    amount: "1.5",
-    recipient: '0x...' // Optional
-    chainId: 137, // Polygon
+    amount: 1_500_000n,  // bigint (base units)
+    toChainId: 137,      // Polygon
+    // recipient?: '0x...' // optional
   },
   {
     onEvent: (event) => {
@@ -53,8 +49,8 @@ const bridgeResult = await sdk.bridge(
 const transferResult = await sdk.bridgeAndTransfer(
   {
     token: 'ETH',
-    amount: "1.5",
-    chainId: 1, // Ethereum
+    amount: 1_500_000n,  // bigint (base units)
+    toChainId: 1,        // Ethereum
     recipient: '0x742d35Cc6634C0532925a3b8D4C9db96c4b4Db45',
   },
   {
@@ -70,10 +66,11 @@ const transferResult = await sdk.bridgeAndTransfer(
 // ---------------------------
 const executeResult = await sdk.execute(
   {
+    toChainId: 1,
     to: '0x...',
     value: 0n,
     data: '0x...',
-    tokenApproval: { token: 'USDC', amount: 10000n },
+    tokenApproval: { token: 'USDC', amount: 10_000n },
   },
   {
     onEvent: (event) => {
@@ -251,31 +248,33 @@ import type { BridgeParams, BridgeResult, SimulationResult } from '@avail-projec
 // Bridge tokens between chains
 const result: BridgeResult = await sdk.bridge({
   token: 'USDC',
-  amount: '100',
-  chainId: 137,
-} as BridgeParams);
+  amount: 83_500_000n,
+  toChainId: 137,
+} satisfies BridgeParams);
 
 // Simulate bridge to preview costs
 const simulation: SimulationResult = await sdk.simulateBridge({
   token: 'USDC',
-  amount: '83.5',
-  chainId: 137,
+  amount: 83_500_000n,
+  toChainId: 137,
 });
 ```
 
 ### Transfer Operations
 
 ```typescript showLineNumbers filename="Typescript" showLineNumbers filename="Typescript"
-const result = await sdk.transfer({
+// Bridge + transfer (attribution)
+const result = await sdk.bridgeAndTransfer({
   token: 'USDC',
-  amount: '1.53',
-  chainId: 42161,
+  amount: 1_530_000n,
+  toChainId: 42161,
   recipient: '0x...',
 });
-const simulation = await sdk.simulateTransfer({
+
+const simulation = await sdk.simulateBridgeAndTransfer({
   token: 'USDC',
-  amount: '1.53',
-  chainId: 42161,
+  amount: 1_530_000n, // = 1.53 USDC when 6 decimals
+  toChainId: 42161,
   recipient: '0x...',
 });
 ```
@@ -390,24 +389,6 @@ const swapOptions: SupportedChainsResult = sdk.utils.getSwapSupportedChainsAndTo
 // Chain ID conversion
 const hexChainId: string = sdk.utils.chainIdToHex(137);
 const decimalChainId: number = sdk.utils.hexToChainId('0x89');
-```
-
-## Provider Methods
-
-```typescript showLineNumbers filename="Typescript"
-import type { EthereumProvider, RequestArguments } from '@avail-project/nexus-core';
-
-// Get chain abstracted provider
-const provider: EthereumProvider = sdk.getEVMProviderWithCA();
-
-// Make EIP-1193 requests
-const result = await sdk.request({
-  method: 'eth_accounts',
-  params: [],
-} as RequestArguments);
-
-// Cleanup
-await sdk.deinit();
 ```
 
 ### Usage Examples

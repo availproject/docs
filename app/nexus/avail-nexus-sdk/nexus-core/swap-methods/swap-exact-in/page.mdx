@@ -28,19 +28,33 @@ async swapWithExactIn(
 ## Parameters
 
 ```typescript showLineNumbers filename="Typescript"
-export interface ExactOutSwapInput {
+export interface ExactInSwapInput {
+  from: {
+    chainId: number;
+    amount: bigint;
+    tokenAddress: Hex;
+  }[];
   toChainId: number;
   toTokenAddress: Hex;
-  toAmount: bigint;
 }
 ```
 
 - `ExactInSwapInput`: Parameters for using the `swapWithExactIn()` function.
+  - `from`: An array of objects with the following properties:
+    - `chainId` (number, required): The chain ID of the source chain.
+    - `amount` (bigint, required): The amount of tokens to be swapped from.
+    - `tokenAddress` (Hex, required): The address of the token to be swapped from.
   - `toChainId` (number, required): The chain ID of the destination chain.
   - `toTokenAddress` (Hex, required): The address of the token to be swapped to.
-  - `toAmount` (bigint, required): The amount of tokens to be swapped to.
 
-- `options`: Optional parameters for the event listener.
+- `options`: `OnEventParam` (optional): Optional callback function to listen to the events emitted by the swap operation.
+  - `onEvent`: SDK emits these events as the transaction progresses. This is helpful to add when trying to display transaction progress to the user. With this you receive:
+    - `SWAP_STEP_COMPLETE`: A single `SwapStepType` that is emitted for each completed step of the intent's fulfillment.
+ 
+ <Callout>
+1. Either of the `Swap` methods don't emit `STEPS_LIST` events.
+2. You can check out the type definitions for each step type in the [Swap Events](/nexus/avail-nexus-sdk/nexus-core/swap-methods/swap-events) page.
+</Callout>
 
 ## Example
 
@@ -65,8 +79,6 @@ console.log('Swap with exact in result:', swapWithExactInResult);
 
 ## Return Value
 
-### `swapWithExactIn()`
-
 The return value is a `SwapResult` object.
 
 ```typescript showLineNumbers filename="Typescript"
@@ -87,5 +99,14 @@ export type ChainSwap = {
   chainId: number;
   swaps: Swap[];
   txHash: Hex;
+};
+
+export type Swap = {
+  inputAmount: bigint;
+  inputContract: Hex;
+  inputDecimals: number;
+  outputAmount: bigint;
+  outputContract: Hex;
+  outputDecimals: number;
 };
 ```

@@ -50,6 +50,26 @@ export interface BridgeAndExecuteParams {
   requiredConfirmations?: number;
   recentApprovalTxHash?: string;
 }
+
+export interface ExecuteParams {
+  toChainId: number;
+  to: Hex;
+  value?: bigint;
+  data?: Hex;
+  gas?: bigint;
+  gasPrice?: bigint;
+  enableTransactionPolling?: boolean;
+  transactionTimeout?: number;
+  // Transaction receipt confirmation options
+  waitForReceipt?: boolean;
+  receiptTimeout?: number;
+  requiredConfirmations?: number;
+  tokenApproval?: {
+    token: string;
+    amount: bigint;
+    spender: Hex;
+  };
+}
 ```
 
 - `BridgeAndExecuteParams`: Parameters for using the `bridgeAndExecute()` function.
@@ -57,20 +77,27 @@ export interface BridgeAndExecuteParams {
   - `token` (string, required): The token to be bridged in this flow.
   - `amount` (bigint, required): The amount of tokens to be used in this flow.
   - `sourceChains` (number[], optional): The chain IDs of the source chains to be used for the bridge. Useful if you want to maintain your holdings on some chains.
-  - `execute` (`Omit<ExecuteParams>`, 'toChainId'>, required): **To be filled later**
+  - `execute` (`Omit<ExecuteParams>`, 'toChainId'>, required): Contract call on the destination chain
   - `enableTransactionPolling` (boolean, optional): Whether to enable transaction polling. Defaults to `false`.
-  - `transactionTimeout` (number, optional): **To be filled later**
-  - `waitForReceipt` (boolean, optional): **To be filled later**
-  - `receiptTimeout` (number, optional): **To be filled later**
-  - `requiredConfirmations` (number, optional): **To be filled later**
-  - `recentApprovalTxHash` (string, optional): **To be filled later**
+  - `transactionTimeout` (number, optional)
+  - `waitForReceipt` (boolean, optional)
+  - `receiptTimeout` (number, optional)
+  - `requiredConfirmations` (number, optional)
+  - `recentApprovalTxHash` (string, optional)
 
-- `options`: Optional parameters for the event listener.
+- `options`: `OnEventParam` (optional): Optional callback function to listen to the events emitted by the transfer operation.
+  - `onEvent`: SDK emits these events as the transaction progresses. This is helpful to add when trying to display transaction progress to the user. With this you receive:
+    - `STEPS_LIST`: An ordered array of `BridgeStepType` objects. This array contains the steps that will be executed to fulfill the intent.
+    - `STEP_COMPLETE`: A single `BridgeStepType` that is emitted for each completed step of the intent's fulfillment.
+ 
+ <Callout>
+You can check out the type definitions for each step type in the [Bridge Events](/nexus/avail-nexus-sdk/nexus-core/bridge-methods/bridge-events) page.
+</Callout>
 
 ## Example
 
 ```typescript showLineNumbers filename="Typescript"
-import type { BridgeAndExecuteParams, BridgeAndExecuteResult, OnEventParam } from '@avail-project/nexus-core';
+import { BridgeAndExecuteParams, BridgeAndExecuteResult, NEXUS_EVENTS } from '@avail-project/nexus-core';
 
 // Direct contract execution
 const result = await sdk.execute({
@@ -81,17 +108,42 @@ const result = await sdk.execute({
 });
 
 // Bridge and execute
-const result2 = await sdk.bridgeAndExecute({
+const bridgeAndExecuteResult = await sdk.bridgeAndExecute(
+  {
+    token: 'USDC',
+    amount: 100_000_000n, // 100 USDC (6 decimals)
+    toChainId: 1,
+    sourceChains: [8453],
+    execute: {
+      to: '0x...',
+      data: '0x...',
+      tokenApproval: { token: 'USDC', amount: 100_000_000n }, // 100 USDC (6 decimals)
+    },
+  },
+  {
+    onEvent: (event) => {
+      if (event.name === NEXUS_EVENTS.STEPS_LIST) console.log('Bridge+Execute steps:', event.args);
+      if (event.name === NEXUS_EVENTS.STEP_COMPLETE) console.log('Step completed:', event.args);
+    },
+  },
+);
+
+console.log('Bridge and execute result:', bridgeAndExecuteResult);
+
+
+const bridgeAndExecuteSimulation = await sdk.simulateBridgeAndExecute({
   token: 'USDC',
-  amount: 100_000_000n,
+  amount: 100_000_000n, // 100 USDC (6 decimals)
   toChainId: 1,
   sourceChains: [8453],
   execute: {
-    to: '0xa354F35829Ae975e850e23e9615b11Da1B3dC4DE',
+    to: '0x...',
     data: '0x...',
-    tokenApproval: { token: 'USDC', amount: 100_000_000n },
+    // tokenApproval optional for simulation
   },
 });
+
+console.log('Bridge and execute simulation:', bridgeAndExecuteSimulation);
 ```
 
 ## Return Value
@@ -106,5 +158,14 @@ export type BridgeAndExecuteResult = {
   bridgeExplorerUrl?: string; // undefined when bridge is skipped
   toChainId: number;
   bridgeSkipped: boolean; // indicates if bridge was skipped due to sufficient funds
+};
+
+export type BridgeAndExecuteSimulationResult = {
+  bridgeSimulation: SimulationResult | null; // null if bridging is skipped
+  executeSimulation: {
+    gasUsed: bigint;
+    gasPrice: bigint;
+    gasFee: bigint; // gasUsed * gasPrice
+  };
 };
 ```
