@@ -2,10 +2,17 @@
 image: "/img/docs-link-preview.png"
 title: Intent
 ---
+import { Callout } from 'nextra/components'
 
 # Intent
 
-In the [chain abstraction](/nexus/concepts/chain-abstraction) context, an intent represents a user's request to execute a cross-chain transaction when they lack sufficient funds or liquidity on the destination blockchain. An intent specifies what the user is willing to offer (tokens from various source chains) to cover the transaction amount, gas fees, solver fees, and the Avail chain abstraction (CA) protocol service fee.
+An intent represents a user's request to execute a crosschain transaction ([Nexus operation](/nexus/concepts/nexus-ops)) when they lack sufficient funds or liquidity on the destination blockchain. 
+
+An intent specifies what the user is willing to offer (tokens from various source chains) to cover the transaction amount, gas fees, solver fees, and the Avail Nexus protocol fee. 
+
+The intent is verified, and taken up by a [solver](/nexus/concepts/solvers) who provides liquidity and fills the intent (request for funds) on the user's preferred destination chain.
+
+## What does an Intent look like?
 
 The following information is part of an intent:
 
@@ -15,16 +22,47 @@ The following information is part of an intent:
 - **Fees**: Includes CA gas fee (for cross-chain operations), protocol fee (for the service), solver fee (for the liquidity provider), and any supplied gas.
 - **Total Amount**: The full cost, combining the transaction amount and all fees.
 
-The intent processing begins when the user signs an intent and authorizes a transaction. A [solver](/nexus/concepts/solvers) (a liquidity provider) steps in to supply the necessary funds on the destination chain. The protocol is responsible for settling the source chain funds with the respective solver. The intent details shows which solver provided liquidity once the intent is successfully processed.
+This is an example of how an intent would look like when simulating a `Bridge` operation: 
+```jsx
+type ReadableIntent = {
+  allSources: {
+    amount: string;
+    chainID: number;
+    chainLogo: string | undefined;
+    chainName: string;
+    contractAddress: `0x${string}`;
+  }[];
+  destination: {
+    amount: string;
+    chainID: number;
+    chainLogo: string | undefined;
+    chainName: string;
+  };
+  fees: {
+    caGas: string;
+    gasSupplied: string;
+    protocol: string;
+    solver: string;
+    total: string;
+  };
+  sources: {
+    amount: string;
+    chainID: number;
+    chainLogo: string | undefined;
+    chainName: string;
+    contractAddress: `0x${string}`;
+  }[];
+  sourcesTotal: string;
+  token: {
+    decimals: number;
+    logo: string | undefined;
+    name: string;
+    symbol: string;
+  };
+};
 
-## Stages
+```
 
-Following are some of the key stages of intent processing:
-
-- **Intent Accepted** - User has agreed to chain abstracted transaction intent and accepted the associated fees
-- **Intent Hash Signed** - User has signed the intent hash
-- **Intent Submitted** - Intent for CA is submitted to the chain
-- **Intent Collection** - Funds associated with the intent are collected on the source chains
-- **Intent Mined** - CA protocol has mined the intent on the chain
-- **Intent Deposits Confirmed** - Deposit on source chains is confirmed
-- **Intent Fulfilled** - The liquidity is supplied on the destination chain by the solver
+<Callout>
+- Learn about the [complete lifecycle of an intent](/nexus/concepts/intent-lifecycle).
+</Callout>
