@@ -1,0 +1,54 @@
+---
+image: "/img/docs-link-preview.png"
+title: Crosschain Swaps
+---
+import { Cards, Tabs, Image, Callout } from 'nextra/components'
+
+# Crosschain Swaps
+
+In Nexus, users can do crosschain swaps (aka **Swap Methods**) which allows them to go ***from any token on any source chain(s), to any token on any destination chain.***
+
+Canonical assets like ETH, USDC and USDT are used to simplify the routing process for solvers and are used as the "interim" or "express" tokens, to make it cheaper for users. 
+
+<br></br>
+
+<img src="/img/nexus/swaps.png" alt="Swaps" width="100%" align="center"/>
+
+
+
+## Routing possibilities
+Avail Nexus SDK automatically manages the entire transaction lifecycle. It analyses and suggests the optimal routing path to fulfill the user’s intent, resulting in an ‘any token in’, ‘any token out’ effect.
+
+1. **Bridge → Destination Swap:** A user sends a canonical asset like USDT from chain A, and gets a custom Asset like DEGEN on chain B.
+2. **Source Swap → Bridge:** A user sends a custom asset like OP from chain A, and gets a canonical asset like USDT on chain B.
+3. **Source Swap → Bridge → Destination Swap:** A user sends a custom asset like OP from chain A, and gets a custom asset like PEPE on chain B.
+
+<br></br>
+<img src="/img/nexus/swap-routes.png" alt="Swap Routes" width="100%" align="center"/>
+
+## Exact In & Exact Out Swaps
+
+There are essentially 2 types of Swap actions a user can do with Nexus. An `ExactIn` swap and an `ExactOut` swap. 
+
+Let's dive into each one in detail. 
+
+## `ExactIn` swap
+The `ExactIn` swap method is for performing exact input swaps, which swaps a fixed amount of one or more tokens on N number of source chains for a maximum possible (variable) amount of another token on the destination chain.
+
+User decides exactly which tokens and their amounts that they want to swap. The user decides the exact input amount for the swap. The output amount here may vary based on slippage, fees, etc. 
+
+This function uses the `ExactInSwapInput` struct and the `swapWithExactIn` function from the Swap Methods in the SDK.
+
+## `ExactOut` swap
+The `ExactOut` swap method is for performing exact output swaps, which swap a minimum possible amount of one or more tokens on N source chains for a fixed amount of another token. 
+
+User decides the exact output amount amount they would like to receive at the end of the action. Nexus does the hard work of figuring out which tokens and balances it can use and executes the swap for the desired output amount. 
+
+This function uses the `ExactOutSwapInput` struct and the `swapWithExactOut` function from the Swap Methods in the SDK.
+
+
+<Callout type="info">
+- [Learn more about the difference between Bridge and Swap methods.](/nexus/concepts/bridge-v-swap)
+- [SDK reference](/nexus/avail-nexus-sdk/nexus-core/swap-methods) (Swap Methods)
+</Callout>
+

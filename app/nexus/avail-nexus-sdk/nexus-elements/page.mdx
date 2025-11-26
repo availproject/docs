@@ -1,6 +1,5 @@
 ---
 title: Nexus Elements Reference
-asIndexPage: true
 ---
 
 import { Callout, Steps, Tabs } from 'nextra/components';
@@ -9,25 +8,193 @@ import { FileIcon, FilesIcon, GithubIcon24, LinkIcon } from '@components/icons'
 
 # Nexus Elements
 
-## Docs
+A shadcn-based component library built on top of nexus-core that allows devs to integrate working components into their project conveniently.
+Nexus Elements currently provides the following components:
 
-Provides a set of shadcn-based components that are easy to integrate into a Next JS project and use quickly.
+1. Unified Balance
+2. View History
+3. Fast Bridge
+4. Fast Transfer
+5. Deposit
+6. Swaps
+
+Refer to the Nexus Elements website for detailed usage docs:
 
 <Cards num={2}>
-  <Cards.Card icon={<FileIcon />} title="Unified Balance" href="/nexus/avail-nexus-sdk/nexus-elements/unified-balance" />
-  <Cards.Card icon={<FileIcon />} title="Transfer" href="/nexus/avail-nexus-sdk/nexus-elements/fast-transfer" />
-  <Cards.Card icon={<FileIcon />} title="Bridge" href="/nexus/avail-nexus-sdk/nexus-elements/fast-bridge" />
-  <Cards.Card icon={<FileIcon />} title="Deposit" href="/nexus/avail-nexus-sdk/nexus-elements/deposit" />
-  <Cards.Card icon={<FileIcon />} title="Swap" href="/nexus/avail-nexus-sdk/nexus-elements/swaps" />
+    <Cards.Card title="Avail Nexus Elements" href="https://elements.nexus.availproject.org/" icon={<LinkIcon />}  arrow target="_blank" rel="noopener noreferrer" />
+    <Cards.Card title="Nexus Elements Github Repo" href="https://github.com/availproject/nexus-elements" icon={<GithubIcon24 />}  arrow target="_blank" rel="noopener noreferrer" />
 </Cards>
 
-## More Examples
+## Install
+
+1. Install `shadcn/ui` into your project. Refer to [shadcn/ui installation guide](https://ui.shadcn.com/docs/installation) for more details.
+
+2. Install the components you need using the shadcn CLI.
+
+<Tabs items={['Unified Balance', 'View History', 'Fast Bridge', 'Fast Transfer', 'Deposit', 'Swaps']}>
+
+{/* Unified Balance tab */}
+<Tabs.Tab>
+<Tabs items={['pnpm', 'npm', 'yarn']}>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+pnpm dlx shadcn@latest add @nexus-elements/unified-balance
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+npx shadcn@latest add @nexus-elements/unified-balance
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+yarn shadcn@latest add @nexus-elements/unified-balance
+```
+</Tabs.Tab>
+
+</Tabs>
+</Tabs.Tab>
+{/* Closure for unified balance tab */}
+
+{/* View History tab */}
+<Tabs.Tab>
+<Tabs items={['pnpm', 'npm', 'yarn']}>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+pnpm dlx shadcn@latest add @nexus-elements/view-history
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+npx shadcn@latest add @nexus-elements/view-history
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+yarn shadcn@latest add @nexus-elements/view-history
+```
+</Tabs.Tab>
+</Tabs>
+</Tabs.Tab>
+
+{/* Closure for view history tab */}
+
+{/* Fast Bridge tab */}
+<Tabs.Tab>
+<Tabs items={['pnpm', 'npm', 'yarn']}>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+pnpm dlx shadcn@latest add @nexus-elements/fast-bridge
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+npx shadcn@latest add @nexus-elements/fast-bridge
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+yarn shadcn@latest add @nexus-elements/fast-bridge
+```
+</Tabs.Tab>
+
+</Tabs>
+</Tabs.Tab>
+{/* Closure for fast bridge tab */}
+
+{/* Fast Transfer tab */}
+<Tabs.Tab>
+<Tabs items={['pnpm', 'npm', 'yarn']}>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+pnpm dlx shadcn@latest add @nexus-elements/fast-transfer
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+npx shadcn@latest add @nexus-elements/fast-transfer
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+yarn shadcn@latest add @nexus-elements/fast-transfer
+```
+</Tabs.Tab>
+
+</Tabs>
+</Tabs.Tab>
+{/* Closure for fast transfer tab */}
+
+{/* Deposit tab */}
+<Tabs.Tab>
+<Tabs items={['pnpm', 'npm', 'yarn']}>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+pnpm dlx shadcn@latest add @nexus-elements/deposit
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+npx shadcn@latest add @nexus-elements/deposit
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+yarn shadcn@latest add @nexus-elements/deposit
+```
+</Tabs.Tab>
+
+</Tabs>
+</Tabs.Tab>
+{/* Closure for deposit tab */}
+
+
+{/* Swaps tab */}
+<Tabs.Tab>
+<Tabs items={['pnpm', 'npm', 'yarn']}>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+pnpm dlx shadcn@latest add @nexus-elements/swaps
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+npx shadcn@latest add @nexus-elements/swaps
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash filename="Terminal"
+yarn shadcn@latest add @nexus-elements/swaps
+```
+</Tabs.Tab>
+
+</Tabs>
+</Tabs.Tab>
+{/* Closure for swaps tab */}
+
+</Tabs>
+
+### Next Steps
 
 <Cards num={2}>
-  <Cards.Card icon={<FileIcon />} title="Quickstart" href="/nexus/nexus-quickstart/nexus-elements" />
-  <Cards.Card icon={<LinkIcon />} title="Nexus elements showcase" href="https://elements.nexus.availproject.org/" target="_blank" rel="noopener noreferrer" arrow />
-</Cards>
-<Cards num={2}>
-  <Cards.Card icon={<GithubIcon24 className="svg-inherit" />} title="Nexus elements Github repo" href="https://github.com/availproject/nexus-elements" target="_blank" rel="noopener noreferrer" arrow />
-  <Cards.Card icon={<GithubIcon24 className="svg-inherit" />} title="Nexus elements template repo" href="https://github.com/availproject/nexus-elements-template" target="_blank" rel="noopener noreferrer" arrow />
+    <Cards.Card title="Nexus Elements Quickstart" href="/nexus/nexus-quickstart/nexus-elements" icon={<FileIcon />} />
+    <Cards.Card title="Nexus Elements template repo" href="https://github.com/availproject/nexus-elements-template" icon={<GithubIcon24 />}  arrow target="_blank" rel="noopener noreferrer" />
 </Cards>
