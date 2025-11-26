@@ -1,0 +1,37 @@
+---
+image: "/img/docs-link-preview.png"
+title: Selecting source chains for Nexus operations
+---
+import { Cards, Tabs, Image, Callout } from 'nextra/components'
+
+# Selecting source chains for Nexus operations
+
+When a user does a [Nexus operation](/nexus/concepts/nexus-ops), it involves the sourcing of liquidity by Nexus from wherever they have it. 
+
+Selection of the source chain essentially indicates what route(s) is being chosen for liquidity to flow through to be received and utilized on the destination chain.
+
+### Bridge Methods
+For [Bridge Methods](/nexus/avail-nexus-sdk/nexus-core/bridge-methods), this means you can just specify the chain IDs of the chains you want to limit sourcing liquidity from. 
+
+```jsx
+sourceChains?: number[];
+```
+
+If kept in its default setting, the Nexus protocol handles the source selection using an internal algorithm. But if needed, the developer can enable/disable the selection of source chains and limit liquidity be sourced form the set chains **ONLY**. 
+
+### Swap Methods
+For [Swap Methods](/nexus/concepts/bridge-v-swap), you can define the source chains when using the `ExactIn` Swap method. In this case you also need to mention the `chainId`, `amount`, and `tokenAddress`.
+
+```jsx
+interface ExactInSwapInput {
+  from: {
+    chainId: number;
+    amount: bigint;
+    tokenAddress: Hex;
+  }[];
+...
+```
+<Callout>
+[Learn more about the difference between Bridge and Swap methods.](/nexus/concepts/bridge-v-swap)
+</Callout>
+

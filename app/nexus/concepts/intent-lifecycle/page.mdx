@@ -1,0 +1,51 @@
+---
+image: "/img/docs-link-preview.png"
+title: Intent Lifecycle
+---
+import { Callout, Steps } from 'nextra/components'
+
+# Intent Lifecycle
+
+The intent processing begins when the user signs an intent and authorizes a transaction. 
+
+A [solver](/nexus/concepts/solvers) (a liquidity provider) steps in to supply the necessary funds (`Fill`) on the destination chain. The protocol is responsible for settling the source chain funds with the respective solver. 
+
+The intent details shows which solver provided liquidity once the intent is successfully processed.
+
+<Callout>
+You can check out your Intents on Nexus with the [Nexus Explorer](https://explorer.nexus.availproject.org/)
+</Callout>
+
+## Stages
+
+<br></br>
+<img src="/img/nexus/intent-lifecycle.png" alt="Intent Lifecycle" width="100%" align="center"/>
+
+Following are some of the key stages of intent processing:
+
+<Steps>
+### Intent Approved & Intent Hash Signed
+- User agrees and approves the Nexus operation (intent).
+- User signs the intent hash.
+
+### Intent Submission
+Intent is submitted to the Nexus protocol.
+
+### Source Fund Collection
+-  Funds associated with the intent are collected on the source chains.
+
+### Intent Validation & Deposit Confirmation
+ - Nexus protocol has validated the intent on the protocol.
+ - Deposits on source chains by the user are confirmed.
+
+### Intent Filled by Solver
+- The request for funds (intent) is filled on the destination chain by the solver.
+
+</Steps>
+
+<Callout>
+You might be interested in:
+
+- [Intents on Nexus](/nexus/concepts/intent)
+- [Solvers on Nexus](/nexus/concepts/solvers)
+</Callout>

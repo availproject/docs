@@ -2,27 +2,25 @@
 image: "/img/docs-link-preview.png"
 title: Allowances
 ---
+import {Callout} from 'nextra/components'
 
 # Allowances
 
-The Nexus SDKs requires allowances.
+The Nexus SDK requires allowances.
 
 Through allowances, a user permits the use of EOA funds in the source chains.
 The protocol uses these funds to pay the gas fee and the transaction amount
 on the destination chain.
 
-The default allowance limit set in the Nexus SDK for each supported chain is `unlimited`.
+ - The default allowance limit set in the Nexus SDK for each supported chain is `unlimited`.
+- Developers can change the allowance for each chain abstracted transaction.
+- They can do this using the `setOnAllowanceHook` hook.
 
-Developers can change the allowance for each chain abstracted transaction.
-They can do this using the `setOnAllowanceHook` hook.
-
-Users can review the chain abstracted transaction details via [intents](/nexus/concepts/intent). 
 An intent details list the amounts collected per source chain to transact on the
-destination chain. Users can choose to accept or reject a chain abstracted transaction.
+destination chain. Users can choose to accept or reject a Nexus transaction.
 They cannot change allowances specified by the developers.
 
-Until a user **permits** allowance, the Avail
-Vault contracts on the source chains cannot collect the user funds.
+Until a user **permits** allowance, the Avail Vault contracts on the source chains cannot collect the user funds for Nexus operations.
 
 By approving allowances for chain abstraction on the source chains, users can:
 
@@ -30,8 +28,9 @@ By approving allowances for chain abstraction on the source chains, users can:
 * Bypass bridging to enable liquidity on the destination chain.
 * Transact on newer chains with zero or insufficient liquidity.
 
-Users must pay a **gas fee to set up the allowance**. This is besides the
-gas fee payable for the transaction on the destination chain.
+<Callout type="important">
+Users must pay a **gas fee to set up the allowance**.
+</Callout>
 
 ## How Allowances Work?
 
