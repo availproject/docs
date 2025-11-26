@@ -11,6 +11,11 @@ import { FileIcon, GithubIcon24, LinkIcon } from '@components/icons'
 
 A powerful TypeScript SDK for cross-chain operations, token bridging, and unified balance management across multiple EVM chains.
 
+<Callout>
+**LOOKING FOR PLUG-n-PLAY REACT COMPONENTS?**<br/>
+Check out our powerful shadcn-based component library, [Nexus Elements](/nexus/avail-nexus-sdk/nexus-elements), built on top of nexus-core.
+</Callout>
+
 ## Nexus Core
 
 The core functionality of the Nexus SDK is provided by the `@avail-project/nexus-core` package.
@@ -45,9 +50,16 @@ pnpm add @avail-project/nexus-core@1.0.0-rc.3
 
 ### Next Steps
 
+#### Nexus Core
 <Cards num={2}>
     <Cards.Card title="Nexus Core SDK Reference" href="/nexus/avail-nexus-sdk/nexus-core" icon={<FileIcon />} />
     <Cards.Card title="Nexus Core Quickstart" href="/nexus/nexus-quickstart/nexus-core" icon={<FileIcon />} />
+</Cards>
+
+#### Nexus Elements
+<Cards num={2}>
+    <Cards.Card title="Nexus Elements" href="https://elements.nexus.availproject.org/" icon={<LinkIcon />} arrow target="_blank" rel="noopener noreferrer" />
+    <Cards.Card title="Nexus Elements Quickstart" href="/nexus/nexus-quickstart/nexus-elements" icon={<FileIcon />} />
 </Cards>
 
 <Callout type="info">
@@ -55,57 +67,3 @@ pnpm add @avail-project/nexus-core@1.0.0-rc.3
 1. Nexus Core SDK still requires an injected wallet provider (e.g. MetaMask, WalletConnect, etc.)
 2. It is designed for client-side browser environments and **cannot be used** in any server-side environments.
 </Callout>
-
-## Nexus Elements
-
-A shadcn-based component library that allows devs to integrate working components that use the Nexus SDK effectively and conveniently.
-Nexus Elements currently provides the following components:
-
-1. Unified Balance Widget (UnififedBalance)
-2. Fast Transfer Widget (FastTransfer)
-3. Fast Bridge Widget (FastBridge)
-4. Deposit Widget (NexusDeposit)
-5. Swaps Widget (Swaps)
-
-### Install:
-
-1. Install `shadcn/ui` into your project. Refer to [shadcn/ui installation guide](https://ui.shadcn.com/docs/installation) for more details.
-
-2. Install the components you need using the shadcn CLI. For example, this is how
-you would install the unified balance widget:
-
-<Tabs items={['npm', 'yarn', 'pnpm']}>
-
-<Tabs.Tab>
-```bash filename="Terminal"
-npx shadcn@latest add https://elements.nexus.availproject.org/r/unified-balance.json
-```
-</Tabs.Tab>
-
-<Tabs.Tab>
-```bash filename="Terminal"
-yarn dlx shadcn@latest add https://elements.nexus.availproject.org/r/unified-balance.json
-```
-</Tabs.Tab>
-
-<Tabs.Tab>
-```bash filename="Terminal"
-pnpm dlx shadcn@latest add https://elements.nexus.availproject.org/r/unified-balance.json
-```
-</Tabs.Tab>
-
-</Tabs>
-
-### Nexus Elements in Action
-
-<Cards num={2}>
-    <Cards.Card title="Nexus Elements Showcase" href="https://elements.nexus.availproject.org/" icon={<LinkIcon />}  arrow target="_blank" rel="noopener noreferrer" />
-    <Cards.Card title="Nexus Elements Github Repo" href="https://github.com/availproject/nexus-elements" icon={<GithubIcon24 />}  arrow target="_blank" rel="noopener noreferrer" />
-</Cards>
-
-### Next Steps
-
-<Cards num={2}>
-    <Cards.Card title="Nexus Elements SDK Reference" href="/nexus/avail-nexus-sdk/nexus-elements" icon={<FileIcon />} />
-    <Cards.Card title="Nexus Elements Quickstart" href="/nexus/nexus-quickstart/nexus-elements" icon={<FileIcon />} />
-</Cards>

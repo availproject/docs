@@ -11,21 +11,47 @@ import { FileIcon, LinkIcon, GithubIcon24, FilesIcon } from '@components/icons'
 # Avail Nexus SDK Reference
 
 This section contains dedicated pages for the main functions exposed by the Avail Nexus SDK as part of \
-`nexus-core` and
+`nexus-core` and a landing page to get started with [Nexus Elements](/nexus/avail-nexus-sdk/nexus-elements).
 
-## Docs
+## Nexus Core
 
 <Cards num={2}>
-<Cards.Card title="Nexus Core" icon={<FilesIcon />} href="/nexus/avail-nexus-sdk/nexus-core" />
-<Cards.Card title="Nexus Elements" icon={<FilesIcon />} href="/nexus/avail-nexus-sdk/nexus-elements" />
-<Cards.Card title="Hooks and Errors" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/hooks-and-errors" />
+    <Cards.Card title="Bridge Methods" icon={<FilesIcon />} href="/nexus/avail-nexus-sdk/bridge-methods" />
+    <Cards.Card title="Swap Methods" icon={<FilesIcon />} href="/nexus/avail-nexus-sdk/swap-methods" />
 </Cards>
 
-## SDK helper functions and constants
+<Cards num={2}>
+    <Cards.Card title="Hooks and Errors" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/hooks-and-errors" />
+    <Cards.Card title="API Reference" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/api-reference" />
+</Cards>
+
+### External Links
+
+<Cards num={2}>
+    <Cards.Card title="Github Link" icon={<GithubIcon24 className="svg-inherit"  />} href="https://github.com/availproject/nexus-sdk/" target="_blank" rel="noopener noreferrer" arrow />
+    <Cards.Card title="npm page" icon={<LinkIcon />} href="https://www.npmjs.com/package/@avail-project/nexus-core?activeTab=code" target="_blank" rel="noopener noreferrer" arrow />
+</Cards>
+
+
+#### SDK helper functions and constants
 
 In these files you can find a suite of helper function exposed by the Nexus SDK, as well as some constants and addresses that are used throughout the SDK.
 
 <Cards num={2}>
     <Cards.Card title="Utils" icon={<GithubIcon24 className="svg-inherit"  />} href="https://github.com/availproject/nexus-sdk/blob/develop/src/commons/utils/format.ts" target="_blank" rel="noopener noreferrer" arrow />
     <Cards.Card title="Constants" icon={<GithubIcon24 className="svg-inherit"  />} href="https://github.com/availproject/nexus-sdk/blob/develop/src/commons/constants/index.ts" target="_blank" rel="noopener noreferrer" arrow />
+</Cards>
+
+## Nexus Elements
+
+<Cards num={2}>
+    <Cards.Card title="Nexus Elements" icon={<FilesIcon />} href="/nexus/avail-nexus-sdk/nexus-elements" />
+    <Cards.Card title="Nexus Elements Quickstart" icon={<FileIcon />} href="/nexus/nexus-quickstart/nexus-elements" />
+</Cards>
+
+### External Links
+
+<Cards num={2}>
+    <Cards.Card title="Nexus Elements Showcase" href="https://elements.nexus.availproject.org/" icon={<LinkIcon />}  arrow target="_blank" rel="noopener noreferrer" />
+    <Cards.Card title="Nexus Elements Github Repo" href="https://github.com/availproject/nexus-elements" icon={<GithubIcon24 />}  arrow target="_blank" rel="noopener noreferrer" />
 </Cards>
