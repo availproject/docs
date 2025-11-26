@@ -798,10 +798,6 @@ export function middleware(request: NextRequest) {
       destination: `${origin}/nexus/avail-nexus-sdk/overview`,
     },
     {
-      source: "/api-reference/avail-nexus-sdk/api-reference",
-      destination: `${origin}/nexus/avail-nexus-sdk/api-reference`,
-    },
-    {
       source: "/api-reference/avail-nexus-sdk/examples",
       destination: `${origin}/nexus/avail-nexus-sdk/examples`,
     },
@@ -1282,12 +1278,6 @@ export function middleware(request: NextRequest) {
       source: "/api-reference/avail-turbo-da-api/get-submission-info",
       destination: `${origin}/da/api-reference/avail-turbo-da-api/get-submission-info`,
     },
-
-    {
-      source: "/nexus/avail-nexus-sdk/api-reference",
-      destination: `${origin}/nexus/avail-nexus-sdk/examples/nexus-core/api-reference`,
-    },
-
     // Nexus redirects due to the decision taken to not go with the Tutorials top-level 
 
     {
