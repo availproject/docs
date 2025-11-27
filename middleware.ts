@@ -1326,7 +1326,12 @@ export function middleware(request: NextRequest) {
       destination: `${origin}/nexus/avail-nexus-sdk/nexus-widgets/api-reference`,
     },
 
-    
+    // Concepts section of nexus docs
+
+    {
+      source: "/nexus/concepts/unified-balance",
+      destination: `${origin}/nexus/concepts/bridge-v-swap`,
+    }
   ];
 
   // we need to check for both with and without "/docs/" prefix
