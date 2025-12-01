@@ -1307,7 +1307,7 @@ export function middleware(request: NextRequest) {
     },
     {
       source: "/nexus/avail-nexus-sdk/examples/nexus-core/api-reference",
-      destination: `${origin}/nexus/avail-nexus-sdk/nexus-core/api-reference`,
+      destination: `${origin}/nexus/avail-nexus-sdk/api-reference`,
     },
     {
       source: "/nexus/avail-nexus-sdk/examples/nexus-widgets/transfer",
