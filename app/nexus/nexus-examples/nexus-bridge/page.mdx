@@ -1,0 +1,173 @@
+---
+title: "Add Bridge functionality to your RainbowKit Nexus SDK Project"
+description: "Learn how to add bridge functionality to your existing Nexus SDK project with RainbowKit to bridge tokens between supported chains"
+keywords:
+  - docs
+  - Avail Nexus
+  - Next JS
+  - RainbowKit
+  - Nexus SDK enhancement
+  - Wallet connection
+---
+
+import { Callout, Steps, Tabs } from "nextra/components";
+
+# Add bridge token functionality to your Nexus SDK project
+
+<Callout type="info">
+  **PREREQUISITE**
+
+This tutorial assumes you have already completed the [basic Nexus SDK tutorial
+with RainbowKit](/nexus/nexus-examples/nexus-initialization-rainbowkit). If
+you haven't, please go through that first to set up your base project with
+RainbowKit.
+
+</Callout>
+
+## What You'll Learn
+
+By the end of this tutorial you will be able to bridge tokens from one supported chain to another.
+
+---
+
+## Add Bridge functionality
+
+<Steps>
+
+### Add Bridge Button
+
+Create a file at `src/components/bridge-button.tsx` and add the following lines:
+
+```tsx filename="src/components/bridge-button.tsx" showLineNumbers
+"use client";
+
+import { bridge, isInitialized } from "../lib/nexus";
+
+export default function BridgeButton({
+  className,
+  onResult,
+}: {
+  className?: string;
+  onResult?: (r: any) => void;
+}) {
+  const onClick = async () => {
+    if (!isInitialized()) return alert("Initialize first");
+    const res = await bridge();
+    onResult?.(res);
+    console.log(res);
+  };
+  return (
+    <button className={className} onClick={onClick} disabled={!isInitialized()}>
+      Bridge
+    </button>
+  );
+}
+```
+
+### Add a new helper function for bridging tokens
+
+Add the following lines at the end of the file `src/lib/nexus.ts` (This example uses Arbitrum Sepolia network as the destination chain):
+
+```tsx showLineNumbers filename="src/lib/nexus.ts"
+export async function bridge() {
+  const bridgeResult: BridgeResult = await sdk.bridge(
+    {
+      token: "USDC",
+      amount: BigInt(100),
+      toChainId: 421614, // Arbitrum Sepolia
+    },
+    {
+      onEvent: (event) => {
+        if (event.name === NEXUS_EVENTS.STEPS_LIST) {
+          // render steps if you wish to display them to the user
+        } else if (event.name === NEXUS_EVENTS.STEP_COMPLETE) {
+          // Returned per step of intent fulfillment. You can use this to mark the step as done and show the explorer URL if present.
+          const step = event.args;
+          if (step.type === "INTENT_SUBMITTED") {
+            const url = (step as any).data?.explorerURL;
+            if (url) console.log("Explorer:", url);
+          }
+        }
+      },
+    }
+  );
+  return bridgeResult;
+}
+```
+
+### Update Main Page
+
+Update your `src/app/page.tsx` to show wallet connection status:
+
+```tsx filename="src/app/page.tsx" showLineNumbers
+"use client";
+
+import { useState } from "react";
+import { useAccount } from "wagmi";
+import ConnectWalletButton from "@/components/connect-button";
+import InitButton from "@/components/init-button";
+import FetchUnifiedBalanceButton from "@/components/fetch-unified-balance-button";
+import DeinitButton from "@/components/de-init-button";
+import BridgeButton from "@/components/bridge-button";
+import { isInitialized } from "@/lib/nexus";
+
+export default function Page() {
+  const { isConnected } = useAccount();
+  const [initialized, setInitialized] = useState(isInitialized());
+  const [balances, setBalances] = useState<any>(null);
+  const [bridgeResult, setBridgeResult] = useState<any>(null);
+
+  const btn =
+    "px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 " +
+    "disabled:opacity-50 disabled:cursor-not-allowed";
+
+  return (
+    <main className="min-h-screen flex items-center justify-center">
+      <div className="flex flex-col items-center gap-4">
+        <ConnectWalletButton className={btn} />
+        <InitButton className={btn} onReady={() => setInitialized(true)} />
+        <FetchUnifiedBalanceButton
+          className={btn}
+          onResult={(r) => setBalances(r)}
+        />
+        <BridgeButton className={btn} onResult={(r) => setBridgeResult(r)} />
+        <DeinitButton
+          className={btn}
+          onDone={() => {
+            setInitialized(false);
+            setBalances(null);
+          }}
+        />
+
+        <div className="mt-2">
+          <b>Wallet Status:</b> {isConnected ? "Connected" : "Not connected"}
+        </div>
+        <div className="mt-2">
+          <b>Nexus SDK Initialization Status:</b>{" "}
+          {initialized ? "Initialized" : "Not initialized"}
+        </div>
+
+        {balances && (
+          <pre className="whitespace-pre-wrap">
+            {JSON.stringify(balances, null, 2)}
+          </pre>
+        )}
+
+        {bridgeResult && (
+          <pre className="whitespace-pre-wrap">
+            {JSON.stringify(bridgeResult, null, 2)}
+          </pre>
+        )}
+      </div>
+    </main>
+  );
+}
+```
+
+If the bridging is successful, an explorer URL will be displayed to see the transaction details.
+
+</Steps>
+
+## Next Steps
+
+Learn how to use bridge and transfer tokens functionality in the next tutorial.
