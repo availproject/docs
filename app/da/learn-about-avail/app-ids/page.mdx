@@ -9,11 +9,11 @@ import { Callout, Steps, Tabs } from 'nextra/components'
 <Callout type="info">
 **DON'T CARE ABOUT THEORY?**<br/>
 If you are just looking for the easiest way to create your own AppID on Avail to continue building,
-you can skip to [this page](/docs/build-with-avail/interact-with-avail-da/app-id).
+you can skip to [this page](/da/build-with-availinteract-with-avail-da/app-id).
 </Callout>
 <Callout type="info">
 **LOOKING FOR PROGRAMMATIC INSTRUCTIONS?**<br/>
-You can check out our [API reference](/api-reference/avail-node-api/da-create-application-key) for the same.
+You can check out our [API reference](/da/api-reference/avail-node-api/da-create-application-key) for the same.
 </Callout>
 
 ## Introduction
@@ -150,14 +150,14 @@ No need to pass any params, just click the `+` button next to the method name.
 ## How to register my own `appID`?
 
 1. Make sure you have one or more Avail DA wallets connected to the explorer. If you don't know how to do so,
-you can follow our docs on [setting up a new wallet](/docs/end-user-guide/accounts#creating-an-account-on-avail-da).
+you can follow our docs on [setting up a new wallet](/user-guides/accounts#creating-an-account-on-avail-da).
 
 2. Simply [click this link](https://explorer.availproject.org/#/extrinsics) OR navigate to the `extrinsics` section of the explorer through the `developer` tab.
 
 <Callout type="info">
 Please note that the `Developer` tab does not show the `extrinsics` section at all if you don't
 have a wallet set up on the explorer or an extension wallet connected to it.
-So make sure you have an [Avail DA wallet set up](/docs/end-user-guide/accounts) before moving forward.
+So make sure you have an [Avail DA wallet set up](/user-guides/accounts) before moving forward.
 </Callout>
 
 3. Select the `dataAvailability` pallet, and the `createApplicationKey` method.
@@ -202,7 +202,7 @@ You can submit data to your, or any other `appID` on Avail DA using the explorer
 `submitData` extrinsic from within the `dataAvailability` pallet.
 
 1. Make sure you have one or more Avail DA wallets connected to the explorer. If you don't know how to do so,
-you can follow our docs on [setting up a new wallet](/docs/end-user-guide/accounts#creating-an-account-on-avail-da).
+you can follow our docs on [setting up a new wallet](/user-guides/accounts#creating-an-account-on-avail-da).
 
 2. Simply [click this link](https://explorer.availproject.org/#/extrinsics) OR navigate to the `extrinsics` section of the explorer through the `developer` tab.
 
@@ -248,7 +248,7 @@ you can follow our docs on [setting up a new wallet](/docs/end-user-guide/accoun
 1. As stated earlier, the `key` and `id` fields of every `appID` are unique. This means if you try to create an `appID` with the same `key` as an existing one,
 the operation will fail. This is why it makes sense to use the `appKeys` method to check if your desired name is already taken.
 
-2. If you're a developer and are looking for more programmatic instructions, you can check out our [API reference](/api-reference/avail-node-api/da-create-application-key).
+2. If you're a developer and are looking for more programmatic instructions, you can check out our [API reference](/da/api-reference/avail-node-api/da-create-application-key).
 
 3. **Anyone can submit any sort of data to any `appID` regardless of whether or not they created it.** \
 *But what does this mean? And is this an attack vector?*
