@@ -25,7 +25,7 @@ export default {
       items: {
         _1:{
           title: 'Avail old API docs',
-          href: 'http://old-api.docs.availproject.org/',
+          href: 'https://old-api.docs.availproject.org/',
         },
       },
     },
