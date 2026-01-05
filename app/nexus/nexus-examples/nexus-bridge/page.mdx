@@ -58,7 +58,7 @@ export default function BridgeButton({
   };
   return (
     <button className={className} onClick={onClick} disabled={!isInitialized()}>
-      Bridge
+      Bridge 0.0001 USDC from anywhere to Arbitrum Sepolia
     </button>
   );
 }
@@ -69,6 +69,10 @@ export default function BridgeButton({
 Add the following lines at the end of the file `src/lib/nexus.ts` (This example uses Arbitrum Sepolia network as the destination chain):
 
 ```tsx showLineNumbers filename="src/lib/nexus.ts"
+import { NexusSDK, BridgeResult, NEXUS_EVENTS } from '@avail-project/nexus-core';
+
+... 
+// The Bridge Button in this case is being prefill configured to bridge some USDC to Arbitrum Sepolia. You can customize it to take user inputs in your app.
 export async function bridge() {
   const bridgeResult: BridgeResult = await sdk.bridge(
     {
@@ -164,10 +168,8 @@ export default function Page() {
 }
 ```
 
+
 If the bridging is successful, an explorer URL will be displayed to see the transaction details.
 
 </Steps>
 
-## Next Steps
-
-Learn how to use bridge and transfer tokens functionality in the next tutorial.
