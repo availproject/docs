@@ -1,0 +1,52 @@
+---
+image: "/img/docs-link-preview.png"
+title: Bridge balances vs Swap Balances
+---
+import { Cards, Tabs, Image, Callout } from 'nextra/components'
+
+# Bridge balances vs Swap Balances
+
+Nexus allows you to query 2 types of balances for different use cases. These balances determine the sourcing of liquidity when doing certain operations. 
+
+- Bridge Balance
+- Swap Balance
+
+### Bridge Balance
+Under [Bridge Methods](/nexus/avail-nexus-sdk/bridge-methods), you can fetch [**Bridge Balance**](/nexus/avail-nexus-sdk/bridge-methods/fetch-bridge-balances) (previously Unified Balance). It is used to fetch token balances that can be used in bridge operations across all supported chains in one call. 
+
+If you're using any of the Bridge Methods you will be sourcing liquidity from the tokens and chains that are available by this call. 
+
+```jsx
+getBalancesForBridge(): Promise<UserAsset[]>
+```
+
+### Swap Methods
+Within [Swap Methods](/nexus/concepts/bridge-v-swap), you can fetch [**Swap Balance**](/nexus/avail-nexus-sdk/swap-methods/fetch-swap-balances). It is used to to fetch token balances that can be used in swap operations across all supported chains in one call.
+
+If you're using any of the Swap Methods you will be sourcing liquidity from the tokens and chains that are available by this call. 
+
+```jsx
+getBalancesForSwap(): Promise<Array<{
+    amount: string;
+    chainID: number;
+    decimals: number;
+    symbol: string;
+    tokenAddress: `0x${string}`;
+    universe: Universe;
+    value: number;
+    logo: string;
+}>>
+```
+
+## Why are there 2 different balances that can be used?
+This is because of crosschain swaps in Nexus fundamentally work. Instead of Nexus solvers having to manage multiple token liquidity on multiple chains, they only manage liquidity of the canonical `Bridge` tokens (currently ETH, USDC, USDT). 
+
+Although the orchestration of the intent for crosschain swaps are handled by Nexus, the swaps themselves are handled by our partner DEX aggregators to provide users with best prices and liquidity for a large spread of tokens onchain. 
+
+In short, the swap operations are not limited by solver liquidity, and hence we need a different set of balances for users to see what their "swappable" balances are, which are not the same as their "bridgeable" assets. 
+
+
+<Callout>
+[Learn more about the difference between Bridge and Swap methods.](/nexus/concepts/bridge-v-swap)
+</Callout>
+

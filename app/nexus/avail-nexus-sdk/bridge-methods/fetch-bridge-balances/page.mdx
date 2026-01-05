@@ -1,0 +1,73 @@
+---
+title: "Fetch the bridge balances of a user"
+---
+
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# `getBalancesForBridge()`
+
+<Callout type="info">
+**SET UP THE SDK BEFORE YOU START:**
+
+1. You can find the SDK setup instructions in the [Quickstart](/nexus/nexus-quickstart) page.
+2. We also [created a tutorial](/nexus/nexus-examples/nexus-initialization-basic) to make it easier to understand how devs need to initialize the Nexus SDK in their project.
+</Callout>
+
+Use the `getBalancesForBridge()` function to fetch token balances that can be used in bridge operations across all supported chains in one call.
+
+<Callout type="info">
+**Note:** Check out the [API reference](/nexus/avail-nexus-sdk/api-reference#supported-chains) for a full list of supported tokens and chains.
+</Callout>
+
+## Method signature
+
+```typescript showLineNumbers filename="Typescript"
+getBalancesForBridge(): Promise<UserAsset[]>
+```
+<Callout type="warning">
+<strong>Deprecated:</strong> `getUnifiedBalances()` has been replaced by `getBalancesForBridge()`.  
+If you need tokens that can be used for swaps, use `getBalancesForSwap()`.
+</Callout>
+
+## Parameters
+
+- None
+
+## Example
+
+Here is a minimal example of how to use the `getBalancesForBridge()` function to fetch the balances accessible by the bridge operations of a user:
+
+```typescript showLineNumbers filename="Typescript"
+
+// Get all balances accessible by the bridge operations of a user
+const bridgeBalances = await sdk.getBalancesForBridge();
+console.log('Bridge balances:', bridgeBalances);
+```
+
+## Return Value
+
+- `getBalancesForBridge()`: Returns `Promise<UserAsset[]>` - Array of `UserAsset` objects.
+
+```typescript showLineNumbers filename="Typescript"
+export type UserAsset = {
+  abstracted?: boolean;
+  balance: string;
+  balanceInFiat: number;
+  breakdown: {
+    balance: string;
+    balanceInFiat: number;
+    chain: {
+      id: number;
+      logo: string;
+      name: string;
+    };
+    contractAddress: `0x${string}`;
+    decimals: number;
+    isNative?: boolean;
+    universe: Universe;
+  }[];
+  decimals: number;
+  icon?: string;
+  symbol: string;
+};
+```

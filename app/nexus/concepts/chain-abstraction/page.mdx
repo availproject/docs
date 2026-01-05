@@ -9,7 +9,11 @@ import { Cards, Tabs, Image, Callout } from 'nextra/components'
 
 Managing multiple chains, tokens, and accounts fragments wallet liquidity for Web3 users. Even with enough assets overall, funds scattered across chains make transacting difficult and require complex, time-consuming conversions.
 
-Chain abstraction lets users access a [unified balance](/nexus/concepts/unified-balance) across all wallet-linked chains, enabling transactions anywhere. Instead of converting funds first, users specify a [clear intent](/nexus/concepts/intent). The protocol collects funds from source chains, shows intent and fees for confirmation, then publishes the intent to solvers. Solvers compete to provide liquidity on the destination chain, and once available, users confirm the transaction. Settlement with solvers happens asynchronously using the collected funds.
+Chain abstraction lets users access a unified balance across all wallet-linked chains, enabling transactions anywhere. 
+
+Instead of converting funds first, users specify a [clear intent](/nexus/concepts/intent). The protocol collects funds from source chains, shows intent and fees for confirmation, then publishes the intent to solvers. 
+
+[Solvers](/nexus/concepts/solvers) compete to provide liquidity on the destination chain, and once available, users confirm the transaction. Settlement with solvers happens asynchronously using the collected funds.
 
 As part of setup, devs configure [allowances](/nexus/concepts/allowances) per chain and token. Users approve or reject these allowances. For supported chains and tokens, the protocol uses these allowances to deposit required funds for transactions on the destination chain.
 

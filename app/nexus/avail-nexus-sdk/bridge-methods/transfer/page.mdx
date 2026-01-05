@@ -1,0 +1,125 @@
+---
+title: "Bridge and transfer tokens using the Nexus SDK"
+---
+
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# `bridgeAndTransfer()`
+
+<Callout type="info">
+**SET UP THE SDK BEFORE YOU START:**
+
+1. You can find the SDK setup instructions in the [Quickstart](/nexus/nexus-quickstart) page.
+2. We also [created a tutorial](/nexus/nexus-examples/nexus-initialization-basic) to make it easier to understand how devs need to initialize the Nexus SDK in their project.
+</Callout>
+
+Use the `bridgeAndTransfer()` function to source a token from multiple source chains to a single destination chain.
+Use the `simulateBridgeAndTransfer()` function to simulate the bridge and transfer transaction to preview the costs and fees, before actually executing the transaction.
+
+<Callout type="info">
+**Note:** Check out the [API reference](/api-reference/avail-nexus-sdk/api-reference) for a full list of supported tokens and chains.
+</Callout>
+
+## Method signature
+
+```typescript showLineNumbers filename="Typescript"
+async bridgeAndTransfer(
+  params: TransferParams,
+  options?: OnEventParam,
+): Promise<TransferResult>
+
+async simulateBridgeAndTransfer(
+  params: TransferParams,
+): Promise<BridgeAndExecuteSimulationResult>
+
+```
+
+## Parameters
+
+```typescript showLineNumbers filename="Typescript"
+/**
+ * Parameters for bridging and transferring tokens.
+ */
+export interface TransferParams {
+  token: string;
+  amount: bigint;
+  toChainId: number;
+  recipient: `0x${string}`;
+  sourceChains?: number[];
+}
+```
+
+- `TransferParams`: Parameters for transferring tokens.
+  - `token` (string, required): The token to be bridged and transferred.
+  - `amount` (bigint, required): The amount of tokens to be bridged and transferred.
+  - `toChainId` (number, required): The chain ID of the destination chain.
+  - `recipient` (`0x${string}`, required): The recipient address.
+  - `sourceChains` (number[], optional): The chain IDs of the source chains to be used for the transfer. Useful if you want to maintain your holdings on some chains.
+- `options`: `OnEventParam` (optional): Optional callback function to listen to the events emitted by the transfer operation.
+  - `onEvent`: SDK emits these events as the transaction progresses. This is helpful to add when trying to display transaction progress to the user. With this you receive:
+    - `STEPS_LIST`: An ordered array of `BridgeStepType` objects. This array contains the steps that will be executed to fulfill the intent.
+    - `STEP_COMPLETE`: A single `BridgeStepType` that is emitted for each completed step of the intent's fulfillment.
+ 
+ <Callout>
+You can check out the type definitions for each step type in the [Bridge Events](/nexus/avail-nexus-sdk/bridge-methods/bridge-events) page.
+</Callout>
+
+## Example
+
+```typescript showLineNumbers filename="Typescript"
+import { TransferParams, TransferResult, NEXUS_EVENTS } from '@avail-project/nexus-core';
+
+// Smart transfer with automatic optimization
+const bridgeAndTransferResult = await sdk.bridgeAndTransfer(
+  {
+    token: 'USDC',
+    amount: 1_530_000n, // 1.53 USDC (6 decimals)
+    toChainId: 1, // Ethereum
+    recipient: '0x742d35Cc6634C0532925a3b8D4C9db96c4b4Db45',
+  },
+  {
+    onEvent: (event) => {
+      if (event.name === NEXUS_EVENTS.STEPS_LIST) console.log('Transfer steps:', event.args);
+      if (event.name === NEXUS_EVENTS.STEP_COMPLETE) console.log('Step completed:', event.args);
+    },
+  },
+);
+
+console.log('Bridge and transfer result:', bridgeAndTransferResult);
+
+const bridgeAndTransferSimulation = await sdk.simulateBridgeAndTransfer({
+  token: 'USDC',
+  amount: 1_530_000n, // 1.53 USDC (6 decimals)
+  toChainId: 1,
+  recipient: '0x742d35Cc6634C0532925a3b8D4C9db96c4b4Db45',
+});
+
+console.log('Bridge and transfer simulation:', bridgeAndTransferSimulation);
+```
+
+## Return Value
+
+### `bridgeAndTransfer()`
+
+The return value is a `TransferResult` object.
+
+```typescript showLineNumbers filename="Typescript"
+/**
+ * Result structure for transfer transactions.
+ */
+export type TransferResult = {
+  transactionHash: string;
+  explorerUrl: string;
+};
+```
+
+### `simulateBridgeAndTransfer()`
+
+The return value is a `BridgeAndExecuteSimulationResult` object.
+
+```typescript showLineNumbers filename="Typescript"
+export type BridgeAndExecuteSimulationResult = {
+  bridgeSimulation: SimulationResult | null;
+  executeSimulation: ExecuteSimulation;
+};
+```

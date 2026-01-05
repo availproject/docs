@@ -13,12 +13,9 @@ Nexus Elements is a shadcn-style component library built on top of `@avail-proje
 
 Simply install components via the shadcn CLI, wrap your app with the `NexusProvider`, and render the required component.
 
-<Callout type="info">
-The UI primitives required by components (Accordion, Dialog, Input, etc.) are installed automatically by the CLI via registry dependencies.
-</Callout>
-
-<Callout type="info">
-For more docs on `nexus-elements`, you can refer to the [Nexus Elements reference](/nexus/avail-nexus-sdk/nexus-elements).
+<Callout>
+1. The UI primitives required by components (Accordion, Dialog, Input, etc.) are installed automatically by the CLI via registry dependencies.
+2. Refer to the [Nexus Elements](/nexus/avail-nexus-sdk/nexus-elements) page for detailed usage docs.
 </Callout>
 
 <Steps>
@@ -33,6 +30,11 @@ git clone https://github.com/availproject/nexus-elements-template
 ```
 
 ### Install dependencies
+
+<Callout>
+**Recommended Node & NPM versions:**<br/>
+We recommend using: Node V22 and npm V10 for the best experience.
+</Callout>
 
 Install the required dependencies:
 
@@ -75,22 +77,22 @@ Run the following commands in your terminal to conveniently install two pre-conf
 
 <Tabs.Tab>
 ```bash filename="Terminal"
-pnpm dlx shadcn@latest add https://elements.nexus.availproject.org/r/unified-balance.json
-pnpm dlx shadcn@latest add https://elements.nexus.availproject.org/r/fast-bridge.json
+pnpm dlx shadcn@latest add @nexus-elements/unified-balance
+pnpm dlx shadcn@latest add @nexus-elements/fast-bridge
 ```
 </Tabs.Tab>
 
 <Tabs.Tab>
 ```bash filename="Terminal"
-npx shadcn@latest add https://elements.nexus.availproject.org/r/unified-balance.json
-npx shadcn@latest add https://elements.nexus.availproject.org/r/fast-bridge.json
+npx shadcn@latest add @nexus-elements/unified-balance
+npx shadcn@latest add @nexus-elements/fast-bridge
 ```
 </Tabs.Tab>
 
 <Tabs.Tab>
 ```bash filename="Terminal"
-yarn dlx shadcn@latest add https://elements.nexus.availproject.org/r/unified-balance.json
-yarn dlx shadcn@latest add https://elements.nexus.availproject.org/r/fast-bridge.json
+yarn shadcn@latest add @nexus-elements/unified-balance
+yarn shadcn@latest add @nexus-elements/fast-bridge
 ```
 </Tabs.Tab>
 
@@ -270,8 +272,9 @@ Congratulations on finishing the quickstart!
 Feel free to explore the following resources to learn more about Nexus Elements:
 
 <Cards num={2}>
-    <Cards.Card icon={<FileIcon />} arrow title="Nexus Elements SDK Reference" href="/nexus/avail-nexus-sdk/nexus-elements" />
-    <Cards.Card icon={<GithubIcon24 className="svg-inherit"  />} arrow title="Nexus Elements template" href="https://github.com/availproject/nexus-elements-template" />
+    <Cards.Card title="Avail Nexus Elements" href="https://elements.nexus.availproject.org/" icon={<LinkIcon />}  arrow target="_blank" rel="noopener noreferrer" />
+    <Cards.Card title="Nexus Elements Github Repo" href="https://github.com/availproject/nexus-elements" icon={<GithubIcon24 />}  arrow target="_blank" rel="noopener noreferrer" />
+    <Cards.Card title="Nexus Elements template repo" href="https://github.com/availproject/nexus-elements-template" icon={<GithubIcon24 />}  arrow target="_blank" rel="noopener noreferrer" />
 </Cards>
 
 </Steps>

@@ -1,0 +1,58 @@
+---
+image: "/img/docs-link-preview.png"
+title: What is Bridge, Transfer, Bridge & Execute
+---
+
+import { Callout } from 'nextra/components'
+
+# What is Bridge, Transfer, Bridge & Execute?
+
+In Nexus, apart from [crosschain swaps](/nexus/concepts/xcs-swaps), users can do ***Bridge, Transfer, Bridge & Execute*** which uses Nexus chain abstraction (aka **Bridge Methods**).
+
+Let's understand what each Nexus operation is and what it does. 
+
+## Bridge
+
+During the `Bridge` operation, the funds are bridged from N source chains to the user's preferred destination chain. 
+
+    `Sender` = `Recipient`
+
+<br></br>
+<img src="/img/nexus/bridge-op.png" alt="Bridge Operation" width="100%" align="center"/>
+
+This function uses the `BridgeParams` struct and the `bridge` function from the Bridge Methods in the SDK.
+
+
+## Transfer 
+During the `Transfer` operation, the funds are bridged from N source chains from the `Sender` to the user's preferred destination chain at a different `Receiver` address. It is a compound operation i.e. it involves the bridging of funds from different sources to a destination chain and then funds are transferred to the `Recipient` address. 
+
+    `Sender` != `Recipient`
+<br></br>
+
+<img src="/img/nexus/transfer-op.png" alt="Transfer operation" width="100%" align="center"/>
+
+This function uses the `TransferParams` struct and the `bridgeAndTransfer` function from the Bridge Methods in the SDK.
+
+
+## Bridge & Execute
+
+The `Bridge & Execute` operation is a more complex compound operation in Nexus. In this operation, the user bridges liquidity from N sources chains if there is a lack of enough liquidity on the destination chain, and then executes any arbitrary smart contract function. 
+
+Note that the smart contract can be any onchain contract on the destination chain. ALl the developer needs is the contract `address`, function `name` & `params`, and `ABI`. 
+
+For users, this means they don't have to do a separate bridge action to use a `Liquid App` (Nexus powered application), and just use the app as they would if they had liquidity onchain. 
+
+A bridgeless experience. 
+
+<br></br>
+
+
+<img src="/img/nexus/bne-op.png" alt="Bridge and Execute operation" width="100%" align="center"/>
+
+This function uses the `BridgeAndExecuteParams` struct and the `bridgeAndExecute` function from the Bridge Methods in the SDK.
+
+
+<Callout type="info">
+- [Learn more about the difference between Bridge and Swap methods.](/nexus/concepts/bridge-v-swap)
+- [SDK reference](/nexus/avail-nexus-sdk/bridge-methods) (Bridge Methods)
+</Callout>

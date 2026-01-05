@@ -798,10 +798,6 @@ export function middleware(request: NextRequest) {
       destination: `${origin}/nexus/avail-nexus-sdk/overview`,
     },
     {
-      source: "/api-reference/avail-nexus-sdk/api-reference",
-      destination: `${origin}/nexus/avail-nexus-sdk/api-reference`,
-    },
-    {
       source: "/api-reference/avail-nexus-sdk/examples",
       destination: `${origin}/nexus/avail-nexus-sdk/examples`,
     },
@@ -1282,12 +1278,6 @@ export function middleware(request: NextRequest) {
       source: "/api-reference/avail-turbo-da-api/get-submission-info",
       destination: `${origin}/da/api-reference/avail-turbo-da-api/get-submission-info`,
     },
-
-    {
-      source: "/nexus/avail-nexus-sdk/api-reference",
-      destination: `${origin}/nexus/avail-nexus-sdk/examples/nexus-core/api-reference`,
-    },
-
     // Nexus redirects due to the decision taken to not go with the Tutorials top-level 
 
     {
@@ -1301,23 +1291,23 @@ export function middleware(request: NextRequest) {
 
     {
       source: "/nexus/avail-nexus-sdk/examples/nexus-core/fetch-bridge-balances",
-      destination: `${origin}/nexus/avail-nexus-sdk/nexus-core/bridge-methods/fetch-bridge-balances`,
+      destination: `${origin}/nexus/avail-nexus-sdk/bridge-methods/fetch-bridge-balances`,
     },
     {
       source: "/nexus/avail-nexus-sdk/examples/nexus-core/transfer",
-      destination: `${origin}/nexus/avail-nexus-sdk/nexus-core/transfer`,
+      destination: `${origin}/nexus/avail-nexus-sdk/transfer`,
     },
     {
       source: "/nexus/avail-nexus-sdk/examples/nexus-core/bridge-tokens",
-      destination: `${origin}/nexus/avail-nexus-sdk/nexus-core/bridge`,
+      destination: `${origin}/nexus/avail-nexus-sdk/bridge-methods/bridge`,
     },
     {
       source: "/nexus/avail-nexus-sdk/examples/nexus-core/bridge-and-execute",
-      destination: `${origin}/nexus/avail-nexus-sdk/nexus-core/bridge-and-execute`,
+      destination: `${origin}/nexus/avail-nexus-sdk/bridge-methods/bridge-and-execute`,
     },
     {
       source: "/nexus/avail-nexus-sdk/examples/nexus-core/api-reference",
-      destination: `${origin}/nexus/avail-nexus-sdk/nexus-core/api-reference`,
+      destination: `${origin}/nexus/avail-nexus-sdk/api-reference`,
     },
     {
       source: "/nexus/avail-nexus-sdk/examples/nexus-widgets/transfer",
@@ -1336,7 +1326,12 @@ export function middleware(request: NextRequest) {
       destination: `${origin}/nexus/avail-nexus-sdk/nexus-widgets/api-reference`,
     },
 
-    
+    // Concepts section of nexus docs
+
+    {
+      source: "/nexus/concepts/unified-balance",
+      destination: `${origin}/nexus/concepts/bridge-v-swap`,
+    }
   ];
 
   // we need to check for both with and without "/docs/" prefix
