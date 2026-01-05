@@ -9,7 +9,7 @@ export const IntroData = [
         {
           topic: "Read more",
           links: [{ link: "/nexus/introduction-to-nexus", placeholder: "Introduction to Avail Nexus"}, 
-          { link: "/nexus/concepts/unified-balance", placeholder: "What is a Unified Balance?"},
+          { link: "/nexus/concepts/bridge-v-swap", placeholder: "What is a Unified Balance?"},
           { link: "/nexus/nexus-overview", placeholder: "Nexus SDK overview"},
           { link: "/nexus/nexus-quickstart", placeholder: "Quickstart"},
           {link: "/nexus/avail-nexus-sdk/api-reference#supported-chains", placeholder: "Supported Chains & Tokens"},
@@ -27,13 +27,13 @@ export const IntroData = [
       links: [
         {
           topic: "Read more",
-          links: [{ link: "/docs/welcome-to-avail-docs", textcolor: "3CA3FC", placeholder: "Start here!"}, 
-          {link: "/docs/networks", textcolor: "3CA3FC", placeholder: "Endpoints & networks info"},
-          {link: "/docs/learn-about-avail/avail-apps-explorer", textcolor: "3CA3FC", placeholder: "A guide to Avail explorers"},
-          {link: "/docs/build-with-avail/interact-with-avail-da/read-write-on-avail", textcolor: "3CA3FC", placeholder: "Read & write data on Avail DA"},
-          {link: "/docs/build-with-avail/deploy-rollup-on-avail", textcolor: "3CA3FC", placeholder: "Deploy your own rollup"},
-          {link: "/docs/operate-a-node/become-a-validator", textcolor: "3CA3FC", placeholder: "Run an Avail validator"},
-          {link: "/docs/bug-bounty", textcolor: "3CA3FC", placeholder: "Report a Bug"},
+          links: [{ link: "/da/welcome-to-avail-docs", textcolor: "3CA3FC", placeholder: "Start here!"}, 
+          {link: "/da/networks", textcolor: "3CA3FC", placeholder: "Endpoints & networks info"},
+          {link: "/da/learn-about-avail/avail-apps-explorer", textcolor: "3CA3FC", placeholder: "A guide to Avail explorers"},
+          {link: "/da/build-with-availinteract-with-avail-da/read-write-on-avail", textcolor: "3CA3FC", placeholder: "Read & write data on Avail DA"},
+          {link: "/da/build-with-availdeploy-rollup-on-avail", textcolor: "3CA3FC", placeholder: "Deploy your own rollup"},
+          {link: "/da/operate-a-node/become-a-validator", textcolor: "3CA3FC", placeholder: "Run an Avail validator"},
+          {link: "/da/bug-bounty", textcolor: "3CA3FC", placeholder: "Report a Bug"},
           ],
           textcolor: "3FBB80"
         },

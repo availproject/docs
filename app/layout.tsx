@@ -25,7 +25,7 @@ const defaultSearchOptions = {
 const banner = (
   <Banner dismissible={true}>
     Avail Nexus is now live!{" "}
-    <Link href="https://docs.availproject.org/api-reference/avail-nexus-sdk" className="text-current!">
+    <Link href="https://docs.availproject.org/nexus/avail-nexus-sdk" className="text-current!">
     Check out our docs
     </Link>
      to get started.
