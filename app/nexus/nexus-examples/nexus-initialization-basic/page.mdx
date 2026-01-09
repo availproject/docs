@@ -164,7 +164,7 @@ export async function deinit() {
 export async function getUnifiedBalances() {
 
   //Get the unified balances from the SDK
-  return await sdk.getUnifiedBalances();
+  return await sdk.getBalancesForBridge();
 }
 ```
 
@@ -328,8 +328,10 @@ export default function Page() {
 }
 ```
 <Callout type="info">
-`sdk.getUnifiedBalances()` returns a JSON object with the balances of the user on each of the supported chains.
+`sdk.getBalancesForBridge()` returns a JSON object with the balances of the user on each of the supported chains.
 We're rendering it out on the screen raw to keep the tutorial simple, but you can always format it as you please.
+
+[Read more about Bridge Balances](/nexus/concepts/bridge-v-swap)
 </Callout>
 
 **What's Happening Here?**

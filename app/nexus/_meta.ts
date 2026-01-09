@@ -3,7 +3,7 @@ export default {
     "concepts": "Concepts",
     "nexus-overview": "Nexus SDK Overview",
     "nexus-quickstart": "Quickstart",
-    "nexus-examples": "More examples with Nexus SDK",
+    "nexus-examples": "Build your first Liquid App",
     "avail-nexus-sdk": "Nexus SDK Reference",
     "nexus-cheatsheet": "Nexus cheat sheet",
 }
