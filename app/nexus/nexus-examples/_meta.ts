@@ -1,16 +1,14 @@
 export default {
-    "nexus-initialization-basic": "Barebones initialization inside Next JS",
-    "nexus-initialization-rainbowkit": "Initialize the Nexus SDK using RainbowKit",
-    "nexus-bridge": "Bridge tokens using the Nexus SDK",
+    "nexus-initialization-basic": "Barebones NextJS setup with Nexus Core initialization",
+    "nexus-initialization-rainbowkit": "Initializing Nexus Core with RainbowKit",
+    "nexus-bridge": "Bridge tokens using Nexus",
+    "bridge-execute": "Deposit into AAVE with Bridge & Execute using Nexus Core",
     "bridge-and-transfer":{
         title: "Bridge and transfer tokens using the Nexus SDK",
         display: "hidden",  
     },
 
-    "bridge-execute": {
-        title: "Bridge and execute a transaction using the Nexus SDK",
-        display: "hidden",
-    },
+    
 
     // "nexus-porto-extension": "Add Porto Wallet to Your Nexus SDK Project",
     //    "nexus-bridge": {

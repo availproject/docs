@@ -1,0 +1,305 @@
+---
+title: "Add Bridge & Execute (Deposit) to your Nexus SDK Project"
+description: "Learn how to wire up a complete Bridge & Execute flow to bridge USDC and immediately supply it into Aave, including a real-time progress UI."
+keywords:
+  - docs
+  - Avail Nexus
+  - Next JS
+  - Bridge and Execute
+  - Aave Staking
+---
+
+import { Callout, Steps } from 'nextra/components';
+
+# Add Bridge & Execute (Deposit) Functionality to your Liquid App
+
+<Callout type="info">
+  **PREREQUISITE**
+
+  This tutorial builds upon the previous ["Bridge tokens using Nexus"](/nexus/nexus-examples/nexus-bridge). 
+  Ensure you have followed upto this point with a basic project set up with Nexus SDK initialization and wallet connection before proceeding.
+</Callout>
+
+## Objectives
+
+In the previous tutorials, we covered fetching balances and simple bridging. Now, we will implement a **"Bridge & Execute"** flow. This allows a user to sign a single intent that:
+
+1.  Bridges funds (USDC) from one or more source chains.
+2.  Automatically executes a function on the destination chain (Depositing into Aave on Arbitrum Sepolia).
+3.  **Visualize the cross-chain steps** (e.g., "Intent Signed" → "Bridge Submitted" → "Execution Complete") in the UI.
+
+## Implementation
+
+<Steps>
+
+### Update the Nexus Helper Library
+
+We need to add the logic to handle the specific Aave V3 `supply` function and expose the event listeners so our UI can track progress.
+
+Update `src/lib/nexus.ts` to include the `bridgeAndStake` function.
+
+```tsx filename="src/lib/nexus.ts" showLineNumbers
+import {
+  NexusSDK,
+  NEXUS_EVENTS,
+  BridgeResult,
+  TOKEN_CONTRACT_ADDRESSES,
+} from '@avail-project/nexus-core';
+import { encodeFunctionData } from 'viem'; // needed for encoding function data
+
+// ... existing code (initialization, balances, bridge logic) ...
+
+// Helper function to Bridge 1 USDC from anywhere and Stake in Aave on Arbitrum Sepolia.
+// Accepts callbacks to update the UI with expected steps and completed steps
+export async function bridgeAndExecute(
+  userAddress: `0x${string}`,
+  onExpectedSteps: (steps: any[]) => void,
+  onStepComplete: (step: any) => void
+) {
+
+  console.log('bridgeAndExecute called, SDK initialized:', sdk.isInitialized(), userAddress);
+
+  if (!sdk.isInitialized()) {
+    throw new Error('SDK is not initialized. Please initialize it first.');
+  }
+  if (!userAddress) {
+    throw new Error('User address is required');
+  }
+
+  // Get USDC token address on Arbitrum Sepolia
+  const usdcAddress = TOKEN_CONTRACT_ADDRESSES['USDC'][421614];
+
+  // Encode the function call for Aave's supply function
+  const data = encodeFunctionData({
+    abi: [
+      {
+        inputs: [
+          { internalType: 'address', name: 'asset', type: 'address' },
+          { internalType: 'uint256', name: 'amount', type: 'uint256' },
+          { internalType: 'address', name: 'onBehalfOf', type: 'address' },
+          { internalType: 'uint16', name: 'referralCode', type: 'uint16' },
+        ],
+        name: 'supply',
+        outputs: [],
+        stateMutability: 'nonpayable',
+        type: 'function',
+      },
+    ],
+    functionName: 'supply',
+    args: [
+      usdcAddress,           // asset: USDC token address
+      BigInt(1_000_000),     // amount: 1 USDC (6 decimals)
+      userAddress,           // onBehalfOf: user's address
+      0,                     // referralCode: 0
+    ],
+  });
+  console.log(data)
+
+  // Execute bridge and stake with event callbacks
+  const result = await sdk.bridgeAndExecute(
+    {
+      token: 'USDC',
+      amount: BigInt(1_000_000), // 1 USDC (6 decimals)
+      toChainId: 421614,         // Arbitrum Sepolia
+      execute: {
+        to: '0xBfC91D59fdAA134A4ED45f7B584cAf96D7792Eff', // Aave v3 Pool on Arb Sepolia
+        data: data, // encoded function data
+        // Define token approval requirements (Aave needs approval to pull USDC)
+        tokenApproval: {
+          token: 'USDC',
+          amount: BigInt(1_000_000), // 1 USDC (6 decimals)
+          spender: '0xBfC91D59fdAA134A4ED45f7B584cAf96D7792Eff', // Aave v3 Pool needs approval
+        },
+      },
+    },
+    {
+      //Event listeners for updating UI
+      onEvent: (event) => {
+        console.log('Event:', event.name, event.args);
+        if (event.name === NEXUS_EVENTS.STEPS_LIST) {
+          // This event tells us the full list of steps that will happen (e.g. [Sign, Bridge, Execute])
+          onExpectedSteps(Array.isArray(event.args) ? event.args : [event.args]);
+        }
+        if (event.name === NEXUS_EVENTS.STEP_COMPLETE) {
+          // This event fires whenever a specific step finishes
+          onStepComplete(event.args);
+        }
+      },
+    }
+  );
+  console.log('bridgeAndExecute result:', result);
+  return result;
+}
+```
+
+## Create the Deposit Button Component
+Create a file at `src/components/deposit-button.tsx`. This component will trigger the transaction and render the step-by-step progress checklist.
+
+```typescript filename="src/components/deposit-button.ts" showLineNumbers
+
+'use client';
+
+import { useState } from 'react';
+import { useAccount, useConnection } from 'wagmi';
+import { bridgeAndExecute, isInitialized } from '../lib/nexus';
+
+export default function DepositButton({
+  className,
+  onResult,
+}: {
+  className?: string;
+  onResult?: (r: any) => void;
+}) {
+  const { address } = useConnection();
+  const [expectedSteps, setExpectedSteps] = useState<any[]>([]);
+  const [completedSteps, setCompletedSteps] = useState<any[]>([]);
+  const [error, setError] = useState<string>('');
+
+  const onClick = async () => {
+    if (!isInitialized()) return alert('Initialize first');
+    if (!address) return alert('Please connect your wallet first');
+
+    // Reset state
+    setExpectedSteps([]);
+    setCompletedSteps([]);
+    setError('');
+
+    try {
+      const res = await bridgeAndExecute(
+        address,
+        (steps) => setExpectedSteps(steps),        // Set the checklist
+        (step) => setCompletedSteps((prev) => [...prev, step]) // Mark items complete
+      );
+
+      onResult?.(res);
+    } catch (e: any) {
+      setError(e.message || 'Transaction failed');
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center gap-4 w-full max-w-md">
+      <button className={className} onClick={onClick} disabled={!isInitialized()}>
+        Bridge Base USDC → Stake on Aave
+      </button>
+
+      {/* Progress Checklist UI */}
+      {expectedSteps.length > 0 && (
+        <div className="w-full">
+          <h3 className="font-bold text-sm mb-2">Transaction Progress:</h3>
+          <div className="flex flex-col gap-2">
+            {expectedSteps.map((step, index) => {
+              // Check if this specific step type has been completed
+              const completedData = completedSteps.find((c) => c.type === step.type);
+              const isDone = !!completedData;
+
+              return (
+                <div key={index} className="flex items-center justify-between text-sm">
+                  <span className={isDone ? "text-green-600 font-medium" : "text-gray-500"}>
+                    {isDone ? "✅" : "○"} {step.label}
+                    <span className="ml-2 text-xs text-gray-400">({step.type})</span>
+                  </span>
+
+                  {/* If the step has an explorer URL, show a link */}
+                  {completedData?.data?.explorerURL && (
+                    <a
+                      href={completedData.data.explorerURL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-blue-500 underline ml-2"
+                    >
+                      View on Explorer
+                    </a>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {error && <div className="text-red-500 text-sm font-bold">Error: {error}</div>}
+    </div>
+  );
+}
+
+```
+## Update the Main Page
+Finally, import the new component into src/app/page.tsx and render it.
+
+```tsx filename="src/app/page.tsx" showLineNumbers
+"use client";
+ 
+import { useState } from "react";
+import { useAccount } from "wagmi";
+import ConnectWalletButton from "@/components/connect-button";
+import InitButton from "@/components/init-button";
+import FetchUnifiedBalanceButton from "@/components/fetch-unified-balance-button";
+import DeinitButton from "@/components/de-init-button";
+import BridgeButton from "@/components/bridge-button";
+import { isInitialized } from "@/lib/nexus";
+import DepositButton from "@/components/deposit-button"; //import the new deposit button
+ 
+export default function Page() {
+  const { isConnected } = useAccount();
+  const [initialized, setInitialized] = useState(isInitialized());
+  const [balances, setBalances] = useState<any>(null);
+  const [bridgeResult, setBridgeResult] = useState<any>(null);
+  const [depositResult, setDepositResult] = useState<any>(null); 
+ 
+  const btn =
+    "px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 " +
+    "disabled:opacity-50 disabled:cursor-not-allowed";
+ 
+  return (
+    <main className="min-h-screen flex items-center justify-center">
+      <div className="flex flex-col items-center gap-4">
+        <ConnectWalletButton className={btn} />
+        <InitButton className={btn} onReady={() => setInitialized(true)} />
+        <FetchUnifiedBalanceButton
+          className={btn}
+          onResult={(r) => setBalances(r)}
+        />
+        <BridgeButton className={btn} onResult={(r) => setBridgeResult(r)} />
+        {/*  Use the new Deposit button here */}
+        <DepositButton className={btn} onResult={(r) => setDepositResult(r)} /> 
+
+        <DeinitButton
+          className={btn}
+          onDone={() => {
+            setInitialized(false);
+            setBalances(null);
+          }}
+        />
+ 
+        <div className="mt-2">
+          <b>Wallet Status:</b> {isConnected ? "Connected" : "Not connected"}
+        </div>
+        <div className="mt-2">
+          <b>Nexus SDK Initialization Status:</b>{" "}
+          {initialized ? "Initialized" : "Not initialized"}
+        </div>
+ 
+        {balances && (
+          <pre className="whitespace-pre-wrap">
+            {JSON.stringify(balances, null, 2)}
+          </pre>
+        )}
+ 
+        {bridgeResult && (
+          <pre className="whitespace-pre-wrap">
+            {JSON.stringify(bridgeResult, null, 2)}
+          </pre>
+        )}
+        
+        {depositResult && (
+          <pre className="whitespace-pre-wrap">
+            {JSON.stringify(depositResult, null, 2)}
+          </pre>
+        )}
+      </div>
+    </main>
+  );
+}
+```
+</Steps>

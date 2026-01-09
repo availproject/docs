@@ -11,12 +11,19 @@ asIndexPage: true
 import { Cards } from 'nextra/components';
 import { FileIcon } from '@components/icons';
 
-# More examples with Nexus SDK
+# Build your First Liquid App from scratch
 
-We will expand this section with different examples of how to use the Nexus SDK.
-Keep tuned!
+If you want a more detailed, barebones guide on how to get started. This is the right place!
+
+Get started with building your first Liquid App. 
+
+Start off with a basic NextJS app and in each step add components along the way that uses Nexus to give your app much more utility. 
+
+You'll eventually build a Liquid App that can deposit assets from any chain into AAVE on your preferred destination chain (Arbitrum Sepolia in this guide).
 
 <Cards num={2}>
-    <Cards.Card title="Barebones initialization inside Next JS" icon={<FileIcon />} href="/nexus/nexus-examples/nexus-initialization-basic" />
-    <Cards.Card title="Initialize the Nexus SDK using RainbowKit" icon={<FileIcon />} href="/nexus/nexus-examples/nexus-initialization-rainbowkit" />
+    <Cards.Card title="[START HERE] - Barebones NextJS setup with Nexus Core initialization" icon={<FileIcon />} href="/nexus/nexus-examples/nexus-initialization-basic" />
+    <Cards.Card title="Initializing Nexus Core with RainbowKit" icon={<FileIcon />} href="/nexus/nexus-examples/nexus-initialization-rainbowkit" />
+    <Cards.Card title="Bridge tokens using Nexus" icon={<FileIcon />} href="/nexus/nexus-examples/nexus-bridge" />
+    <Cards.Card title="Deposit into AAVE with Bridge & Execute using Nexus Core" icon={<FileIcon />} href="/nexus/nexus-examples/bridge-execute" />
 </Cards>
