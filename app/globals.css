@@ -16,7 +16,7 @@ body {
     src: url("/fonts/Thunder-ExtraBoldLC.woff2") format("woff2");
     font-weight: 800;
     font-style: normal;
-    font-display: swap;
+    font-display: block;
 }
 
 @variant dark (&:where(.dark *));
@@ -589,10 +589,22 @@ a[title*="GitHub"] {
 
 .nextra-banner,
 [class*="banner"] {
-    background-color: var(--brand-blue) !important;
-    color: var(--brand-white) !important;
+    background-color: #2e2e2e !important;
+    background-image: none !important;
+    color: #ffffff !important;
     font-family: var(--font-sans) !important;
     border-radius: 0 !important;
+    font-size: 14px !important;
+}
+
+.nextra-banner a,
+[class*="banner"] a {
+    color: #ffffff !important;
+}
+
+.dark .nextra-banner,
+.dark [class*="banner"] {
+    background-color: #2e2e2e !important;
 }
 
 /* Theme selector - match sidebar background */
