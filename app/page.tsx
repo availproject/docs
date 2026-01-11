@@ -7,23 +7,36 @@ import Introduction from "components/Introduction";
 export default function HomePage() {
   return (
     <>
-      <div className="relative lg:w-[80vw] max-md:px-3 mx-auto mt-16">
-        <img
-          src="/introshapes.png"
-          alt="left image"
-          className="absolute left-0 top-0 max-md:opacity-30"
-        />
-        <h1 className="text-center text-4xl tracking-tighter md:text-5xl mt-4 font-thicccboi font-bold">
+      <div className="relative lg:w-[80vw] max-md:px-3 mx-auto mt-16 mb-8">
+        {/* Main heading - regular weight */}
+        <h1
+          className="text-center text-3xl md:text-4xl lg:text-5xl mt-4 text-[#0a0a0a] dark:text-[#ededed]"
+          style={{
+            fontFamily: 'Inter, -apple-system, sans-serif',
+            fontWeight: 400,
+            letterSpacing: '-0.02em',
+            lineHeight: 1.2,
+          }}
+        >
           Avail Developer Docs
         </h1>
-        <h1 className="text-center text-xl mx-auto mt-3 max-w-xl font-thicccboi font-normal">
-          Build with Avail, the unification layer of Web3
-        </h1>
-        <img
-          src="/introshapes.png"
-          alt="right image"
-          className="absolute right-0 top-0 max-md:opacity-30"
-        />
+
+        {/* Bold blue headline - Thunder ExtraBold LC condensed */}
+        <h2 className="thunder-heading text-center text-[80px] md:text-[120px] lg:text-[180px] mt-4">
+          BUILD WITH AVAIL
+        </h2>
+
+        {/* Subtitle */}
+        <p
+          className="text-center text-base md:text-lg mx-auto mt-4 max-w-xl text-[#737373] dark:text-[#a1a1a1]"
+          style={{
+            fontFamily: 'Inter, -apple-system, sans-serif',
+            fontWeight: 400,
+            lineHeight: 1.6,
+          }}
+        >
+          The unification layer of Web3. Build scalable, modular blockchain applications with Avail's data availability layer.
+        </p>
       </div>
       <Introduction />
     </>

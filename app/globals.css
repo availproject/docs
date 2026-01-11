@@ -1,124 +1,686 @@
-@import 'tailwindcss';
-@import 'nextra-theme-docs/style.css';
+@import "tailwindcss";
+@import "nextra-theme-docs/style.css";
+
+/* Fix overscroll bounce on Mac */
+html,
+body {
+    overscroll-behavior: none;
+}
+
+/* Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap");
+
+/* Custom Fonts */
+@font-face {
+    font-family: "Thunder";
+    src: url("/fonts/Thunder-ExtraBoldLC.woff2") format("woff2");
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
 
 @variant dark (&:where(.dark *));
-/* Font Declarations */
-/* Font Declarations */
-@font-face {
-    font-family: 'PP Mori';
-    src: url('/fonts/PPMori-Regular.otf') format('otf');
-    font-weight: 400;
-    font-style: normal;
-  }
-  
-  @font-face {
-    font-family: 'THICCCBOI';
-    src: url('/fonts/THICCCBOI-Bold.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal;
-  }
-  
-  @font-face {
-    font-family: 'THICCCBOI';
-    src: url('/fonts/THICCCBOI-Medium.woff2') format('woff2');
-    font-weight: 500;
-    font-style: normal;
-  }
-  
-  @font-face {
-    font-family: 'THICCCBOI';
-    src: url('/fonts/THICCCBOI-SemiBold.woff2') format('woff2');
-    font-weight: 600;
-    font-style: normal;
-  }
-  
-  @font-face {
-    font-family: 'THICCCBOI';
-    src: url('/fonts/THICCCBOI-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-  }
-  
-  /* Theme Configuration */
-  @theme {
-    /* Font Family Variables */
-    --font-ppmori: 'PP Mori', sans-serif;
-    --font-thicccboi: 'THICCCBOI', sans-serif;
-  }
-  
-  /* Font Family Utilities */
-  @utility font {
-    &-ppmori {
-      font-family: var(--font-ppmori);
-    }
-    &-thicccboi {
-      font-family: var(--font-thicccboi);
-    }
-  }
-  
-  /* Font Weight Utilities for THICCCBOI */
-  @utility font {
-    &-regular {
-      font-weight: 400;
-    }
-    &-medium {
-      font-weight: 500;
-    }
-    &-semibold {
-      font-weight: 600;
-    }
-    &-bold {
-      font-weight: 700;
-    }
-  }
 
-/* No Hover Utility */
-@utility no-hover {
-  &:hover {
-    background: initial;
-    color: inherit;
-  }
+/* ============================================
+   NEXUS DESIGN SYSTEM - CSS CUSTOM PROPERTIES
+   ============================================ */
+
+:root {
+    /* Brand Colors */
+    --brand-blue: #006bf4;
+    --brand-black: #141413;
+    --brand-white: #fffffe;
+
+    /* Light Theme Colors */
+    --bg-primary: #fffffe;
+    --bg-secondary: #f8f8f8;
+    --bg-tertiary: #efefef;
+    --border-primary: #e5e5e5;
+    --border-secondary: #d2daea;
+    --text-primary: #0a0a0a;
+    --text-secondary: #737373;
+    --text-muted: #a1a1a1;
+
+    /* Accent Colors */
+    --accent-blue: #006bf4;
+    --accent-green: #3c7b3b;
+    --accent-red: #b13061;
+    --accent-purple: #7319c5;
+
+    /* Fonts */
+    --font-sans:
+        "Geist", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, monospace;
+    --font-heading: "Inter", "Geist", sans-serif;
+    --font-display: "Inter", sans-serif;
+    --font-thunder: "Thunder", "Inter", sans-serif;
+
+    /* Spacing */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --space-2xl: 48px;
+    --space-3xl: 80px;
 }
-.card_background{
-  background: #141414;
-  border-radius: 12px;
+
+/* Dark Theme */
+.dark,
+[data-theme="dark"] {
+    --bg-primary: #191919;
+    --bg-secondary: #292929;
+    --bg-tertiary: #2e2e2e;
+    --border-primary: #2e2e2e;
+    --border-secondary: #454545;
+    --text-primary: #ededed;
+    --text-secondary: #a1a1a1;
+    --text-muted: #8f8f8f;
+}
+
+/* ============================================
+   NEXTRA THEME OVERRIDES
+   ============================================ */
+
+/* Base HTML/Body */
+html {
+    font-family: var(--font-sans);
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+/* ============================================
+   SIDEBAR STYLING (Nextra Overrides)
+   ============================================ */
+
+/* Sidebar container */
+.nextra-sidebar-container,
+nav.nextra-sidebar {
+    background-color: var(--bg-primary) !important;
+    border-right: 1px solid var(--border-primary) !important;
+}
+
+/* Sidebar menu items */
+.nextra-sidebar a,
+.nextra-sidebar button {
+    font-family: var(--font-sans) !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    color: var(--text-muted) !important;
+    padding: 12px 16px !important;
+    border-radius: 0 !important;
+    transition: all 0.15s ease !important;
+}
+
+/* Active sidebar item */
+.nextra-sidebar a[data-active="true"],
+.nextra-sidebar a.active,
+.nextra-sidebar li.active > a {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    font-weight: 400 !important;
+}
+
+/* Sidebar hover */
+.nextra-sidebar a:hover {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Sidebar separator line */
+.nextra-sidebar hr {
+    border-color: var(--border-primary) !important;
+    margin: 24px 0 !important;
+}
+
+/* ============================================
+   NAVBAR/HEADER STYLING - Clean white/dark background
+   ============================================ */
+
+/* Main navbar container */
+nav.nextra-nav-container,
+.nextra-nav-container,
+header,
+.nextra-navbar,
+[class*="navbar"],
+nav[class*="nav"] {
+    background-color: #fffffe !important;
+    border-bottom: 1px solid #e5e5e5 !important;
+    backdrop-filter: none !important;
+}
+
+/* Dark mode navbar */
+.dark nav.nextra-nav-container,
+.dark .nextra-nav-container,
+.dark header,
+.dark .nextra-navbar,
+.dark [class*="navbar"],
+.dark nav[class*="nav"],
+[data-theme="dark"] nav.nextra-nav-container,
+[data-theme="dark"] .nextra-nav-container {
+    background-color: #191919 !important;
+    border-bottom: 1px solid #2e2e2e !important;
+}
+
+/* Search input */
+.nextra-search input,
+input[type="search"] {
+    background-color: var(--bg-primary) !important;
+    border: 1px solid var(--border-primary) !important;
+    color: var(--text-primary) !important;
+    font-family: var(--font-sans) !important;
+    border-radius: 4px !important;
+}
+
+.nextra-search input::placeholder {
+    color: var(--text-muted) !important;
+}
+
+/* Search container styling */
+.nextra-search {
+    background-color: transparent !important;
+}
+
+/* Navbar/Header links - no underlines */
+nav a,
+header a,
+.nextra-nav-container a,
+.nextra-navbar a,
+[class*="navbar"] a,
+footer a {
+    text-decoration: none !important;
+}
+
+/* ============================================
+   CONTENT AREA STYLING
+   ============================================ */
+
+/* Main content */
+main.nextra-content,
+article.nextra-content {
+    background-color: var(--bg-primary) !important;
+}
+
+/* Page headings - using Inter font family */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family:
+        "Inter",
+        "Geist",
+        -apple-system,
+        BlinkMacSystemFont,
+        sans-serif !important;
+    color: var(--text-primary) !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.02em;
+}
+
+h1 {
+    font-size: 28px !important;
+    line-height: 36px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.02em !important;
+}
+
+h2 {
+    font-size: 20px !important;
+    line-height: 26px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.02em !important;
+    margin-top: 48px !important;
+    padding-bottom: 16px !important;
+    border-bottom: 1px solid var(--border-primary) !important;
+}
+
+h3 {
+    font-size: 18px !important;
+    line-height: 24px !important;
+    font-weight: 600 !important;
+}
+
+/* Body text */
+p,
+li {
+    font-family: var(--font-sans) !important;
+    font-size: 16px !important;
+    line-height: 26px !important;
+    color: var(--text-secondary) !important;
+}
+
+/* Links */
+a {
+    color: var(--text-primary) !important;
+    text-decoration: underline !important;
+    text-decoration-color: var(--border-secondary) !important;
+}
+
+a:hover {
+    text-decoration-color: var(--text-primary) !important;
+}
+
+/* Links in headings - no underline */
+h1 a,
+h2 a,
+h3 a,
+h4 a {
+    text-decoration: none !important;
+}
+
+/* ============================================
+   CODE BLOCKS STYLING
+   ============================================ */
+
+/* Code block container */
+pre,
+.nextra-code-block pre {
+    background-color: var(--bg-primary) !important;
+    border: 1px solid var(--border-primary) !important;
+    border-radius: 0 !important;
+    font-family: var(--font-mono) !important;
+    font-size: 14px !important;
+    line-height: 24px !important;
+    padding: 20px 16px !important;
+}
+
+/* Inline code */
+code:not(pre code) {
+    background-color: var(--bg-secondary) !important;
+    border: 1px solid var(--border-primary) !important;
+    border-radius: 0 !important;
+    padding: 2px 6px !important;
+    font-family: var(--font-mono) !important;
+    font-size: 14px !important;
+    color: var(--text-secondary) !important;
+}
+
+/* Code block header/tabs */
+.nextra-code-block > div:first-child,
+[data-rehype-pretty-code-title] {
+    background-color: var(--bg-primary) !important;
+    border: 1px solid var(--border-primary) !important;
+    border-bottom: none !important;
+    border-radius: 0 !important;
+    padding: 12px 16px !important;
+    font-family: var(--font-mono) !important;
+    font-size: 14px !important;
+    color: var(--text-muted) !important;
+}
+
+/* Code block copy button */
+.nextra-code-block button,
+pre button {
+    background-color: var(--bg-secondary) !important;
+    border: none !important;
+    border-radius: 0 !important;
+    color: var(--text-muted) !important;
+}
+
+.nextra-code-block button:hover,
+pre button:hover {
+    background-color: var(--bg-tertiary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Line numbers */
+.nextra-code-block .line-number,
+code[data-line-numbers] > [data-line]::before {
+    color: var(--text-muted) !important;
+    font-family: var(--font-mono) !important;
+}
+
+/* ============================================
+   CALLOUT/NOTE COMPONENTS
+   ============================================ */
+
+.nextra-callout,
+.callout,
+[class*="callout"] {
+    background-color: var(--bg-primary) !important;
+    border: 1px solid var(--border-primary) !important;
+    border-radius: 0 !important;
+    padding: 16px !important;
+    margin: 24px 0 !important;
+}
+
+/* Callout header */
+.nextra-callout > div:first-child,
+.callout-title {
+    font-family: var(--font-sans) !important;
+    font-weight: 400 !important;
+    font-size: 16px !important;
+    color: var(--text-secondary) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+/* Callout content */
+.nextra-callout p,
+.callout p {
+    color: var(--text-secondary) !important;
+    margin-top: 8px !important;
+}
+
+/* ============================================
+   CARDS - No rounded corners, clean design
+   ============================================ */
+
+.nextra-card,
+.nextra-cards > a,
+.nextra-cards a,
+.card,
+[class*="nextra-card"] {
+    background-color: var(--bg-primary) !important;
+    border: 1px solid var(--border-primary) !important;
+    border-radius: 0 !important;
+    padding: 20px !important;
+    transition: all 0.15s ease !important;
+    box-shadow: none !important;
+}
+
+.nextra-card:hover,
+.nextra-cards > a:hover,
+.nextra-cards a:hover,
+.card:hover,
+[class*="nextra-card"]:hover {
+    border-color: var(--border-secondary) !important;
+    box-shadow: none !important;
+    background-color: var(--bg-secondary) !important;
+}
+
+/* Card title */
+.nextra-card h3,
+.nextra-card span,
+.card-title {
+    font-family:
+        "Inter",
+        "Geist",
+        -apple-system,
+        sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 16px !important;
+    color: var(--text-primary) !important;
+    margin-bottom: 4px !important;
+}
+
+/* Card description */
+.nextra-card p,
+.card-description {
+    font-family:
+        "Inter",
+        "Geist",
+        -apple-system,
+        sans-serif !important;
+    font-size: 14px !important;
+    color: var(--text-secondary) !important;
+    line-height: 22px !important;
+    font-weight: 400 !important;
+}
+
+/* Force no rounded corners on all card-like elements */
+.nx-rounded-lg,
+.rounded-lg,
+[class*="rounded"] {
+    border-radius: 0 !important;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+
+/* Primary button */
+.btn-primary,
+button[data-variant="primary"],
+.nextra-button {
+    background-color: var(--brand-black) !important;
+    color: var(--brand-white) !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 12px 16px !important;
+    font-family: var(--font-sans) !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+}
+
+.btn-primary:hover,
+button[data-variant="primary"]:hover {
+    opacity: 0.9 !important;
+}
+
+/* Secondary button */
+.btn-secondary,
+button[data-variant="secondary"] {
+    background-color: var(--brand-white) !important;
+    color: var(--brand-black) !important;
+    border: 1px solid var(--brand-black) !important;
+    border-radius: 0 !important;
+    padding: 12px 16px !important;
+    font-family: var(--font-sans) !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+}
+
+.btn-secondary:hover,
+button[data-variant="secondary"]:hover {
+    background-color: var(--bg-secondary) !important;
+}
+
+/* ============================================
+   TABLE OF CONTENTS (Right sidebar)
+   ============================================ */
+
+.nextra-toc,
+nav.nextra-toc {
+    border-left: 1px solid var(--border-primary) !important;
+}
+
+.nextra-toc a {
+    font-family: var(--font-sans) !important;
+    font-size: 16px !important;
+    color: var(--text-muted) !important;
+    text-decoration: none !important;
+    padding: 12px 16px !important;
+}
+
+.nextra-toc a[data-active="true"],
+.nextra-toc a.active {
+    color: var(--text-primary) !important;
+}
+
+/* Active indicator bar */
+.nextra-toc-active-anchor,
+.nextra-toc li.active::before {
+    background-color: var(--text-primary) !important;
+    width: 4px !important;
+    height: 12px !important;
+    border-radius: 0 !important;
+}
+
+/* ============================================
+   TABS (for code block package managers)
+   ============================================ */
+
+[role="tablist"],
+.nextra-tabs {
+    background-color: transparent !important;
+    border-bottom: none !important;
+    gap: 0 !important;
+}
+
+[role="tab"],
+.nextra-tabs button {
+    font-family: var(--font-mono) !important;
+    font-size: 14px !important;
+    color: var(--text-muted) !important;
+    padding: 6px 8px !important;
+    border-radius: 0 !important;
+    background-color: transparent !important;
+    border: none !important;
+}
+
+[role="tab"][aria-selected="true"],
+.nextra-tabs button[data-active="true"] {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-secondary) !important;
+}
+
+/* ============================================
+   BANNER
+   ============================================ */
+
+.nextra-banner,
+[class*="banner"] {
+    background-color: var(--brand-blue) !important;
+    color: var(--brand-white) !important;
+    font-family: var(--font-sans) !important;
+    border-radius: 0 !important;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.card_background {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-primary);
+    border-radius: 0;
 }
 
 .cardImage {
-  height: 200px;
-  width: 100%;
-  object-fit: cover;
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
 }
 
+/* SVG color inheritance */
+.svg-inherit {
+    color: inherit;
+}
+.svg-inherit * {
+    fill: currentColor;
+}
+.svg-inherit [fill="none"] {
+    fill: none;
+}
+.svg-inherit [stroke]:not([stroke="none"]) {
+    stroke: currentColor;
+}
 
-/* make the SVG follow surrounding text color */
-.svg-inherit { color: inherit; }
-
-/* always recolor fills; don't add a stroke unless it already exists */
-.svg-inherit * { fill: currentColor; }
-.svg-inherit [fill="none"] { fill: none; }
-.svg-inherit [stroke]:not([stroke="none"]) { stroke: currentColor; }
-
-/* 24×24 container, centers any aspect-ratio icon */
+/* Icon container */
 .icon-24 {
-  width: 24;
-  height: 24;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 0;
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
 }
 
-/* scale the SVG so the larger dimension becomes 24px */
 .icon-24 > svg {
-  max-width: 50%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
 }
 
+/* No hover utility */
+@utility no-hover {
+    &:hover {
+        background: initial;
+        color: inherit;
+    }
+}
 
-/* color inheritance (from earlier) */
-.svg-inherit { color: inherit; }
-.svg-inherit [fill]:not([fill="none"]) { fill: currentColor; }
-.svg-inherit [stroke]:not([stroke="none"]) { stroke: currentColor; }
+/* Homepage links - no underlines */
+#intro a,
+.intro-link,
+#intro .intro-link {
+    text-decoration: none !important;
+}
+
+#intro a:hover,
+.intro-link:hover {
+    text-decoration: none !important;
+}
+
+/* Remove any separator lines on homepage */
+#intro,
+#intro > div:first-child,
+main > div:first-child,
+article > div:first-child {
+    border-top: none !important;
+    border-bottom: none !important;
+}
+
+/* Remove hr elements on homepage */
+main hr,
+article hr {
+    display: none !important;
+}
+
+/* Thunder heading - override for home page */
+.thunder-heading {
+    font-family: "Thunder", sans-serif !important;
+    font-weight: 800 !important;
+    color: #006bf4 !important;
+    text-transform: uppercase !important;
+    line-height: 0.9 !important;
+    font-size: 80px !important;
+    border: 0 !important;
+}
+
+@media (min-width: 768px) {
+    .thunder-heading {
+        font-size: 120px !important;
+    }
+}
+
+@media (min-width: 1024px) {
+    .thunder-heading {
+        font-size: 180px !important;
+    }
+}
+
+/* Theme configuration for Tailwind */
+@theme {
+    --font-sans:
+        "Geist", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, monospace;
+    --font-heading: "Inter", "Geist", sans-serif;
+}
+
+/* Font utilities */
+@utility font {
+    &-sans {
+        font-family: var(--font-sans);
+    }
+    &-mono {
+        font-family: var(--font-mono);
+    }
+    &-heading {
+        font-family: var(--font-heading);
+    }
+    &-regular {
+        font-weight: 400;
+    }
+    &-medium {
+        font-weight: 500;
+    }
+    &-semibold {
+        font-weight: 600;
+    }
+    &-bold {
+        font-weight: 700;
+    }
+}
