@@ -2,25 +2,35 @@ import cn from 'clsx'
 import NextLink from 'next/link'
 import type { ComponentProps, CSSProperties, ReactNode } from 'react'
 
+/* ============================================
+   NEXUS DESIGN SYSTEM - CARD COMPONENT
+   - No rounded corners (border-radius: 0)
+   - Clean 1px borders
+   - Proper font hierarchy
+   ============================================ */
+
 const classes = {
   cards: cn(
     'nextra-cards nx-mt-4 nx-gap-4 nx-grid',
     'nx-not-prose' // for nextra-theme-docs
   ),
   card: cn(
-    'nextra-card nx-group nx-flex nx-flex-col nx-justify-start nx-overflow-hidden nx-rounded-lg nx-border nx-border-gray-200',
-    'nx-text-current nx-no-underline dark:nx-shadow-none',
-    'hover:nx-shadow-gray-100 dark:hover:nx-shadow-none nx-shadow-gray-100',
-    'active:nx-shadow-sm active:nx-shadow-gray-200',
-    'nx-transition-all nx-duration-200 hover:nx-border-gray-300'
+    'nextra-card nx-group nx-flex nx-flex-col nx-justify-start nx-overflow-hidden',
+    'nx-border nx-border-[#e5e5e5] dark:nx-border-[#2e2e2e]',
+    'nx-rounded-none', // No rounded corners - matches Figma
+    'nx-text-current nx-no-underline',
+    'nx-transition-all nx-duration-150',
+    'hover:nx-border-[#d2daea] dark:hover:nx-border-[#454545]'
   ),
   title: cn(
-    'nx-flex nx-font-semibold nx-items-start nx-gap-2 nx-p-4 nx-text-gray-700 hover:nx-text-gray-900'
+    'nx-flex nx-font-medium nx-items-start nx-gap-3 nx-p-5',
+    'nx-text-[#0a0a0a] dark:nx-text-[#ededed]',
+    'hover:nx-text-[#0a0a0a] dark:hover:nx-text-[#ededed]'
   )
 }
 
 const arrowEl = (
-  <span className="nx-transition-transform nx-duration-75 group-hover:nx-translate-x-[2px]">
+  <span className="nx-transition-transform nx-duration-150 group-hover:nx-translate-x-[2px] nx-text-[#737373] dark:nx-text-[#8f8f8f]">
     →
   </span>
 )
@@ -51,20 +61,18 @@ export function Card({
         href={href}
         className={cn(
           classes.card,
-          'nx-bg-gray-100 nx-shadow dark:nx-border-neutral-700 dark:nx-bg-neutral-800 dark:nx-text-gray-50 hover:nx-shadow-lg dark:hover:nx-border-neutral-500 dark:hover:nx-bg-neutral-700'
+          'nx-bg-[#fffffe] dark:nx-bg-[#191919]',
+          'hover:nx-bg-[#f8f8f8] dark:hover:nx-bg-[#292929]'
         )}
         {...props}
       >
         {children}
-        <span
-          className={cn(
-            classes.title,
-            'dark:nx-text-gray-300 dark:hover:nx-text-gray-100 w-20 h-20'
-          )}
-        >
+        <span className={cn(classes.title)}>
           {icon}
-          <span className="nx-flex nx-gap-1">
-            {title}
+          <span className="nx-flex nx-gap-2 nx-items-center">
+            <span className="nx-font-medium nx-text-[16px]" style={{ fontFamily: 'Inter, Geist, sans-serif' }}>
+              {title}
+            </span>
             {animatedArrow}
           </span>
         </span>
@@ -77,20 +85,28 @@ export function Card({
       href={href}
       className={cn(
         classes.card,
-        'nx-bg-transparent nx-shadow-sm dark:nx-border-neutral-800 hover:nx-bg-slate-50 hover:nx-shadow-md dark:hover:nx-border-neutral-700 dark:hover:nx-bg-neutral-900'
+        'nx-bg-[#fffffe] dark:nx-bg-[#191919]',
+        'hover:nx-bg-[#f8f8f8] dark:hover:nx-bg-[#292929]'
       )}
       {...props}
     >
-      <span
-        className={cn(
-          classes.title,
-          'dark:nx-text-neutral-200 dark:hover:nx-text-neutral-50 nx-flex nx-items-start'
-        )}
-      >
-        {icon}
-        <div className='flex flex-col w-[90%]'>
-        {title}
-        {desc && <p className='text-xs font-light text-opacity-50 !mt-0  '>{desc}</p>}
+      <span className={cn(classes.title, 'nx-flex nx-items-start')}>
+        <span className="nx-shrink-0">{icon}</span>
+        <div className="nx-flex nx-flex-col nx-gap-1 nx-flex-1">
+          <span
+            className="nx-font-medium nx-text-[16px] nx-text-[#0a0a0a] dark:nx-text-[#ededed]"
+            style={{ fontFamily: 'Inter, Geist, sans-serif' }}
+          >
+            {title}
+          </span>
+          {desc && (
+            <p
+              className="nx-text-[14px] nx-font-normal nx-text-[#737373] dark:nx-text-[#a1a1a1] !nx-mt-0 nx-leading-[22px]"
+              style={{ fontFamily: 'Inter, Geist, sans-serif' }}
+            >
+              {desc}
+            </p>
+          )}
         </div>
         {animatedArrow}
       </span>

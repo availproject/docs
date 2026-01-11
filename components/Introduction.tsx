@@ -26,35 +26,29 @@ export default function Introduction() {
                       return (
                         <div
                           key={index}
-                          className="flex flex-col px-5 py-2 space-y-2"
+                          className="flex flex-col px-5 py-2"
                         >
-                          <h2 className="text-lg text-[#4E6786] font-thicccboi font-semibold">
-                            {"topic" in z ? z.topic : ""}
-                          </h2>
-                          <div className="pb-2">
+                          <div className="border-t border-[#e5e5e5] dark:border-[#2e2e2e] pt-4">
                             {z.links.map((l, index) => {
                               return (
                                 <Link
                                   href={l.link}
                                   key={l.id || index}
-                                  className="flex flex-row justify-between items-center dark:hover:bg-[#242424] hover:bg-gray-200 hover:text-blue-600 transition-colors duration-300 px-4 py-2 rounded-md"
+                                  className="intro-link flex flex-row justify-between items-center dark:hover:bg-[#242424] hover:bg-gray-200 transition-colors duration-300 px-4 py-2"
                                 >
-                                  <div
-                                    className="text-lg hover:underline font-thicccboi font-bold"
+                                  <span
+                                    className="text-base font-medium"
                                     style={{
                                       color: `#${z.textcolor || "000"}`,
                                     }}
                                   >
                                     {l.placeholder}
-                                  </div>
-                                  <FaArrowRight className="transform transition-transform duration-300 hover:scale-110" />
+                                  </span>
+                                  <FaArrowRight className="opacity-50" />
                                 </Link>
                               );
                             })}
                           </div>
-                          {x.links.length - 1 !== index && (
-                            <hr className="my-12 h-px border-t-0 bg-[#D0E5FF] opacity-25 dark:opacity-100" />
-                          )}
                         </div>
                       );
                     })}

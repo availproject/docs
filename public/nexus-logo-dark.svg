@@ -1,0 +1,6 @@
+<svg width="120" height="48" viewBox="0 0 120 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- "avail" text - small, tracking wider -->
+  <text x="0" y="14" font-family="Inter, -apple-system, sans-serif" font-size="13" font-weight="600" letter-spacing="0.07em" fill="#141413">avail</text>
+  <!-- "NEXUS" text - bold, larger -->
+  <text x="0" y="38" font-family="Inter, -apple-system, sans-serif" font-size="32" font-weight="800" letter-spacing="-0.02em" fill="#141413" text-transform="uppercase">NEXUS</text>
+</svg>

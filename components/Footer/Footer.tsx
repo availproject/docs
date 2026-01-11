@@ -207,11 +207,7 @@ export const Footer = () => {
         <div className={footerStyle.footer}>
           <div className="dark:!text-white dark:opacity-90 !text-black">
             <img
-              src={
-                isDarkMode
-                  ? `/avail_logo_horizontal_light_solid.svg`
-                  : "/avail_logo.png"
-              }
+              src="/avail-logo-blue.svg"
               width={"112px"}
               alt="avail logo"
             />
