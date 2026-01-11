@@ -148,8 +148,9 @@ header,
 [class*="navbar"],
 nav[class*="nav"] {
     background-color: #fffffe !important;
-    border-bottom: 1px solid #e5e5e5 !important;
+    border-bottom: 1px solid var(--border-primary) !important;
     backdrop-filter: none !important;
+    box-shadow: none !important;
 }
 
 /* Dark mode navbar */
@@ -162,7 +163,8 @@ nav[class*="nav"] {
 [data-theme="dark"] nav.nextra-nav-container,
 [data-theme="dark"] .nextra-nav-container {
     background-color: #191919 !important;
-    border-bottom: 1px solid #2e2e2e !important;
+    border-bottom: 1px solid var(--border-primary) !important;
+    box-shadow: none !important;
 }
 
 /* Search input */
@@ -345,7 +347,7 @@ code[data-line-numbers] > [data-line]::before {
     background-color: var(--bg-primary) !important;
     border: 1px solid var(--border-primary) !important;
     border-radius: 0 !important;
-    padding: 16px !important;
+    padding: 20px !important;
     margin: 24px 0 !important;
 }
 
@@ -361,11 +363,30 @@ code[data-line-numbers] > [data-line]::before {
     gap: 8px !important;
 }
 
+/* Callout icon spacing - equal padding left and right */
+.nextra-callout svg,
+.callout svg {
+    margin-left: 4px !important;
+    margin-right: 12px !important;
+    flex-shrink: 0 !important;
+}
+
 /* Callout content */
 .nextra-callout p,
 .callout p {
     color: var(--text-secondary) !important;
-    margin-top: 8px !important;
+    margin: 0 !important;
+}
+
+/* Remove extra margins inside callouts */
+.nextra-callout *:last-child,
+.callout *:last-child {
+    margin-bottom: 0 !important;
+}
+
+.nextra-callout *:first-child,
+.callout *:first-child {
+    margin-top: 0 !important;
 }
 
 /* ============================================
@@ -490,7 +511,34 @@ nav.nextra-toc {
     font-size: 14px !important;
     color: var(--text-muted) !important;
     text-decoration: none !important;
-    padding: 6px 12px !important;
+    padding: 4px 0 !important;
+    padding-left: 16px !important;
+    display: block !important;
+}
+
+/* Keep external link arrows inline */
+.nextra-toc a svg,
+.nextra-toc a > span {
+    display: inline !important;
+    vertical-align: middle !important;
+}
+
+/* TOC list items - consistent alignment */
+.nextra-toc li,
+.nextra-toc ul {
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+}
+
+/* Smaller font for feedback and edit links */
+.nextra-toc a[href*="feedback"],
+.nextra-toc a[href*="github"],
+.nextra-toc a[href*="edit"],
+a[href*="discussions"],
+a[title*="feedback"],
+a[title*="GitHub"] {
+    font-size: 12px !important;
+    padding-left: 16px !important;
 }
 
 .nextra-toc a[data-active="true"],

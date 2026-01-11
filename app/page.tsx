@@ -3,6 +3,7 @@ export const metadata = {
 };
 
 import Introduction from "components/Introduction";
+import { Footer } from "@components/Footer/Footer";
 
 export default function HomePage() {
   return (
@@ -39,6 +40,7 @@ export default function HomePage() {
         </p>
       </div>
       <Introduction />
+      <Footer />
     </>
   );
 }

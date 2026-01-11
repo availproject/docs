@@ -1,5 +1,4 @@
 import { Layout, Navbar, Link } from 'nextra-theme-docs'
-import { Footer } from "@components/Footer/Footer";
 import { Head, Search, Banner } from 'nextra/components'
 import { Metadata } from "next";
 import { ReactNode } from "react";
@@ -12,8 +11,6 @@ import { sharedMetadata } from '@components/lib/metadata';
 
 // Metadata for the website
 export const metadata = sharedMetadata
-
-const footer = <Footer/>
 
 const defaultSearchOptions = {
   preload: true,
@@ -75,7 +72,6 @@ export default async function RootLayout({
           docsRepositoryBase="https://github.com/availproject/docs/tree/main"
           editLink="Edit this page on GitHub"
           sidebar={{ defaultMenuCollapseLevel: 1, autoCollapse: true, toggleButton: true }}
-          footer={footer}
           search={
             <Search
               emptyResult="No matches found."
