@@ -21,8 +21,8 @@ export const CustomNavbar = () => {
       <Image
         src={
           isDarkMode
-            ? "/avail_light.svg"
-            : "/avail_logo_horizontal_dark.svg"
+            ? "/img/avail-logo-blue.svg"
+            : "/img/avail-logo-blue.svg"
         }
         alt="avail-logo"
         width={125}
