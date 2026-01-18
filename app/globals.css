@@ -103,16 +103,27 @@ nav.nextra-sidebar {
     border-right: 1px solid var(--border-primary) !important;
 }
 
-/* Sidebar menu items */
+/* Sidebar menu items - compact spacing */
 .nextra-sidebar a,
 .nextra-sidebar button {
     font-family: var(--font-sans) !important;
-    font-size: 14px !important;
+    font-size: 13px !important;
     font-weight: 400 !important;
     color: var(--text-muted) !important;
-    padding: 8px 12px !important;
+    padding: 6px 10px !important;
     border-radius: 0 !important;
     transition: all 0.15s ease !important;
+}
+
+/* Sidebar list items - reduce margins */
+.nextra-sidebar li {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.nextra-sidebar ul {
+    padding-left: 12px !important;
+    margin: 0 !important;
 }
 
 /* Active sidebar item */
@@ -121,7 +132,7 @@ nav.nextra-sidebar {
 .nextra-sidebar li.active > a {
     background-color: var(--bg-secondary) !important;
     color: var(--text-primary) !important;
-    font-weight: 400 !important;
+    font-weight: 500 !important;
 }
 
 /* Sidebar hover */
@@ -133,7 +144,7 @@ nav.nextra-sidebar {
 /* Sidebar separator line */
 .nextra-sidebar hr {
     border-color: var(--border-primary) !important;
-    margin: 24px 0 !important;
+    margin: 16px 0 !important;
 }
 
 /* ============================================
@@ -247,6 +258,19 @@ h3 {
     font-weight: 600 !important;
 }
 
+/* Code in headings - keep same size as heading */
+h1 code,
+h2 code,
+h3 code,
+h4 code {
+    font-size: inherit !important;
+    font-family: var(--font-mono) !important;
+    background-color: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    color: inherit !important;
+}
+
 /* Body text */
 p,
 li {
@@ -256,15 +280,21 @@ li {
     color: var(--text-secondary) !important;
 }
 
-/* Links */
-a {
-    color: var(--text-primary) !important;
+/* Links - more visible and clickable */
+article a,
+main a,
+.nextra-content a {
+    color: #006bf4 !important;
     text-decoration: underline !important;
-    text-decoration-color: var(--border-secondary) !important;
+    text-decoration-color: rgba(0, 107, 244, 0.4) !important;
+    text-underline-offset: 2px !important;
+    font-weight: 500 !important;
 }
 
-a:hover {
-    text-decoration-color: var(--text-primary) !important;
+article a:hover,
+main a:hover,
+.nextra-content a:hover {
+    text-decoration-color: #006bf4 !important;
 }
 
 /* Links in headings - no underline */
@@ -273,6 +303,8 @@ h2 a,
 h3 a,
 h4 a {
     text-decoration: none !important;
+    color: var(--text-primary) !important;
+    font-weight: inherit !important;
 }
 
 /* ============================================
@@ -341,41 +373,82 @@ code[data-line-numbers] > [data-line]::before {
    CALLOUT/NOTE COMPONENTS
    ============================================ */
 
+/* Default callout - info/default style (blue) */
 .nextra-callout,
 .callout,
 [class*="callout"] {
-    background-color: var(--bg-primary) !important;
-    border: 1px solid var(--border-primary) !important;
+    background-color: rgba(0, 107, 244, 0.06) !important;
+    border: 1px solid rgba(0, 107, 244, 0.2) !important;
+    border-left: 3px solid #006bf4 !important;
     border-radius: 0 !important;
-    padding: 20px !important;
+    padding: 16px 20px !important;
     margin: 24px 0 !important;
+}
+
+/* Warning callout - yellow/amber */
+.nextra-callout[data-type="warning"],
+[class*="callout-warning"] {
+    background-color: rgba(234, 179, 8, 0.06) !important;
+    border: 1px solid rgba(234, 179, 8, 0.2) !important;
+    border-left: 3px solid #eab308 !important;
+}
+
+/* Error/Danger callout - red */
+.nextra-callout[data-type="error"],
+[class*="callout-error"],
+[class*="callout-danger"] {
+    background-color: rgba(239, 68, 68, 0.06) !important;
+    border: 1px solid rgba(239, 68, 68, 0.2) !important;
+    border-left: 3px solid #ef4444 !important;
+}
+
+/* Tip/Success callout - green */
+.nextra-callout[data-type="tip"],
+[class*="callout-tip"] {
+    background-color: rgba(34, 197, 94, 0.06) !important;
+    border: 1px solid rgba(34, 197, 94, 0.2) !important;
+    border-left: 3px solid #22c55e !important;
 }
 
 /* Callout header */
 .nextra-callout > div:first-child,
 .callout-title {
     font-family: var(--font-sans) !important;
-    font-weight: 400 !important;
-    font-size: 16px !important;
-    color: var(--text-secondary) !important;
+    font-weight: 600 !important;
+    font-size: 15px !important;
+    color: var(--text-primary) !important;
     display: flex !important;
     align-items: center !important;
     gap: 8px !important;
 }
 
-/* Callout icon spacing - equal padding left and right */
+/* Callout icon */
 .nextra-callout svg,
 .callout svg {
-    margin-left: 4px !important;
-    margin-right: 12px !important;
+    margin-right: 10px !important;
     flex-shrink: 0 !important;
+    opacity: 0.8 !important;
 }
 
 /* Callout content */
 .nextra-callout p,
 .callout p {
-    color: var(--text-secondary) !important;
+    color: var(--text-primary) !important;
     margin: 0 !important;
+    opacity: 0.85;
+}
+
+/* Callout links - make them visible */
+.nextra-callout a,
+.callout a {
+    color: #006bf4 !important;
+    text-decoration: underline !important;
+    font-weight: 500 !important;
+}
+
+.nextra-callout a:hover,
+.callout a:hover {
+    opacity: 0.8 !important;
 }
 
 /* Remove extra margins inside callouts */
@@ -401,7 +474,7 @@ code[data-line-numbers] > [data-line]::before {
     background-color: var(--bg-primary) !important;
     border: 1px solid var(--border-primary) !important;
     border-radius: 0 !important;
-    padding: 20px !important;
+    padding: 12px 16px !important;
     transition: all 0.15s ease !important;
     box-shadow: none !important;
 }
