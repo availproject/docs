@@ -1,0 +1,432 @@
+import { Callout } from 'nextra/components'
+
+# Deploy Arbitrum Orbit with Avail DA
+
+This guide follows the deployment of an Arbitrum Orbit chain (L3) with Arbitrum Sepolia (L2) as the base chain. You can follow the same steps with any [other supported chains](/docs/build-with-avail/Optimium/arbitrum-nitro/nitro-stack#reference) with the relevant contract addresses.
+
+<Callout type="info">
+This guide is based on [Arbitrum Orbit Quickstart](https://docs.arbitrum.io/launch-orbit-chain/orbit-quickstart)
+</Callout>
+
+## Prerequisites
+
+#### Docker
+- You need to have [docker](https://docs.docker.com/engine/) and [docker-compose](https://docs.docker.com/compose/) installed on your machine.
+#### Avail 
+- An Avail account with some AVAIL tokens in it. You can refer to [our docs here](/docs/end-user-guide/accounts) to get started.
+- An application key (`app-id`) for your rollup. Learn [how to get your `app-id` here](/docs/build-with-avail/interact-with-avail-da/app-id). 
+
+#### Arbitrum Sepolia 
+- At least 1 ETH over Arbsepolia Testnet. You can follow [Step 1](https://docs.arbitrum.io/launch-orbit-chain/orbit-quickstart#step-1-acquire-arbitrum-testnet-eth-and-the-native-token-for-orbit-chains-with-custom-gas-tokens) on Arbitrum Orbit Doc for acquiring testnet $ETH
+- This guide will use [Arbitrum's ArbSepolia](https://docs.arbitrum.io/build-decentralized-apps/public-chains#arbitrum-sepolia) and [Avail's Turing](/docs/networks) testnets.
+
+
+## Download avail-nitro-node docker image
+
+### Step-1: Download the [avail-nitro-node](https://hub.docker.com/repository/docker/availj/avail-nitro-node/tags) image from docker hub
+    
+    ```bash
+    docker pull availj/avail-nitro-node:v2.1.0-upstream-v3.1.1
+    ```
+    
+
+## Deploy Rollup Contracts
+
+### Step-1: Download the [avail-nitro-contracts](https://github.com/availproject/nitro-contracts) with Avail DA 
+    
+    ```bash
+    git clone https://github.com/availproject/nitro-contracts.git
+    cd nitro-contracts
+    git checkout v2.1.0-upstream-v2.1.0
+    yarn install
+    yarn build
+    ```
+    
+### Step-2: Create `.env` file
+    Create a copy of `.env.sample` as `.env` file and edit the following:
+    
+    - Set Rollup Creator Address at `ROLLUP_CREATOR_ADDRESS` 
+    ```bash
+    //for Arbitrum Sepolia
+    ROLLUP_CREATOR_ADDRESS="0xE917553b67f630C3982236B6A1d7844B1021B909"
+    ```
+    For the `ROLLUP_CREATOR_ADDRESS` on any other supported chain, [please fimd it here](/docs/build-with-avail/Optimium/arbitrum-nitro/nitro-stack#smart-contract-addresses).
+
+    - Add the private key of a well funded ArbSepolia account in `DEVNET_PRIVKEY`
+    ```bash
+    DEVNET_PRIVKEY="<--Private-key-->"
+    ```
+    
+### Step-3: Create `.script/config.ts` file
+  
+  Create a copy of `scripts/config.ts.example` as  `scripts/config.ts` and set this config file with required configurations.
+    
+
+    ```jsx
+    config = {
+      rollupConfig: {
+        confirmPeriodBlocks: ethers.BigNumber.from('150'),
+        extraChallengeTimeBlocks: ethers.BigNumber.from('0'),
+        stakeToken: ethers.constants.AddressZero,
+        baseStake: ethers.utils.parseEther('0.0001'),
+        wasmModuleRoot:
+          '0x3f3b4da7b5c231e6faf91ff723d235728b05c9074f2ae3cc4b3e54dd5139d34f',
+        owner: '0x1234123412341234123412341234123412341234',
+        loserStakeEscrow: ethers.constants.AddressZero,
+        chainId: ethers.BigNumber.from('20121999'),
+        chainConfig:
+          '{"chainId":20121999,"homesteadBlock":0,"daoForkBlock":null,"daoForkSupport":true,"eip150Block":0,"eip150Hash":"0x0000000000000000000000000000000000000000000000000000000000000000","eip155Block":0,"eip158Block":0,"byzantiumBlock":0,"constantinopleBlock":0,"petersburgBlock":0,"istanbulBlock":0,"muirGlacierBlock":0,"berlinBlock":0,"londonBlock":0,"clique":{"period":0,"epoch":0},"arbitrum":{"EnableArbOS":true,"AllowDebugPrecompiles":false,"DataAvailabilityCommittee":false,"InitialArbOSVersion":10,"InitialChainOwner":"0xd41996ED89bb5BF7dBfB181D8D93E8067446200B","GenesisBlockNum":0}}',
+        genesisBlockNum: ethers.BigNumber.from('0'),
+        sequencerInboxMaxTimeVariation: {
+          delayBlocks: ethers.BigNumber.from('5760'),
+          futureBlocks: ethers.BigNumber.from('12'),
+          delaySeconds: ethers.BigNumber.from('86400'),
+          futureSeconds: ethers.BigNumber.from('3600'),
+        },
+      },
+      validators: [
+        '0x1234123412341234123412341234123412341234',
+      ],
+      batchPosters: ['0x1234123412341234123412341234123412341234',],
+      batchPosterManager: '0x1234123412341234123412341234123412341234'
+    },
+    
+
+    ```
+
+  The below table provides a brief description of each of these configuration parameters.
+  
+   **We recommend sticking to the defaults (the config provided above)**.
+  
+  To learn more about customizing your Orbit chain's deployment configuration, visit [**How (and when) to customize your Orbit chain's deployment config**](https://docs.arbitrum.io/launch-orbit-chain/how-tos/customize-deployment-configuration):
+
+  | Parameter | Description |
+  | --- | --- |
+  | Chain ID(chainID) | A unique integer identifier that represents your chain's network. Your Chain ID can be submitted to chain indexes like http://chainlist.org/. For devnets, this is randomly generated for each deployment - don't worry about it for now. |
+  | Challenge period (confirmPeriodBlocks) | The amount of time that your Orbit chain's nodes have to dispute the current state of the chain before it's confirmed (and ultimately finalized) on the underlying L2 chain (e.g. Arbitrum Sepolia). Note that this refers to the number of blocks on the underlying L1 chain (e.g. Ethereum's Sepolia chain). |
+  | Stake token(stakeToken) | The token that your chain's validators must stake in order to participate in your chain. This is hardcoded to $ETH for now, but future versions of Orbit chains will let you specify an arbitrary ERC-20 token contract here. |
+  | Base stake(baseStacke) | The amount of your configured Stake token that your chain's validators must stake in order to participate in your chain. Should be greater than 0. |
+  | Owner(owner) | The administrative Ethereum address that will deploy, own, and update your chain's base contracts. This will default to your connected wallet's address. This needs to be a standard Ethereum wallet account - an EOA, not a contract address. Note that you'll have to specify this wallet's private key within a local JSON file later. |
+  | Gas token | The address of the ERC-20 token on the parent chain that is intended to be used as the native gas token on the Orbit chain. This token must already be deployed natively on the parent chain and is bridged to the Orbit chain during chain deployment. This feature is only supported on AnyTrust chains currently, and more information around token restrictions can be found https://docs.arbitrum.io/launch-orbit-chain/how-tos/customize-deployment-configuration. |
+  | Validators | Your chain's validators are responsible for validating the integrity of transactions and posting assertions of the current state of your Orbit chain to its base chain. Add the address in the list which you want to be added to an allow-list in your chain’s base contract  |
+  | Batch Poster | Your batch poster address is responsible for posting batches of transactions from your Orbit chain to its base contracts on its base chain. Added the address which you want to act as batch-poster for your orbit chain |
+
+<Callout type="info">
+When we say "base contracts" and "base chain", we're referring to your Orbit chain's L2 contracts and the L2 chain that they're deployed to, respectively. We'll use these terms throughout the rest of this guide.
+</Callout>
+
+    
+### Step-4: Deploy your chain's base contracts to Arbitrum Sepolia!
+    
+    ```bash
+    yarn build:forge:yul
+    yarn run deploy-eth-rollup --network arbSepolia
+    ```
+  You will get to see your chain’s base contracts addresses, which will be need in next step to fill in `nodeConfig.json` 
+<br/>
+<img src="/img/nitro-stack.png" alt="nitro-stack" width="100%"/>
+  <br/>
+  Before proceeding, let's briefly review what just happened:
+  - You submitted a deployment transaction to an Orbit "factory" smart contract on the Arbitrum testnet, the public L2 chain that your local Orbit chain will settle transactions to.
+- This Orbit smart contract then initialized your Orbit chain's base contracts with the values that you specified in the previous step, and deployed these base contracts to the Arbitrum testnet.
+
+Your Orbit chain's base contracts are responsible for facilitating the exchange of information between your chain's node(s) and its base chain's nodes. This includes the batch posting of transactions from your Orbit chain to its base chain, the staking of tokens by your Orbit chain's validators the challenge mechanism, bridging mechanisms, and more.
+
+## Spin up the chain using orbit-setup-script
+
+### Step-1: Download [orbit-setup-script](https://github.com/OffchainLabs/orbit-setup-script.git)
+    
+    ```bash
+    git clone https://github.com/OffchainLabs/orbit-setup-script.git
+    cd orbit-setup-script
+    ```
+    
+### Step-2: Create `nodeConfig.json` in `./config`
+  This is the nodeConfig.json file, encapsulating your chain's node configuration. It is crucial as it contains the private keys for your validator and batch poster, essential for signing transactions for blocks and batch postings to your chain's base contracts on the L2 chain.
+    ```json
+    {
+      "chain": {
+        "info-json": "[{\"chain-id\":<Insert your chain-id>,\"parent-chain-id\":421614,\"parent-chain-is-arbitrum\":true,\"chain-name\":\"<Insert chain name>\",\"chain-config\":{\"homesteadBlock\":0,\"daoForkBlock\":null,\"daoForkSupport\":true,\"eip150Block\":0,\"eip150Hash\":\"0x0000000000000000000000000000000000000000000000000000000000000000\",\"eip155Block\":0,\"eip158Block\":0,\"byzantiumBlock\":0,\"constantinopleBlock\":0,\"petersburgBlock\":0,\"istanbulBlock\":0,\"muirGlacierBlock\":0,\"berlinBlock\":0,\"londonBlock\":0,\"clique\":{\"period\":0,\"epoch\":0},\"arbitrum\":{\"EnableArbOS\":true,\"AllowDebugPrecompiles\":false,\"DataAvailabilityCommittee\":false,\"InitialArbOSVersion\":11,\"GenesisBlockNum\":0,\"MaxCodeSize\":24576,\"MaxInitCodeSize\":49152,\"InitialChainOwner\":\"<Insert chain owner address>\"},\"chainId\":<Insert chain id>},\"rollup\":{\"bridge\":\"<Bridge proxy address>\",\"inbox\":\"<Inbox address>\",\"sequencer-inbox\":\"<Sequencer inbox address>\",\"rollup\":\"<Rollup proxy address>\",\"validator-utils\":\"<Validator until address>\",\"validator-wallet-creator\":\"<Validator wallet creator address>\",\"deployed-at\":<Insert deployed-at block number>}}]",
+        "name": "<Insert chain name>"
+      },
+      "parent-chain": {
+        "connection": {
+          "url": "https://sepolia-rollup.arbitrum.io/rpc"
+        }
+      },
+      "http": {
+        "addr": "0.0.0.0",
+        "port": 8449,
+        "vhosts": [
+          "*"
+        ],
+        "corsdomain": [
+          "*"
+        ],
+        "api": [
+          "eth",
+          "net",
+          "web3",
+          "arb",
+          "debug"
+        ]
+      },
+      "node": {
+        "sequencer": true,
+        "delayed-sequencer": {
+          "enable": true,
+          "use-merge-finality": false,
+          "finalize-distance": 1
+        },
+        "batch-poster": {
+          "max-size": 90000,
+          "enable": true,
+          "parent-chain-wallet": {
+            "private-key": "<Insert your private key here>"
+          }
+        },
+        "staker": {
+          "enable": true,
+          "strategy": "MakeNodes",
+          "parent-chain-wallet": {
+            "private-key": "<Insert your private key here>"
+          }
+        },
+        "dangerous": {
+          "no-sequencer-coordinator": true
+        },
+        "avail": {
+          "enable": true,
+          "seed": "<Enter your seed phrase here>",
+          "avail-api-url": "wss://turing-rpc.avail.so/ws",
+          "app-id": <Enter your avail app id>,
+          "timeout":"100s",
+          "vectorx": "0xA712dfec48AF3a78419A8FF90fE8f97Ae74680F0",
+          "arbSepolia-rpc": "<Enter an arbSepolia wss url here>"
+        }
+      },
+      "execution": {
+        "forwarding-target": "",
+        "sequencer": {
+          "enable": true,
+          "max-tx-data-size": 85000,
+          "max-block-speed": "250ms"
+        },
+        "caching": {
+          "archive": true
+        }
+      }
+    }
+
+    ```
+
+<Callout type="info">
+    Make sure to update these params based on your chain's configuration and base contract addresses  
+
+    ```json
+"chain": {
+        "info-json": "[{\"chain-id\":<Insert your chain-id>,\"parent-chain-id\":421614,\"parent-chain-is-arbitrum\":true,\"chain-name\":\"<Insert chain name>\",\"chain-config\":{\"homesteadBlock\":0,\"daoForkBlock\":null,\"daoForkSupport\":true,\"eip150Block\":0,\"eip150Hash\":\"0x0000000000000000000000000000000000000000000000000000000000000000\",\"eip155Block\":0,\"eip158Block\":0,\"byzantiumBlock\":0,\"constantinopleBlock\":0,\"petersburgBlock\":0,\"istanbulBlock\":0,\"muirGlacierBlock\":0,\"berlinBlock\":0,\"londonBlock\":0,\"clique\":{\"period\":0,\"epoch\":0},\"arbitrum\":{\"EnableArbOS\":true,\"AllowDebugPrecompiles\":false,\"DataAvailabilityCommittee\":false,\"InitialArbOSVersion\":11,\"GenesisBlockNum\":0,\"MaxCodeSize\":24576,\"MaxInitCodeSize\":49152,\"InitialChainOwner\":\"<Insert chain owner address>\"},\"chainId\":<Insert chain id>},\"rollup\":{\"bridge\":\"<Bridge proxy address>\",\"inbox\":\"<Inbox address>\",\"sequencer-inbox\":\"<Sequencer inbox address>\",\"rollup\":\"<Rollup proxy address>\",\"validator-utils\":\"<Validator until address>\",\"validator-wallet-creator\":\"<Validator wallet creator address>\",\"deployed-at\":<Insert deployed-at block number>}}]",
+        "name": "<Insert chain name>"
+      },
+```
+
+  <details className="border p-3 rounded-md bg-[#EFF6FF]">
+  <summary>
+  List of params to be configured
+  </summary>
+    - `chain.chain-id`
+    - `chain.chain-name`
+    - `chain.InitialChainOwner`
+    - `chain.chainId`
+    - `chain.rollup`
+    - `chain.name`
+    - `node.batch-poster.parent-chain-wallet.private-key`
+    - `node.staker.parent-chain-wallet.private-key`
+    - `node.avail.seed`
+    - `node.avail.app-id`
+    - `node.avail.arbSepolia-rpc`
+
+  </details>
+</Callout>
+
+
+After you've filled the relevant params under `chain`. You'll need to also need to add your Avail relevant details. 
+```json
+      "avail": {
+      "enable": true,
+      "seed": "<Enter your seed phrase here>",
+      "avail-api-url": "wss://turing-rpc.avail.so/ws",
+      "app-id": <Enter your avail app id>,
+      "timeout":"100s",
+      "vectorx": "0xA712dfec48AF3a78419A8FF90fE8f97Ae74680F0",
+      "arbSepolia-rpc": "<Enter an arbSepolia wss url here>"
+    }
+```
+
+### Step-3: Create `orbitSetupScriptConfig.json` in `./config`
+
+In `orbitSetupScriptConfig.json` you need to fill your chain's info as described below:
+```json
+{
+"networkFeeReceiver": "0xd41996ED89bb5BF7dBfB181D8D93E8067446200B",
+"infrastructureFeeCollector": "0xd41996ED89bb5BF7dBfB181D8D93E8067446200B",
+"staker": "0xDF819f9Fc3c28FEDFb73374C7B60A4f9BCdE6710",
+"batchPoster": "0xB0Ad5AE0a78025613F17B7e4644CE5752487B9d6",
+"chainOwner": "0xd41996ED89bb5BF7dBfB181D8D93E8067446200B",
+"chainId": 99584959107,
+"chainName": "My Arbitrum L3 Chain",
+"minL2BaseFee": 100000000,
+"parentChainId": 421614,
+"parent-chain-node-url": "https://sepolia-rollup.arbitrum.io/rpc",
+"utils": "0xB11EB62DD2B352886A4530A9106fE427844D515f",
+"rollup": "0xd30eCcf27A6f351EfA4fc9D17e7ec20354309aE3",
+"inbox": "0x4512e40a1ec8555f9e93E3B6a06af60F13538087",
+"nativeToken": "0x0000000000000000000000000000000000000000",
+"outbox": "0x2209755fA3470ED1AFFB4407d1e3B1f7dFC13ce9",
+"rollupEventInbox": "0x1e58240B2D769de25B4811354819C901317D0894",
+"challengeManager": "0xfC5BbC40d24EcD6FcC247EfFDc87E7D074E9B67D",
+"adminProxy": "0xf488b25e6736Ed74E8d37EA434892129E4d62E3B",
+"sequencerInbox": "0xD15347309854F1290c9a382ea2719AB5462c7719",
+"bridge": "0xC83ee8e28B7b258f41aF8ef4279c02f901288029",
+"upgradeExecutor": "0x805bB07B88dDA56030eC48644E0C276e2e5E3949",
+"validatorUtils": "0xB11EB62DD2B352886A4530A9106fE427844D515f",
+"validatorWalletCreator": "0xEb9885B6c0e117D339F47585cC06a2765AaE2E0b",
+"deployedAtBlockNumber": 11274529
+}
+
+```
+
+### Step-4: Update `docker-compose` file of `orbit-setup-script`
+    
+    ```json
+    ...
+    nitro:
+      image: availj/avail-nitro-node:v2.1.0-upstream-v3.1.1
+      ports:
+    ...
+    ```
+    
+### Step-5: Run your chain
+    
+    ```bash
+    cd orbit-setup-script
+    docker-compose up -d
+    ```
+    
+   This will launch the Nitro node with a public RPC reachable at http://localhost:8449/  and a corresponding BlockScout explorer instance, viewable at http://localhost/ - this will allow you to view your chain's transactions and blocks, which can be useful for debugging.
+    
+
+## Hurray!
+
+**Congratulations,** Your local Orbit chain with Avail DA is now running.
+
+
+#### Appendix A: Logging
+Run this command in the root directory of your orbit setup script repo to view your chain's logs:
+```bash
+docker-compose logs -f nitro
+```
+
+#### Appendix B: Depositing ETH/native token
+If you need to deposit more ETH (or native tokens) into your Orbit chain account, run this command on the base directory of the setup script, replacing `0xYourPrivateKey` with the private key of the originating account, and `<AMOUNT>` with the amount to send:
+
+Using Arbitrum Sepolia:
+```bash
+PRIVATE_KEY="0xYourPrivateKey" L2_RPC_URL="https://sepolia-rollup.arbitrum.io/rpc" L3_RPC_URL="http://localhost:8449"
+AMOUNT="<AMOUNT>" yarn run deposit
+```
+
+#### Appendix C: Refunding (For testing environments)
+Once you're done with your local Orbit chain and want to refund any remaining balance from the batch poster and validator wallets, you can use the refund script by running:
+
+```bash
+PRIVATE_KEY="0xYourPrivateKey" L2_RPC_URL="<https://sepolia-rollup.arbitrum.io/rpc>" TARGET_ADDRESS="0xYourTargetAddress" yarn run refund
+```
+
+<Callout type="info">
+Make sure to replace `"0xYourPrivateKey"` with the private key of the wallet you used to deploy the rollup contracts, and `"0xYourTargetAddress"` with the address where you want to receive the refunded funds.
+</Callout>
+
+This will transfer any remaining balance from the batch poster and validator wallets to the specified target address.
+
+#### Appendix D: Troubleshooting
+You may see error getting latest batch count in your node's output logs (from Appendix A). This is usually safe to ignore. It's usually displayed when your Orbit chain's base contract deployment isn't yet finalized on the L1 chain. This finalization can take 15-20 minutes, but don't worry - the deployment doesn't need to be L1-finalized in order for your chain to function properly.
+
+Learn more about customizing and using your Orbit chain from the [Arbitrum Orbit Docs](https://docs.arbitrum.io/launch-orbit-chain/orbit-gentle-introduction). 
+
+## Reference
+
+Currently chains supporting Arbitrum orbit chain deployment with AvailDA:-
+* [Arbitrum Sepolia](https://sepolia.arbiscan.io/)
+* [Base Sepolia](https://sepolia.basescan.org/)
+
+<Callout type="info">
+Soon will add more chains
+</Callout>
+
+
+### Smart contract addresses
+
+The following information may be useful to those building on Arbitrum. We list the addresses of the smart contracts related to the protocol
+
+
+|  | [Arbitrum Sepolia](https://sepolia.arbiscan.io/) | [Base Sepolia](https://sepolia.basescan.org/) |
+| --- | --- | --- |
+| RollupCreator | `0xE917553b67f630C3982236B6A1d7844B1021B909`| `0x66667c90de1E169e705F248614c72076aA1a2240` |
+| Bridge | `0x4A9722A440506469CcA933969f790923Ac59A0A5` | `0x6a7a97E34E6D75724BB58C0d8EFF8cEB27b23A56` |
+| AvailDABridge | `0x5EE5FAd194260bF039b32DEe0bC3D809989A3d00` | `0x36cE36dc5BE3E89F6B25315d8346503B307546A6` |
+| SequencerInbox | `0xA04d516D245D1E11Eb7cF8D38Ec1540A25c2DCB5` | `0x7C44660caB5b6d330cd38a9468F3F84F2f175E9C` |
+| Inbox | `0x790d2BCD12Fa25db147fc033515CBCEc89d89E20` | `0x48dCee9af45842A905FDE5ff5a502EFd06862E49` |
+| RollupEventInbox | `0x62F82278559e8aBdCe222D1A4c2D45dFD6D8C26E` | `0x1cd6c66A1C6b260147909bbd3211Fb9f4424A480` |
+| Outbox | `0xdd414356a4D573865D78D0C5E05d62686c14E376` | `0xdB991f2943CD1A3c17FDb5b78434F4b7331bFb37` |
+| ERC20Bridge | `0x6582b333408D8eF71a951a77E61a263857cd570C` | `0x3d238cf78f740E94753254f9B6339ACaa66c1574` |
+| ERC20SequencerInbox | `0xA878d9432DaCCb14A94EAcB8f6158954e538874a` | `0xE6Cb93cA92f1C65D5709059456ad232721A87c02` |
+| ERC20Inbox | `0x7484e03fF084Fd9C1Bc30de40D7A2ed4acb22AFC` | `0xa5E5c409f39e929087DFbb182C29FE8350Ad1bC8` |
+| ERC20RollupEventInbox | `0xE26d16aAb33950C7bEEcf0F46C161bAc0495dB00` | `0x09Cb2789481759613886b5747c5fE49FAb7c4650` |
+| ERC20Outbox | `0xC313E4F98C525b555A972a564A01bdB76D69BA10` | `0xa183436DAb3ea069010912e0beBB4c734A4aD90c` |
+| BridgeCreator | `0xe188683D96b82a3A1314424E5e9c438461667EdE` | `0xE6DeCD823d1480069348931833F97C3810ea7Ea5` |
+| OneStepProver0 | `0x6404d3539B6d37ebc9AC50d7f528Ee8168ece5cC` | `0x6032313a93F78b9Db91885E6d83e40626f371052` |
+| OneStepProverMemory | `0x71FF43aeb6E788B855410447Bbc1F71916Bb98Ec` | `0x5AFee8C856386Ac18E56CdA14470637e13C1D47b` |
+| OneStepProverMath | `0xcCe345C15E7a9AA7784601e28811671cf41bF711` | `0x91EF8ffce4AbB1b256662A6a6C4C7051534aD575` |
+| OneStepProverHostlo | `0x65DCCc4bA7836B743D2370A5fbea8Ef3263789d9` | `0x49Fb114B5c708eF2a5aa6Ba413da55E5F07389C4` |
+| OneStepProofEntry | `0x7452e148a7faffac053f442080DE8f305d0C8642` | `0xd0A9C68313233C568AD19B55FECac9148245Fb76` |
+| ChallengeManager | `0x1c8285a7BFc8E5F4960aB105ca0E595Ce80858b2` | `0x71BF09F4787187b3c62dA0a89c893Ca5687ffef0` |
+| RollupAdminLogic | `0x0922ce6b911B420EBC5851943Adfba40587B6852` | `0x488088F12D354b2bEe8c5d5C27Dd266f0b70c5eb` |
+| RollupUserLogic | `0x256E8dD36893f00E6C0c1B1099561b8322692B91` | `0x3A12b3eB213CAb423324400D49Ec7d61c903ac20` |
+| UpgradeExecutor | `0x0c78cDc973de62ae83D99cEe87D8bD45d5Cd2084` | `0x2F6DdA8EA7b41186c1C00980fF1b96df23E4D442` |
+| ValidatorUtils | `0x0911837C1cdC5b5C6ACDBc887Be223A05c3c6FDD` | `0xCa56EB65F0C84e2BeCCd6A42Ff2ADAC5e362705e` |
+| ValidatorWalletCreator | `0x367Ad15A9aDFF8C2D1D51892F2d717bF2B86a3aD` | `0xD3E785B544bf85f124fa0f3aC557127882Ed2f09` |
+| DeployHelper | `0xD58aa678074840c5A74c29d85A493723c4f48e8c` | `0xaD98D017aA12d0a7A265d4BFAfd289CE9968943f` |
+| VectorX | `0xA712dfec48AF3a78419A8FF90fE8f97Ae74680F0` | `0x13cBE46E168460a101c07efb6Ab7B9ec637F02aA` |
+| Avail Bridge | `0x420953898afC97147675F793a90d3793b974698b` | `0xBC3071f9dE256B3b9C6304731F28C98f102425De` |
+| Avail Bridge Proxy | `0xa3e9e20875b7A7461C4829663497F7c2baB9E13b` | `0x9378F9E35ff46a131406FEb7a226F7da4395DB48` |
+
+## Previous Releases
+
+### v2.1.0-upstream-v3.1.0
+* nitro-node: [avail-nitro-node:v2.1.0-upstream-v3.1.0](https://hub.docker.com/repository/docker/availj/avail-nitro-node/tags)
+* nitro-contracts: [avail-nitro-contracts:v2.1.0-upstream-v2.0.0](https://github.com/availproject/nitro-contracts/releases/tag/v2.1.0-upstream-v2.0.0)
+* Rollup creator address: 
+  * Arbitrum Sepolia: `0x9673b69f55808c4eB56b4e5E29ec1aE85e7f20f4`
+  * Base Sepolia: `0xfB3b37b5685340169de1BcEc5d607912eBbB6668`
+* wasm module root: `0x29e13d2cf8e8e44b8306703e845e0b9ee732f5144da4666a0079e9f50aec21aa`
+
+### v2.0.0-upstream-v2.3.1
+* nitro-node: [avail-nitro-node:v2.0.0-upstream-v2.3.1](https://hub.docker.com/repository/docker/availj/avail-nitro-node/tags)
+* nitro-contracts: [avail-nitro-contracts:v2.0.0-upstream-v1.2.1](https://github.com/availproject/nitro-contracts/releases/tag/v2.0.0-upstream-v1.2.1)
+* Rollup creator address: 
+  * Arbitrum Sepolia: `0x364DE2F72f1496Fdf02c133A5fe60e6a079f2178`
+  * Base Sepolia: `0x246A71eefDBd543D015dbE8CAe52263103d49315`
+* wasm module root: `0x9c5556e303c5b0399bde1391cbc61a195c95318e1c1a15b1c402d6a89ba1ebb3`
+
+### v1.0.0
+<Callout type="warning">
+The previous release of v1 is not recommended for install any more, but we will continue supporting it until a migration path from v1 to current release is provided.
+</Callout>
+* nitro-node: [avail-nitro-node:v1.0.0-upstream-v2.3.1](https://hub.docker.com/repository/docker/availj/avail-nitro-node/tags)
+* nitro-contracts: [avail-nitro-contracts:v1.0.0-upstream-v1.2.1](https://github.com/availproject/nitro-contracts/releases/tag/v1.0.0-upstream-v1.2.1)
+* Rollup creator address: 
+  * Arbitrum Sepolia: `0xADCBE5c221566FA6e6Ebf5BA08759c83177DfCDA`
+* wasm module root:
+  * arm64:- `0x30d81f66d40dbb88484524cbce0982ee9adee944d9416c283313560efd5af958`
+  * amd64:- `0xc3d6717b86468b20ed2d74fa4484571b51595d56294d154b0fac19d55b599e09`

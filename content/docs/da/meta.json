@@ -1,0 +1,14 @@
+{
+  "pages": [
+    "welcome-to-avail-docs",
+    "display",
+    "networks",
+    "build-with-avail",
+    "learn-about-avail",
+    "operate-a-node",
+    "api-reference",
+    "glossary",
+    "faqs",
+    "bug-bounty"
+  ]
+}

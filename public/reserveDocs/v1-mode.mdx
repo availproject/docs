@@ -1,0 +1,84 @@
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Fetch the operating mode of the light client instance
+
+Retrieves the operating mode of the Avail light client. The Light client can operate in two different modes,
+`LightClient` or `AppClient`, depending on configuration of application ID(`app-id`) flag.
+
+*Params*:
+- None
+
+*Response*:
+- Operating mode
+
+<Tabs items={['CURL', 'Rust']}>
+
+<Tabs.Tab>
+
+<Tabs items={['Local', 'Remote']}>
+
+<Tabs.Tab>
+```sh
+curl "localhost:7007/v1/mode"
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```sh
+curl "https://api.lightclient.mainnet.avail.so/v1/mode"
+```
+</Tabs.Tab>
+</Tabs>
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+```rust
+use reqwest::StatusCode;
+use serde::Deserialize;
+
+#[derive(Debug, Deserialize)]
+#[serde(untagged)]
+enum Mode {
+    LightClient,
+    AppClient { AppClient: u32 },
+}
+
+const LIGHT_CLIENT_URL: &str = "https://api.lightclient.mainnet.avail.so";
+
+#[tokio::main]
+async fn main() {
+    let mode_url = format!("{LIGHT_CLIENT_URL}/v1/mode");
+    let response = reqwest::get(&mode_url).await.unwrap();
+
+    if response.status() == StatusCode::OK {
+        let response_text = response.text().await.unwrap();
+        println!("Raw response: {}", response_text);
+
+        let mode: Mode = serde_json::from_str(&response_text).unwrap();
+        match mode {
+            Mode::LightClient => println!("Mode: LightClient"),
+            Mode::AppClient { AppClient: app_id } => println!("Mode: AppClient, App ID: {}", app_id),
+        }
+    } else {
+        eprintln!("Failed to get mode: {}", response.status());
+    }
+    // ...error handling...
+}
+```
+</Tabs.Tab>
+</Tabs>
+
+If operating mode is `LightClient` response is:
+
+```json
+"LightClient"
+```
+
+In case of `AppClient` mode, response is:
+
+```json
+{"AppClient": {app_id}}
+```

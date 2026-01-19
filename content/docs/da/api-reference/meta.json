@@ -1,0 +1,8 @@
+{
+  "pages": [
+    "avail-node-api",
+    "avail-lc-api",
+    "avail-bridge-api",
+    "avail-turbo-da-api"
+  ]
+}

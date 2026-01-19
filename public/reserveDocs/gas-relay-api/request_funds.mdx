@@ -1,0 +1,33 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Request fund deposit in User's account for a given token
+
+## Request
+
+- `Path`: `/users/request_funds`
+- `Method type`: `POST`
+- `Headers`: `Authorization: Bearer <token>`, `Content-Type: application/json`
+
+## Params
+
+- `token_address`: A whitelisted address of a token user wants to subscribe to.
+- `amount_deposited`: The amount of funds that a user deposited for submission. The value should **NOT BE** decimal scaled.
+- `chain_id`: Chain ID to which the funds are deposited.
+
+## Example request
+
+```bash
+curl -X POST "https://api.example.com/user/request_funds" \
+     -H "Authorization: Bearer YOUR_TOKEN" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "token_address": "0x....",
+           "amount_deposited": 1001,
+           "chain_id": 1
+         }'
+```
+{/* 
+## Example response
+
+```json
+``` */}

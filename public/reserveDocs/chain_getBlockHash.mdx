@@ -1,0 +1,57 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# chain_getBlockHash
+
+> Get the block hash for a specific block
+
+Avail node method that takes an optional block number and returns the hash of a particular block. Returns hash of latest block if no block number is supplied.
+
+### Parameters
+
+- `blockNumber` - positive integer
+
+### Response
+
+- `blockHash` - Hexadecimal hash of a block
+
+chain_getBlockHash code snippets
+
+
+<Tabs items={['avail-js', 'avail-rust']}>
+
+<Tabs.Tab>
+
+```javascript
+import { ApiPromise, WsProvider } from '@polkadot/api';
+
+async function getBlockHash(blockNumber) {
+
+    const wsProvider = new WsProvider('wss://mainnet.avail-rpc.com/');
+    const api = await ApiPromise.create({ provider: wsProvider });
+  
+    const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
+    console.log(`Block hash for block number ${blockNumber}: ${blockHash}`);
+}
+  getBlockHash(142822);
+```
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+```rust
+import { ApiPromise, WsProvider } from '@polkadot/api';
+
+async function getBlockHash(blockNumber) {
+
+    const wsProvider = new WsProvider('wss://mainnet.avail-rpc.com/');
+    const api = await ApiPromise.create({ provider: wsProvider });
+  
+    const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
+    console.log(`Block hash for block number ${blockNumber}: ${blockHash}`);
+}
+  getBlockHash(142822);
+```
+
+</Tabs.Tab>
+</Tabs>

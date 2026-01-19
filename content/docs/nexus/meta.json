@@ -1,0 +1,11 @@
+{
+  "pages": [
+    "introduction-to-nexus",
+    "concepts",
+    "nexus-overview",
+    "nexus-quickstart",
+    "nexus-examples",
+    "avail-nexus-sdk",
+    "nexus-cheatsheet"
+  ]
+}

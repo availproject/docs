@@ -1,0 +1,26 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Submit data to avail using JSON payload
+
+## Request
+
+- `Path`: `/user/submit_data`
+- `Method type`: `POST`
+- `Headers`: `Authorization: Bearer <token>`, `Content-Type: application/json`
+
+## Params
+
+- `data`: Stringified payload.
+- `token`: The token corresponding to which you want to make the payment.
+
+## Example request
+
+```bash
+curl -X POST "https://api.example.com/user/submit_data" \
+     -H "Authorization: Bearer YOUR_TOKEN" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "data": "Test",
+           "token": "ethereum"
+         }'
+```

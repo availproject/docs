@@ -1,0 +1,12 @@
+{
+  "pages": [
+    "eth-head",
+    "avail-head",
+    "merkle-proof",
+    "storage-proof",
+    "vector-send-message",
+    "vector-send-tokens",
+    "GET API",
+    "Extrinsics"
+  ]
+}

@@ -1,0 +1,21 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Submit data to avail using JSON payload
+
+## Request
+
+- `Path`: `/user/get_pre_image`
+- `Method type`: `GET`
+- `Headers`: `Authorization: Bearer <token>`
+
+## Params
+
+- `submission_id`: Submission ID value.
+
+## Example request
+
+```bash
+curl -X GET "https://api.example.com/user/get_pre_image?submission_id=<SUBMISSION_ID>" \
+     -H "Authorization: Bearer YOUR_TOKEN" \
+     -H "Content-Type: application/json"
+```

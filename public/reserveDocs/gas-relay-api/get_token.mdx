@@ -1,0 +1,24 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# Retrieve details about a token
+
+## Request
+
+- `Path`: `/user/get_token`
+- `Method type`: `GET`
+- `Headers`: `Authorization: Bearer <token>`
+
+## Params
+
+- `token_details_id` (required): The registered id of the token against the user information in Token Details DB table.
+
+## Example request
+
+```bash
+curl -X GET "https://api.example.com/user/get_token" \
+     -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+## Example response
+
+```json

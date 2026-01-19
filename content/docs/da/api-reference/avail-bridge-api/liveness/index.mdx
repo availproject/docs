@@ -1,0 +1,31 @@
+---
+title: "Check liveness of server"
+image: '/img/docs-link-preview.png'
+---
+import { Callout, Tabs } from '@/components/nextra-compat'
+
+# Check liveness of server
+
+## Request
+
+- `Path`: `/`
+- `Method type`: `GET`
+
+## Example Request
+
+<Tabs items={['CURL']}>
+
+<Tab>
+    
+```bash filename="CURL"
+curl https://turing-bridge-api.avail.so/
+```
+
+</Tab>
+</Tabs>
+
+## Example response
+
+```json showLineNumbers filename="Example JSON response"
+{"name":"Avail Bridge API"}
+```

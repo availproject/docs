@@ -1,0 +1,13 @@
+{
+  "pages": [
+    "accounts",
+    "avail-multisig",
+    "proxies-on-avail",
+    "identity",
+    "avail-snap",
+    "ledger-avail",
+    "bridge-avail",
+    "staking-governance",
+    "display"
+  ]
+}

@@ -1,0 +1,54 @@
+---
+id: overview
+title: Building on the Madara Stack with Avail
+sidebar_label: Overview
+description: 'Discover how to utilize Avail as a data availability layer.'
+keywords:
+  - documentation
+  - avail
+  - develop
+  - build
+  - data availability
+  - da
+image: https://docs.availproject.org/img/avail/AvailDocs.png
+---
+
+# Building on the Madara Stack with Avail
+
+The Madara stack, when integrated with Avail in a Validium setup, provides a seamless platform for scaling blockchain applications. This integration combines the customizability and Starknet compatibility of Madara with the robust data availability solutions of Avail.
+
+### Transaction Lifecycle
+
+1. **Transaction Submission**
+
+   - **Process**: Users initiate transactions which are sent to the Madara-based Validium Sequencer.
+   - **Role**: The Sequencer, leveraging the flexibility of Madara, temporarily holds these transactions.
+
+2. **Batch Processing**
+
+   - **Component**: Customized within Madara's framework.
+   - **Function**: Transactions are batched for efficient processing, leveraging Madara's modular design.
+
+3. **Data Availability with Avail**
+
+   - **Component**: Custom integration within Madara's setup.
+   - **Function**: Batches are published to Avail for data availability, ensuring transparency and accessibility.
+
+4. **State Transition and Proof Generation**
+
+   - **Component**: Utilizes Madara's Starknet compatibility.
+   - **Function**: State transitions are processed, and cryptographic proofs are generated within the Madara environment.
+
+5. **Commitment and Verification**
+   - **Action**: Commitments, along with proofs, are anchored to a primary blockchain (e.g., Ethereum), ensuring security and finality.
+
+### Key Features
+
+- **Customizability**: Madara's Substrate-based framework allows for extensive customization to meet specific blockchain requirements.
+- **Starknet Compatibility**: Madara's compatibility with Starknet opens a wide array of tools and features for developers.
+- **Robust Data Availability**: Avail provides a decentralized solution for data availability, crucial for scalability and security in blockchain applications.
+- **Flexibility and Interoperability**: The combination of Madara and Avail supports a wide range of blockchain architectures and use cases.
+
+### Developer Resources
+
+To leverage Madara with Avail, developers are encouraged to refer to the [<ins>tutorial</ins>](/docs/build-with-avail/Validium/madara/madara.mdx) on creating an Avail-powered validium with Avail. For in-depth information on Madara's features, tools, and configurations, visit [<ins>Madara Documentation</ins>](https://docs.madara.zone/).

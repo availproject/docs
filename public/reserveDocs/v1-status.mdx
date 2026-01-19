@@ -1,0 +1,102 @@
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Fetch the status of the latest block processed by the light client
+
+Retrieves the status of the latest block processed by the light client.
+
+*Params*:
+- None
+
+*Response*:
+- Latest block number
+- Confidence in %
+- App ID
+
+<Tabs items={['CURL', 'Rust']}>
+
+<Tabs.Tab>
+
+<Tabs items={['Local', 'Remote']}>
+
+<Tabs.Tab>
+```sh
+curl "localhost:7007/v1/status"
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```sh
+curl "https://api.lightclient.mainnet.avail.so/v1/status"
+```
+</Tabs.Tab>
+</Tabs>
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+
+```rust
+use reqwest::StatusCode;
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+enum StatusResponse {
+    NotFound(String),
+    Status {
+        block_num: u32,
+        confidence: f64,
+        app_id: u32,
+    },
+}
+
+const LIGHT_CLIENT_URL: &str = "https://api.lightclient.mainnet.avail.so";
+
+#[tokio::main]
+async fn main() {
+    let status_url = format!("{LIGHT_CLIENT_URL}/v1/status");
+    let response = reqwest::get(&status_url).await.unwrap();
+
+    if response.status() == StatusCode::OK {
+        let response_text = response.text().await.unwrap();
+        println!("Raw response: {}", response_text);
+
+        let status: StatusResponse = serde_json::from_str(&response_text).unwrap();
+        match status {
+            StatusResponse::NotFound(message) => println!("Status: {}", message),
+            StatusResponse::Status {
+                block_num,
+                confidence,
+                app_id,
+            } => println!(
+                "Block number: {}, Confidence: {}%, App ID: {}",
+                block_num, confidence, app_id
+            ),
+        }
+    } else {
+        eprintln!("Failed to get status: {}", response.status());
+    }
+    // ...error handling...
+}
+```
+</Tabs.Tab>
+</Tabs>
+
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Sample Response:</summary>
+
+```json
+{ 
+  "block_num": 89,
+  "confidence": 93.75,
+  "app_id": 1 
+}
+```
+</details>
+
+If there are no processed blocks:
+
+```json
+"Not found"
+```

@@ -1,0 +1,8 @@
+{
+  "pages": [
+    "submit-raw-data",
+    "submit-data",
+    "get-pre-image",
+    "get-submission-info"
+  ]
+}
