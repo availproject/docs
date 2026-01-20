@@ -19,6 +19,54 @@ body {
     font-display: block;
 }
 
+@font-face {
+    font-family: "Delight";
+    src: url("/fonts/delight-vf.ttf") format("truetype");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Delight";
+    src: url("/fonts/delight-regular.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Delight";
+    src: url("/fonts/delight-medium.otf") format("opentype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Delight";
+    src: url("/fonts/delight-semibold.otf") format("opentype");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Delight";
+    src: url("/fonts/delight-bold.otf") format("opentype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "ChiKareGo2";
+    src: url("/fonts/ChiKareGo2 Font.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
 @variant dark (&:where(.dark *));
 
 /* ============================================
@@ -38,8 +86,8 @@ body {
     --border-primary: #e5e5e5;
     --border-secondary: #d2daea;
     --text-primary: #0a0a0a;
-    --text-secondary: #737373;
-    --text-muted: #a1a1a1;
+    --text-secondary: #404040;
+    --text-muted: #737373;
 
     /* Accent Colors */
     --accent-blue: #006bf4;
@@ -51,9 +99,11 @@ body {
     --font-sans:
         "Geist", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
     --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, monospace;
-    --font-heading: "Inter", "Geist", sans-serif;
-    --font-display: "Inter", sans-serif;
+    --font-heading: "Delight", "Geist", sans-serif;
+    --font-display: "Delight", sans-serif;
     --font-thunder: "Thunder", "Inter", sans-serif;
+    --font-pixel: "ChiKareGo2", monospace;
+    --font-decoration: "Delight", sans-serif;
 
     /* Spacing */
     --space-xs: 4px;
@@ -217,35 +267,31 @@ article.nextra-content {
     background-color: var(--bg-primary) !important;
 }
 
-/* Page headings - using Inter font family */
+/* Page headings - using Delight font family (Title style) */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-    font-family:
-        "Inter",
-        "Geist",
-        -apple-system,
-        BlinkMacSystemFont,
-        sans-serif !important;
+    font-family: var(--font-heading) !important;
     color: var(--text-primary) !important;
-    font-weight: 500 !important;
+    font-weight: 400 !important;
     letter-spacing: 0.02em;
 }
 
+/* Title: Delight 24px, line-height 32px, letter-spacing 2% */
 h1 {
-    font-size: 28px !important;
-    line-height: 36px !important;
-    font-weight: 500 !important;
+    font-size: 24px !important;
+    line-height: 32px !important;
+    font-weight: 400 !important;
     letter-spacing: 0.02em !important;
 }
 
 h2 {
     font-size: 20px !important;
-    line-height: 26px !important;
-    font-weight: 500 !important;
+    line-height: 28px !important;
+    font-weight: 400 !important;
     letter-spacing: 0.02em !important;
     margin-top: 48px !important;
     padding-bottom: 16px !important;
@@ -255,7 +301,7 @@ h2 {
 h3 {
     font-size: 18px !important;
     line-height: 24px !important;
-    font-weight: 600 !important;
+    font-weight: 500 !important;
 }
 
 /* Code in headings - keep same size as heading */
@@ -271,13 +317,48 @@ h4 code {
     color: inherit !important;
 }
 
-/* Body text */
+/* Body text - Body 16: Geist 16px, line-height 24px, letter-spacing 0% */
 p,
 li {
     font-family: var(--font-sans) !important;
     font-size: 16px !important;
-    line-height: 26px !important;
+    line-height: 24px !important;
+    letter-spacing: 0 !important;
     color: var(--text-secondary) !important;
+}
+
+/* Body 14: Geist 14px, line-height 22px, letter-spacing 0% */
+.body-14,
+small,
+.text-sm {
+    font-family: var(--font-sans) !important;
+    font-size: 14px !important;
+    line-height: 22px !important;
+    letter-spacing: 0 !important;
+}
+
+/* UI 16: Geist 16px, line-height 20px, letter-spacing 0% */
+.ui-16 {
+    font-family: var(--font-sans) !important;
+    font-size: 16px !important;
+    line-height: 20px !important;
+    letter-spacing: 0 !important;
+}
+
+/* UI 14: Geist 14px, line-height 18px, letter-spacing 0% */
+.ui-14 {
+    font-family: var(--font-sans) !important;
+    font-size: 14px !important;
+    line-height: 18px !important;
+    letter-spacing: 0 !important;
+}
+
+/* UI 13: Geist 13px, line-height 18px, letter-spacing 0% */
+.ui-13 {
+    font-family: var(--font-sans) !important;
+    font-size: 13px !important;
+    line-height: 18px !important;
+    letter-spacing: 0 !important;
 }
 
 /* Links - more visible and clickable */
@@ -314,13 +395,19 @@ h4 a {
 /* Code block container */
 pre,
 .nextra-code-block pre {
-    background-color: var(--bg-primary) !important;
+    background-color: #f5f5f5 !important;
     border: 1px solid var(--border-primary) !important;
     border-radius: 0 !important;
     font-family: var(--font-mono) !important;
     font-size: 14px !important;
     line-height: 24px !important;
     padding: 20px 16px !important;
+}
+
+/* Dark mode code blocks */
+.dark pre,
+.dark .nextra-code-block pre {
+    background-color: #1a1a1a !important;
 }
 
 /* Inline code */
@@ -489,32 +576,25 @@ code[data-line-numbers] > [data-line]::before {
     background-color: var(--bg-secondary) !important;
 }
 
-/* Card title */
+/* Card title - using Delight */
 .nextra-card h3,
 .nextra-card span,
 .card-title {
-    font-family:
-        "Inter",
-        "Geist",
-        -apple-system,
-        sans-serif !important;
-    font-weight: 500 !important;
+    font-family: var(--font-heading) !important;
+    font-weight: 400 !important;
     font-size: 16px !important;
     color: var(--text-primary) !important;
     margin-bottom: 4px !important;
 }
 
-/* Card description */
+/* Card description - Body 14: Geist 14px/22px */
 .nextra-card p,
 .card-description {
-    font-family:
-        "Inter",
-        "Geist",
-        -apple-system,
-        sans-serif !important;
+    font-family: var(--font-sans) !important;
     font-size: 14px !important;
     color: var(--text-secondary) !important;
     line-height: 22px !important;
+    letter-spacing: 0 !important;
     font-weight: 400 !important;
 }
 
@@ -790,6 +870,24 @@ article hr {
     border: 0 !important;
 }
 
+/* Pixel: ChiKareGo2 24px, line-height 24px, letter-spacing 0% */
+.pixel,
+.font-pixel {
+    font-family: var(--font-pixel) !important;
+    font-size: 24px !important;
+    line-height: 24px !important;
+    letter-spacing: 0 !important;
+}
+
+/* Decoration: Delight 16px, line-height 20px, letter-spacing 2% */
+.decoration,
+.font-decoration {
+    font-family: var(--font-decoration) !important;
+    font-size: 16px !important;
+    line-height: 20px !important;
+    letter-spacing: 0.02em !important;
+}
+
 @media (min-width: 768px) {
     .thunder-heading {
         font-size: 120px !important;
@@ -807,7 +905,9 @@ article hr {
     --font-sans:
         "Geist", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
     --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, monospace;
-    --font-heading: "Inter", "Geist", sans-serif;
+    --font-heading: "Delight", "Geist", sans-serif;
+    --font-pixel: "ChiKareGo2", monospace;
+    --font-decoration: "Delight", sans-serif;
 }
 
 /* Font utilities */
@@ -820,6 +920,12 @@ article hr {
     }
     &-heading {
         font-family: var(--font-heading);
+    }
+    &-pixel {
+        font-family: var(--font-pixel);
+    }
+    &-decoration {
+        font-family: var(--font-decoration);
     }
     &-regular {
         font-weight: 400;
