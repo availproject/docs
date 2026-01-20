@@ -172,8 +172,8 @@ zkstack chain init
 **BEFORE YOU BEGIN**<br/>
 Before configuring Avail DA, complete these essential steps:
 1. [`Create an Avail Account`](https://docs.availproject.org/user-guides/accounts): Set up your account to interact with the Avail network
-2. [`Get Testnet Tokens`](https://docs.availproject.org/da/build-with-availinteract-with-avail-da/faucet): Obtain AVAIL tokens on the Turing testnet for transactions
-3. [`Create an AppID`](https://docs.availproject.org/da/build-with-availinteract-with-avail-da/app-id): Required to identify your application on the Avail network
+2. [`Get Testnet Tokens`](https://docs.availproject.org/da/build-with-avail/interact-with-avail-da/faucet): Obtain AVAIL tokens on the Turing testnet for transactions
+3. [`Create an AppID`](https://docs.availproject.org/da/build-with-avail/interact-with-avail-da/app-id): Required to identify your application on the Avail network
 </Callout>
 
 After completing these prerequisites, configure your chain to use Avail as the data availability layer by updating two configuration files with the appropriate settings.
@@ -182,7 +182,7 @@ Please choose between the [Full Client](#full-client) or [Gas Relay](#gas-relay)
 
 #### Full Client
 
-Using the full client requires you to [create an AppID](https://docs.availproject.org/da/build-with-availinteract-with-avail-da/app-id) and maintain the Avail balance in your designated data submission account.
+Using the full client requires you to [create an AppID](https://docs.availproject.org/da/build-with-avail/interact-with-avail-da/app-id) and maintain the Avail balance in your designated data submission account.
 
 1. Add the following to your chain's general config: `zksync-era/chains/$CHAIN_NAME/configs/general.yaml`
 
@@ -226,7 +226,7 @@ da:
 
 #### Gas Relay
 
-The gas relay API is in ***private beta***. Using the gas relay allows you to post data to Avail using a relayer and pay fees in a different token (only if supported) without needing to maintain a balance. It is recommended to [create an AppID](https://docs.availproject.org/da/build-with-availinteract-with-avail-da/app-id) to use within the gas relay service. Please contact the Avail team if you want access to the gas relay API.
+The gas relay API is in ***private beta***. Using the gas relay allows you to post data to Avail using a relayer and pay fees in a different token (only if supported) without needing to maintain a balance. It is recommended to [create an AppID](https://docs.availproject.org/da/build-with-avail/interact-with-avail-da/app-id) to use within the gas relay service. Please contact the Avail team if you want access to the gas relay API.
 
 1. Add the following to your chain's general config: `zksync-era/chains/$CHAIN_NAME/configs/general.yaml`
 
