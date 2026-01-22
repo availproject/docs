@@ -257,6 +257,21 @@ footer a {
     text-decoration: none !important;
 }
 
+/* Navbar icon links (GitHub, X/Twitter) - ensure proper color in light/dark mode */
+nav a svg,
+header a svg,
+.nextra-nav-container a svg,
+.nextra-navbar a svg {
+    color: var(--text-primary) !important;
+}
+
+nav a svg path[fill="currentColor"],
+header a svg path[fill="currentColor"],
+.nextra-nav-container a svg path[fill="currentColor"],
+.nextra-navbar a svg path[fill="currentColor"] {
+    fill: var(--text-primary) !important;
+}
+
 /* ============================================
    CONTENT AREA STYLING
    ============================================ */
@@ -464,65 +479,97 @@ code[data-line-numbers] > [data-line]::before {
 .nextra-callout,
 .callout,
 [class*="callout"] {
-    background-color: rgba(0, 107, 244, 0.06) !important;
-    border: 1px solid rgba(0, 107, 244, 0.2) !important;
-    border-left: 3px solid #006bf4 !important;
-    border-radius: 0 !important;
-    padding: 16px 20px !important;
+    background-color: rgba(0, 107, 244, 0.08) !important;
+    border: 1px solid rgba(0, 107, 244, 0.15) !important;
+    border-left: 4px solid #006bf4 !important;
+    border-radius: 4px !important;
+    padding: 20px 24px !important;
     margin: 24px 0 !important;
+    display: flex !important;
+    gap: 16px !important;
+    align-items: flex-start !important;
 }
 
 /* Warning callout - yellow/amber */
 .nextra-callout[data-type="warning"],
 [class*="callout-warning"] {
-    background-color: rgba(234, 179, 8, 0.06) !important;
-    border: 1px solid rgba(234, 179, 8, 0.2) !important;
-    border-left: 3px solid #eab308 !important;
+    background-color: rgba(234, 179, 8, 0.08) !important;
+    border: 1px solid rgba(234, 179, 8, 0.15) !important;
+    border-left: 4px solid #eab308 !important;
 }
 
 /* Error/Danger callout - red */
 .nextra-callout[data-type="error"],
 [class*="callout-error"],
 [class*="callout-danger"] {
-    background-color: rgba(239, 68, 68, 0.06) !important;
-    border: 1px solid rgba(239, 68, 68, 0.2) !important;
-    border-left: 3px solid #ef4444 !important;
+    background-color: rgba(239, 68, 68, 0.08) !important;
+    border: 1px solid rgba(239, 68, 68, 0.15) !important;
+    border-left: 4px solid #ef4444 !important;
 }
 
 /* Tip/Success callout - green */
 .nextra-callout[data-type="tip"],
 [class*="callout-tip"] {
-    background-color: rgba(34, 197, 94, 0.06) !important;
-    border: 1px solid rgba(34, 197, 94, 0.2) !important;
-    border-left: 3px solid #22c55e !important;
+    background-color: rgba(34, 197, 94, 0.08) !important;
+    border: 1px solid rgba(34, 197, 94, 0.15) !important;
+    border-left: 4px solid #22c55e !important;
 }
 
-/* Callout header */
-.nextra-callout > div:first-child,
-.callout-title {
+/* Callout emoji/icon container */
+.nextra-callout > span:first-child,
+.nextra-callout > div:first-child:has(svg) {
+    font-size: 20px !important;
+    line-height: 1 !important;
+    flex-shrink: 0 !important;
+    margin-top: 2px !important;
+}
+
+/* Callout content wrapper */
+.nextra-callout > div:last-child {
+    flex: 1 !important;
+    min-width: 0 !important;
+}
+
+/* Callout title - first line styling (text before <br/>) */
+.nextra-callout p:first-of-type,
+.callout p:first-of-type {
     font-family: var(--font-sans) !important;
     font-weight: 600 !important;
-    font-size: 15px !important;
+    font-size: 14px !important;
+    letter-spacing: 0.02em !important;
     color: var(--text-primary) !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
+    margin-bottom: 8px !important;
+    line-height: 1.4 !important;
 }
 
-/* Callout icon */
-.nextra-callout svg,
-.callout svg {
-    margin-right: 10px !important;
-    flex-shrink: 0 !important;
-    opacity: 0.8 !important;
+/* Error callout title color */
+.nextra-callout[data-type="error"] p:first-of-type {
+    color: #ef4444 !important;
 }
 
-/* Callout content */
+/* Warning callout title color */
+.nextra-callout[data-type="warning"] p:first-of-type {
+    color: #ca8a04 !important;
+}
+
+/* Tip callout title color */
+.nextra-callout[data-type="tip"] p:first-of-type {
+    color: #16a34a !important;
+}
+
+/* Info callout title color */
+.nextra-callout[data-type="info"] p:first-of-type {
+    color: #006bf4 !important;
+}
+
+/* Callout body text */
 .nextra-callout p,
 .callout p {
-    color: var(--text-primary) !important;
+    font-family: var(--font-sans) !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+    color: var(--text-secondary) !important;
     margin: 0 !important;
-    opacity: 0.85;
 }
 
 /* Callout links - make them visible */
@@ -544,9 +591,11 @@ code[data-line-numbers] > [data-line]::before {
     margin-bottom: 0 !important;
 }
 
-.nextra-callout *:first-child,
-.callout *:first-child {
-    margin-top: 0 !important;
+/* br tag spacing in callouts */
+.nextra-callout br {
+    display: block !important;
+    content: "" !important;
+    margin-bottom: 8px !important;
 }
 
 /* ============================================

@@ -36,7 +36,9 @@ export default function HomePage() {
             lineHeight: 1.6,
           }}
         >
-          The unification layer of Web3. Build scalable, modular blockchain applications with Avail's data availability layer.
+          Scale Access to the Onchain Economy.
+
+
         </p>
       </div>
       <Introduction />

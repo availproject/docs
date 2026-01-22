@@ -12,8 +12,9 @@ import {
   FaDiscord,
   FaGithub,
   FaLinkedin,
-  FaTwitter,
-  FaX,
+  FaTelegram,
+  FaXTwitter,
+  FaYoutube,
 } from "react-icons/fa6";
 
 interface SubLinkTypes {
@@ -45,100 +46,17 @@ export const Footer = () => {
   const footerLinks: FooterLinkTypes[] = [
     {
       id: 1,
-      label: "Platform",
-      inActive: true,
+      label: "Resources",
       subLinks: [
         {
           id: 1,
-          label: "Overview",
-          link: ROUTES.HOMEPAGE,
+          label: "Website",
+          link: "https://www.availproject.org/",
         },
         {
           id: 2,
-          label: "Sovereign Rollups",
-          link: ROUTES.HOMEPAGE,
-        },
-        {
-          id: 3,
-          label: "How It works",
-          link: ROUTES.HOMEPAGE,
-        },
-      ],
-    },
-    {
-      id: 3,
-      label: "Data Availability Resources",
-      subLinks: [
-        {
-          id: 1,
-          label: "The Data Availability Problem",
-          link: "https://blog.availproject.org/the-data-availability-problem/",
-        },
-        {
-          id: 2,
-          label: "What is Avail?",
-          link: "https://blog.availproject.org/introducing-avail-by-a-robust-general-purpose-scalable-data-availability-layer/",
-        },
-        {
-          id: 3,
-          label: "Data Attestation Bridge",
-          link: "https://blog.availproject.org/data-attestation-bridge/",
-        },
-        {
-          id: 4,
-          label: "Ability to Scale",
-          link: "https://blog.availproject.org/abilitytoscalepart3/",
-        },
-        {
-          id: 5,
-          label: "Reference Document",
-          link: "https://github.com/availproject/data-availability/blob/93c547ce4efce3e992b573179a8d22b3657fdcee/reference%20document/Avail%20Reference%20Paper%20v2.1%206%20Nov%202024.pdf",
-        },
-      ],
-    },
-    {
-      id: 4,
-      label: "Node Repositories",
-      subLinks: [
-        {
-          id: 1,
-          label: "Light Client",
-          link: "https://github.com/availproject/avail-light",
-        },
-        {
-          id: 2,
-          label: "Full Node",
-          link: "https://github.com/availproject/avail",
-        },
-      ],
-    },
-    {
-      id: 2,
-      label: "Network Guides",
-      subLinks: [
-        {
-          id: 1,
-          label: "Node Guide",
-          isInternal: true,
-          link: ROUTES.TYPES_OF_NODES,
-        },
-        {
-          id: 2,
-          label: "Validator Guide",
-          isInternal: true,
-          link: ROUTES.BECOME_VALIDATOR,
-        },
-      ],
-    },
-    {
-      id: 5,
-      label: "Company",
-      subLinks: [
-        {
-          id: 2,
-          label: "Team",
-          inActive: true,
-          link: ROUTES.DEVELOPERS,
+          label: "About Us",
+          link: "https://www.availproject.org/about",
         },
         {
           id: 3,
@@ -147,32 +65,114 @@ export const Footer = () => {
         },
         {
           id: 4,
-          label: "Partners",
-          inActive: true,
-          link: ROUTES.HOMEPAGE,
+          label: "Blog",
+          link: ROUTES.BLOG,
         },
         {
           id: 5,
-          label: "Community",
-          link: ROUTES.COMMUNITY,
+          label: "Privacy Policy",
+          link: "https://www.availproject.org/privacy-policy",
         },
         {
           id: 6,
-          label: "Privacy Policy",
-          isInternal: true,
-          link: "https://avail-project.notion.site/Privacy-Policy-e5f47df2f3a64055a7966bbaabe9a2eb",
+          label: "T & C",
+          link: "https://www.availproject.org/terms",
         },
         {
           id: 7,
-          label: "Terms",
-          isInternal: true,
-          link: "https://avail-project.notion.site/",
+          label: "Ecosystem",
+          link: "https://www.availproject.org/ecosystem",
+        },
+      ],
+    },
+    {
+      id: 2,
+      label: "Avail Nexus",
+      subLinks: [
+        {
+          id: 1,
+          label: "Introduction",
+          link: "/nexus/introduction-to-nexus",
         },
         {
-          id: 8,
-          label: "Forum",
-          isInternal: true,
-          link: "https://forum.availproject.org/",
+          id: 2,
+          label: "Concepts",
+          link: "/nexus/concepts",
+        },
+        {
+          id: 3,
+          label: "Nexus SDK Reference",
+          link: "/nexus/avail-nexus-sdk",
+        },
+        {
+          id: 4,
+          label: "How does Avail Nexus work?",
+          link: "https://blog.availproject.org/how-avail-nexus-works-simplifying-multichain-fragmentation/",
+        },
+        {
+          id: 5,
+          label: "Nexus Elements",
+          link: "https://elements.nexus.availproject.org/"
+        }
+       
+      ],
+    },
+    {
+      id: 3,
+      label: "Avail DA",
+      subLinks: [
+        {
+          id: 1,
+          label: "Introduction",
+          link: "/da/welcome-to-avail-docs",
+        },
+        {
+          id: 2,
+          label: "Deploy a Rollup",
+          link: "/da/build-with-avail/deploy-rollup-on-avail",
+        },
+        {
+          id: 3,
+          label: "Run a Validator",
+          link: "/da/operate-a-node/become-a-validator",
+        },
+        {
+          id: 4,
+          label: "Report a Bug",
+          link: "/da/bug-bounty",
+        },
+        {
+          id: 5,
+          label: "DA Whitepaper",
+          link: ROUTES.REFER_DOCS,
+        },
+       
+      ],
+    },
+    {
+      id: 2,
+      label: "Support",
+      subLinks: [
+        {
+          id: 1,
+          label: "Discord",
+          link: ROUTES.DISCORD,
+        },
+        {
+          id: 2,
+          label: "Github",
+          link: ROUTES.GITHUB,
+        },
+      ],
+    },
+    {
+      id: 3,
+      label: "Press Kit",
+      subLinks: [
+        {
+          id: 1,
+          label: "Brand Assets",
+          link: "https://www.availproject.org/brand-assets",
         },
       ],
     },
@@ -212,34 +212,34 @@ export const Footer = () => {
               alt="avail logo"
             />
             <p className="dark:!text-white !text-black">
-              The essential base layer for modern blockchains.
-            </p>
+              Shaping an era of connectivity, where value flows freely and access is unlimited            </p>
             <div>
-              <Link href={ROUTES.DISCORD} target="_blank" aria-label="dicord">
-                <FaDiscord
+              <Link href="https://t.me/AvailProject" target="_blank" aria-label="telegram">
+                <FaTelegram
                   width={"18px"}
-                  height={"14px"}
-                
+                  height={"18px"}
                 />
               </Link>
-              <Link href={ROUTES.GITHUB} target="_blank" >
-                <FaGithub width={"16px"} height={"18px"}/>
+              <Link href="https://x.com/AvailProject" target="_blank" aria-label="x">
+                <FaXTwitter width={"18px"} height={"18px"}/>
               </Link>
-              <Link href={ROUTES.TWITTER} target="_blank">
-                <FaTwitter
-                  width={"18px"}
-                  height={"15px"}
-                 
-                />
+              <Link href={ROUTES.DISCORD} target="_blank" aria-label="x">
+                <FaDiscord width={"18px"} height={"18px"}/>
               </Link>
               <Link
                 href={ROUTES.LINKEDIN}
                 target="_blank"
+                aria-label="linkedin"
               >
                 <FaLinkedin
-                  width={"17px"}
-                  height={"16px"}
-                 
+                  width={"18px"}
+                  height={"18px"}
+                />
+              </Link>
+              <Link href="https://www.youtube.com/@Availproject" target="_blank" aria-label="youtube">
+                <FaYoutube
+                  width={"18px"}
+                  height={"18px"}
                 />
               </Link>
             </div>
