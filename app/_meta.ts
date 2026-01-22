@@ -7,16 +7,16 @@ export default {
 
     'nexus': {
       type: "page",
-      title: "Nexus",
+      title: "Avail Nexus",
     },
 
     'da': {
       type: "page",
-      title: "Data Availability",
+      title: "Avail DA",
     },
     'user-guides': {
       type: 'page',
-      title: 'User Guides',
+      title: 'DA User Guides',
     },
 
     'Versions': {
