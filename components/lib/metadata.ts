@@ -3,7 +3,10 @@ import { Metadata } from 'next'
 export const sharedMetadata: Metadata = {
     metadataBase: new URL('https://docs.availproject.org'),
     title: "Avail docs",
-    description: "Avail developer docs built using Nextra V4",
+    description: "Avail developer docs. Start building on Avail today!",
+    icons: {
+      icon: '/img/favicon.ico',
+    },
     keywords: [
       "Avail Project",
       "Avail docs",
