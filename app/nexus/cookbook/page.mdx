@@ -1,0 +1,326 @@
+---
+image: "/img/docs-link-preview.png"
+title: Cookbook Recipes
+---
+import {Callout} from 'nextra/components'
+
+# Cookbook
+The cookbook hosts small code snippets in a question-answer format. It does not walk you through the whole setup like the [“Build your First Liquid App”](/nexus/nexus-examples) section does. 
+
+It rather aims to answer some questions around specific uses. It also does not replace FAQs that we may have rather this is focussed explicitly on code samples, instead of general trouble-shooting for common mishaps. 
+
+They show developer patterns on how the SDK is expected to be used by a developer or an LLM agent. 
+
+
+## SDK operations
+
+### How to simulate an operation on Nexus?
+Call `sdk.simulateBridge()`, `sdk.simulateBridgeAndExecute()`, or `sdk.simulateBridgeAndTransfer()` to preview an operation _without_ sending a transaction. The result contains an `intent` with sources, fees, and token metadata.
+```typescript
+import { sdk } from '@avail-project/nexus';
+
+// 1. Simulate a bridge
+const bridgeSimulation = await sdk.simulateBridge({
+  token: 'USDC',
+  amount: BigInt(100),
+  toChainId: 421614,
+});
+
+// 2. Simulate a bridgeAndExecute (bridge + contract call)
+const bridgeAndExecuteSimulation = await sdk.simulateBridgeAndExecute({
+  token: 'USDC',
+  amount: BigInt(1_000_000),
+  toChainId: 421614,
+  execute: {
+    to: '0xContractAddress',
+    data: encodedCalldata,
+    tokenApproval: {
+      token: 'USDC',
+      amount: BigInt(1_000_000),
+      spender: '0xContractAddress',
+    },
+  },
+});
+
+// 3. Simulate a bridgeAndTransfer (cross-chain send)
+const bridgeAndTransferSimulation = await sdk.simulateBridgeAndTransfer({
+  token: 'USDC',
+  amount: BigInt(1_000_000),
+  toChainId: 421614,
+  recipient: '0xRecipientAddress',
+});
+
+```
+The response structure for the above example can be found [here](https://docs.availproject.org/nexus/avail-nexus-sdk/bridge-methods/bridge#simulatebridge).
+
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Sample response for simulateBridge()</summary>
+```json
+    {
+      "intent": {
+        "allSources": [
+          {
+            "amount": "6245.786635",
+            "chainID": 11155111,
+            "chainLogo": "https://assets.coingecko.com/asset_platforms/images/279/large/ethereum.png",
+            "chainName": "Ethereum Sepolia",
+            "contractAddress": "0x1c7d4b196cb0c7b01d743fbc6116a902379c7238"
+          },
+          {
+            "amount": "754.958732",
+            "chainID": 84532,
+            "chainLogo": "https://assets.coingecko.com/asset_platforms/images/131/large/base-network.png",
+            "chainName": "Base Sepolia",
+            "contractAddress": "0x036cbd53842c5426634e7929541ec2318f3dcf7e"
+          },
+          {
+            "amount": "750",
+            "chainID": 11155420,
+            "chainLogo": "https://assets.coingecko.com/coins/images/25244/large/Optimism.png",
+            "chainName": "OP Sepolia",
+            "contractAddress": "0x5fd84259d66cd46123540766be93dfe6d43130d7"
+          },
+          {
+            "amount": "1",
+            "chainID": 421614,
+            "chainLogo": "https://assets.coingecko.com/coins/images/16547/large/arb.jpg",
+            "chainName": "Arbitrum Sepolia",
+            "contractAddress": "0x75faf114eafb1bdbe2f0316df893fd58ce46aa4d"
+          }
+        ],
+        "destination": {
+          "amount": "0.0001",
+          "chainID": 421614,
+          "chainLogo": "https://assets.coingecko.com/coins/images/16547/large/arb.jpg",
+          "chainName": "Arbitrum Sepolia"
+        },
+        "fees": {
+          "caGas": "0.000000",
+          "gasSupplied": "0",
+          "protocol": "0.0000005",
+          "solver": "0.000001",
+          "total": "0.000002"
+        },
+        "sources": [
+          {
+            "amount": "0.0001015",
+            "chainID": 11155111,
+            "chainLogo": "https://assets.coingecko.com/asset_platforms/images/279/large/ethereum.png",
+            "chainName": "Ethereum Sepolia",
+            "contractAddress": "0x1c7d4b196cb0c7b01d743fbc6116a902379c7238"
+          }
+        ],
+        "sourcesTotal": "0.000102",
+        "token": {
+          "decimals": 6,
+          "logo": "https://coin-images.coingecko.com/coins/images/6319/large/usdc.png",
+          "name": "USD Coin",
+          "symbol": "USDC"
+        }
+      },
+      "token": {
+        "contractAddress": "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d",
+        "decimals": 6,
+        "logo": "https://coin-images.coingecko.com/coins/images/6319/large/usdc.png",
+        "name": "USD Coin",
+        "symbol": "USDC",
+        "isNative": false
+      }
+    }
+    ```
+</details>
+
+    
+
+### How do I get source chain and destination chain information from an intent?
+
+After simulating, access `intent.sources` to see which chains the SDK chose to pull funds from. Each source has `chainID`,`chainName`, `chainLogo`, and `amount`. Use `intent`.`allSources` to see every chain that _could_ be used.
+```typescript
+const sim = await sdk.simulateBridge({
+  token: 'USDC',
+  amount: BigInt(100),
+  toChainId: 421614,
+});
+
+// Sources chosen by the solver
+sim.intent.sources.forEach((source) => {
+  console.log(source.chainName);        // "Arbitrum Sepolia"
+  console.log(source.chainID);          // 421614
+  console.log(source.chainLogo);        // "https://..."
+  console.log(source.amount);           // "100"
+  console.log(source.contractAddress);  // "0x..."
+});
+
+// All chains that had balance (superset of sources)
+console.log(sim.intent.allSources);
+
+// Destination chain info
+console.log(sim.intent.destination.chainName);
+console.log(sim.intent.destination.chainID);
+
+// Total amount pulled across all sources
+console.log(sim.intent.sourcesTotal);
+
+// ─── Alternative: use the intent hook during execution ───
+sdk.setOnIntentHook(({ intent, allow, deny, refresh }) => {
+  // Same ReadableIntent structure as the simulation
+  console.log(intent.sources);
+  console.log(intent.destination);
+  allow(); // or deny() to cancel
+});
+
+```
+
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Sample response</summary>
+
+```json
+{
+  "sources": [
+    {
+      "chainId": 11155111,
+      "chainName": "Ethereum Sepolia",
+      "chainLogo": "https://assets.coingecko.com/asset_platforms/images/279/large/ethereum.png",
+      "amount": "0.0001015",
+      "contractAddress": "0x1c7d4b196cb0c7b01d743fbc6116a902379c7238"
+    }
+  ],
+  "allSourcesAvailable": [
+    {
+      "amount": "6245.786635",
+      "chainID": 11155111,
+      "chainLogo": "https://assets.coingecko.com/asset_platforms/images/279/large/ethereum.png",
+      "chainName": "Ethereum Sepolia",
+      "contractAddress": "0x1c7d4b196cb0c7b01d743fbc6116a902379c7238"
+    },
+    {
+      "amount": "754.958732",
+      "chainID": 84532,
+      "chainLogo": "https://assets.coingecko.com/asset_platforms/images/131/large/base-network.png",
+      "chainName": "Base Sepolia",
+      "contractAddress": "0x036cbd53842c5426634e7929541ec2318f3dcf7e"
+    },
+    {
+      "amount": "750",
+      "chainID": 11155420,
+      "chainLogo": "https://assets.coingecko.com/coins/images/25244/large/Optimism.png",
+      "chainName": "OP Sepolia",
+      "contractAddress": "0x5fd84259d66cd46123540766be93dfe6d43130d7"
+    },
+    {
+      "amount": "1",
+      "chainID": 421614,
+      "chainLogo": "https://assets.coingecko.com/coins/images/16547/large/arb.jpg",
+      "chainName": "Arbitrum Sepolia",
+      "contractAddress": "0x75faf114eafb1bdbe2f0316df893fd58ce46aa4d"
+    }
+  ],
+  "destination": {
+    "amount": "0.0001",
+    "chainID": 421614,
+    "chainLogo": "https://assets.coingecko.com/coins/images/16547/large/arb.jpg",
+    "chainName": "Arbitrum Sepolia"
+  },
+  "sourcesTotal": "0.000102"
+}
+
+```
+</details>
+
+### How to fetch token logos and names?
+Token metadata (name, symbol, decimals, logo) is available from multiple sources: the simulation result's`intent.token`, the static`TOKEN_METADATA` map, or `sdk.utils`.`getSupportedChains()` which returns each chain's supported tokens.
+
+```typescript  
+import {
+  TOKEN_METADATA,
+  CHAIN_METADATA,
+} from '@avail-project/nexus';
+
+// ─── A: From a simulation result ───
+const sim = await sdk.simulateBridge({ token: 'USDC', amount: BigInt(100), toChainId: 421614 });
+
+sim.intent.token.name;      // "USD Coin"
+sim.intent.token.symbol;    // "USDC"
+sim.intent.token.decimals;  // 6
+sim.intent.token.logo;      // "https://..."
+
+// Source chain logos
+sim.intent.sources[0].chainLogo;  // "https://..."
+sim.intent.sources[0].chainName;  // "Base Sepolia"
+
+/*----------------------------------------*/
+
+// ─── B: From static metadata constants ───
+TOKEN_METADATA['USDC'];
+// { symbol: "USDC", name: "USD Coin", decimals: 6, icon: "https://...", coingeckoId: "usd-coin" }
+
+CHAIN_METADATA[421614];
+// { id: 421614, name: "Arbitrum Sepolia", logo: "https://...", nativeCurrency: {...}, ... }
+
+/*----------------------------------------*/
+
+// ─── C: getSupportedChains — chains with their token lists ───
+const chains = sdk.utils.getSupportedChains();
+// [{ id: 421614, name: "Arbitrum Sepolia", logo: "...", tokens: [{ symbol, name, logo, ... }] }]
+```
+
+### How to get the fees incurred from an intent? 
+Every `ReadableIntent` includes a `fees` object with a full breakdown: `total`, `protocol`,`solver`, `caGas`, and `gasSupplied`. All values are human-readable strings denominated in the intent's token (e.g. USDC).
+
+```typescript
+const sim = await sdk.simulateBridge({
+  token: 'USDC',
+  amount: BigInt(100),
+  toChainId: 421614,
+});
+
+const { fees } = sim.intent;
+
+console.log(fees.total);        // Total fee in token units (e.g. "0.05")
+console.log(fees.protocol);     // Protocol fee
+console.log(fees.solver);       // Solver / fulfillment fee
+console.log(fees.caGas);        // Chain-abstraction gas fee
+console.log(fees.gasSupplied);  // Gas supplied by the solver
+
+```
+### How to view a wallet's intent history?
+Call `sdk.getMyIntents(page?)` to fetch the connected wallet's past intents. Each entry is an`RFF`(Request For Funds) object with sources, destinations, status flags, and explorer links.
+``` typescript
+// Fetch the first page of intents
+const intents = await sdk.getMyIntents();
+
+// Paginate
+const page2 = await sdk.getMyIntents(2);
+
+// Check status
+intents.forEach((intent) => {
+  if (intent.fulfilled) console.log(`Intent #${intent.id}: fulfilled`);
+  else if (intent.refunded) console.log(`Intent #${intent.id}: refunded`);
+  else console.log(`Intent #${intent.id}: pending (expires ${new Date(intent.expiry * 1000)})`);
+});
+
+// Each intent (RFF) has this shape:
+// {
+//   id: 42,
+//   explorerUrl: "https://...",
+//   deposited: true,
+//   fulfilled: true,
+//   refunded: false,
+//   expiry: 1706000000,
+//   destinationChain: { id: 421614, name: "Arbitrum Sepolia", logo: "...", universe: "..." },
+//   destinations: [{
+//     token: { address: "0x...", symbol: "USDC", decimals: 6 },
+//     value: "1.0",
+//     valueRaw: 1000000n,
+//   }],
+//   sources: [{
+//     chain: { id: 84532, name: "Base Sepolia", logo: "...", universe: "..." },
+//     token: { address: "0x...", symbol: "USDC", decimals: 6 },
+//     value: "1.05",
+//     valueRaw: 1050000n,
+//   }],
+// }
+```
+
+
+

@@ -1,124 +1,991 @@
-@import 'tailwindcss';
-@import 'nextra-theme-docs/style.css';
+@import "tailwindcss";
+@import "nextra-theme-docs/style.css";
 
-@variant dark (&:where(.dark *));
-/* Font Declarations */
-/* Font Declarations */
+/* Fix overscroll bounce on Mac */
+html,
+body {
+    overscroll-behavior: none;
+}
+
+/* Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap");
+
+/* Custom Fonts */
 @font-face {
-    font-family: 'PP Mori';
-    src: url('/fonts/PPMori-Regular.otf') format('otf');
+    font-family: "Thunder";
+    src: url("/fonts/Thunder-ExtraBoldLC.woff2") format("woff2");
+    font-weight: 800;
+    font-style: normal;
+    font-display: block;
+}
+
+@font-face {
+    font-family: "Delight";
+    src: url("/fonts/delight-vf.ttf") format("truetype");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Delight";
+    src: url("/fonts/delight-regular.otf") format("opentype");
     font-weight: 400;
     font-style: normal;
-  }
-  
-  @font-face {
-    font-family: 'THICCCBOI';
-    src: url('/fonts/THICCCBOI-Bold.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal;
-  }
-  
-  @font-face {
-    font-family: 'THICCCBOI';
-    src: url('/fonts/THICCCBOI-Medium.woff2') format('woff2');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Delight";
+    src: url("/fonts/delight-medium.otf") format("opentype");
     font-weight: 500;
     font-style: normal;
-  }
-  
-  @font-face {
-    font-family: 'THICCCBOI';
-    src: url('/fonts/THICCCBOI-SemiBold.woff2') format('woff2');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Delight";
+    src: url("/fonts/delight-semibold.otf") format("opentype");
     font-weight: 600;
     font-style: normal;
-  }
-  
-  @font-face {
-    font-family: 'THICCCBOI';
-    src: url('/fonts/THICCCBOI-Regular.woff2') format('woff2');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Delight";
+    src: url("/fonts/delight-bold.otf") format("opentype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "ChiKareGo2";
+    src: url("/fonts/ChiKareGo2 Font.ttf") format("truetype");
     font-weight: 400;
     font-style: normal;
-  }
-  
-  /* Theme Configuration */
-  @theme {
-    /* Font Family Variables */
-    --font-ppmori: 'PP Mori', sans-serif;
-    --font-thicccboi: 'THICCCBOI', sans-serif;
-  }
-  
-  /* Font Family Utilities */
-  @utility font {
-    &-ppmori {
-      font-family: var(--font-ppmori);
-    }
-    &-thicccboi {
-      font-family: var(--font-thicccboi);
-    }
-  }
-  
-  /* Font Weight Utilities for THICCCBOI */
-  @utility font {
-    &-regular {
-      font-weight: 400;
-    }
-    &-medium {
-      font-weight: 500;
-    }
-    &-semibold {
-      font-weight: 600;
-    }
-    &-bold {
-      font-weight: 700;
-    }
-  }
-
-/* No Hover Utility */
-@utility no-hover {
-  &:hover {
-    background: initial;
-    color: inherit;
-  }
+    font-display: swap;
 }
-.card_background{
-  background: #141414;
-  border-radius: 12px;
+
+@variant dark (&:where(.dark *));
+
+/* ============================================
+   NEXUS DESIGN SYSTEM - CSS CUSTOM PROPERTIES
+   ============================================ */
+
+:root {
+    /* Brand Colors */
+    --brand-blue: #006bf4;
+    --brand-black: #141413;
+    --brand-white: #fffffe;
+
+    /* Light Theme Colors */
+    --bg-primary: #fffffe;
+    --bg-secondary: #f8f8f8;
+    --bg-tertiary: #efefef;
+    --border-primary: #e5e5e5;
+    --border-secondary: #d2daea;
+    --text-primary: #0a0a0a;
+    --text-secondary: #404040;
+    --text-muted: #737373;
+
+    /* Accent Colors */
+    --accent-blue: #006bf4;
+    --accent-green: #3c7b3b;
+    --accent-red: #b13061;
+    --accent-purple: #7319c5;
+
+    /* Fonts */
+    --font-sans:
+        "Geist", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, monospace;
+    --font-heading: "Delight", "Geist", sans-serif;
+    --font-display: "Delight", sans-serif;
+    --font-thunder: "Thunder", "Inter", sans-serif;
+    --font-pixel: "ChiKareGo2", monospace;
+    --font-decoration: "Delight", sans-serif;
+
+    /* Spacing */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --space-2xl: 48px;
+    --space-3xl: 80px;
+}
+
+/* Dark Theme */
+.dark,
+[data-theme="dark"] {
+    --bg-primary: #191919;
+    --bg-secondary: #292929;
+    --bg-tertiary: #2e2e2e;
+    --border-primary: #2e2e2e;
+    --border-secondary: #454545;
+    --text-primary: #ededed;
+    --text-secondary: #a1a1a1;
+    --text-muted: #8f8f8f;
+}
+
+/* ============================================
+   NEXTRA THEME OVERRIDES
+   ============================================ */
+
+/* Base HTML/Body */
+html {
+    font-family: var(--font-sans);
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+/* ============================================
+   SIDEBAR STYLING (Nextra Overrides)
+   ============================================ */
+
+/* Sidebar container */
+.nextra-sidebar-container,
+nav.nextra-sidebar {
+    background-color: var(--bg-primary) !important;
+    border-right: 1px solid var(--border-primary) !important;
+}
+
+/* Sidebar menu items - compact spacing */
+.nextra-sidebar a,
+.nextra-sidebar button {
+    font-family: var(--font-sans) !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    color: var(--text-muted) !important;
+    padding: 6px 10px !important;
+    border-radius: 0 !important;
+    transition: all 0.15s ease !important;
+}
+
+/* Sidebar list items - reduce margins */
+.nextra-sidebar li {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.nextra-sidebar ul {
+    padding-left: 12px !important;
+    margin: 0 !important;
+}
+
+/* Active sidebar item */
+.nextra-sidebar a[data-active="true"],
+.nextra-sidebar a.active,
+.nextra-sidebar li.active > a {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    font-weight: 500 !important;
+}
+
+/* Sidebar hover */
+.nextra-sidebar a:hover {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Sidebar separator line */
+.nextra-sidebar hr {
+    border-color: var(--border-primary) !important;
+    margin: 16px 0 !important;
+}
+
+/* ============================================
+   NAVBAR/HEADER STYLING - Clean white/dark background
+   ============================================ */
+
+/* Main navbar container */
+nav.nextra-nav-container,
+.nextra-nav-container,
+header,
+.nextra-navbar,
+[class*="navbar"],
+nav[class*="nav"] {
+    background-color: #fffffe !important;
+    border-bottom: 1px solid var(--border-primary) !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+}
+
+/* Dark mode navbar */
+.dark nav.nextra-nav-container,
+.dark .nextra-nav-container,
+.dark header,
+.dark .nextra-navbar,
+.dark [class*="navbar"],
+.dark nav[class*="nav"],
+[data-theme="dark"] nav.nextra-nav-container,
+[data-theme="dark"] .nextra-nav-container {
+    background-color: #191919 !important;
+    border-bottom: 1px solid var(--border-primary) !important;
+    box-shadow: none !important;
+}
+
+/* Search input */
+.nextra-search input,
+input[type="search"] {
+    background-color: var(--bg-primary) !important;
+    border: 1px solid var(--border-primary) !important;
+    color: var(--text-primary) !important;
+    font-family: var(--font-sans) !important;
+    border-radius: 4px !important;
+}
+
+.nextra-search input::placeholder {
+    color: var(--text-muted) !important;
+}
+
+/* Search container styling */
+.nextra-search {
+    background-color: transparent !important;
+}
+
+/* Navbar/Header links - no underlines */
+nav a,
+header a,
+.nextra-nav-container a,
+.nextra-navbar a,
+[class*="navbar"] a,
+footer a {
+    text-decoration: none !important;
+}
+
+/* Navbar icon links (GitHub, X/Twitter) - ensure proper color in light/dark mode */
+nav a svg,
+header a svg,
+.nextra-nav-container a svg,
+.nextra-navbar a svg {
+    color: var(--text-primary) !important;
+}
+
+nav a svg path[fill="currentColor"],
+header a svg path[fill="currentColor"],
+.nextra-nav-container a svg path[fill="currentColor"],
+.nextra-navbar a svg path[fill="currentColor"] {
+    fill: var(--text-primary) !important;
+}
+
+/* ============================================
+   CONTENT AREA STYLING
+   ============================================ */
+
+/* Main content */
+main.nextra-content,
+article.nextra-content {
+    background-color: var(--bg-primary) !important;
+}
+
+/* Page headings - using Delight font family (Title style) */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-heading) !important;
+    color: var(--text-primary) !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.02em;
+}
+
+/* Title: Delight 24px, line-height 32px, letter-spacing 2% */
+h1 {
+    font-size: 24px !important;
+    line-height: 32px !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.02em !important;
+}
+
+h2 {
+    font-size: 20px !important;
+    line-height: 28px !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.02em !important;
+    margin-top: 48px !important;
+    padding-bottom: 16px !important;
+    border-bottom: 1px solid var(--border-primary) !important;
+}
+
+h3 {
+    font-size: 18px !important;
+    line-height: 24px !important;
+    font-weight: 500 !important;
+}
+
+/* Code in headings - keep same size as heading */
+h1 code,
+h2 code,
+h3 code,
+h4 code {
+    font-size: inherit !important;
+    font-family: var(--font-mono) !important;
+    background-color: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    color: inherit !important;
+}
+
+/* Body text - Body 16: Geist 16px, line-height 24px, letter-spacing 0% */
+p,
+li {
+    font-family: var(--font-sans) !important;
+    font-size: 16px !important;
+    line-height: 24px !important;
+    letter-spacing: 0 !important;
+    color: var(--text-secondary) !important;
+}
+
+/* Body 14: Geist 14px, line-height 22px, letter-spacing 0% */
+.body-14,
+small,
+.text-sm {
+    font-family: var(--font-sans) !important;
+    font-size: 14px !important;
+    line-height: 22px !important;
+    letter-spacing: 0 !important;
+}
+
+/* UI 16: Geist 16px, line-height 20px, letter-spacing 0% */
+.ui-16 {
+    font-family: var(--font-sans) !important;
+    font-size: 16px !important;
+    line-height: 20px !important;
+    letter-spacing: 0 !important;
+}
+
+/* UI 14: Geist 14px, line-height 18px, letter-spacing 0% */
+.ui-14 {
+    font-family: var(--font-sans) !important;
+    font-size: 14px !important;
+    line-height: 18px !important;
+    letter-spacing: 0 !important;
+}
+
+/* UI 13: Geist 13px, line-height 18px, letter-spacing 0% */
+.ui-13 {
+    font-family: var(--font-sans) !important;
+    font-size: 13px !important;
+    line-height: 18px !important;
+    letter-spacing: 0 !important;
+}
+
+/* Links - more visible and clickable */
+article a,
+main a,
+.nextra-content a {
+    color: #006bf4 !important;
+    text-decoration: underline !important;
+    text-decoration-color: rgba(0, 107, 244, 0.4) !important;
+    text-underline-offset: 2px !important;
+    font-weight: 500 !important;
+}
+
+article a:hover,
+main a:hover,
+.nextra-content a:hover {
+    text-decoration-color: #006bf4 !important;
+}
+
+/* Links in headings - no underline */
+h1 a,
+h2 a,
+h3 a,
+h4 a {
+    text-decoration: none !important;
+    color: var(--text-primary) !important;
+    font-weight: inherit !important;
+}
+
+/* ============================================
+   CODE BLOCKS STYLING
+   ============================================ */
+
+/* Code block container */
+pre,
+.nextra-code-block pre {
+    background-color: #f5f5f5 !important;
+    border: 1px solid var(--border-primary) !important;
+    border-radius: 0 !important;
+    font-family: var(--font-mono) !important;
+    font-size: 14px !important;
+    line-height: 24px !important;
+    padding: 20px 16px !important;
+}
+
+/* Dark mode code blocks */
+.dark pre,
+.dark .nextra-code-block pre {
+    background-color: #1a1a1a !important;
+}
+
+/* Inline code */
+code:not(pre code) {
+    background-color: var(--bg-secondary) !important;
+    border: 1px solid var(--border-primary) !important;
+    border-radius: 0 !important;
+    padding: 2px 6px !important;
+    font-family: var(--font-mono) !important;
+    font-size: 14px !important;
+    color: var(--text-secondary) !important;
+}
+
+/* Code block header/tabs */
+.nextra-code-block > div:first-child,
+[data-rehype-pretty-code-title] {
+    background-color: var(--bg-primary) !important;
+    border: 1px solid var(--border-primary) !important;
+    border-bottom: none !important;
+    border-radius: 0 !important;
+    padding: 12px 16px !important;
+    font-family: var(--font-mono) !important;
+    font-size: 14px !important;
+    color: var(--text-muted) !important;
+}
+
+/* Code block copy button */
+.nextra-code-block button,
+pre button {
+    background-color: var(--bg-secondary) !important;
+    border: none !important;
+    border-radius: 0 !important;
+    color: var(--text-muted) !important;
+}
+
+.nextra-code-block button:hover,
+pre button:hover {
+    background-color: var(--bg-tertiary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Line numbers */
+.nextra-code-block .line-number,
+code[data-line-numbers] > [data-line]::before {
+    color: var(--text-muted) !important;
+    font-family: var(--font-mono) !important;
+}
+
+/* ============================================
+   CALLOUT/NOTE COMPONENTS
+   ============================================ */
+
+/* Default callout - info/default style (blue) */
+.nextra-callout,
+.callout,
+[class*="callout"] {
+    background-color: rgba(0, 107, 244, 0.08) !important;
+    border: 1px solid rgba(0, 107, 244, 0.15) !important;
+    border-left: 4px solid #006bf4 !important;
+    border-radius: 4px !important;
+    padding: 20px 24px !important;
+    margin: 24px 0 !important;
+    display: flex !important;
+    gap: 16px !important;
+    align-items: flex-start !important;
+}
+
+/* Warning callout - yellow/amber */
+.nextra-callout[data-type="warning"],
+[class*="callout-warning"] {
+    background-color: rgba(234, 179, 8, 0.08) !important;
+    border: 1px solid rgba(234, 179, 8, 0.15) !important;
+    border-left: 4px solid #eab308 !important;
+}
+
+/* Error/Danger callout - red */
+.nextra-callout[data-type="error"],
+[class*="callout-error"],
+[class*="callout-danger"] {
+    background-color: rgba(239, 68, 68, 0.08) !important;
+    border: 1px solid rgba(239, 68, 68, 0.15) !important;
+    border-left: 4px solid #ef4444 !important;
+}
+
+/* Tip/Success callout - green */
+.nextra-callout[data-type="tip"],
+[class*="callout-tip"] {
+    background-color: rgba(34, 197, 94, 0.08) !important;
+    border: 1px solid rgba(34, 197, 94, 0.15) !important;
+    border-left: 4px solid #22c55e !important;
+}
+
+/* Callout emoji/icon container */
+.nextra-callout > span:first-child,
+.nextra-callout > div:first-child:has(svg) {
+    font-size: 20px !important;
+    line-height: 1 !important;
+    flex-shrink: 0 !important;
+    margin-top: 2px !important;
+}
+
+/* Callout content wrapper */
+.nextra-callout > div:last-child {
+    flex: 1 !important;
+    min-width: 0 !important;
+}
+
+/* Callout title - first line styling (text before <br/>) */
+.nextra-callout p:first-of-type,
+.callout p:first-of-type {
+    font-family: var(--font-sans) !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    letter-spacing: 0.02em !important;
+    color: var(--text-primary) !important;
+    margin-bottom: 8px !important;
+    line-height: 1.4 !important;
+}
+
+/* Error callout title color */
+.nextra-callout[data-type="error"] p:first-of-type {
+    color: #ef4444 !important;
+}
+
+/* Warning callout title color */
+.nextra-callout[data-type="warning"] p:first-of-type {
+    color: #ca8a04 !important;
+}
+
+/* Tip callout title color */
+.nextra-callout[data-type="tip"] p:first-of-type {
+    color: #16a34a !important;
+}
+
+/* Info callout title color */
+.nextra-callout[data-type="info"] p:first-of-type {
+    color: #006bf4 !important;
+}
+
+/* Callout body text */
+.nextra-callout p,
+.callout p {
+    font-family: var(--font-sans) !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+    color: var(--text-secondary) !important;
+    margin: 0 !important;
+}
+
+/* Callout links - make them visible */
+.nextra-callout a,
+.callout a {
+    color: #006bf4 !important;
+    text-decoration: underline !important;
+    font-weight: 500 !important;
+}
+
+.nextra-callout a:hover,
+.callout a:hover {
+    opacity: 0.8 !important;
+}
+
+/* Remove extra margins inside callouts */
+.nextra-callout *:last-child,
+.callout *:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* br tag spacing in callouts */
+.nextra-callout br {
+    display: block !important;
+    content: "" !important;
+    margin-bottom: 8px !important;
+}
+
+/* ============================================
+   CARDS - No rounded corners, clean design
+   ============================================ */
+
+.nextra-card,
+.nextra-cards > a,
+.nextra-cards a,
+.card,
+[class*="nextra-card"] {
+    background-color: var(--bg-primary) !important;
+    border: 1px solid var(--border-primary) !important;
+    border-radius: 0 !important;
+    padding: 12px 16px !important;
+    transition: all 0.15s ease !important;
+    box-shadow: none !important;
+}
+
+.nextra-card:hover,
+.nextra-cards > a:hover,
+.nextra-cards a:hover,
+.card:hover,
+[class*="nextra-card"]:hover {
+    border-color: var(--border-secondary) !important;
+    box-shadow: none !important;
+    background-color: var(--bg-secondary) !important;
+}
+
+/* Card title - using Delight */
+.nextra-card h3,
+.nextra-card span,
+.card-title {
+    font-family: var(--font-heading) !important;
+    font-weight: 400 !important;
+    font-size: 16px !important;
+    color: var(--text-primary) !important;
+    margin-bottom: 4px !important;
+}
+
+/* Card description - Body 14: Geist 14px/22px */
+.nextra-card p,
+.card-description {
+    font-family: var(--font-sans) !important;
+    font-size: 14px !important;
+    color: var(--text-secondary) !important;
+    line-height: 22px !important;
+    letter-spacing: 0 !important;
+    font-weight: 400 !important;
+}
+
+/* Force no rounded corners on all card-like elements */
+.nx-rounded-lg,
+.rounded-lg,
+[class*="rounded"] {
+    border-radius: 0 !important;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+
+/* Primary button */
+.btn-primary,
+button[data-variant="primary"],
+.nextra-button {
+    background-color: var(--brand-black) !important;
+    color: var(--brand-white) !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 12px 16px !important;
+    font-family: var(--font-sans) !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+}
+
+.btn-primary:hover,
+button[data-variant="primary"]:hover {
+    opacity: 0.9 !important;
+}
+
+/* Secondary button */
+.btn-secondary,
+button[data-variant="secondary"] {
+    background-color: var(--brand-white) !important;
+    color: var(--brand-black) !important;
+    border: 1px solid var(--brand-black) !important;
+    border-radius: 0 !important;
+    padding: 12px 16px !important;
+    font-family: var(--font-sans) !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+}
+
+.btn-secondary:hover,
+button[data-variant="secondary"]:hover {
+    background-color: var(--bg-secondary) !important;
+}
+
+/* ============================================
+   TABLE OF CONTENTS (Right sidebar)
+   ============================================ */
+
+.nextra-toc,
+nav.nextra-toc {
+    border-left: 1px solid var(--border-primary) !important;
+}
+
+.nextra-toc a {
+    font-family: var(--font-sans) !important;
+    font-size: 14px !important;
+    color: var(--text-muted) !important;
+    text-decoration: none !important;
+    padding: 4px 0 !important;
+    padding-left: 16px !important;
+    display: block !important;
+}
+
+/* Keep external link arrows inline */
+.nextra-toc a svg,
+.nextra-toc a > span {
+    display: inline !important;
+    vertical-align: middle !important;
+}
+
+/* TOC list items - consistent alignment */
+.nextra-toc li,
+.nextra-toc ul {
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+}
+
+/* Smaller font for feedback and edit links */
+.nextra-toc a[href*="feedback"],
+.nextra-toc a[href*="github"],
+.nextra-toc a[href*="edit"],
+a[href*="discussions"],
+a[title*="feedback"],
+a[title*="GitHub"] {
+    font-size: 12px !important;
+    padding-left: 16px !important;
+}
+
+.nextra-toc a[data-active="true"],
+.nextra-toc a.active {
+    color: var(--text-primary) !important;
+}
+
+/* Active indicator bar */
+.nextra-toc-active-anchor,
+.nextra-toc li.active::before {
+    background-color: var(--text-primary) !important;
+    width: 4px !important;
+    height: 12px !important;
+    border-radius: 0 !important;
+}
+
+/* ============================================
+   TABS (for code block package managers)
+   ============================================ */
+
+[role="tablist"],
+.nextra-tabs {
+    background-color: transparent !important;
+    border-bottom: none !important;
+    gap: 0 !important;
+}
+
+[role="tab"],
+.nextra-tabs button {
+    font-family: var(--font-mono) !important;
+    font-size: 14px !important;
+    color: var(--text-muted) !important;
+    padding: 6px 8px !important;
+    border-radius: 0 !important;
+    background-color: transparent !important;
+    border: none !important;
+}
+
+[role="tab"][aria-selected="true"],
+.nextra-tabs button[data-active="true"] {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-secondary) !important;
+}
+
+/* ============================================
+   BANNER
+   ============================================ */
+
+.nextra-banner,
+[class*="banner"] {
+    background-color: #2e2e2e !important;
+    background-image: none !important;
+    color: #ffffff !important;
+    font-family: var(--font-sans) !important;
+    border-radius: 0 !important;
+    font-size: 14px !important;
+}
+
+.nextra-banner a,
+[class*="banner"] a {
+    color: #ffffff !important;
+}
+
+.dark .nextra-banner,
+.dark [class*="banner"] {
+    background-color: #2e2e2e !important;
+}
+
+/* Theme selector - match sidebar background */
+[class*="theme-selector"],
+[class*="ThemeSwitch"],
+.nextra-sidebar-footer,
+.nextra-sidebar-container > div:last-child,
+nav.nextra-sidebar > div:last-child {
+    background-color: var(--bg-primary) !important;
+}
+
+.dark [class*="theme-selector"],
+.dark [class*="ThemeSwitch"],
+.dark .nextra-sidebar-footer,
+.dark .nextra-sidebar-container > div:last-child,
+.dark nav.nextra-sidebar > div:last-child {
+    background-color: #191919 !important;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.card_background {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-primary);
+    border-radius: 0;
 }
 
 .cardImage {
-  height: 200px;
-  width: 100%;
-  object-fit: cover;
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
 }
 
+/* SVG color inheritance */
+.svg-inherit {
+    color: inherit;
+}
+.svg-inherit * {
+    fill: currentColor;
+}
+.svg-inherit [fill="none"] {
+    fill: none;
+}
+.svg-inherit [stroke]:not([stroke="none"]) {
+    stroke: currentColor;
+}
 
-/* make the SVG follow surrounding text color */
-.svg-inherit { color: inherit; }
-
-/* always recolor fills; don't add a stroke unless it already exists */
-.svg-inherit * { fill: currentColor; }
-.svg-inherit [fill="none"] { fill: none; }
-.svg-inherit [stroke]:not([stroke="none"]) { stroke: currentColor; }
-
-/* 24×24 container, centers any aspect-ratio icon */
+/* Icon container */
 .icon-24 {
-  width: 24;
-  height: 24;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 0;
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
 }
 
-/* scale the SVG so the larger dimension becomes 24px */
 .icon-24 > svg {
-  max-width: 50%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
 }
 
+/* No hover utility */
+@utility no-hover {
+    &:hover {
+        background: initial;
+        color: inherit;
+    }
+}
 
-/* color inheritance (from earlier) */
-.svg-inherit { color: inherit; }
-.svg-inherit [fill]:not([fill="none"]) { fill: currentColor; }
-.svg-inherit [stroke]:not([stroke="none"]) { stroke: currentColor; }
+/* Homepage links - no underlines */
+#intro a,
+.intro-link,
+#intro .intro-link {
+    text-decoration: none !important;
+}
+
+#intro a:hover,
+.intro-link:hover {
+    text-decoration: none !important;
+}
+
+/* Remove any separator lines on homepage */
+#intro,
+#intro > div:first-child,
+main > div:first-child,
+article > div:first-child {
+    border-top: none !important;
+    border-bottom: none !important;
+}
+
+/* Remove hr elements on homepage */
+main hr,
+article hr {
+    display: none !important;
+}
+
+/* Thunder heading - override for home page */
+.thunder-heading {
+    font-family: "Thunder", sans-serif !important;
+    font-weight: 800 !important;
+    color: #006bf4 !important;
+    text-transform: uppercase !important;
+    line-height: 0.9 !important;
+    font-size: 80px !important;
+    border: 0 !important;
+}
+
+/* Pixel: ChiKareGo2 24px, line-height 24px, letter-spacing 0% */
+.pixel,
+.font-pixel {
+    font-family: var(--font-pixel) !important;
+    font-size: 24px !important;
+    line-height: 24px !important;
+    letter-spacing: 0 !important;
+}
+
+/* Decoration: Delight 16px, line-height 20px, letter-spacing 2% */
+.decoration,
+.font-decoration {
+    font-family: var(--font-decoration) !important;
+    font-size: 16px !important;
+    line-height: 20px !important;
+    letter-spacing: 0.02em !important;
+}
+
+@media (min-width: 768px) {
+    .thunder-heading {
+        font-size: 120px !important;
+    }
+}
+
+@media (min-width: 1024px) {
+    .thunder-heading {
+        font-size: 180px !important;
+    }
+}
+
+/* Theme configuration for Tailwind */
+@theme {
+    --font-sans:
+        "Geist", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, monospace;
+    --font-heading: "Delight", "Geist", sans-serif;
+    --font-pixel: "ChiKareGo2", monospace;
+    --font-decoration: "Delight", sans-serif;
+}
+
+/* Font utilities */
+@utility font {
+    &-sans {
+        font-family: var(--font-sans);
+    }
+    &-mono {
+        font-family: var(--font-mono);
+    }
+    &-heading {
+        font-family: var(--font-heading);
+    }
+    &-pixel {
+        font-family: var(--font-pixel);
+    }
+    &-decoration {
+        font-family: var(--font-decoration);
+    }
+    &-regular {
+        font-weight: 400;
+    }
+    &-medium {
+        font-weight: 500;
+    }
+    &-semibold {
+        font-weight: 600;
+    }
+    &-bold {
+        font-weight: 700;
+    }
+}

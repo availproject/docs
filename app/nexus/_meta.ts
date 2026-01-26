@@ -5,5 +5,6 @@ export default {
     "nexus-quickstart": "Quickstart",
     "nexus-examples": "Build your first Liquid App",
     "avail-nexus-sdk": "Nexus SDK Reference",
+    "cookbook": "Cookbook Recipes",
     "nexus-cheatsheet": "Nexus cheat sheet",
 }
