@@ -13,8 +13,8 @@ export const IntroData = [
           { link: "/nexus/nexus-quickstart", placeholder: "Quickstart"},
           { link: "/nexus/nexus-examples", placeholder: "Build your First Liquid App"},
           {link: "/nexus/avail-nexus-sdk/api-reference#supported-chains", placeholder: "Supported Chains & Tokens"},
+          {link: "/nexus/cookbook", placeholder: "Cookbook Recipes"},
           {link: "/nexus/avail-nexus-sdk", placeholder: "Avail Nexus SDK Reference"},
-          {link: "/nexus/nexus-cheatsheet", placeholder: "Nexus Cheatsheet"},
         ],
           textcolor: "FE8B6C"
         }
