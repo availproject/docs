@@ -19,7 +19,7 @@ import { Callout } from "nextra/components";
 
 ## Introduction
 
-Embark on setting up your own OP stack chain in [alt-da mode](https://docs.optimism.io/stack/beta-features/alt-da-mode) using Avail as Data Availability layer . This guide targets Ethereum's Sepolia testnet and Avail Turing testnet. For a detailed understanding, review the [<ins>Optimism Documentation</ins>](https://stack.optimism.io/docs/build/getting-started/#know-before-you-go).
+Embark on setting up your own OP stack chain in [alt-da mode](https://docs.optimism.io/op-stack/features/experimental/alt-da-mode) using Avail as Data Availability layer . This guide targets Ethereum's Sepolia testnet and Avail Turing testnet. For a detailed understanding, review the [<ins>Optimism Documentation</ins>](https://docs.optimism.io/chain-operators/tutorials/create-l2-rollup/create-l2-rollup).
 
 ## Prerequisites
 
@@ -43,11 +43,11 @@ Ensure you have installed the following software.
 ##### Use the following releases while following the guide:
 | **Component** | **Version** |
 | --- | --- |
-| op-node | v1.13.3 |
-| op-geth | v1.101511.0 |
-| op-batcher | v1.13.2 |
-| op-deployer | v0.3.2 |
-| op-proposer | v1.10.0 |
+| op-node | v1.16.5 |
+| op-geth | v1.101605.0 |
+| op-batcher | v1.16.2 |
+| op-deployer | v0.5.0 |
+| op-proposer | v1.10.2 |
 
 ##### Get Access to a Sepolia Node
 
@@ -56,20 +56,41 @@ For deploying to Sepolia, access an L1 node using a provider like [<ins>Alchemy<
 
 ## Setup Avail DA server
 
-This introduces a sidecar DA Server for Optimism that interacts with Avail DA for posting and retrieving data.
+This introduces a sidecar DA Server for Optimism that integrates with Avail DA for posting and retrieving data. The server supports both standard Avail DA and Turbo DA services for high-performance data availability.
 
-#### Run avail-da server(binary).
+### Installation
 
-1. Build Avail DA Server
    ```bash
-   git clone https://github.com/availproject/avail-alt-da-server.git
+   git clone [https://github.com/availproject/avail-alt-da-server.git](https://github.com/availproject/avail-alt-da-server.git)
    cd avail-alt-da-server
    make da-server
    ```
-   
-2. Run your DA sidecar:
+#### Option 1: Standard Avail DA Mode
+   ##### Prerequisites
+   - Funded Avail wallet with AVAIL tokens
+   - Valid App ID from Avail network (Learn more about [App ID](https://docs.availproject.org/da/learn-about-avail/app-ids))
+
    ```bash
-   ./bin/avail-da-server ./cmd/avail  --addr=localhost --port=8000 --avail.rpc=<WS url to an avail node> --avail.seed=<> --avail.appid=<>
+   ./bin/avail-da-server \
+   --addr=127.0.0.1 \
+   --port=3100 \
+   --avail.rpc=<Avail RPC URL> \
+   --avail.seed="<seed phrase>" \
+   --avail.appid=<APP ID>
+   ```
+#### Option 2: Turbo DA Mode (Recommended for faster finality)
+
+   ##### Prerequisites
+   - API key from Turbo DA provider (Learn more about [Turbo DA](https://docs.availproject.org/da/build-with-avail/turbo-da))
+
+   ```bash
+   ./bin/avail-da-server \
+   --addr=127.0.0.1 \
+   --port=3100 \
+   --turboda=true \
+   --avail.rpc=<Avail RPC URL> \
+   --turboda.url=<Turbo DA URL> \
+   --turboda.key=<Turbo DA API Key>
    ```
 
 #### Run using docker
@@ -217,8 +238,8 @@ Deploy essential L1 contracts for the chain’s functionality:
 
    ```bash
    ## op-deployer
+   git checkout op-deployer/v0.5.0
    cd op-deployer
-   git checkout op-deployer/v0.3.2
    just build
    ```
 
@@ -235,24 +256,28 @@ Deploy essential L1 contracts for the chain’s functionality:
    l1ChainID = 11155111
    fundDevAccounts = false
    useInterop = false
-   l1ContractsLocator = "tag://op-contracts/v3.0.0"
-   l2ContractsLocator = "tag://op-contracts/v3.0.0"
+   l1ContractsLocator = "embedded"
+   l2ContractsLocator = "embedded"
    
    [superchainRoles]
-   proxyAdminOwner = "ENTER_ADMIN_ADDRESS"
-   protocolVersionsOwner = "ENTER_ADMIN_ADDRESS"
-   guardian = "ENTER_ADMIN_ADDRESS"
+   SuperchainProxyAdminOwner = "ENTER_ADMIN_ADDRESS"
+   SuperchainGuardian="ENTER_ADMIN_ADDRESS"
+   ProtocolVersionsOwner = "ENTER_ADMIN_ADDRESS"
+   Challenger = "ENTER_ADMIN_ADDRESS"
 
    [[chains]]
-   id = "ENTER_CHAIN_ID"
+   id = "ENTER_CHAIN_ID_IN_HEX"
    baseFeeVaultRecipient = "ENTER_ADMIN_ADDRESS"
    l1FeeVaultRecipient = "ENTER_ADMIN_ADDRESS"
    sequencerFeeVaultRecipient = "ENTER_ADMIN_ADDRESS"
    eip1559DenominatorCanyon = 250
    eip1559Denominator = 50
    eip1559Elasticity = 6
+   gasLimit = 60000000
    operatorFeeScalar = 0
    operatorFeeConstant = 0
+   minBaseFee = 0
+   daFootprintGasScalar = 0
    [chains.roles]
       l1ProxyAdminOwner = "ENTER_ADMIN_ADDRESS"
       l2ProxyAdminOwner = "ENTER_ADMIN_ADDRESS"
@@ -294,7 +319,7 @@ Deploy essential L1 contracts for the chain’s functionality:
    ```bash
    git clone https://github.com/ethereum-optimism/op-geth.git
    cd op-geth
-   git checkout v1.101511.0
+   git checkout v1.101605.0
    make geth
    ```
 
@@ -349,7 +374,7 @@ Deploy essential L1 contracts for the chain’s functionality:
 1. Build `op-node` from [optimism](#configure-op-stack)
    ```bash
    cd op-node
-   git checkout op-node/v1.13.3
+   git checkout op-node/v1.16.5
    make op-node
    ```
 
@@ -399,7 +424,7 @@ Deploy essential L1 contracts for the chain’s functionality:
 
    ```bash
    cd op-batcher
-   git checkout op-batcher/v1.13.2
+   git checkout op-batcher/v1.16.2
    make op-batcher
    ```
 
@@ -427,7 +452,7 @@ Deploy essential L1 contracts for the chain’s functionality:
    --altda.enabled=true \
    --altda.da-service=true \
    --altda.da-server=$DA_SERVER_HTTP_URL \
-   --throttle-threshold=0
+   --throttle.unsafe-da-bytes-lower-threshold=0
    ```
 
    Adjust the `--max-channel-duration=n` setting to balance transaction frequency on L1 and the operational costs of the batcher. Recommended is a minimum of 2 since avail block time is 20s and ethereum's 12sec.
@@ -439,7 +464,7 @@ Deploy essential L1 contracts for the chain’s functionality:
 
    ```bash
    cd op-proposer
-   git checkout op-proposer/v1.10.0
+   git checkout op-proposer/v1.10.2
    make op-proposer
    ```
 
