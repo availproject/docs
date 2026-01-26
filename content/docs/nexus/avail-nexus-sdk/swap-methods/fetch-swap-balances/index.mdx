@@ -1,7 +1,6 @@
 ---
 title: "Fetch the swap balances of a user"
 ---
-import { Callout, Steps, Tabs } from '@/components/nextra-compat'
 
 # `getBalancesForSwap()`
 
@@ -20,7 +19,7 @@ Use the `getBalancesForSwap()` function to fetch token balances that can be used
 
 ## Method signature
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 getBalancesForSwap(): Promise<Array<{
     amount: string;
     chainID: number;
@@ -41,7 +40,7 @@ getBalancesForSwap(): Promise<Array<{
 
 Here is a minimal example of how to use the `getBalancesForSwap()` function to fetch balances that are eligible to be used as swap inputs:
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 // Get all balances that are eligible for swap operations
 const swapBalances = await sdk.getBalancesForSwap();
 console.log('Swap balances:', swapBalances);
@@ -52,7 +51,7 @@ console.log('Swap balances:', swapBalances);
 - `getBalancesForSwap()`: Returns an array of anonymous objects with the following properties:
 
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 // Docs-only alias. Not exported by the SDK.
 type SwapBalanceItem = {
 amount: string;

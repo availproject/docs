@@ -1,7 +1,6 @@
 ---
 title: Nexus Elements Reference
 ---
-import { Callout, Cards, FileIcon, Steps, Tabs } from '@/components/nextra-compat'
 
 # Nexus Elements
 
@@ -28,165 +27,105 @@ Refer to the Nexus Elements website for detailed usage docs:
 
 2. Install the components you need using the shadcn CLI.
 
-<Tabs items={['Unified Balance', 'View History', 'Fast Bridge', 'Fast Transfer', 'Deposit', 'Swaps']}>
+<Tabs defaultValue="unified-balance">
+  <TabsList>
+    <TabsTrigger value="unified-balance">Unified Balance</TabsTrigger>
+    <TabsTrigger value="view-history">View History</TabsTrigger>
+    <TabsTrigger value="fast-bridge">Fast Bridge</TabsTrigger>
+    <TabsTrigger value="fast-transfer">Fast Transfer</TabsTrigger>
+    <TabsTrigger value="deposit">Deposit</TabsTrigger>
+    <TabsTrigger value="swaps">Swaps</TabsTrigger>
+  </TabsList>
+  <TabsContent value="unified-balance">
 
-{/* Unified Balance tab */}
-<Tab>
-<Tabs items={['pnpm', 'npm', 'yarn']}>
-
-<Tab>
-```bash filename="Terminal"
+```bash title="pnpm"
 pnpm dlx shadcn@latest add @nexus-elements/unified-balance
 ```
-</Tab>
 
-<Tab>
-```bash filename="Terminal"
+```bash title="npm"
 npx shadcn@latest add @nexus-elements/unified-balance
 ```
-</Tab>
 
-<Tab>
-```bash filename="Terminal"
+```bash title="yarn"
 yarn shadcn@latest add @nexus-elements/unified-balance
 ```
-</Tab>
 
-</Tabs>
-</Tab>
-{/* Closure for unified balance tab */}
+  </TabsContent>
+  <TabsContent value="view-history">
 
-{/* View History tab */}
-<Tab>
-<Tabs items={['pnpm', 'npm', 'yarn']}>
-
-<Tab>
-```bash filename="Terminal"
+```bash title="pnpm"
 pnpm dlx shadcn@latest add @nexus-elements/view-history
 ```
-</Tab>
 
-<Tab>
-```bash filename="Terminal"
+```bash title="npm"
 npx shadcn@latest add @nexus-elements/view-history
 ```
-</Tab>
 
-<Tab>
-```bash filename="Terminal"
+```bash title="yarn"
 yarn shadcn@latest add @nexus-elements/view-history
 ```
-</Tab>
-</Tabs>
-</Tab>
 
-{/* Closure for view history tab */}
+  </TabsContent>
+  <TabsContent value="fast-bridge">
 
-{/* Fast Bridge tab */}
-<Tab>
-<Tabs items={['pnpm', 'npm', 'yarn']}>
-
-<Tab>
-```bash filename="Terminal"
+```bash title="pnpm"
 pnpm dlx shadcn@latest add @nexus-elements/fast-bridge
 ```
-</Tab>
 
-<Tab>
-```bash filename="Terminal"
+```bash title="npm"
 npx shadcn@latest add @nexus-elements/fast-bridge
 ```
-</Tab>
 
-<Tab>
-```bash filename="Terminal"
+```bash title="yarn"
 yarn shadcn@latest add @nexus-elements/fast-bridge
 ```
-</Tab>
 
-</Tabs>
-</Tab>
-{/* Closure for fast bridge tab */}
+  </TabsContent>
+  <TabsContent value="fast-transfer">
 
-{/* Fast Transfer tab */}
-<Tab>
-<Tabs items={['pnpm', 'npm', 'yarn']}>
-
-<Tab>
-```bash filename="Terminal"
+```bash title="pnpm"
 pnpm dlx shadcn@latest add @nexus-elements/fast-transfer
 ```
-</Tab>
 
-<Tab>
-```bash filename="Terminal"
+```bash title="npm"
 npx shadcn@latest add @nexus-elements/fast-transfer
 ```
-</Tab>
 
-<Tab>
-```bash filename="Terminal"
+```bash title="yarn"
 yarn shadcn@latest add @nexus-elements/fast-transfer
 ```
-</Tab>
 
-</Tabs>
-</Tab>
-{/* Closure for fast transfer tab */}
+  </TabsContent>
+  <TabsContent value="deposit">
 
-{/* Deposit tab */}
-<Tab>
-<Tabs items={['pnpm', 'npm', 'yarn']}>
-
-<Tab>
-```bash filename="Terminal"
+```bash title="pnpm"
 pnpm dlx shadcn@latest add @nexus-elements/deposit
 ```
-</Tab>
 
-<Tab>
-```bash filename="Terminal"
+```bash title="npm"
 npx shadcn@latest add @nexus-elements/deposit
 ```
-</Tab>
 
-<Tab>
-```bash filename="Terminal"
+```bash title="yarn"
 yarn shadcn@latest add @nexus-elements/deposit
 ```
-</Tab>
 
-</Tabs>
-</Tab>
-{/* Closure for deposit tab */}
+  </TabsContent>
+  <TabsContent value="swaps">
 
-
-{/* Swaps tab */}
-<Tab>
-<Tabs items={['pnpm', 'npm', 'yarn']}>
-
-<Tab>
-```bash filename="Terminal"
+```bash title="pnpm"
 pnpm dlx shadcn@latest add @nexus-elements/swaps
 ```
-</Tab>
 
-<Tab>
-```bash filename="Terminal"
+```bash title="npm"
 npx shadcn@latest add @nexus-elements/swaps
 ```
-</Tab>
 
-<Tab>
-```bash filename="Terminal"
+```bash title="yarn"
 yarn shadcn@latest add @nexus-elements/swaps
 ```
-</Tab>
 
-</Tabs>
-</Tab>
-{/* Closure for swaps tab */}
-
+  </TabsContent>
 </Tabs>
 
 ### Next Steps

@@ -3,7 +3,6 @@ title: 'Nexus Core SDK API Reference'
 description: 'Complete API reference for the Nexus Core SDK including initialization, network configuration, bridging, transfers, and utility functions'
 image: '/img/docs-link-preview.png'
 ---
-import { Callout, Steps, Tabs } from '@/components/nextra-compat'
 
 # Nexus Core SDK API Reference
 
@@ -11,7 +10,7 @@ The Nexus Core SDK provides a comprehensive set of APIs for cross-chain bridging
 
 ## Quick Start
 
-```typescript showLineNumbers filename="Typescript" showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 import { NexusSDK, NEXUS_EVENTS } from '@avail-project/nexus-core';
 
 // Initialize SDK
@@ -123,9 +122,13 @@ const swapResult = await sdk.swapWithExactIn(
 
 ### Supported Chains
 
-<Tabs items={['Mainnet', 'Testnet']}>
+<Tabs defaultValue="mainnet">
+  <TabsList>
+    <TabsTrigger value="mainnet">Mainnet</TabsTrigger>
+    <TabsTrigger value="testnet">Testnet</TabsTrigger>
+  </TabsList>
+  <TabsContent value="mainnet">
 
-<Tab>
 
 | Network   | Chain ID  | Native | Status |
 | --------- | --------- | ------ | ------ |
@@ -142,9 +145,10 @@ const swapResult = await sdk.swapWithExactIn(
 | HyperEVM  | 999       | HYPE   | ✅     |
 | TRON      | 728126428 | TRX    | ✅     |
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="testnet">
+
 
 | Network          | Chain ID | Native | Status |
 | ---------------- | -------- | ------ | ------ |
@@ -156,8 +160,8 @@ const swapResult = await sdk.swapWithExactIn(
 | Monad Testnet    | 10143    | MON    | ✅     |
 | Validium         | 567      | VLDM   | ✅     |
 
-</Tab>
 
+  </TabsContent>
 </Tabs>
 
 ### Supported Tokens
@@ -172,7 +176,7 @@ const swapResult = await sdk.swapWithExactIn(
 
 ### Initialization
 
-```typescript showLineNumbers filename="Typescript" showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 import { NexusSDK, type NexusNetwork } from '@avail-project/nexus-core';
 
 // Mainnet
@@ -233,7 +237,7 @@ sdk.setOnAllowanceHook(({ sources, allow, deny }) => {
 
 ### Unified Balance(s)
 
-```typescript showLineNumbers filename="Typescript" showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 const balances = await sdk.getUnifiedBalances(); // CA balances only
 
 const allBalances = await sdk.getUnifiedBalances(true); // Includes swappable tokens
@@ -241,7 +245,7 @@ const allBalances = await sdk.getUnifiedBalances(true); // Includes swappable to
 
 ### Bridge Operations
 
-```typescript showLineNumbers filename="Typescript" showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 import type { BridgeParams, BridgeResult, SimulationResult } from '@avail-project/nexus-core';
 
 // Bridge tokens between chains
@@ -261,7 +265,7 @@ const simulation: SimulationResult = await sdk.simulateBridge({
 
 ### Transfer Operations
 
-```typescript showLineNumbers filename="Typescript" showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 // Bridge + transfer (attribution)
 const result = await sdk.bridgeAndTransfer({
   token: 'USDC',
@@ -280,7 +284,7 @@ const simulation = await sdk.simulateBridgeAndTransfer({
 
 ### Execute Operations
 
-```typescript showLineNumbers filename="Typescript" showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 // Direct contract execution
 const result = await sdk.execute({
   toChainId: 1,
@@ -305,7 +309,7 @@ const result2 = await sdk.bridgeAndExecute({
 
 ### Swap Operations
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 import type { ExactInSwapInput, OnEventParam, SwapResult } from '@avail-project/nexus-core';
 
 const swapWithExactInResult = await sdk.swapWithExactIn(
@@ -327,7 +331,7 @@ const swapWithExactInResult = await sdk.swapWithExactIn(
 
 ## Allowance Management
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 import type { AllowanceResponse } from '@avail-project/nexus-core';
 
 // Check allowances
@@ -342,7 +346,7 @@ await sdk.revokeAllowance(137, ['USDC']);
 
 ## Intent Management
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 import type { RequestForFunds } from '@avail-project/nexus-core';
 
 // Get user's transaction intents
@@ -353,7 +357,7 @@ const intents: RequestForFunds[] = await sdk.getMyIntents(1);
 
 All utility functions are available under `sdk.utils`:
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 import type { ChainMetadata, TokenMetadata, SUPPORTED_TOKENS } from '@avail-project/nexus-core';
 
 // Address utilities
@@ -395,7 +399,7 @@ const decimalChainId: number = sdk.utils.hexToChainId('0x89');
 
 ### Basic Bridge with Result Handling
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 import { NexusSDK, type BridgeResult } from '@avail-project/nexus-core';
 
 const sdk = new NexusSDK();
@@ -423,7 +427,7 @@ try {
 
 ### Execute with Receipt Confirmation
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 import type { ExecuteResult } from '@avail-project/nexus-core';
 
 // MakerDAO DSR (Dai Savings Rate) Deposit
@@ -471,7 +475,7 @@ console.log('Confirmations:', result.confirmations);
 
 ### Complete Portfolio Management
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 import type { UserAsset, ChainMetadata } from '@avail-project/nexus-core';
 
 // Get complete balance overview
@@ -493,7 +497,7 @@ for (const asset of balances) {
 
 ## Error Handling
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 import type { BridgeResult } from '@avail-project/nexus-core';
 
 try {
@@ -517,7 +521,7 @@ try {
 }
 ```
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 import type { ExecuteSimulation, ExecuteResult } from '@avail-project/nexus-core';
 
 // Simulate before executing
@@ -535,7 +539,7 @@ await sdk.deinit();
 
 The SDK is fully typed with comprehensive TypeScript definitions. Import the types you need:
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 import type {
   BridgeParams,
   BridgeResult,

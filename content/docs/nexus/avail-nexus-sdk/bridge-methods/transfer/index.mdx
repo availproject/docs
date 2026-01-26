@@ -1,7 +1,6 @@
 ---
 title: "Bridge and transfer tokens using the Nexus SDK"
 ---
-import { Callout, Steps, Tabs } from '@/components/nextra-compat'
 
 # `bridgeAndTransfer()`
 
@@ -21,7 +20,7 @@ Use the `simulateBridgeAndTransfer()` function to simulate the bridge and transf
 
 ## Method signature
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 async bridgeAndTransfer(
   params: TransferParams,
   options?: OnEventParam,
@@ -35,7 +34,7 @@ async simulateBridgeAndTransfer(
 
 ## Parameters
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 /**
  * Parameters for bridging and transferring tokens.
  */
@@ -65,7 +64,7 @@ You can check out the type definitions for each step type in the [Bridge Events]
 
 ## Example
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 import { TransferParams, TransferResult, NEXUS_EVENTS } from '@avail-project/nexus-core';
 
 // Smart transfer with automatic optimization
@@ -102,7 +101,7 @@ console.log('Bridge and transfer simulation:', bridgeAndTransferSimulation);
 
 The return value is a `TransferResult` object.
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 /**
  * Result structure for transfer transactions.
  */
@@ -116,7 +115,7 @@ export type TransferResult = {
 
 The return value is a `BridgeAndExecuteSimulationResult` object.
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 export type BridgeAndExecuteSimulationResult = {
   bridgeSimulation: SimulationResult | null;
   executeSimulation: ExecuteSimulation;

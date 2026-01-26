@@ -2,7 +2,6 @@
 title: "Set up a multisig wallet on Avail DA"
 image: '/img/docs-link-preview.png'
 ---
-import { Callout, Steps, Tabs } from '@/components/nextra-compat'
 
 # Set up a multisig wallet on Avail DA
 
@@ -26,14 +25,19 @@ You need to import into the explorer all the accounts you want added as signator
 
 There are two ways to do this:
 
-<Tabs items={['Via address book', 'Import a json file']}>
+<Tabs defaultValue="via-address-book">
+  <TabsList>
+    <TabsTrigger value="via-address-book">Via address book</TabsTrigger>
+    <TabsTrigger value="import-a-json-file">Import a json file</TabsTrigger>
+  </TabsList>
+  <TabsContent value="via-address-book">
 
-<Tab>
 1. Go to the [`addresses`](https://explorer.availproject.org/#/addresses) page of the explorer.
 2. Click on `Add contact` and save any addresses you want.
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="import-a-json-file">
+
 1. Create a json file with all the Avail DA addresses you want to import.
 The syntax is as follows:
 
@@ -51,8 +55,8 @@ The syntax is as follows:
 This method is suitable if you have a large number of addresses to import.
 </Callout>
 
-</Tab>
 
+  </TabsContent>
 </Tabs>
 
 ### Start setting up the multisig
@@ -164,9 +168,13 @@ But you don't want to execute the transaction just yet.
 
 *You only want to approve it, and let some other signatory execute it later on.*
 
-<Tabs items={['Approve', 'Approve and Execute']}>
+<Tabs defaultValue="approve">
+  <TabsList>
+    <TabsTrigger value="approve">Approve</TabsTrigger>
+    <TabsTrigger value="approve-and-execute">Approve and Execute</TabsTrigger>
+  </TabsList>
+  <TabsContent value="approve">
 
-<Tab>
 
 1. If a signatory wants to approve the transaction without executing it, they don't need the `multisig call data` value.
 
@@ -183,9 +191,10 @@ But you don't want to execute the transaction just yet.
 2. You cannot execute the transaction without the `multisig call data` value.
 </Callout>
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="approve-and-execute">
+
 
 3. Paste the `multisig call data` you copied in the second step into the empty column.
 
@@ -206,7 +215,8 @@ you might have different transaction approval interfaces. But once you approve i
 Needless to say, you will, as a signatory, be able to execute the transaction only if you are the last signatory required to meet the `threshold` value.
 </Callout>
 
-</Tab>
+
+  </TabsContent>
 </Tabs>
 
 </Steps>

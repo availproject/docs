@@ -11,12 +11,25 @@ import { CopyButton } from "@/components/helpers/copy-button";
 import { CodeBlockCommand } from "./code-block-command";
 import { CodeCollapsibleWrapper } from "./code-collapsible-wrapper";
 
-import { Code } from "lucide-react";
+import {
+  Code,
+  FileIcon,
+  Github,
+  LinkIcon,
+  LoaderPinwheelIcon,
+  Youtube,
+} from "lucide-react";
 // import { DepsInstall } from "../helpers/deps-install";
 import { Callout } from "./callout";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "../ui/card";
-import { YouTube, GithubIcon24, FileIcon, LinkIcon, LoaderPinwheelIcon } from "../nextra-compat";
+import { Tabs as ShadcnTabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "../ui/card";
 
 export const mdxComponents: MDXComponentsMap = {
   // Headings
@@ -244,9 +257,10 @@ export const mdxComponents: MDXComponentsMap = {
       {...props}
     />
   ),
-  Tabs: ({ className, ...props }: React.ComponentProps<typeof Tabs>) => {
+  // Tabs components (shadcn format)
+  Tabs: ({ className, ...props }: React.ComponentProps<typeof ShadcnTabs>) => {
     return (
-      <Tabs className={cn("relative mt-6 w-full", className)} {...props} />
+      <ShadcnTabs className={cn("relative mt-6 w-full", className)} {...props} />
     );
   },
   TabsList: ({
@@ -285,9 +299,6 @@ export const mdxComponents: MDXComponentsMap = {
       {...props}
     />
   ),
-  Tab: ({ className, ...props }: React.ComponentProps<"div">) => (
-    <div className={cn(className)} {...props} />
-  ),
   // Card components
   Card,
   CardHeader,
@@ -300,8 +311,10 @@ export const mdxComponents: MDXComponentsMap = {
     <div className={cn("grid gap-4 sm:grid-cols-2", className)} {...props} />
   ),
   // Media and icons
-  YouTube,
-  GithubIcon24,
+  Youtube,
+  YouTube: Youtube, // Alias for nextra compatibility (uppercase T)
+  Github,
+  GithubIcon24: Github, // Alias for nextra compatibility
   FileIcon,
   LinkIcon,
   LoaderPinwheelIcon,

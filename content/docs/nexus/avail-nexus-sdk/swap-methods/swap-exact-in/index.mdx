@@ -1,7 +1,6 @@
 ---
 title: "Swap tokens with an exact input using the Nexus SDK"
 ---
-import { Callout, Steps, Tabs } from '@/components/nextra-compat'
 
 # `swapWithExactIn()`
 
@@ -17,7 +16,7 @@ For example, if you want to swap `1 ETH` into whatever amount of `USDC` you can 
 
 ## Method signature
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 async swapWithExactIn(
   input: ExactInSwapInput,
   options?: OnEventParam,
@@ -26,7 +25,7 @@ async swapWithExactIn(
 
 ## Parameters
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 export interface ExactInSwapInput {
   from: {
     chainId: number;
@@ -57,7 +56,7 @@ export interface ExactInSwapInput {
 
 ## Example
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 import type { ExactInSwapInput, OnEventParam, SwapResult } from '@avail-project/nexus-core';
 
 const swapWithExactInResult = await sdk.swapWithExactIn(
@@ -80,7 +79,7 @@ console.log('Swap with exact in result:', swapWithExactInResult);
 
 The return value is a `SwapResult` object.
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 export type SwapResult =
   | {
       success: true;

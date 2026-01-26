@@ -3,7 +3,6 @@ image: "/img/docs-link-preview.png"
 title: Fetch balances and other information for an account
 description: Query the balances and many other informational points for an account on Avail DA
 ---
-import { Callout, Steps, Tabs } from '@/components/nextra-compat'
 
 # Fetch balances and other information for an account
 
@@ -11,26 +10,33 @@ On-chain name of method: `system_account`
 
 ## Parameters
 
-<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+<Tabs defaultValue="avail-js">
+  <TabsList>
+    <TabsTrigger value="avail-js">avail-js</TabsTrigger>
+    <TabsTrigger value="avail-rust">avail-rust</TabsTrigger>
+    <TabsTrigger value="avail-go">avail-go</TabsTrigger>
+  </TabsList>
+  <TabsContent value="avail-js">
 
-<Tab>
 | parameter | type          | optional | description                                           |
 | --------- | ------------- | -------- | ----------------------------------------------------- |
 |  address | SS58          | true     | The account  address to fetch information for         |
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-rust">
+
 | parameter | type          | optional | description                                           |
 | --------- | ------------- | -------- | ----------------------------------------------------- |
 |  address | SS58          | true     | The account  address to fetch information for         |
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-go">
+
 | parameter | type          | optional | description                                           |
 | --------- | ------------- | -------- | ----------------------------------------------------- |
 |  address | SS58          | true     | The account  address to fetch information for         |
-</Tab>
 
+  </TabsContent>
 </Tabs>
 
 ## Returns
@@ -65,9 +71,14 @@ For instructions, [check out our docs here](/api-reference/avail-node-api#settin
 The rest of the code should work as is.
 </Callout>
 
-<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+<Tabs defaultValue="avail-js">
+  <TabsList>
+    <TabsTrigger value="avail-js">avail-js</TabsTrigger>
+    <TabsTrigger value="avail-rust">avail-rust</TabsTrigger>
+    <TabsTrigger value="avail-go">avail-go</TabsTrigger>
+  </TabsList>
+  <TabsContent value="avail-js">
 
-<Tab>
 
 1. Inside `your-file-name.ts`, add the following code:
 
@@ -117,9 +128,10 @@ getAccountBalance();
 ```bash filename="terminal" name="cmd2"
 ts-node your-file-name.ts
 ```
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-rust">
+
 
 1. Inside `main.rs`, add the following code:
 
@@ -190,9 +202,10 @@ result = Some(
 )
 ```
 </details>
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-go">
+
 
 1. Inside `main.go`, add the following code:
 
@@ -265,7 +278,6 @@ go mod tidy
 ```
 and try again.
 </Callout>
-</Tab>
 
-
+  </TabsContent>
 </Tabs>

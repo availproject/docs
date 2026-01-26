@@ -2,7 +2,6 @@
 title: "Get Submission Information"
 image: '/img/docs-link-preview.png'
 ---
-import { Callout, Tabs } from '@/components/nextra-compat'
 
 # Get Submission Information
 <Callout type="info">
@@ -21,14 +20,18 @@ Retrieves metadata and status information about a previous data submission to Tu
 ## Response
 - Metadata about the submission including status, transaction details, and timestamps
 
-<Tabs items={['CURL']}>
+<Tabs defaultValue="curl">
+  <TabsList>
+    <TabsTrigger value="curl">CURL</TabsTrigger>
+  </TabsList>
+  <TabsContent value="curl">
 
-<Tab>
 ```bash filename="Fetching submission info against your submission ID"
 curl -X GET 'https://staging.turbo-api.availproject.org/v1/get_submission_info?submission_id=YOUR_SUBMISSION_ID' \
 -H 'x-api-key: YOUR_API_KEY'
 ```
-</Tab>
+
+  </TabsContent>
 </Tabs>
 
 <details className="border p-3 rounded-md bg-[#EFF6FF]">

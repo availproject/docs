@@ -13,7 +13,6 @@ keywords:
   - rpc
   - chainspec
 ---
-import { Callout, Tabs } from '@/components/nextra-compat'
 
 # Network Information
 
@@ -57,22 +56,27 @@ deployments of the VectorX bridge.
 
 #### AVAIL Token
 
-<Tabs items={['Ethereum', 'Base']}>
+<Tabs defaultValue="ethereum">
+  <TabsList>
+    <TabsTrigger value="ethereum">Ethereum</TabsTrigger>
+    <TabsTrigger value="base">Base</TabsTrigger>
+  </TabsList>
+  <TabsContent value="ethereum">
 
-<Tab>
 | **Network**           | **Token Address**                                                                                                             |                                                                                                                                      
 |------------------------|-------------------------------------------------------------------------------------------------------------------------------|
 | **Ethereum Mainnet**            | [0xEeB4d8400AEefafC1B2953e0094134A887C76Bd8](https://etherscan.io/token/0xEeB4d8400AEefafC1B2953e0094134A887C76Bd8)           |
 | **Sepolia Testnet**    | [0xb1c3cb9b5e598d4e95a85870e7812b99f350982d](https://sepolia.etherscan.io/address/0xb1c3cb9b5e598d4e95a85870e7812b99f350982d) |
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="base">
+
 | **Network**             | **Token Address**                                                                                                             |
 |--------------------------|-------------------------------------------------------------------------------------------------------------------------------|
 | **Base Mainnet**         | [0xd89d90d26b48940fa8f58385fe84625d468e057a](https://basescan.org/address/0xd89d90d26b48940fa8f58385fe84625d468e057a)         |
 | **Base-Sepolia Testnet** | [0xf50F2B4D58ce2A24b62e480d795A974eD0f77A58](https://sepolia.basescan.org/address/0xf50F2B4D58ce2A24b62e480d795A974eD0f77A58) |
-</Tab>
 
+  </TabsContent>
 </Tabs>
 
 #### Other deployments

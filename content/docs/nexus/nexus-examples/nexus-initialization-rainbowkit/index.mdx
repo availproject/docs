@@ -9,7 +9,6 @@ keywords:
   - Nexus SDK enhancement
   - Wallet connection
 ---
-import { Callout, Steps, Tabs } from '@/components/nextra-compat'
 
 # Add RainbowKit to Your Nexus SDK Project
 
@@ -39,7 +38,7 @@ Navigate to the root of your project that you created in the [basic Nexus SDK tu
 
 Add the required packages to your existing project:
 
-```bash filename="Terminal" showLineNumbers
+```bash title="Terminal"
 pnpm add @rainbow-me/rainbowkit wagmi viem @tanstack/react-query
 ```
 
@@ -50,7 +49,7 @@ pnpm add @rainbow-me/rainbowkit wagmi viem @tanstack/react-query
 
 Create a new file at `src/lib/wagmi.ts`:
 
-```tsx filename="src/lib/wagmi.ts" showLineNumbers
+```tsx title="src/lib/wagmi.ts"
 import { getDefaultConfig } from '@rainbow-me/rainbowkit';
 import { mainnet, arbitrum, polygon, optimism, base, avalanche } from 'wagmi/chains';
 
@@ -70,7 +69,7 @@ You need to get a Project ID from [WalletConnect Cloud](https://cloud.walletconn
 
 Create a new file at `src/components/providers.tsx`:
 
-```tsx filename="src/components/providers.tsx" showLineNumbers
+```tsx title="src/components/providers.tsx"
 'use client';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -98,7 +97,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
 Update your `src/app/layout.tsx` to wrap your app with the providers:
 
-```tsx filename="src/app/layout.tsx" showLineNumbers
+```tsx title="src/app/layout.tsx"
 import { Providers } from '@/components/providers';
 import './globals.css';
 
@@ -128,7 +127,7 @@ export default function RootLayout({
 
 Update your `src/components/connect-button.tsx` to use RainbowKit:
 
-```tsx filename="src/components/connect-button.tsx" showLineNumbers
+```tsx title="src/components/connect-button.tsx"
 'use client';
 
 import { ConnectButton } from '@rainbow-me/rainbowkit';
@@ -233,7 +232,7 @@ export default function ConnectWalletButton({ className }: { className?: string 
 
 Update your `src/components/init-button.tsx` to use Wagmi's connector:
 
-```tsx filename="src/components/init-button.tsx" showLineNumbers
+```tsx title="src/components/init-button.tsx"
 'use client';
 
 import { useAccount } from 'wagmi';
@@ -277,7 +276,7 @@ const provider = await connector?.getProvider();
 
 Update your `src/app/page.tsx` to show wallet connection status:
 
-```tsx filename="src/app/page.tsx" showLineNumbers
+```tsx title="src/app/page.tsx"
 'use client';
 
 import { useState } from 'react';

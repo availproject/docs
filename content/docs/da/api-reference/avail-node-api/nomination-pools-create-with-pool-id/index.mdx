@@ -2,7 +2,6 @@
 title: "Create a new nomination pool with a specific pool ID"
 image: '/img/docs-link-preview.png'
 ---
-import { Callout, Steps, Tabs } from '@/components/nextra-compat'
 
 # Create a new nomination pool with a specific pool ID
 
@@ -10,9 +9,14 @@ On-chain name of method: `nominationPools_createWithPoolId`
 
 ## Parameters
 
-<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+<Tabs defaultValue="avail-js">
+  <TabsList>
+    <TabsTrigger value="avail-js">avail-js</TabsTrigger>
+    <TabsTrigger value="avail-rust">avail-rust</TabsTrigger>
+    <TabsTrigger value="avail-go">avail-go</TabsTrigger>
+  </TabsList>
+  <TabsContent value="avail-js">
 
-<Tab>
 | parameter | type          | optional | description                                        |
 | --------- | ------------- | -------- | -------------------------------------------------- |
 | amount    | BN            | false    | The amount of funds to delegate to the pool        |
@@ -23,9 +27,10 @@ On-chain name of method: `nominationPools_createWithPoolId`
 | waitFor   | WaitFor       | false    | wait for block inclusion or finalization           |
 | account   | KeyringPair   | false    | account that will send and sign the transaction    |
 | options   | SignerOptions | true     | used to overwrite existing signer options          |
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-rust">
+
 | parameter | type        | optional | description                                        |
 | --------- | ----------- | -------- | -------------------------------------------------- |
 | amount    | u128        | false    | The amount of funds to delegate to the pool        |
@@ -36,9 +41,10 @@ On-chain name of method: `nominationPools_createWithPoolId`
 | waitFor   | WaitFor     | false    | wait for block inclusion or finalization           |
 | account   | KeyringPair | false    | account that will send and sign the transaction    |
 | options   | Options     | true     | transaction parameters                             |
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-go">
+
 | parameter | type        | optional | description                                        |
 | --------- | ----------- | -------- | -------------------------------------------------- |
 | amount    | u128        | false    | The amount of funds to delegate to the pool        |
@@ -49,8 +55,8 @@ On-chain name of method: `nominationPools_createWithPoolId`
 | waitFor   | WaitFor     | false    | wait for block inclusion or finalization           |
 | account   | KeyringPair | false    | account that will send and sign the transaction    |
 | options   | Options     | true     | transaction parameters                             |
-</Tab>
 
+  </TabsContent>
 </Tabs>
 
 ## Returns
@@ -85,9 +91,14 @@ A pool consists of 4 roles, each of which having different responsibilities in m
 
 </Callout>
 
-<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+<Tabs defaultValue="avail-js">
+  <TabsList>
+    <TabsTrigger value="avail-js">avail-js</TabsTrigger>
+    <TabsTrigger value="avail-rust">avail-rust</TabsTrigger>
+    <TabsTrigger value="avail-go">avail-go</TabsTrigger>
+  </TabsList>
+  <TabsContent value="avail-js">
 
-<Tab>
 
 1. Inside `your-file-name.ts`, add the following code:
 
@@ -182,9 +193,10 @@ ts-node your-file-name.ts
 ```
 </details>
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-rust">
+
 
 1. Inside `main.rs`, add the following code:
 
@@ -273,9 +285,10 @@ PoolCreateWithPoolIdTxSuccess {
 }
 ```
 </details>
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-go">
+
 
 1. Inside `main.go`, add the following code:
 
@@ -369,6 +382,6 @@ func main() {
 go run main.go
 ```
 
-</Tab>
 
+  </TabsContent>
 </Tabs>

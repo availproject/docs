@@ -28,7 +28,17 @@ export const transformers: ShikiTransformer[] = [
         };
 
         if (typeof raw === "string") {
-          if (raw.startsWith("npm install")) {
+          // Bare npm install (no package specified)
+          if (raw.trim() === "npm install") {
+            setCliVariants(
+              raw,
+              raw.replace("npm install", "yarn install"),
+              raw.replace("npm install", "pnpm install"),
+              raw.replace("npm install", "bun install"),
+            );
+          }
+          // npm install with package name
+          else if (raw.startsWith("npm install ")) {
             setCliVariants(
               raw,
               raw.replace("npm install", "yarn add"),

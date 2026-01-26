@@ -5,6 +5,73 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Check, Copy, Terminal } from "lucide-react";
 import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
+
+// Tokenize and highlight bash/shell commands
+function highlightCommand(command: string): React.ReactNode[] {
+  const tokens: React.ReactNode[] = [];
+  const parts = command.split(/(\s+)/);
+
+  let isFirstWord = true;
+
+  parts.forEach((part, index) => {
+    // Whitespace
+    if (/^\s+$/.test(part)) {
+      tokens.push(<span key={index}>{part}</span>);
+      return;
+    }
+
+    // Command (first word): npx, npm, pnpm, yarn, bun, bunx, etc.
+    if (isFirstWord) {
+      tokens.push(
+        <span key={index} className="text-[#e36209] dark:text-[#ffab70]">
+          {part}
+        </span>
+      );
+      isFirstWord = false;
+      return;
+    }
+
+    // Subcommands: install, add, run, dlx, create, etc.
+    if (/^(install|add|run|dlx|create|exec|init|--bun)$/.test(part)) {
+      tokens.push(
+        <span key={index} className="text-[#22863a] dark:text-[#85e89d]">
+          {part}
+        </span>
+      );
+      return;
+    }
+
+    // Flags: -g, --save-dev, etc.
+    if (part.startsWith("-")) {
+      tokens.push(
+        <span key={index} className="text-[#6f42c1] dark:text-[#b392f0]">
+          {part}
+        </span>
+      );
+      return;
+    }
+
+    // Scoped packages: @scope/package or @latest
+    if (part.startsWith("@")) {
+      tokens.push(
+        <span key={index} className="text-[#005cc5] dark:text-[#79b8ff]">
+          {part}
+        </span>
+      );
+      return;
+    }
+
+    // Default text
+    tokens.push(
+      <span key={index} className="text-[#24292e] dark:text-[#e1e4e8]">
+        {part}
+      </span>
+    );
+  });
+
+  return tokens;
+}
 
 export function CodeBlockCommand({
   __npm__,
@@ -88,10 +155,13 @@ export function CodeBlockCommand({
               <TabsContent key={key} value={key} className="mt-0 px-4 py-3.5">
                 <pre>
                   <code
-                    className="relative font-mono text-sm leading-none"
+                    className={cn(
+                      "relative font-mono text-sm leading-none",
+                      "bg-transparent"
+                    )}
                     data-language="bash"
                   >
-                    {value}
+                    {value ? highlightCommand(value) : value}
                   </code>
                 </pre>
               </TabsContent>

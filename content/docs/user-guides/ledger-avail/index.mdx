@@ -2,7 +2,6 @@
 title: "How to use a ledger wallet on Avail DA"
 image: '/img/docs-link-preview.png'
 ---
-import { Callout, Steps, Tabs, YouTube } from '@/components/nextra-compat'
 
 # How to use a ledger wallet on Avail DA
 
@@ -125,9 +124,13 @@ We have included instructions for connecting a ledger account with Subwallet & T
 If you are looking for instructions on getting started with an Avail wallet, you can refer to our [accounts guide](/user-guides/accounts/#creating-an-account-on-avail-da).
 </Callout>
 
-<Tabs items={['Subwallet', 'Talisman']}>
+<Tabs defaultValue="subwallet">
+  <TabsList>
+    <TabsTrigger value="subwallet">Subwallet</TabsTrigger>
+    <TabsTrigger value="talisman">Talisman</TabsTrigger>
+  </TabsList>
+  <TabsContent value="subwallet">
 
-<Tab>
 
 <Steps>
 
@@ -178,9 +181,10 @@ Make sure your ledger device is unlocked and the Avail app is open.
 </div>
 
 </Steps>
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="talisman">
+
 
 <Steps>
 
@@ -235,8 +239,8 @@ Make sure your ledger device is unlocked and the Avail app is open.
 </div>
 
 </Steps>
-</Tab>
 
+  </TabsContent>
 </Tabs>
 
 

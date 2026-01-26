@@ -2,7 +2,6 @@
 title: "Proxy Accounts on Avail DA"
 image: '/img/docs-link-preview.png'
 ---
-import { Callout, Steps, Tabs } from '@/components/nextra-compat'
 
 # Proxy Accounts on Avail DA
 
@@ -93,9 +92,13 @@ As per the previous steps, our proxy should be able to perform any action on beh
 account except transferring funds directly.
 > Let's verify this by trying to transfer and stake `AVAIL` from the main account respectively via the proxy.
 
-<Tabs items={['Transfer `AVAIL` via proxy', 'Stake `AVAIL` via proxy']}>
+<Tabs defaultValue="transfer-avail-via-proxy">
+  <TabsList>
+    <TabsTrigger value="transfer-avail-via-proxy">Transfer `AVAIL` via proxy</TabsTrigger>
+    <TabsTrigger value="stake-avail-via-proxy">Stake `AVAIL` via proxy</TabsTrigger>
+  </TabsList>
+  <TabsContent value="transfer-avail-via-proxy">
 
-<Tab>
 
 1. Go to the same accounts page and click on *'send'* to transfer funds.
 <br/>
@@ -120,9 +123,10 @@ account except transferring funds directly.
 6. You will note that while the transaction will be included in the block and the delegated account will
 pay the gas fee for it, no funds from the main account will actually be transferred.
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="stake-avail-via-proxy">
+
 
 1. Go to the [extrinsics section of the Avail explorer](https://explorer.availproject.org/#/extrinsics).
 
@@ -144,7 +148,8 @@ pay the gas fee for it, no funds from the main account will actually be transfer
 7. This time you will see that the transaction a actually goes through and `1000 AVAIL`
 are actually staked from the main account, all without ever signing the transaction from the main account.
 
-</Tab>
+
+  </TabsContent>
 </Tabs>
 
 

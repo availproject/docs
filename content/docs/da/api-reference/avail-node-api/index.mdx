@@ -2,7 +2,6 @@
 image: "/img/docs-link-preview.png"
 title: Avail Node API reference
 ---
-import { Callout, Tabs } from '@/components/nextra-compat'
 
 # Avail node API reference
 
@@ -16,9 +15,15 @@ to eventually be an exhaustive resource for the Avail node API.
 
 ## Setting up the dev environment
 
-<Tabs items={['avail-js', 'avail-deno', 'avail-rust', 'avail-go']}>
+<Tabs defaultValue="avail-js">
+  <TabsList>
+    <TabsTrigger value="avail-js">avail-js</TabsTrigger>
+    <TabsTrigger value="avail-deno">avail-deno</TabsTrigger>
+    <TabsTrigger value="avail-rust">avail-rust</TabsTrigger>
+    <TabsTrigger value="avail-go">avail-go</TabsTrigger>
+  </TabsList>
+  <TabsContent value="avail-js">
 
-<Tab>
 
 1. Make sure `Node-js` is installed on your system by running the following command in your terminal:
 
@@ -90,9 +95,10 @@ SEED="This is a random seed phrase please replace with your own"
 3. While it is good enough to use an `env` file while testing, try to use better practices while deploying to production.
 </Callout>
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-deno">
+
 
 <Callout type="warning">
 **AVAIL-DENO HAS BEEN SUNSET**<br/>
@@ -110,9 +116,10 @@ in the project.
 3. The examples in this reference will interact with the Turing testnet of Avail DA, and will use the correspponding endpoint.
 You can use the [networks page](/docs/networks) to find endpoints for mainnet if you need to.
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-rust">
+
 
 1. Make sure `rust` and cargo are installed on your system. You can refer to [Rustlang's docs](https://www.rust-lang.org/tools/install) for the same.
 
@@ -166,9 +173,10 @@ SEED="This is a random seed phrase please replace with your own"
 3. While it is good enough to use an `env` file while testing, try to use better practices while deploying to production.
 </Callout>
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-go">
+
 
 1. Make sure `go` is installed on your system by running the following command in your terminal:
 
@@ -221,6 +229,6 @@ SEED="This is a random seed phrase please replace with your own"
 3. While it is good enough to use an `env` file while testing, try to use better practices while deploying to production.
 </Callout>
 
-</Tab>
 
+  </TabsContent>
 </Tabs>

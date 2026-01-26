@@ -1,7 +1,6 @@
 ---
 title: "Swap tokens with an exact output using the Nexus SDK"
 ---
-import { Callout, Steps, Tabs } from '@/components/nextra-compat'
 
 # `swapWithExactOut()`
 
@@ -16,7 +15,7 @@ Use the `swapWithExactOut()` function to swap tokens with an exactly defined out
 For example, if you want to get exactly `1 ETH` on the destination but don't care which funds are used to source the swap.
 ## Method signature
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 async swapWithExactOut(
   input: ExactOutSwapInput,
   options?: OnEventParam,
@@ -25,7 +24,7 @@ async swapWithExactOut(
 
 ## Parameters
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 export interface ExactOutSwapInput {
   toChainId: number;
   toTokenAddress: Hex;
@@ -50,7 +49,7 @@ export interface ExactOutSwapInput {
 
 ## Example
 
-```typescript showLine numbers filename="Typescript"
+```typescript title="TypeScript"
 import { SwapResult, NEXUS_EVENTS } from '@avail-project/nexus-core';
 
 const swapWithExactOutResult = await sdk.swapWithExactOut({
@@ -72,7 +71,7 @@ console.log('Swap with exact out result:', swapWithExactOutResult);
 
 The return value is a `SwapResult` object.
 
-```typescript showLine numbers filename="Typescript"
+```typescript title="TypeScript"
 export type SwapResult =
   | {
       success: true;

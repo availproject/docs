@@ -2,7 +2,6 @@
 title: "Read & Write data on Avail DA"
 image: '/img/docs-link-preview.png'
 ---
-import { Callout, Steps, Tabs } from '@/components/nextra-compat'
 
 # Read & Write data on Avail DA
 
@@ -21,9 +20,15 @@ To set up a dev environment for `avail-js`, please follow the steps [outlined he
 
 ## Submitting data to Avail DA
 
-<Tabs items={['avail-js', 'avail-rust', 'avail-go', 'AvailApps explorer']}>
+<Tabs defaultValue="avail-js">
+  <TabsList>
+    <TabsTrigger value="avail-js">avail-js</TabsTrigger>
+    <TabsTrigger value="avail-rust">avail-rust</TabsTrigger>
+    <TabsTrigger value="avail-go">avail-go</TabsTrigger>
+    <TabsTrigger value="availapps-explorer">AvailApps explorer</TabsTrigger>
+  </TabsList>
+  <TabsContent value="avail-js">
 
-<Tab>
 
 1. Create a file named `your-file-name.ts`
 
@@ -106,9 +111,10 @@ submitData()
 ts-node your-file-name.ts
 ```
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-rust">
+
 1. Create a file named `main.rs`
 
 2. Paste the following code into the file:
@@ -181,9 +187,10 @@ async fn main() {
 cargo run
 ```
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-go">
+
 
 1. Create a file named `main.go`
 
@@ -257,9 +264,10 @@ func main() {
 go run main.go
 ```
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="availapps-explorer">
+
 
 1. Go to the [`extrinsics` page](https://explorer.avail.so/#/extrinsics) on the AvailApps explorer.
 
@@ -287,8 +295,8 @@ To check out how to create an AppID on Avail, [refer to this page](/docs/build-w
 
 7. Click on `Sign and Submit` and approve the transaction in your wallet.
 
-</Tab>
 
+  </TabsContent>
 </Tabs>
 
 ## Fetch data submission transactions from Avail DA [#fetch-data-submissions]
@@ -297,9 +305,14 @@ To check out how to create an AppID on Avail, [refer to this page](/docs/build-w
 
 > You can read back your submitted data from Avail DA using the `blockHash` and `txHash` of the transaction.
 
-<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+<Tabs defaultValue="avail-js">
+  <TabsList>
+    <TabsTrigger value="avail-js">avail-js</TabsTrigger>
+    <TabsTrigger value="avail-rust">avail-rust</TabsTrigger>
+    <TabsTrigger value="avail-go">avail-go</TabsTrigger>
+  </TabsList>
+  <TabsContent value="avail-js">
 
-<Tab>
 1. Create a file named `your-file-name.ts`
 
 2. Paste the following code into the file:
@@ -354,9 +367,10 @@ readDataByHash()
 ```bash filename="terminal" name="cmd8"
 ts-node your-file-name.ts
 ```
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-rust">
+
 
 1. Create a file named `main.rs`
 
@@ -414,9 +428,10 @@ async fn main() {
 cargo run
 ```
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-go">
+
 
 1. Create a file named `main.go`
 
@@ -483,8 +498,8 @@ func main() {
 go run main.go
 ```
 
-</Tab>
 
+  </TabsContent>
 </Tabs>
 
 
@@ -492,9 +507,14 @@ go run main.go
 
 > You can read back your submitted data from Avail DA using the `AppID`.
 
-<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+<Tabs defaultValue="avail-js">
+  <TabsList>
+    <TabsTrigger value="avail-js">avail-js</TabsTrigger>
+    <TabsTrigger value="avail-rust">avail-rust</TabsTrigger>
+    <TabsTrigger value="avail-go">avail-go</TabsTrigger>
+  </TabsList>
+  <TabsContent value="avail-js">
 
-<Tab>
 
 1. Create a file named `your-file-name.ts`
 
@@ -554,9 +574,10 @@ readDataByAppId()
 ```bash filename="terminal" name="cmd14"
 ts-node your-file-name.ts
 ```
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-rust">
+
 
 1. Create a file named `main.rs`
 
@@ -611,9 +632,10 @@ async fn main() {
 cargo run
 ```
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-go">
+
 
 1. Create a file named `main.go`
 
@@ -681,8 +703,8 @@ func main() {
 go run main.go
 ```
 
-</Tab>
 
+  </TabsContent>
 </Tabs>
 
 
@@ -690,9 +712,14 @@ go run main.go
 
 Here is a complete example of how to fetch all the data submissions for a given block:
 
-<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+<Tabs defaultValue="avail-js">
+  <TabsList>
+    <TabsTrigger value="avail-js">avail-js</TabsTrigger>
+    <TabsTrigger value="avail-rust">avail-rust</TabsTrigger>
+    <TabsTrigger value="avail-go">avail-go</TabsTrigger>
+  </TabsList>
+  <TabsContent value="avail-js">
 
-<Tab>
 
 ```typescript showLineNumbers filename="avail-js" name="cmd19"
 import * as dotenv from 'dotenv';
@@ -746,9 +773,10 @@ readDataByBlock();
 ts-node your-file-name.ts
 ```
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-rust">
+
 
 ```rust showLineNumbers filename="avail-rust" name="cmd21"
 use avail_rust::prelude::*;
@@ -796,9 +824,10 @@ async fn main() {
 cargo run
 ```
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-go">
+
 
 ```go showLineNumbers filename="avail-go" name="cmd23"
 package main
@@ -855,8 +884,8 @@ func main() {
 go run main.go
 ```
 
-</Tab>
 
+  </TabsContent>
 </Tabs>
 
 ## Fetch all types of transactions on Avail DA [#fetch-all-transactions]
@@ -865,9 +894,14 @@ go run main.go
 
 Here is a complete example of how to fetch all the transactions by a particular signer in a particular block:
 
-<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+<Tabs defaultValue="avail-js">
+  <TabsList>
+    <TabsTrigger value="avail-js">avail-js</TabsTrigger>
+    <TabsTrigger value="avail-rust">avail-rust</TabsTrigger>
+    <TabsTrigger value="avail-go">avail-go</TabsTrigger>
+  </TabsList>
+  <TabsContent value="avail-js">
 
-<Tab>
 1. Create a file named `your-file-name.ts`
 
 2. Paste the following code into your file:
@@ -927,9 +961,10 @@ fetchTransactionsBySigner();
 ts-node your-file-name.ts
 ```
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-rust">
+
 1. Create a file named `main.rs`
 
 2. Paste the following code into your file:
@@ -992,9 +1027,10 @@ async fn main() -> Result<(), ClientError> {
 cargo run
 ```
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-go">
+
 1. Create a file named `main.go`
 
 2. Paste the following code into your file:
@@ -1056,17 +1092,22 @@ func main() {
 go run main.go
 ```
 
-</Tab>
 
+  </TabsContent>
 </Tabs>
 
 ### Fetch all transactions from a particular block [#fetch-transactions-by-block]
 
 Here is a complete example of how to fetch all the transactions from a particular block:
 
-<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+<Tabs defaultValue="avail-js">
+  <TabsList>
+    <TabsTrigger value="avail-js">avail-js</TabsTrigger>
+    <TabsTrigger value="avail-rust">avail-rust</TabsTrigger>
+    <TabsTrigger value="avail-go">avail-go</TabsTrigger>
+  </TabsList>
+  <TabsContent value="avail-js">
 
-<Tab>
 1. Create a file named `your-file-name.ts`
 
 2. Paste the following code into your file:
@@ -1123,9 +1164,10 @@ fetchAllTransactions();
 ts-node your-file-name.ts
 ```
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-rust">
+
 1. Create a file named `main.rs`
 
 2. Paste the following code into your file:
@@ -1185,9 +1227,10 @@ async fn main() -> Result<(), ClientError> {
 cargo run
 ```
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-go">
+
 1. Create a file named `main.go`
 
 2. Paste the following code into your file:
@@ -1242,8 +1285,8 @@ func main() {
 go run main.go
 ```
 
-</Tab>
 
+  </TabsContent>
 </Tabs>
 
 ## Estimate fees for your data submission [#estimate-fees]
@@ -1251,13 +1294,16 @@ go run main.go
 The `avail-js` SDK provides a method to estimate the cost of submitting a particular piece of data to Avail DA.
 Here is how you can use it:
 
-<Tabs items={['avail-js']}>
+<Tabs defaultValue="avail-js">
+  <TabsList>
+    <TabsTrigger value="avail-js">avail-js</TabsTrigger>
+  </TabsList>
+  <TabsContent value="avail-js">
 
-<Tab>
 
-<Tabs items={['Pass data directly', 'Pass data via file']}>
 
-<Tab>
+
+
 
 ```typescript showLineNumbers filename="avail-js" name="cmd37"
 import { initialize, disconnect } from "avail-js-sdk";
@@ -1287,46 +1333,8 @@ const calculateCost = async () => {
 calculateCost();
 ```
 
-</Tab>
 
-<Tab>
-
-```typescript showLineNumbers filename="avail-js" name="cmd38"
-import * as fs from "fs";
-import { initialize, disconnect } from "avail-js-sdk";
-
-const calculateCost = async () => {
-  // Initialize the avail sdk providerEndpoint
-  const providerEndpoint = await initialize("wss://turing-rpc.avail.so/ws");
-
-  // Dummy sender - insert any address
-  const sender = "5CDGXH8Q9DzD3TnATTG6qm6f4yR1kbECBGUmh2XbEBQ8Jfa5";
-
-  //10^18 decimals to denominate to AVAIL
-  const DECIMAL = 1000000000000000000;
-
-  // Pass the path to your txt file
-  const filePath = "/Users/abosolute/path/to-file/<file-name>.txt";
-  const data = fs.readFileSync(filePath, "utf8");
-
-  //Get the estimated cost in AVAIL
-  const cost = await providerEndpoint.tx.dataAvailability.submitData(data).paymentInfo(sender);
-  const costInAvail = (parseInt(cost.partialFee.toString()) / DECIMAL).toFixed(6);
-
-  console.log(`Estimated Fees: ${costInAvail} AVAIL`);
-
-  await disconnect();
-};
-
-calculateCost();
-```
-
-</Tab>
-
-</Tabs>
-
-</Tab>
-
+  </TabsContent>
 </Tabs>
 
 2. Run the script using the following command:

@@ -2,7 +2,6 @@
 title: "Submit Raw Data to Turbo DA"
 image: '/img/docs-link-preview.png'
 ---
-import { Callout, Tabs } from '@/components/nextra-compat'
 
 # Submit Raw Data to Turbo DA
 <Callout type="info">
@@ -21,9 +20,13 @@ Submits raw data to Turbo DA.
 ## Response
 - **submission_id** - Unique identifier for tracking your submission
 
-<Tabs items={['Submitting a file', 'Submitting raw data']}>
+<Tabs defaultValue="submitting-a-file">
+  <TabsList>
+    <TabsTrigger value="submitting-a-file">Submitting a file</TabsTrigger>
+    <TabsTrigger value="submitting-raw-data">Submitting raw data</TabsTrigger>
+  </TabsList>
+  <TabsContent value="submitting-a-file">
 
-<Tab>
 ```bash filename="Submitting a file"
 # Create a sample file
 echo "This is test data for Avail network" > data.txt
@@ -34,16 +37,18 @@ curl -X POST 'https://staging.turbo-api.availproject.org/v1/submit_raw_data' \
 -H 'Content-Type: application/octet-stream' \
 --data-binary '@data.txt'
 ```
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="submitting-raw-data">
+
 ```bash filename="Submitting raw data"
 curl -X POST 'https://staging.turbo-api.availproject.org/v1/submit_raw_data' \
 -H 'x-api-key: YOUR_API_KEY' \
 -H 'Content-Type: application/octet-stream' \
 --data-binary 'Hello Avail Network!'
 ```
-</Tab>
+
+  </TabsContent>
 </Tabs>
 
 <details className="border p-3 rounded-md bg-[#EFF6FF]">

@@ -1,7 +1,6 @@
 ---
 title: "Events emitted by the swap methods"
 ---
-import { Callout, Cards, FileIcon, Steps, Tabs } from '@/components/nextra-compat'
 
 # Swap methods events
 
@@ -15,7 +14,7 @@ This page documents the events emitted by the following methods:
 
 ## Signature
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 type EventUnion =
   | { name: 'STEPS_LIST'; args: BridgeStepType[] }
   | { name: 'SWAP_STEP_COMPLETE'; args: SwapStepType } // Only emitted by `swapWithExactIn()` and `swapWithExactOut()`
@@ -47,7 +46,7 @@ You can check out the type definitions for each step type here:
 
 ## Usage Example
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
       const result = await nexusSDK.swapWithExactIn(swapInput, {
         onEvent: (event) => {
           if (event.name === NEXUS_EVENTS.SWAP_STEP_COMPLETE) {

@@ -2,7 +2,6 @@
 image: "/img/docs-link-preview.png"
 title: Nexus SDK Overview
 ---
-import { Callout, Cards, FileIcon, Steps, Tabs } from '@/components/nextra-compat'
 
 # Nexus SDK Overview
 
@@ -23,27 +22,9 @@ The core functionality of the Nexus SDK is provided by the `@avail-project/nexus
 
 ### Install:
 
-<Tabs items={['pnpm', 'npm', 'yarn']}>
-
-<Tab>
-```bash filename="Terminal"
-pnpm add @avail-project/nexus-core@1.0.0-rc.3
-```
-</Tab>
-
-<Tab>
-```bash filename="Terminal"
+```bash title="Terminal"
 npm install @avail-project/nexus-core@1.0.0-rc.3
 ```
-</Tab>
-
-<Tab>
-```bash filename="Terminal"
-yarn add @avail-project/nexus-core@1.0.0-rc.3
-```
-</Tab>
-
-</Tabs>
 
 <Cards num={2}>
     <Card title="Nexus Core SDK Reference" href="/nexus/avail-nexus-sdk" icon={<FileIcon />} />
@@ -69,27 +50,9 @@ A shadcn-based component library built on top of nexus-core that allows devs to 
 
 A CLI tool that helps you scaffold a new application with Nexus SDK using your preferred framework and auth provider.
 
-<Tabs items={['pnpm', 'npm', 'bun']}>
-
-<Tab>
-```bash filename="Terminal"
-pnpx create-liquid-apps
-```
-</Tab>
-
-<Tab>
-```bash filename="Terminal"
+```bash title="Terminal"
 npx create-liquid-apps
 ```
-</Tab>
-
-<Tab>
-```bash filename="Terminal"
-bunx create-liquid-apps
-```
-</Tab>
-
-</Tabs>
 
 You will be prompted to choose your preferred framework and auth provider in a UI that looks like this:
 <br/>
@@ -98,7 +61,7 @@ You will be prompted to choose your preferred framework and auth provider in a U
 </p>
 
 Alternatively, you can skip the UI and use the CLI with options:
-```bash filename="Terminal"
+```bash title="Terminal"
 pnpx create-liquid-apps my-app --framework next --widgets nexus-core --auth wagmi-familyconnect
 ```
 

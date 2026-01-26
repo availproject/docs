@@ -2,7 +2,6 @@
 title: "Bond AVAIL tokens on Avail DA"
 image: '/img/docs-link-preview.png'
 ---
-import { Callout, Steps, Tabs } from '@/components/nextra-compat'
 
 # Bond AVAIL tokens on Avail DA
 
@@ -10,9 +9,14 @@ On-chain name of extrinsic: `staking_bond`
 
 ## Parameters
 
-<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+<Tabs defaultValue="avail-js">
+  <TabsList>
+    <TabsTrigger value="avail-js">avail-js</TabsTrigger>
+    <TabsTrigger value="avail-rust">avail-rust</TabsTrigger>
+    <TabsTrigger value="avail-go">avail-go</TabsTrigger>
+  </TabsList>
+  <TabsContent value="avail-js">
 
-<Tab>
 | parameter | type                     | optional | description                                             |
 | --------- | ------------------------ | -------- | ------------------------------------------------------- |
 | value     | BN                       | false    | amount that is bond. 10^18 is equal to 1 AVL            |
@@ -20,18 +24,20 @@ On-chain name of extrinsic: `staking_bond`
 | waitFor   | WaitFor                  | false    | wait for block inclusion or finalization                |
 | account   | KeyringPair              | false    | account that will send and sign the transaction         |
 | options   | SignerOptions            | true     | used to overwrite existing signer options               |
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-rust">
+
 | parameter | type              | optional | description                                             |
 | --------- | ----------------- | -------- | ------------------------------------------------------- |
 | value     | u128              | false    | amount that is bond. 10^18 is equal to 1 AVAIL            |
 | payee     | RewardDestination | false    | Can be: "Staked", "Stash", "None" or an account address |
 | waitFor   | WaitFor           | false    | wait for block inclusion or finalization                |
 | account   | KeyringPair       | false    | account that will send and sign the transaction         |
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-go">
+
 | parameter        | type     | optional | description                                             |
 | ---------------- | -------- | -------- | ------------------------------------------------------- |
 | api              | API      | false    | api for avail chain                                     |
@@ -39,8 +45,8 @@ On-chain name of extrinsic: `staking_bond`
 | payee            | Payee    | false    | Can be: "Staked", "Stash", "None" or an account address |
 | WaitForInclusion | WaitFor  | false    | wait for block inclusion or finalization                |
 | Seed             | Mnemonic | false    | seed of the account that needs to sign the transaction  |
-</Tab>
 
+  </TabsContent>
 </Tabs>
 
 ## Returns
@@ -57,9 +63,14 @@ For instructions, [check out our docs here](/api-reference/avail-node-api#settin
 The rest of the code should work as is.
 </Callout>
 
-<Tabs items={['avail-js', 'avail-rust', 'avail-go']}>
+<Tabs defaultValue="avail-js">
+  <TabsList>
+    <TabsTrigger value="avail-js">avail-js</TabsTrigger>
+    <TabsTrigger value="avail-rust">avail-rust</TabsTrigger>
+    <TabsTrigger value="avail-go">avail-go</TabsTrigger>
+  </TabsList>
+  <TabsContent value="avail-js">
 
-<Tab>
 
 1. Inside `your-file-name.ts`, add the following code:
 
@@ -123,9 +134,10 @@ stakingBond();
 ```bash filename="terminal" name="cmd2"
 ts-node your-file-name.ts
 ```
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-rust">
+
 
 1. Inside `src/main.rs`, paste the following code:
 
@@ -180,9 +192,10 @@ async fn main() {
 ```bash filename="terminal" name="cmd4"
 cargo run
 ```
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-go">
+
 
 1. Inside `main.go`, paste the following code:
 
@@ -269,6 +282,6 @@ go mod tidy
 ```
 and try again.
 </Callout>
-</Tab>
 
+  </TabsContent>
 </Tabs>

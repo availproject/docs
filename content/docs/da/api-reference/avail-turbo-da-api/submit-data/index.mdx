@@ -2,7 +2,6 @@
 title: "Submit JSON Data to Turbo DA"
 image: '/img/docs-link-preview.png'
 ---
-import { Callout, Tabs } from '@/components/nextra-compat'
 
 # Submit JSON Data to Turbo DA
 
@@ -37,16 +36,20 @@ Submits string data in JSON format to Turbo DA. This endpoint is designed for ap
 ## Response
 - **submission_id** - Unique identifier for tracking your submission
 
-<Tabs items={['CURL']}>
+<Tabs defaultValue="curl">
+  <TabsList>
+    <TabsTrigger value="curl">CURL</TabsTrigger>
+  </TabsList>
+  <TabsContent value="curl">
 
-<Tab>
 ```bash filename="Submitting JSON data"
 curl -X POST 'https://staging.turbo-api.availproject.org/v1/submit_data' \
 -H 'x-api-key: YOUR_API_KEY' \
 -H 'Content-Type: application/json' \
 -d '{"data": "Hello Avail Network!"}'
 ```
-</Tab>
+
+  </TabsContent>
 </Tabs>
 
 <details className="border p-3 rounded-md bg-[#EFF6FF]">

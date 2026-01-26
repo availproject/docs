@@ -10,7 +10,6 @@ keywords:
   - Unified balances
   - Fetch Balances using the Nexus SDK
 ---
-import { Callout, Steps, Tabs } from '@/components/nextra-compat'
 
 # Get Started with the Nexus SDK using Next JS
 
@@ -85,19 +84,19 @@ In this section we will create a minimal Next JS page with 4 buttons:
 
 1. Navigate into a directory of your choice and create a new Next JS project at it's root:
 
-```bash filename="Terminal"
+```bash title="Terminal"
 pnpm create next-app@latest . --ts --eslint --app --src-dir
 ```
 
 2. Install the `nexus-core` package:
 
-```bash filename="Terminal"
+```bash title="Terminal"
 pnpm add @avail-project/nexus-core
 ```
 
 3. Update the `src/app/page.tsx` file to the following:
 
-```tsx filename="src/app/page.tsx" showLineNumbers
+```tsx title="src/app/page.tsx"
 export default function Home() {
   return <div>Hello Nexus!</div>;
 }
@@ -105,7 +104,7 @@ export default function Home() {
 
 4. Run a dev server using:
 
-```bash filename="Terminal"
+```bash title="Terminal"
 pnpm dev
 ```
 
@@ -119,7 +118,7 @@ This will help keep the code clean and make it easier to understand the flow of 
 
 1. Create a file at `src/lib/nexus.ts` and add the following code:
 
-```tsx filename="src/lib/nexus.ts" showLineNumbers
+```tsx title="src/lib/nexus.ts"
 import { NexusSDK } from '@avail-project/nexus-core';
 
 export const sdk = new NexusSDK({ network: 'testnet'});
@@ -134,7 +133,7 @@ You can check out a complete list of the supported networks [here](/nexus/avail-
 
 2. Now fill the page with the following helper functions:
 
-```tsx showLineNumbers filename="src/lib/nexus.ts"
+```tsx title="src/lib/nexus.ts"
 
 // Thin wrapper that calls sdk.isInitialized() from the SDK
 export function isInitialized() {
@@ -188,7 +187,7 @@ Create four new files in the `src/components` directory:
 
 This component will be used to connect a `EIP-1193` compatible wallet to the app.
 
-```tsx filename="src/components/connect-button.tsx" showLineNumbers
+```tsx title="src/components/connect-button.tsx"
 'use client';
 
 export default function ConnectButton({ className }: { className?: string }) {
@@ -212,7 +211,7 @@ This tutorial only covers the **default injected provider** (`window.ethereum`).
 
 </Callout>
 
-```tsx filename="src/components/init-button.tsx" showLineNumbers
+```tsx title="src/components/init-button.tsx"
 'use client';
 
 import { initializeWithProvider, isInitialized } from '../lib/nexus';
@@ -241,7 +240,7 @@ export default function InitButton({
 
 This component will be used to fetch the unified balances using the Nexus SDK.
 
-```tsx filename="src/components/fetch-unified-balance-button.tsx" showLineNumbers
+```tsx title="src/components/fetch-unified-balance-button.tsx"
 'use client';
 
 import { getUnifiedBalances, isInitialized } from '../lib/nexus';
@@ -264,7 +263,7 @@ export default function FetchUnifiedBalanceButton({
 
 This component will be used to de-initialize the SDK using the `deinit()` function.
 
-```tsx filename="src/components/de-init-button.tsx" showLineNumbers
+```tsx title="src/components/de-init-button.tsx"
 'use client';
 
 import { deinit, isInitialized } from '../lib/nexus';
@@ -288,7 +287,7 @@ export default function DeinitButton({
 
 Update the `src/app/page.tsx` file to the following:
 
-```tsx filename="src/app/page.tsx" showLineNumbers
+```tsx title="src/app/page.tsx"
 'use client';
 
 import { useState } from 'react';

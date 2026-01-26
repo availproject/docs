@@ -2,7 +2,6 @@
 title: "Bridge AVAIL to Ethereum using the VectorX bridge"
 image: '/img/docs-link-preview.png'
 ---
-import { Callout, Steps, Tabs } from '@/components/nextra-compat'
 
 # Bridge AVAIL to Ethereum using the VectorX bridge
 
@@ -64,9 +63,13 @@ function on the AVAIL ERC-20 contract.<br/>
 Please keep this in mind and have some ETH ready on the EVM wallet address that you connect to the bridge.
 </Callout>
 
-<Tabs items={['Using an extension wallet', 'Using a Ledger device']}>
+<Tabs defaultValue="using-an-extension-wallet">
+  <TabsList>
+    <TabsTrigger value="using-an-extension-wallet">Using an extension wallet</TabsTrigger>
+    <TabsTrigger value="using-a-ledger-device">Using a Ledger device</TabsTrigger>
+  </TabsList>
+  <TabsContent value="using-an-extension-wallet">
 
-<Tab>
 <Steps>
 
 ### Go to the official `avail-bridge` UI & fill out your transaction details
@@ -123,9 +126,10 @@ Please note that you are executing a transaction on Ethereum in this step, so yo
 This exact process can be reversed to bridge AVAIL from Ethereum to Avail DA.
 </Callout>
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="using-a-ledger-device">
+
 
 <Steps>
 
@@ -186,7 +190,6 @@ If you need instructions on how to get started with a ledger device, please refe
 
 </Steps>
 
-</Tab>
 
-
+  </TabsContent>
 </Tabs>

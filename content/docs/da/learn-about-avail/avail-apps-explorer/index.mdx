@@ -2,7 +2,6 @@
 title: "Get started with Avail's explorers"
 image: '/img/docs-link-preview.png'
 ---
-import { Callout, Cards, FileIcon, Steps, Tabs } from '@/components/nextra-compat'
 
 import { cloneElement } from 'react'
 
@@ -20,9 +19,13 @@ This tutorial will focus on helping advanced users and devs get started with the
 
 ## Switch networks
 
-<Tabs items={['AvailApps Explorer', 'Subscan Explorer']}>
+<Tabs defaultValue="availapps-explorer">
+  <TabsList>
+    <TabsTrigger value="availapps-explorer">AvailApps Explorer</TabsTrigger>
+    <TabsTrigger value="subscan-explorer">Subscan Explorer</TabsTrigger>
+  </TabsList>
+  <TabsContent value="availapps-explorer">
 
-<Tab>
 <Callout type="info">
 The Avail Apps explorer currently supports [Avail mainnet](https://mainnet.explorer.availproject.org/) and [Avail Turing testnet](https://turing.explorer.availproject.org/).
 </Callout>
@@ -44,9 +47,10 @@ To switch networks:
 <img src="/img/new-explorer/new-explorer-2.png" align="center" /> 
 </div>
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="subscan-explorer">
+
 
 <Callout type="info">
 The Subscan explorer currently supports [Avail mainnet](https://avail.subscan.io/) and [Avail Turing testnet](https://avail-turing.subscan.io/).
@@ -67,8 +71,8 @@ To switch networks:
 <img src="/img/new-explorer/subscan-explorer-2.png" align="center" />
 </div>
 
-</Tab>
 
+  </TabsContent>
 </Tabs>
 
 
@@ -81,9 +85,13 @@ To switch networks:
 built on top of Avail to support this feature.
 </Callout>
 
-<Tabs items={['AvailApps Explorer', 'Subscan Explorer']}>
+<Tabs defaultValue="availapps-explorer">
+  <TabsList>
+    <TabsTrigger value="availapps-explorer">AvailApps Explorer</TabsTrigger>
+    <TabsTrigger value="subscan-explorer">Subscan Explorer</TabsTrigger>
+  </TabsList>
+  <TabsContent value="availapps-explorer">
 
-<Tab>
 
 <Callout type="info">
 **Search for a txn using it's `block number`/`block hash` *AND* it's `transaction hash`**<br/>
@@ -104,9 +112,10 @@ built on top of Avail to support this feature.
 <img src="/img/new-explorer/new-explorer-4.png" align="center" />
 </div>
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="subscan-explorer">
+
 
 <Callout type="info">
 **Search for a txn using just it's `transaction hash`**<br/>
@@ -127,16 +136,19 @@ built on top of Avail to support this feature.
 <img src="/img/new-explorer/subscan-explorer-4.png" align="center" />
 </div>
 
-</Tab>
 
+  </TabsContent>
 </Tabs>
 
 ## Create accounts within the explorer [#the-accounts-section]
 
 
-<Tabs items={['AvailApps Explorer']}>
+<Tabs defaultValue="availapps-explorer">
+  <TabsList>
+    <TabsTrigger value="availapps-explorer">AvailApps Explorer</TabsTrigger>
+  </TabsList>
+  <TabsContent value="availapps-explorer">
 
-<Tab>
 The `AvailApps` explorer can be used to add or import Avail accounts into the explorer.
 
 To go to the page, click on the `Accounts` tab on the top-left, or click [this link](https://explorer.availproject.org/#/accounts).
@@ -162,15 +174,19 @@ instructions to do so [in our docs here](/user-guides/ledger-avail).
 
 > Any of these accounts that you connect can be used to sign transactions on the network. Which is something we will cover in the next section.
 
-</Tab>
 
+  </TabsContent>
 </Tabs>
 
 ## Using the explorers to interact with the network
 
-<Tabs items={['AvailApps Explorer', 'Subscan Explorer']}>
+<Tabs defaultValue="availapps-explorer">
+  <TabsList>
+    <TabsTrigger value="availapps-explorer">AvailApps Explorer</TabsTrigger>
+    <TabsTrigger value="subscan-explorer">Subscan Explorer</TabsTrigger>
+  </TabsList>
+  <TabsContent value="availapps-explorer">
 
-<Tab>
 Wrt interacting with the network, the `AvailApps` explorer can be used to:
 
 1. Query data from the network by calling `Chain State` or `RPC` methods.
@@ -255,9 +271,10 @@ account to exist on the network, you can call the `balances_existentialDeposit` 
 
 3. You can look up any other constant in a similar way.
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="subscan-explorer">
+
 
 The `Subscan` explorer leverages it's dedicated indexer to enable users to browse the network in some neat ways.
 
@@ -304,8 +321,8 @@ The `Subscan` explorer leverages it's dedicated indexer to enable users to brows
 </Callout>
 
 
-</Tab>
 
+  </TabsContent>
 </Tabs>
 
 ## Wrapping up

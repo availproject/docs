@@ -1,14 +1,10 @@
 ---
 title: "Hooks and Events"
+description: "Hooks and Events for the Nexus SDK"
+image: "/img/docs-link-preview.png"
 ---
 
-import { Callout, Cards, FileIcon } from '@/components/nextra-compat'
 
----
-title: 'Hooks and Events'
-description: 'Hooks and Events for the Nexus SDK'
-image: '/img/docs-link-preview.png'
----
 # Hooks and Events
 
 The Nexus SDK comes baked in with some helpful hooks and error codes to make your development experience easier.
@@ -21,7 +17,7 @@ Supported by all main SDK functions, this hook allows you to subscribe to progre
 
 #### Signature
   
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 /**
  * EventUnion is a union type of all possible event types.
  */
@@ -39,7 +35,7 @@ type OnEventParam = {
 
 Use `onEvent` to log the progress of a transaction to the console:
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 const bridgeResult = await sdk.bridge(
   {
     token: 'USDC',
@@ -61,7 +57,7 @@ const bridgeResult = await sdk.bridge(
 `swapWithExactIn()` and `swapWithExactOut()` however do emit `SWAP_STEP_COMPLETE` instead.
 </Callout>
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 const swapResult = await sdk.swapWithExactIn(
   {
     from: [{ chainId: 10, amount: 1_000_000n, tokenAddress: '0x...' }],
@@ -85,7 +81,7 @@ This hook allows you to give your user a way to approve or deny the intent.
 
 #### Signature
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 type OnIntentHookData = {
   allow: () => void;
   deny: () => void;
@@ -100,7 +96,7 @@ type OnIntentHookData = {
  
 #### Example
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 sdk.setOnIntentHook(({ intent, allow, deny, refresh }) => {
   // Render the plan and fees to the user using `intent`
   // Optionally let the user change source chains
@@ -118,7 +114,7 @@ Use this hook to prompt the user to approve or deny the swap plan before executi
 
 #### Signature
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 type OnSwapIntentHookData = {
   allow: () => void;
   deny: () => void;
@@ -134,7 +130,7 @@ Lifecycle:
 
 #### Example
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 sdk.setOnSwapIntentHook(({ intent, allow, deny, refresh }) => {
   // Render swap route and destination details from `intent`
   // Optionally call `refresh()` if the user tweaks inputs
@@ -149,7 +145,7 @@ Use this hook to allow your users to approve or deny any additional allowances t
 
 #### Signature
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 type OnAllowanceHookData = {
   allow: (values: Array<'max' | 'min' | bigint | string>) => void;
   deny: () => void;
@@ -167,7 +163,7 @@ type OnAllowanceHookData = {
 
 #### Example
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 sdk.setOnAllowanceHook(({ allow, deny, sources }) => {
   // `sources` is an array of objects with minAllowance, chainID, token symbol, etc.
   // allow(values): continues the transaction flow with the specified allowances; 
@@ -194,7 +190,7 @@ Behavior:
 The Nexus SDK uses the `NexusError` class to throw errors.
 It extends the built-in `Error` class and adds a `code` property to the error object.
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 function handleNexusError(err: unknown) {
   if (err instanceof NexusError) {
     console.error(`[${err.code}] ${err.message}`);
@@ -248,7 +244,7 @@ You can view the list of error codes and their signatures respectively in the Ne
     <Card title="errors.ts" icon={<GithubIcon24 className="svg-inherit"  />} href="https://github.com/availproject/nexus-sdk/blob/develop/src/sdk/ca-base/errors.ts" target="_blank" rel="noopener noreferrer" arrow />
 </Cards>
     
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 import { ERROR_CODES } from '@avail-project/nexus-core';
 
 export const ERROR_CODES = {

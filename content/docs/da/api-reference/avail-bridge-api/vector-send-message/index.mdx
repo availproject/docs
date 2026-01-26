@@ -2,7 +2,6 @@
 title: "Bridge a message from origin to destination chain"
 ---
 
-import { Callout, Steps, Tabs } from '@/components/nextra-compat'
 
 # Bridge a message from origin to destination chain
 
@@ -12,9 +11,12 @@ import { Callout, Steps, Tabs } from '@/components/nextra-compat'
 ## Send an arbitrary message from Avail DA to Ethereum
 
 
-<Tabs items={['avail-rust']}>
+<Tabs defaultValue="avail-rust">
+  <TabsList>
+    <TabsTrigger value="avail-rust">avail-rust</TabsTrigger>
+  </TabsList>
+  <TabsContent value="avail-rust">
 
-<Tab>
 
 Let us first look at how an arbitrary message is being sent using the `vector_sendMessage` extrinsic below. 
 ```rust
@@ -338,17 +340,20 @@ cargo run
 ```
 
 
-</Tab>
 
+  </TabsContent>
 </Tabs>
 
 
 
 ## Send an arbitrary message from Ethereum to Avail DA
 
-<Tabs items={['avail-rust']}>
+<Tabs defaultValue="avail-rust">
+  <TabsList>
+    <TabsTrigger value="avail-rust">avail-rust</TabsTrigger>
+  </TabsList>
+  <TabsContent value="avail-rust">
 
-<Tab>
 
 Let us look at how a message sent from Ethereum is being executed on Avail using the `vector` pallet.
 ```rust
@@ -762,5 +767,6 @@ Run the code using:
 cargo run
 ```
 
-</Tab>
+
+  </TabsContent>
 </Tabs>

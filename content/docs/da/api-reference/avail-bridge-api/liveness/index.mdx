@@ -2,7 +2,6 @@
 title: "Check liveness of server"
 image: '/img/docs-link-preview.png'
 ---
-import { Callout, Tabs } from '@/components/nextra-compat'
 
 # Check liveness of server
 
@@ -13,15 +12,19 @@ import { Callout, Tabs } from '@/components/nextra-compat'
 
 ## Example Request
 
-<Tabs items={['CURL']}>
+<Tabs defaultValue="curl">
+  <TabsList>
+    <TabsTrigger value="curl">CURL</TabsTrigger>
+  </TabsList>
+  <TabsContent value="curl">
 
-<Tab>
     
 ```bash filename="CURL"
 curl https://turing-bridge-api.avail.so/
 ```
 
-</Tab>
+
+  </TabsContent>
 </Tabs>
 
 ## Example response

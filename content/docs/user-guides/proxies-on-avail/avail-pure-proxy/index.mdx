@@ -3,7 +3,6 @@ title: "Pure proxy accounts on Avail"
 id: avail-pure-proxy
 description: "How to create pure proxy accounts on Avail"
 ---
-import { Callout, Steps, Tabs } from '@/components/nextra-compat'
 
 # Pure proxy accounts on Avail
 
@@ -67,9 +66,13 @@ that your transaction was included in.
 We need to retrieve this address from the logs to be able to use the pure proxy. \
 There are two ways to do this:
 
-<Tabs items={['Using Avail Apps explorer', 'Using Subscan explorer']}>
+<Tabs defaultValue="using-avail-apps-explorer">
+  <TabsList>
+    <TabsTrigger value="using-avail-apps-explorer">Using Avail Apps explorer</TabsTrigger>
+    <TabsTrigger value="using-subscan-explorer">Using Subscan explorer</TabsTrigger>
+  </TabsList>
+  <TabsContent value="using-avail-apps-explorer">
 
-<Tab>
 1. You will need the block number or block hash of the block that your transaction was included in.
 2. Go to the [network explorer page](https://explorer.avail.so/#/network) and search for your block.
 3. Scroll down to look for the event logs related to the `proxy.createPure` extrinsic.
@@ -80,9 +83,10 @@ There are two ways to do this:
 <img src="/img/pure-proxy/pure-proxy-4.png" alt="pure proxy address"/>
 </p>
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="using-subscan-explorer">
+
 1. Go to the [subscan explorer](https://avail-turing.subscan.io/) and search for the address of your original account.
 2. Scroll down and click on the transaction hash of your `createPure` transaction.
 
@@ -99,8 +103,8 @@ There are two ways to do this:
 <img src="/img/pure-proxy/pure-proxy-6.png" alt="pure proxy address"/>
 </p>
 
-</Tab>
 
+  </TabsContent>
 </Tabs>
 
 ### Add the pure proxy to your address book

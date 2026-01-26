@@ -2,7 +2,6 @@
 title: "How to Run an Avail node"
 image: '/img/docs-link-preview.png'
 ---
-import { Callout, Steps, Tabs } from '@/components/nextra-compat'
 
 # How to Run an Avail node
 
@@ -80,10 +79,15 @@ required to make sure your node can be used to access all RPC methods:
 
 
 
-<Tabs items={['Run a pre-built binary' , 'Build from source' , 'Using Docker' , 'Assisted Deployment']}>
+<Tabs defaultValue="run-a-pre-built-binary">
+  <TabsList>
+    <TabsTrigger value="run-a-pre-built-binary">Run a pre-built binary</TabsTrigger>
+    <TabsTrigger value="build-from-source">Build from source</TabsTrigger>
+    <TabsTrigger value="using-docker">Using Docker</TabsTrigger>
+    <TabsTrigger value="assisted-deployment">Assisted Deployment</TabsTrigger>
+  </TabsList>
+  <TabsContent value="run-a-pre-built-binary">
 
-
-<Tab>
 
 1. Go to the [Avail node GitHub releases page](https://github.com/availproject/avail/releases/).
 There you will see a lot of pre-built binaries for each version of the Avail node.
@@ -176,9 +180,10 @@ You can run this binary using the following command:
 2024-04-29 07:49:14 ⚙️  Syncing 204.4 bps, target=#137401 (10 peers), best: #9121 (0xf95e…5a17), finalized #8704 (0x6e49…33cd), ⬇ 98.0kiB/s ⬆ 1.5kiB/s
 ```
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="build-from-source">
+
 
 <Callout type="info">
 Please note that the following instructions were tested specifically on an Ubuntu machine. If you are using a different operating system, you may need to adjust the commands accordingly.
@@ -300,9 +305,10 @@ cargo run --release -- --name a-random-name --chain mainnet -d ./output
 2024-04-29 07:49:14 ⚙️  Syncing 204.4 bps, target=#137401 (10 peers), best: #9121 (0xf95e…5a17), finalized #8704 (0x6e49…33cd), ⬇ 98.0kiB/s ⬆ 1.5kiB/s
 ```
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="using-docker">
+
 
 <Callout type="info">
 
@@ -390,9 +396,10 @@ docker logs -f <container_id>
 2024-04-30 16:40:20 ✨ Imported #143246 (0x8289…0798)    
 ```
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="assisted-deployment">
+
 
 [OnFinality](https://onfinality.io) is a blockchain native infrastructure provider supporting the Avail ecosystem with private Archive, Full, and Validator nodes. Your Avail node will be fully synced and ready to use within minutes.
 
@@ -456,8 +463,8 @@ The team at OnFinality will update your node for you as new Avail image versions
 For more information, visit OnFinality's guide to [Maintaining and Upgrading your Dedicated Node](https://documentation.onfinality.io/support/maintain-and-upgrade-your-dedicated-node)
 </Callout>
 
-</Tab>
 
+  </TabsContent>
 </Tabs>
 
 Your node will also appear on the [Avail Telemetry site](https://telemetry.avail.so/), listed under the "Node name" from the node command output.

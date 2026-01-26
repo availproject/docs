@@ -2,7 +2,6 @@
 title: "WebSocket API"
 image: '/img/docs-link-preview.png'
 ---
-import { Callout, Tabs } from '@/components/nextra-compat'
 
 # WebSocket API
 
@@ -43,12 +42,16 @@ npm install -g wscat
 
 Request:
 
-<Tabs items={['CURL', 'Rust']}>
+<Tabs defaultValue="curl">
+  <TabsList>
+    <TabsTrigger value="curl">CURL</TabsTrigger>
+    <TabsTrigger value="rust">Rust</TabsTrigger>
+  </TabsList>
+  <TabsContent value="curl">
 
-<Tab>
-<Tabs items={['Local', 'Remote']}>
 
-<Tab>
+
+
 ```bash filename="CURL"
 curl -X POST "http://localhost:7007/v2/subscriptions" \
      -H "Content-Type: application/json" \
@@ -57,9 +60,10 @@ curl -X POST "http://localhost:7007/v2/subscriptions" \
            "data_fields": ["data", "extrinsic"]
          }'
 ```
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="rust">
+
 ```bash filename="CURL"
 curl -X POST "https://api.lightclient.mainnet.avail.so/v2/subscriptions" \
      -H "Content-Type: application/json" \
@@ -68,13 +72,14 @@ curl -X POST "https://api.lightclient.mainnet.avail.so/v2/subscriptions" \
            "data_fields": ["data", "extrinsic"]
          }'
 ```
-</Tab>
+
+  </TabsContent>
 </Tabs>
 
-</Tab>
 
 
-<Tab>
+
+
 ```rust
 use reqwest::{Client, StatusCode};
 use serde::{Deserialize, Serialize};
@@ -113,9 +118,6 @@ async fn main() {
     // ...error handling...
 }
 ```
-</Tab>
-</Tabs>
-
 
 <details className="border p-3 rounded-md bg-[#EFF6FF]">
 <summary> Sample Response:</summary>
@@ -137,18 +139,25 @@ To connect to the Avail LC websocket API, you need:
 2. A subscription ID generated using the [`v2/subscriptions`](#v2subscriptions) method.
 3. to run this wscat command in the terminal:
 
-<Tabs items={['Local', 'Remote']}>
-<Tab>
+<Tabs defaultValue="local">
+  <TabsList>
+    <TabsTrigger value="local">Local</TabsTrigger>
+    <TabsTrigger value="remote">Remote</TabsTrigger>
+  </TabsList>
+  <TabsContent value="local">
+
 ```sh
 wscat -c ws://127.0.0.1:7007/v2/ws/{subscription-id}
 ```
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="remote">
+
 ```sh
 wscat -c wss://api.lightclient.mainnet.avail.so/v2/ws/{subscription-id}
 ```
-</Tab>
+
+  </TabsContent>
 </Tabs>
 
 Your terminal should look something like this:

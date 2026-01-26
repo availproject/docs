@@ -1,7 +1,6 @@
 ---
 title: "Fetch the bridge balances of a user"
 ---
-import { Callout, Steps, Tabs } from '@/components/nextra-compat'
 
 # `getBalancesForBridge()`
 
@@ -20,7 +19,7 @@ Use the `getBalancesForBridge()` function to fetch token balances that can be us
 
 ## Method signature
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 getBalancesForBridge(): Promise<UserAsset[]>
 ```
 <Callout type="warning">
@@ -36,7 +35,7 @@ If you need tokens that can be used for swaps, use `getBalancesForSwap()`.
 
 Here is a minimal example of how to use the `getBalancesForBridge()` function to fetch the balances accessible by the bridge operations of a user:
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 
 // Get all balances accessible by the bridge operations of a user
 const bridgeBalances = await sdk.getBalancesForBridge();
@@ -47,7 +46,7 @@ console.log('Bridge balances:', bridgeBalances);
 
 - `getBalancesForBridge()`: Returns `Promise<UserAsset[]>` - Array of `UserAsset` objects.
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 export type UserAsset = {
   abstracted?: boolean;
   balance: string;

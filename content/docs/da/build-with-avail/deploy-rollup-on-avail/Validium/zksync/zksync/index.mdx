@@ -15,7 +15,6 @@ keywords:
   - zkstack
   - validium
 ---
-import { Callout, Tabs } from '@/components/nextra-compat'
 
 # Deploy a ZK Stack Validium with Avail DA
 
@@ -185,7 +184,7 @@ Using the full client requires you to [create an AppID](https://docs.availprojec
 1. Add the following to your chain's general config: `zksync-era/chains/$CHAIN_NAME/configs/general.yaml`
 
 <Tabs groupId="synced" items={['Turing', 'Mainnet']}>
-  <Tab>
+  
     ```yaml
     da_client:
       avail:
@@ -195,8 +194,8 @@ Using the full client requires you to [create an AppID](https://docs.availprojec
           api_node_url: wss://turing-rpc.avail.so/ws
           app_id: YOUR_APP_ID
     ```
-  </Tab>
-  <Tab>
+  
+  
    <Callout type="info">
     **RPC Access**<br/>
     To obtain a reliable RPC endpoint for production use, please reach out to our [external partners](https://docs.availproject.org/docs/networks#alternate-endpoints). They provide dedicated endpoint access with enhanced reliability and performance for production-ready infrastructure.
@@ -210,7 +209,7 @@ Using the full client requires you to [create an AppID](https://docs.availprojec
           api_node_url: wss://mainnet.avail-rpc.com
           app_id: YOUR_APP_ID
     ```
-  </Tab>
+  
 </Tabs>
 
 2. Add the following to your chain's secrets config: `zksync-era/chains/$CHAIN_NAME/configs/secrets.yaml`
@@ -228,7 +227,7 @@ The gas relay API is in ***private beta***. Using the gas relay allows you to po
 1. Add the following to your chain's general config: `zksync-era/chains/$CHAIN_NAME/configs/general.yaml`
 
 <Tabs groupId="synced" items={['Turing', 'Mainnet']}>
-  <Tab>
+  
     ```yaml
     da_client:
       avail:
@@ -238,8 +237,8 @@ The gas relay API is in ***private beta***. Using the gas relay allows you to po
           gas_relay_api_url: https://staging.turbo-api.availproject.org
           max_retries: 3
     ```
-  </Tab>
-  <Tab>
+  
+  
     ```yaml
     da_client:
       avail:
@@ -249,7 +248,7 @@ The gas relay API is in ***private beta***. Using the gas relay allows you to po
           gas_relay_api_url: COMING_SOON
           max_retries: 3
     ```
-  </Tab>
+  
 </Tabs>
 
 2. Add the following to your chain's secrets config: `zksync-era/chains/$CHAIN_NAME/configs/secrets.yaml`

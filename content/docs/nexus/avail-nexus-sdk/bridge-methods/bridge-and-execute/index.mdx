@@ -1,7 +1,6 @@
 ---
 title: "Bridge and execute a transaction using the Nexus SDK"
 ---
-import { Callout, Steps, Tabs } from '@/components/nextra-compat'
 
 # `bridgeAndExecute()`
 
@@ -21,7 +20,7 @@ Use the `simulateBridgeAndExecute()` function to simulate `bridgeAndExecute()` b
 
 ## Method signature
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 async bridgeAndExecute(
   params: BridgeAndExecuteParams,
   options?: OnEventParam,
@@ -35,7 +34,7 @@ async simulateBridgeAndExecute(
 
 ## Parameters
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 export interface BridgeAndExecuteParams {
   toChainId: number;
   token: string;
@@ -95,7 +94,7 @@ You can check out the type definitions for each step type in the [Bridge Events]
 
 ## Example
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 import { BridgeAndExecuteParams, BridgeAndExecuteResult, NEXUS_EVENTS } from '@avail-project/nexus-core';
 
 // Direct contract execution
@@ -149,7 +148,7 @@ console.log('Bridge and execute simulation:', bridgeAndExecuteSimulation);
 
 The return value is a `BridgeAndExecuteResult` object.
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 export type BridgeAndExecuteResult = {
   executeTransactionHash: string;
   executeExplorerUrl: string;

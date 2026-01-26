@@ -2,7 +2,6 @@
 image: "/img/docs-link-preview.png"
 title: Avail Bridge API reference
 ---
-import { Callout, Tabs } from '@/components/nextra-compat'
 
 # Avail bridge API reference
 
@@ -48,9 +47,13 @@ For the sake of simplicity that is what we will be using in this guide.
 ## Setting up the dev environment
 
 
-<Tabs items={['CURL', 'avail-rust']}>
+<Tabs defaultValue="curl">
+  <TabsList>
+    <TabsTrigger value="curl">CURL</TabsTrigger>
+    <TabsTrigger value="avail-rust">avail-rust</TabsTrigger>
+  </TabsList>
+  <TabsContent value="curl">
 
-<Tab>
 
 1. To use the Avail bridge API with `curl`, you just need to have `curl` installed on your system. 
 You can check if it is installed by running:
@@ -60,9 +63,10 @@ curl --version
 ```
 
 2. If this does not work, go to [curl's website](https://curl.se/) to install it on your system. 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="avail-rust">
+
 
 1. Make sure `rust` and cargo are installed on your system. You can refer to [Rustlang's docs](https://www.rust-lang.org/tools/install) for the same.
 
@@ -138,5 +142,6 @@ recipient="AfF84d35f9c784cE972A7Ff3e3E243E5eb6EF37D000000000000000000000000"
 receive_message_contract_address="29190B4d80C409A3DaF743F57379e0453D31C26b"
 ```
 
-</Tab>
+
+  </TabsContent>
 </Tabs>

@@ -11,7 +11,6 @@ keywords:
   - light client
   - da
 ---
-import { Callout, Tabs } from '@/components/nextra-compat'
 
 # How to Run the Avail light client
 
@@ -54,12 +53,16 @@ App IDs are an important concept in the context of Avail. We recommend you go th
 
 ## Running the light client
 
-<Tabs items={['Light-client mode', 'App-client mode']}>
+<Tabs defaultValue="light-client-mode">
+  <TabsList>
+    <TabsTrigger value="light-client-mode">Light-client mode</TabsTrigger>
+    <TabsTrigger value="app-client-mode">App-client mode</TabsTrigger>
+  </TabsList>
+  <TabsContent value="light-client-mode">
 
-<Tab>
-<Tabs items={['availup','Run pre-built binary', 'Build from source', 'Windows-specific instructions']}>
 
-<Tab>
+
+
 
 <Callout type="info">
 **CONFIG FLAGS**<br/>
@@ -115,9 +118,10 @@ curl -sL1 avail.sh | bash
 ```
 </details>
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="app-client-mode">
+
 
 <Callout type="info">
 **CONFIG FLAGS**<br/>
@@ -134,58 +138,53 @@ Detailed documentation for them can be found [in our Github repo](https://github
 
   3. Open a terminal in that location and run:
 
-  <Tabs items={['Linux', 'MacOS']}>
+  
 
-  <Tab>
-  <Tabs items={['x86_64 or amd64' , 'arm64']}>
+  
+  
 
-  <Tab>
+  
   For linux machines that run on `x86_64` based Intel or `amd64` based AMD processors, run:
 
   ```sh
   ./avail-light-linux-amd64 --network mainnet
   ```
-  </Tab>
-
-  <Tab>
-  For linux machines that run on `arm64` based processors, run:
   
-  ```sh
-  ./avail-light-linux-arm64 --network mainnet
-  ```
-  </Tab>
+  </TabsContent>
+</Tabs>
+  
 
-  </Tabs>
-  </Tab>
+  
+  <Tabs defaultValue="apple-x8664">
+  <TabsList>
+    <TabsTrigger value="apple-x8664">apple-x86_64</TabsTrigger>
+    <TabsTrigger value="apple-arm64">apple-arm64</TabsTrigger>
+  </TabsList>
+  <TabsContent value="apple-x8664">
 
-  <Tab>
-  <Tabs items={['apple-x86_64' , 'apple-arm64']}>
-
-  <Tab>
   For MacOS machines that run on `x86_64` based Intel processors, run:
 
   ```sh
   ./avail-light-apple-x86_64 --network mainnet
   ```
-  </Tab>
+  
+  </TabsContent>
+  <TabsContent value="apple-arm64">
 
-  <Tab>
   For MacOS machines that run on newer `arm64` based M-series processors, run:
 
   ```sh
   ./avail-light-apple-arm64 --network mainnet
   ```
-  </Tab>
+  
+  </TabsContent>
+</Tabs>
 
-  </Tabs>
-
-  </Tab>
-
-  </Tabs>
 <Callout type="info">
 You can configure the run command with a variety of [config flags](https://github.com/availproject/avail-light/blob/main/client/README.md#options).
 </Callout>
-  4. If everything goes well, the client output will look like this:
+
+4. If everything goes well, the client output will look like this:
 
 <details className="border p-3 rounded-md bg-[#EFF6FF]">
 <summary> Sample output </summary>
@@ -215,9 +214,9 @@ You can configure the run command with a variety of [config flags](https://githu
 2024-03-20T10:50:47.056255Z  INFO avail_light::network::p2p::event_loop: Cell upload success rate for block 562691: 0/10. Duration: 0
 ```
 </details>
-</Tab>
 
-<Tab>
+
+
 
 <Callout type="info">
 **CONFIG FLAGS**<br/>
@@ -280,9 +279,9 @@ Detailed documentation for them can be found [in our Github repo](https://github
 
 </details>
 
-</Tab>
 
-<Tab>
+
+
 
 [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/en-us/windows/wsl/about) is a Windows feature that allows you to run a Linux distribution directly on Windows,
 without having to set up a separate virtual machine or a dual-boot system.
@@ -290,9 +289,13 @@ without having to set up a separate virtual machine or a dual-boot system.
 However, we realise that working with WSL might be inconvenient for some users. We have therefore also included
 instructions on how to run the Avail light client natively on Windows without having to go through any technical hassles.
 
-<Tabs items={['Without WSL' , 'With WSL' ]}>
+<Tabs defaultValue="without-wsl">
+  <TabsList>
+    <TabsTrigger value="without-wsl">Without WSL</TabsTrigger>
+    <TabsTrigger value="with-wsl">With WSL</TabsTrigger>
+  </TabsList>
+  <TabsContent value="without-wsl">
 
-<Tab>
 
 1. Go to the [releases page of the Avail light client repo](https://github.com/availproject/avail-light/releases), and download the
 `avail-light-windows-runner.zip` file of the `Latest` version.
@@ -334,9 +337,10 @@ Please note that trying to download and run a precompiled binary via a `.zip` fi
 windows warning you about the file being potentially harmful. You will need to bypass this warning to run the light client.
 </Callout>
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="with-wsl">
+
 To install WSL on your Windows machine:
 
 1. Open `Windows Powershell`, and run the following command:
@@ -403,16 +407,9 @@ curl -sL1 avail.sh | bash
 ```
 </details>
 
-</Tab>
 
+  </TabsContent>
 </Tabs>
-
-</Tab>
-
-</Tabs>
-</Tab>
-
-<Tab>
 
 ### Setting your identity using `identity.toml`
 
@@ -438,9 +435,14 @@ avail_secret_seed_phrase = 'AvailDA rice is demon the pair best almond DA walnut
 ```
 3. Pass this file to the light client using the `--identity` flag like this. This could look something like this:
 
-<Tabs items={['availup','Run pre-built binary', 'Build from source']}>
+<Tabs defaultValue="availup">
+  <TabsList>
+    <TabsTrigger value="availup">availup</TabsTrigger>
+    <TabsTrigger value="run-pre-built-binary">Run pre-built binary</TabsTrigger>
+    <TabsTrigger value="build-from-source">Build from source</TabsTrigger>
+  </TabsList>
+  <TabsContent value="availup">
 
-<Tab>
 
 <Callout type="info">
 **CONFIG FLAGS**<br/>
@@ -478,9 +480,10 @@ Please note this command worked for a system where the `identity.toml` file was 
 You will need to pass the full path to the `identity.toml` file if it is located elsewhere.
 </Callout>
 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="run-pre-built-binary">
+
 <Callout type="info">
 **CONFIG FLAGS**<br/>
 You can run the Avail light client with different flags to configure it according to your needs.
@@ -496,61 +499,64 @@ Detailed documentation for them can be found [in our Github repo](https://github
 
   3. Open a terminal in that location and run:
 
-  <Tabs items={['Linux', 'MacOS']}>
+  
 
-  <Tab>
-  <Tabs items={['x86_64 or amd64' , 'arm64']}>
+  
+  
 
-  <Tab>
+  
   For linux machines that run on `x86_64` based Intel or `amd64` based AMD processors, run:
 
   ```sh
   ./avail-light-linux-amd64 --app-id 18 --network mainnet --identity identity.toml
   ```
-  </Tab>
+  
+  </TabsContent>
+  <TabsContent value="build-from-source">
 
-  <Tab>
   For linux machines that run on `arm64` based processors, run:
   
   ```sh
   ./avail-light-linux-arm64 --app-id 18 --network mainnet --identity identity.toml
   ```
-  </Tab>
+  
+  </TabsContent>
+</Tabs>
+  
 
-  </Tabs>
-  </Tab>
+  
+  <Tabs defaultValue="apple-x8664">
+  <TabsList>
+    <TabsTrigger value="apple-x8664">apple-x86_64</TabsTrigger>
+    <TabsTrigger value="apple-arm64">apple-arm64</TabsTrigger>
+  </TabsList>
+  <TabsContent value="apple-x8664">
 
-  <Tab>
-  <Tabs items={['apple-x86_64' , 'apple-arm64']}>
-
-  <Tab>
   For MacOS machines that run on `x86_64` based Intel processors, run:
 
   ```sh
   ./avail-light-apple-x86_64 --app-id 18 --network mainnet --identity identity.toml
   ```
-  </Tab>
+  
+  </TabsContent>
+  <TabsContent value="apple-arm64">
 
-  <Tab>
   For MacOS machines that run on newer `arm64` based M-series processors, run:
 
   ```sh
   ./avail-light-apple-arm64 --app-id 18 --network mainnet --identity identity.toml
   ```
-  </Tab>
+  
+  </TabsContent>
+</Tabs>
 
-  </Tabs>
-
-  </Tab>
-
-  </Tabs>
 <Callout type="info">
 You can configure the run command with a variety of [config flags](https://github.com/availproject/avail-light/blob/main/client/README.md#options).
 </Callout>
 
-</Tab>
 
-<Tab>
+
+
 <Callout type="info">
 **CONFIG FLAGS**<br/>
 You can run the Avail light client with different flags to configure it according to your needs.
@@ -581,10 +587,3 @@ Detailed documentation for them can be found [in our Github repo](https://github
    ```sh
    ./avail-light --app-id 18 --network mainnet --identity identity.toml
    ```
-</Tab>
-
-
-</Tabs>
-
-</Tab>
-</Tabs>

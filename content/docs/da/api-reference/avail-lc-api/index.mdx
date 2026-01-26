@@ -16,7 +16,6 @@ keywords:
   - API
   - reference
 ---
-import { Callout, Tabs } from '@/components/nextra-compat'
 
 # Avail light client API reference
 
@@ -35,9 +34,13 @@ of the Avail light client](/docs/operate-a-node/run-a-light-client/0010-light-cl
 
 Set up your dev environment with `curl` and `Rust`:
 
-<Tabs items={['CURL', 'Rust']}>
+<Tabs defaultValue="curl">
+  <TabsList>
+    <TabsTrigger value="curl">CURL</TabsTrigger>
+    <TabsTrigger value="rust">Rust</TabsTrigger>
+  </TabsList>
+  <TabsContent value="curl">
 
-<Tab>
 
 1. To use the Avail light client API with `curl`, you just need to have `curl` installed on your system. 
 You can check if it is installed by running:
@@ -47,9 +50,10 @@ curl --version
 ```
 
 2. If this does not work, go to [curl's website](https://curl.se/) to install it on your system. 
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="rust">
+
 How to run the Rust code snippets:
 
 1. Make sure you have [Rust](https://www.rust-lang.org) and [Cargo](https://crates.io/) installed on your system before moving forward. You can check that by running:
@@ -74,5 +78,6 @@ How to run the Rust code snippets:
     ```
 3. Paste the code snippets into the `main.rs` file, and run the project with `cargo run`.
 
-</Tab>
+
+  </TabsContent>
 </Tabs>

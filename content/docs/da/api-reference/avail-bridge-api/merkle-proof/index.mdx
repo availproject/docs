@@ -2,7 +2,6 @@
 title: "Get Merkle proof for a particular extrinsic"
 image: '/img/docs-link-preview.png'
 ---
-import { Callout, Tabs } from '@/components/nextra-compat'
 
 # Get Merkle proof for a particular extrinsic
 
@@ -13,15 +12,19 @@ import { Callout, Tabs } from '@/components/nextra-compat'
 
 ## Example Request
 
-<Tabs items={['CURL']}>
+<Tabs defaultValue="curl">
+  <TabsList>
+    <TabsTrigger value="curl">CURL</TabsTrigger>
+  </TabsList>
+  <TabsContent value="curl">
 
-<Tab>
     
 ```bash filename="CURL"
 curl "https://turing-bridge-api.avail.so/eth/proof/0x5bc7bd3a4793132007d6d0d9c55dc2ded2fe721a49bd771c1d290e6a3c6ec237?index=5"
 ```
 
-</Tab>
+
+  </TabsContent>
 </Tabs>
 
 ## Example response

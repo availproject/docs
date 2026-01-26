@@ -1,7 +1,6 @@
 ---
 title: "Bridge tokens using the Nexus SDK"
 ---
-import { Callout, Steps, Tabs } from '@/components/nextra-compat'
 
 # `bridge()`
 
@@ -21,7 +20,7 @@ Use the `simulateBridge()` function to simulate the bridge transaction to previe
 
 ## Method signature
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 async bridge(
   params: BridgeParams,
   options?: OnEventParam,
@@ -35,7 +34,7 @@ async simulateBridge(
 
 ## Parameters
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 /**
  * Parameters for bridging tokens.
  */
@@ -70,7 +69,7 @@ You can check out the type definitions for each step type in the [Bridge Events]
 
 ## Example
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 import { BridgeParams, BridgeResult, NEXUS_EVENTS } from '@avail-project/nexus-core';
 
 const bridgeResult: BridgeResult = await sdk.bridge(
@@ -116,7 +115,7 @@ console.log('Bridge simulation:', bridgeSimulation);
 
 The return value is a `BridgeResult` object.
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 /**
  * Result structure for bridge transactions.
  */
@@ -129,7 +128,7 @@ export type BridgeResult = {
 
 The return value is a `SimulationResult` object.
 
-```typescript showLineNumbers filename="Typescript"
+```typescript title="TypeScript"
 export interface SimulationResult {
   intent: ReadableIntent;
   token: TokenInfo;

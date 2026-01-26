@@ -2,7 +2,6 @@
 title: "Request current Avail light client status data"
 image: '/img/docs-link-preview.png'
 ---
-import { Callout, Tabs } from '@/components/nextra-compat'
 
 # Request current Avail light client status data
 
@@ -16,12 +15,17 @@ Request current Avail light client status data.
 
 *Sample Request:*
 
-<Tabs items={['json']}>
-<Tab>
+<Tabs defaultValue="json">
+  <TabsList>
+    <TabsTrigger value="json">json</TabsTrigger>
+  </TabsList>
+  <TabsContent value="json">
+
 ```json
 {"type":"status","request_id":"4a482bb0-3c22-475d-a2b8-af1c27aa2636"}
 ```
-</Tab>
+
+  </TabsContent>
 </Tabs>
 
 *Sample Response:*

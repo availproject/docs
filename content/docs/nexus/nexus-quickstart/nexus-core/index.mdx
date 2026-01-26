@@ -3,14 +3,13 @@ title: "Nexus Core"
 description: "Get started with Nexus Core"
 image: "/img/docs-link-preview.png"
 ---
-import { Callout, Cards, FileIcon, Steps, Tabs } from '@/components/nextra-compat'
 
 # Nexus Core Quickstart
 
 This page will help you quickly get started with `nexus-core`, using a Next JS template.
 
 <Callout type="info">
-**PREFER VITE?**<br/>
+**PREFER VITE?**
 
 We prepared two template repos for devs to get started with `nexus-core` as easily as possible:
 
@@ -25,56 +24,37 @@ We prepared two template repos for devs to get started with `nexus-core` as easi
 
 Getting started with the headless Nexus SDK is simple.
 
-
-
 <Steps>
 
 ### Clone the template repo
 
 Clone the repo by running this command in your terminal:
 
-<Tabs items={['git clone', 'github CLI']}>
-
-<Tab>
-```bash filename="Terminal"
+<Tabs defaultValue="git-clone">
+  <TabsList>
+    <TabsTrigger value="git-clone">git clone</TabsTrigger>
+    <TabsTrigger value="github-cli">github CLI</TabsTrigger>
+  </TabsList>
+  <TabsContent value="git-clone">
+```bash title="Terminal"
 git clone https://github.com/availproject/nexus-nextjs-template
 ```
-</Tab>
-
-<Tab>
-```bash filename="Terminal"
+  </TabsContent>
+  <TabsContent value="github-cli">
+```bash title="Terminal"
 gh repo clone availproject/nexus-nextjs-template
 ```
-</Tab>
-
+  </TabsContent>
 </Tabs>
 
 ### Install the dependencies
 
-In this template, we use ConnectKit with Wagmi & Viem for a seamless wallet connection experience, with cross-chain support being powered by `@avail-project/nexus-core`. \
+In this template, we use ConnectKit with Wagmi & Viem for a seamless wallet connection experience, with cross-chain support being powered by `@avail-project/nexus-core`.
 Install the dependencies by opening a terminal in the root of the project and running this command:
 
-<Tabs items={['pnpm', 'npm', 'yarn']}>
-
-<Tab>
-```bash filename="Terminal"
-pnpm install
-```
-</Tab>
-
-<Tab>
-```bash filename="Terminal"
+```bash title="Terminal"
 npm install
 ```
-</Tab>
-
-<Tab>
-```bash filename="Terminal"
-yarn install
-```
-</Tab>
-
-</Tabs>
 
 ### Uncomment `initializeNexus()` in `NexusProvider.tsx`
 
@@ -86,13 +66,9 @@ This function:
 3. Fetches the unified balances of the connected wallet.
 
 This page is also where we register the hooks for the Nexus SDK and store the data in the context.
-You can read more about hooks here:
+You can read more about hooks here: [Hooks and Errors](/nexus/avail-nexus-sdk/hooks-and-errors)
 
-<Cards num={1}>
-<Card title="Hooks and Errors" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/hooks-and-errors" />
-</Cards>
-
-```tsx showLineNumbers filename="src/components/nexus/NexusProvider.tsx"
+```tsx title="src/components/nexus/NexusProvider.tsx"
   const initializeNexus = async (provider: EthereumProvider) => {
     setLoading(true);
     try {
@@ -133,7 +109,7 @@ You can read more about hooks here:
       setLoading(false);
     }
   };
-  ```
+```
 
 ### Update the `Web3Provider.tsx` file
 
@@ -151,7 +127,7 @@ The `ConnectKitProvider` is used to provide a pre-configured WalletConnect modal
 The wallet provider itself comes from Wagmi.
 
 
-```tsx showLineNumbers filename="src/providers/Web3Provider.tsx"
+```tsx title="src/providers/Web3Provider.tsx"
 const Web3Provider = ({ children }: { children: React.ReactNode }) => {
   return (
     <WagmiProvider config={config}>
@@ -172,7 +148,7 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
 Go to `src/app/layout.tsx` and uncomment the `Web3Provider` component.
 This will wrap our entire app and provide the necessary context for the Nexus SDK to work.
 
-```tsx showLineNumbers filename="src/app/layout.tsx"
+```tsx title="src/app/layout.tsx"
 import Web3Provider from "@/providers/Web3Provider";
 
 export default function RootLayout({
@@ -192,35 +168,14 @@ export default function RootLayout({
 
 Run the app by running this command in your terminal:
 
-<Tabs items={['pnpm', 'npm', 'yarn']}>
-
-<Tab>
-```bash filename="Terminal"
-pnpm run dev
-```
-</Tab>
-
-<Tab>
-```bash filename="Terminal"
+```bash title="Terminal"
 npm run dev
 ```
-</Tab>
-
-<Tab>
-```bash filename="Terminal"
-yarn dev
-```
-</Tab>
-
-</Tabs>
 
 Your app should now be running at `http://localhost:3000`.
 Play around with the code to tweak the existing components or add new ones.
 
-Or maybe you'd like to add a pre-configured React component to your app?
-<Cards num={1}>
-<Card title="Nexus Elements Quickstart" icon={<FileIcon />} href="/nexus/nexus-quickstart/nexus-elements" />
-</Cards>
+Or maybe you'd like to add a pre-configured React component to your app? Check out [Nexus Elements Quickstart](/nexus/nexus-quickstart/nexus-elements).
 
 </Steps>
 
@@ -229,7 +184,5 @@ Or maybe you'd like to add a pre-configured React component to your app?
 Congratulations on finishing the quickstart!
 Feel free to explore the following resources to learn more about the Nexus SDK:
 
-<Cards num={2}>
-<Card title="Nexus Core SDK Reference" icon={<FileIcon />} href="/nexus/avail-nexus-sdk" />
-<Card title="Nexus Core API Reference" icon={<FileIcon />} href="/nexus/avail-nexus-sdk/api-reference" />
-</Cards>
+- [Nexus Core SDK Reference](/nexus/avail-nexus-sdk)
+- [Nexus Core API Reference](/nexus/avail-nexus-sdk/api-reference)

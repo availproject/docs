@@ -2,7 +2,6 @@
 title: "Fetch the latest block"
 image: '/img/docs-link-preview.png'
 ---
-import { Callout, Tabs } from '@/components/nextra-compat'
 
 # Fetch the latest block
 
@@ -20,28 +19,34 @@ Gets the version of the light client binary, and the version of the Avail node i
 - Light Client version
 - Network version
 
-<Tabs items={['CURL', 'Rust']}>
+<Tabs defaultValue="curl">
+  <TabsList>
+    <TabsTrigger value="curl">CURL</TabsTrigger>
+    <TabsTrigger value="rust">Rust</TabsTrigger>
+  </TabsList>
+  <TabsContent value="curl">
 
-<Tab>
 
-<Tabs items={['Local', 'Remote']}>
 
-<Tab>
+
+
 ```bash filename="CURL"
 curl "localhost:7007/v2/version"
 ```
-</Tab>
 
-<Tab>
+  </TabsContent>
+  <TabsContent value="rust">
+
 ```bash filename="CURL"
 curl "https://api.lightclient.mainnet.avail.so/v2/version"
 ```
-</Tab>
+
+  </TabsContent>
 </Tabs>
 
-</Tab>
 
-<Tab>
+
+
 ```rust
 use reqwest::StatusCode;
 use serde::{Deserialize, Serialize};
@@ -74,8 +79,6 @@ async fn main() {
     // ...error handling...
 }
 ```
-</Tab>
-</Tabs>
 
 
 <details className="border p-3 rounded-md bg-[#EFF6FF]">
