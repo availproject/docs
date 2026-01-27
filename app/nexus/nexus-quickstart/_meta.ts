@@ -1,4 +1,4 @@
 export default {
-    "nexus-core": "Nexus Core",
+    "nexus-core": "Nexus SDK",
     "nexus-elements": "Nexus Elements",
 }

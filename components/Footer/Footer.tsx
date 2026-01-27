@@ -101,7 +101,7 @@ export const Footer = () => {
         },
         {
           id: 3,
-          label: "Nexus SDK Reference",
+          label: "Reference",
           link: "/nexus/avail-nexus-sdk",
         },
         {
