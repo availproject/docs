@@ -1,7 +1,7 @@
 export default {
-    "Nexus Core": {
+    "Nexus SDK": {
         type: "separator",
-        title: "Nexus Core",
+        title: "Nexus SDK",
       },
     "bridge-methods": "Bridge Methods",
     "swap-methods": "Swap Methods",
