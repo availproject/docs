@@ -7,11 +7,16 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Skeleton } from "../ui/skeleton";
-import { Search, Sun, Moon, ChevronDown } from "lucide-react";
+import { Search, Sun, Moon, ChevronDown, ChevronUp } from "lucide-react";
 import {
   SearchDialog,
   useSearchDialog,
 } from "@/components/search/search-dialog";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 const ThemeControl = dynamic(
   () => import("./theme-control").then((m) => m.default),
@@ -44,14 +49,14 @@ function SearchBar({
     <button
       type="button"
       className={cn(
-        "flex h-10 items-center gap-2 px-3 bg-search-background border border-search-border text-search-foreground w-[342px] hover:bg-search-background-hover transition-colors",
+        "flex h-10 items-center gap-2 px-3 bg-search-background border border-search-border text-search-foreground w-85.5 hover:bg-search-background-hover transition-colors",
         className,
       )}
       onClick={onClick}
     >
       <Search className="size-5 shrink-0" />
-      <span className="flex-1 text-left text-base">Search...</span>
-      <kbd className="relative flex h-6 items-center gap-0.5 bg-key-background px-1 pt-0.5 pb-1 text-sm text-key-foreground">
+      <span className="flex-1 text-left text-base leading-5">Search...</span>
+      <kbd className="relative flex h-6 items-center gap-0.5 bg-key-background px-1 pt-0.5 pb-1 text-sm leading-[18px] text-key-foreground">
         <span>S</span>
         <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-key-underline" />
       </kbd>
@@ -67,28 +72,80 @@ function ThemeToggle({
   theme: string;
   setTheme: (theme: string) => void;
 }) {
+  const [open, setOpen] = useState(false);
   const isDark = theme === "dark";
 
   return (
-    <div className="flex items-center">
-      <button
-        type="button"
-        onClick={() => setTheme(isDark ? "light" : "dark")}
-        className="flex h-10 items-center gap-2 px-3 bg-menu-item-background border border-menu-item-border border-r-0"
+    <Popover open={open} onOpenChange={setOpen}>
+      <div className="flex items-center">
+        <button
+          type="button"
+          onClick={() => setTheme(isDark ? "light" : "dark")}
+          className="flex h-10 items-center gap-2 px-3 bg-menu-item-background border-l border-t border-b border-menu-item-border"
+        >
+          {isDark ? (
+            <Moon className="size-5 text-menu-item-foreground" />
+          ) : (
+            <Sun className="size-5 text-menu-item-foreground" />
+          )}
+        </button>
+        <PopoverTrigger asChild>
+          <button
+            type="button"
+            className={cn(
+              "flex h-10 items-center px-2 bg-menu-item-background border border-menu-item-border",
+              open && "bg-menu-item-background-active"
+            )}
+          >
+            {open ? (
+              <ChevronUp className="size-5 text-menu-item-foreground" />
+            ) : (
+              <ChevronDown className="size-5 text-menu-item-foreground" />
+            )}
+          </button>
+        </PopoverTrigger>
+      </div>
+      <PopoverContent
+        align="end"
+        sideOffset={8}
+        className="w-auto p-0 border-menu-item-border bg-menu-item-background"
       >
-        {isDark ? (
-          <Moon className="size-5 text-sidebar-item-foreground" />
-        ) : (
-          <Sun className="size-5 text-sidebar-item-foreground" />
-        )}
-      </button>
-      <button
-        type="button"
-        className="flex h-10 items-center px-2 bg-menu-item-background border border-menu-item-border"
-      >
-        <ChevronDown className="size-5 text-sidebar-item-foreground" />
-      </button>
-    </div>
+        <div className="flex flex-col">
+          <button
+            type="button"
+            onClick={() => {
+              setTheme("light");
+              setOpen(false);
+            }}
+            className={cn(
+              "flex h-10 w-full items-center gap-2 px-3 border-l border-r border-t border-menu-item-border transition-colors",
+              theme === "light"
+                ? "bg-menu-item-background text-menu-item-foreground"
+                : "bg-menu-item-background text-search-foreground hover:bg-menu-item-background-hover"
+            )}
+          >
+            <Sun className="size-5" />
+            <span className="text-base leading-5">Avail Light</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setTheme("dark");
+              setOpen(false);
+            }}
+            className={cn(
+              "flex h-10 w-full items-center gap-2 px-3 border border-menu-item-border transition-colors",
+              theme === "dark"
+                ? "bg-menu-item-background text-menu-item-foreground"
+                : "bg-menu-item-background text-search-foreground hover:bg-menu-item-background-hover"
+            )}
+          >
+            <Moon className="size-5" />
+            <span className="text-base leading-5">Avail Dark</span>
+          </button>
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 }
 
@@ -172,7 +229,7 @@ export default function Topbar() {
           {/* Right: Account (placeholder) */}
           <div className="flex items-center gap-3">
             <div className="hidden lg:flex items-center gap-2 h-10 px-3">
-              <div className="size-6 rounded-full bg-sidebar-item-foreground overflow-hidden">
+              <div className="size-6 rounded-full overflow-hidden">
                 <Image
                   src="/avatar-placeholder.png"
                   alt="User"
@@ -185,8 +242,8 @@ export default function Topbar() {
                   }}
                 />
               </div>
-              <span className="text-base text-foreground">faraday.eth</span>
-              <ChevronDown className="size-5 text-sidebar-item-foreground" />
+              <span className="text-base leading-5 text-foreground">faraday.eth</span>
+              <ChevronDown className="size-5 text-menu-item-foreground" />
             </div>
             {/* Mobile theme control */}
             <div className="lg:hidden">

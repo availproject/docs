@@ -22,6 +22,7 @@ import {
 // import { DepsInstall } from "../helpers/deps-install";
 import { Callout } from "./callout";
 import { LinkCard, LinkCardGrid } from "./link-card";
+import { ConceptCard, ConceptCardGrid } from "./concept-card";
 import { Feedback } from "./feedback";
 import { PageFooter } from "./page-footer";
 import {
@@ -50,16 +51,20 @@ export const mdxComponents: MDXComponentsMap = {
       {...props}
     />
   ),
-  h2: ({ className, ...props }: React.ComponentProps<"h2">) => {
+  h2: ({ className, id, ...props }: React.ComponentProps<"h2">) => {
+    // Use the id from Fumadocs (via rehype-slug) if available, otherwise generate from text
+    const headingId =
+      id ||
+      props.children
+        ?.toString()
+        .replace(/ /g, "-")
+        .replace(/'/g, "")
+        .replace(/\?/g, "")
+        .toLowerCase();
     return (
       <div className="mt-16 first:mt-0 flex flex-col gap-4">
         <h2
-          id={props.children
-            ?.toString()
-            .replace(/ /g, "-")
-            .replace(/'/g, "")
-            .replace(/\?/g, "")
-            .toLowerCase()}
+          id={headingId}
           className={cn(
             "font-sans text-xl font-medium leading-relaxed tracking-wide text-brand scroll-m-28",
             className,
@@ -70,24 +75,48 @@ export const mdxComponents: MDXComponentsMap = {
       </div>
     );
   },
-  h3: ({ className, ...props }: React.ComponentProps<"h3">) => (
-    <h3
-      className={cn(
-        "font-heading mt-12 scroll-m-28 text-lg font-medium tracking-tight font-sans",
-        className,
-      )}
-      {...props}
-    />
-  ),
-  h4: ({ className, ...props }: React.ComponentProps<"h4">) => (
-    <h4
-      className={cn(
-        "font-heading mt-8 scroll-m-28 text-base font-medium tracking-tight font-sans",
-        className,
-      )}
-      {...props}
-    />
-  ),
+  h3: ({ className, id, ...props }: React.ComponentProps<"h3">) => {
+    // Use the id from Fumadocs (via rehype-slug) if available, otherwise generate from text
+    const headingId =
+      id ||
+      props.children
+        ?.toString()
+        .replace(/ /g, "-")
+        .replace(/'/g, "")
+        .replace(/\?/g, "")
+        .toLowerCase();
+    return (
+      <h3
+        id={headingId}
+        className={cn(
+          "font-heading mt-12 scroll-m-28 text-lg font-medium tracking-tight font-sans",
+          className,
+        )}
+        {...props}
+      />
+    );
+  },
+  h4: ({ className, id, ...props }: React.ComponentProps<"h4">) => {
+    // Use the id from Fumadocs (via rehype-slug) if available, otherwise generate from text
+    const headingId =
+      id ||
+      props.children
+        ?.toString()
+        .replace(/ /g, "-")
+        .replace(/'/g, "")
+        .replace(/\?/g, "")
+        .toLowerCase();
+    return (
+      <h4
+        id={headingId}
+        className={cn(
+          "font-heading mt-8 scroll-m-28 text-base font-medium tracking-tight font-sans",
+          className,
+        )}
+        {...props}
+      />
+    );
+  },
   // Text
   p: ({ className, ...props }: React.ComponentProps<"p">) => (
     <span
@@ -159,7 +188,7 @@ export const mdxComponents: MDXComponentsMap = {
     return (
       <pre
         className={cn(
-          "no-scrollbar min-w-0 overflow-x-auto px-4 py-3.5 outline-none has-data-highlighted-line:px-0 has-data-line-numbers:px-0 has-data-[slot=tabs]:p-0",
+          "no-scrollbar min-w-0 overflow-x-auto px-4 py-3.5 outline-none has-data-[slot=tabs]:p-0",
           className,
         )}
         {...props}
@@ -335,6 +364,9 @@ export const mdxComponents: MDXComponentsMap = {
   // Link cards for documentation navigation
   LinkCard,
   LinkCardGrid,
+  // Concept cards for concept/feature display
+  ConceptCard,
+  ConceptCardGrid,
   // Feedback component
   Feedback,
   // Page footer with navigation

@@ -9,6 +9,12 @@ This is the Avail Nexus Elements documentation site built with Fumadocs and Next
 - **Styling**: Tailwind CSS v4 with CSS custom properties
 - **Components**: shadcn/ui
 
+## NON-NEGOTIABLES
+- Never run the dev server unless explicitly asked 
+- Keep all componenets less than 400 lines
+- Don't define multiple components in one single file 
+- Create reusable components wherever possible
+
 ## Design System
 
 We use a **two-layer token architecture**:

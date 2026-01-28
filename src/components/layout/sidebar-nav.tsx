@@ -1,9 +1,9 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Root, Item, Node } from "fumadocs-core/page-tree";
-import { ChevronDown } from "lucide-react";
+import { ChevronUp, ChevronDown } from "lucide-react";
 import { Sidebar, SidebarContent } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 
@@ -27,12 +27,11 @@ function SidebarItem({
       className={cn(
         "flex h-10 w-full items-center gap-2 px-4 py-2.5 text-base transition-colors",
         isActive
-          ? "bg-sidebar-item-background-active text-sidebar-item-foreground-active font-medium"
+          ? "bg-sidebar-item-background-active text-sidebar-item-foreground-active"
           : "bg-transparent text-sidebar-item-foreground hover:bg-sidebar-item-background-hover",
-        depth > 0 && "pl-8",
       )}
     >
-      <span className="truncate leading-5">{item.name}</span>
+      <span className="flex-1 truncate leading-5">{item.name}</span>
     </Link>
   );
 }
@@ -42,9 +41,7 @@ function SidebarFolder({
   name,
   children,
   defaultExpanded = false,
-  depth = 0,
-  indexItem,
-  isIndexActive,
+  isActive = false,
 }: {
   name: string;
   children: React.ReactNode;
@@ -52,6 +49,7 @@ function SidebarFolder({
   depth?: number;
   indexItem?: Item;
   isIndexActive?: boolean;
+  isActive?: boolean;
 }) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
 
@@ -62,26 +60,33 @@ function SidebarFolder({
         onClick={() => setIsExpanded(!isExpanded)}
         className={cn(
           "flex h-10 w-full items-center gap-2 px-4 py-2.5 text-base transition-colors",
-          "bg-transparent text-sidebar-item-foreground hover:bg-sidebar-item-background-hover",
-          depth > 0 && "pl-8",
+          isActive
+            ? "bg-sidebar-item-background-active text-sidebar-item-foreground-active"
+            : "bg-transparent text-sidebar-item-foreground hover:bg-sidebar-item-background-hover",
         )}
       >
         <span className="flex-1 truncate text-left leading-5">{name}</span>
-        <ChevronDown
-          className={cn(
-            "size-5 shrink-0 text-sidebar-item-foreground transition-transform duration-200",
-            isExpanded && "rotate-180",
-          )}
-        />
+        {isExpanded ? (
+          <ChevronUp className="size-5 shrink-0 text-sidebar-item-foreground" />
+        ) : (
+          <ChevronDown className="size-5 shrink-0 text-sidebar-item-foreground" />
+        )}
       </button>
-      {isExpanded && <div className="flex flex-col">{children}</div>}
+      {isExpanded && (
+        <div className="flex gap-1 pl-4">
+          {/* Vertical line */}
+          <div className="w-px shrink-0 bg-border" />
+          {/* Children wrapper */}
+          <div className="flex flex-col flex-1">{children}</div>
+        </div>
+      )}
     </div>
   );
 }
 
 // Divider component
 function SidebarDivider() {
-  return <div className="h-px w-full bg-border my-6" />;
+  return <div className="h-px w-full bg-border" />;
 }
 
 export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
@@ -114,7 +119,6 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
           key={node.$id ?? node.url}
           item={node}
           isActive={isActive}
-          depth={depth}
         />
       );
     }
@@ -132,7 +136,6 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
             key={folderId}
             item={node.index}
             isActive={isActive}
-            depth={depth}
           />
         );
       }
@@ -142,9 +145,7 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
           key={folderId}
           name={node.name?.toString() ?? ""}
           defaultExpanded={shouldExpand}
-          depth={depth}
-          indexItem={node.index}
-          isIndexActive={isActive}
+          isActive={shouldExpand}
         >
           {/* If folder has an index, show it as first item */}
           {node.index && (
@@ -154,7 +155,6 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
                 name: "Overview" as React.ReactNode,
               }}
               isActive={pathname === node.index.url}
-              depth={depth + 1}
             />
           )}
           {node.children.map((child) => renderNode(child, depth + 1))}
@@ -207,8 +207,7 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
             key={folderId}
             name={item.name?.toString() ?? ""}
             defaultExpanded={shouldExpand}
-            indexItem={item.index}
-            isIndexActive={isActive}
+            isActive={shouldExpand}
           >
             {/* If folder has an index, show it as first item */}
             {item.index && (
@@ -218,7 +217,6 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
                   name: "Overview" as React.ReactNode,
                 }}
                 isActive={pathname === item.index.url}
-                depth={1}
               />
             )}
             {item.children.map((child) => renderNode(child, 1))}
@@ -243,7 +241,7 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
 
   return (
     <Sidebar
-      className="sticky top-[calc(var(--header-height)+1px)] z-30 hidden w-75 flex-col justify-between overflow-hidden bg-sidebar-background border-r border-border p-6 lg:flex"
+      className="sticky top-[calc(var(--header-height)+1px)] z-30 hidden h-[calc(100vh-var(--header-height)-1px)] w-75 flex-col justify-between overflow-hidden bg-sidebar-background border-r border-border p-6 lg:flex"
       collapsible="none"
       {...props}
     >

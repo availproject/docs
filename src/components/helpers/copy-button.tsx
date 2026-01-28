@@ -23,10 +23,11 @@ export function CopyButton({
   const [hasCopied, setHasCopied] = React.useState(false);
 
   React.useEffect(() => {
-    setTimeout(() => {
-      setHasCopied(false);
-    }, 2000);
-  }, []);
+    if (hasCopied) {
+      const timer = setTimeout(() => setHasCopied(false), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [hasCopied]);
 
   return (
     <Tooltip>
@@ -37,8 +38,9 @@ export function CopyButton({
           size="icon"
           variant={variant}
           className={cn(
-            "bg-code z-10 size-7 hover:opacity-100 focus-visible:opacity-100",
-            customPosition ?? "absolute top-3 right-2",
+            "z-10 size-8 bg-transparent hover:bg-secondary active:bg-muted transition-colors",
+            hasCopied && "bg-muted",
+            customPosition ?? "absolute top-2 right-2",
             className,
           )}
           onClick={() => {
@@ -48,7 +50,11 @@ export function CopyButton({
           {...props}
         >
           <span className="sr-only">Copy</span>
-          {hasCopied ? <Check /> : <Copy />}
+          {hasCopied ? (
+            <Check className="size-5 text-muted-foreground" />
+          ) : (
+            <Copy className="size-5 text-muted-foreground" />
+          )}
         </Button>
       </TooltipTrigger>
       <TooltipContent>{hasCopied ? "Copied" : tooltip}</TooltipContent>

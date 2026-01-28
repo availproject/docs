@@ -87,6 +87,7 @@
     --color-card-foreground: var(--card-foreground);
     --color-card-border: var(--card-border);
     --color-card-header-background: var(--card-header-background);
+    --color-card-shadow: var(--card-shadow);
     --color-popover: var(--popover);
     --color-popover-foreground: var(--popover-foreground);
     --color-primary: var(--primary);
@@ -129,10 +130,14 @@
     --color-sidebar-background: var(--sidebar-background);
     --color-sidebar-item-background: var(--sidebar-item-background);
     --color-sidebar-item-background-hover: var(--sidebar-item-background-hover);
-    --color-sidebar-item-background-active: var(--sidebar-item-background-active);
+    --color-sidebar-item-background-active: var(
+        --sidebar-item-background-active
+    );
     --color-sidebar-item-foreground: var(--sidebar-item-foreground);
     --color-sidebar-item-foreground-hover: var(--sidebar-item-foreground-hover);
-    --color-sidebar-item-foreground-active: var(--sidebar-item-foreground-active);
+    --color-sidebar-item-foreground-active: var(
+        --sidebar-item-foreground-active
+    );
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
 
@@ -147,9 +152,13 @@
     --color-search-foreground-active: var(--search-foreground-active);
     --color-search-border: var(--search-border);
     --color-search-results-background: var(--search-results-background);
-    --color-search-results-background-hover: var(--search-results-background-hover);
+    --color-search-results-background-hover: var(
+        --search-results-background-hover
+    );
     --color-search-results-foreground: var(--search-results-foreground);
-    --color-search-results-foreground-primary: var(--search-results-foreground-primary);
+    --color-search-results-foreground-primary: var(
+        --search-results-foreground-primary
+    );
 
     /* Keyboard shortcuts */
     --color-key-background: var(--key-background);
@@ -282,6 +291,7 @@
     --card-foreground: var(--grey-light-900);
     --card-border: var(--grey-light-200);
     --card-header-background: var(--white-50);
+    --card-shadow: var(--blue-50);
 
     /* Popover */
     --popover: var(--white-0);
@@ -422,6 +432,7 @@
     --card-foreground: var(--grey-dark-900);
     --card-border: var(--grey-dark-400);
     --card-header-background: var(--grey-dark-300);
+    --card-shadow: var(--blue-800);
 
     /* Popover */
     --popover: var(--grey-dark-300);
@@ -536,7 +547,7 @@
 }
 
 @utility section-soft {
-    @apply from-background to-surface/40 dark:bg-background bg-gradient-to-b;
+    @apply from-background to-surface/40 dark:bg-background bg-linear-to-b;
 }
 
 @utility container-wrapper {
@@ -560,37 +571,102 @@
 
 @layer components {
     [data-rehype-pretty-code-figure] {
-        background-color: var(--color-code);
-        color: var(--color-code-foreground);
-        border-radius: var(--radius-md);
-        border-width: 0px;
-        border-color: var(--border);
+        --code-shadow-size: 8px;
+        background-color: transparent;
+        color: var(--color-card-foreground);
+        border-radius: 0;
         margin-top: calc(var(--spacing) * 6);
-        overflow: hidden;
+        margin-left: var(--code-shadow-size);
+        margin-right: var(--code-shadow-size);
+        margin-bottom: var(--code-shadow-size);
+        overflow: visible;
         font-size: var(--text-sm);
         outline: none;
         position: relative;
-        @apply -mx-1 md:-mx-1;
+        display: flex;
+        flex-direction: column;
 
         &:has([data-rehype-pretty-code-title]) [data-slot="copy-button"] {
-            top: calc(var(--spacing) * 1.5) !important;
+            top: calc(var(--spacing) * 2.5) !important;
+        }
+
+        /* Bottom shadow */
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: calc(-1 * var(--code-shadow-size));
+            left: calc(-1 * var(--code-shadow-size));
+            right: calc(-1 * var(--code-shadow-size));
+            height: var(--code-shadow-size);
+            background-color: var(--color-card-shadow);
+        }
+
+        /* Right shadow */
+        &::before {
+            content: "";
+            position: absolute;
+            top: var(--code-shadow-size);
+            right: calc(-1 * var(--code-shadow-size));
+            bottom: calc(-1 * var(--code-shadow-size));
+            width: var(--code-shadow-size);
+            background-color: var(--color-card-shadow);
         }
     }
 
     [data-rehype-pretty-code-title] {
-        border-bottom: color-mix(in oklab, var(--border) 30%, transparent);
-        border-bottom-width: 1px;
-        border-bottom-style: solid;
-        padding-block: calc(var(--spacing) * 2.5);
+        background-color: var(--color-card);
+        border: 1px solid var(--color-card-border);
+        border-bottom: none;
+        border-left: none;
+        padding-block: calc(var(--spacing) * 3);
         padding-inline: calc(var(--spacing) * 4);
         font-size: var(--text-sm);
         font-family: var(--font-mono);
-        color: var(--color-code-foreground);
+        color: var(--color-card-foreground);
+        position: relative;
+
+        /* Left shadow on title */
+        &::before {
+            content: "";
+            position: absolute;
+            top: var(--code-shadow-size);
+            left: calc(-1 * var(--code-shadow-size));
+            bottom: 0;
+            width: var(--code-shadow-size);
+            background-color: var(--color-card-shadow);
+        }
     }
 
     [data-rehype-pretty-code-figure] pre.shiki {
-        background-color: transparent !important;
+        background-color: var(--color-card) !important;
+        border: 1px solid var(--color-card-border);
+        border-left: none;
+        padding-left: calc(var(--spacing) * 4) !important;
+        padding-right: calc(var(--spacing) * 4) !important;
+        position: relative;
+
+        /* Left shadow */
+        &::before {
+            content: "";
+            position: absolute;
+            top: var(--code-shadow-size);
+            left: calc(-1 * var(--code-shadow-size));
+            bottom: calc(-1 * var(--code-shadow-size));
+            width: var(--code-shadow-size);
+            background-color: var(--color-card-shadow);
+        }
     }
+
+    /* When there's a title, remove the top border from pre to avoid double border */
+    [data-rehype-pretty-code-figure]:has([data-rehype-pretty-code-title]) pre.shiki {
+        border-top: none;
+    }
+
+    /* When there's a title, the pre's left shadow starts from top (no offset) */
+    [data-rehype-pretty-code-figure]:has([data-rehype-pretty-code-title]) pre.shiki::before {
+        top: 0;
+    }
+
 
     [data-line-numbers] {
         display: grid;
@@ -608,17 +684,17 @@
         counter-increment: line;
         content: counter(line);
         display: inline-block;
-        width: calc(var(--spacing) * 16);
-        padding-right: calc(var(--spacing) * 6);
+        width: calc(var(--spacing) * 8);
+        padding-right: calc(var(--spacing) * 4);
         text-align: right;
         color: var(--color-code-number);
-        background-color: var(--color-code);
+        background-color: var(--color-card);
         position: sticky;
         left: 0;
     }
 
     [data-line-numbers] [data-highlighted-line][data-line]::before {
-        background-color: var(--color-code-highlight);
+        background-color: var(--color-muted);
     }
 
     [data-line] {
@@ -640,7 +716,7 @@
     [data-highlighted-line],
     [data-highlighted-chars] {
         position: relative;
-        background-color: var(--color-code-highlight);
+        background-color: var(--color-muted);
     }
 
     [data-highlighted-line] {

@@ -64,7 +64,7 @@ function highlightCommand(command: string): React.ReactNode[] {
 
     // Default text
     tokens.push(
-      <span key={index} className="text-[#24292e] dark:text-[#e1e4e8]">
+      <span key={index} className="text-card-foreground">
         {part}
       </span>
     );
@@ -120,72 +120,76 @@ export function CodeBlockCommand({
   }, [packageManager, tabs]);
 
   return (
-    <div className="overflow-x-auto">
-      <Tabs
-        value={packageManager}
-        className="gap-0"
-        onValueChange={(value) => {
-          setConfig({
-            ...config,
-            packageManager: value as "pnpm" | "npm" | "yarn" | "bun",
-          });
-        }}
-      >
-        <div className="border-border/50 flex items-center gap-2 border-b px-3 py-1">
-          <div className="bg-foreground flex size-4 items-center justify-center rounded-[1px] opacity-70">
-            <Terminal className="text-code size-3" />
-          </div>
-          <TabsList className="rounded-none bg-transparent p-0">
-            {Object.entries(tabs).map(([key]) => {
-              return (
-                <TabsTrigger
-                  key={key}
-                  value={key}
-                  className="data-[state=active]:bg-accent data-[state=active]:border-input h-7 border border-transparent pt-0.5 data-[state=active]:shadow-none"
-                >
-                  {key}
-                </TabsTrigger>
-              );
-            })}
-          </TabsList>
-        </div>
-        <div className="no-scrollbar overflow-x-auto">
-          {Object.entries(tabs).map(([key, value]) => {
-            return (
-              <TabsContent key={key} value={key} className="mt-0 px-4 py-3.5">
-                <pre>
-                  <code
-                    className={cn(
-                      "relative font-mono text-sm leading-none",
-                      "bg-transparent"
-                    )}
-                    data-language="bash"
-                  >
-                    {value ? highlightCommand(value) : value}
-                  </code>
-                </pre>
-              </TabsContent>
-            );
-          })}
-        </div>
-      </Tabs>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            data-slot="copy-button"
-            size="icon"
-            variant="ghost"
-            className="absolute top-2 right-2 z-10 size-7 opacity-70 hover:opacity-100 focus-visible:opacity-100"
-            onClick={copyCommand}
-          >
-            <span className="sr-only">Copy</span>
-            {hasCopied ? <Check /> : <Copy />}
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent>
-          {hasCopied ? "Copied" : "Copy to Clipboard"}
-        </TooltipContent>
-      </Tooltip>
-    </div>
+    <Tabs
+      value={packageManager}
+      className="gap-0"
+      onValueChange={(value) => {
+        setConfig({
+          ...config,
+          packageManager: value as "pnpm" | "npm" | "yarn" | "bun",
+        });
+      }}
+    >
+      {/* Header with terminal icon and tabs */}
+      <div className="relative flex items-center h-[52px] border border-b-0 border-card-border bg-card px-4">
+        <Terminal className="size-5 text-card-foreground shrink-0" />
+        <TabsList className="ml-3 rounded-none bg-transparent p-0 h-auto gap-0">
+          {Object.entries(tabs).map(([key]) => (
+            <TabsTrigger
+              key={key}
+              value={key}
+              className={cn(
+                "px-2 py-1.5 h-auto rounded-none border-none shadow-none",
+                "font-mono text-sm text-muted-foreground",
+                "data-[state=active]:bg-muted data-[state=active]:text-muted-foreground"
+              )}
+            >
+              {key}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        {/* Copy button */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              data-slot="copy-button"
+              size="icon"
+              variant="ghost"
+              className={cn(
+                "absolute right-2.5 top-2.5 size-8 bg-transparent hover:bg-secondary active:bg-muted transition-colors",
+                hasCopied && "bg-muted"
+              )}
+              onClick={copyCommand}
+            >
+              <span className="sr-only">Copy</span>
+              {hasCopied ? (
+                <Check className="size-5 text-muted-foreground" />
+              ) : (
+                <Copy className="size-5 text-muted-foreground" />
+              )}
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            {hasCopied ? "Copied" : "Copy to Clipboard"}
+          </TooltipContent>
+        </Tooltip>
+      </div>
+
+      {/* Code body */}
+      <div className="border border-card-border bg-card">
+        {Object.entries(tabs).map(([key, value]) => (
+          <TabsContent key={key} value={key} className="mt-0 px-4 py-5">
+            <pre className="overflow-x-auto">
+              <code
+                className="font-mono text-sm leading-normal text-card-foreground"
+                data-language="bash"
+              >
+                {value ? highlightCommand(value) : value}
+              </code>
+            </pre>
+          </TabsContent>
+        ))}
+      </div>
+    </Tabs>
   );
 }

@@ -35,13 +35,13 @@ function PageFooterNavItem({
         {isPrevious && (
           <ChevronLeft className="size-5 text-foreground" />
         )}
-        <span className="text-base text-foreground">{title}</span>
+        <span className="text-base leading-5 text-foreground">{title}</span>
         {!isPrevious && (
           <ChevronRight className="size-5 text-foreground" />
         )}
       </div>
       {description && (
-        <p className="w-full text-sm leading-relaxed text-muted-foreground">
+        <p className="w-full text-sm leading-[22px] text-muted-foreground">
           {description}
         </p>
       )}
@@ -84,7 +84,7 @@ export function PageFooter({
       {/* Footer content */}
       <div className="flex flex-col gap-6">
         {lastUpdated && (
-          <p className="text-base leading-relaxed text-foreground">
+          <p className="text-base leading-[26px] text-muted-foreground">
             Last updated: {lastUpdated}
           </p>
         )}
@@ -92,25 +92,21 @@ export function PageFooter({
         {/* Navigation */}
         {(previous || next) && (
           <div className="flex gap-6">
-            {previous ? (
+            {previous && (
               <PageFooterNavItem
                 title={previous.title}
                 description={previous.description}
                 href={previous.href}
                 direction="previous"
               />
-            ) : (
-              <div className="flex-1" />
             )}
-            {next ? (
+            {next && (
               <PageFooterNavItem
                 title={next.title}
                 description={next.description}
                 href={next.href}
                 direction="next"
               />
-            ) : (
-              <div className="flex-1" />
             )}
           </div>
         )}

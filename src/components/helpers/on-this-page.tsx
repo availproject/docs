@@ -272,13 +272,13 @@ export function OnThisPage({
       {toc?.length > 0 && (
         <div className="relative flex gap-1 items-start">
           {/* Vertical line track */}
-          <div className="absolute left-0 top-[14px]w-0 h-[160px] flex items-center justify-center">
+          <div className="absolute left-0 top-[14px] w-0 h-40 flex items-center justify-center">
             <div className="h-full w-px bg-border" />
           </div>
 
           {/* Blue active indicator */}
           <div
-            className="absolute left-[-2px] w-[5px] h-3 bg-brand"
+            className="absolute -left-0.5 w-1.25 h-3 bg-brand"
             style={{
               top: `${14 + (activeIndex >= 0 ? activeIndex : 0) * 40}px`,
               transition: "top 0.2s ease-in-out",
