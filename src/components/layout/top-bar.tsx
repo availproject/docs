@@ -7,6 +7,11 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Skeleton } from "../ui/skeleton";
+import { Search, Sun, Moon, ChevronDown } from "lucide-react";
+import {
+  SearchDialog,
+  useSearchDialog,
+} from "@/components/search/search-dialog";
 
 const ThemeControl = dynamic(
   () => import("./theme-control").then((m) => m.default),
@@ -27,11 +32,72 @@ const NAV_ITEMS = [
   },
 ];
 
+// Search bar component matching Figma design
+function SearchBar({
+  className,
+  onClick,
+}: {
+  className?: string;
+  onClick?: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      className={cn(
+        "flex h-10 items-center gap-2 px-3 bg-search-background border border-search-border text-search-foreground w-[342px] hover:bg-search-background-hover transition-colors",
+        className,
+      )}
+      onClick={onClick}
+    >
+      <Search className="size-5 shrink-0" />
+      <span className="flex-1 text-left text-base">Search...</span>
+      <kbd className="relative flex h-6 items-center gap-0.5 bg-key-background px-1 pt-0.5 pb-1 text-sm text-key-foreground">
+        <span>S</span>
+        <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-key-underline" />
+      </kbd>
+    </button>
+  );
+}
+
+// Theme toggle button matching Figma design
+function ThemeToggle({
+  theme,
+  setTheme,
+}: {
+  theme: string;
+  setTheme: (theme: string) => void;
+}) {
+  const isDark = theme === "dark";
+
+  return (
+    <div className="flex items-center">
+      <button
+        type="button"
+        onClick={() => setTheme(isDark ? "light" : "dark")}
+        className="flex h-10 items-center gap-2 px-3 bg-menu-item-background border border-menu-item-border border-r-0"
+      >
+        {isDark ? (
+          <Moon className="size-5 text-sidebar-item-foreground" />
+        ) : (
+          <Sun className="size-5 text-sidebar-item-foreground" />
+        )}
+      </button>
+      <button
+        type="button"
+        className="flex h-10 items-center px-2 bg-menu-item-background border border-menu-item-border"
+      >
+        <ChevronDown className="size-5 text-sidebar-item-foreground" />
+      </button>
+    </div>
+  );
+}
+
 export default function Topbar() {
   const { theme, resolvedTheme, setTheme } = useTheme();
   const [palette, setPalette] = useState<string>("default");
   const prevPaletteClass = useRef<string | null>(null);
   const isMobile = useIsMobile();
+  const { open: searchOpen, setOpen: setSearchOpen } = useSearchDialog();
 
   useEffect(() => {
     try {
@@ -69,52 +135,75 @@ export default function Topbar() {
   }));
 
   return (
-    <div className="sticky top-0 z-40 bg-background/80 backdrop-blur supports-backdrop-filter:bg-background/60 border-b border-border">
-      <div className="h-(--header-height) px-4 py-4 flex items-center justify-between gap-4">
-        <div className="flex items-center gap-x-6">
-          <Link href="/" className={cn("cursor-pointer hidden sm:block")}>
-            <Image
-              src="/new_logo.svg"
-              alt="Avail Docs"
-              width={100}
-              height={100}
-              className="h-8 w-auto dark:hidden block"
-            />
-            <Image
-              src="/avail_light.svg"
-              alt="Avail Docs"
-              width={100}
-              height={100}
-              className="h-8 w-auto hidden dark:block"
-            />
-          </Link>
-          <MobileNav
-            items={topItems}
-            componentItems={[]}
-            className="block lg:hidden"
-          />
-          {NAV_ITEMS.map((item) => (
-            <Link
-              key={item.id}
-              href={item.href}
-              className="text-sm font-semibold text-foreground hover:text-foreground/80 transition-colors hidden lg:inline-block"
-            >
-              {item.label}
+    <>
+      <div className="sticky top-0 z-40 bg-navbar-background border-b border-navbar-border">
+        <div className="h-18 px-10 flex items-center justify-between gap-4">
+          {/* Left: Logo */}
+          <div className="flex items-center gap-x-6">
+            <Link href="/" className={cn("cursor-pointer hidden sm:block")}>
+              <Image
+                src="/new_logo.svg"
+                alt="Nexus"
+                width={84}
+                height={32}
+                className="h-8 w-auto dark:hidden block"
+              />
+              <Image
+                src="/avail_light.svg"
+                alt="Nexus"
+                width={84}
+                height={32}
+                className="h-8 w-auto hidden dark:block"
+              />
             </Link>
-          ))}
-        </div>
+            <MobileNav
+              items={topItems}
+              componentItems={[]}
+              className="block lg:hidden"
+            />
+          </div>
 
-        {/* Right side controls */}
-        <div className="flex items-center gap-3">
-          <ThemeControl
-            theme={theme ?? ""}
-            setTheme={setTheme}
-            palette={palette}
-            setPalette={setPalette}
-            isMobile={isMobile}
-          />
+          {/* Center: Search + Theme toggle */}
+          <div className="hidden lg:flex items-center gap-3">
+            <SearchBar onClick={() => setSearchOpen(true)} />
+            <ThemeToggle theme={resolvedTheme ?? "light"} setTheme={setTheme} />
+          </div>
+
+          {/* Right: Account (placeholder) */}
+          <div className="flex items-center gap-3">
+            <div className="hidden lg:flex items-center gap-2 h-10 px-3">
+              <div className="size-6 rounded-full bg-sidebar-item-foreground overflow-hidden">
+                <Image
+                  src="/avatar-placeholder.png"
+                  alt="User"
+                  width={24}
+                  height={24}
+                  className="size-full object-cover"
+                  onError={(e) => {
+                    // Hide if no avatar exists
+                    (e.target as HTMLImageElement).style.display = "none";
+                  }}
+                />
+              </div>
+              <span className="text-base text-foreground">faraday.eth</span>
+              <ChevronDown className="size-5 text-sidebar-item-foreground" />
+            </div>
+            {/* Mobile theme control */}
+            <div className="lg:hidden">
+              <ThemeControl
+                theme={theme ?? ""}
+                setTheme={setTheme}
+                palette={palette}
+                setPalette={setPalette}
+                isMobile={isMobile}
+              />
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* Search Dialog */}
+      <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
+    </>
   );
 }

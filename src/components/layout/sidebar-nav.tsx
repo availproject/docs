@@ -1,9 +1,9 @@
 "use client";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Root, Item, Node } from "fumadocs-core/page-tree";
-import { Tree, Folder } from "@/components/ui/file-tree";
+import { ChevronDown } from "lucide-react";
 import { Sidebar, SidebarContent } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 
@@ -11,82 +11,111 @@ interface SidebarNavProps extends React.ComponentProps<typeof Sidebar> {
   tree: Root;
 }
 
-// Custom File component that uses Next.js Link for navigation
-function NavFile({ item, isActive }: { item: Item; isActive: boolean }) {
+// Sidebar item component for pages/files
+function SidebarItem({
+  item,
+  isActive,
+  depth = 0,
+}: {
+  item: Item;
+  isActive: boolean;
+  depth?: number;
+}) {
   return (
     <Link
       href={item.url}
       className={cn(
-        "flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors",
-        "hover:bg-accent hover:text-accent-foreground",
-        isActive && "bg-accent text-accent-foreground font-medium",
+        "flex h-10 w-full items-center gap-2 px-4 py-2.5 text-base transition-colors",
+        isActive
+          ? "bg-sidebar-item-background-active text-sidebar-item-foreground-active font-medium"
+          : "bg-transparent text-sidebar-item-foreground hover:bg-sidebar-item-background-hover",
+        depth > 0 && "pl-8",
       )}
     >
-      <span className="truncate">{item.name}</span>
+      <span className="truncate leading-5">{item.name}</span>
     </Link>
   );
+}
+
+// Sidebar folder component with expandable children
+function SidebarFolder({
+  name,
+  children,
+  defaultExpanded = false,
+  depth = 0,
+  indexItem,
+  isIndexActive,
+}: {
+  name: string;
+  children: React.ReactNode;
+  defaultExpanded?: boolean;
+  depth?: number;
+  indexItem?: Item;
+  isIndexActive?: boolean;
+}) {
+  const [isExpanded, setIsExpanded] = useState(defaultExpanded);
+
+  return (
+    <div className="flex flex-col w-full">
+      <button
+        type="button"
+        onClick={() => setIsExpanded(!isExpanded)}
+        className={cn(
+          "flex h-10 w-full items-center gap-2 px-4 py-2.5 text-base transition-colors",
+          "bg-transparent text-sidebar-item-foreground hover:bg-sidebar-item-background-hover",
+          depth > 0 && "pl-8",
+        )}
+      >
+        <span className="flex-1 truncate text-left leading-5">{name}</span>
+        <ChevronDown
+          className={cn(
+            "size-5 shrink-0 text-sidebar-item-foreground transition-transform duration-200",
+            isExpanded && "rotate-180",
+          )}
+        />
+      </button>
+      {isExpanded && <div className="flex flex-col">{children}</div>}
+    </div>
+  );
+}
+
+// Divider component
+function SidebarDivider() {
+  return <div className="h-px w-full bg-border my-6" />;
 }
 
 export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
   const pathname = usePathname();
 
-  // Get all expanded item IDs based on current path
-  const getExpandedIds = (
-    nodes: Node[],
-    currentPath: string[] = [],
-  ): string[] => {
-    const ids: string[] = [];
-
-    for (const node of nodes) {
-      if (node.type === "folder") {
-        const folderId = node.$id ?? `folder-${currentPath.join("-")}`;
-        const isInPath = node.index?.url && pathname.startsWith(node.index.url);
-        const hasActiveChild = node.children.some((child) => {
-          if (child.type === "page") {
-            return (
-              pathname === child.url || pathname.startsWith(child.url + "/")
-            );
-          }
-          if (child.type === "folder" && child.index) {
-            return pathname.startsWith(child.index.url);
-          }
-          return false;
-        });
-
-        if (isInPath || hasActiveChild) {
-          ids.push(folderId);
-        }
-
-        // Recursively check children
-        const childIds = getExpandedIds(node.children, [
-          ...currentPath,
-          node.name?.toString() ?? "",
-        ]);
-        if (childIds.length > 0) {
-          ids.push(folderId);
-          ids.push(...childIds);
-        }
-      }
+  // Check if a node or its children contain the active path
+  const isNodeActive = (node: Node): boolean => {
+    if (node.type === "page") {
+      return pathname === node.url || pathname.startsWith(node.url + "/");
     }
-
-    return ids;
+    if (node.type === "folder") {
+      if (
+        node.index &&
+        (pathname === node.index.url ||
+          pathname.startsWith(node.index.url + "/"))
+      ) {
+        return true;
+      }
+      return node.children.some(isNodeActive);
+    }
+    return false;
   };
-
-  const initialExpandedItems = useMemo(() => {
-    return getExpandedIds(tree.children);
-  }, [pathname, tree]);
 
   // Recursive render function for tree nodes
   const renderNode = (node: Node, depth = 0): React.ReactNode => {
     if (node.type === "page") {
       const isActive = pathname === node.url;
       return (
-        <div
+        <SidebarItem
           key={node.$id ?? node.url}
-          style={{ paddingLeft: depth > 0 ? 8 : 0 }}
-        >
-          <NavFile item={node} isActive={isActive} />
-        </div>
+          item={node}
+          isActive={isActive}
+          depth={depth}
+        />
       );
     }
 
@@ -94,25 +123,42 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
       const folderId = node.$id ?? `folder-${node.name}`;
       const hasChildren = node.children.length > 0;
       const isActive = node.index ? pathname === node.index.url : false;
+      const shouldExpand = isNodeActive(node);
 
+      // Folder with only index, no children - render as a simple item
       if (!hasChildren && node.index) {
-        // Folder with only index, no children - render as a file
         return (
-          <div key={folderId} style={{ paddingLeft: depth > 0 ? 8 : 0 }}>
-            <NavFile item={node.index} isActive={isActive} />
-          </div>
+          <SidebarItem
+            key={folderId}
+            item={node.index}
+            isActive={isActive}
+            depth={depth}
+          />
         );
       }
 
       return (
-        <Folder
+        <SidebarFolder
           key={folderId}
-          value={folderId}
-          element={node.name?.toString() ?? ""}
-          isSelectable={true}
+          name={node.name?.toString() ?? ""}
+          defaultExpanded={shouldExpand}
+          depth={depth}
+          indexItem={node.index}
+          isIndexActive={isActive}
         >
+          {/* If folder has an index, show it as first item */}
+          {node.index && (
+            <SidebarItem
+              item={{
+                ...node.index,
+                name: "Overview" as React.ReactNode,
+              }}
+              isActive={pathname === node.index.url}
+              depth={depth + 1}
+            />
+          )}
           {node.children.map((child) => renderNode(child, depth + 1))}
-        </Folder>
+        </SidebarFolder>
       );
     }
 
@@ -120,7 +166,7 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
       return (
         <div
           key={node.$id ?? `sep-${node.name}`}
-          className="px-2 py-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground"
+          className="px-4 pt-6 pb-2 text-xs font-semibold uppercase tracking-wider text-sidebar-item-foreground"
         >
           {node.name}
         </div>
@@ -136,46 +182,47 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
       if (item.type === "page") {
         const isActive = pathname === item.url;
         return (
-          <div key={item.$id ?? item.url} className="px-1">
-            <NavFile item={item} isActive={isActive} />
-          </div>
+          <SidebarItem
+            key={item.$id ?? item.url}
+            item={item}
+            isActive={isActive}
+          />
         );
       }
 
       if (item.type === "folder") {
         const folderId = item.$id ?? `folder-${index}`;
         const hasChildren = item.children.length > 0;
+        const isActive = item.index ? pathname === item.index.url : false;
+        const shouldExpand = isNodeActive(item);
 
         if (!hasChildren && item.index) {
-          const isActive = pathname === item.index.url;
           return (
-            <div key={folderId} className="px-1">
-              <NavFile item={item.index} isActive={isActive} />
-            </div>
+            <SidebarItem key={folderId} item={item.index} isActive={isActive} />
           );
         }
 
         return (
-          <Folder
+          <SidebarFolder
             key={folderId}
-            value={folderId}
-            element={item.name?.toString() ?? ""}
-            isSelectable={true}
+            name={item.name?.toString() ?? ""}
+            defaultExpanded={shouldExpand}
+            indexItem={item.index}
+            isIndexActive={isActive}
           >
             {/* If folder has an index, show it as first item */}
             {item.index && (
-              <div className="px-1">
-                <NavFile
-                  item={{
-                    ...item.index,
-                    name: "Overview" as React.ReactNode,
-                  }}
-                  isActive={pathname === item.index.url}
-                />
-              </div>
+              <SidebarItem
+                item={{
+                  ...item.index,
+                  name: "Overview" as React.ReactNode,
+                }}
+                isActive={pathname === item.index.url}
+                depth={1}
+              />
             )}
             {item.children.map((child) => renderNode(child, 1))}
-          </Folder>
+          </SidebarFolder>
         );
       }
 
@@ -183,7 +230,7 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
         return (
           <div
             key={item.$id ?? `sep-${index}`}
-            className="px-3 pt-4 pb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground"
+            className="px-4 pt-6 pb-2 text-xs font-semibold uppercase tracking-wider text-sidebar-item-foreground"
           >
             {item.name}
           </div>
@@ -196,24 +243,42 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
 
   return (
     <Sidebar
-      className="sticky top-[calc(var(--header-height)+1px)] z-30 hidden h-[calc(100svh-var(--header-height)-1rem)] overscroll-none bg-transparent lg:flex"
+      className="sticky top-[calc(var(--header-height)+1px)] z-30 hidden w-75 flex-col justify-between overflow-hidden bg-sidebar-background border-r border-border p-6 lg:flex"
       collapsible="none"
       {...props}
     >
-      <SidebarContent className="no-scrollbar overflow-y-auto overflow-x-hidden">
-        <div className="from-background via-background/80 to-background/50 sticky -top-1 z-10 h-4 shrink-0 bg-linear-to-b" />
-
-        <Tree
-          initialSelectedId={pathname}
-          initialExpandedItems={initialExpandedItems}
-          indicator={true}
-          className="px-1"
-        >
-          {renderTopLevel()}
-        </Tree>
-
-        <div className="from-background via-background/80 to-background/50 sticky -bottom-1 z-10 h-8 shrink-0 bg-linear-to-t" />
+      <SidebarContent className="no-scrollbar flex-1 overflow-y-auto overflow-x-hidden">
+        <div className="flex flex-col gap-1">{renderTopLevel()}</div>
       </SidebarContent>
+
+      {/* Footer section */}
+      <div className="flex flex-col gap-6 mt-auto">
+        <SidebarDivider />
+        <div className="flex flex-col gap-1">
+          <Link
+            href="/docs"
+            className={cn(
+              "flex h-10 w-full items-center gap-2 px-4 py-3 text-base transition-colors",
+              pathname === "/docs"
+                ? "text-sidebar-item-foreground-active"
+                : "text-sidebar-item-foreground hover:text-sidebar-item-foreground-hover",
+            )}
+          >
+            Docs
+          </Link>
+          <Link
+            href="/docs/components"
+            className={cn(
+              "flex h-10 w-full items-center gap-2 px-4 py-3 text-base transition-colors",
+              pathname.startsWith("/docs/components")
+                ? "text-sidebar-item-foreground-active"
+                : "text-sidebar-item-foreground hover:text-sidebar-item-foreground-hover",
+            )}
+          >
+            Components
+          </Link>
+        </div>
+      </div>
     </Sidebar>
   );
 }

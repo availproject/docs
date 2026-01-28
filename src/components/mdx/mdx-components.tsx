@@ -21,7 +21,15 @@ import {
 } from "lucide-react";
 // import { DepsInstall } from "../helpers/deps-install";
 import { Callout } from "./callout";
-import { Tabs as ShadcnTabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
+import { LinkCard, LinkCardGrid } from "./link-card";
+import { Feedback } from "./feedback";
+import { PageFooter } from "./page-footer";
+import {
+  Tabs as ShadcnTabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+} from "../ui/tabs";
 import {
   Card,
   CardHeader,
@@ -44,19 +52,22 @@ export const mdxComponents: MDXComponentsMap = {
   ),
   h2: ({ className, ...props }: React.ComponentProps<"h2">) => {
     return (
-      <h2
-        id={props.children
-          ?.toString()
-          .replace(/ /g, "-")
-          .replace(/'/g, "")
-          .replace(/\?/g, "")
-          .toLowerCase()}
-        className={cn(
-          "font-heading mt-10 scroll-m-28 text-xl font-semibold tracking-tight first:mt-0 lg:mt-16 font-sans",
-          className,
-        )}
-        {...props}
-      />
+      <div className="mt-16 first:mt-0 flex flex-col gap-4">
+        <h2
+          id={props.children
+            ?.toString()
+            .replace(/ /g, "-")
+            .replace(/'/g, "")
+            .replace(/\?/g, "")
+            .toLowerCase()}
+          className={cn(
+            "font-sans text-xl font-medium leading-relaxed tracking-wide text-brand scroll-m-28",
+            className,
+          )}
+          {...props}
+        />
+        <div className="h-px w-full bg-border" />
+      </div>
     );
   },
   h3: ({ className, ...props }: React.ComponentProps<"h3">) => (
@@ -260,7 +271,10 @@ export const mdxComponents: MDXComponentsMap = {
   // Tabs components (shadcn format)
   Tabs: ({ className, ...props }: React.ComponentProps<typeof ShadcnTabs>) => {
     return (
-      <ShadcnTabs className={cn("relative mt-6 w-full", className)} {...props} />
+      <ShadcnTabs
+        className={cn("relative mt-6 w-full", className)}
+        {...props}
+      />
     );
   },
   TabsList: ({
@@ -318,6 +332,13 @@ export const mdxComponents: MDXComponentsMap = {
   FileIcon,
   LinkIcon,
   LoaderPinwheelIcon,
+  // Link cards for documentation navigation
+  LinkCard,
+  LinkCardGrid,
+  // Feedback component
+  Feedback,
+  // Page footer with navigation
+  PageFooter,
 };
 
 export function useMDXComponents(
