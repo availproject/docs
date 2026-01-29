@@ -1,0 +1,3 @@
+onlyBuiltDependencies:
+  - "@avail-project/ca-common"
+  - "@avail-project/nexus-core"
