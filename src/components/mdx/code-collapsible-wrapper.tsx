@@ -8,7 +8,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "../ui/collapsible";
-import { Separator } from "../ui/separator";
 
 export function CodeCollapsibleWrapper({
   className,
@@ -32,7 +31,6 @@ export function CodeCollapsibleWrapper({
           >
             {isOpened ? "Collapse" : "Expand"}
           </Button>
-          <Separator className="mx-1.5 h-4!" />
         </div>
       </CollapsibleTrigger>
       <CollapsibleContent
@@ -40,10 +38,10 @@ export function CodeCollapsibleWrapper({
         className="relative mt-6 overflow-hidden data-[state=closed]:max-h-64 [&>figure]:mt-0 [&>figure]:md:mx-0!"
       >
         {children}
+        <CollapsibleTrigger className="from-transparent to-background text-muted-foreground absolute inset-x-0 bottom-0 flex h-20 items-center justify-center rounded-b-lg bg-linear-to-b text-sm group-data-[state=open]/collapsible:hidden">
+          Expand
+        </CollapsibleTrigger>
       </CollapsibleContent>
-      <CollapsibleTrigger className="from-code/70 to-code text-muted-foreground absolute inset-x-0 -bottom-2 flex h-20 items-center justify-center rounded-b-lg bg-linear-to-b text-sm group-data-[state=open]/collapsible:hidden">
-        {isOpened ? "Collapse" : "Expand"}
-      </CollapsibleTrigger>
     </Collapsible>
   );
 }

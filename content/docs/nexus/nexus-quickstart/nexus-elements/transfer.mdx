@@ -1,0 +1,98 @@
+---
+title: Fast Transfer
+description: Transfer assets across chains with source breakdown, fee details, progress steps, and allowance flow. Intent-based and optimized for UX.
+component: true
+links:
+  doc: https://docs.availproject.org/nexus/avail-nexus-sdk/bridge-methods/transfer
+  api: https://docs.availproject.org/nexus/avail-nexus-sdk/api-reference#transfer-operations
+---
+
+## Preview
+
+<ComponentPreview
+  name="fast-transfer"
+  description="An intent-based fast transfer with allowance flow and progress."
+  align="center"
+/>
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">CLI</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+  <TabsContent value="cli">
+    ```bash
+    npx shadcn@latest add @nexus-elements/fast-transfer
+    ```
+  </TabsContent>
+  <TabsContent value="manual">
+    <Steps>
+      
+      <Step>Install these dependencies</Step>
+```bash
+npm install @avail-project/nexus-core@1.0.0-beta.64 @radix-ui/react-accordion @radix-ui/react-dialog @radix-ui/react-label @radix-ui/react-select @radix-ui/react-slot class-variance-authority clsx lucide-react tailwind-merge
+```
+<Step>Copy and paste the following code into your project.</Step>
+      <div
+        data-slot="code"
+        className="my-4 overflow-hidden **:data-rehype-pretty-code-figure:m-0! **:data-rehype-pretty-code-figure:rounded-t-none **:data-rehype-pretty-code-figure:border-t [&_pre]:max-h-[400px]"
+      >
+        <ComponentSource name="fast-transfer" showAllFiles />
+      </div>
+      <Step>Update the import paths to match your project setup.</Step>
+
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+<Step className="font-serif text-lg">
+  Don't forget to wrap your app with NexusProvider
+</Step>
+<Step className="font-serif text-base">
+  View Detailed instructions{" "}
+  <a href="/docs/get-started" target="_blank" className="underline">
+    here
+  </a>
+</Step>
+
+```tsx showLineNumbers
+<FastTransfer
+  onComplete={completeCurrent}
+  prefill={{
+    token: "USDC",
+    chainId: SUPPORTED_CHAINS.BASE,
+  }}
+  onError={handleError}
+  onStart={handleStart}
+/>
+```
+
+## API Reference
+
+### FastTransfer
+
+The `FastTransfer` component uses the `transfer` function from `@avail-project/nexus-core`. It can be fully customized and styled.
+
+<CodeCollapsibleWrapper className="mt-4">
+
+```ts title="FastTransferProps"
+interface FastTransferProps {
+  prefill?: {
+    token: SUPPORTED_TOKENS; // token to bridge
+    chainId: SUPPORTED_CHAINS_IDS; // chain to bridge to
+    amount?: string; // amount to bridge
+    recipient?: Address; // recipient address to receive the transferred assets
+  };
+  onComplete?: () => void; // callback when the bridge is complete
+  onStart?: () => void; // callback when the bridge starts
+  onError?: (message: string) => void; // callback when an error occurs
+}
+```
+
+</CodeCollapsibleWrapper>
+````

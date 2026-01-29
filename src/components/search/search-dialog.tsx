@@ -2,24 +2,89 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { Search, ChevronRight } from "lucide-react";
+import { Search, ChevronRight, ChevronDown, Check } from "lucide-react";
+import { useDocsSearch } from "fumadocs-core/search/client";
+import type { SortedResult } from "fumadocs-core/search";
 import {
   CommandDialog,
   CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 
-interface SearchResult {
+const FILTER_OPTIONS = [
+  { value: "all", label: "All" },
+  { value: "/docs/nexus", label: "Nexus" },
+  { value: "/docs/DA", label: "Data Availability" },
+  { value: "/docs/user-guides", label: "User Guides" },
+] as const;
+
+type FilterValue = (typeof FILTER_OPTIONS)[number]["value"];
+
+interface GroupedResult {
   id: string;
-  title: string;
   url: string;
-  content?: string;
-  section?: string;
-  subsection?: string;
+  title: string;
+  breadcrumbs: string[];
+  children: Array<{
+    id: string;
+    url: string;
+    content: string;
+    type: "heading" | "text";
+  }>;
+}
+
+/**
+ * Groups flat search results by their parent page for hierarchical display
+ */
+function groupResultsByPage(results: SortedResult[]): GroupedResult[] {
+  const groups = new Map<string, GroupedResult>();
+
+  for (const result of results) {
+    // Extract base page URL (remove hash fragments)
+    const baseUrl = result.url.split("#")[0];
+
+    if (result.type === "page") {
+      // This is a page-level result
+      if (!groups.has(baseUrl)) {
+        groups.set(baseUrl, {
+          id: result.id,
+          url: result.url,
+          title: result.content,
+          breadcrumbs: result.breadcrumbs ?? [],
+          children: [],
+        });
+      }
+    } else {
+      // This is a heading or text result - add to parent group
+      let group = groups.get(baseUrl);
+      if (!group) {
+        // Create a placeholder group if page result hasn't been seen
+        group = {
+          id: `page-${baseUrl}`,
+          url: baseUrl,
+          title: result.breadcrumbs?.[result.breadcrumbs.length - 1] ?? "Page",
+          breadcrumbs: result.breadcrumbs?.slice(0, -1) ?? [],
+          children: [],
+        };
+        groups.set(baseUrl, group);
+      }
+      group.children.push({
+        id: result.id,
+        url: result.url,
+        content: result.content,
+        type: result.type as "heading" | "text",
+      });
+    }
+  }
+
+  return Array.from(groups.values());
 }
 
 interface SearchDialogProps {
@@ -29,36 +94,36 @@ interface SearchDialogProps {
 
 export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
   const router = useRouter();
-  const [query, setQuery] = React.useState("");
-  const [results, setResults] = React.useState<SearchResult[]>([]);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [filter, setFilter] = React.useState<FilterValue>("all");
 
-  // Debounced search
+  // Use Fumadocs search hook
+  const { search, setSearch, query } = useDocsSearch({
+    type: "fetch",
+    api: "/api/search",
+    delayMs: 200,
+  });
+
+  // Filter and group results
+  const rawResults = query.data && query.data !== "empty" ? query.data : [];
+  const filteredResults =
+    filter === "all"
+      ? rawResults
+      : rawResults.filter((r) => r.url.startsWith(filter));
+  const results = groupResultsByPage(filteredResults);
+  const isLoading = query.isLoading;
+  const hasQuery = search.trim().length > 0;
+
+  // Get current filter label
+  const currentFilterLabel =
+    FILTER_OPTIONS.find((opt) => opt.value === filter)?.label ?? "All";
+
+  // Reset search and filter when dialog closes
   React.useEffect(() => {
-    if (!query.trim()) {
-      setResults([]);
-      return;
+    if (!open) {
+      setSearch("");
+      setFilter("all");
     }
-
-    const timeoutId = setTimeout(async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(
-          `/api/search?query=${encodeURIComponent(query)}`,
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setResults(data.results || []);
-        }
-      } catch (error) {
-        console.error("Search error:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }, 200);
-
-    return () => clearTimeout(timeoutId);
-  }, [query]);
+  }, [open, setSearch]);
 
   const handleSelect = (url: string) => {
     onOpenChange(false);
@@ -71,28 +136,29 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
       onOpenChange={onOpenChange}
       title="Search Documentation"
       description="Search for pages, components, and more"
-      className="max-w-150 bg-search-background border-search-border"
+      className="w-150 max-w-[calc(100vw-2rem)] overflow-hidden border-none bg-transparent p-0 shadow-lg"
       showCloseButton={false}
     >
       {/* Search input */}
-      <div className="flex h-10 items-center gap-2 border-b border-search-border px-3 bg-search-background">
-        <Search className="size-5 shrink-0 text-search-foreground-active" />
+      <div className="flex h-10 items-center gap-2 border-x border-t border-search-border rounded-t-lg px-3 bg-search-background">
+        <Search className="size-5 shrink-0 text-search-foreground" />
         <input
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
           placeholder="Search..."
-          className="flex-1 bg-transparent text-base text-search-foreground-active placeholder:text-search-foreground-active outline-none"
+          className="flex-1 bg-transparent text-base text-search-foreground-active placeholder:text-search-foreground outline-none"
+          autoFocus
         />
-        <kbd className="flex h-6 items-center gap-0.5 bg-key-background px-1 pt-0.5 pb-1 text-sm text-key-foreground relative">
+        <kbd className="flex h-6 items-center gap-0.5 rounded-sm bg-key-background px-1 pt-0.5 pb-1 text-sm text-key-foreground relative">
           <span>ESC</span>
           <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-key-underline" />
         </kbd>
       </div>
 
       {/* Results */}
-      <CommandList className="max-h-100 p-4 bg-search-background">
-        {query && results.length === 0 && !isLoading && (
-          <CommandEmpty className="text-search-foreground">
+      <CommandList className="max-h-80 border-x border-t border-search-border px-3 py-4 bg-search-background overflow-y-auto">
+        {hasQuery && results.length === 0 && !isLoading && (
+          <CommandEmpty className="text-search-foreground py-6 text-center">
             No results found.
           </CommandEmpty>
         )}
@@ -103,49 +169,67 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
           </div>
         )}
 
-        {/* Group results by section */}
+        {/* Grouped results */}
         {results.length > 0 && (
           <div className="flex flex-col gap-4">
-            {results.map((result) => (
-              <div key={result.id} className="flex flex-col gap-2">
-                {/* Section header */}
-                <div className="flex items-center gap-1 px-2">
-                  {result.section && (
-                    <>
-                      <span className="text-sm text-search-foreground">
-                        {result.section}
-                      </span>
-                      {result.subsection && (
-                        <>
-                          <ChevronRight className="size-4 text-search-foreground" />
-                          <span className="text-sm text-search-foreground">
-                            {result.subsection}
-                          </span>
-                        </>
-                      )}
-                    </>
-                  )}
-                </div>
-
-                {/* Result item */}
+            {results.map((group, groupIndex) => (
+              <div key={group.id} className="flex flex-col gap-2">
+                {/* Page header with breadcrumbs */}
                 <button
                   type="button"
-                  onClick={() => handleSelect(result.url)}
+                  onClick={() => handleSelect(group.url)}
                   className={cn(
-                    "w-full text-left p-2 text-base transition-colors",
-                    "text-search-results-foreground-primary",
-                    "hover:bg-search-results-background-hover",
+                    "w-full text-left p-2 rounded-sm transition-colors",
+                    groupIndex === 0
+                      ? "bg-search-results-background-hover"
+                      : "hover:bg-search-results-background-hover",
                   )}
                 >
-                  {result.title}
+                  {/* Breadcrumbs */}
+                  {group.breadcrumbs.length > 0 && (
+                    <div className="flex items-center gap-1 mb-1">
+                      {group.breadcrumbs.map((crumb, index) => (
+                        <React.Fragment key={index}>
+                          {index > 0 && (
+                            <ChevronRight className="size-4 text-search-foreground" />
+                          )}
+                          <span className="text-sm text-search-foreground">
+                            {crumb}
+                          </span>
+                        </React.Fragment>
+                      ))}
+                    </div>
+                  )}
+                  {/* Page title */}
+                  <span className="text-base text-search-results-foreground-primary">
+                    {group.title}
+                  </span>
                 </button>
 
-                {/* Content snippet */}
-                {result.content && (
-                  <div className="border-l-2 border-border ml-2 pl-2">
-                    <p className="text-base text-search-results-foreground line-clamp-2">
-                      {result.content}
-                    </p>
+                {/* Child results (headings/text) */}
+                {group.children.length > 0 && (
+                  <div className="flex gap-1">
+                    {/* Vertical connector line */}
+                    <div className="w-2 shrink-0 border-l-2 border-border ml-2" />
+                    {/* Child items */}
+                    <div className="flex flex-col flex-1 gap-2">
+                      {group.children.map((child) => (
+                        <button
+                          key={child.id}
+                          type="button"
+                          onClick={() => handleSelect(child.url)}
+                          className={cn(
+                            "w-full text-left p-2 rounded-sm transition-colors",
+                            "text-search-results-foreground",
+                            "hover:bg-search-results-background-hover",
+                          )}
+                        >
+                          {child.type === "heading"
+                            ? `# ${child.content}`
+                            : child.content}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
@@ -155,16 +239,32 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
       </CommandList>
 
       {/* Footer */}
-      <div className="flex h-10 items-center justify-between border-t border-search-border px-3 bg-search-background">
+      <div className="flex h-10 items-center justify-between border border-search-border rounded-b-lg px-3 bg-search-background">
         <div className="flex items-center gap-4">
           <span className="text-sm text-search-foreground">Filter</span>
-          <button
-            type="button"
-            className="flex items-center gap-1 text-sm text-search-foreground"
-          >
-            All
-            <ChevronRight className="size-4 rotate-90" />
-          </button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                className="flex items-center gap-1 text-sm text-search-foreground hover:text-search-foreground-active transition-colors"
+              >
+                {currentFilterLabel}
+                <ChevronDown className="size-4" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="min-w-40">
+              {FILTER_OPTIONS.map((option) => (
+                <DropdownMenuItem
+                  key={option.value}
+                  onClick={() => setFilter(option.value)}
+                  className="flex items-center justify-between"
+                >
+                  {option.label}
+                  {filter === option.value && <Check className="size-4" />}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </CommandDialog>

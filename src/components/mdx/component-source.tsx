@@ -15,6 +15,8 @@ export const STYLES = [
 ] as const;
 export type Style = (typeof STYLES)[number];
 
+const REGISTRY_BASE_URL = "https://elements.nexus.availproject.org/r";
+
 type RegistryFile = {
   path: string;
   content: string;
@@ -28,9 +30,16 @@ export async function getRegistryItem(
   name: string
 ): Promise<RegistryItem | null> {
   try {
-    const jsonPath = path.join(process.cwd(), "public", "r", `${name}.json`);
-    const file = await fs.readFile(jsonPath, "utf-8");
-    const parsed = JSON.parse(file) as { files?: RegistryFile[] };
+    const response = await fetch(`${REGISTRY_BASE_URL}/${name}.json`, {
+      next: { revalidate: 3600 }, // Cache for 1 hour
+    });
+
+    if (!response.ok) {
+      console.error(`Failed to fetch registry item: ${response.status}`);
+      return null;
+    }
+
+    const parsed = (await response.json()) as { files?: RegistryFile[] };
     if (!parsed?.files || !Array.isArray(parsed.files)) {
       return null;
     }

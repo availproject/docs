@@ -4,7 +4,7 @@ import Link from "next/link";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type MDXComponentsMap = Record<string, React.ComponentType<any>>;
 import { cn } from "@/lib/utils";
-// import { ComponentPreview } from "./component-preview";
+import { ComponentPreview } from "./component-preview";
 import { CodeTabs } from "./code-tabs";
 import { ComponentSource } from "./component-source";
 import { CopyButton } from "@/components/helpers/copy-button";
@@ -19,7 +19,6 @@ import {
   LoaderPinwheelIcon,
   Youtube,
 } from "lucide-react";
-// import { DepsInstall } from "../helpers/deps-install";
 import { Callout } from "./callout";
 import { LinkCard, LinkCardGrid } from "./link-card";
 import { ConceptCard, ConceptCardGrid } from "./concept-card";
@@ -283,7 +282,7 @@ export const mdxComponents: MDXComponentsMap = {
     />
   ),
   // Custom components used across docs
-  // ComponentPreview,
+  ComponentPreview,
   ComponentSource,
   CodeCollapsibleWrapper,
   CodeTabs,

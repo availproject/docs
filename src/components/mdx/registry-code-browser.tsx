@@ -59,7 +59,7 @@ export function RegistryCodeBrowser({
       onValueChange={(v) => setTab(v as "component" | "provider")}
       className="grid gap-4"
     >
-      <TabsContent value="component" className="w-full">
+      <TabsContent value="component" className="w-full border-none!">
         {currentComponent && (
           <figure
             data-rehype-pretty-code-figure=""
@@ -79,7 +79,7 @@ export function RegistryCodeBrowser({
                       value={String(idx)}
                       onValueChange={(v) => setIdx(parseInt(v))}
                     >
-                      <SelectTrigger className="text-sm border rounded px-2 py-1 bg-background">
+                      <SelectTrigger className="text-sm border px-2 py-1 bg-background">
                         <SelectValue placeholder="Select file" />
                       </SelectTrigger>
                       <SelectContent>

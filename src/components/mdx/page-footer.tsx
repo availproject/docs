@@ -33,15 +33,20 @@ function PageFooterNavItem({
         )}
       >
         {isPrevious && (
-          <ChevronLeft className="size-5 text-foreground" />
+          <ChevronLeft className="size-5 text-foreground shrink-0" />
         )}
         <span className="text-base leading-5 text-foreground">{title}</span>
         {!isPrevious && (
-          <ChevronRight className="size-5 text-foreground" />
+          <ChevronRight className="size-5 text-foreground shrink-0" />
         )}
       </div>
       {description && (
-        <p className="w-full text-sm leading-[22px] text-muted-foreground">
+        <p
+          className={cn(
+            "w-full text-sm leading-[22px] text-muted-foreground",
+            !isPrevious && "text-right line-clamp-1"
+          )}
+        >
           {description}
         </p>
       )}
@@ -84,7 +89,7 @@ export function PageFooter({
       {/* Footer content */}
       <div className="flex flex-col gap-6">
         {lastUpdated && (
-          <p className="text-base leading-[26px] text-muted-foreground">
+          <p className="text-base leading-[26px] text-card-foreground">
             Last updated: {lastUpdated}
           </p>
         )}

@@ -1,0 +1,83 @@
+---
+title: Unified Balance
+description: View unified token balances across chains with per-chain breakdown and fiat totals.
+component: true
+links:
+  doc: https://docs.availproject.org/nexus/avail-nexus-sdk/bridge-methods/fetch-bridge-balances
+  api: https://docs.availproject.org/nexus/avail-nexus-sdk/api-reference#unified-balances
+---
+
+## Preview
+
+<ComponentPreview
+  name="unified-balance"
+  description="Aggregate balances across chains with per-token breakdown."
+  align="center"
+/>
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">CLI</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+  <TabsContent value="cli">
+
+    ```bash
+    npx shadcn@latest add @nexus-elements/unified-balance 
+    ```
+
+  </TabsContent>
+  <TabsContent value="manual">
+    <Steps>
+      <Step>Install these dependencies</Step>
+```bash
+npm install @avail-project/nexus-core@1.0.0-beta.64 lucide-react @radix-ui/react-accordion @radix-ui/react-label @radix-ui/react-slot
+```
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <div
+        data-slot="code"
+        className="my-4 overflow-hidden **:data-rehype-pretty-code-figure:m-0! **:data-rehype-pretty-code-figure:rounded-t-none **:data-rehype-pretty-code-figure:border-t [&_pre]:max-h-[400px]"
+      >
+        <ComponentSource name="unified-balance" showAllFiles />
+      </div>
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+<Step className="font-serif text-lg">
+  Don't forget to wrap your app with NexusProvider
+</Step>
+<Step className="font-serif text-base">
+  View Detailed instructions{" "}
+  <a href="/docs/get-started" target="_blank" className="underline">
+    here
+  </a>
+</Step>
+
+```tsx showLineNumbers
+<UnifiedBalance />
+```
+
+## API Reference
+
+### UnifiedBalance
+
+The `UnifiedBalance` component displays your cross-chain liquidity ready to use with `Avail Nexus`.
+
+<CodeCollapsibleWrapper className="mt-4">
+
+```ts title="UnifiedBalanceProps"
+interface UnifiedBalanceProps {
+  className?: string; // optional container className
+}
+```
+
+</CodeCollapsibleWrapper>
+````
