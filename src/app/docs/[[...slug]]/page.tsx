@@ -191,7 +191,7 @@ export default async function Page(props: {
 
       {/* Right sidebar - On This Page */}
       <div className="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--header-height)-1px)] w-60 flex-col gap-4 overflow-hidden overscroll-none xl:flex">
-        <div className="h-18 shrink-0" />
+        <div className="h-10 shrink-0" />
         {doc.toc?.length ? (
           <div className="no-scrollbar overflow-y-auto relative">
             <OnThisPage toc={doc.toc} />

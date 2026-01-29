@@ -1,6 +1,4 @@
 @import "tailwindcss";
-@import "fumadocs-ui/css/shadcn.css";
-@import "fumadocs-ui/css/preset.css";
 @import "tw-animate-css";
 
 /* Delight Font Family */
@@ -572,11 +570,11 @@
 @layer components {
     [data-rehype-pretty-code-figure] {
         --code-shadow-size: 8px;
-        background-color: transparent;
+        background-color: var(--color-card);
         color: var(--color-card-foreground);
         border-radius: 0;
+        border: 1px solid var(--color-card-border);
         margin-top: calc(var(--spacing) * 6);
-        margin-left: var(--code-shadow-size);
         margin-right: var(--code-shadow-size);
         margin-bottom: var(--code-shadow-size);
         overflow: visible;
@@ -590,22 +588,22 @@
             top: calc(var(--spacing) * 2.5) !important;
         }
 
-        /* Bottom shadow */
+        /* Bottom shadow - full width under the code block */
         &::after {
             content: "";
             position: absolute;
             bottom: calc(-1 * var(--code-shadow-size));
-            left: calc(-1 * var(--code-shadow-size));
-            right: calc(-1 * var(--code-shadow-size));
+            left: 0;
+            right: 0;
             height: var(--code-shadow-size);
             background-color: var(--color-card-shadow);
         }
 
-        /* Right shadow */
+        /* Right shadow - alongside the body only */
         &::before {
             content: "";
             position: absolute;
-            top: var(--code-shadow-size);
+            top: 0;
             right: calc(-1 * var(--code-shadow-size));
             bottom: calc(-1 * var(--code-shadow-size));
             width: var(--code-shadow-size);
@@ -614,59 +612,25 @@
     }
 
     [data-rehype-pretty-code-title] {
-        background-color: var(--color-card);
-        border: 1px solid var(--color-card-border);
-        border-bottom: none;
-        border-left: none;
+        background-color: var(--color-card-header-background) !important;
+        border: none !important;
+        border-bottom: 1px solid var(--color-card-border) !important;
         padding-block: calc(var(--spacing) * 3);
         padding-inline: calc(var(--spacing) * 4);
         font-size: var(--text-sm);
         font-family: var(--font-mono);
         color: var(--color-card-foreground);
         position: relative;
-
-        /* Left shadow on title */
-        &::before {
-            content: "";
-            position: absolute;
-            top: var(--code-shadow-size);
-            left: calc(-1 * var(--code-shadow-size));
-            bottom: 0;
-            width: var(--code-shadow-size);
-            background-color: var(--color-card-shadow);
-        }
     }
 
     [data-rehype-pretty-code-figure] pre.shiki {
-        background-color: var(--color-card) !important;
-        border: 1px solid var(--color-card-border);
-        border-left: none;
+        background-color: transparent !important;
+        border: none !important;
         padding-left: calc(var(--spacing) * 4) !important;
         padding-right: calc(var(--spacing) * 4) !important;
         position: relative;
-
-        /* Left shadow */
-        &::before {
-            content: "";
-            position: absolute;
-            top: var(--code-shadow-size);
-            left: calc(-1 * var(--code-shadow-size));
-            bottom: calc(-1 * var(--code-shadow-size));
-            width: var(--code-shadow-size);
-            background-color: var(--color-card-shadow);
-        }
+        overflow-x: auto;
     }
-
-    /* When there's a title, remove the top border from pre to avoid double border */
-    [data-rehype-pretty-code-figure]:has([data-rehype-pretty-code-title]) pre.shiki {
-        border-top: none;
-    }
-
-    /* When there's a title, the pre's left shadow starts from top (no offset) */
-    [data-rehype-pretty-code-figure]:has([data-rehype-pretty-code-title]) pre.shiki::before {
-        top: 0;
-    }
-
 
     [data-line-numbers] {
         display: grid;
@@ -685,6 +649,7 @@
         content: counter(line);
         display: inline-block;
         width: calc(var(--spacing) * 8);
+        padding-left: calc(var(--spacing) * 4);
         padding-right: calc(var(--spacing) * 4);
         text-align: right;
         color: var(--color-code-number);

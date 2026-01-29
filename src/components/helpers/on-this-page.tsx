@@ -264,24 +264,44 @@ export function OnThisPage({
     );
   }
 
-  const activeIndex = toc.findIndex((t) => t.url === `#${activeHeading}`);
+  const tocContainerRef = React.useRef<HTMLDivElement>(null);
+  const [indicatorStyle, setIndicatorStyle] = React.useState({ top: 14, height: 12 });
+
+  // Update indicator position when active heading changes
+  React.useEffect(() => {
+    if (!tocContainerRef.current || !activeHeading) return;
+
+    const activeLink = tocContainerRef.current.querySelector(
+      `a[data-active="true"]`
+    ) as HTMLElement | null;
+
+    if (activeLink) {
+      const containerRect = tocContainerRef.current.getBoundingClientRect();
+      const linkRect = activeLink.getBoundingClientRect();
+
+      // Calculate the center position of the active item relative to the container
+      const top = linkRect.top - containerRect.top + (linkRect.height - 12) / 2;
+
+      setIndicatorStyle({ top, height: 12 });
+    }
+  }, [activeHeading]);
 
   return (
     <div className={cn("flex flex-col gap-12", className)}>
       {/* Table of Contents */}
       {toc?.length > 0 && (
-        <div className="relative flex gap-1 items-start">
-          {/* Vertical line track */}
-          <div className="absolute left-0 top-[14px] w-0 h-40 flex items-center justify-center">
+        <div ref={tocContainerRef} className="relative flex gap-1 items-start">
+          {/* Vertical line track - stretches with content */}
+          <div className="absolute left-0 top-[14px] bottom-[14px] w-0 flex items-center justify-center">
             <div className="h-full w-px bg-border" />
           </div>
 
-          {/* Blue active indicator */}
+          {/* Blue active indicator - positioned based on actual element position */}
           <div
-            className="absolute -left-0.5 w-1.25 h-3 bg-brand"
+            className="absolute -left-0.5 w-[5px] bg-brand transition-all duration-200"
             style={{
-              top: `${14 + (activeIndex >= 0 ? activeIndex : 0) * 40}px`,
-              transition: "top 0.2s ease-in-out",
+              top: `${indicatorStyle.top}px`,
+              height: `${indicatorStyle.height}px`,
             }}
           />
 
@@ -291,7 +311,7 @@ export function OnThisPage({
                 key={item.url}
                 href={item.url}
                 className={cn(
-                  "flex h-10 items-center px-4 py-2.5 text-base no-underline transition-colors w-full",
+                  "flex min-h-10 items-center px-4 py-2.5 text-base leading-5 no-underline transition-colors w-full",
                   item.url === `#${activeHeading}`
                     ? "text-page-nav-foreground-active"
                     : "text-page-nav-foreground hover:text-page-nav-foreground-hover",
@@ -301,7 +321,7 @@ export function OnThisPage({
                 data-active={item.url === `#${activeHeading}`}
                 data-depth={item.depth}
               >
-                {item.title}
+                <span className="flex-1">{item.title}</span>
               </a>
             ))}
           </div>
