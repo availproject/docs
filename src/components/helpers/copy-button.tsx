@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { Check, Copy } from "lucide-react";
 import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { useAnalytics } from "@/hooks/use-analytics";
 
 export function CopyButton({
   value,
@@ -13,14 +14,21 @@ export function CopyButton({
   variant = "ghost",
   tooltip = "Copy to Clipboard",
   customPosition,
+  language,
+  codeTitle,
+  codeType = "block",
   ...props
 }: React.ComponentProps<typeof Button> & {
   value: string;
   src?: string;
   tooltip?: string;
   customPosition?: string;
+  language?: string;
+  codeTitle?: string;
+  codeType?: "inline" | "block" | "command" | "component";
 }) {
   const [hasCopied, setHasCopied] = React.useState(false);
+  const { trackEvent } = useAnalytics();
 
   React.useEffect(() => {
     if (hasCopied) {
@@ -46,6 +54,12 @@ export function CopyButton({
           onClick={() => {
             navigator.clipboard.writeText(value);
             setHasCopied(true);
+            trackEvent("code_copy_clicked", {
+              language,
+              content_length: value.length,
+              code_title: codeTitle,
+              code_type: codeType,
+            });
           }}
           {...props}
         >

@@ -4,6 +4,7 @@ import { ThemeProvider } from "next-themes";
 import Topbar from "@/components/layout/top-bar";
 import { Toaster } from "@/components/ui/sonner";
 import Web3Provider from "@/providers/Web3Provider";
+import { PostHogProvider } from "@/providers/PostHogProvider";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -21,18 +22,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="font-sans" suppressHydrationWarning>
       <body className="flex flex-col min-h-screen antialiased">
-        <Web3Provider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Topbar />
-            {children}
-            <Toaster />
-          </ThemeProvider>
-        </Web3Provider>
+        <PostHogProvider>
+          <Web3Provider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Topbar />
+              {children}
+              <Toaster />
+            </ThemeProvider>
+          </Web3Provider>
+        </PostHogProvider>
       </body>
     </html>
   );

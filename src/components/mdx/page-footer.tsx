@@ -1,13 +1,17 @@
+"use client";
+
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Feedback } from "./feedback";
+import { useAnalytics } from "@/hooks/use-analytics";
 
 interface PageFooterNavItemProps {
   title: string;
   description?: string;
   href: string;
   direction: "previous" | "next";
+  onNavigate?: () => void;
 }
 
 function PageFooterNavItem({
@@ -15,12 +19,14 @@ function PageFooterNavItem({
   description,
   href,
   direction,
+  onNavigate,
 }: PageFooterNavItemProps) {
   const isPrevious = direction === "previous";
 
   return (
     <Link
       href={href}
+      onClick={onNavigate}
       className={cn(
         "group flex flex-1 flex-col gap-4 border border-card-border bg-card p-4 transition-colors hover:bg-card-header-background",
         isPrevious ? "items-start" : "items-end"
@@ -75,6 +81,20 @@ export function PageFooter({
   next,
   className,
 }: PageFooterProps) {
+  const { trackEvent } = useAnalytics();
+
+  const handleNavClick = (
+    direction: "previous" | "next",
+    destinationPath: string,
+    destinationTitle: string
+  ) => {
+    trackEvent("nav_footer_link_clicked", {
+      direction,
+      destination_path: destinationPath,
+      destination_title: destinationTitle,
+    });
+  };
+
   return (
     <div className={cn("flex flex-col gap-6", className)}>
       {/* Divider */}
@@ -103,6 +123,9 @@ export function PageFooter({
                 description={previous.description}
                 href={previous.href}
                 direction="previous"
+                onNavigate={() =>
+                  handleNavClick("previous", previous.href, previous.title)
+                }
               />
             )}
             {next && (
@@ -111,6 +134,9 @@ export function PageFooter({
                 description={next.description}
                 href={next.href}
                 direction="next"
+                onNavigate={() =>
+                  handleNavClick("next", next.href, next.title)
+                }
               />
             )}
           </div>

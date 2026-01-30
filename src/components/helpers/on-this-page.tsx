@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { useAnalytics } from "@/hooks/use-analytics";
 
 // AI service configurations
 const AI_SERVICES = [
@@ -166,6 +167,7 @@ export function OnThisPage({
   const [isCopyLoading, setIsCopyLoading] = React.useState(false);
   const [isAIMenuOpen, setIsAIMenuOpen] = React.useState(false);
   const [isAILoading, setIsAILoading] = React.useState<string | null>(null);
+  const { trackEvent } = useAnalytics();
 
   // Get the markdown API path from the current pathname
   const getMarkdownApiPath = React.useCallback(() => {
@@ -183,6 +185,9 @@ export function OnThisPage({
     if (pageContent) {
       await navigator.clipboard.writeText(pageContent);
       setCopied(true);
+      trackEvent("ai_copy_for_llm_clicked", {
+        content_length: pageContent.length,
+      });
       setTimeout(() => setCopied(false), 2000);
       return;
     }
@@ -194,6 +199,9 @@ export function OnThisPage({
         const markdown = await response.text();
         await navigator.clipboard.writeText(markdown);
         setCopied(true);
+        trackEvent("ai_copy_for_llm_clicked", {
+          content_length: markdown.length,
+        });
         setTimeout(() => setCopied(false), 2000);
       }
     } catch (error) {
@@ -201,7 +209,7 @@ export function OnThisPage({
     } finally {
       setIsCopyLoading(false);
     }
-  }, [pageContent, getMarkdownApiPath]);
+  }, [pageContent, getMarkdownApiPath, trackEvent]);
 
   const handleOpenInAI = React.useCallback(
     async (serviceId: string) => {
@@ -215,6 +223,9 @@ export function OnThisPage({
         if (response.ok) {
           const data = await response.json();
           const url = service.getUrl(data.content, data.title);
+          trackEvent("ai_service_opened", {
+            service: serviceId as "v0" | "chatgpt" | "claude",
+          });
           window.open(url, "_blank");
         }
       } catch (error) {
@@ -224,13 +235,26 @@ export function OnThisPage({
         setIsAIMenuOpen(false);
       }
     },
-    [getMarkdownApiPath],
+    [getMarkdownApiPath, trackEvent],
   );
 
   const handleViewMarkdown = React.useCallback(() => {
+    trackEvent("ai_view_markdown_clicked", {});
     // Open the markdown API route in a new tab
     window.open(getMarkdownApiPath(), "_blank");
-  }, [getMarkdownApiPath]);
+  }, [getMarkdownApiPath, trackEvent]);
+
+  const handleTocClick = React.useCallback(
+    (item: TocEntry) => {
+      const headingId = item.url.replace("#", "");
+      trackEvent("nav_toc_heading_clicked", {
+        heading_text: typeof item.title === "string" ? item.title : headingId,
+        heading_level: item.depth,
+        heading_id: headingId,
+      });
+    },
+    [trackEvent],
+  );
 
   if (variant === "dropdown") {
     return (
@@ -310,6 +334,7 @@ export function OnThisPage({
               <a
                 key={item.url}
                 href={item.url}
+                onClick={() => handleTocClick(item)}
                 className={cn(
                   "flex min-h-10 items-center px-4 py-2.5 text-base leading-5 no-underline transition-colors w-full",
                   item.url === `#${activeHeading}`
