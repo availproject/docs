@@ -13,6 +13,7 @@ import {
 } from "../ui/select";
 import { CopyButton } from "@/components/helpers/copy-button";
 import { Code, File, FileText, Terminal } from "lucide-react";
+import { useAnalytics } from "@/hooks/use-analytics";
 
 export type RegistryProcessedFile = {
   path: string;
@@ -42,10 +43,32 @@ export function RegistryCodeBrowser({
   );
   const files = tab === "component" ? componentFiles : (providerFiles ?? []);
   const [idx, setIdx] = React.useState(0);
+  const { trackEvent } = useAnalytics();
 
   React.useEffect(() => {
     setIdx(0);
   }, [tab]);
+
+  const handleTabChange = (value: string) => {
+    const newTab = value as "component" | "provider";
+    trackEvent("code_tab_switched", {
+      tab_name: newTab,
+      previous_tab: tab,
+    });
+    setTab(newTab);
+  };
+
+  const handleFileChange = (value: string) => {
+    const newIdx = parseInt(value);
+    const file = files[newIdx];
+    if (file) {
+      trackEvent("code_file_selected", {
+        file_name: file.path,
+        component_name: file.path.split("/").pop(),
+      });
+    }
+    setIdx(newIdx);
+  };
 
   const current = files[idx];
   const currentComponent = componentFiles[idx] ?? componentFiles[0];
@@ -56,7 +79,7 @@ export function RegistryCodeBrowser({
   return (
     <Tabs
       value={tab}
-      onValueChange={(v) => setTab(v as "component" | "provider")}
+      onValueChange={handleTabChange}
       className="grid gap-4"
     >
       <TabsContent value="component" className="w-full border-none!">
@@ -77,7 +100,7 @@ export function RegistryCodeBrowser({
                   {files.length > 1 && (
                     <Select
                       value={String(idx)}
-                      onValueChange={(v) => setIdx(parseInt(v))}
+                      onValueChange={handleFileChange}
                     >
                       <SelectTrigger className="text-sm border px-2 py-1 bg-background">
                         <SelectValue placeholder="Select file" />
@@ -112,7 +135,13 @@ export function RegistryCodeBrowser({
                     </TabsTrigger>
                   </TabsList>
                   {current && (
-                    <CopyButton value={current.code} customPosition="" />
+                    <CopyButton
+                      value={current.code}
+                      customPosition=""
+                      language={current.language}
+                      codeTitle={displayPath(current.path)}
+                      codeType="component"
+                    />
                   )}
                 </div>
               </div>
@@ -156,7 +185,13 @@ export function RegistryCodeBrowser({
                     </TabsTrigger>
                   </TabsList>
                   {current && (
-                    <CopyButton value={current.code} customPosition="" />
+                    <CopyButton
+                      value={current.code}
+                      customPosition=""
+                      language={current.language}
+                      codeTitle={displayPath(current.path)}
+                      codeType="component"
+                    />
                   )}
                 </div>
               </div>

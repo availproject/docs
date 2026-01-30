@@ -25,6 +25,7 @@ import { Suspense, useMemo, useState, useEffect } from "react";
 import { getItem, setItem } from "@/lib/local-storage";
 import { Skeleton } from "@/components/ui/skeleton";
 import NexusProvider from "@/components/nexus/NexusProvider";
+import { PostHogIdentify } from "@/components/analytics/PostHogIdentify";
 
 const hyperEVM = defineChain({
   id: 999,
@@ -161,7 +162,12 @@ function NexusContainer({ children }: Readonly<{ children: React.ReactNode }>) {
     return <Skeleton className="w-full h-full" />;
   }
 
-  return <NexusProvider config={nexusConfig}>{children}</NexusProvider>;
+  return (
+    <NexusProvider config={nexusConfig}>
+      <PostHogIdentify />
+      {children}
+    </NexusProvider>
+  );
 }
 const queryClient = new QueryClient();
 const Web3Provider = ({

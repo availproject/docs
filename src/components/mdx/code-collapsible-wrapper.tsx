@@ -8,17 +8,29 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "../ui/collapsible";
+import { useAnalytics } from "@/hooks/use-analytics";
 
 export function CodeCollapsibleWrapper({
   className,
   children,
+  title,
   ...props
-}: React.ComponentProps<typeof Collapsible>) {
+}: React.ComponentProps<typeof Collapsible> & { title?: string }) {
   const [isOpened, setIsOpened] = React.useState(false);
+  const { trackEvent } = useAnalytics();
+
+  const handleOpenChange = (open: boolean) => {
+    setIsOpened(open);
+    trackEvent("code_collapsible_toggled", {
+      is_expanded: open,
+      title,
+    });
+  };
+
   return (
     <Collapsible
       open={isOpened}
-      onOpenChange={setIsOpened}
+      onOpenChange={handleOpenChange}
       className={cn("group/collapsible relative md:-mx-1", className)}
       {...props}
     >

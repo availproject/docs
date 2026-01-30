@@ -17,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
+import { useAnalytics } from "@/hooks/use-analytics";
 
 const FILTER_OPTIONS = [
   { value: "all", label: "All" },
@@ -95,6 +96,8 @@ interface SearchDialogProps {
 export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
   const router = useRouter();
   const [filter, setFilter] = React.useState<FilterValue>("all");
+  const { trackEvent, pathname } = useAnalytics();
+  const lastTrackedQuery = React.useRef<string>("");
 
   // Use Fumadocs search hook
   const { search, setSearch, query } = useDocsSearch({
@@ -122,10 +125,35 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
     if (!open) {
       setSearch("");
       setFilter("all");
+      lastTrackedQuery.current = "";
     }
   }, [open, setSearch]);
 
-  const handleSelect = (url: string) => {
+  // Track search query when results are loaded
+  React.useEffect(() => {
+    if (
+      hasQuery &&
+      !isLoading &&
+      search !== lastTrackedQuery.current &&
+      search.trim().length >= 2
+    ) {
+      trackEvent("search_query_submitted", {
+        query: search,
+        results_count: filteredResults.length,
+        page_path: pathname,
+      });
+      lastTrackedQuery.current = search;
+    }
+  }, [search, isLoading, hasQuery, filteredResults.length, trackEvent, pathname]);
+
+  const handleSelect = (url: string, title: string, position: number) => {
+    trackEvent("search_result_clicked", {
+      result_position: position,
+      result_title: title,
+      result_path: url,
+      query: search,
+      page_path: pathname,
+    });
     onOpenChange(false);
     router.push(url);
   };
@@ -177,7 +205,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
                 {/* Page header with breadcrumbs */}
                 <button
                   type="button"
-                  onClick={() => handleSelect(group.url)}
+                  onClick={() => handleSelect(group.url, group.title, groupIndex)}
                   className={cn(
                     "w-full text-left p-2 rounded-sm transition-colors",
                     groupIndex === 0
@@ -213,11 +241,17 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
                     <div className="w-2 shrink-0 border-l-2 border-border ml-2" />
                     {/* Child items */}
                     <div className="flex flex-col flex-1 gap-2">
-                      {group.children.map((child) => (
+                      {group.children.map((child, childIndex) => (
                         <button
                           key={child.id}
                           type="button"
-                          onClick={() => handleSelect(child.url)}
+                          onClick={() =>
+                            handleSelect(
+                              child.url,
+                              child.content,
+                              groupIndex * 100 + childIndex + 1
+                            )
+                          }
                           className={cn(
                             "w-full text-left p-2 rounded-sm transition-colors",
                             "text-search-results-foreground",
@@ -274,6 +308,18 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
 // Hook for keyboard shortcut
 export function useSearchDialog() {
   const [open, setOpen] = React.useState(false);
+  const { trackEvent, pathname } = useAnalytics();
+
+  const handleOpen = React.useCallback(
+    (triggerType: "keyboard" | "click") => {
+      trackEvent("search_dialog_opened", {
+        trigger_type: triggerType,
+        page_path: pathname,
+      });
+      setOpen(true);
+    },
+    [trackEvent, pathname]
+  );
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -288,17 +334,21 @@ export function useSearchDialog() {
           return;
         }
         e.preventDefault();
-        setOpen(true);
+        handleOpen("keyboard");
       }
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        setOpen(true);
+        handleOpen("keyboard");
       }
     };
 
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
-  }, []);
+  }, [handleOpen]);
 
-  return { open, setOpen };
+  const openWithClick = React.useCallback(() => {
+    handleOpen("click");
+  }, [handleOpen]);
+
+  return { open, setOpen, openWithClick };
 }

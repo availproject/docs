@@ -6,6 +6,7 @@ import type { Root, Item, Node } from "fumadocs-core/page-tree";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import { Sidebar, SidebarContent } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
+import { useAnalytics } from "@/hooks/use-analytics";
 
 interface SidebarNavProps extends React.ComponentProps<typeof Sidebar> {
   tree: Root;
@@ -16,14 +17,26 @@ function SidebarItem({
   item,
   isActive,
   depth = 0,
+  onNavigate,
 }: {
   item: Item;
   isActive: boolean;
   depth?: number;
+  onNavigate?: (title: string, path: string) => void;
 }) {
+  const handleClick = () => {
+    if (onNavigate) {
+      onNavigate(
+        typeof item.name === "string" ? item.name : String(item.name),
+        item.url
+      );
+    }
+  };
+
   return (
     <Link
       href={item.url}
+      onClick={handleClick}
       className={cn(
         "flex h-10 w-full items-center gap-2 px-4 py-2.5 text-base transition-colors",
         isActive
@@ -42,6 +55,7 @@ function SidebarFolder({
   children,
   defaultExpanded = false,
   isActive = false,
+  onToggle,
 }: {
   name: string;
   children: React.ReactNode;
@@ -50,14 +64,22 @@ function SidebarFolder({
   indexItem?: Item;
   isIndexActive?: boolean;
   isActive?: boolean;
+  onToggle?: (folderName: string) => void;
 }) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
+
+  const handleToggle = () => {
+    setIsExpanded(!isExpanded);
+    if (onToggle) {
+      onToggle(name);
+    }
+  };
 
   return (
     <div className="flex flex-col w-full">
       <button
         type="button"
-        onClick={() => setIsExpanded(!isExpanded)}
+        onClick={handleToggle}
         className={cn(
           "flex h-10 w-full items-center gap-2 px-4 py-2.5 text-base transition-colors",
           isActive
@@ -91,6 +113,22 @@ function SidebarDivider() {
 
 export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
   const pathname = usePathname();
+  const { trackEvent } = useAnalytics();
+
+  const handleNavigation = (title: string, path: string) => {
+    trackEvent("nav_sidebar_item_clicked", {
+      item_type: "page",
+      item_title: title,
+      destination_path: path,
+    });
+  };
+
+  const handleFolderToggle = (folderName: string) => {
+    trackEvent("nav_sidebar_item_clicked", {
+      item_type: "folder",
+      item_title: folderName,
+    });
+  };
 
   // Check if a node or its children contain the active path
   const isNodeActive = (node: Node): boolean => {
@@ -119,6 +157,7 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
           key={node.$id ?? node.url}
           item={node}
           isActive={isActive}
+          onNavigate={handleNavigation}
         />
       );
     }
@@ -136,6 +175,7 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
             key={folderId}
             item={node.index}
             isActive={isActive}
+            onNavigate={handleNavigation}
           />
         );
       }
@@ -146,6 +186,7 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
           name={node.name?.toString() ?? ""}
           defaultExpanded={shouldExpand}
           isActive={shouldExpand}
+          onToggle={handleFolderToggle}
         >
           {/* If folder has an index, show it as first item */}
           {node.index && (
@@ -155,6 +196,7 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
                 name: "Overview" as React.ReactNode,
               }}
               isActive={pathname === node.index.url}
+              onNavigate={handleNavigation}
             />
           )}
           {node.children.map((child) => renderNode(child, depth + 1))}
@@ -186,6 +228,7 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
             key={item.$id ?? item.url}
             item={item}
             isActive={isActive}
+            onNavigate={handleNavigation}
           />
         );
       }
@@ -198,7 +241,12 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
 
         if (!hasChildren && item.index) {
           return (
-            <SidebarItem key={folderId} item={item.index} isActive={isActive} />
+            <SidebarItem
+              key={folderId}
+              item={item.index}
+              isActive={isActive}
+              onNavigate={handleNavigation}
+            />
           );
         }
 
@@ -208,6 +256,7 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
             name={item.name?.toString() ?? ""}
             defaultExpanded={shouldExpand}
             isActive={shouldExpand}
+            onToggle={handleFolderToggle}
           >
             {/* If folder has an index, show it as first item */}
             {item.index && (
@@ -217,6 +266,7 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
                   name: "Overview" as React.ReactNode,
                 }}
                 isActive={pathname === item.index.url}
+                onNavigate={handleNavigation}
               />
             )}
             {item.children.map((child) => renderNode(child, 1))}
@@ -255,6 +305,7 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
         <div className="flex flex-col gap-1">
           <Link
             href="/docs"
+            onClick={() => handleNavigation("Docs", "/docs")}
             className={cn(
               "flex h-10 w-full items-center gap-2 px-4 py-3 text-base transition-colors",
               pathname === "/docs"
@@ -266,6 +317,7 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
           </Link>
           <Link
             href="/docs/components"
+            onClick={() => handleNavigation("Components", "/docs/components")}
             className={cn(
               "flex h-10 w-full items-center gap-2 px-4 py-3 text-base transition-colors",
               pathname.startsWith("/docs/components")

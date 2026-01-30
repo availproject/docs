@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ThumbsUp, ThumbsDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAnalytics } from "@/hooks/use-analytics";
 
 interface FeedbackProps {
   className?: string;
@@ -16,10 +17,14 @@ export function Feedback({ className }: FeedbackProps) {
   const [feedbackType, setFeedbackType] = useState<FeedbackType>(null);
   const [feedbackText, setFeedbackText] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { trackEvent } = useAnalytics();
 
   const handleFeedbackClick = (type: "good" | "bad") => {
     setFeedbackType(type);
     setState("expanded");
+    trackEvent("feedback_rating_clicked", {
+      rating: type === "good" ? "positive" : "negative",
+    });
   };
 
   const handleSubmit = async () => {
@@ -28,6 +33,11 @@ export function Feedback({ className }: FeedbackProps) {
       // You can add analytics or API call here
       // await fetch('/api/feedback', { method: 'POST', body: JSON.stringify({ type: feedbackType, text: feedbackText }) });
       await new Promise((resolve) => setTimeout(resolve, 500)); // Simulate API call
+      trackEvent("feedback_submitted", {
+        rating: feedbackType === "good" ? "positive" : "negative",
+        has_comment: feedbackText.length > 0,
+        comment_length: feedbackText.length,
+      });
       setState("submitted");
     } catch (error) {
       console.error("Failed to submit feedback:", error);

@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Check, Copy, Terminal } from "lucide-react";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
+import { useAnalytics } from "@/hooks/use-analytics";
 
 // Tokenize and highlight bash/shell commands
 function highlightCommand(command: string): React.ReactNode[] {
@@ -90,6 +91,7 @@ export function CodeBlockCommand({
     packageManager: "pnpm",
   });
   const [hasCopied, setHasCopied] = React.useState(false);
+  const { trackEvent } = useAnalytics();
 
   React.useEffect(() => {
     if (hasCopied) {
@@ -117,16 +119,24 @@ export function CodeBlockCommand({
 
     navigator.clipboard.writeText(command);
     setHasCopied(true);
-  }, [packageManager, tabs]);
+    trackEvent("code_copy_clicked", {
+      language: "bash",
+      content_length: command.length,
+    });
+  }, [packageManager, tabs, trackEvent]);
 
   return (
     <Tabs
       value={packageManager}
       className="gap-0"
       onValueChange={(value) => {
+        const newPackageManager = value as "pnpm" | "npm" | "yarn" | "bun";
         setConfig({
           ...config,
-          packageManager: value as "pnpm" | "npm" | "yarn" | "bun",
+          packageManager: newPackageManager,
+        });
+        trackEvent("code_package_manager_selected", {
+          package_manager: newPackageManager,
         });
       }}
     >

@@ -214,7 +214,11 @@ export const mdxComponents: MDXComponentsMap = {
     __yarn__?: string;
     __pnpm__?: string;
     __bun__?: string;
+    "data-language"?: string;
   }) => {
+    // Get language from data attribute
+    const language = props["data-language"] as string | undefined;
+
     // Inline Code.
     if (typeof props.children === "string") {
       return (
@@ -244,7 +248,13 @@ export const mdxComponents: MDXComponentsMap = {
     // Default codeblock.
     return (
       <>
-        {__raw__ && <CopyButton value={__raw__} />}
+        {__raw__ && (
+          <CopyButton
+            value={__raw__}
+            language={language}
+            codeType="block"
+          />
+        )}
         <code {...props} />
       </>
     );

@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAnalytics } from "@/hooks/use-analytics";
 
 interface LinkCardProps {
   title: string;
@@ -17,15 +20,25 @@ export function LinkCard({
   className,
   external = false,
 }: LinkCardProps) {
+  const { trackEvent } = useAnalytics();
   const isExternal = external || href.startsWith("http");
   const Wrapper = isExternal ? "a" : Link;
   const wrapperProps = isExternal
     ? { href, target: "_blank", rel: "noopener noreferrer" }
     : { href };
 
+  const handleClick = () => {
+    trackEvent("nav_card_clicked", {
+      card_title: title,
+      card_type: "link",
+      destination_path: href,
+    });
+  };
+
   return (
     <Wrapper
       {...wrapperProps}
+      onClick={handleClick}
       className={cn(
         "group flex flex-col gap-4 border border-card-border bg-card p-4 transition-colors hover:bg-card-header-background",
         className

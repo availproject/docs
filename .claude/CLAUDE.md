@@ -116,3 +116,43 @@ pnpm build
 ```bash
 rm -rf .next && pnpm build
 ```
+
+## Analytics (PostHog)
+
+We use PostHog for comprehensive user behavior tracking. See `src/lib/analytics/ANALYTICS.md` for full documentation.
+
+### Key Files
+
+| File | Purpose |
+|------|---------|
+| `src/lib/analytics/types.ts` | TypeScript types for all events |
+| `src/lib/analytics/posthog.ts` | PostHog initialization and track function |
+| `src/hooks/use-analytics.ts` | React hooks for tracking |
+| `src/providers/PostHogProvider.tsx` | Provider component |
+
+### Environment Variables
+
+```bash
+NEXT_PUBLIC_POSTHOG_KEY=phc_your_project_key
+NEXT_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com
+```
+
+### Using Analytics in Components
+
+```tsx
+import { useAnalytics } from "@/hooks/use-analytics";
+
+function MyComponent() {
+  const { trackEvent } = useAnalytics();
+
+  const handleClick = () => {
+    trackEvent("nav_card_clicked", {
+      card_title: "My Card",
+      card_type: "concept",
+      destination_path: "/docs/example",
+    });
+  };
+
+  return <button onClick={handleClick}>Click me</button>;
+}
+```
