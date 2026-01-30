@@ -6,7 +6,7 @@ export enum ROUTES {
     SOLUTIONS = '/solutions',
     DISCORD = 'https://discord.gg/AvailProject',
     GITHUB = 'https://github.com/availproject',
-    TWITTER = 'https://twitter.com/AvailProject',
+    TWITTER = 'https://x.com/AvailProject',
     LINKEDIN = 'https://www.linkedin.com/company/availproject/',
     DOCUMENTATION = 'https://availproject.github.io/',
     TYPES_OF_NODES = '/da/operate-a-node/node-types',

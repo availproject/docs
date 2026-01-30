@@ -1,19 +1,19 @@
 ---
-title: 'Nexus Core SDK API Reference'
-description: 'Complete API reference for the Nexus Core SDK including initialization, network configuration, bridging, transfers, and utility functions'
+title: 'Nexus SDK API Reference'
+description: 'Complete API reference for the Nexus SDK including initialization, network configuration, bridging, transfers, and utility functions'
 image: '/img/docs-link-preview.png'
 ---
 
 import { Callout, Steps, Tabs } from 'nextra/components'
 
-# Nexus Core SDK API Reference
+# Nexus SDK API Reference
 
-The Nexus Core SDK provides a comprehensive set of APIs for cross-chain bridging, token transfers, and balance management across multiple EVM chains.
+The Nexus SDK provides a comprehensive set of APIs for cross-chain bridging, token transfers, and balance management across multiple EVM chains.
 
 ## Quick Start
 
 ```typescript showLineNumbers filename="Typescript" showLineNumbers filename="Typescript"
-import { NexusSDK, NEXUS_EVENTS } from '@avail-project/nexus-core';
+import { NexusSDK, NEXUS_EVENTS } from '@avail-project/nexus';
 
 // Initialize SDK
 const sdk = new NexusSDK({ network: 'mainnet' });
@@ -177,7 +177,7 @@ const swapResult = await sdk.swapWithExactIn(
 ### Initialization
 
 ```typescript showLineNumbers filename="Typescript" showLineNumbers filename="Typescript"
-import { NexusSDK, type NexusNetwork } from '@avail-project/nexus-core';
+import { NexusSDK, type NexusNetwork } from '@avail-project/nexus';
 
 // Mainnet
 const sdk = new NexusSDK({ network: 'mainnet' });
@@ -246,7 +246,7 @@ const allBalances = await sdk.getUnifiedBalances(true); // Includes swappable to
 ### Bridge Operations
 
 ```typescript showLineNumbers filename="Typescript" showLineNumbers filename="Typescript"
-import type { BridgeParams, BridgeResult, SimulationResult } from '@avail-project/nexus-core';
+import type { BridgeParams, BridgeResult, SimulationResult } from '@avail-project/nexus';
 
 // Bridge tokens between chains
 const result: BridgeResult = await sdk.bridge({
@@ -310,7 +310,7 @@ const result2 = await sdk.bridgeAndExecute({
 ### Swap Operations
 
 ```typescript showLineNumbers filename="Typescript"
-import type { ExactInSwapInput, OnEventParam, SwapResult } from '@avail-project/nexus-core';
+import type { ExactInSwapInput, OnEventParam, SwapResult } from '@avail-project/nexus';
 
 const swapWithExactInResult = await sdk.swapWithExactIn(
   {
@@ -332,7 +332,7 @@ const swapWithExactInResult = await sdk.swapWithExactIn(
 ## Allowance Management
 
 ```typescript showLineNumbers filename="Typescript"
-import type { AllowanceResponse } from '@avail-project/nexus-core';
+import type { AllowanceResponse } from '@avail-project/nexus';
 
 // Check allowances
 const allowances: AllowanceResponse[] = await sdk.getAllowance(137, ['USDC', 'USDT']);
@@ -347,7 +347,7 @@ await sdk.revokeAllowance(137, ['USDC']);
 ## Intent Management
 
 ```typescript showLineNumbers filename="Typescript"
-import type { RequestForFunds } from '@avail-project/nexus-core';
+import type { RequestForFunds } from '@avail-project/nexus';
 
 // Get user's transaction intents
 const intents: RequestForFunds[] = await sdk.getMyIntents(1);
@@ -358,7 +358,7 @@ const intents: RequestForFunds[] = await sdk.getMyIntents(1);
 All utility functions are available under `sdk.utils`:
 
 ```typescript showLineNumbers filename="Typescript"
-import type { ChainMetadata, TokenMetadata, SUPPORTED_TOKENS } from '@avail-project/nexus-core';
+import type { ChainMetadata, TokenMetadata, SUPPORTED_TOKENS } from '@avail-project/nexus';
 
 // Address utilities
 const isValid: boolean = sdk.utils.isValidAddress('0x...');
@@ -400,7 +400,7 @@ const decimalChainId: number = sdk.utils.hexToChainId('0x89');
 ### Basic Bridge with Result Handling
 
 ```typescript showLineNumbers filename="Typescript"
-import { NexusSDK, type BridgeResult } from '@avail-project/nexus-core';
+import { NexusSDK, type BridgeResult } from '@avail-project/nexus';
 
 const sdk = new NexusSDK();
 await sdk.initialize(window.ethereum);
@@ -428,7 +428,7 @@ try {
 ### Execute with Receipt Confirmation
 
 ```typescript showLineNumbers filename="Typescript"
-import type { ExecuteResult } from '@avail-project/nexus-core';
+import type { ExecuteResult } from '@avail-project/nexus';
 
 // MakerDAO DSR (Dai Savings Rate) Deposit
 const result: ExecuteResult = await sdk.execute({
@@ -476,7 +476,7 @@ console.log('Confirmations:', result.confirmations);
 ### Complete Portfolio Management
 
 ```typescript showLineNumbers filename="Typescript"
-import type { UserAsset, ChainMetadata } from '@avail-project/nexus-core';
+import type { UserAsset, ChainMetadata } from '@avail-project/nexus';
 
 // Get complete balance overview
 const balances: UserAsset[] = await sdk.getUnifiedBalances();
@@ -498,7 +498,7 @@ for (const asset of balances) {
 ## Error Handling
 
 ```typescript showLineNumbers filename="Typescript"
-import type { BridgeResult } from '@avail-project/nexus-core';
+import type { BridgeResult } from '@avail-project/nexus';
 
 try {
   const result: BridgeResult = await sdk.bridge({ token: 'USDC', amount: 100, chainId: 137 });
@@ -522,7 +522,7 @@ try {
 ```
 
 ```typescript showLineNumbers filename="Typescript"
-import type { ExecuteSimulation, ExecuteResult } from '@avail-project/nexus-core';
+import type { ExecuteSimulation, ExecuteResult } from '@avail-project/nexus';
 
 // Simulate before executing
 const simulation: ExecuteSimulation = await sdk.simulateExecute(params);
@@ -567,5 +567,5 @@ import type {
   RequestArguments,
   EventListener,
   NexusNetwork,
-} from '@avail-project/nexus-core';
+} from '@avail-project/nexus';
 ```

@@ -63,7 +63,7 @@ by using an injected wallet provider that follows the [`EIP-1193`](https://eips.
 - And to do that, you need to call the `.initialize()` function of the SDK while passing
 the wallet provider to it.
 
-- The flows to do this differ between Nexus Core and Nexus Elements.
+- The flows to do this differ between Nexus SDK and Nexus Elements.
 We will go over both of them in this tutorial.
 
 <Callout>
@@ -71,14 +71,14 @@ The `.initialize()` function must be called **AFTER** a wallet has been connecte
 Otherwise, the SDK will throw an error.
 </Callout>
 
-## Initialize the Nexus SDK using Next JS (A minimal example using nexus-core)
+## Initialize the Nexus SDK using Next JS (A minimal example using nexus)
 
 ### Objective
 
 In this section we will create a minimal Next JS page with 4 buttons:
 
 1. The first button will be used to connect a wallet to the app.
-2. The second button will be used to initialize the SDK using `nexus-core`.
+2. The second button will be used to initialize the SDK using `nexus`.
 3. The third button will be used to fetch the unified balances using the Nexus SDK.
 4. The fourth button will de-initialize the SDK using the `deinit()` function.
 
@@ -90,10 +90,10 @@ In this section we will create a minimal Next JS page with 4 buttons:
 pnpm create next-app@latest . --ts --eslint --app --src-dir
 ```
 
-2. Install the `nexus-core` package:
+2. Install the `nexus` package:
 
 ```bash filename="Terminal"
-pnpm add @avail-project/nexus-core
+pnpm add @avail-project/nexus
 ```
 
 3. Update the `src/app/page.tsx` file to the following:
@@ -121,7 +121,7 @@ This will help keep the code clean and make it easier to understand the flow of 
 1. Create a file at `src/lib/nexus.ts` and add the following code:
 
 ```tsx filename="src/lib/nexus.ts" showLineNumbers
-import { NexusSDK } from '@avail-project/nexus-core';
+import { NexusSDK } from '@avail-project/nexus';
 
 export const sdk = new NexusSDK({ network: 'testnet'});
 ```
@@ -205,7 +205,7 @@ export default function ConnectButton({ className }: { className?: string }) {
 
 #### init-button.tsx
 
-This component will be used to initialize the SDK using `nexus-core`. 
+This component will be used to initialize the SDK using `nexus`. 
 <Callout type="info">
 This tutorial only covers the **default injected provider** (`window.ethereum`). If you are planning to use other wallets that utilize **Wagmi such as RainbowKit, Privy etc.**, check out our other articles that cover how to get a Web3 Provider from that wallet to initialize the SDK.
 

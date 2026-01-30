@@ -1,26 +1,29 @@
 ---
 image: "/img/docs-link-preview.png"
-title: Nexus SDK Overview
+title: Overview
 ---
 
 import { Callout, Steps, Tabs } from 'nextra/components';
 import { Cards } from 'nextra/components';
 import { FileIcon, GithubIcon24, LinkIcon } from '@components/icons'
 
-# Nexus SDK Overview
+# Overview
 
-A powerful TypeScript SDK for cross-chain operations, token bridging, and unified balance management across multiple EVM chains.
+Building with Avail Nexus means you can choose your own path, which is convenient for you. 
+
 
 <Callout>
 **LOOKING FOR PLUG-n-PLAY REACT COMPONENTS?**<br/>
-Check out our powerful shadcn-based component library, [Nexus Elements](/nexus/avail-nexus-sdk/nexus-elements), built on top of nexus-core.
+Check out our powerful shadcn-based component library, [Nexus Elements](/nexus/avail-nexus-sdk/nexus-elements), built on top of the Nexus SDK.
 </Callout>
 
-## Nexus Core
+## Nexus SDK (Headless)
 
-The core functionality of the Nexus SDK is provided by the `@avail-project/nexus-core` package.
+A powerful TypeScript SDK for crosschain operations, such as token bridging, crosschain swaps, and unified balance management across multiple EVM chains.
 
-- [**@avail-project/nexus-core**](https://github.com/availproject/nexus-sdk/tree/main/packages/core): Headless SDK for cross-chain operations
+The core functionality of the Nexus SDK is provided by the `@avail-project/nexus` package.
+
+- [**@avail-project/nexus**](https://github.com/availproject/nexus-sdk): Headless SDK for cross-chain operations
     - No React dependencies required
     - Direct Chain Abstraction integration
 
@@ -30,32 +33,32 @@ The core functionality of the Nexus SDK is provided by the `@avail-project/nexus
 
 <Tabs.Tab>
 ```bash filename="Terminal"
-pnpm add @avail-project/nexus-core@1.0.0-rc.3
+pnpm add @avail-project/nexus
 ```
 </Tabs.Tab>
 
 <Tabs.Tab>
 ```bash filename="Terminal"
-npm install @avail-project/nexus-core@1.0.0-rc.3
+npm install @avail-project/nexus
 ```
 </Tabs.Tab>
 
 <Tabs.Tab>
 ```bash filename="Terminal"
-yarn add @avail-project/nexus-core@1.0.0-rc.3
+yarn add @avail-project/nexus
 ```
 </Tabs.Tab>
 
 </Tabs>
 
 <Cards num={2}>
-    <Cards.Card title="Nexus Core SDK Reference" href="/nexus/avail-nexus-sdk" icon={<FileIcon />} />
-    <Cards.Card title="Nexus Core Quickstart" href="/nexus/nexus-quickstart" icon={<FileIcon />} />
+    <Cards.Card title="Nexus SDK Reference" href="/nexus/avail-nexus-sdk" icon={<FileIcon />} />
+    <Cards.Card title="Nexus SDK Quickstart" href="/nexus/nexus-quickstart" icon={<FileIcon />} />
 </Cards>
 
-## Nexus Elements
+## Nexus Elements (Plug and Play)
 
-A shadcn-based component library built on top of nexus-core that allows devs to integrate working components into their project conveniently.
+A shadcn-based component library built on top of Nexus that allows devs to integrate working components into their project conveniently.
 
 <Cards num={2}>
     <Cards.Card title="Get Started" href="/nexus/avail-nexus-sdk/nexus-elements" icon={<FileIcon />} />
@@ -64,13 +67,15 @@ A shadcn-based component library built on top of nexus-core that allows devs to 
 </Cards>
 
 <Callout>
-1. Nexus Core SDK still requires an injected wallet provider (e.g. MetaMask, WalletConnect, etc.)
+1. Nexus SDK still requires an injected wallet provider (e.g. MetaMask, WalletConnect, etc.)
 2. It is designed for client-side browser environments and **cannot be used** in any server-side environments.
 </Callout>
 
-## `create-liquid-apps` CLI
+## Get Started Fast
 
-A CLI tool that helps you scaffold a new application with Nexus SDK using your preferred framework and auth provider.
+### `create-liquid-apps` Starter Kit
+
+Get set up with a boilerplate starter kit instantly and build faster using either Nexus SDK or Nexus Elements using `create-liquid-apps`. It helps you scaffold a new application with Nexus SDK using your preferred framework and auth provider.
 
 <Tabs items={['pnpm', 'npm', 'bun']}>
 

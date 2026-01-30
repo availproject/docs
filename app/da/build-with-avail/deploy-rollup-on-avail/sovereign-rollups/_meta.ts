@@ -10,11 +10,6 @@ export default {
         "href": "https://github.com/availproject/sovereign-sdk/tree/main",
 
       },
-      "Rollkit": {
-        "title": "Rollkit 🔗",
-        "href": "https://rollkit.dev/tutorials/avail-da",
-
-      },
       "OpEVM": {
         "title": "OpEVM 🔗",
         "href": "https://github.com/availproject/op-evm",
