@@ -197,75 +197,83 @@ export function middleware(request: NextRequest) {
     },
     {
       source: '/docs/build-with-avail/Optimium',
-      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Optimium`,
+      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/`,
     },
     {
       source: '/docs/build-with-avail/Optimium/op-stack',
-      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Optimium/op-stack`,
+      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/op-stack`,
     },
     {
       source: '/docs/build-with-avail/Optimium/op-stack/overview',
-      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Optimium/op-stack/overview`,
+      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/op-stack/overview`,
     },
     {
       source: '/docs/build-with-avail/Optimium/op-stack/op-stack',
-      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Optimium/op-stack/op-stack`,
+      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/op-stack`,
     },
     {
       source: '/docs/build-with-avail/Optimium/arbitrum-nitro',
-      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Optimium/arbitrum-nitro`,
+      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/arbitrum-nitro`,
     },
     {
       source: '/docs/build-with-avail/Optimium/arbitrum-nitro/overview',
-      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Optimium/arbitrum-nitro/overview`,
+      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/arbitrum-nitro/overview`,
     },
     {
       source: '/docs/build-with-avail/Optimium/arbitrum-nitro/nitro-stack',
-      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Optimium/arbitrum-nitro/nitro-stack`,
+      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/arbitrum-nitro/nitro-stack`,
     },        
     {
       source: '/docs/build-with-avail/Validium',
-      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Validium`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail`,
     },
     {
       source: '/docs/build-with-avail/Validium/zkevm',
-      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Validium/zkevm`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/zkevm`,
     },
     {
       source: '/docs/build-with-avail/Validium/zkevm/overview',
-      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Validium/zkevm/overview`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/zkevm/overview`,
     },
     {
       source: '/docs/build-with-avail/Validium/zkevm/zkevm',
-      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Validium/zkevm/zkevm`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/zkevm/zkevm`,
     },
     {
       source: '/docs/build-with-avail/Validium/madara',
-      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Validium/madara`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/madara`,
     },
     {
       source: '/docs/build-with-avail/Validium/madara/overview',
-      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Validium/madara/overview`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/madara/overview`,
     },
     {
       source: '/docs/build-with-avail/Validium/madara/madara',
-      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Validium/madara/madara`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/madara/madara`,
     },
     {
       source: '/docs/build-with-avail/Validium/zksync',
-      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Validium/zksync`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/zksync`,
     },
     {
       source: '/docs/build-with-avail/Validium/zksync/zksync',
-      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/Validium/zksync/zksync`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/zksync/zksync`,
+    },
+    {
+      source: '/docs/build-with-avail/Validium/cdk',
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/cdk`,
+    },
+    {
+      source: '/docs/build-with-avail/Validium/cdk/cdk',
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/cdk/cdk`,
     },
     {
       source: '/docs/build-with-avail/sovereign-rollups',
-      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/sovereign-rollups`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/cosmos-avail-module`,
     },
     {
       source: '/docs/build-with-avail/sovereign-rollups/cosmos-avail-module',
-      destination: `${origin}/docs/build-with-avail/deploy-rollup-on-avail/sovereign-rollups/cosmos-avail-module`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/cosmos-avail-module`,
     },
 
     // Gas relay temp redirects
@@ -735,39 +743,39 @@ export function middleware(request: NextRequest) {
     },
     {
       source: "/category/validium/",
-      destination: `${origin}/docs/build-with-avail/Validium`
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail`
     },
     {
       source: "/category/polygon-zkevm/",
-      destination: `${origin}/docs/build-with-avail/Validium/zkevm`
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/zkevm`
     },
     {
       source: "/build/zkevm/overview/",
-      destination: `${origin}/docs/build-with-avail/Validium/zkevm/overview`
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/zkevm/overview`
     },
     {
       source: "/build/zkevm/",
-      destination: `${origin}/docs/build-with-avail/Validium/zkevm/zkevm`
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/zkevm/zkevm`
     },
     {
       source: "/category/madara-starknet/",
-      destination: `${origin}/docs/build-with-avail/Validium/madara`
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/madara`
     },
     {
       source: "/build/madara/overview/",
-      destination: `${origin}/docs/build-with-avail/Validium/madara/overview`
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/madara/overview`
     },
     {
       source: "/build/madara/",
-      destination: `${origin}/docs/build-with-avail/Validium/madara/madara`
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/madara/madara`
     },
     {
       source: "/api/use-case-validiums/",
-      destination: `${origin}/docs/build-with-avail/Validium/reference`
+      destination: `${origin}/da/build-with-avail/vectorx`
     },
     {
       source: "/category/sovereign-rollups/",
-      destination: `${origin}/docs/build-with-avail/sovereign-rollups`
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/cosmos-avail-module`
     },
     {
       source: "/glossary/",
@@ -871,79 +879,132 @@ export function middleware(request: NextRequest) {
     },
     {
       source: "/docs/build-with-avail/deploy-rollup-on-avail/Optimium/op-stack",
-      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Optimium/op-stack`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/op-stack`,
     },
     {
       source: "/docs/build-with-avail/deploy-rollup-on-avail/Optimium/op-stack/overview",
-      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Optimium/op-stack/overview`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/op-stack/overview`,
     },
     {
       source: "/docs/build-with-avail/deploy-rollup-on-avail/Optimium/op-stack/op-stack",
-      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Optimium/op-stack/op-stack`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/op-stack/op-stack`,
     },
     {
       source: "/docs/build-with-avail/deploy-rollup-on-avail/Optimium/arbitrum-nitro",
-      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Optimium/arbitrum-nitro`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/arbitrum-nitro`,
     },
     {
       source: "/docs/build-with-avail/deploy-rollup-on-avail/Optimium/arbitrum-nitro/overview",
-      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Optimium/arbitrum-nitro/overview`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/arbitrum-nitro/overview`,
     },
     {
       source: "/docs/build-with-avail/deploy-rollup-on-avail/Optimium/arbitrum-nitro/nitro-stack",
-      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Optimium/arbitrum-nitro/nitro-stack`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/arbitrum-nitro/nitro-stack`,
     },
     {
       source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium",
-      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail`,
     },
     {
       source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/zkevm",
-      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/zkevm`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/zkevm`,
     },
     {
       source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/zkevm/overview",
-      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/zkevm/overview`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/zkevm/overview`,
     },
     {
       source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/zkevm/zkevm",
-      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/zkevm/zkevm`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/zkevm/zkevm`,
     },
     {
       source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/cdk",
-      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/cdk`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/cdk`,
     },
     {
       source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/cdk/cdk",
-      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/cdk/cdk`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/cdk/cdk`,
     },
     {
       source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/madara",
-      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/madara`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/madara`,
     },
     {
       source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/madara/overview",
-      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/madara/overview`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/madara/overview`,
     },
     {
       source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/madara/madara",
-      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/madara/madara`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/madara/madara`,
     },
     {
       source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/zksync",
-      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/zksync`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/zksync`,
     },
     {
       source: "/docs/build-with-avail/deploy-rollup-on-avail/Validium/zksync/zksync",
-      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/Validium/zksync/zksync`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/zksync/zksync`,
     },
     {
       source: "/docs/build-with-avail/deploy-rollup-on-avail/sovereign-rollups",
-      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/sovereign-rollups`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/cosmos-avail-module`,
     },
     {
       source: "/docs/build-with-avail/deploy-rollup-on-avail/sovereign-rollups/cosmos-avail-module",
-      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/sovereign-rollups/cosmos-avail-module`,
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/cosmos-avail-module`,
+    },
+    // Redirects for /da/ paths with old Validium/sovereign-rollups structure
+    {
+      source: "/da/build-with-avail/deploy-rollup-on-avail/Validium",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail`,
+    },
+    {
+      source: "/da/build-with-avail/deploy-rollup-on-avail/Validium/zkevm",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/zkevm`,
+    },
+    {
+      source: "/da/build-with-avail/deploy-rollup-on-avail/Validium/zkevm/overview",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/zkevm/overview`,
+    },
+    {
+      source: "/da/build-with-avail/deploy-rollup-on-avail/Validium/zkevm/zkevm",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/zkevm/zkevm`,
+    },
+    {
+      source: "/da/build-with-avail/deploy-rollup-on-avail/Validium/cdk",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/cdk`,
+    },
+    {
+      source: "/da/build-with-avail/deploy-rollup-on-avail/Validium/cdk/cdk",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/cdk/cdk`,
+    },
+    {
+      source: "/da/build-with-avail/deploy-rollup-on-avail/Validium/madara",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/madara`,
+    },
+    {
+      source: "/da/build-with-avail/deploy-rollup-on-avail/Validium/madara/overview",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/madara/overview`,
+    },
+    {
+      source: "/da/build-with-avail/deploy-rollup-on-avail/Validium/madara/madara",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/madara/madara`,
+    },
+    {
+      source: "/da/build-with-avail/deploy-rollup-on-avail/Validium/zksync",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/zksync`,
+    },
+    {
+      source: "/da/build-with-avail/deploy-rollup-on-avail/Validium/zksync/zksync",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/zksync/zksync`,
+    },
+    {
+      source: "/da/build-with-avail/deploy-rollup-on-avail/sovereign-rollups",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/cosmos-avail-module`,
+    },
+    {
+      source: "/da/build-with-avail/deploy-rollup-on-avail/sovereign-rollups/cosmos-avail-module",
+      destination: `${origin}/da/build-with-avail/deploy-rollup-on-avail/cosmos-avail-module`,
     },
     {
       source: "/docs/build-with-avail/turbo-da",
