@@ -15,8 +15,21 @@ import { getItem } from '@/lib/local-storage'
 import { NETWORK_KEY } from '@/providers/Web3Provider'
 
 /**
+ * Hash a wallet address using SHA-256 for privacy-preserving identification
+ * This allows tracking unique users without storing actual wallet addresses
+ */
+async function hashWalletAddress(address: string): Promise<string> {
+  const encoder = new TextEncoder()
+  const data = encoder.encode(address.toLowerCase())
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data)
+  const hashArray = Array.from(new Uint8Array(hashBuffer))
+  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('')
+  return `wallet_${hashHex.slice(0, 16)}` // Use first 16 chars for shorter ID
+}
+
+/**
  * Hook for identifying users in PostHog based on wallet connection
- * - Identifies user when wallet is connected
+ * - Identifies user with hashed wallet address (privacy-preserving)
  * - Resets identity when wallet is disconnected
  * - Tracks connection/disconnection events
  */
@@ -36,25 +49,27 @@ export function usePostHogIdentify() {
     if (isConnected && address) {
       // User connected or address changed
       if (!wasConnected.current || previousAddress.current !== address) {
-        // Identify user with wallet address
-        identifyUser(address, {
-          wallet_address: address,
-          chain_id: chainId,
-          nexus_network: nexusNetwork,
-        })
+        // Hash the wallet address for privacy-preserving identification
+        hashWalletAddress(address).then((hashedId) => {
+          // Identify user with hashed ID (no raw wallet address stored)
+          identifyUser(hashedId, {
+            chain_id: chainId,
+            nexus_network: nexusNetwork,
+          })
 
-        // Set super properties for all future events
-        setSuperProperties({
-          wallet_connected: true,
-          connected_chain_id: chainId,
-          nexus_network: nexusNetwork,
-        })
+          // Set super properties for all future events
+          setSuperProperties({
+            wallet_connected: true,
+            connected_chain_id: chainId,
+            nexus_network: nexusNetwork,
+          })
 
-        // Track connection event
-        track('wallet_connected', {
-          chain_id: chainId,
-          network_name: getChainName(chainId),
-          page_path: pathname,
+          // Track connection event (no wallet address)
+          track('wallet_connected', {
+            chain_id: chainId,
+            network_name: getChainName(chainId),
+            page_path: pathname,
+          })
         })
 
         wasConnected.current = true

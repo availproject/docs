@@ -97,16 +97,20 @@ PostHogProvider (outermost in layout.tsx)
 
 ## User Identification
 
-Users are identified by their wallet address when connected:
+Users are identified by a **hashed wallet address** when connected (privacy-preserving):
 
 ```typescript
 // Automatic identification via PostHogIdentify component
-posthog.identify(walletAddress, {
-  wallet_address: walletAddress,
+// Wallet address is SHA-256 hashed - raw address is NEVER sent to PostHog
+const hashedId = `wallet_${sha256(address.toLowerCase()).slice(0, 16)}`
+
+posthog.identify(hashedId, {
   chain_id: chainId,
   nexus_network: "mainnet" | "testnet",
 });
 ```
+
+**Privacy Note:** Raw wallet addresses are never stored in PostHog. Only a truncated SHA-256 hash is used as the identifier, which allows tracking unique users without exposing their actual addresses.
 
 ### Super Properties
 
@@ -211,6 +215,6 @@ loaded: (posthogInstance) => {
 ## Privacy Considerations
 
 - All text inputs are masked in session recordings
-- Wallet addresses are used as identifiers (public data)
-- No PII is collected beyond wallet addresses
+- **Wallet addresses are hashed** (SHA-256) before being sent to PostHog - raw addresses are never stored
+- No PII is collected
 - Respects browser Do Not Track setting
