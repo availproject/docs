@@ -15,6 +15,11 @@ export function middleware(request: NextRequest) {
   // Docs outline reorg redirects start here
 
     {
+      source: '/da/welcome-to-avail-docs',
+      destination: `${origin}/da/introduction-to-avail-da`,
+    },
+
+    {
       source: '/docs/introduction-to-avail',
       destination: `${origin}/docs/welcome-to-avail-docs`,
     },
