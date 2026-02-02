@@ -20,10 +20,6 @@ export function middleware(request: NextRequest) {
     },
 
     {
-      source: '/docs/introduction-to-avail',
-      destination: `${origin}/docs/welcome-to-avail-docs`,
-    },
-    {
       source: '/docs/introduction-to-avail/avail-da',
       destination: `${origin}/docs/welcome-to-avail-docs`,
     },
