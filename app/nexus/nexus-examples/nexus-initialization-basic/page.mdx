@@ -55,7 +55,7 @@ You can refer to this [page in our docs](/nexus/concepts/bridge-v-swap) for more
 ## What Does 'Initialization' Mean Here?
 
 - The Nexus SDK allows you to seamlessly transfer tokens across-chains using the `.transfer()`
-and `.bridge()` functions *(We'll go through them in the following tutorials)*. You can also fetch unified balances using the `.getUnifiedBalances()` function.
+and `.bridge()` functions *(We'll go through them in the following tutorials)*. You can also fetch unified multichain balances using the SDK.
 
 - To do any of that though, the SDK needs access to a wallet. You can do this on the frontend
 by using an injected wallet provider that follows the [`EIP-1193`](https://eips.ethereum.org/EIPS/eip-1193) standard.
@@ -177,7 +177,7 @@ This function must be called **AFTER** a wallet has been connected.
 Otherwise, the SDK will throw an error.
 </Callout>
 3. `deinit()`: This function checks if the SDK is initialized and if so, it de-initializes it.
-4. `getUnifiedBalances()`: This function calls `sdk.getUnifiedBalances()` from the Nexus SDK to fetch the unified balance of the user.
+4. `getUnifiedBalances()`: This function calls `sdk.getBalancesForBridge()` from the Nexus SDK to fetch the unified balance of the user.
 
 ### Set up the buttons
 
