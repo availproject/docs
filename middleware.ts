@@ -15,20 +15,21 @@ export function middleware(request: NextRequest) {
   // Docs outline reorg redirects start here
 
     {
-      source: '/docs/introduction-to-avail',
-      destination: `${origin}/docs/welcome-to-avail-docs`,
+      source: '/da/welcome-to-avail-docs',
+      destination: `${origin}/da/introduction-to-avail-da`,
     },
+
     {
       source: '/docs/introduction-to-avail/avail-da',
-      destination: `${origin}/docs/welcome-to-avail-docs`,
+      destination: `${origin}/da/introduction-to-avail-da`,
     },
     {
       source: '/docs/introduction-to-avail/avail-nexus',
-      destination: `${origin}/docs/welcome-to-avail-docs`,
+      destination: `${origin}/nexus/introduction-to-nexus`,
     },
     {
       source: '/docs/introduction-to-avail/avail-fusion',
-      destination: `${origin}/docs/welcome-to-avail-docs`,
+      destination: `${origin}/`,
     },
 
     {
@@ -830,7 +831,7 @@ export function middleware(request: NextRequest) {
 
     {
       source: "/docs/welcome-to-avail-docs",
-      destination: `${origin}/da/welcome-to-avail-docs`,
+      destination: `${origin}/da/introduction-to-avail-da`,
     },
 
     {

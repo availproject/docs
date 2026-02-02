@@ -124,7 +124,7 @@ export const Footer = () => {
         {
           id: 1,
           label: "Introduction",
-          link: "/da/welcome-to-avail-docs",
+          link: "/da/introduction-to-avail-da",
         },
         {
           id: 2,
