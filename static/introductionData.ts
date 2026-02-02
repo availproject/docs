@@ -27,7 +27,7 @@ export const IntroData = [
       links: [
         {
           topic: "Avail DA",
-          links: [{ link: "/da/welcome-to-avail-docs", textcolor: "3CA3FC", placeholder: "Start here!"}, 
+          links: [{ link: "/da/introduction-to-avail-da", textcolor: "3CA3FC", placeholder: "Start here!"}, 
           {link: "/da/networks", textcolor: "3CA3FC", placeholder: "Endpoints & networks info"},
           {link: "/da/learn-about-avail/avail-apps-explorer", textcolor: "3CA3FC", placeholder: "A guide to Avail explorers"},
           {link: "/da/build-with-avail/interact-with-avail-da/read-write-on-avail", textcolor: "3CA3FC", placeholder: "Read & write data on Avail DA"},
