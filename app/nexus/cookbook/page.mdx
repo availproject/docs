@@ -322,5 +322,423 @@ intents.forEach((intent) => {
 // }
 ```
 
+## Chain & Token Utilities
 
+### How to get chain metadata?
+Use `CHAIN_METADATA` constant for static lookups or `sdk.utils.getChainMetadata()` for SDK-managed access. Both return chain information including name, logo, and native currency.
+
+```typescript
+import { CHAIN_METADATA, NexusSDK } from '@avail-project/nexus-core';
+
+// Option A: Static constant (no SDK initialization needed)
+const arbitrumSepolia = CHAIN_METADATA[421614];
+console.log(arbitrumSepolia.name);           // "Arbitrum Sepolia"
+console.log(arbitrumSepolia.logo);           // "https://..."
+console.log(arbitrumSepolia.nativeCurrency); // { name: "ETH", symbol: "ETH", decimals: 18 }
+
+// Option B: SDK utility method
+const sdk = new NexusSDK({ network: 'testnet' });
+const chainMeta = sdk.utils.getChainMetadata(421614);
+console.log(chainMeta?.name); // "Arbitrum Sepolia"
+```
+
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Sample CHAIN_METADATA structure</summary>
+
+```json
+{
+  "421614": {
+    "id": 421614,
+    "name": "Arbitrum Sepolia",
+    "logo": "https://assets.coingecko.com/coins/images/16547/large/arb.jpg",
+    "nativeCurrency": {
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "decimals": 18
+    }
+  }
+}
+```
+</details>
+
+### How to get the list of supported chains and tokens?
+Call `sdk.utils.getSupportedChains()` to get all chains with their supported tokens. For swap-specific chains, use `sdk.utils.getSwapSupportedChainsAndTokens()`.
+
+```typescript
+import { NexusSDK } from '@avail-project/nexus-core';
+
+const sdk = new NexusSDK({ network: 'mainnet' });
+
+// Get all supported chains with their tokens
+const chains = sdk.utils.getSupportedChains();
+
+chains.forEach((chain) => {
+  console.log(`${chain.name} (${chain.id})`);
+  console.log(`  Logo: ${chain.logo}`);
+  console.log(`  Tokens:`);
+  chain.tokens?.forEach((token) => {
+    console.log(`    - ${token.symbol}: ${token.name}`);
+  });
+});
+
+// For swap-specific chains and tokens
+const swapOptions = sdk.utils.getSwapSupportedChainsAndTokens();
+```
+
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Sample getSupportedChains() response</summary>
+
+```json
+[
+  {
+    "id": 421614,
+    "name": "Arbitrum Sepolia",
+    "logo": "https://assets.coingecko.com/coins/images/16547/large/arb.jpg",
+    "tokens": [
+      {
+        "symbol": "USDC",
+        "name": "USD Coin",
+        "decimals": 6,
+        "logo": "https://coin-images.coingecko.com/coins/images/6319/large/usdc.png",
+        "address": "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d"
+      },
+      {
+        "symbol": "ETH",
+        "name": "Ethereum",
+        "decimals": 18,
+        "logo": "https://assets.coingecko.com/coins/images/279/large/ethereum.png",
+        "isNative": true
+      }
+    ]
+  }
+]
+```
+</details>
+
+### How to get the chain ID of a supported chain?
+Use `sdk.utils.getSupportedChains()` to find a chain by name, then access its `id`. You can also validate chain support with `isSupportedChain()` and convert between decimal and hex formats.
+
+```typescript
+import { NexusSDK } from '@avail-project/nexus-core';
+
+const sdk = new NexusSDK({ network: 'testnet' });
+
+// Find chain ID by name
+const chains = sdk.utils.getSupportedChains();
+const baseSepolia = chains.find((c) => c.name === 'Base Sepolia');
+console.log(baseSepolia?.id); // 84532
+
+// Validate if a chain ID is supported
+const isSupported = sdk.utils.isSupportedChain(84532); // true
+
+// Convert chain ID to hex (useful for wallet_switchEthereumChain)
+const hexChainId = sdk.utils.chainIdToHex(84532); // "0x14a34"
+
+// Convert hex back to decimal
+const decimalId = sdk.utils.hexToChainId('0x14a34'); // 84532
+```
+
+### How to get the token address of a supported token?
+Get token metadata with `sdk.utils.getTokenMetadata()` for base info, or iterate `getSupportedChains()` to find addresses on specific chains.
+
+```typescript
+import { NexusSDK } from '@avail-project/nexus-core';
+
+const sdk = new NexusSDK({ network: 'testnet' });
+
+// Option A: Get token metadata (base info without chain-specific addresses)
+const usdcMeta = sdk.utils.getTokenMetadata('USDC');
+console.log(usdcMeta?.symbol);   // "USDC"
+console.log(usdcMeta?.decimals); // 6
+console.log(usdcMeta?.icon);     // "https://..."
+
+// Option B: Get token address for a SPECIFIC chain
+const chains = sdk.utils.getSupportedChains();
+const arbitrumSepolia = chains.find((c) => c.id === 421614);
+const usdcOnArbitrum = arbitrumSepolia?.tokens?.find((t) => t.symbol === 'USDC');
+console.log(usdcOnArbitrum?.address); // "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d"
+
+// Option C: Get all addresses for a token across chains
+const usdcAddresses = chains
+  .map((chain) => {
+    const token = chain.tokens?.find((t) => t.symbol === 'USDC');
+    return token ? { chainId: chain.id, chainName: chain.name, address: token.address } : null;
+  })
+  .filter(Boolean);
+
+console.log(usdcAddresses);
+// [
+//   { chainId: 421614, chainName: "Arbitrum Sepolia", address: "0x75faf..." },
+//   { chainId: 84532, chainName: "Base Sepolia", address: "0x036cb..." },
+//   ...
+// ]
+
+// Validate if a token is supported
+const isSupported = sdk.utils.isSupportedToken('USDC'); // true
+```
+
+## Events
+
+### How and when to listen to Nexus events?
+Use the `onEvent` callback when calling bridge or swap methods. Events are emitted at key stages of the transaction lifecycle, allowing you to build progress UIs.
+
+**Bridge Events:**
+
+```typescript
+import { NexusSDK, NEXUS_EVENTS } from '@avail-project/nexus-core';
+
+const sdk = new NexusSDK({ network: 'testnet' });
+await sdk.initialize(window.ethereum);
+
+const result = await sdk.bridge(
+  {
+    token: 'USDC',
+    amount: BigInt(1_000_000), // 1 USDC (6 decimals)
+    toChainId: 421614,
+  },
+  {
+    onEvent: (event) => {
+      switch (event.name) {
+        case NEXUS_EVENTS.STEPS_LIST:
+          // Emitted when intent is created - contains all steps
+          console.log('All steps:', event.args);
+          // Use this to initialize a progress stepper UI
+          break;
+
+        case NEXUS_EVENTS.STEP_COMPLETE:
+          // Emitted for each completed step
+          const step = event.args;
+          console.log(`Step completed: ${step.type}`);
+          console.log(`  Status: ${step.status}`);
+          if (step.explorerURL) {
+            console.log(`  Explorer: ${step.explorerURL}`);
+          }
+          break;
+      }
+    },
+  }
+);
+```
+
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Sample STEPS_LIST event output</summary>
+
+```json
+{
+  "name": "STEPS_LIST",
+  "args": [
+    { "type": "ALLOWANCE_APPROVAL_REQUEST", "typeID": "AUA_11155111", "status": "pending" },
+    { "type": "ALLOWANCE_APPROVAL_MINED", "typeID": "AAM_11155111", "status": "pending" },
+    { "type": "INTENT_DEPOSIT_REQUEST", "typeID": "ID_1", "status": "pending" },
+    { "type": "INTENT_SUBMITTED", "typeID": "IS", "status": "pending" },
+    { "type": "INTENT_FULFILLED", "typeID": "IF", "status": "pending" }
+  ]
+}
+```
+</details>
+
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Sample STEP_COMPLETE event output</summary>
+
+```json
+{
+  "name": "STEP_COMPLETE",
+  "args": {
+    "type": "INTENT_FULFILLED",
+    "typeID": "IF",
+    "status": "complete",
+    "explorerURL": "https://sepolia.arbiscan.io/tx/0x..."
+  }
+}
+```
+</details>
+
+**Swap Events:**
+
+```typescript
+import { NexusSDK, NEXUS_EVENTS } from '@avail-project/nexus-core';
+
+const sdk = new NexusSDK({ network: 'mainnet' });
+await sdk.initialize(window.ethereum);
+
+const result = await sdk.swapWithExactIn(
+  {
+    fromToken: 'USDC',
+    toToken: 'ETH',
+    amount: BigInt(100_000_000), // 100 USDC
+    toChainId: 42161,
+  },
+  {
+    onEvent: (event) => {
+      if (event.name === NEXUS_EVENTS.SWAP_STEP_COMPLETE) {
+        const step = event.args;
+        console.log(`Swap step: ${step.type}`);
+
+        // Get explorer URLs from specific steps
+        if (step.type === 'SOURCE_SWAP_HASH' && step.explorerURL) {
+          console.log(`Source swap tx: ${step.explorerURL}`);
+        }
+        if (step.type === 'DESTINATION_SWAP_HASH' && step.explorerURL) {
+          console.log(`Destination swap tx: ${step.explorerURL}`);
+        }
+      }
+    },
+  }
+);
+```
+
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Swap step types in order</summary>
+
+```
+SWAP_START
+DETERMINING_SWAP
+CREATE_PERMIT_EOA_TO_EPHEMERAL
+CREATE_PERMIT_FOR_SOURCE_SWAP
+SOURCE_SWAP_BATCH_TX
+SOURCE_SWAP_HASH          ← Contains explorerURL
+BRIDGE_DEPOSIT
+RFF_ID
+DESTINATION_SWAP_BATCH_TX
+DESTINATION_SWAP_HASH     ← Contains explorerURL
+SWAP_COMPLETE
+```
+</details>
+
+**Alternative: Global Hooks**
+
+For persistent event handling across multiple operations:
+
+```typescript
+// Intent approval hook - review before execution
+sdk.setOnIntentHook(({ intent, allow, deny, refresh }) => {
+  console.log('Sources:', intent.sources);
+  console.log('Destination:', intent.destination);
+  console.log('Fees:', intent.fees);
+
+  // Programmatically approve or deny
+  if (userConfirmed) {
+    allow();
+  } else {
+    deny();
+  }
+});
+
+// Allowance approval hook - control approval amounts
+sdk.setOnAllowanceHook(({ sources, allow, deny }) => {
+  allow(['min']); // Options: 'max', 'min', or custom bigint[]
+});
+```
+
+## Troubleshooting
+
+### How to solve Vite polyfill issues?
+If you see errors like `ReferenceError: Buffer is not defined` or `process is not defined`, Vite needs Node.js polyfills.
+
+**Step 1: Install the polyfill plugin**
+
+```bash filename="Terminal"
+npm install vite-plugin-node-polyfills
+```
+
+**Step 2: Update vite.config.ts**
+
+```typescript filename="vite.config.ts"
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
+
+export default defineConfig({
+  plugins: [
+    react(),
+    nodePolyfills({
+      include: ['buffer', 'crypto', 'stream', 'util'],
+      globals: {
+        Buffer: true,
+        global: true,
+        process: true,
+      },
+    }),
+  ],
+  define: {
+    global: 'globalThis',
+  },
+});
+```
+
+**Quick start alternative:** Clone the [Nexus Vite Template](https://github.com/availproject/nexus-vite-template) which has polyfills pre-configured.
+
+### How to solve Turbopack issues in Next.js?
+Turbopack (Next.js experimental bundler) has limited support for Node.js polyfills. If you encounter module resolution errors:
+
+**Option A: Disable Turbopack (Recommended)**
+
+Remove the `--turbo` flag from your dev script:
+
+```json filename="package.json"
+{
+  "scripts": {
+    "dev": "next dev"
+  }
+}
+```
+
+**Option B: Configure Webpack fallbacks**
+
+```javascript filename="next.config.js"
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        crypto: require.resolve('crypto-browserify'),
+        buffer: require.resolve('buffer/'),
+        stream: require.resolve('stream-browserify'),
+      };
+    }
+    return config;
+  },
+};
+
+module.exports = nextConfig;
+```
+
+Install required packages:
+
+```bash filename="Terminal"
+npm install crypto-browserify buffer stream-browserify
+```
+
+**Quick start alternative:** Clone the [Nexus Next.js Template](https://github.com/availproject/nexus-nextjs-template) which has proper configuration.
+
+### How to fix "require is not defined" in browser?
+This error occurs when code meant for Node.js runs in the browser. Solutions:
+
+**1. Use ES module imports instead of require():**
+
+```typescript
+// Bad
+const sdk = require('@avail-project/nexus-core');
+
+// Good
+import { NexusSDK } from '@avail-project/nexus-core';
+```
+
+**2. Move Node.js-specific code to API routes or Server Components:**
+
+```typescript filename="app/api/data/route.ts"
+export async function GET() {
+  // Node.js modules work here
+  return Response.json({ data: 'ok' });
+}
+```
+
+**3. Use dynamic imports for server-only code:**
+
+```typescript
+if (typeof window === 'undefined') {
+  const serverModule = await import('server-only-module');
+}
+```
 
