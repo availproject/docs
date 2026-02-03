@@ -17,7 +17,7 @@ if (typeof window !== 'undefined' && isProduction) {
     try {
       posthog.init(posthogKey, {
         api_host: posthogHost,
-        capture_pageview: false,
+        capture_pageview: true,
         persistence: 'localStorage',
       })
     } catch (e) {

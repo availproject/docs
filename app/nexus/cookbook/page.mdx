@@ -438,16 +438,6 @@ const hexChainId = sdk.utils.chainIdToHex(84532); // "0x14a34"
 const decimalId = sdk.utils.hexToChainId('0x14a34'); // 84532
 ```
 
-**Supported Chain IDs:**
-
-| Network | Mainnet ID | Testnet ID |
-|---------|------------|------------|
-| Ethereum | 1 | 11155111 (Sepolia) |
-| Arbitrum | 42161 | 421614 |
-| Base | 8453 | 84532 |
-| Optimism | 10 | 11155420 |
-| Polygon | 137 | 80002 (Amoy) |
-
 ### How to get the token address of a supported token?
 Get token metadata with `sdk.utils.getTokenMetadata()` for base info, or iterate `getSupportedChains()` to find addresses on specific chains.
 
