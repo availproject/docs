@@ -110,7 +110,7 @@ function MyComponent() {
     // Now you can use SDK methods directly
     // false (default): CA-applicable token balances
     // true: include all balances, including swappable tokens
-    const balances = await sdk.getUnifiedBalances(false);
+    const balances = await sdk.getBalancesForBridge(false);
     console.log('Balances:', balances);
   };
 

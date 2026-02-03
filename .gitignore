@@ -56,3 +56,5 @@ public/llms-full.txt
 # claude code
 .claude/
 /plans/
+#claude
+plans/

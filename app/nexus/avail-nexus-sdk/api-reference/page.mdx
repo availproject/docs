@@ -22,8 +22,9 @@ await sdk.initialize(provider); // Your EVM-compatible wallet provider
 // ---------------------------
 // 1️⃣ Get unified balances
 // ---------------------------
-const balances = await sdk.getUnifiedBalances(false); // false = CA balances only
-console.log('Balances:', balances);
+const unifiedBridgeBalances = await sdk.getBalancesForBridge(); // Returns balances that can be used in bridge operations
+---
+const swapBalances = await sdk.getBalancesForSwap(); // Returns balances that can be used in swap operations
 
 // ---------------------------
 // 2️⃣ Bridge tokens
@@ -238,9 +239,9 @@ sdk.setOnAllowanceHook(({ sources, allow, deny }) => {
 ### Unified Balance(s)
 
 ```typescript showLineNumbers filename="Typescript" showLineNumbers filename="Typescript"
-const balances = await sdk.getUnifiedBalances(); // CA balances only
-
-const allBalances = await sdk.getUnifiedBalances(true); // Includes swappable tokens
+const unifiedBridgeBalances = await sdk.getBalancesForBridge(); // Returns balances that can be used in bridge operations
+---
+const swapBalances = await sdk.getBalancesForSwap(); // Returns balances that can be used in swap operations
 ```
 
 ### Bridge Operations
@@ -479,7 +480,7 @@ console.log('Confirmations:', result.confirmations);
 import type { UserAsset, ChainMetadata } from '@avail-project/nexus';
 
 // Get complete balance overview
-const balances: UserAsset[] = await sdk.getUnifiedBalances();
+const balances: UserAsset[] = await sdk.getBalancesForBridge();
 
 for (const asset of balances) {
   console.log(`\n${asset.symbol}: ${asset.balance}`);

@@ -1,39 +1,46 @@
-// app/providers.js
 'use client'
 import posthog from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
-import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { usePathname, useSearchParams } from "next/navigation"
+import { useEffect } from "react"
 
-if (typeof window !== 'undefined') {
-  if (process.env.NEXT_PUBLIC_POSTHOG_KEY) {
-    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
-      api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
-      capture_pageview: false // Disable automatic pageview capture, as we capture manually
-    })
+// Only initialize in production (not localhost)
+const isProduction = typeof window !== 'undefined' &&
+  !window.location.hostname.includes('localhost') &&
+  !window.location.hostname.includes('127.0.0.1')
+
+if (typeof window !== 'undefined' && isProduction) {
+  const posthogKey = process.env.NEXT_PUBLIC_POSTHOG_KEY
+  const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://app.posthog.com'
+
+  if (posthogKey) {
+    try {
+      posthog.init(posthogKey, {
+        api_host: posthogHost,
+        capture_pageview: false,
+        persistence: 'localStorage',
+      })
+    } catch (e) {
+      console.warn('PostHog initialization failed:', e)
+    }
   }
 }
 
 export function PostHogPageview() {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  // Track pageviews
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
   useEffect(() => {
-    if (pathname) {
+    if (pathname && isProduction) {
       let url = window.origin + pathname
-      if (searchParams.toString()) {
+      if (searchParams?.toString()) {
         url = url + `?${searchParams.toString()}`
       }
-      posthog.capture(
-        '$pageview',
-        {
-          '$current_url': url,
-        }
-      )
+      posthog.capture('$pageview', { '$current_url': url })
     }
   }, [pathname, searchParams])
 
-  return (<></>)
+  return null
 }
 
 export function PHProvider({ children }: {
