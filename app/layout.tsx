@@ -1,11 +1,12 @@
 import { Layout, Navbar } from "nextra-theme-docs";
 import { Head, Search, Banner } from "nextra/components";
-import { ReactNode } from "react";
+import { ReactNode, Suspense } from "react";
 import { getPageMap } from "nextra/page-map";
 import "nextra-theme-docs/style.css";
 import "./globals.css";
 import { CustomNavbar } from "@components/Navbar";
 import { sharedMetadata } from "@components/lib/metadata";
+import { PHProvider, PostHogPageview } from "@components/providers";
 
 // Metadata for the website
 export const metadata = sharedMetadata;
@@ -51,7 +52,11 @@ export default async function RootLayout({
         <meta name="twitter:image" content="/img/docs-link-preview.png" />
       </Head>
       <body>
-        <Layout
+        <PHProvider>
+          <Suspense fallback={null}>
+            <PostHogPageview />
+          </Suspense>
+          <Layout
           banner={banner}
           navbar={
             <Navbar
@@ -91,6 +96,7 @@ export default async function RootLayout({
         >
           {children}
         </Layout>
+        </PHProvider>
       </body>
     </html>
   );
