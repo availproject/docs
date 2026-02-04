@@ -3,18 +3,10 @@ import { notFound } from "next/navigation";
 import { findNeighbour } from "fumadocs-core/page-tree";
 import { source } from "@/lib/source";
 import { mdxComponents } from "@/components/mdx/mdx-components";
-import {
-  ArrowLeft,
-  ArrowRight,
-  ArrowUpRight,
-  ChevronRight,
-} from "lucide-react";
+import { ArrowUpRight, ChevronRight } from "lucide-react";
 import { OnThisPage } from "@/components/helpers/on-this-page";
 import fm from "front-matter";
 import { z } from "zod";
-import { DocsCopyPage } from "@/components/mdx/docs-copy-page";
-import { absoluteUrl } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { PageFooter } from "@/components/mdx/page-footer";
 
@@ -102,7 +94,6 @@ export default async function Page(props: {
   return (
     <div className="flex items-stretch text-base xl:w-full no-scrollbar">
       <div className="flex min-w-0 flex-1 flex-col bg-background ">
-        {/*<div className="h-18 shrink-0" />*/}
         <div className="mx-auto flex w-full max-w-160 min-w-0 flex-1 flex-col gap-20 px-4 py-18 md:px-0">
           {/* Content sections */}
           <div className="flex flex-col gap-20">
