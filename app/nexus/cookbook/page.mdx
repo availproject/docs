@@ -17,7 +17,7 @@ They show developer patterns on how the SDK is expected to be used by a develope
 ### How to simulate an operation on Nexus?
 Call `sdk.simulateBridge()`, `sdk.simulateBridgeAndExecute()`, or `sdk.simulateBridgeAndTransfer()` to preview an operation _without_ sending a transaction. The result contains an `intent` with sources, fees, and token metadata.
 ```typescript
-import { sdk } from '@avail-project/nexus';
+import { sdk } from '@avail-project/nexus-core';
 
 // 1. Simulate a bridge
 const bridgeSimulation = await sdk.simulateBridge({
@@ -234,7 +234,7 @@ Token metadata (name, symbol, decimals, logo) is available from multiple sources
 import {
   TOKEN_METADATA,
   CHAIN_METADATA,
-} from '@avail-project/nexus';
+} from '@avail-project/nexus-core';
 
 // ─── A: From a simulation result ───
 const sim = await sdk.simulateBridge({ token: 'USDC', amount: BigInt(100), toChainId: 421614 });
