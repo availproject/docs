@@ -93,7 +93,7 @@ pnpm create next-app@latest . --ts --eslint --app --src-dir
 2. Install the `nexus` package:
 
 ```bash filename="Terminal"
-pnpm add @avail-project/nexus
+pnpm add @avail-project/nexus-core
 ```
 
 3. Update the `src/app/page.tsx` file to the following:
@@ -121,7 +121,7 @@ This will help keep the code clean and make it easier to understand the flow of 
 1. Create a file at `src/lib/nexus.ts` and add the following code:
 
 ```tsx filename="src/lib/nexus.ts" showLineNumbers
-import { NexusSDK } from '@avail-project/nexus';
+import { NexusSDK } from '@avail-project/nexus-core';
 
 export const sdk = new NexusSDK({ network: 'testnet'});
 ```
