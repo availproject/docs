@@ -49,7 +49,7 @@ export function Feedback({ className }: FeedbackProps) {
   if (state === "submitted") {
     return (
       <div className={cn("flex items-center gap-8", className)}>
-        <p className="text-base leading-[26px] text-card-foreground">
+        <p className="body-16 text-card-foreground">
           Thanks for your feedback!
         </p>
       </div>
@@ -68,7 +68,7 @@ export function Feedback({ className }: FeedbackProps) {
     >
       {/* Question row */}
       <div className="flex items-center gap-8">
-        <p className="text-base leading-[26px] text-card-foreground">
+        <p className="body-16 text-card-foreground">
           How is this guide?
         </p>
         <div className="flex items-start gap-3">
@@ -85,7 +85,7 @@ export function Feedback({ className }: FeedbackProps) {
             )}
           >
             <ThumbsUp className="size-5 shrink-0" />
-            <span className="flex-1 text-sm leading-[18px] text-foreground text-center">
+            <span className="flex-1 ui-14 text-foreground text-center">
               Good
             </span>
           </button>
@@ -103,7 +103,7 @@ export function Feedback({ className }: FeedbackProps) {
             )}
           >
             <ThumbsDown className="size-5 shrink-0" />
-            <span className="flex-1 text-sm leading-[18px] text-foreground text-center">
+            <span className="flex-1 ui-14 text-foreground text-center">
               Bad
             </span>
           </button>
@@ -121,7 +121,7 @@ export function Feedback({ className }: FeedbackProps) {
             className={cn(
               "w-full h-20 p-4 resize-none",
               "bg-surface border border-card-border",
-              "text-base leading-[26px] text-foreground",
+              "body-16 text-foreground",
               "placeholder:text-muted-foreground",
               "focus:outline-none focus:ring-1 focus:ring-brand"
             )}
@@ -140,7 +140,7 @@ export function Feedback({ className }: FeedbackProps) {
               "disabled:opacity-50 disabled:cursor-not-allowed"
             )}
           >
-            <span className="text-sm leading-[18px] text-center">
+            <span className="ui-14 text-center">
               {isSubmitting ? "..." : "Submit"}
             </span>
           </button>

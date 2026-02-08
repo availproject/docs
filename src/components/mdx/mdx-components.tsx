@@ -125,7 +125,7 @@ export const mdxComponents: MDXComponentsMap = {
   ),
   a: ({ className, ...props }: React.ComponentProps<"a">) => (
     <a
-      className={cn("font-medium underline underline-offset-4", className)}
+      className={cn("font-medium text-link-foreground underline decoration-[var(--link-underline)] underline-offset-4 hover:decoration-[var(--link-underline-hover)]", className)}
       {...props}
     />
   ),
@@ -302,7 +302,7 @@ export const mdxComponents: MDXComponentsMap = {
   Callout,
   Link: ({ className, ...props }: React.ComponentProps<typeof Link>) => (
     <Link
-      className={cn("font-medium underline underline-offset-4", className)}
+      className={cn("font-medium text-link-foreground underline decoration-[var(--link-underline)] underline-offset-4 hover:decoration-[var(--link-underline-hover)]", className)}
       {...props}
     />
   ),
