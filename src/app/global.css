@@ -405,9 +405,9 @@
     --ring: var(--blue-500);
 
     /* Brand */
-    --brand: var(--blue-500);
+    --brand: var(--grey-dark-1000);
     --brand-foreground: var(--white-0);
-    --primary: var(--blue-500);
+    --primary: var(--grey-dark-1000);
     --primary-foreground: var(--white-0);
 
     /* Secondary */
