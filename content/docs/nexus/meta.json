@@ -2,10 +2,9 @@
   "pages": [
     "introduction-to-nexus",
     "concepts",
-    "nexus-overview",
-    "nexus-quickstart",
-    "nexus-examples",
+    "nexus-ui-elements",
     "avail-nexus-sdk",
+    "cookbook-recipes",
     "nexus-cheatsheet"
   ]
 }

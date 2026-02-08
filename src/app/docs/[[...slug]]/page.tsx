@@ -9,6 +9,7 @@ import fm from "front-matter";
 import { z } from "zod";
 import { Badge } from "@/components/ui/badge";
 import { PageFooter } from "@/components/mdx/page-footer";
+import { getProductTree } from "@/lib/page-tree-utils";
 
 export const revalidate = false;
 export const dynamic = "force-static";
@@ -63,7 +64,12 @@ export default async function Page(props: {
   }
   const doc = page.data;
   const MDX = doc.body;
-  const neighbours = findNeighbour(source.pageTree, page.url);
+  const productSlug = params.slug?.[0];
+  const navTree =
+    productSlug === "da" || productSlug === "nexus"
+      ? getProductTree(source.pageTree, productSlug)
+      : source.pageTree;
+  const neighbours = findNeighbour(navTree, page.url);
   const raw = await page.data.getText("raw");
   const { attributes } = fm(raw);
   const { links } = z
@@ -83,6 +89,9 @@ export default async function Page(props: {
     .filter(Boolean)
     .slice(0, -1)
     .map((segment, index, arr) => {
+      if (segment === "docs" && index === 0) {
+        return { href: "/", label: "Home" };
+      }
       const href = "/" + arr.slice(0, index + 1).join("/");
       const label = segment
         .split("-")

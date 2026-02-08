@@ -130,20 +130,36 @@ function MobileNav({
 
           <div className="flex flex-col gap-4">
             <div className="text-muted-foreground text-sm font-medium">
-              Components
+              Products
             </div>
             <div className="flex flex-col gap-3">
-              {componentItems.map((item, idx) => (
-                <MobileLink
-                  key={`${item.href}-${idx}`}
-                  href={item.href}
-                  onOpenChange={setOpen}
-                >
-                  {item.label}
-                </MobileLink>
-              ))}
+              <MobileLink href="/docs/da" onOpenChange={setOpen}>
+                Avail DA
+              </MobileLink>
+              <MobileLink href="/docs/nexus" onOpenChange={setOpen}>
+                Avail Nexus
+              </MobileLink>
             </div>
           </div>
+
+          {componentItems.length > 0 && (
+            <div className="flex flex-col gap-4">
+              <div className="text-muted-foreground text-sm font-medium">
+                Components
+              </div>
+              <div className="flex flex-col gap-3">
+                {componentItems.map((item, idx) => (
+                  <MobileLink
+                    key={`${item.href}-${idx}`}
+                    href={item.href}
+                    onOpenChange={setOpen}
+                  >
+                    {item.label}
+                  </MobileLink>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </PopoverContent>
     </Popover>

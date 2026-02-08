@@ -1,0 +1,4 @@
+{
+  "title": "Components",
+  "pages": ["deposit", "fast-bridge", "transfer", "swaps", "unified-balance", "view-history"]
+}
