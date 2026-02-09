@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { AvailDALogo, AvailNexusLogo } from "@/components/logos";
+import { AvailDALogo } from "@/components/logos/avail-da-logo";
+import { AvailNexusLogo } from "@/components/logos/avail-nexus-logo";
 import { products } from "@/lib/products";
 
 const productCards = [

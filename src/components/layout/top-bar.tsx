@@ -17,7 +17,7 @@ import { SearchBar } from "./search-bar";
 import { ThemeToggle } from "./theme-toggle";
 import { AccountMenu } from "./account-menu";
 import { ProductSwitcher } from "./product-switcher";
-import { AvailLogo } from "@/components/logos";
+import { AvailLogo } from "@/components/logos/avail-logo";
 
 const ThemeControl = dynamic(
   () => import("./theme-control").then((m) => m.default),
