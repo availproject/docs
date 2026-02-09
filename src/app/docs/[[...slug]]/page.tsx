@@ -125,7 +125,7 @@ export default async function Page(props: {
                   {doc.title}
                 </h1>
                 {doc.description && (
-                  <p className="text-base leading-relaxed text-foreground">
+                  <p className="body-16 text-foreground">
                     {doc.description}
                   </p>
                 )}
@@ -181,7 +181,7 @@ export default async function Page(props: {
       </div>
 
       {/* Right sidebar - On This Page */}
-      <div className="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--header-height)-1px)] w-60 flex-col gap-4 overflow-hidden overscroll-none xl:flex">
+      <div className="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--header-height)-1px)] w-60 flex-col gap-4 overflow-hidden overscroll-none ui-16 xl:flex">
         <div className="h-10 shrink-0" />
         {doc.toc?.length ? (
           <div className="no-scrollbar overflow-y-auto relative">

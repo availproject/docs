@@ -181,6 +181,7 @@
     /* Links */
     --color-link-foreground: var(--link-foreground);
     --color-link-underline: var(--link-underline);
+    --color-link-underline-hover: var(--link-underline-hover);
 
     /* Feedback */
     --color-feedback-success-background: var(--feedback-success-background);
@@ -387,9 +388,9 @@
     --header-height: 72px;
 
     /* Fonts */
-    --font-sans: "Delight", system-ui, sans-serif;
-    --font-serif: "Inter", system-ui, sans-serif;
-    --font-mono: "Inter", system-ui, sans-serif;
+    --font-sans: "Delight", var(--font-geist-sans), system-ui, sans-serif;
+    --font-serif: var(--font-geist-sans), system-ui, sans-serif;
+    --font-mono: var(--font-geist-mono), monospace;
 }
 
 .dark {
@@ -561,6 +562,38 @@
     }
 }
 
+@utility body-14 {
+    font-family: var(--font-geist-sans), system-ui, sans-serif;
+    font-size: 0.875rem;
+    line-height: 1.625;
+    font-weight: 400;
+    letter-spacing: 0em;
+}
+
+@utility body-16 {
+    font-family: var(--font-geist-sans), system-ui, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 400;
+    letter-spacing: 0em;
+}
+
+@utility ui-16 {
+    font-family: var(--font-geist-sans), system-ui, sans-serif;
+    font-size: 1rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+    letter-spacing: 0em;
+}
+
+@utility ui-14 {
+    font-family: var(--font-geist-sans), system-ui, sans-serif;
+    font-size: 0.875rem;
+    line-height: 1.125rem;
+    font-weight: 400;
+    letter-spacing: 0em;
+}
+
 @utility extend-touch-target {
     @media (pointer: coarse) {
         @apply relative touch-manipulation after:absolute after:-inset-2;
@@ -568,6 +601,21 @@
 }
 
 @layer components {
+    /* Fumadocs card */
+    [data-card] {
+        border-radius: 0 !important;
+    }
+
+    /* Fumadocs card title */
+    [data-card] > h3 {
+        @apply ui-16;
+    }
+
+    /* Fumadocs card description */
+    [data-card] > p.text-fd-muted-foreground {
+        @apply body-16;
+    }
+
     [data-rehype-pretty-code-figure] {
         --code-shadow-size: 8px;
         background-color: var(--color-card);

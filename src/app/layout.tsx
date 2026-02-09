@@ -5,6 +5,8 @@ import Topbar from "@/components/layout/top-bar";
 import { Toaster } from "@/components/ui/sonner";
 import Web3Provider from "@/providers/Web3Provider";
 import { PostHogProvider } from "@/providers/PostHogProvider";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -20,7 +22,7 @@ export const metadata: Metadata = {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="font-sans" suppressHydrationWarning>
+    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable} font-sans`} suppressHydrationWarning>
       <body className="flex flex-col min-h-screen antialiased">
         <PostHogProvider>
           <Web3Provider>

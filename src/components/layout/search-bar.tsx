@@ -19,7 +19,7 @@ export function SearchBar({ className, onClick }: SearchBarProps) {
       onClick={onClick}
     >
       <Search className="size-5 shrink-0" />
-      <span className="flex-1 text-left text-base leading-5">Search...</span>
+      <span className="ui-16 flex-1 text-left">Search...</span>
       <kbd className="relative flex h-6 items-center gap-0.5 bg-key-background px-1 pt-0.5 pb-1 text-sm leading-[18px] text-key-foreground">
         <span>S</span>
         <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-key-underline" />
