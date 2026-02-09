@@ -2,21 +2,21 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { Search, ChevronRight, ChevronDown, Check } from "lucide-react";
+import { ChevronRight, ChevronDown, Check } from "lucide-react";
 import { useDocsSearch } from "fumadocs-core/search/client";
 import type { SortedResult } from "fumadocs-core/search";
 import {
   CommandDialog,
-  CommandEmpty,
+  CommandInput,
   CommandList,
 } from "@/components/ui/command";
+import { SearchResultItem } from "@/components/search/search-result-item";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { cn } from "@/lib/utils";
 import { useAnalytics } from "@/hooks/use-analytics";
 
 const FILTER_OPTIONS = [
@@ -164,35 +164,36 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
       onOpenChange={onOpenChange}
       title="Search Documentation"
       description="Search for pages, components, and more"
-      className="w-150 max-w-[calc(100vw-2rem)] overflow-hidden border-none bg-transparent p-0 shadow-lg"
+      className="w-150 max-w-[calc(100vw-2rem)] overflow-hidden border-none bg-transparent p-0 shadow-lg rounded-none [&_[data-slot=command]]:rounded-none [&_[data-slot=command-input-wrapper]]:h-10 [&_[data-slot=command-input-wrapper]]:border-x [&_[data-slot=command-input-wrapper]]:border-t [&_[data-slot=command-input-wrapper]]:border-b-0 [&_[data-slot=command-input-wrapper]]:border-search-border [&_[data-slot=command-input-wrapper]]:bg-search-background [&_[data-slot=command-input-wrapper]]:rounded-none [&_[data-slot=command-input-wrapper]_svg]:size-5 [&_[data-slot=command-input-wrapper]_svg]:text-search-foreground [&_[data-slot=command-input-wrapper]_svg]:opacity-100"
       showCloseButton={false}
+      shouldFilter={false}
+      loop
     >
       {/* Search input */}
-      <div className="flex h-10 items-center gap-2 border-x border-t border-search-border rounded-t-lg px-3 bg-search-background">
-        <Search className="size-5 shrink-0 text-search-foreground" />
-        <input
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search..."
-          className="flex-1 bg-transparent text-base text-search-foreground-active placeholder:text-search-foreground outline-none"
-          autoFocus
-        />
-        <kbd className="flex h-6 items-center gap-0.5 rounded-sm bg-key-background px-1 pt-0.5 pb-1 text-sm text-key-foreground relative">
-          <span>ESC</span>
-          <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-key-underline" />
-        </kbd>
-      </div>
+      <CommandInput
+        value={search}
+        onValueChange={setSearch}
+        placeholder="Search..."
+        className="ui-16 flex-1 bg-transparent text-search-foreground-active placeholder:text-search-foreground outline-none"
+        autoFocus
+        suffix={
+          <kbd className="flex h-6 items-center gap-0.5 rounded-sm bg-key-background px-1 pt-0.5 pb-1 text-sm text-key-foreground relative">
+            <span>ESC</span>
+            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-key-underline" />
+          </kbd>
+        }
+      />
 
       {/* Results */}
       <CommandList className="max-h-80 border-x border-t border-search-border px-3 py-4 bg-search-background overflow-y-auto">
         {hasQuery && results.length === 0 && !isLoading && (
-          <CommandEmpty className="text-search-foreground py-6 text-center">
+          <div className="ui-16 text-search-foreground py-6 text-center">
             No results found.
-          </CommandEmpty>
+          </div>
         )}
 
         {isLoading && (
-          <div className="py-6 text-center text-sm text-search-foreground">
+          <div className="ui-16 py-6 text-center text-search-foreground">
             Searching...
           </div>
         )}
@@ -203,15 +204,9 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
             {results.map((group, groupIndex) => (
               <div key={group.id} className="flex flex-col gap-2">
                 {/* Page header with breadcrumbs */}
-                <button
-                  type="button"
-                  onClick={() => handleSelect(group.url, group.title, groupIndex)}
-                  className={cn(
-                    "w-full text-left p-2 rounded-sm transition-colors",
-                    groupIndex === 0
-                      ? "bg-search-results-background-hover"
-                      : "hover:bg-search-results-background-hover",
-                  )}
+                <SearchResultItem
+                  value={group.id}
+                  onSelect={() => handleSelect(group.url, group.title, groupIndex)}
                 >
                   {/* Breadcrumbs */}
                   {group.breadcrumbs.length > 0 && (
@@ -221,7 +216,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
                           {index > 0 && (
                             <ChevronRight className="size-4 text-search-foreground" />
                           )}
-                          <span className="text-sm text-search-foreground">
+                          <span className="ui-16 text-search-foreground">
                             {crumb}
                           </span>
                         </React.Fragment>
@@ -229,10 +224,10 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
                     </div>
                   )}
                   {/* Page title */}
-                  <span className="text-base text-search-results-foreground-primary">
+                  <span className="ui-16 text-search-results-foreground-primary">
                     {group.title}
                   </span>
-                </button>
+                </SearchResultItem>
 
                 {/* Child results (headings/text) */}
                 {group.children.length > 0 && (
@@ -242,26 +237,22 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
                     {/* Child items */}
                     <div className="flex flex-col flex-1 gap-2">
                       {group.children.map((child, childIndex) => (
-                        <button
+                        <SearchResultItem
                           key={child.id}
-                          type="button"
-                          onClick={() =>
+                          value={child.id}
+                          onSelect={() =>
                             handleSelect(
                               child.url,
                               child.content,
                               groupIndex * 100 + childIndex + 1
                             )
                           }
-                          className={cn(
-                            "w-full text-left p-2 rounded-sm transition-colors",
-                            "text-search-results-foreground",
-                            "hover:bg-search-results-background-hover",
-                          )}
+                          className="ui-16 text-search-results-foreground"
                         >
                           {child.type === "heading"
                             ? `# ${child.content}`
                             : child.content}
-                        </button>
+                        </SearchResultItem>
                       ))}
                     </div>
                   </div>
@@ -273,14 +264,14 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
       </CommandList>
 
       {/* Footer */}
-      <div className="flex h-10 items-center justify-between border border-search-border rounded-b-lg px-3 bg-search-background">
+      <div className="flex h-10 items-center justify-between border border-search-border rounded-none px-3 bg-search-background">
         <div className="flex items-center gap-4">
-          <span className="text-sm text-search-foreground">Filter</span>
+          <span className="ui-16 text-search-foreground">Filter</span>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button
                 type="button"
-                className="flex items-center gap-1 text-sm text-search-foreground hover:text-search-foreground-active transition-colors"
+                className="ui-16 flex items-center gap-1 text-search-foreground hover:text-search-foreground-active transition-colors"
               >
                 {currentFilterLabel}
                 <ChevronDown className="size-4" />
