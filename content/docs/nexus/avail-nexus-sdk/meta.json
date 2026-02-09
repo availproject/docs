@@ -1,11 +1,10 @@
 {
+  "title": "Nexus SDK",
   "pages": [
+    "build-your-first-liquid-app",
     "bridge-methods",
     "swap-methods",
     "hooks-and-errors",
-    "api-reference",
-    "nexus-elements",
-    "Nexus Core",
-    "Nexus Elements"
+    "api-reference"
   ]
 }

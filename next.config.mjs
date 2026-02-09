@@ -12,6 +12,11 @@ const config = {
   turbopack: {
     root: __dirname,
   },
+  async redirects() {
+    return [
+      { source: '/docs', destination: '/docs/da/welcome-to-avail-docs', permanent: false },
+    ];
+  },
 };
 
 export default withMDX(config);
