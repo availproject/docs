@@ -2,12 +2,12 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { Search, ChevronRight, ChevronDown, Check } from "lucide-react";
-import { Command as CommandPrimitive } from "cmdk";
+import { ChevronRight, ChevronDown, Check } from "lucide-react";
 import { useDocsSearch } from "fumadocs-core/search/client";
 import type { SortedResult } from "fumadocs-core/search";
 import {
   CommandDialog,
+  CommandInput,
   CommandList,
 } from "@/components/ui/command";
 import { SearchResultItem } from "@/components/search/search-result-item";
@@ -164,26 +164,25 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
       onOpenChange={onOpenChange}
       title="Search Documentation"
       description="Search for pages, components, and more"
-      className="w-150 max-w-[calc(100vw-2rem)] overflow-hidden border-none bg-transparent p-0 shadow-lg rounded-none [&_[data-slot=command]]:rounded-none"
+      className="w-150 max-w-[calc(100vw-2rem)] overflow-hidden border-none bg-transparent p-0 shadow-lg rounded-none [&_[data-slot=command]]:rounded-none [&_[data-slot=command-input-wrapper]]:h-10 [&_[data-slot=command-input-wrapper]]:border-x [&_[data-slot=command-input-wrapper]]:border-t [&_[data-slot=command-input-wrapper]]:border-b-0 [&_[data-slot=command-input-wrapper]]:border-search-border [&_[data-slot=command-input-wrapper]]:bg-search-background [&_[data-slot=command-input-wrapper]]:rounded-none [&_[data-slot=command-input-wrapper]_svg]:size-5 [&_[data-slot=command-input-wrapper]_svg]:text-search-foreground [&_[data-slot=command-input-wrapper]_svg]:opacity-100"
       showCloseButton={false}
       shouldFilter={false}
       loop
     >
       {/* Search input */}
-      <div className="flex h-10 items-center gap-2 border-x border-t border-search-border rounded-none px-3 bg-search-background">
-        <Search className="size-5 shrink-0 text-search-foreground" />
-        <CommandPrimitive.Input
-          value={search}
-          onValueChange={setSearch}
-          placeholder="Search..."
-          className="ui-16 flex-1 bg-transparent text-search-foreground-active placeholder:text-search-foreground outline-none"
-          autoFocus
-        />
-        <kbd className="flex h-6 items-center gap-0.5 rounded-sm bg-key-background px-1 pt-0.5 pb-1 text-sm text-key-foreground relative">
-          <span>ESC</span>
-          <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-key-underline" />
-        </kbd>
-      </div>
+      <CommandInput
+        value={search}
+        onValueChange={setSearch}
+        placeholder="Search..."
+        className="ui-16 flex-1 bg-transparent text-search-foreground-active placeholder:text-search-foreground outline-none"
+        autoFocus
+        suffix={
+          <kbd className="flex h-6 items-center gap-0.5 rounded-sm bg-key-background px-1 pt-0.5 pb-1 text-sm text-key-foreground relative">
+            <span>ESC</span>
+            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-key-underline" />
+          </kbd>
+        }
+      />
 
       {/* Results */}
       <CommandList className="max-h-80 border-x border-t border-search-border px-3 py-4 bg-search-background overflow-y-auto">
