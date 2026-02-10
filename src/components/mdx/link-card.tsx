@@ -40,7 +40,7 @@ export function LinkCard({
       {...wrapperProps}
       onClick={handleClick}
       className={cn(
-        "group flex flex-col gap-4 border border-card-border bg-card p-4 transition-colors hover:bg-card-header-background",
+        "group flex flex-col gap-4 border border-card-border bg-card p-4 transition-colors can-hover:bg-card-header-background",
         className
       )}
     >

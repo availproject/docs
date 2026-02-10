@@ -63,6 +63,7 @@
 }
 
 @custom-variant dark (&:is(.dark *));
+@custom-variant can-hover (&:is(@media(hover:hover) *));
 
 @theme inline {
     --breakpoint-xs: 375px;
@@ -77,6 +78,12 @@
     --radius-md: 8px;
     --radius-lg: 12px;
     --radius-xl: 16px;
+
+    /* Shadows */
+    --shadow-xs: var(--shadow-xs);
+    --shadow-sm: var(--shadow-sm);
+    --shadow-md: var(--shadow-md);
+    --shadow-lg: var(--shadow-lg);
 
     /* Global semantic tokens (shadcn compatible) */
     --color-background: var(--background);
@@ -387,6 +394,12 @@
     /* Layout */
     --header-height: 72px;
 
+    /* Shadows */
+    --shadow-xs: 0px 1px 2px 0px rgba(0, 0, 0, 0.03);
+    --shadow-sm: 0px 1px 4px 0px rgba(85, 85, 85, 0.05);
+    --shadow-md: 0px 1px 12px 0px rgba(91, 91, 91, 0.05);
+    --shadow-lg: 0px 4px 24px 0px rgba(91, 91, 91, 0.08);
+
     /* Fonts */
     --font-sans: "Delight", var(--font-geist-sans), system-ui, sans-serif;
     --font-serif: var(--font-geist-sans), system-ui, sans-serif;
@@ -517,6 +530,12 @@
     --feedback-error-foreground: var(--red-50);
     --feedback-info-background: var(--black-50);
     --feedback-info-foreground: var(--grey-dark-900);
+
+    /* Shadows */
+    --shadow-xs: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+    --shadow-sm: 0px 1px 4px 0px rgba(0, 0, 0, 0.15);
+    --shadow-md: 0px 1px 12px 0px rgba(0, 0, 0, 0.15);
+    --shadow-lg: 0px 4px 24px 0px rgba(0, 0, 0, 0.2);
 }
 
 @layer base {
@@ -537,7 +556,20 @@
 
     a:active,
     button:active {
-        @apply opacity-60 md:opacity-100;
+        filter: brightness(0.92);
+    }
+
+    h1, h2, h3, h4 { text-wrap: balance; }
+
+    a, button { touch-action: manipulation; }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+        }
     }
 }
 

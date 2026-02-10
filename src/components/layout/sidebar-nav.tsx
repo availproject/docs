@@ -132,7 +132,7 @@ function SidebarFolder({
         <button
           type="button"
           onClick={handleToggle}
-          className="shrink-0 p-0.5"
+          className="shrink-0 p-0.5 extend-touch-target"
           aria-label={isExpanded ? "Collapse section" : "Expand section"}
         >
           {chevron}

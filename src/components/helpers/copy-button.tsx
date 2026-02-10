@@ -46,7 +46,7 @@ export function CopyButton({
           size="icon"
           variant={variant}
           className={cn(
-            "z-10 size-8 bg-transparent hover:bg-secondary active:bg-muted transition-colors",
+            "z-10 size-8 bg-transparent hover:bg-secondary active:bg-muted transition-colors extend-touch-target",
             hasCopied && "bg-muted",
             customPosition ?? "absolute top-2 right-2",
             className,

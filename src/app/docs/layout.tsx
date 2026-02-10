@@ -14,7 +14,7 @@ export default function DocsLayout({
         className="min-h-min flex-1 items-start px-0 [--sidebar-width:300px] [--top-spacing:0] lg:grid lg:grid-cols-[var(--sidebar-width)_minmax(0,1fr)] lg:[--top-spacing:calc(var(--spacing)*4)]"
       >
         <SidebarNav tree={source.pageTree} />
-        <main className="h-full w-full bg-background">{children}</main>
+        <main id="main-content" className="h-full w-full bg-background">{children}</main>
       </SidebarProvider>
     </div>
   );

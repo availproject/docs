@@ -41,7 +41,7 @@ export function IconCard({
       {...wrapperProps}
       onClick={handleClick}
       className={cn(
-        "group flex flex-col gap-3 border border-card-border bg-card p-4 w-full transition-colors hover:bg-secondary",
+        "group flex flex-col gap-3 border border-card-border bg-card p-4 w-full transition-colors can-hover:bg-secondary",
         className
       )}
     >
