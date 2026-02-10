@@ -4,6 +4,7 @@ import { useState } from "react";
 import {
   Sun,
   Moon,
+  Monitor,
   ChevronDown,
   ChevronUp,
   Loader2,
@@ -81,17 +82,20 @@ export function AccountMenu({ theme, setTheme }: AccountMenuProps) {
                 <button
                   type="button"
                   onClick={() => {
-                    setTheme(theme === "dark" ? "light" : "dark");
+                    const next = theme === "light" ? "dark" : theme === "dark" ? "system" : "light";
+                    setTheme(next);
                   }}
                   className="flex h-10 w-full items-center gap-2 px-3 border-l border-r border-t border-menu-item-border bg-menu-item-background text-menu-item-foreground hover:bg-menu-item-background-hover transition-colors"
                 >
                   {theme === "dark" ? (
                     <Sun className="size-5" />
+                  ) : theme === "system" ? (
+                    <Sun className="size-5" />
                   ) : (
                     <Moon className="size-5" />
                   )}
                   <span>
-                    {theme === "dark" ? "Avail Light" : "Avail Dark"}
+                    {theme === "dark" ? "Avail Light" : theme === "system" ? "Avail Light" : "Avail Dark"}
                   </span>
                 </button>
                 {/* Disconnect */}

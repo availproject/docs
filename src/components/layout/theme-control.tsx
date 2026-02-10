@@ -1,5 +1,5 @@
 "use client";
-import { Moon, Palette, Sun } from "lucide-react";
+import { Moon, Monitor, Palette, Sun } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 import {
   Select,
@@ -46,6 +46,9 @@ const ThemeControlContent = ({
         </ToggleGroupItem>
         <ToggleGroupItem value="dark" aria-label="Dark theme">
           <Moon className="size-3" />
+        </ToggleGroupItem>
+        <ToggleGroupItem value="system" aria-label="System theme">
+          <Monitor className="size-3" />
         </ToggleGroupItem>
       </ToggleGroup>
       {/*<Select
