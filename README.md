@@ -193,8 +193,9 @@ We use **version-based** branch names:
 4. Run `pnpm build` to verify nothing is broken
 5. Open a PR against `main`
 
-> Husky is configured via `prepare` and installs on `pnpm install`.  
+> Husky is configured via `prepare` and installs on `pnpm install`.
 > Pre-commit runs `pnpm validate:precommit` (lint-staged + typecheck).
+
 
 ### Code quality
 
