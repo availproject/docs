@@ -372,16 +372,20 @@ export function OnThisPage({
             <PopoverContent
               align="start"
               side="right"
-              className="w-48 p-1 bg-card border-card-border"
+              sideOffset={16}
+              className="w-auto p-0 border-menu-item-border bg-menu-item-background"
             >
-              <div className="flex flex-col">
-                {AI_SERVICES.map((service) => (
+              <div className="flex flex-col ui-16">
+                {AI_SERVICES.map((service, index) => (
                   <button
                     key={service.id}
                     type="button"
                     onClick={() => handleOpenInAI(service.id)}
                     disabled={isAILoading === service.id}
-                    className="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:bg-sidebar-item-background-hover transition-colors disabled:opacity-50"
+                    className={cn(
+                      "flex h-10 w-full items-center gap-2 px-3 bg-menu-item-background text-search-foreground hover:bg-menu-item-background-hover transition-colors disabled:opacity-50",
+                      index < AI_SERVICES.length - 1 && "border-b border-menu-item-border",
+                    )}
                   >
                     {isAILoading === service.id ? (
                       <Loader2 className="size-4 shrink-0 animate-spin" />

@@ -62,7 +62,7 @@ export function ProductSwitcher() {
               router.push("/");
               setOpen(false);
             }}
-            className="flex h-10 w-full items-center gap-2 px-3 border-l border-r border-t border-menu-item-border transition-colors bg-menu-item-background text-search-foreground hover:bg-menu-item-background-hover"
+            className="flex h-10 w-full items-center gap-2 px-3 border-b border-menu-item-border transition-colors bg-menu-item-background text-search-foreground hover:bg-menu-item-background-hover"
           >
             <span>Homepage</span>
           </button>
@@ -82,7 +82,7 @@ export function ProductSwitcher() {
                   setOpen(false);
                 }}
                 className={cn(
-                  "flex h-10 w-full items-center gap-2 px-3 border-l border-r border-t last:border-b border-menu-item-border transition-colors",
+                  "flex h-10 w-full items-center gap-2 px-3 transition-colors [&:not(:last-child)]:border-b [&:not(:last-child)]:border-menu-item-border",
                   isActive
                     ? "bg-menu-item-background text-menu-item-foreground"
                     : "bg-menu-item-background text-search-foreground hover:bg-menu-item-background-hover",
