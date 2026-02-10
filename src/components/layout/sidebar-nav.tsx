@@ -134,6 +134,7 @@ function SidebarFolder({
           onClick={handleClick}
           className={rowClassName}
           aria-expanded={isExpanded}
+          aria-label={isExpanded ? "Collapse section" : "Expand section"}
         >
           <span className="flex-1 min-w-0 truncate text-left leading-5">{name}</span>
           <span ref={chevronRef} className="shrink-0 rounded-sm p-0.5 can-hover:hover:bg-sidebar-item-background-hover">{chevron}</span>
