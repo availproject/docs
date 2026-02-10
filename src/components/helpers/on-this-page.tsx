@@ -2,6 +2,7 @@
 import React from "react";
 import { usePathname } from "next/navigation";
 import { cn, TOC_BY_PATH } from "@/lib/utils";
+import { REPO } from "@/lib/repo";
 
 import {
   List,
@@ -435,7 +436,7 @@ export function OnThisPage({
 
             {/* Edit in GitHub */}
             <a
-              href={`https://github.com/availproject/docs-fumadocs/edit/main/content/docs${pathname?.replace(/^\/docs/, "") || ""}/index.mdx`}
+              href={`https://github.com/${REPO.owner}/${REPO.name}/edit/${REPO.branch}/${REPO.contentDir}${pathname?.replace(/^\/docs/, "") || ""}/index.mdx`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-page-nav-foreground hover:text-page-nav-foreground-hover transition-colors cursor-pointer"
