@@ -152,7 +152,7 @@ export interface NavCardClickedEvent {
   event: 'nav_card_clicked'
   properties: {
     card_title: string
-    card_type: 'concept' | 'link'
+    card_type: 'concept' | 'icon' | 'link'
     destination_path: string
     page_path: string
   }

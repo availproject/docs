@@ -12,16 +12,26 @@ import { CodeBlockCommand } from "./code-block-command";
 import { CodeCollapsibleWrapper } from "./code-collapsible-wrapper";
 
 import {
+  ArrowLeftRight,
+  Brain,
   Code,
+  Coins,
   FileIcon,
   Github,
+  Globe,
+  Link2,
   LinkIcon,
   LoaderPinwheelIcon,
+  Puzzle,
+  RefreshCw,
+  Scale,
+  Send,
   Youtube,
 } from "lucide-react";
 import { Callout } from "./callout";
 import { LinkCard, LinkCardGrid } from "./link-card";
 import { ConceptCard, ConceptCardGrid } from "./concept-card";
+import { IconCard, IconCardGrid } from "./icon-card";
 import { Feedback } from "./feedback";
 import { PageFooter } from "./page-footer";
 import {
@@ -370,12 +380,24 @@ export const mdxComponents: MDXComponentsMap = {
   FileIcon,
   LinkIcon,
   LoaderPinwheelIcon,
+  Link2,
+  Coins,
+  Brain,
+  Puzzle,
+  RefreshCw,
+  Send,
+  ArrowLeftRight,
+  Globe,
+  Scale,
   // Link cards for documentation navigation
   LinkCard,
   LinkCardGrid,
   // Concept cards for concept/feature display
   ConceptCard,
   ConceptCardGrid,
+  // Icon cards for landing pages with icon + title + description
+  IconCard,
+  IconCardGrid,
   // Feedback component
   Feedback,
   // Page footer with navigation
