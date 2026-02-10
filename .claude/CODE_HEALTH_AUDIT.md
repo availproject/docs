@@ -4,7 +4,7 @@
 >
 > This file tracks verified code quality issues. Work through items during cleanup sessions — not every PR.
 > Mark items with ~~strikethrough~~ or delete rows as they get resolved.
-> Run `/review` to refresh findings and update this file.
+> Run `/audit` to refresh findings and update this file.
 >
 > For detailed breakdowns (biome lint rules, broken links, duplicates, missing descriptions, build status, priorities), see [AUDIT_DETAILS.md](./AUDIT_DETAILS.md).
 
@@ -38,9 +38,22 @@
 
 | File | Broken Link | Suggested Fix |
 |------|-------------|---------------|
-| `content/docs/da/faqs/index.mdx` | `/docs/clash-of-nodes/faqs.mdx` | Remove or update — "clash-of-nodes" section doesn't exist, `.mdx` extension shouldn't be in links |
-| `content/docs/da/build-with-avail/deploy-rollup-on-avail/Optimium/op-stack/index.mdx` | `/docs/introduction-to-avail/avail-da` | `/docs/da/learn-about-avail` |
-| `content/docs/da/build-with-avail/deploy-rollup-on-avail/sovereign-rollups/cosmos-avail-module/index.mdx` | `/docs/introduction-to-avail/...` (2 occurrences) | `/docs/da/learn-about-avail/...` |
+| ~~`content/docs/da/faqs/index.mdx`~~ | ~~`/docs/clash-of-nodes/faqs.mdx`~~ | ~~Resolved — now links to external blog~~ |
+| ~~`content/docs/da/build-with-avail/.../Optimium/op-stack/index.mdx`~~ | ~~`/docs/introduction-to-avail/avail-da`~~ | ~~Resolved — now uses `/docs/da/welcome-to-avail-docs`~~ |
+| ~~`content/docs/da/build-with-avail/.../cosmos-avail-module/index.mdx`~~ | ~~`/docs/introduction-to-avail/...`~~ | ~~Resolved — now uses `/docs/da/welcome-to-avail-docs`~~ |
+| `content/docs/da/user-guides/.../stake-on-avail/overview/index.mdx:60` | `/docs/glossary#era` | `/docs/da/glossary#era` — missing `/da/` segment |
+| `content/docs/da/user-guides/.../staking-governance/overview/index.mdx:26` | `/docs/da/build-with-avail/vectorx#using-the-bridge` | Remove anchor — `#using-the-bridge` heading no longer exists |
+| `content/docs/nexus/concepts/bridge-v-swap/index.mdx:21,47` | Self-referential links to `/docs/nexus/concepts/bridge-v-swap` | Line 21: `/docs/nexus/nexus-sdk/swap-methods`; Line 47: remove or change target |
+| `content/docs/da/glossary/index.mdx:27` | Relative link `(../user-guides/staking-governance/overview)` | Use absolute `/docs/da/user-guides/staking-governance/overview` |
+
+### External links that should be internal (NEW)
+
+| File | External Link | Internal Equivalent |
+|------|---------------|---------------------|
+| `da/faqs/index.mdx:60-62` | `https://docs.availproject.org/` (×3 links) | `/docs/da`, `/docs/da/operate-a-node/become-a-validator`, `/docs/da/operate-a-node/run-a-light-client` |
+| `da/.../cosmos-avail-module/index.mdx:104` | `https://docs.availproject.org/docs/operate-a-node/run-a-light-client/Overview` | `/docs/da/operate-a-node/run-a-light-client/Overview` |
+| `da/.../Validium/cdk/cdk/index.mdx:226` | `https://docs.availproject.org/docs/build-with-avail/vectorx` | `/docs/da/build-with-avail/vectorx` |
+| `da/.../Validium/zksync/zksync/index.mdx` | 6 links to `docs.availproject.org` (lines 169-223) | Corresponding `/docs/da/...` internal paths |
 
 ## 5. Spelling Errors in Content
 
@@ -50,6 +63,9 @@
 | `content/docs/da/build-with-avail/deploy-rollup-on-avail/sovereign-rollups/cosmos-avail-module/index.mdx` | "permisionless" | "permissionless" |
 | `content/docs/da/faqs/index.mdx` | "buiding" | "building" |
 | `content/docs/da/user-guides/accounts/index.mdx` | "nnote" | "note" |
+| `content/docs/da/user-guides/avail-multisig/index.mdx:110` | "seperate" | "separate" |
+| `content/docs/da/operate-a-node/become-a-validator/0020-simple-deployment/index.mdx:132` | "seperate" | "separate" |
+| `content/docs/da/api-reference/avail-node-api/da-app-keys/index.mdx:212` | "seperated" | "separated" |
 
 ## 6. Stale Hardcoded Values
 
