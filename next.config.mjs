@@ -9,6 +9,9 @@ const withMDX = createMDX();
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
+  experimental: {
+    optimizePackageImports: ["@phosphor-icons/react"],
+  },
   turbopack: {
     root: __dirname,
   },

@@ -1,6 +1,6 @@
 "use client";
 import React, { ReactNode, useEffect } from "react";
-import { LoaderPinwheel } from "lucide-react";
+import { Spinner } from "@phosphor-icons/react";
 import { type EthereumProvider } from "@avail-project/nexus-core";
 import { useAccount, useConnectorClient } from "wagmi";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -54,7 +54,7 @@ export function PreviewPanel({
         {status === "connected" && !nexusSDK && (
           <Button onClick={initializeNexus}>
             {loading ? (
-              <LoaderPinwheel className="size-6 animate-spin" />
+              <Spinner size={24} className="animate-spin" />
             ) : (
               "Initialize Nexus"
             )}

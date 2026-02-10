@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Toggle } from "../ui/toggle";
-import { Check, X } from "lucide-react";
+import { Check, X } from "@phosphor-icons/react";
 import { getItem } from "@/lib/local-storage";
 import { NETWORK_KEY } from "@/providers/Web3Provider";
 import { PreviewPanel } from "../helpers/preview-panel";
@@ -82,9 +82,9 @@ const ShowcaseWrapper = ({
           >
             <p className="text-sm font-medium">{label}</p>
             {isPressed ? (
-              <Check className="size-4" />
+              <Check size={16} />
             ) : (
-              <X className="size-4" />
+              <X size={16} />
             )}
           </Toggle>
         )}

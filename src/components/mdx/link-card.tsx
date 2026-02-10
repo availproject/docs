@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { useAnalytics } from "@/hooks/use-analytics";
 
@@ -52,7 +52,7 @@ export function LinkCard({
         <span className="flex-1 text-base font-normal text-foreground">
           {title}
         </span>
-        <ArrowUpRight className="size-5 text-muted-foreground transition-colors group-hover:text-foreground" />
+        <ArrowUpRight size={20} className="text-muted-foreground transition-colors group-hover:text-foreground" />
       </div>
     </Wrapper>
   );

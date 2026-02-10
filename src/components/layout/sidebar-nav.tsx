@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Root, Item, Node } from "fumadocs-core/page-tree";
-import { ChevronUp, ChevronDown } from "lucide-react";
+import { CaretUp, CaretDown } from "@phosphor-icons/react";
 import { Sidebar, SidebarContent } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import { useAnalytics } from "@/hooks/use-analytics";
@@ -97,9 +97,9 @@ function SidebarFolder({
   };
 
   const chevron = isExpanded ? (
-    <ChevronUp className="size-5 shrink-0 text-sidebar-item-foreground" />
+    <CaretUp size={20} className="shrink-0 text-sidebar-item-foreground" />
   ) : (
-    <ChevronDown className="size-5 shrink-0 text-sidebar-item-foreground" />
+    <CaretDown size={20} className="shrink-0 text-sidebar-item-foreground" />
   );
 
   return (

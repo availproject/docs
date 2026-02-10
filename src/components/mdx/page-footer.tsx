@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { Feedback } from "./feedback";
 import { useAnalytics } from "@/hooks/use-analytics";
@@ -39,11 +39,11 @@ function PageFooterNavItem({
         )}
       >
         {isPrevious && (
-          <ChevronLeft className="size-5 text-foreground shrink-0" />
+          <CaretLeft size={20} className="text-foreground shrink-0" />
         )}
         <span className="ui-16 text-foreground">{title}</span>
         {!isPrevious && (
-          <ChevronRight className="size-5 text-foreground shrink-0" />
+          <CaretRight size={20} className="text-foreground shrink-0" />
         )}
       </div>
       {description && (

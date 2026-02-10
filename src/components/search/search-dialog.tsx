@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { ChevronRight, ChevronDown, Check } from "lucide-react";
+import { CaretRight, CaretDown, Check } from "@phosphor-icons/react";
 import { useDocsSearch } from "fumadocs-core/search/client";
 import type { SortedResult } from "fumadocs-core/search";
 import {
@@ -214,7 +214,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
                       {group.breadcrumbs.map((crumb, index) => (
                         <React.Fragment key={index}>
                           {index > 0 && (
-                            <ChevronRight className="size-4 text-search-foreground" />
+                            <CaretRight size={16} className="text-search-foreground" />
                           )}
                           <span className="ui-16 text-search-foreground">
                             {crumb}
@@ -274,7 +274,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
                 className="ui-16 flex items-center gap-1 text-search-foreground hover:text-search-foreground-active transition-colors"
               >
                 {currentFilterLabel}
-                <ChevronDown className="size-4" />
+                <CaretDown size={16} />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="min-w-40">
@@ -285,7 +285,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
                   className="flex items-center justify-between"
                 >
                   {option.label}
-                  {filter === option.value && <Check className="size-4" />}
+                  {filter === option.value && <Check size={16} />}
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>

@@ -3,7 +3,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-import { Check, Copy } from "lucide-react";
+import { Check, Copy } from "@phosphor-icons/react";
 import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { useAnalytics } from "@/hooks/use-analytics";
@@ -65,9 +65,9 @@ export function CopyButton({
         >
           <span className="sr-only">Copy</span>
           {hasCopied ? (
-            <Check className="size-5 text-muted-foreground" />
+            <Check size={20} className="text-muted-foreground" />
           ) : (
-            <Copy className="size-5 text-muted-foreground" />
+            <Copy size={20} className="text-muted-foreground" />
           )}
         </Button>
       </TooltipTrigger>

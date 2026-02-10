@@ -5,11 +5,11 @@ import {
   Sun,
   Moon,
   Monitor,
-  ChevronDown,
-  ChevronUp,
-  Loader2,
-  LogOut,
-} from "lucide-react";
+  CaretDown,
+  CaretUp,
+  SpinnerGap,
+  SignOut,
+} from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import {
   Popover,
@@ -38,7 +38,7 @@ export function AccountMenu({ theme, setTheme }: AccountMenuProps) {
               className="flex h-10 items-center gap-2 px-3 bg-menu-item-background border border-menu-item-border text-menu-item-foreground hover:bg-menu-item-background-hover transition-colors"
             >
               {isConnecting ? (
-                <Loader2 className="size-5 animate-spin" />
+                <SpinnerGap size={20} className="animate-spin" />
               ) : null}
               <span className="text-base leading-5">Connect</span>
             </button>
@@ -66,9 +66,9 @@ export function AccountMenu({ theme, setTheme }: AccountMenuProps) {
                   {displayName}
                 </span>
                 {open ? (
-                  <ChevronUp className="size-5 text-menu-item-foreground" />
+                  <CaretUp size={20} className="text-menu-item-foreground" />
                 ) : (
-                  <ChevronDown className="size-5 text-menu-item-foreground" />
+                  <CaretDown size={20} className="text-menu-item-foreground" />
                 )}
               </button>
             </PopoverTrigger>
@@ -88,11 +88,11 @@ export function AccountMenu({ theme, setTheme }: AccountMenuProps) {
                   className="flex h-10 w-full items-center gap-2 px-3 border-l border-r border-t border-menu-item-border bg-menu-item-background text-menu-item-foreground hover:bg-menu-item-background-hover transition-colors"
                 >
                   {theme === "dark" ? (
-                    <Sun className="size-5" />
+                    <Sun size={20} />
                   ) : theme === "system" ? (
-                    <Sun className="size-5" />
+                    <Sun size={20} />
                   ) : (
-                    <Moon className="size-5" />
+                    <Moon size={20} />
                   )}
                   <span>
                     {theme === "dark" ? "Avail Light" : theme === "system" ? "Avail Light" : "Avail Dark"}
@@ -107,7 +107,7 @@ export function AccountMenu({ theme, setTheme }: AccountMenuProps) {
                   }}
                   className="flex h-10 w-full items-center gap-2 px-3 border border-menu-item-border bg-menu-item-background text-search-foreground hover:bg-menu-item-background-hover transition-colors"
                 >
-                  <LogOut className="size-5" />
+                  <SignOut size={20} />
                   <span>Disconnect wallet</span>
                 </button>
               </div>

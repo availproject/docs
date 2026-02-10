@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { findNeighbour } from "fumadocs-core/page-tree";
 import { source } from "@/lib/source";
 import { mdxComponents } from "@/components/mdx/mdx-components";
-import { ArrowUpRight, ChevronRight } from "lucide-react";
+import { ArrowUpRight, CaretRight } from "@phosphor-icons/react/ssr";
 import { OnThisPage } from "@/components/helpers/on-this-page";
 import fm from "front-matter";
 import { z } from "zod";
@@ -125,7 +125,7 @@ export default async function Page(props: {
                       >
                         {crumb.label}
                       </Link>
-                      <ChevronRight className="size-5 text-breadcrumb-previous" />
+                      <CaretRight size={20} className="text-breadcrumb-previous" />
                     </span>
                   ))}
                   <span className="ui-16 text-breadcrumb-current">
@@ -196,7 +196,7 @@ export default async function Page(props: {
       </div>
 
       {/* Right sidebar - On This Page */}
-      <div className="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--header-height)-1px)] xl:w-70 2xl:w-80 flex-col gap-4 overflow-hidden overscroll-none ui-16 xl:flex xl:pr-10 2xl:pr-20">
+      <div className="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--header-height)-1px)] xl:w-70 2xl:w-80 flex-col gap-4 ui-16 xl:flex xl:pr-10 2xl:pr-20">
         <div className="h-10 shrink-0" />
         <div className="no-scrollbar overflow-y-auto relative">
           <OnThisPage toc={doc.toc} />

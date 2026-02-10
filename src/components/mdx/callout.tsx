@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
-import { Info, AlertTriangle, AlertCircle } from "lucide-react";
+import { Info } from "@phosphor-icons/react/ssr";
+import { Warning, WarningCircle } from "@phosphor-icons/react/ssr";
 
 type CalloutType = "info" | "warning" | "error" | "default";
 
@@ -12,10 +13,10 @@ interface CalloutProps {
 }
 
 const typeIcons: Record<CalloutType, React.ReactNode> = {
-  info: <Info className="size-5 text-card-foreground" />,
-  warning: <AlertTriangle className="size-5 text-card-foreground" />,
-  error: <AlertCircle className="size-5 text-card-foreground" />,
-  default: <Info className="size-5 text-card-foreground" />,
+  info: <Info size={20} className="text-card-foreground" />,
+  warning: <Warning size={20} className="text-card-foreground" />,
+  error: <WarningCircle size={20} className="text-card-foreground" />,
+  default: <Info size={20} className="text-card-foreground" />,
 };
 
 const defaultTitles: Record<CalloutType, string> = {

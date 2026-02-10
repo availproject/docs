@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ThumbsUp, ThumbsDown } from "lucide-react";
+import { ThumbsUp, ThumbsDown } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { useAnalytics } from "@/hooks/use-analytics";
 
@@ -84,7 +84,7 @@ export function Feedback({ className }: FeedbackProps) {
                 : "bg-card border-border hover:bg-card-header-background"
             )}
           >
-            <ThumbsUp className="size-5 shrink-0" />
+            <ThumbsUp size={20} className="shrink-0" />
             <span className="flex-1 ui-14 text-foreground text-center">
               Good
             </span>
@@ -102,7 +102,7 @@ export function Feedback({ className }: FeedbackProps) {
                 : "bg-card border-border hover:bg-card-header-background"
             )}
           >
-            <ThumbsDown className="size-5 shrink-0" />
+            <ThumbsDown size={20} className="shrink-0" />
             <span className="flex-1 ui-14 text-foreground text-center">
               Bad
             </span>

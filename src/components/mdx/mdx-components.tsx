@@ -12,22 +12,24 @@ import { CodeBlockCommand } from "./code-block-command";
 import { CodeCollapsibleWrapper } from "./code-collapsible-wrapper";
 
 import {
-  ArrowLeftRight,
-  Brain,
   Code,
+  File as FileIcon,
+  GithubLogo,
+  Link as LinkIcon,
+  Spinner,
+  YoutubeLogo,
+  LinkSimple,
   Coins,
-  FileIcon,
-  Github,
+  Brain,
+  PuzzlePiece,
+  ArrowsClockwise,
+  PaperPlaneTilt,
+  ArrowsLeftRight,
+  Bridge,
+  Swap,
   Globe,
-  Link2,
-  LinkIcon,
-  LoaderPinwheelIcon,
-  Puzzle,
-  RefreshCw,
-  Scale,
-  Send,
-  Youtube,
-} from "lucide-react";
+  Scales,
+} from "@phosphor-icons/react/ssr";
 import { Callout } from "./callout";
 import { LinkCard, LinkCardGrid } from "./link-card";
 import { ConceptCard, ConceptCardGrid } from "./concept-card";
@@ -373,22 +375,24 @@ export const mdxComponents: MDXComponentsMap = {
     <div className={cn("mt-6 grid gap-4 sm:grid-cols-2", className)} {...props} />
   ),
   // Media and icons
-  Youtube,
-  YouTube: Youtube, // Alias for nextra compatibility (uppercase T)
-  Github,
-  GithubIcon24: Github, // Alias for nextra compatibility
+  Youtube: YoutubeLogo,
+  YouTube: YoutubeLogo, // Alias for nextra compatibility (uppercase T)
+  Github: GithubLogo,
+  GithubIcon24: GithubLogo, // Alias for nextra compatibility
   FileIcon,
   LinkIcon,
-  LoaderPinwheelIcon,
-  Link2,
+  LoaderPinwheelIcon: Spinner,
+  Link2: LinkSimple,
   Coins,
   Brain,
-  Puzzle,
-  RefreshCw,
-  Send,
-  ArrowLeftRight,
+  Puzzle: PuzzlePiece,
+  RefreshCw: ArrowsClockwise,
+  Send: PaperPlaneTilt,
+  ArrowLeftRight: ArrowsLeftRight,
+  Bridge,
+  Swap,
   Globe,
-  Scale,
+  Scale: Scales,
   // Link cards for documentation navigation
   LinkCard,
   LinkCardGrid,
