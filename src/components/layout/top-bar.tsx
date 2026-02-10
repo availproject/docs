@@ -92,7 +92,7 @@ export default function Topbar() {
               {isProductPage ? (
                 <ProductSwitcher />
               ) : (
-                <Link href="/" className="cursor-pointer text-[#006BF4] dark:text-foreground">
+                <Link href="/" className="inline-flex items-center cursor-pointer text-[#006BF4] dark:text-foreground">
                   <AvailLogo />
                 </Link>
               )}
@@ -107,14 +107,14 @@ export default function Topbar() {
           {/* Center: Search + Theme toggle */}
           <div className="hidden lg:flex items-center gap-3">
             <SearchBar onClick={() => setSearchOpen(true)} />
-            <ThemeToggle theme={resolvedTheme ?? "light"} setTheme={setTheme} />
+            <ThemeToggle theme={theme ?? "system"} resolvedTheme={resolvedTheme ?? "light"} setTheme={setTheme} />
           </div>
 
           {/* Right: Account */}
           <div className="flex items-center gap-3">
             <div className="hidden lg:block">
               <AccountMenu
-                theme={resolvedTheme ?? "light"}
+                theme={theme ?? "system"}
                 setTheme={setTheme}
               />
             </div>

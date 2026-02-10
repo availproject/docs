@@ -1,10 +1,10 @@
 {
   "pages": [
-    "introduction-to-nexus",
+    "get-started",
     "concepts",
     "nexus-ui-elements",
-    "avail-nexus-sdk",
+    "nexus-sdk",
     "cookbook-recipes",
-    "nexus-cheatsheet"
+    "cheat-sheet"
   ]
 }

@@ -40,13 +40,13 @@ function SidebarItem({
       href={item.url}
       onClick={handleClick}
       className={cn(
-        "flex h-10 w-full items-center gap-2 px-4 py-2.5 text-base transition-colors",
+        "flex h-10 w-full min-w-0 items-center gap-2 px-4 py-2.5 text-base transition-colors",
         isActive
           ? "bg-sidebar-item-background-active text-sidebar-item-foreground-active"
           : "bg-transparent text-sidebar-item-foreground hover:bg-sidebar-item-background-hover",
       )}
     >
-      <span className="flex-1 truncate leading-5">{item.name}</span>
+      <span className="flex-1 min-w-0 truncate leading-5">{item.name}</span>
     </Link>
   );
 }
@@ -103,10 +103,10 @@ function SidebarFolder({
   );
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full min-w-0">
       <div
         className={cn(
-          "flex h-10 w-full items-center gap-2 px-4 py-2.5 text-base transition-colors",
+          "flex h-10 w-full min-w-0 items-center gap-2 px-4 py-2.5 text-base transition-colors",
           isActive
             ? "bg-sidebar-item-background-active text-sidebar-item-foreground-active"
             : "bg-transparent text-sidebar-item-foreground hover:bg-sidebar-item-background-hover",
@@ -116,7 +116,7 @@ function SidebarFolder({
           <Link
             href={href}
             onClick={handleNameClick}
-            className="flex-1 truncate text-left leading-5"
+            className="flex-1 min-w-0 truncate text-left leading-5"
           >
             {name}
           </Link>
@@ -124,7 +124,7 @@ function SidebarFolder({
           <button
             type="button"
             onClick={() => setIsExpanded(!isExpanded)}
-            className="flex-1 truncate text-left leading-5"
+            className="flex-1 min-w-0 truncate text-left leading-5"
           >
             {name}
           </button>
@@ -139,11 +139,11 @@ function SidebarFolder({
         </button>
       </div>
       {isExpanded && (
-        <div className="flex gap-1 pl-4">
+        <div className="flex gap-1 pl-4 min-w-0">
           {/* Vertical line */}
           <div className="w-px shrink-0 bg-border" />
           {/* Children wrapper */}
-          <div className="flex flex-col flex-1">{children}</div>
+          <div className="flex flex-col flex-1 min-w-0">{children}</div>
         </div>
       )}
     </div>
@@ -327,7 +327,7 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
       {...props}
     >
       <SidebarContent className="no-scrollbar flex-1 overflow-y-auto overflow-x-hidden">
-        <div className="flex flex-col gap-1">{renderTopLevel()}</div>
+        <div className="flex flex-col gap-1 min-w-0">{renderTopLevel()}</div>
       </SidebarContent>
 
       {/* Footer section */}

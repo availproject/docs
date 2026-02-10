@@ -93,19 +93,25 @@ export default async function Page(props: {
         return { href: "/", label: "Home" };
       }
       const href = "/" + arr.slice(0, index + 1).join("/");
-      const label = segment
-        .split("-")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(" ");
+      const segmentLabels: Record<string, string> = {
+        "nexus-sdk": "Nexus SDK",
+        "api-reference": "API Reference",
+      };
+      const label =
+        segmentLabels[segment] ??
+        segment
+          .split("-")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" ");
       return { href, label };
     });
 
   return (
     <div className="flex items-stretch text-base xl:w-full no-scrollbar">
-      <div className="flex min-w-0 flex-1 flex-col bg-background ">
+      <div className="flex min-w-0 flex-1 flex-col bg-background xl:pl-10 2xl:pl-20">
         <div className="mx-auto flex w-full max-w-160 min-w-0 flex-1 flex-col gap-20 px-4 py-18 md:px-0">
           {/* Content sections */}
-          <div className="flex flex-col gap-20">
+          <div className="flex flex-col gap-4">
             {/* Header section with breadcrumbs and title */}
             <div className="flex flex-col gap-6">
               {/* Breadcrumbs */}
@@ -115,14 +121,14 @@ export default async function Page(props: {
                     <span key={crumb.href} className="flex items-center gap-1">
                       <Link
                         href={crumb.href}
-                        className="text-base text-breadcrumb-previous hover:text-foreground transition-colors"
+                        className="ui-16 text-breadcrumb-previous hover:text-foreground transition-colors"
                       >
                         {crumb.label}
                       </Link>
                       <ChevronRight className="size-5 text-breadcrumb-previous" />
                     </span>
                   ))}
-                  <span className="text-base text-breadcrumb-current">
+                  <span className="ui-16 text-breadcrumb-current">
                     {doc.title}
                   </span>
                 </nav>
@@ -162,7 +168,7 @@ export default async function Page(props: {
             </div>
 
             {/* Main content */}
-            <div className="w-full flex-1 text-foreground *:data-[slot=alert]:first:mt-0">
+            <div className="w-full flex-1 text-secondary-foreground *:data-[slot=alert]:first:mt-0">
               <MDX components={mdxComponents} />
             </div>
           </div>
@@ -190,14 +196,12 @@ export default async function Page(props: {
       </div>
 
       {/* Right sidebar - On This Page */}
-      <div className="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--header-height)-1px)] w-60 flex-col gap-4 overflow-hidden overscroll-none ui-16 xl:flex">
+      <div className="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--header-height)-1px)] xl:w-70 2xl:w-80 flex-col gap-4 overflow-hidden overscroll-none ui-16 xl:flex xl:pr-10 2xl:pr-20">
         <div className="h-10 shrink-0" />
-        {doc.toc?.length ? (
-          <div className="no-scrollbar overflow-y-auto relative">
-            <OnThisPage toc={doc.toc} />
-            <div className="h-12" />
-          </div>
-        ) : null}
+        <div className="no-scrollbar overflow-y-auto relative">
+          <OnThisPage toc={doc.toc} />
+          <div className="h-12" />
+        </div>
       </div>
     </div>
   );

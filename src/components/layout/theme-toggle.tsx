@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Sun, Moon, ChevronDown, ChevronUp } from "lucide-react";
+import { Sun, Moon, Monitor, ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   Popover,
@@ -11,26 +11,26 @@ import {
 
 interface ThemeToggleProps {
   theme: string;
+  resolvedTheme: string;
   setTheme: (theme: string) => void;
 }
 
-export function ThemeToggle({ theme, setTheme }: ThemeToggleProps) {
+export function ThemeToggle({ theme, resolvedTheme, setTheme }: ThemeToggleProps) {
   const [open, setOpen] = useState(false);
-  const isDark = theme === "dark";
+  const Icon = resolvedTheme === "dark" ? Moon : Sun;
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <div className="flex items-center">
         <button
           type="button"
-          onClick={() => setTheme(isDark ? "light" : "dark")}
+          onClick={() => {
+            const next = resolvedTheme === "dark" ? "light" : "dark";
+            setTheme(next);
+          }}
           className="flex h-10 items-center gap-2 px-3 bg-menu-item-background border-l border-t border-b border-menu-item-border"
         >
-          {isDark ? (
-            <Moon className="size-5 text-menu-item-foreground" />
-          ) : (
-            <Sun className="size-5 text-menu-item-foreground" />
-          )}
+          <Icon className="size-5 text-menu-item-foreground" />
         </button>
         <PopoverTrigger asChild>
           <button
@@ -53,7 +53,7 @@ export function ThemeToggle({ theme, setTheme }: ThemeToggleProps) {
         sideOffset={8}
         className="w-auto p-0 border-menu-item-border bg-menu-item-background"
       >
-        <div className="flex flex-col">
+        <div className="flex flex-col ui-16">
           <button
             type="button"
             onClick={() => {
@@ -61,14 +61,14 @@ export function ThemeToggle({ theme, setTheme }: ThemeToggleProps) {
               setOpen(false);
             }}
             className={cn(
-              "flex h-10 w-full items-center gap-2 px-3 border-l border-r border-t border-menu-item-border transition-colors",
+              "flex h-10 w-full items-center gap-2 px-3 border-b border-menu-item-border transition-colors",
               theme === "light"
                 ? "bg-menu-item-background text-menu-item-foreground"
                 : "bg-menu-item-background text-search-foreground hover:bg-menu-item-background-hover",
             )}
           >
             <Sun className="size-5" />
-            <span className="text-base leading-5">Avail Light</span>
+            <span>Avail Light</span>
           </button>
           <button
             type="button"
@@ -77,14 +77,30 @@ export function ThemeToggle({ theme, setTheme }: ThemeToggleProps) {
               setOpen(false);
             }}
             className={cn(
-              "flex h-10 w-full items-center gap-2 px-3 border border-menu-item-border transition-colors",
+              "flex h-10 w-full items-center gap-2 px-3 border-b border-menu-item-border transition-colors",
               theme === "dark"
                 ? "bg-menu-item-background text-menu-item-foreground"
                 : "bg-menu-item-background text-search-foreground hover:bg-menu-item-background-hover",
             )}
           >
             <Moon className="size-5" />
-            <span className="text-base leading-5">Avail Dark</span>
+            <span>Avail Dark</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setTheme("system");
+              setOpen(false);
+            }}
+            className={cn(
+              "flex h-10 w-full items-center gap-2 px-3 transition-colors",
+              theme === "system"
+                ? "bg-menu-item-background text-menu-item-foreground"
+                : "bg-menu-item-background text-search-foreground hover:bg-menu-item-background-hover",
+            )}
+          >
+            <Monitor className="size-5" />
+            <span>System</span>
           </button>
         </div>
       </PopoverContent>

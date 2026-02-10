@@ -4,6 +4,7 @@ import { useState } from "react";
 import {
   Sun,
   Moon,
+  Monitor,
   ChevronDown,
   ChevronUp,
   Loader2,
@@ -76,22 +77,25 @@ export function AccountMenu({ theme, setTheme }: AccountMenuProps) {
               sideOffset={8}
               className="w-56 p-0 border-menu-item-border bg-menu-item-background"
             >
-              <div className="flex flex-col">
+              <div className="flex flex-col ui-16">
                 {/* Theme toggle */}
                 <button
                   type="button"
                   onClick={() => {
-                    setTheme(theme === "dark" ? "light" : "dark");
+                    const next = theme === "light" ? "dark" : theme === "dark" ? "system" : "light";
+                    setTheme(next);
                   }}
                   className="flex h-10 w-full items-center gap-2 px-3 border-l border-r border-t border-menu-item-border bg-menu-item-background text-menu-item-foreground hover:bg-menu-item-background-hover transition-colors"
                 >
                   {theme === "dark" ? (
                     <Sun className="size-5" />
+                  ) : theme === "system" ? (
+                    <Sun className="size-5" />
                   ) : (
                     <Moon className="size-5" />
                   )}
-                  <span className="text-base leading-5">
-                    {theme === "dark" ? "Avail Light" : "Avail Dark"}
+                  <span>
+                    {theme === "dark" ? "Avail Light" : theme === "system" ? "Avail Light" : "Avail Dark"}
                   </span>
                 </button>
                 {/* Disconnect */}
@@ -104,7 +108,7 @@ export function AccountMenu({ theme, setTheme }: AccountMenuProps) {
                   className="flex h-10 w-full items-center gap-2 px-3 border border-menu-item-border bg-menu-item-background text-search-foreground hover:bg-menu-item-background-hover transition-colors"
                 >
                   <LogOut className="size-5" />
-                  <span className="text-base leading-5">Disconnect wallet</span>
+                  <span>Disconnect wallet</span>
                 </button>
               </div>
             </PopoverContent>

@@ -18,7 +18,7 @@ export const products: Product[] = [
     slug: "nexus",
     label: "Avail Nexus",
     basePath: "/docs/nexus",
-    startUrl: "/docs/nexus/introduction-to-nexus",
+    startUrl: "/docs/nexus/get-started",
     logoKey: "avail-nexus",
   },
 ];

@@ -8,7 +8,7 @@ export function AvailDALogo({ className, ...props }: React.SVGProps<SVGSVGElemen
       viewBox="0 0 105 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={cn("block h-8 w-auto", className)}
+      className={cn("block h-6 w-auto", className)}
       aria-label="Avail DA"
       {...props}
     >
