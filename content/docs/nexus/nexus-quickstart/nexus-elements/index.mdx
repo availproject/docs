@@ -3,6 +3,17 @@ title: Nexus Elements Quickstart
 description: Get started with Nexus Elements — a shadcn-style component library built on top of Nexus SDK.
 ---
 
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { ArrowSquareUpRight } from "@phosphor-icons/react/ssr";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
+
 Nexus Elements is a shadcn-style component library built on top of `@avail-project/nexus-core`.
 
 Simply install components via the shadcn CLI, wrap your app with the `NexusProvider`, and render the required component.
@@ -13,6 +24,28 @@ Simply install components via the shadcn CLI, wrap your app with the `NexusProvi
 </Callout>
 
 <Steps>
+  <p className="mb-3">
+    If you haven't already, set up shadcn/ui in your project first. Follow the
+    official installation guide
+  </p>
+  <Button
+    asChild
+    variant="secondary"
+    size="sm"
+    className="inline-flex items-center gap-2 my-2 w-full"
+  >
+    <a
+      href="https://ui.shadcn.com/docs/installation"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="no-underline"
+    >
+      Install shadcn/ui
+      <ArrowSquareUpRight size={16} />
+    </a>
+  </Button>
+  <p>Once installed, come back to continue with Nexus Elements.</p>
+</Steps>
 
 ### Clone the template repo
 
