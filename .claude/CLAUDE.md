@@ -17,6 +17,13 @@ This is the Avail documentation site built with Fumadocs and Next.js. It covers 
 - Don't define multiple components in one single file
 - Create reusable components wherever possible
 
+## Versioning & PRs
+- Branch and PR names use version numbers: `v1.1.0`, `v1.2.0`, etc.
+- Commit messages carry the context — no need to repeat it in the branch name
+- **Minor bump** (`v1.X.0`) for each PR with features, docs, or refactors
+- **Patch bump** (`v1.X.Y`) for hotfixes
+- Baseline: `main` as of PR #8 = `v1.0.0`
+
 ## Design System
 
 We use a **two-layer token architecture**:
