@@ -93,10 +93,16 @@ export default async function Page(props: {
         return { href: "/", label: "Home" };
       }
       const href = "/" + arr.slice(0, index + 1).join("/");
-      const label = segment
-        .split("-")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(" ");
+      const segmentLabels: Record<string, string> = {
+        "nexus-sdk": "Nexus SDK",
+        "api-reference": "API Reference",
+      };
+      const label =
+        segmentLabels[segment] ??
+        segment
+          .split("-")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" ");
       return { href, label };
     });
 
