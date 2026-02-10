@@ -1,9 +1,12 @@
 # Code Health Audit
 
-> Last reviewed: 2026-02-10
+> Last reviewed: 2026-02-11
 >
 > This file tracks verified code quality issues. Work through items during cleanup sessions — not every PR.
 > Mark items with ~~strikethrough~~ or delete rows as they get resolved.
+> Run `/review` to refresh findings and update this file.
+>
+> For detailed breakdowns (biome lint rules, broken links, duplicates, missing descriptions, build status, priorities), see [AUDIT_DETAILS.md](./AUDIT_DETAILS.md).
 
 ---
 
