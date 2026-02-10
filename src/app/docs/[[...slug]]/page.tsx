@@ -9,6 +9,7 @@ import fm from "front-matter";
 import { z } from "zod";
 import { Badge } from "@/components/ui/badge";
 import { PageFooter } from "@/components/mdx/page-footer";
+import { TrackPageVisit } from "@/components/helpers/track-page-visit";
 import { getProductTree } from "@/lib/page-tree-utils";
 
 export const revalidate = false;
@@ -136,6 +137,7 @@ export default async function Page(props: {
 
   return (
     <div className="flex items-stretch text-base xl:w-full no-scrollbar">
+      <TrackPageVisit url={page.url} title={doc.title} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}

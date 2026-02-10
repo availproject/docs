@@ -1,7 +1,6 @@
 import "./global.css";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
-import Topbar from "@/components/layout/top-bar";
 import { Toaster } from "@/components/ui/sonner";
 import Web3Provider from "@/providers/Web3Provider";
 import { PostHogProvider } from "@/providers/PostHogProvider";
@@ -39,7 +38,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               enableSystem
               disableTransitionOnChange
             >
-              <Topbar />
               {children}
               <Toaster />
             </ThemeProvider>

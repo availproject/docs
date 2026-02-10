@@ -1,9 +1,14 @@
-You are running a full code health and product improvement review for the Avail docs project.
+---
+description: Run a full code health and product improvement audit
+allowed-tools: Bash(pnpm build:*), Bash(npx tsc:*), Bash(npx biome:*)
+---
+
+You are running a full code health and product improvement audit for the Avail docs project.
 
 ## What to do
 
 ### 0. Load baseline
-Read the existing audit files first so you can compare current findings against the last review:
+Read the existing audit files first so you can compare current findings against the last audit:
 - `docs-fumadocs/.claude/CODE_HEALTH_AUDIT.md` — tracked source code issues (dead code, DRY, broken links, spelling, etc.)
 - `docs-fumadocs/.claude/AUDIT_DETAILS.md` — detailed breakdowns (lint counts, duplicate content, missing descriptions, priorities)
 
@@ -55,16 +60,16 @@ Search all `.mdx` files for internal links (`/docs/...`) and verify the target p
 - Refresh all tables with current counts
 - Move resolved items out, add new findings
 
-### IMPROVEMENTS.md (memory file — read from `~/.claude/projects/-Users-faraday-Desktop-work-at-avail-avail-docs/memory/IMPROVEMENTS.md`)
+### IMPROVEMENTS.md (memory file — `memory/IMPROVEMENTS.md`)
 - Think like a PM: what would improve the experience for each persona?
 - Add new ideas surfaced by the audit under the right persona section
-- Check off items that have been shipped
-- Move shipped items to the "Shipped" section with a date
+- Follow the file's workflow: move items between **Working**, **Approved (ready to build)**, **Shipped**, and **De-prioritized** sections
+- When something ships, move it to **Shipped** with the version (e.g. `(v1.3.0)`)
 - Do NOT auto-implement — present ideas for discussion
 
-### CHANGELOG.md (memory file — read from `~/.claude/projects/-Users-faraday-Desktop-work-at-avail-avail-docs/memory/CHANGELOG.md`)
+### CHANGELOG.md (memory file — `memory/CHANGELOG.md`)
 - If items have been shipped since the last entry, suggest a new changelog entry
-- Include: what shipped, decisions & context, impact
+- Include: what shipped, decisions & context, who benefits
 - Present the draft entry — don't write it without approval
 
 ## How to present results
@@ -72,7 +77,7 @@ Search all `.mdx` files for internal links (`/docs/...`) and verify the target p
 After running all checks and updating files, present a summary:
 
 ```
-## Review Summary — [date]
+## Audit Summary — [date]
 
 ### Build & Types
 - Build: [pass/fail] ([N] pages)
