@@ -38,6 +38,7 @@ export async function generateMetadata(props: {
   return {
     title,
     description,
+    alternates: { canonical: url },
     openGraph: {
       title,
       description,
@@ -106,8 +107,43 @@ export default async function Page(props: {
       return { href, label };
     });
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://docs.availproject.org";
+  const pageUrl = new URL(page.url, baseUrl).toString();
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: breadcrumbs.map((crumb, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: crumb.label,
+      item: new URL(crumb.href, baseUrl).toString(),
+    })),
+  };
+
+  const articleLd = {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    headline: doc.title,
+    description: doc.description || "",
+    url: pageUrl,
+    publisher: {
+      "@type": "Organization",
+      name: "Avail",
+      url: baseUrl,
+    },
+  };
+
   return (
     <div className="flex items-stretch text-base xl:w-full no-scrollbar">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }}
+      />
       <div className="flex min-w-0 flex-1 flex-col bg-background xl:pl-10 2xl:pl-20">
         <div className="mx-auto flex w-full max-w-160 min-w-0 flex-1 flex-col gap-20 px-4 py-18 md:px-0">
           {/* Content sections */}
