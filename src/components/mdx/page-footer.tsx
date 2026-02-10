@@ -41,7 +41,7 @@ function PageFooterNavItem({
         {isPrevious && (
           <ChevronLeft className="size-5 text-foreground shrink-0" />
         )}
-        <span className="text-base leading-5 text-foreground">{title}</span>
+        <span className="ui-16 text-foreground">{title}</span>
         {!isPrevious && (
           <ChevronRight className="size-5 text-foreground shrink-0" />
         )}
