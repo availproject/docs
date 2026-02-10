@@ -8,7 +8,7 @@ export function AvailNexusLogo({ className, ...props }: React.SVGProps<SVGSVGEle
       viewBox="0 0 142 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={cn("block h-8 w-auto", className)}
+      className={cn("block h-6 w-auto", className)}
       aria-label="Avail Nexus"
       {...props}
     >

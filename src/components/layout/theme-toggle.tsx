@@ -53,7 +53,7 @@ export function ThemeToggle({ theme, setTheme }: ThemeToggleProps) {
         sideOffset={8}
         className="w-auto p-0 border-menu-item-border bg-menu-item-background"
       >
-        <div className="flex flex-col">
+        <div className="flex flex-col ui-16">
           <button
             type="button"
             onClick={() => {
@@ -68,7 +68,7 @@ export function ThemeToggle({ theme, setTheme }: ThemeToggleProps) {
             )}
           >
             <Sun className="size-5" />
-            <span className="text-base leading-5">Avail Light</span>
+            <span>Avail Light</span>
           </button>
           <button
             type="button"
@@ -84,7 +84,7 @@ export function ThemeToggle({ theme, setTheme }: ThemeToggleProps) {
             )}
           >
             <Moon className="size-5" />
-            <span className="text-base leading-5">Avail Dark</span>
+            <span>Avail Dark</span>
           </button>
         </div>
       </PopoverContent>

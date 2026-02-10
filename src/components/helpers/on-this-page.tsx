@@ -11,6 +11,7 @@ import {
   Check,
   Loader2,
   ChevronRight,
+  Github,
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
@@ -314,20 +315,21 @@ export function OnThisPage({
     <div className={cn("flex flex-col gap-12", className)}>
       {/* Table of Contents */}
       {toc?.length > 0 && (
-        <div ref={tocContainerRef} className="relative flex gap-1 items-start">
-          {/* Vertical line track - stretches with content */}
-          <div className="absolute left-0 top-[14px] bottom-[14px] w-0 flex items-center justify-center">
-            <div className="h-full w-px bg-border" />
-          </div>
+        <div ref={tocContainerRef} className="relative flex items-start">
+          {/* Track + indicator wrapper */}
+          <div className="relative flex w-[8px] shrink-0 self-stretch items-center justify-center">
+            {/* Vertical line track - stretches with content */}
+            <div className="absolute top-0 bottom-0 w-px bg-border" />
 
-          {/* Blue active indicator - positioned based on actual element position */}
-          <div
-            className="absolute -left-0.5 w-[5px] bg-brand transition-all duration-200"
-            style={{
-              top: `${indicatorStyle.top}px`,
-              height: `${indicatorStyle.height}px`,
-            }}
-          />
+            {/* Blue active indicator - positioned based on actual element position */}
+            <div
+              className="absolute w-[5px] bg-brand transition-all duration-200"
+              style={{
+                top: `${indicatorStyle.top}px`,
+                height: `${indicatorStyle.height}px`,
+              }}
+            />
+          </div>
 
           <div className="flex flex-1 flex-col items-start">
             {toc.map((item) => (
@@ -353,29 +355,18 @@ export function OnThisPage({
         </div>
       )}
 
-      {/* Divider */}
-      {showActions && toc?.length > 0 && (
-        <div className="h-px w-full bg-border" />
-      )}
-
       {/* Actions */}
       {showActions && (
-        <div className="flex flex-col gap-5 items-start">
+        <div className="flex flex-col items-start">
           {/* Ask AI dropdown */}
           <Popover open={isAIMenuOpen} onOpenChange={setIsAIMenuOpen}>
             <PopoverTrigger asChild>
               <button
                 type="button"
-                className="flex items-center gap-2 text-page-nav-foreground hover:text-page-nav-foreground-hover transition-colors"
+                className="flex items-center gap-2 text-page-nav-foreground hover:text-page-nav-foreground-hover transition-colors cursor-pointer"
               >
                 <MessageSquare className="size-5 shrink-0" />
                 <span className="text-base">Ask AI about this page</span>
-                <ChevronRight
-                  className={cn(
-                    "size-4 shrink-0 transition-transform",
-                    isAIMenuOpen && "rotate-90",
-                  )}
-                />
               </button>
             </PopoverTrigger>
             <PopoverContent
@@ -404,34 +395,51 @@ export function OnThisPage({
             </PopoverContent>
           </Popover>
 
-          {/* Copy for LLM */}
-          <button
-            type="button"
-            className="flex items-start gap-2 text-page-nav-foreground hover:text-page-nav-foreground-hover transition-colors disabled:opacity-50"
-            onClick={handleCopyForLLM}
-            disabled={isCopyLoading}
-          >
-            {copied ? (
-              <Check className="size-5 shrink-0 text-green-500" />
-            ) : isCopyLoading ? (
-              <Loader2 className="size-5 shrink-0 animate-spin" />
-            ) : (
-              <Copy className="size-5 shrink-0" />
-            )}
-            <span className="text-base">
-              {copied ? "Copied!" : "Copy for LLM"}
-            </span>
-          </button>
+          {/* Divider */}
+          <div className="my-6 h-px w-full bg-border" />
 
-          {/* View as markdown */}
-          <button
-            type="button"
-            className="flex items-start gap-2 text-page-nav-foreground hover:text-page-nav-foreground-hover transition-colors"
-            onClick={handleViewMarkdown}
-          >
-            <FileText className="size-5 shrink-0" />
-            <span className="text-base">View as markdown</span>
-          </button>
+          {/* Utility actions */}
+          <div className="flex flex-col gap-5 items-start">
+            {/* Copy for LLM */}
+            <button
+              type="button"
+              className="flex items-center gap-2 text-page-nav-foreground hover:text-page-nav-foreground-hover transition-colors disabled:opacity-50 cursor-pointer"
+              onClick={handleCopyForLLM}
+              disabled={isCopyLoading}
+            >
+              {copied ? (
+                <Check className="size-5 shrink-0 text-green-500" />
+              ) : isCopyLoading ? (
+                <Loader2 className="size-5 shrink-0 animate-spin" />
+              ) : (
+                <Copy className="size-5 shrink-0" />
+              )}
+              <span className="text-base">
+                {copied ? "Copied!" : "Copy for LLM"}
+              </span>
+            </button>
+
+            {/* View as markdown */}
+            <button
+              type="button"
+              className="flex items-center gap-2 text-page-nav-foreground hover:text-page-nav-foreground-hover transition-colors cursor-pointer"
+              onClick={handleViewMarkdown}
+            >
+              <FileText className="size-5 shrink-0" />
+              <span className="text-base">View as markdown</span>
+            </button>
+
+            {/* Edit in GitHub */}
+            <a
+              href={`https://github.com/availproject/docs-fumadocs/edit/main/content/docs${pathname?.replace(/^\/docs/, "") || ""}/index.mdx`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-page-nav-foreground hover:text-page-nav-foreground-hover transition-colors cursor-pointer"
+            >
+              <Github className="size-5 shrink-0" />
+              <span className="text-base">Edit in GitHub</span>
+            </a>
+          </div>
         </div>
       )}
     </div>

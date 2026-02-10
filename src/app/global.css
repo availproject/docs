@@ -272,7 +272,7 @@
 
     /* Secondary */
     --secondary: var(--white-50);
-    --secondary-foreground: var(--grey-light-1000);
+    --secondary-foreground: var(--grey-light-900);
 
     /* Muted */
     --muted: var(--grey-light-100);
@@ -413,7 +413,7 @@
 
     /* Secondary */
     --secondary: var(--grey-dark-200);
-    --secondary-foreground: var(--grey-dark-1000);
+    --secondary-foreground: var(--grey-dark-900);
 
     /* Muted */
     --muted: var(--grey-dark-300);

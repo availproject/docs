@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+
 import { ChevronDown } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { AvailLogo } from "@/components/logos/avail-logo";
+
 import { AvailDALogo } from "@/components/logos/avail-da-logo";
 import { AvailNexusLogo } from "@/components/logos/avail-nexus-logo";
 import { products, getActiveProduct } from "@/lib/products";
@@ -32,10 +33,10 @@ export function ProductSwitcher() {
       <PopoverTrigger asChild>
         <button
           type="button"
-          className="inline-flex items-center gap-1 cursor-pointer text-[#006BF4] dark:text-foreground"
+          className="inline-flex cursor-pointer items-center gap-1 text-[#006BF4] dark:text-foreground"
           aria-label={`Switch product (currently ${activeProduct.label})`}
         >
-          <ActiveLogo className="h-8 w-auto" />
+          <ActiveLogo className="h-6 w-auto" />
           <ChevronDown
             className={cn(
               "size-5 shrink-0 translate-y-[2px] text-muted-foreground",
@@ -46,10 +47,10 @@ export function ProductSwitcher() {
       </PopoverTrigger>
       <PopoverContent
         align="start"
-        sideOffset={12}
-        className="w-auto min-w-48 p-2"
+        sideOffset={8}
+        className="w-auto min-w-48 p-0 border-menu-item-border bg-menu-item-background"
       >
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col ui-16">
           <button
             type="button"
             onClick={() => {
@@ -61,12 +62,11 @@ export function ProductSwitcher() {
               router.push("/");
               setOpen(false);
             }}
-            className="flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground"
+            className="flex h-10 w-full items-center gap-2 px-3 border-l border-r border-t border-menu-item-border transition-colors bg-menu-item-background text-search-foreground hover:bg-menu-item-background-hover"
           >
-            <AvailLogo className="h-6 w-auto" />
+            <span>Homepage</span>
           </button>
           {products.map((product) => {
-            const Logo = productLogos[product.logoKey];
             const isActive = product.slug === activeProduct.slug;
             return (
               <button
@@ -82,13 +82,13 @@ export function ProductSwitcher() {
                   setOpen(false);
                 }}
                 className={cn(
-                  "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
+                  "flex h-10 w-full items-center gap-2 px-3 border-l border-r border-t last:border-b border-menu-item-border transition-colors",
                   isActive
-                    ? "bg-accent text-accent-foreground"
-                    : "hover:bg-accent hover:text-accent-foreground",
+                    ? "bg-menu-item-background text-menu-item-foreground"
+                    : "bg-menu-item-background text-search-foreground hover:bg-menu-item-background-hover",
                 )}
               >
-                <Logo className="h-6 w-auto" />
+                <span>{product.label}</span>
               </button>
             );
           })}

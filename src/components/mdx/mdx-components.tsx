@@ -61,7 +61,7 @@ export const mdxComponents: MDXComponentsMap = {
         .replace(/\?/g, "")
         .toLowerCase();
     return (
-      <div className="mt-16 first:mt-0 flex flex-col gap-4">
+      <div className="mt-16 first:mt-0 mb-6 flex flex-col gap-4">
         <h2
           id={headingId}
           className={cn(
@@ -136,7 +136,7 @@ export const mdxComponents: MDXComponentsMap = {
     />
   ),
   img: ({ className, alt, ...props }: React.ComponentProps<"img">) => (
-    <img className={cn("rounded-md", className)} alt={alt} {...props} />
+    <img className={cn("mt-6 rounded-md", className)} alt={alt} {...props} />
   ),
   hr: (props: React.ComponentProps<"hr">) => (
     <hr className="my-4 md:my-8" {...props} />
@@ -360,7 +360,7 @@ export const mdxComponents: MDXComponentsMap = {
   CardFooter,
   // Cards wrapper for grid layout
   Cards: ({ className, ...props }: React.ComponentProps<"div">) => (
-    <div className={cn("grid gap-4 sm:grid-cols-2", className)} {...props} />
+    <div className={cn("mt-6 grid gap-4 sm:grid-cols-2", className)} {...props} />
   ),
   // Media and icons
   Youtube,

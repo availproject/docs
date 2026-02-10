@@ -76,7 +76,7 @@ export function AccountMenu({ theme, setTheme }: AccountMenuProps) {
               sideOffset={8}
               className="w-56 p-0 border-menu-item-border bg-menu-item-background"
             >
-              <div className="flex flex-col">
+              <div className="flex flex-col ui-16">
                 {/* Theme toggle */}
                 <button
                   type="button"
@@ -90,7 +90,7 @@ export function AccountMenu({ theme, setTheme }: AccountMenuProps) {
                   ) : (
                     <Moon className="size-5" />
                   )}
-                  <span className="text-base leading-5">
+                  <span>
                     {theme === "dark" ? "Avail Light" : "Avail Dark"}
                   </span>
                 </button>
@@ -104,7 +104,7 @@ export function AccountMenu({ theme, setTheme }: AccountMenuProps) {
                   className="flex h-10 w-full items-center gap-2 px-3 border border-menu-item-border bg-menu-item-background text-search-foreground hover:bg-menu-item-background-hover transition-colors"
                 >
                   <LogOut className="size-5" />
-                  <span className="text-base leading-5">Disconnect wallet</span>
+                  <span>Disconnect wallet</span>
                 </button>
               </div>
             </PopoverContent>

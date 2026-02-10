@@ -92,7 +92,7 @@ export default function Topbar() {
               {isProductPage ? (
                 <ProductSwitcher />
               ) : (
-                <Link href="/" className="cursor-pointer text-[#006BF4] dark:text-foreground">
+                <Link href="/" className="inline-flex items-center cursor-pointer text-[#006BF4] dark:text-foreground">
                   <AvailLogo />
                 </Link>
               )}
