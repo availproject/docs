@@ -144,7 +144,7 @@ Also: `content/docs/nexus/nexus-ui-elements/installation/index.mdx:124` — stra
 
 ## Missing Frontmatter Descriptions
 
-**122 out of 191 files (64%)** lack a `description` field. _(Was 123/190 — marginal improvement.)_
+**122 out of 191 files (64%)** lack a `description` field. _(Was 123/190 -- marginal improvement.)_
 
 Consistently missing:
 - Nearly all DA API reference files
@@ -182,7 +182,8 @@ Consistently present:
 | `content/docs/nexus/nexus-ui-elements/mcp-documentation/index.mdx` | "This page is coming soon." |
 | `content/docs/nexus/nexus-sdk/build-your-first-liquid-app/index.mdx` | "This guide is coming soon." |
 
-~~`content/docs/nexus/cookbook-recipes/index.mdx`~~ — Resolved (content added or removed).
+~~`content/docs/nexus/cookbook-recipes/index.mdx`~~ -- Resolved (content added or removed).
+
 
 Near-empty pages:
 - `da/api-reference/gas-relay-deprecated/index.mdx` — deprecation notice only
@@ -207,10 +208,10 @@ Near-empty pages:
 |----------|----------|-------|--------|
 | **HIGH** | Duplicate content | 6 files | Remove `nexus-quickstart/nexus-elements/` or `nexus-ui-elements/components/` |
 | **HIGH** | Biome quick-fix | ~300 | Run `npx biome check --write` |
-| **HIGH** | External→internal links | 11 links | Convert `docs.availproject.org` references to internal `/docs/da/...` paths |
+| **HIGH** | External->internal links | 11 links | Convert `docs.availproject.org` references to internal `/docs/da/...` paths |
 | **MEDIUM** | Broken internal links | 4 remaining | Fix link paths (3 resolved since last audit) |
 | **LOW** | Frontmatter external links | 20 links | Convert Nexus element `doc:`/`api:` fields to internal paths |
-| **MEDIUM** | Stray code fences | 9 files | Fix quadruple → triple backticks |
+| **MEDIUM** | Stray code fences | 9 files | Fix quadruple -> triple backticks |
 | **MEDIUM** | Exhaustive deps | ~56 | Review hook dependencies |
 | **MEDIUM** | `next/image` | ~34 | Replace `<img>` with `<Image>` |
 | **LOW** | Missing descriptions | 122 files | Add frontmatter `description` |
