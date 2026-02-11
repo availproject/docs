@@ -3,12 +3,13 @@ import { notFound } from "next/navigation";
 import { findNeighbour } from "fumadocs-core/page-tree";
 import { source } from "@/lib/source";
 import { mdxComponents } from "@/components/mdx/mdx-components";
-import { ArrowUpRight, ChevronRight } from "lucide-react";
+import { ArrowUpRight, CaretRight } from "@phosphor-icons/react/ssr";
 import { OnThisPage } from "@/components/helpers/on-this-page";
 import fm from "front-matter";
 import { z } from "zod";
 import { Badge } from "@/components/ui/badge";
 import { PageFooter } from "@/components/mdx/page-footer";
+import { TrackPageVisit } from "@/components/helpers/track-page-visit";
 import { getProductTree } from "@/lib/page-tree-utils";
 
 export const revalidate = false;
@@ -30,7 +31,8 @@ export async function generateMetadata(props: {
   const doc = page.data;
   const title = doc.title || "";
   const description = doc.description || "";
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:5001";
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://docs.availproject.org";
   const url = new URL(page.url, baseUrl).toString();
   const ogParams = `title=${encodeURIComponent(
     title,
@@ -38,6 +40,7 @@ export async function generateMetadata(props: {
   return {
     title,
     description,
+    alternates: { canonical: url },
     openGraph: {
       title,
       description,
@@ -106,8 +109,44 @@ export default async function Page(props: {
       return { href, label };
     });
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://docs.availproject.org";
+  const pageUrl = new URL(page.url, baseUrl).toString();
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: breadcrumbs.map((crumb, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: crumb.label,
+      item: new URL(crumb.href, baseUrl).toString(),
+    })),
+  };
+
+  const articleLd = {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    headline: doc.title,
+    description: doc.description || "",
+    url: pageUrl,
+    publisher: {
+      "@type": "Organization",
+      name: "Avail",
+      url: baseUrl,
+    },
+  };
+
   return (
     <div className="flex items-stretch text-base xl:w-full no-scrollbar">
+      <TrackPageVisit url={page.url} title={doc.title} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }}
+      />
       <div className="flex min-w-0 flex-1 flex-col bg-background xl:pl-10 2xl:pl-20">
         <div className="mx-auto flex w-full max-w-160 min-w-0 flex-1 flex-col gap-20 px-4 py-18 md:px-0">
           {/* Content sections */}
@@ -125,7 +164,7 @@ export default async function Page(props: {
                       >
                         {crumb.label}
                       </Link>
-                      <ChevronRight className="size-5 text-breadcrumb-previous" />
+                      <CaretRight size={20} className="text-breadcrumb-previous" />
                     </span>
                   ))}
                   <span className="ui-16 text-breadcrumb-current">
@@ -196,7 +235,7 @@ export default async function Page(props: {
       </div>
 
       {/* Right sidebar - On This Page */}
-      <div className="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--header-height)-1px)] xl:w-70 2xl:w-80 flex-col gap-4 overflow-hidden overscroll-none ui-16 xl:flex xl:pr-10 2xl:pr-20">
+      <div className="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--header-height)-1px)] xl:w-70 2xl:w-80 flex-col gap-4 ui-16 xl:flex xl:pr-10 2xl:pr-20">
         <div className="h-10 shrink-0" />
         <div className="no-scrollbar overflow-y-auto relative">
           <OnThisPage toc={doc.toc} />

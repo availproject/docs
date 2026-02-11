@@ -262,6 +262,24 @@ export interface PageNavigationEvent {
   }
 }
 
+// Recent search/page events
+export interface RecentPageClickedEvent {
+  event: 'recent_page_clicked'
+  properties: {
+    result_title: string
+    result_path: string
+    page_path: string
+  }
+}
+
+export interface RecentSearchClickedEvent {
+  event: 'recent_search_clicked'
+  properties: {
+    query: string
+    page_path: string
+  }
+}
+
 // Union type of all analytics events
 export type AnalyticsEvent =
   | CodeCopyClickedEvent
@@ -283,6 +301,8 @@ export type AnalyticsEvent =
   | SearchDialogOpenedEvent
   | SearchQuerySubmittedEvent
   | SearchResultClickedEvent
+  | RecentPageClickedEvent
+  | RecentSearchClickedEvent
   | ScrollDepthReachedEvent
   | TimeOnPageEvent
   | SectionViewedEvent

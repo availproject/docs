@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { CopyButton } from "@/components/helpers/copy-button";
 import { CodeCollapsibleWrapper } from "./code-collapsible-wrapper";
 import { highlightCode } from "@/lib/highlight-code";
-import { Code, File, FileText, Terminal } from "lucide-react";
+import { Code, File, FileText, Terminal } from "@phosphor-icons/react/ssr";
 import {
   RegistryCodeBrowser,
   type RegistryProcessedFile,

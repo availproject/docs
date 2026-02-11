@@ -10,12 +10,12 @@ import React, {
 } from "react";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import {
-  ChevronDown,
-  ChevronUp,
-  FileIcon,
-  FolderIcon,
-  FolderOpenIcon,
-} from "lucide-react";
+  CaretDown,
+  CaretUp,
+  File as FileIcon,
+  Folder as FolderIcon,
+  FolderOpen as FolderOpenIcon,
+} from "@phosphor-icons/react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -259,8 +259,8 @@ const Folder = forwardRef<
         >
           <span>{element}</span>
           {expandedItems?.includes(value)
-            ? (openIcon ?? <ChevronUp className="size-4" />)
-            : (closeIcon ?? <ChevronDown className="size-4" />)}
+            ? (openIcon ?? <CaretUp size={16} />)
+            : (closeIcon ?? <CaretDown size={16} />)}
         </AccordionPrimitive.Trigger>
         <AccordionPrimitive.Content className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down relative h-full overflow-hidden text-sm">
           {element && indicator && <TreeIndicator aria-hidden="true" />}
@@ -326,7 +326,7 @@ const File = forwardRef<
         onClick={() => selectItem(value)}
         {...props}
       >
-        {fileIcon ?? <FileIcon className="size-4" />}
+        {fileIcon ?? <FileIcon size={16} />}
         {children}
       </button>
     );

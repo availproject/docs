@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { ChevronRight, ChevronDown, Check } from "lucide-react";
+import { CaretLeft, CaretDown, Check } from "@phosphor-icons/react";
 import { useDocsSearch } from "fumadocs-core/search/client";
 import type { SortedResult } from "fumadocs-core/search";
 import {
@@ -10,7 +10,9 @@ import {
   CommandInput,
   CommandList,
 } from "@/components/ui/command";
-import { SearchResultItem } from "@/components/search/search-result-item";
+import { SearchResults } from "@/components/search/search-results";
+import { RecentSearches } from "@/components/search/recent-searches";
+import { RecentsView } from "@/components/search/recents-view";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,6 +20,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAnalytics } from "@/hooks/use-analytics";
+import { addRecentSearch } from "@/lib/recent-searches";
 
 const FILTER_OPTIONS = [
   { value: "all", label: "All" },
@@ -48,11 +51,9 @@ function groupResultsByPage(results: SortedResult[]): GroupedResult[] {
   const groups = new Map<string, GroupedResult>();
 
   for (const result of results) {
-    // Extract base page URL (remove hash fragments)
     const baseUrl = result.url.split("#")[0];
 
     if (result.type === "page") {
-      // This is a page-level result
       if (!groups.has(baseUrl)) {
         groups.set(baseUrl, {
           id: result.id,
@@ -63,10 +64,8 @@ function groupResultsByPage(results: SortedResult[]): GroupedResult[] {
         });
       }
     } else {
-      // This is a heading or text result - add to parent group
       let group = groups.get(baseUrl);
       if (!group) {
-        // Create a placeholder group if page result hasn't been seen
         group = {
           id: `page-${baseUrl}`,
           url: baseUrl,
@@ -88,6 +87,27 @@ function groupResultsByPage(results: SortedResult[]): GroupedResult[] {
   return Array.from(groups.values());
 }
 
+/**
+ * Re-ranks grouped results so pages whose title matches the query
+ * appear above pages that only mention the term in body content.
+ */
+function rankGroups(groups: GroupedResult[], query: string): GroupedResult[] {
+  const q = query.toLowerCase().trim();
+  if (!q) return groups;
+
+  return [...groups].sort((a, b) => {
+    const aTitle = a.title.toLowerCase();
+    const bTitle = b.title.toLowerCase();
+
+    const score = (title: string) =>
+      title === q ? 0 : title.startsWith(q) ? 1 : title.includes(q) ? 2 : 3;
+
+    return score(aTitle) - score(bTitle);
+  });
+}
+
+type ViewMode = "search" | "recents";
+
 interface SearchDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -96,6 +116,8 @@ interface SearchDialogProps {
 export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
   const router = useRouter();
   const [filter, setFilter] = React.useState<FilterValue>("all");
+  const [viewMode, setViewMode] = React.useState<ViewMode>("search");
+  const [selectedValue, setSelectedValue] = React.useState("");
   const { trackEvent, pathname } = useAnalytics();
   const lastTrackedQuery = React.useRef<string>("");
 
@@ -112,7 +134,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
     filter === "all"
       ? rawResults
       : rawResults.filter((r) => r.url.startsWith(filter));
-  const results = groupResultsByPage(filteredResults);
+  const results = rankGroups(groupResultsByPage(filteredResults), search);
   const isLoading = query.isLoading;
   const hasQuery = search.trim().length > 0;
 
@@ -120,11 +142,13 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
   const currentFilterLabel =
     FILTER_OPTIONS.find((opt) => opt.value === filter)?.label ?? "All";
 
-  // Reset search and filter when dialog closes
+  // Reset search, filter, and view mode when dialog closes
   React.useEffect(() => {
     if (!open) {
       setSearch("");
       setFilter("all");
+      setViewMode("search");
+      setSelectedValue("");
       lastTrackedQuery.current = "";
     }
   }, [open, setSearch]);
@@ -154,6 +178,25 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
       query: search,
       page_path: pathname,
     });
+    addRecentSearch(search);
+    onOpenChange(false);
+    router.push(url);
+  };
+
+  const handleRecentSearchSelect = (query: string) => {
+    trackEvent("recent_search_clicked", {
+      query,
+      page_path: pathname,
+    });
+    setSearch(query);
+  };
+
+  const handleRecentPageSelect = (url: string, title: string) => {
+    trackEvent("recent_page_clicked", {
+      result_title: title,
+      result_path: url,
+      page_path: pathname,
+    });
     onOpenChange(false);
     router.push(url);
   };
@@ -162,136 +205,127 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
     <CommandDialog
       open={open}
       onOpenChange={onOpenChange}
+      value={selectedValue}
+      onValueChange={setSelectedValue}
       title="Search Documentation"
       description="Search for pages, components, and more"
       className="w-150 max-w-[calc(100vw-2rem)] overflow-hidden border-none bg-transparent p-0 shadow-lg rounded-none [&_[data-slot=command]]:rounded-none [&_[data-slot=command-input-wrapper]]:h-10 [&_[data-slot=command-input-wrapper]]:border-x [&_[data-slot=command-input-wrapper]]:border-t [&_[data-slot=command-input-wrapper]]:border-b-0 [&_[data-slot=command-input-wrapper]]:border-search-border [&_[data-slot=command-input-wrapper]]:bg-search-background [&_[data-slot=command-input-wrapper]]:rounded-none [&_[data-slot=command-input-wrapper]_svg]:size-5 [&_[data-slot=command-input-wrapper]_svg]:text-search-foreground [&_[data-slot=command-input-wrapper]_svg]:opacity-100"
       showCloseButton={false}
       shouldFilter={false}
-      loop
     >
-      {/* Search input */}
-      <CommandInput
-        value={search}
-        onValueChange={setSearch}
-        placeholder="Search..."
-        className="ui-16 flex-1 bg-transparent text-search-foreground-active placeholder:text-search-foreground outline-none"
-        autoFocus
-        suffix={
+      {/* Recents view header — back button + ESC key */}
+      {viewMode === "recents" && (
+        <div className="flex h-10 items-center justify-between border-x border-t border-search-border bg-search-background px-3">
+          <button
+            type="button"
+            onClick={() => {
+              setViewMode("search");
+              setSelectedValue("");
+              requestAnimationFrame(() => {
+                const input = document.querySelector<HTMLInputElement>("[cmdk-input]");
+                input?.focus();
+              });
+            }}
+            className="flex items-center gap-1 text-search-foreground hover:text-search-foreground-active transition-colors"
+          >
+            <CaretLeft size={16} />
+            <span className="ui-16">History</span>
+          </button>
           <kbd className="flex h-6 items-center gap-0.5 rounded-sm bg-key-background px-1 pt-0.5 pb-1 text-sm text-key-foreground relative">
             <span>ESC</span>
             <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-key-underline" />
           </kbd>
-        }
-      />
+        </div>
+      )}
 
-      {/* Results */}
-      <CommandList className="max-h-80 border-x border-t border-search-border px-3 py-4 bg-search-background overflow-y-auto">
-        {hasQuery && results.length === 0 && !isLoading && (
-          <div className="ui-16 text-search-foreground py-6 text-center">
-            No results found.
-          </div>
-        )}
+      {/* Search input — hidden in recents mode but kept in DOM for cmdk */}
+      <div className={viewMode === "recents" ? "h-0 overflow-hidden" : ""}>
+        <CommandInput
+          value={search}
+          onValueChange={setSearch}
+          placeholder="Search..."
+          className="ui-16 flex-1 bg-transparent text-search-foreground-active placeholder:text-search-foreground outline-none"
+          autoFocus
+          suffix={
+            <kbd className="flex h-6 items-center gap-0.5 rounded-sm bg-key-background px-1 pt-0.5 pb-1 text-sm text-key-foreground relative">
+              <span>ESC</span>
+              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-key-underline" />
+            </kbd>
+          }
+        />
+      </div>
 
-        {isLoading && (
-          <div className="ui-16 py-6 text-center text-search-foreground">
-            Searching...
-          </div>
-        )}
+      {/* Content area */}
+      <CommandList className="max-h-80 border-x border-t border-search-border px-3 py-2 bg-search-background overflow-y-auto">
+        {viewMode === "search" ? (
+          <>
+            {/* Recent searches (empty state — no recently viewed here) */}
+            {!hasQuery && !isLoading && (
+              <RecentSearches onSelect={handleRecentSearchSelect} />
+            )}
 
-        {/* Grouped results */}
-        {results.length > 0 && (
-          <div className="flex flex-col gap-4">
-            {results.map((group, groupIndex) => (
-              <div key={group.id} className="flex flex-col gap-2">
-                {/* Page header with breadcrumbs */}
-                <SearchResultItem
-                  value={group.id}
-                  onSelect={() => handleSelect(group.url, group.title, groupIndex)}
-                >
-                  {/* Breadcrumbs */}
-                  {group.breadcrumbs.length > 0 && (
-                    <div className="flex items-center gap-1 mb-1">
-                      {group.breadcrumbs.map((crumb, index) => (
-                        <React.Fragment key={index}>
-                          {index > 0 && (
-                            <ChevronRight className="size-4 text-search-foreground" />
-                          )}
-                          <span className="ui-16 text-search-foreground">
-                            {crumb}
-                          </span>
-                        </React.Fragment>
-                      ))}
-                    </div>
-                  )}
-                  {/* Page title */}
-                  <span className="ui-16 text-search-results-foreground-primary">
-                    {group.title}
-                  </span>
-                </SearchResultItem>
-
-                {/* Child results (headings/text) */}
-                {group.children.length > 0 && (
-                  <div className="flex gap-1">
-                    {/* Vertical connector line */}
-                    <div className="w-2 shrink-0 border-l-2 border-border ml-2" />
-                    {/* Child items */}
-                    <div className="flex flex-col flex-1 gap-2">
-                      {group.children.map((child, childIndex) => (
-                        <SearchResultItem
-                          key={child.id}
-                          value={child.id}
-                          onSelect={() =>
-                            handleSelect(
-                              child.url,
-                              child.content,
-                              groupIndex * 100 + childIndex + 1
-                            )
-                          }
-                          className="ui-16 text-search-results-foreground"
-                        >
-                          {child.type === "heading"
-                            ? `# ${child.content}`
-                            : child.content}
-                        </SearchResultItem>
-                      ))}
-                    </div>
-                  </div>
-                )}
+            {hasQuery && results.length === 0 && !isLoading && (
+              <div className="ui-16 text-search-foreground py-6 text-center">
+                No results found.
               </div>
-            ))}
-          </div>
+            )}
+
+            {isLoading && (
+              <div className="ui-16 py-6 text-center text-search-foreground">
+                Searching...
+              </div>
+            )}
+
+            {/* Grouped search results */}
+            <SearchResults
+              results={results}
+              search={search}
+              onSelect={handleSelect}
+            />
+          </>
+        ) : (
+          <RecentsView onSelect={handleRecentPageSelect} />
         )}
       </CommandList>
 
-      {/* Footer */}
-      <div className="flex h-10 items-center justify-between border border-search-border rounded-none px-3 bg-search-background">
-        <div className="flex items-center gap-4">
-          <span className="ui-16 text-search-foreground">Filter</span>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button
-                type="button"
-                className="ui-16 flex items-center gap-1 text-search-foreground hover:text-search-foreground-active transition-colors"
-              >
-                {currentFilterLabel}
-                <ChevronDown className="size-4" />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="min-w-40">
-              {FILTER_OPTIONS.map((option) => (
-                <DropdownMenuItem
-                  key={option.value}
-                  onClick={() => setFilter(option.value)}
-                  className="flex items-center justify-between"
+      {/* Footer — only in search mode */}
+      {viewMode === "search" && (
+        <div className="flex h-10 items-center justify-between border border-search-border rounded-none px-3 bg-search-background">
+          <div className="flex items-center gap-4">
+            <span className="ui-16 text-search-foreground">Filter</span>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  type="button"
+                  className="ui-16 flex items-center gap-1 text-search-foreground hover:text-search-foreground-active transition-colors"
                 >
-                  {option.label}
-                  {filter === option.value && <Check className="size-4" />}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+                  {currentFilterLabel}
+                  <CaretDown size={16} />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="min-w-40">
+                {FILTER_OPTIONS.map((option) => (
+                  <DropdownMenuItem
+                    key={option.value}
+                    onClick={() => setFilter(option.value)}
+                    className="flex items-center justify-between"
+                  >
+                    {option.label}
+                    {filter === option.value && <Check size={16} />}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+          <button
+            type="button"
+            onClick={() => setViewMode("recents")}
+            className="ui-16 text-search-foreground hover:text-search-foreground-active transition-colors"
+          >
+            History
+          </button>
         </div>
-      </div>
+      )}
     </CommandDialog>
   );
 }

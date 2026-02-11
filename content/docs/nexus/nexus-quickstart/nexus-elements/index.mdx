@@ -1,124 +1,272 @@
 ---
-title: Nexus UI Elements 
-description: Install and configure Nexus Elements in your React project. Prebuilt components with full Nexus SDK integration, perfect for plug-and-play.
+title: Nexus Elements Quickstart
+description: Get started with Nexus Elements — a shadcn-style component library built on top of Nexus SDK.
 ---
 
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { SquareArrowUpRight } from "lucide-react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "@/components/ui/card";
+Nexus Elements is a shadcn-style component library built on top of `@avail-project/nexus-core`.
 
-## Important Note
+Simply install components via the shadcn CLI, wrap your app with the `NexusProvider`, and render the required component.
 
-Nexus Elements internally uses shadcn/ui components as its foundation. While you can copy and paste components without shadcn, we strongly recommend using shadcn/ui for the best experience, optimal performance, and seamless integration.
-
-## Install shadcn/ui
+<Callout>
+1. The UI primitives required by components (Accordion, Dialog, Input, etc.) are installed automatically by the CLI via registry dependencies.
+2. Refer to the [Nexus Elements](/docs/nexus/nexus-sdk/nexus-elements) page for detailed usage docs.
+</Callout>
 
 <Steps>
-  <p className="mb-3">
-    If you haven't already, set up shadcn/ui in your project first. Follow the
-    official installation guide
-  </p>
-  <Button
-    asChild
-    variant="secondary"
-    size="sm"
-    className="inline-flex items-center gap-2 my-2 w-full"
-  >
-    <a
-      href="https://ui.shadcn.com/docs/installation"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="no-underline"
-    >
-      Install shadcn/ui
-      <SquareArrowUpRight className="size-4" />
-    </a>
-  </Button>
-  <p>Once installed, come back to continue with Nexus Elements.</p>
-</Steps>
 
-## Install Element
+### Clone the template repo
 
-<p className="font-serif">
-  You can now start adding Nexus Elements components to your project. The
-  command below installs the <code>unified-balance</code> component. Replace it
-  with any other component name as needed.
-</p>
+We created a template repo that you can clone to get started with Nexus Elements in under 5 minutes.
+Clone the repo by running this command in your terminal:
 
-```bash
-npx shadcn@latest add @nexus-elements/unified-balance
+```bash title="Terminal"
+git clone https://github.com/availproject/nexus-elements-template
 ```
 
-<p className="mt-3! font-serif">
-  The command will add all required files and dependencies for the selected
-  component.
-</p>
+### Install dependencies
 
-<span id="usage" className="block -mt-24 pt-24" />
+<Callout>
+**Recommended Node & NPM versions:**
+We recommend using: Node V22 and npm V10 for the best experience.
+</Callout>
 
-## Wrap your app with the provider
+Install the required dependencies:
 
-```tsx showLineNumbers
-"use client";
+<Tabs defaultValue="pnpm">
+  <TabsList>
+    <TabsTrigger value="pnpm">pnpm</TabsTrigger>
+    <TabsTrigger value="npm">npm</TabsTrigger>
+    <TabsTrigger value="yarn">yarn</TabsTrigger>
+  </TabsList>
+  <TabsContent value="pnpm">
+```bash title="Terminal"
+pnpm install
+```
+  </TabsContent>
+  <TabsContent value="npm">
+```bash title="Terminal"
+npm install
+```
+  </TabsContent>
+  <TabsContent value="yarn">
+```bash title="Terminal"
+yarn install
+```
+  </TabsContent>
+</Tabs>
+
+### Create a WalletConnect Project ID
+
+Go to [walletconnect.com](https://walletconnect.com/) and create a new project.
+Copy the Project ID and add it to the `.env` file at the root of the project:
+
+```bash title="dotenv"
+VITE_WALLETCONNECT_PROJECT_ID=your_walletconnect_project_id
+```
+
+### Install two of the Nexus Elements
+
+Run the following commands in your terminal to conveniently install two pre-configured Nexus Elements:
+
+<Tabs defaultValue="pnpm">
+  <TabsList>
+    <TabsTrigger value="pnpm">pnpm</TabsTrigger>
+    <TabsTrigger value="npm">npm</TabsTrigger>
+    <TabsTrigger value="yarn">yarn</TabsTrigger>
+  </TabsList>
+  <TabsContent value="pnpm">
+```bash title="Terminal"
+pnpm dlx shadcn@latest add @nexus-elements/unified-balance
+pnpm dlx shadcn@latest add @nexus-elements/fast-bridge
+```
+  </TabsContent>
+  <TabsContent value="npm">
+```bash title="Terminal"
+npx shadcn@latest add @nexus-elements/unified-balance
+npx shadcn@latest add @nexus-elements/fast-bridge
+```
+  </TabsContent>
+  <TabsContent value="yarn">
+```bash title="Terminal"
+yarn shadcn@latest add @nexus-elements/unified-balance
+yarn shadcn@latest add @nexus-elements/fast-bridge
+```
+  </TabsContent>
+</Tabs>
+
+### Enable the Nexus provider
+
+For the Nexus SDK to initialize, you need to wrap your app with the `NexusProvider` component.
+Go to `src/providers/Web3Provider.tsx`, and uncomment the `NexusProvider` import as well as the wrapper around `{children}`.
+The file should now look something like this:
+
+```tsx title="Web3Provider.tsx"
+import "@rainbow-me/rainbowkit/styles.css";
+import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { WagmiProvider } from "wagmi";
+import { /* All the chains you want to support */ } from "wagmi/chains";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import NexusProvider from "@/components/nexus/NexusProvider";
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return <NexusProvider>{children}</NexusProvider>;
-}
+const walletConnectProjectId = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID;
+
+const config = getDefaultConfig({
+  appName: "Nexus Elements",
+  projectId: walletConnectProjectId,
+  chains: [/* All the chains you want to support */],
+});
+
+const queryClient = new QueryClient();
+
+const Web3Provider = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider modalSize="compact">
+          <NexusProvider
+            config={{
+              network: "mainnet",
+              debug: true,
+            }}
+          >
+          {children}
+          </NexusProvider>
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
+};
+
+export default Web3Provider;
 ```
 
-## Initialize on wallet connect
+### Wire up the app components
 
-```tsx showLineNumbers
-"use client";
-import { useEffect } from "react";
+Open `src/App.tsx`. You can either:
+
+Paste the snippet below into `src/App.tsx` or:
+
+1. Uncomment all the code blocks that are commented out.
+2. Remove the `NexusDeposit` component.
+
+```tsx title="App.tsx"
+/**
+ * Uncomment lines after installing any Nexus Element
+ * @from https://elements.nexus.availproject.org/
+ */
+
+import Header from "./components/header";
+import { Button } from "./components/ui/button";
+import { LoaderPinwheelIcon } from "lucide-react";
+import { Label } from "./components/ui/label";
+import { useNexus } from "./components/nexus/NexusProvider";
 import { useAccount } from "wagmi";
-import type { EthereumProvider } from "@avail-project/nexus-core";
-import { useNexus } from "@/components/nexus/NexusProvider";
+import UnifiedBalance from "./components/unified-balance/unified-balance";
+import { type EthereumProvider } from "@avail-project/nexus-core";
+import FastBridge from "./components/fast-bridge/fast-bridge";
 
-export function InitNexusOnConnect() {
-  const { status, connector } = useAccount();
-  const { handleInit } = useNexus();
+function App() {
+  const { connector, status, address } = useAccount();
+  const { handleInit, nexusSDK, loading } = useNexus();
 
-  useEffect(() => {
-    if (status === "connected") {
-      connector?.getProvider().then((p) => handleInit(p as EthereumProvider));
+  const init = async () => {
+    try {
+      const provider = (await connector?.getProvider()) as EthereumProvider;
+      await handleInit(provider);
+    } catch (error) {
+      console.error("Error initializing Nexus:", error);
     }
-  }, [status, connector, handleInit]);
+  };
 
-  return null;
+  return (
+    <div className="w-full min-h-screen overflow-hidden">
+      <Header />
+      <div className="flex flex-col gap-y-4 items-center justify-center w-full min-h-screen border border-border">
+        <p className="text-center text-2xl font-bold">
+          Nexus Elements Template
+        </p>
+        <a
+          href="https://elements.nexus.availproject.org/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <p className="text-center text-xl font-semibold text-primary underline">
+            Install Nexus Elements
+          </p>
+        </a>
+
+        {!nexusSDK && status === "connected" && (
+          <Button onClick={init}>
+            {loading ? (
+              <LoaderPinwheelIcon className="size-5 animate-spin" />
+            ) : (
+              "Initialize Nexus"
+            )}
+          </Button>
+        )}
+        <div className="flex items-start gap-x-4 w-full max-w-6xl">
+          {nexusSDK && (
+            <div className="w-full flex flex-col items-center gap-y-3">
+              <Label className="w-fit font-semibold text-xl">
+                Unified Balance
+              </Label>
+              <UnifiedBalance />
+            </div>
+          )}
+          {nexusSDK && address && (
+            <div className="w-full flex flex-col items-center gap-y-3">
+              <Label className="w-fit font-semibold text-xl">Fast Bridge</Label>
+              <FastBridge connectedAddress={address} />
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }
+
+export default App;
 ```
 
-<span id="usage-without-shadcn/ui" className="block -mt-24 pt-24" />
-## No shadcn/ui
-<Card className="mt-4">
-  <CardHeader>
-    <CardTitle>Copy and paste components</CardTitle>
-    <CardDescription>
-      Visit any component page to view and copy the source files.
-    </CardDescription>
-  </CardHeader>
-  <CardContent>
-    <ul className="space-y-2 font-serif">
-      <li>Ensure all peer dependencies are installed</li>
-      <li>
-        Set up required UI primitives (buttons, inputs, dialogs, etc.) manually
-      </li>
-      <li>Configure styling and theming yourself</li>
-      <li>Handle any compatibility issues that may arise</li>
-    </ul>
-  </CardContent>
-</Card>
+### Run the app
+
+Run the app by running the following command in your terminal:
+
+<Tabs defaultValue="pnpm">
+  <TabsList>
+    <TabsTrigger value="pnpm">pnpm</TabsTrigger>
+    <TabsTrigger value="npm">npm</TabsTrigger>
+    <TabsTrigger value="yarn">yarn</TabsTrigger>
+  </TabsList>
+  <TabsContent value="pnpm">
+```bash title="Terminal"
+pnpm run dev
 ```
+  </TabsContent>
+  <TabsContent value="npm">
+```bash title="Terminal"
+npm run dev
+```
+  </TabsContent>
+  <TabsContent value="yarn">
+```bash title="Terminal"
+yarn run dev
+```
+  </TabsContent>
+</Tabs>
+
+### Connect your wallet and initialize the Nexus SDK
+
+At this point you should be able to connect your wallet, initialize the Nexus SDK, and see the Unified Balance and Fast Bridge components in action.
+
+### Next Steps
+
+Congratulations on finishing the quickstart! Feel free to explore the following resources to learn more about Nexus Elements:
+
+<Cards>
+    <Card title="Avail Nexus Elements" href="https://elements.nexus.availproject.org/" />
+    <Card title="Nexus Elements GitHub Repo" href="https://github.com/availproject/nexus-elements" />
+    <Card title="Nexus Elements Template Repo" href="https://github.com/availproject/nexus-elements-template" />
+</Cards>
+
+</Steps>

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
-import { ChevronDown } from "lucide-react";
+import { CaretDown } from "@phosphor-icons/react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 import { AvailDALogo } from "@/components/logos/avail-da-logo";
@@ -37,9 +37,10 @@ export function ProductSwitcher() {
           aria-label={`Switch product (currently ${activeProduct.label})`}
         >
           <ActiveLogo className="h-6 w-auto" />
-          <ChevronDown
+          <CaretDown
+            size={20}
             className={cn(
-              "size-5 shrink-0 translate-y-[2px] text-muted-foreground",
+              "shrink-0 translate-y-[2px] text-muted-foreground",
               open && "rotate-180",
             )}
           />

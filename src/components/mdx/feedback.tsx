@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ThumbsUp, ThumbsDown } from "lucide-react";
+import { ThumbsUp, ThumbsDown } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { useAnalytics } from "@/hooks/use-analytics";
 
@@ -78,13 +78,13 @@ export function Feedback({ className }: FeedbackProps) {
             onClick={() => handleFeedbackClick("good")}
             className={cn(
               "flex items-center gap-2 h-10 w-[100px] px-4 border transition-colors",
-              "shadow-[0px_1px_4px_0px_rgba(85,85,85,0.05)]",
+              "shadow-sm",
               feedbackType === "good"
                 ? "bg-black/10 border-border"
                 : "bg-card border-border hover:bg-card-header-background"
             )}
           >
-            <ThumbsUp className="size-5 shrink-0" />
+            <ThumbsUp size={20} className="shrink-0" />
             <span className="flex-1 ui-14 text-foreground text-center">
               Good
             </span>
@@ -96,13 +96,13 @@ export function Feedback({ className }: FeedbackProps) {
             onClick={() => handleFeedbackClick("bad")}
             className={cn(
               "flex items-center gap-2 h-10 w-[100px] px-4 border transition-colors",
-              "shadow-[0px_1px_4px_0px_rgba(85,85,85,0.05)]",
+              "shadow-sm",
               feedbackType === "bad"
                 ? "bg-black/10 border-border"
                 : "bg-card border-border hover:bg-card-header-background"
             )}
           >
-            <ThumbsDown className="size-5 shrink-0" />
+            <ThumbsDown size={20} className="shrink-0" />
             <span className="flex-1 ui-14 text-foreground text-center">
               Bad
             </span>
@@ -135,7 +135,7 @@ export function Feedback({ className }: FeedbackProps) {
             className={cn(
               "flex items-center justify-center gap-2 h-10 w-[100px] px-4",
               "bg-brand text-brand-foreground",
-              "shadow-[0px_1px_4px_0px_rgba(85,85,85,0.05)]",
+              "shadow-sm",
               "hover:bg-brand/90 transition-colors",
               "disabled:opacity-50 disabled:cursor-not-allowed"
             )}

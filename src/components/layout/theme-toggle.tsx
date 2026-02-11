@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Sun, Moon, Monitor, ChevronDown, ChevronUp } from "lucide-react";
+import { Sun, Moon, Monitor, CaretDown, CaretUp } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import {
   Popover,
@@ -30,7 +30,7 @@ export function ThemeToggle({ theme, resolvedTheme, setTheme }: ThemeToggleProps
           }}
           className="flex h-10 items-center gap-2 px-3 bg-menu-item-background border-l border-t border-b border-menu-item-border"
         >
-          <Icon className="size-5 text-menu-item-foreground" />
+          <Icon size={20} className="text-menu-item-foreground" />
         </button>
         <PopoverTrigger asChild>
           <button
@@ -41,9 +41,9 @@ export function ThemeToggle({ theme, resolvedTheme, setTheme }: ThemeToggleProps
             )}
           >
             {open ? (
-              <ChevronUp className="size-5 text-menu-item-foreground" />
+              <CaretUp size={20} className="text-menu-item-foreground" />
             ) : (
-              <ChevronDown className="size-5 text-menu-item-foreground" />
+              <CaretDown size={20} className="text-menu-item-foreground" />
             )}
           </button>
         </PopoverTrigger>
@@ -67,7 +67,7 @@ export function ThemeToggle({ theme, resolvedTheme, setTheme }: ThemeToggleProps
                 : "bg-menu-item-background text-search-foreground hover:bg-menu-item-background-hover",
             )}
           >
-            <Sun className="size-5" />
+            <Sun size={20} />
             <span>Avail Light</span>
           </button>
           <button
@@ -83,7 +83,7 @@ export function ThemeToggle({ theme, resolvedTheme, setTheme }: ThemeToggleProps
                 : "bg-menu-item-background text-search-foreground hover:bg-menu-item-background-hover",
             )}
           >
-            <Moon className="size-5" />
+            <Moon size={20} />
             <span>Avail Dark</span>
           </button>
           <button
@@ -99,7 +99,7 @@ export function ThemeToggle({ theme, resolvedTheme, setTheme }: ThemeToggleProps
                 : "bg-menu-item-background text-search-foreground hover:bg-menu-item-background-hover",
             )}
           >
-            <Monitor className="size-5" />
+            <Monitor size={20} />
             <span>System</span>
           </button>
         </div>

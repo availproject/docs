@@ -1,6 +1,6 @@
 # Claude Context
 
-This is the Avail Nexus Elements documentation site built with Fumadocs and Next.js.
+This is the Avail documentation site built with Fumadocs and Next.js. It covers two products: **Avail DA** and **Avail Nexus**.
 
 ## Project Overview
 
@@ -8,13 +8,21 @@ This is the Avail Nexus Elements documentation site built with Fumadocs and Next
 - **Documentation**: Fumadocs
 - **Styling**: Tailwind CSS v4 with CSS custom properties
 - **Components**: shadcn/ui
+- **Product config**: `src/lib/products.ts` — single source of truth for product slugs, labels, and paths
 
 ## NON-NEGOTIABLES
 - Never push directly to main — always create a branch and open a PR
 - Never run the dev server unless explicitly asked
-- Keep all componenets less than 400 lines
+- Keep all components less than 400 lines — split if needed
 - Don't define multiple components in one single file
 - Create reusable components wherever possible
+
+## Versioning & PRs
+- Branch and PR names use version numbers: `v1.1.0`, `v1.2.0`, etc.
+- Commit messages carry the context — no need to repeat it in the branch name
+- **Minor bump** (`v1.X.0`) for each PR with features, docs, or refactors
+- **Patch bump** (`v1.X.Y`) for hotfixes
+- Baseline: `main` as of PR #8 = `v1.0.0`
 
 ## Design System
 
@@ -113,6 +121,11 @@ pnpm dev
 pnpm build
 ```
 
+### Pre-commit guardrail (lint-staged + typecheck)
+```bash
+pnpm validate:precommit
+```
+
 ### Clear cache (if CSS issues)
 ```bash
 rm -rf .next && pnpm build
@@ -157,3 +170,15 @@ function MyComponent() {
   return <button onClick={handleClick}>Click me</button>;
 }
 ```
+
+## Code Conventions
+
+- **Products as data, not literals**: Use `products` from `src/lib/products.ts` for product names, paths, and slugs. Never hardcode product links or labels in components.
+- **Internal links**: Always use `/docs/da/...` or `/docs/nexus/...` prefixes. Never use bare paths like `/docs/get-started` or old paths like `/docs/introduction-to-avail`.
+- **No magic numbers**: Extract repeated constants (e.g. character limits, timeouts) into named variables.
+- **DRY heading utilities**: If generating heading IDs from text, use a shared utility rather than inlining `.replace()` chains.
+- **Content files**: No `.mdx` extensions in links. Spell-check content before committing.
+
+## Code Health
+
+For a detailed audit of tech debt, dead code, broken links, and other tracked issues, see [CODE_HEALTH_AUDIT.md](./CODE_HEALTH_AUDIT.md). Review periodically and pick items to resolve.

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
-import { Check, ChevronDown, Copy } from "lucide-react";
+import { Check, CaretDown, Copy } from "@phosphor-icons/react";
 import {
   Popover,
   PopoverAnchor,
@@ -100,7 +100,7 @@ export function DocsCopyPage({ page, url }: { page: string; url: string }) {
       size="sm"
       className="peer -ml-0.5 size-8 shadow-none md:size-7 md:text-[0.8rem]"
     >
-      <ChevronDown className="rotate-180 sm:rotate-0" />
+      <CaretDown className="rotate-180 sm:rotate-0" />
     </Button>
   );
 

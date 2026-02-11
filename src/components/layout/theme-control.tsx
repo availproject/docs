@@ -1,5 +1,5 @@
 "use client";
-import { Moon, Monitor, Palette, Sun } from "lucide-react";
+import { Moon, Monitor, Palette, Sun } from "@phosphor-icons/react";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 import {
   Select,
@@ -42,13 +42,13 @@ const ThemeControlContent = ({
         aria-label="Toggle theme"
       >
         <ToggleGroupItem value="light" aria-label="Light theme">
-          <Sun className="size-3" />
+          <Sun size={12} />
         </ToggleGroupItem>
         <ToggleGroupItem value="dark" aria-label="Dark theme">
-          <Moon className="size-3" />
+          <Moon size={12} />
         </ToggleGroupItem>
         <ToggleGroupItem value="system" aria-label="System theme">
-          <Monitor className="size-3" />
+          <Monitor size={12} />
         </ToggleGroupItem>
       </ToggleGroup>
       {/*<Select
@@ -83,7 +83,7 @@ const ThemeControl = ({
       <Popover>
         <PopoverTrigger asChild>
           <Button variant="outline">
-            <Palette className="size-4" />
+            <Palette size={16} />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-80">

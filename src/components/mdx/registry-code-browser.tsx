@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { CopyButton } from "@/components/helpers/copy-button";
-import { Code, File, FileText, Terminal } from "lucide-react";
+import { Code, File, FileText, Terminal } from "@phosphor-icons/react";
 import { useAnalytics } from "@/hooks/use-analytics";
 
 export type RegistryProcessedFile = {

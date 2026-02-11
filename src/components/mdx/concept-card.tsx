@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Link2 } from "lucide-react";
+import { LinkSimple } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { useAnalytics } from "@/hooks/use-analytics";
 
@@ -40,11 +40,11 @@ export function ConceptCard({
       {...wrapperProps}
       onClick={handleClick}
       className={cn(
-        "group flex flex-col gap-3 border border-card-border bg-card p-4 h-[140px] w-full transition-colors hover:bg-secondary",
+        "group flex flex-col gap-3 border border-card-border bg-card p-4 h-[140px] w-full transition-colors can-hover:bg-secondary",
         className
       )}
     >
-      <Link2 className="size-6 text-primary" />
+      <LinkSimple size={24} className="text-primary" />
       <div className="flex flex-col gap-2">
         <span className="text-base font-normal leading-5 text-foreground">
           {title}

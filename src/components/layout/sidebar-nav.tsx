@@ -1,9 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Root, Item, Node } from "fumadocs-core/page-tree";
-import { ChevronUp, ChevronDown } from "lucide-react";
+import { CaretUp, CaretDown } from "@phosphor-icons/react";
 import { Sidebar, SidebarContent } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import { useAnalytics } from "@/hooks/use-analytics";
@@ -70,74 +70,75 @@ function SidebarFolder({
   onNavigate?: (title: string, path: string) => void;
 }) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
+  const chevronRef = useRef<HTMLSpanElement>(null);
 
-  const handleToggle = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsExpanded(!isExpanded);
+  const handleClick = (e: React.MouseEvent) => {
+    // Chevron click — toggle only, no navigation
+    if (chevronRef.current?.contains(e.target as globalThis.Node)) {
+      e.preventDefault();
+      setIsExpanded((prev) => !prev);
+      if (onToggle) onToggle(name);
+      return;
+    }
+
+    if (href) {
+      if (isActive && isExpanded) {
+        // Already on this page and expanded — collapse and don't navigate
+        e.preventDefault();
+        setIsExpanded(false);
+      } else {
+        // Expand (if collapsed) and navigate
+        if (!isExpanded) {
+          setIsExpanded(true);
+        }
+        if (onNavigate) {
+          onNavigate(name, href);
+        }
+      }
+    } else {
+      setIsExpanded(!isExpanded);
+    }
     if (onToggle) {
       onToggle(name);
     }
   };
 
-  const handleNameClick = (e: React.MouseEvent) => {
-    if (isActive && isExpanded) {
-      // Already on this page and expanded — collapse and don't navigate
-      e.preventDefault();
-      setIsExpanded(false);
-    } else {
-      // Expand (if collapsed) and navigate
-      if (!isExpanded) {
-        setIsExpanded(true);
-      }
-      if (onNavigate && href) {
-        onNavigate(name, href);
-      }
-    }
-  };
-
   const chevron = isExpanded ? (
-    <ChevronUp className="size-5 shrink-0 text-sidebar-item-foreground" />
+    <CaretUp size={20} className="shrink-0 text-sidebar-item-foreground" />
   ) : (
-    <ChevronDown className="size-5 shrink-0 text-sidebar-item-foreground" />
+    <CaretDown size={20} className="shrink-0 text-sidebar-item-foreground" />
+  );
+
+  const rowClassName = cn(
+    "flex h-10 w-full min-w-0 items-center gap-2 px-4 py-2.5 text-base transition-colors",
+    isActive
+      ? "bg-sidebar-item-background-active text-sidebar-item-foreground-active"
+      : "bg-transparent text-sidebar-item-foreground hover:bg-sidebar-item-background-hover",
   );
 
   return (
     <div className="flex flex-col w-full min-w-0">
-      <div
-        className={cn(
-          "flex h-10 w-full min-w-0 items-center gap-2 px-4 py-2.5 text-base transition-colors",
-          isActive
-            ? "bg-sidebar-item-background-active text-sidebar-item-foreground-active"
-            : "bg-transparent text-sidebar-item-foreground hover:bg-sidebar-item-background-hover",
-        )}
-      >
-        {href ? (
-          <Link
-            href={href}
-            onClick={handleNameClick}
-            className="flex-1 min-w-0 truncate text-left leading-5"
-          >
-            {name}
-          </Link>
-        ) : (
-          <button
-            type="button"
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="flex-1 min-w-0 truncate text-left leading-5"
-          >
-            {name}
-          </button>
-        )}
+      {href ? (
+        <Link
+          href={href}
+          onClick={handleClick}
+          className={rowClassName}
+          aria-expanded={isExpanded}
+        >
+          <span className="flex-1 min-w-0 truncate text-left leading-5">{name}</span>
+          <span ref={chevronRef} className="shrink-0 rounded-sm p-0.5 can-hover:hover:bg-sidebar-item-background-hover">{chevron}</span>
+        </Link>
+      ) : (
         <button
           type="button"
-          onClick={handleToggle}
-          className="shrink-0 p-0.5"
-          aria-label={isExpanded ? "Collapse section" : "Expand section"}
+          onClick={handleClick}
+          className={rowClassName}
+          aria-expanded={isExpanded}
         >
-          {chevron}
+          <span className="flex-1 min-w-0 truncate text-left leading-5">{name}</span>
+          <span ref={chevronRef} className="shrink-0 rounded-sm p-0.5 can-hover:hover:bg-sidebar-item-background-hover">{chevron}</span>
         </button>
-      </div>
+      )}
       {isExpanded && (
         <div className="flex gap-1 pl-4 min-w-0">
           {/* Vertical line */}

@@ -1,7 +1,12 @@
 import { getPageImage, source } from '@/lib/source';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 import { notFound } from 'next/navigation';
 import { ImageResponse } from 'next/og';
 import { generate as DefaultImage } from 'fumadocs-ui/og';
+
+const logoData = readFileSync(join(process.cwd(), 'public/avail_logo_new.png'));
+const logoBase64 = `data:image/png;base64,${logoData.toString('base64')}`;
 
 export const revalidate = false;
 
@@ -18,6 +23,9 @@ export async function GET(
       title={page.data.title}
       description={page.data.description}
       site="My App"
+      icon={
+        <img src={logoBase64} alt="" width={56} height={56} />
+      }
     />,
     {
       width: 1200,

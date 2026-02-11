@@ -5,8 +5,15 @@ title: Start Here
 
 ## Introduction to Avail
 
-> Avail aims to accelerate the unification of Web3 using 
+> Avail aims to accelerate the unification of Web3 using
 > its cutting edge modular technology stack that combines data availability, aggregation, and shared security.
+
+Avail DA delivers verifiable data availability that lets every chain launch faster, scale further, and reach more users. Avail DA guarantees data integrity through a combination of:
+
+- **Validity proofs** — cryptographic proofs that verify data correctness without re-executing transactions
+- **KZG polynomial commitments** — efficient commitment schemes that enable compact data verification
+- **Data availability sampling (DAS)** — light clients randomly sample small portions of block data to probabilistically verify the entire block is available
+- **Light client verification** — anyone can verify data availability by running a light client, without needing a full node
 
 While the Avail docs in their current state focus primarily on Avail DA, you can read these key blogs to
 learn more about our upcoming offerings as well as our vision for the unified future:
@@ -26,7 +33,7 @@ learn more about our upcoming offerings as well as our vision for the unified fu
 
 <Cards num={3}>
   <Card icon={<FileIcon />} title="Set up a new Avail wallet" href="/docs/da/user-guides/accounts" />
-  <Card icon={<FileIcon />} title="Bridge AVAIL to Ethereum" href="/docs/da/user-guides/vectorx" />
+  <Card icon={<FileIcon />} title="Bridge AVAIL to Ethereum" href="/docs/da/build-with-avail/vectorx" />
   <Card icon={<FileIcon />} title="Stake on Avail DA" href="/docs/da/user-guides/staking-governance/stake-on-avail" />
 </Cards>
 
@@ -53,5 +60,5 @@ learn more about our upcoming offerings as well as our vision for the unified fu
 ### Bug Bounty
 
 <Cards num={2}>
-  <Card icon={<FileIcon />} title="Bug Bounty" href="/docs/bug-bounty" />
+  <Card icon={<FileIcon />} title="Bug Bounty" href="/docs/da/bug-bounty" />
 </Cards>

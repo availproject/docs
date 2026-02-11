@@ -2,17 +2,18 @@
 import React from "react";
 import { usePathname } from "next/navigation";
 import { cn, TOC_BY_PATH } from "@/lib/utils";
+import { REPO } from "@/lib/repo";
 
 import {
-  Menu,
-  MessageSquare,
+  List,
+  ChatDots,
   Copy,
   FileText,
   Check,
-  Loader2,
-  ChevronRight,
-  Github,
-} from "lucide-react";
+  SpinnerGap,
+  CaretRight,
+  GithubLogo,
+} from "@phosphor-icons/react";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { useAnalytics } from "@/hooks/use-analytics";
@@ -266,7 +267,7 @@ export function OnThisPage({
             size="sm"
             className={cn("h-8 md:h-7", className)}
           >
-            <Menu className="mr-2 size-4" />
+            <List size={16} className="mr-2" />
             On This Page
           </Button>
         </PopoverTrigger>
@@ -365,7 +366,7 @@ export function OnThisPage({
                 type="button"
                 className="flex items-center gap-2 text-page-nav-foreground hover:text-page-nav-foreground-hover transition-colors cursor-pointer"
               >
-                <MessageSquare className="size-5 shrink-0" />
+                <ChatDots size={20} className="shrink-0" />
                 <span className="text-base">Ask AI about this page</span>
               </button>
             </PopoverTrigger>
@@ -388,7 +389,7 @@ export function OnThisPage({
                     )}
                   >
                     {isAILoading === service.id ? (
-                      <Loader2 className="size-4 shrink-0 animate-spin" />
+                      <SpinnerGap size={16} className="shrink-0 animate-spin" />
                     ) : (
                       service.icon
                     )}
@@ -412,11 +413,11 @@ export function OnThisPage({
               disabled={isCopyLoading}
             >
               {copied ? (
-                <Check className="size-5 shrink-0 text-green-500" />
+                <Check size={20} className="shrink-0 text-green-500" />
               ) : isCopyLoading ? (
-                <Loader2 className="size-5 shrink-0 animate-spin" />
+                <SpinnerGap size={20} className="shrink-0 animate-spin" />
               ) : (
-                <Copy className="size-5 shrink-0" />
+                <Copy size={20} className="shrink-0" />
               )}
               <span className="text-base">
                 {copied ? "Copied!" : "Copy for LLM"}
@@ -429,18 +430,18 @@ export function OnThisPage({
               className="flex items-center gap-2 text-page-nav-foreground hover:text-page-nav-foreground-hover transition-colors cursor-pointer"
               onClick={handleViewMarkdown}
             >
-              <FileText className="size-5 shrink-0" />
+              <FileText size={20} className="shrink-0" />
               <span className="text-base">View as markdown</span>
             </button>
 
             {/* Edit in GitHub */}
             <a
-              href={`https://github.com/availproject/docs-fumadocs/edit/main/content/docs${pathname?.replace(/^\/docs/, "") || ""}/index.mdx`}
+              href={`https://github.com/${REPO.owner}/${REPO.name}/edit/${REPO.branch}/${REPO.contentDir}${pathname?.replace(/^\/docs/, "") || ""}/index.mdx`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-page-nav-foreground hover:text-page-nav-foreground-hover transition-colors cursor-pointer"
             >
-              <Github className="size-5 shrink-0" />
+              <GithubLogo size={20} className="shrink-0" />
               <span className="text-base">Edit in GitHub</span>
             </a>
           </div>

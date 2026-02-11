@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import { Check, Copy, Terminal } from "lucide-react";
+import { Check, Copy, Terminal } from "@phosphor-icons/react";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { useAnalytics } from "@/hooks/use-analytics";
@@ -142,7 +142,7 @@ export function CodeBlockCommand({
     >
       {/* Header with terminal icon and tabs */}
       <div className="relative flex items-center h-[52px] border border-b-0 border-card-border bg-card px-4">
-        <Terminal className="size-5 text-card-foreground shrink-0" />
+        <Terminal size={20} className="text-card-foreground shrink-0" />
         <TabsList className="ml-3 rounded-none bg-transparent p-0 h-auto gap-0">
           {Object.entries(tabs).map(([key]) => (
             <TabsTrigger
@@ -173,9 +173,9 @@ export function CodeBlockCommand({
             >
               <span className="sr-only">Copy</span>
               {hasCopied ? (
-                <Check className="size-5 text-muted-foreground" />
+                <Check size={20} className="text-muted-foreground" />
               ) : (
-                <Copy className="size-5 text-muted-foreground" />
+                <Copy size={20} className="text-muted-foreground" />
               )}
             </Button>
           </TooltipTrigger>
