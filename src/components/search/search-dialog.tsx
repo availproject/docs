@@ -153,24 +153,6 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
     }
   }, [open, setSearch]);
 
-  // Tab key toggles between search and history views
-  React.useEffect(() => {
-    if (!open) return;
-    const handleTab = (e: KeyboardEvent) => {
-      if (e.key === "Tab") {
-        e.preventDefault();
-        setViewMode((v) => (v === "search" ? "recents" : "search"));
-        setSelectedValue("");
-        requestAnimationFrame(() => {
-          const input = document.querySelector<HTMLInputElement>("[cmdk-input]");
-          input?.focus();
-        });
-      }
-    };
-    document.addEventListener("keydown", handleTab);
-    return () => document.removeEventListener("keydown", handleTab);
-  }, [open]);
-
   // Track search query when results are loaded
   React.useEffect(() => {
     if (
