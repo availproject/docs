@@ -71,7 +71,7 @@ export function ProductGrid() {
         {/* Nexus column */}
         <div className="flex flex-col gap-6">
           <h2
-            className="text-2xl text-brand md:text-[28px]"
+            className="text-center text-2xl text-brand md:text-[28px]"
             style={{ fontFamily: "Delight, sans-serif", fontWeight: 500 }}
           >
             Avail Nexus
@@ -86,7 +86,7 @@ export function ProductGrid() {
         {/* DA column */}
         <div className="flex flex-col gap-6">
           <h2
-            className="text-2xl text-brand md:text-[28px]"
+            className="text-center text-2xl text-brand md:text-[28px]"
             style={{ fontFamily: "Delight, sans-serif", fontWeight: 500 }}
           >
             Avail DA
