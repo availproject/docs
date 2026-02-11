@@ -31,7 +31,8 @@ export async function generateMetadata(props: {
   const doc = page.data;
   const title = doc.title || "";
   const description = doc.description || "";
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:5001";
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://docs.availproject.org";
   const url = new URL(page.url, baseUrl).toString();
   const ogParams = `title=${encodeURIComponent(
     title,
