@@ -121,6 +121,11 @@ pnpm dev
 pnpm build
 ```
 
+### Pre-commit guardrail (lint-staged + typecheck)
+```bash
+pnpm validate:precommit
+```
+
 ### Clear cache (if CSS issues)
 ```bash
 rm -rf .next && pnpm build

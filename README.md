@@ -48,6 +48,8 @@ Open [http://localhost:3000](http://localhost:3000) to view the site.
 | `pnpm start` | Serve the production build |
 | `pnpm types:check` | Run Fumadocs MDX codegen + type checking |
 | `pnpm lint` | Lint with Biome |
+| `pnpm lint:staged` | Run Biome on staged files only |
+| `pnpm validate:precommit` | Run the same checks as the Husky pre-commit hook |
 | `pnpm format` | Format with Biome |
 
 ## Project structure
@@ -187,9 +189,12 @@ We use **version-based** branch names:
 
 1. Create a branch from `main` with the next version number
 2. Make your changes
-3. Run `pnpm lint` and `pnpm format` before committing
+3. Run `pnpm validate:precommit` before committing (or rely on Husky pre-commit)
 4. Run `pnpm build` to verify nothing is broken
 5. Open a PR against `main`
+
+> Husky is configured via `prepare` and installs on `pnpm install`.  
+> Pre-commit runs `pnpm validate:precommit` (lint-staged + typecheck).
 
 ### Code quality
 
