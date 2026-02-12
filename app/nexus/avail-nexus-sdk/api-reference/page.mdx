@@ -123,55 +123,59 @@ const swapResult = await sdk.swapWithExactIn(
 
 ## Configuration Options
 
-### Supported Chains
+### Supported Chains & Tokens
 
-<Tabs items={['Mainnet', 'Testnet']}>
+#### Mainnet
 
-<Tabs.Tab>
+| Network   | Chain ID  | Native | Supported Tokens       | Swaps |
+| --------- | --------- | ------ | ---------------------- | ----- |
+| Ethereum  | 1         | ETH    | ETH, USDC, USDT       | ❌    |
+| Optimism  | 10        | ETH    | ETH, USDC, USDT       | ✅    |
+| Polygon   | 137       | POL    | POL, USDC, USDT       | ✅    |
+| Arbitrum  | 42161     | ETH    | ETH, USDC, USDT       | ✅    |
+| Avalanche | 43114     | AVAX   | AVAX, USDC, USDT      | ✅    |
+| Scroll    | 534352    | ETH    | ETH, USDC, USDT       | ✅    |
+| Base      | 8453      | ETH    | ETH, USDC, USDT       | ✅    |
+| Sophon    | 50104     | SOPH   | SOPH, ETH, USDC, USDT | ❌    |
+| Kaia      | 8217      | KAIA   | KAIA, USDT             | ❌    |
+| BNB       | 56        | BNB    | BNB, ETH, USDC, USDT  | ✅    |
+| HyperEVM  | 999       | HYPE   | HYPE, USDC, USDT       | ❌    |
+| Tron      | 728126428 | TRX    | TRX, USDT              | ❌    |
+| Monad     | 143       | MON    | MON                    | ❌    |
+| Citrea    | 4114      | cBTC   | cBTC                   | ❌    |
+| MegaETH   | 4326      | ETH    | ETH, USDm              | ❌    |
 
-| Network   | Chain ID  | Native | Status |
-| --------- | --------- | ------ | ------ |
-| Ethereum  | 1         | ETH    | ✅     |
-| Optimism  | 10        | ETH    | ✅     |
-| Polygon   | 137       | MATIC  | ✅     |
-| Arbitrum  | 42161     | ETH    | ✅     |
-| Avalanche | 43114     | AVAX   | ✅     |
-| Base      | 8453      | ETH    | ✅     |
-| Scroll    | 534352    | ETH    | ✅     |
-| Sophon    | 50104     | SOPH   | ✅     |
-| Kaia      | 8217      | KAIA   | ✅     |
-| BNB       | 56        | BNB    | ✅     |
-| HyperEVM  | 999       | HYPE   | ✅     |
-| Tron      | 728126428 | TRX    | ✅     |
-| Monad     | 143       | MON    | ✅     |
-| Citrea    | 4114      | cBTC   | ✅     |
+#### Testnet
 
-</Tabs.Tab>
+| Network          | Chain ID   | Native | Supported Tokens               |
+| ---------------- | ---------- | ------ | ------------------------------ |
+| Sepolia          | 11155111   | ETH    | ETH, USDC                      |
+| Optimism Sepolia | 11155420   | ETH    | ETH, USDC, USDT                |
+| Polygon Amoy     | 80002      | POL    | POL, USDC                      |
+| Arbitrum Sepolia | 421614     | ETH    | ETH, USDC, USDT                |
+| Base Sepolia     | 84532      | ETH    | ETH, USDC                      |
+| Monad Testnet    | 10143      | MON    | MON, USDC, USDT                |
+| Tron Testnet     | 2494104990 | TRX    | TRX, USDT                      |
+| Citrea Testnet   | 5115       | cBTC   | cBTC                            |
+| MegaETH Testnet  | 6342       | ETH    | ETH                             |                         |
 
-<Tabs.Tab>
+#### Token Reference
 
-| Network          | Chain ID | Native | Status |
-| ---------------- | -------- | ------ | ------ |
-| Optimism Sepolia | 11155420 | ETH    | ✅     |
-| Polygon Amoy     | 80002    | MATIC  | ✅     |
-| Arbitrum Sepolia | 421614   | ETH    | ✅     |
-| Base Sepolia     | 84532    | ETH    | ✅     |
-| Citrea Testnet   | 5115     | cBTC   | ✅     |
-| Sepolia          | 11155111 | ETH    | ✅     |
-| Monad Testnet    | 10143    | MON    | ✅     |
-| Validium         | 567      | VLDM   | ✅     |
-
-</Tabs.Tab>
-
-</Tabs>
-
-### Supported Tokens
-
-| Token | Name       | Decimals | Networks       |
-| ----- | ---------- | -------- | -------------- |
-| ETH   | Ethereum   | 18       | All EVM chains |
-| USDC  | USD Coin   | 6        | All supported  |
-| USDT  | Tether USD | 6        | All supported  |
+| Token | Name       | Decimals |
+| ----- | ---------- | -------- |
+| ETH   | Ethereum   | 18       |
+| USDC  | USD Coin   | 6        |
+| USDT  | Tether USD | 6        |
+| USDm  | Mega USD   | 18       |
+| POL   | Polygon    | 18       |
+| AVAX  | Avalanche  | 18       |
+| BNB   | BNB        | 18       |
+| HYPE  | HyperEVM   | 18       |
+| KAIA  | Kaia       | 18       |
+| SOPH  | Sophon     | 18       |
+| MON   | Monad      | 18       |
+| TRX   | Tron       | 6        |
+| cBTC  | Citrea BTC | 18       |
 
 ## API Reference
 
