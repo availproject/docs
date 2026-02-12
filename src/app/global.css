@@ -429,7 +429,7 @@
     --secondary-foreground: var(--grey-dark-900);
 
     /* Muted */
-    --muted: var(--grey-dark-300);
+    --muted: var(--grey-dark-200);
     --muted-foreground: var(--grey-dark-700);
 
     /* Accent */

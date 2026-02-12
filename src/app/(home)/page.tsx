@@ -1,13 +1,13 @@
+import { HalftoneBackground } from "@/components/halftone/halftone-background";
 import { HeroSection } from "@/components/home/hero-section";
 import { HomeControls } from "@/components/home/home-controls";
 import { ProductGrid } from "@/components/home/product-grid";
 import { SiteFooter } from "@/components/home/site-footer";
-import { ShaderPlayground } from "@/components/shader/shader-playground";
 
 export default function HomePage() {
   return (
     <main id="main-content" className="relative">
-      <ShaderPlayground />
+      <HalftoneBackground />
       <div className="relative z-10">
         <HeroSection />
         <HomeControls />
