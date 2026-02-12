@@ -82,8 +82,9 @@ export function HalftoneBackground() {
 
     function resize() {
       const dpr = window.devicePixelRatio || 1;
-      width = window.innerWidth;
-      height = window.innerHeight;
+      const parent = canvas.parentElement;
+      width = parent ? parent.clientWidth : window.innerWidth;
+      height = parent ? parent.clientHeight : window.innerHeight;
 
       canvas.width = width * dpr;
       canvas.height = height * dpr;
@@ -129,10 +130,13 @@ export function HalftoneBackground() {
       animate();
     }
 
+    const resizeObserver = new ResizeObserver(resize);
+    if (canvas.parentElement) resizeObserver.observe(canvas.parentElement);
     window.addEventListener("resize", resize);
 
     return () => {
       window.removeEventListener("resize", resize);
+      resizeObserver.disconnect();
       observer.disconnect();
       if (rafId !== undefined) cancelAnimationFrame(rafId);
     };
@@ -141,7 +145,7 @@ export function HalftoneBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="pointer-events-none fixed inset-0 z-0 hidden md:block"
+      className="pointer-events-none absolute inset-0 z-0 hidden md:block"
       tabIndex={-1}
     />
   );

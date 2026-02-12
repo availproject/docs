@@ -62,7 +62,7 @@ const footerColumns = [
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-border bg-muted">
+    <footer>
       <div className="mx-auto max-w-[938px] px-6 py-12 md:py-16">
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-12">
           {footerColumns.map((column) => (
