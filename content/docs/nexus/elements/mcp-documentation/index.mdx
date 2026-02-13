@@ -1,0 +1,272 @@
+---
+title: MCP Server
+description: Use the shadcn MCP server to browse, search, and install components from registries.
+links:
+  doc: https://ui.shadcn.com/docs/mcp
+---
+
+The shadcn MCP Server lets Cursor (and other MCP-compatible IDEs) talk directly to your Nexus Elements registry so you can browse, search, and install UI packages with natural language. Detailed platform-agnostic docs live at [ui.shadcn.com/docs/mcp](https://ui.shadcn.com/docs/mcp), but this page focuses on the Nexus Elements setup.
+
+## Nexus Registry Setup
+
+Add the Nexus Elements registry to your local `components.json`. This gives any MCP client access to the published components.
+
+```json title="components.json" showLineNumbers
+{
+  "registries": {
+    "@nexus-elements": "https://elements.nexus.availproject.org/r/{name}.json"
+  }
+}
+```
+
+---
+
+## Quick Start
+
+Select your MCP client and run the matching init command. Once the server is connected, the prompts below will install Nexus Elements components straight from the registry.
+
+<Tabs defaultValue="cursor">
+  <TabsList>
+    <TabsTrigger value="cursor">Cursor</TabsTrigger>
+    <TabsTrigger value="claude">Claude Code</TabsTrigger>
+    <TabsTrigger value="vscode">VS Code</TabsTrigger>
+    <TabsTrigger value="codex">Codex</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cursor" className="mt-4">
+    **Run the following command** in your project:
+
+```bash
+npx shadcn@latest mcp init --client cursor
+```
+
+    Open **Cursor Settings** and enable the shadcn MCP server. Then try prompts like:
+
+    - Show me all available components in the shadcn registry
+    - Add the button, dialog and card components to my project
+    - Create a contact form using components from the shadcn registry
+
+  </TabsContent>
+
+  <TabsContent value="claude" className="mt-4">
+    **Run the following command** in your project:
+
+```bash
+npx shadcn@latest mcp init --client claude
+```
+
+    Restart Claude Code and try the prompts above. Use `/mcp` to inspect the server state if needed.
+
+  </TabsContent>
+
+  <TabsContent value="vscode" className="mt-4">
+    **Run the following command** in your project:
+
+```bash
+npx shadcn@latest mcp init --client vscode
+```
+
+    Open `.vscode/mcp.json`, click **Start** next to the shadcn server, then try the prompts with GitHub Copilot Chat.
+
+  </TabsContent>
+
+  <TabsContent value="codex" className="mt-4">
+    <Callout className="mt-0">
+      **Note:** The `shadcn` CLI cannot automatically update `~/.codex/config.toml`. Add the config manually.
+    </Callout>
+
+    **Run the following command** in your project:
+
+```bash
+npx shadcn@latest mcp init --client codex
+```
+
+    **Then, append this snippet** to `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.shadcn]
+command = "npx"
+args = ["shadcn@latest", "mcp"]
+```
+
+    Restart Codex and try the same prompts.
+
+  </TabsContent>
+</Tabs>
+
+---
+
+## What is MCP?
+
+[Model Context Protocol (MCP)](https://modelcontextprotocol.io) is an open protocol that lets AI assistants securely connect to external tools. When paired with shadcn MCP:
+
+- **Browse components** across every configured registry (public or private)
+- **Search by intent** (“find a swaps widget”) instead of memorizing package names
+- **Install with natural language** without leaving your IDE
+- **Work across registries** via `@namespace/component` syntax and per-registry auth
+
+---
+
+## How It Works
+
+1. **Registry connection** – MCP reads your `components.json` and surfaces every registry entry.
+2. **Natural language** – You describe what you want in Cursor/Claude/etc.
+3. **AI processing** – The assistant maps that intent to registry items.
+4. **Component delivery** – The shadcn CLI installs files directly into your repo.
+
+---
+
+## Supported Registries
+
+- **shadcn/ui registry** – ships with every MCP install for the canonical set of components.
+- **Nexus Elements registry** – `@nexus-elements` namespace for the Avail-specific UI kit.
+- **Third-party registries** – any endpoint that follows the shadcn spec.
+- **Private registries** – internal libraries with optional auth headers or tokens.
+
+---
+
+## Configuration
+
+Each client needs a small JSON/TOML stub pointing to the shadcn MCP binary.
+
+### Cursor
+
+```json title=".cursor/mcp.json" showLineNumbers
+{
+  "mcpServers": {
+    "shadcn": {
+      "command": "npx",
+      "args": ["shadcn@latest", "mcp"]
+    }
+  }
+}
+```
+
+After saving, enable the server in Cursor Settings → MCP.
+
+### Claude Code
+
+```json title=".mcp.json" showLineNumbers
+{
+  "mcpServers": {
+    "shadcn": {
+      "command": "npx",
+      "args": ["shadcn@latest", "mcp"]
+    }
+  }
+}
+```
+
+Restart Claude Code, run `/mcp`, and confirm the server shows as `Connected`.
+
+### VS Code
+
+```json title=".vscode/mcp.json" showLineNumbers
+{
+  "servers": {
+    "shadcn": {
+      "command": "npx",
+      "args": ["shadcn@latest", "mcp"]
+    }
+  }
+}
+```
+
+Open the file in VS Code, click **Start** next to the server, and Copilot Chat will gain the new tools.
+
+### Codex
+
+```toml title="~/.codex/config.toml" showLineNumbers
+[mcp_servers.shadcn]
+command = "npx"
+args = ["shadcn@latest", "mcp"]
+```
+
+Restart Codex so it reloads the config.
+
+---
+
+## Configuring Registries
+
+You can mix public, third-party, and internal registries by extending `components.json`.
+
+```json title="components.json" showLineNumbers
+{
+  "registries": {
+    "@nexus-elements": "https://elements.nexus.availproject.org/r/{name}.json",
+    "@acme": "https://registry.acme.com/{name}.json",
+    "@internal": {
+      "url": "https://internal.company.com/{name}.json",
+      "headers": {
+        "Authorization": "Bearer ${REGISTRY_TOKEN}"
+      }
+    }
+  }
+}
+```
+
+<Callout>
+  **Tip:** No extra config is required for the default shadcn/ui registry—only
+  customize it when you need additional namespaces.
+</Callout>
+
+---
+
+## Example Prompts
+
+### Browse & Search
+
+- Show me all available components in the shadcn registry
+- Find me a login form from the shadcn registry
+
+### Install Items
+
+- Add the button component to my project
+- Create a login form using shadcn components
+- Install the Cursor rules from the acme registry
+
+### Work with Namespaces
+
+- Show me components from acme registry
+- Install @internal/auth-form
+- Build me a landing page using hero, features, and testimonials sections from the acme registry
+
+---
+
+## Troubleshooting
+
+### MCP Not Responding
+
+1. Check your MCP config file (`.cursor/mcp.json`, `.mcp.json`, etc.).
+2. Restart the IDE after any config edits.
+3. Ensure `npx shadcn@latest mcp` runs without errors.
+4. Confirm your network can reach the registry URLs.
+
+### Registry Access Issues
+
+1. Double-check registry URLs inside `components.json`.
+2. Verify required env vars are loaded (restart `pnpm dev`/IDE if needed).
+3. Confirm the registry endpoint is online.
+4. Ensure namespace syntax matches (`@namespace/component`).
+
+### Installation Failures
+
+1. Validate that `components.json` exists at the repo root.
+2. Check that CLI has write access to `components/` and `lib/` directories.
+3. Make sure underlying dependencies (React, Tailwind, etc.) are installed.
+4. Inspect CLI output for missing peer deps or TypeScript errors.
+
+### No Tools or Prompts Listed
+
+1. Run `npx clear-npx-cache`.
+2. Disable/re-enable the MCP server in your client.
+3. Check the MCP log output (`View → Output → MCP: project-*` in Cursor).
+
+---
+
+## Learn More
+
+- [Registry documentation](https://ui.shadcn.com/docs/registry) – overview of shadcn-compatible registries.
+- [Namespaces](https://ui.shadcn.com/docs/registry/namespace) – configuring multiple sources.
+- [Authentication](https://ui.shadcn.com/docs/registry/authentication) – securing private registries.
+- [MCP specification](https://modelcontextprotocol.io/) – full protocol details.

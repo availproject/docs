@@ -56,9 +56,7 @@ export function HalftoneBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    // biome-ignore lint/style/noNonNullAssertion: ref is set after mount
     const canvas = canvasRef.current!;
-    // biome-ignore lint/style/noNonNullAssertion: 2d context always exists
     const ctx = canvas.getContext("2d")!;
     const noise = new SimplexNoise(NOISE_SEED);
     const prefersReducedMotion = window.matchMedia(

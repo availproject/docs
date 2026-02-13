@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { ArrowUpRight } from "@phosphor-icons/react";
-import { cn } from "@/lib/utils";
+import Link from "next/link";
 import { useAnalytics } from "@/hooks/use-analytics";
+import { cn } from "@/lib/utils";
 
 interface LinkCardProps {
   title: string;
@@ -41,18 +41,29 @@ export function LinkCard({
       onClick={handleClick}
       className={cn(
         "group flex flex-col gap-4 border border-card-border bg-card p-4 transition-colors can-hover:bg-card-header-background",
-        className
+        className,
       )}
     >
       <div
         className="h-[155px] w-full bg-muted"
-        style={image ? { backgroundImage: `url(${image})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
+        style={
+          image
+            ? {
+                backgroundImage: `url(${image})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }
+            : undefined
+        }
       />
       <div className="flex items-center gap-2">
         <span className="flex-1 text-base font-normal text-foreground">
           {title}
         </span>
-        <ArrowUpRight size={20} className="text-muted-foreground transition-colors group-hover:text-foreground" />
+        <ArrowUpRight
+          size={20}
+          className="text-muted-foreground transition-colors group-hover:text-foreground"
+        />
       </div>
     </Wrapper>
   );

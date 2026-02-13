@@ -1,43 +1,39 @@
 "use client";
 
+import { formatTokenBalance, type UserAsset } from "@avail-project/nexus-core";
+import { X } from "lucide-react";
 import {
-  useMemo,
-  useCallback,
-  useState,
-  useEffect,
-  useRef,
   startTransition,
+  useCallback,
   useDeferredValue,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
 } from "react";
-import { ChevronDownIcon } from "./icons";
-import WidgetHeader from "./widget-header";
+import { usdFormatter } from "../../common";
+import { Button } from "../../ui/button";
+import { CardContent } from "../../ui/card";
+import { Tabs, TabsList, TabsTrigger } from "../../ui/tabs";
+import {
+  PROGRESS_BAR_ANIMATION_DELAY_MS,
+  PROGRESS_BAR_EXIT_DURATION_MS,
+  SCROLL_THRESHOLD_PX,
+} from "../constants/widget";
 import type {
+  ChainItem,
   DepositWidgetContextValue,
   Token,
   TokenCategory,
-  ChainItem,
 } from "../types";
-import { Tabs, TabsList, TabsTrigger } from "../../ui/tabs";
-import { CardContent } from "../../ui/card";
-import { Button } from "../../ui/button";
-import TokenRow from "./token-row";
 import {
-  CHAIN_METADATA,
-  formatTokenBalance,
-  type UserAsset,
-} from "@avail-project/nexus-core";
-import { usdFormatter } from "../../common";
-import {
-  isStablecoin,
   checkIfMatchesPreset,
   isNative,
+  isStablecoin,
 } from "../utils/asset-helpers";
-import { X } from "lucide-react";
-import {
-  SCROLL_THRESHOLD_PX,
-  PROGRESS_BAR_ANIMATION_DELAY_MS,
-  PROGRESS_BAR_EXIT_DURATION_MS,
-} from "../constants/widget";
+import { ChevronDownIcon } from "./icons";
+import TokenRow from "./token-row";
+import WidgetHeader from "./widget-header";
 
 interface AssetSelectionContainerProps {
   widget: DepositWidgetContextValue;

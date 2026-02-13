@@ -3,17 +3,22 @@ title: "WebSocket API"
 image: '/img/docs-link-preview.png'
 ---
 
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+
 The Avail light client WebSocket API allows real-time communication between a client and a server over a 
 persistent connection. The Web socket API can be used on its own or in combination with HTTP API to enable different pull/push use cases.
 <br/>
-<details className="border p-3 rounded-md bg-[#EFF6FF]">
-<summary> HTTPS vs WSS</summary>
+<Accordions type="single">
+  <Accordion title="HTTPS vs WSS">
+
 `HTTP` and `Websocket` are two different ways of communicating with a server. `HTTP` is a request-response protocol,
 where a connection persists for only so long as the request is being processed. In contrast, a websocket connection
 persists for as long as the client and server are connected. This allows for real-time communication between the two,
 and enables the client to fetch information from the server as soon as it is available, without having to
 poll the server for updates.
-</details>
+
+  </Accordion>
+</Accordions>
 
 <Callout type="info">
 HOW TO CONNECT TO THE WEBSOCKET SERVER <br/>
@@ -117,15 +122,17 @@ async fn main() {
 }
 ```
 
-<details className="border p-3 rounded-md bg-[#EFF6FF]">
-<summary> Sample Response:</summary>
+<Accordions type="single">
+  <Accordion title="Sample Response:">
 
 ```yaml
 {
   "subscription_id": "{subscription-id}"
 }
 ```
-</details>
+
+  </Accordion>
+</Accordions>
 
 ### Initialize the Websocket connection
 

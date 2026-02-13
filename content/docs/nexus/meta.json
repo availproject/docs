@@ -1,10 +1,12 @@
 {
+  "title": "Avail Nexus",
+  "description": "Documentation for the Avail Nexus protocol",
   "pages": [
-    "get-started",
-    "concepts",
-    "nexus-ui-elements",
-    "nexus-sdk",
-    "cookbook-recipes",
-    "cheat-sheet"
+    "introduction-to-nexus",
+    "elements",
+    "sdk",
+    "understanding-avail-nexus",
+    "supported-chains-and-tokens",
+    "contracts"
   ]
 }

@@ -1,4 +1,7 @@
+import type { SUPPORTED_CHAINS_IDS } from "@avail-project/nexus-core";
 import { type FC, useMemo } from "react";
+import { cn } from "@/lib/utils";
+import { useNexus } from "../../nexus/NexusProvider";
 import { Label } from "../../ui/label";
 import {
   Select,
@@ -8,9 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../ui/select";
-import { type SUPPORTED_CHAINS_IDS } from "@avail-project/nexus-core";
-import { cn } from "@/lib/utils";
-import { useNexus } from "../../nexus/NexusProvider";
 
 interface ChainSelectProps {
   selectedChain: number;
@@ -42,7 +42,7 @@ const ChainSelect: FC<ChainSelectProps> = ({
       value={selectedChain?.toString() ?? ""}
       onValueChange={(value) => {
         if (!disabled) {
-          handleSelect(Number.parseInt(value) as SUPPORTED_CHAINS_IDS);
+          handleSelect(Number.parseInt(value, 10) as SUPPORTED_CHAINS_IDS);
         }
       }}
     >

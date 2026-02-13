@@ -5,6 +5,8 @@ import {
   type SUPPORTED_TOKENS,
   type UserAsset,
 } from "@avail-project/nexus-core";
+import { useMemo } from "react";
+import { useNexus } from "../../nexus/NexusProvider";
 import {
   Accordion,
   AccordionContent,
@@ -12,8 +14,6 @@ import {
   AccordionTrigger,
 } from "../../ui/accordion";
 import { Skeleton } from "../../ui/skeleton";
-import { useMemo } from "react";
-import { useNexus } from "../../nexus/NexusProvider";
 
 interface SourceBreakdownProps {
   intent?: ReadableIntent;
@@ -38,7 +38,7 @@ const SourceBreakdown = ({
     if (!bridgableBalance || !chain) return 0;
     return Number.parseFloat(
       bridgableBalance?.breakdown?.find((b) => b.chain?.id === chain)
-        ?.balance ?? "0"
+        ?.balance ?? "0",
     );
   }, [bridgableBalance, chain]);
 
@@ -62,7 +62,7 @@ const SourceBreakdown = ({
           chainID: chain as number,
           chainLogo: chain ? CHAIN_METADATA[chain]?.logo : undefined,
           chainName: chain
-            ? CHAIN_METADATA[chain]?.name ?? "Destination"
+            ? (CHAIN_METADATA[chain]?.name ?? "Destination")
             : "Destination",
           amount: requiredAmount ?? "0",
           contractAddress: "" as `0x${string}`,
@@ -73,7 +73,7 @@ const SourceBreakdown = ({
     const requiredAmountNumber = Number(requiredAmount ?? "0");
     const destUsed = Math.max(
       Math.min(requiredAmountNumber, fundsOnDestination),
-      0
+      0,
     );
     if (destUsed <= 0 || !chain) {
       return baseSources;
@@ -90,7 +90,7 @@ const SourceBreakdown = ({
     };
     if (hasDest) {
       return baseSources.map((s) =>
-        s?.chainID === chain ? { ...s, amount: destSource.amount } : s
+        s?.chainID === chain ? { ...s, amount: destSource.amount } : s,
       );
     }
     return [...baseSources, destSource];

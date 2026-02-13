@@ -1,31 +1,27 @@
-'use client'
+"use client";
 
-import { useEffect } from 'react'
-import { PostHogProvider as PHProvider } from 'posthog-js/react'
-import {
-  initPostHog,
-  posthog,
-  POSTHOG_KEY,
-} from '@/lib/analytics/posthog'
+import { PostHogProvider as PHProvider } from "posthog-js/react";
+import { useEffect } from "react";
 import {
   usePageViewTracking,
   useScrollDepthTracking,
   useTimeOnPageTracking,
-} from '@/hooks/use-analytics'
+} from "@/hooks/use-analytics";
+import { initPostHog, POSTHOG_KEY, posthog } from "@/lib/analytics/posthog";
 
 /**
  * Component that handles automatic page view and engagement tracking
  */
 function PostHogPageViewTracker() {
-  usePageViewTracking()
-  useScrollDepthTracking()
-  useTimeOnPageTracking()
+  usePageViewTracking();
+  useScrollDepthTracking();
+  useTimeOnPageTracking();
 
-  return null
+  return null;
 }
 
 interface PostHogProviderProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 /**
@@ -34,12 +30,12 @@ interface PostHogProviderProps {
  */
 export function PostHogProvider({ children }: PostHogProviderProps) {
   useEffect(() => {
-    initPostHog()
-  }, [])
+    initPostHog();
+  }, []);
 
   // Don't wrap with provider if PostHog is not configured
   if (!POSTHOG_KEY) {
-    return <>{children}</>
+    return <>{children}</>;
   }
 
   return (
@@ -47,5 +43,5 @@ export function PostHogProvider({ children }: PostHogProviderProps) {
       <PostHogPageViewTracker />
       {children}
     </PHProvider>
-  )
+  );
 }

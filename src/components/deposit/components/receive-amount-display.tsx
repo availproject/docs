@@ -1,8 +1,8 @@
-import { TokenIcon } from "./token-icon";
-import { ClockIcon } from "./icons";
-import { DEPOSIT_WIDGET_ASSETS } from "../constants/assets";
-import { Skeleton } from "../../ui/skeleton";
 import { usdFormatter } from "../../common";
+import { Skeleton } from "../../ui/skeleton";
+import { DEPOSIT_WIDGET_ASSETS } from "../constants/assets";
+import { ClockIcon } from "./icons";
+import { TokenIcon } from "./token-icon";
 
 interface ReceiveAmountDisplayProps {
   label?: string;

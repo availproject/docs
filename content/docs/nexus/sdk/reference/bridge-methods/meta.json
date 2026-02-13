@@ -1,0 +1,9 @@
+{
+  "title": "Bridge Methods",
+  "pages": [
+    "fetch-bridge-balances",
+    "bridge",
+    "bridge-and-transfer",
+    "bridge-and-execute"
+  ]
+}

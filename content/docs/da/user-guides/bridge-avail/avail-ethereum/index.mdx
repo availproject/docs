@@ -3,6 +3,10 @@ title: "Bridge AVAIL to Ethereum using the VectorX bridge"
 image: '/img/docs-link-preview.png'
 ---
 
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+
+# Bridge AVAIL to Ethereum using the VectorX bridge
+
 ## Introduction
 
 The Avail team has been hard at work in partnership with [Succinct labs](https://succinct.xyz/)
@@ -16,9 +20,8 @@ between Avail DA and Ethereum, which enables use cases like token bridging.
 
 This is a non-technical tutorial focussed on actually using the bridge via a convinient web interface built by Avail.
 
-<br/>
-<details className="border p-3 rounded-md bg-[#EFF6FF]">
-<summary>Frequently Asked Questions (FAQs)</summary>
+<Accordions type="single">
+  <Accordion title="Frequently Asked Questions (FAQs)">
 
 1. Will my bridged tokens automatically appear in my wallet on the other side?
         - No.<br/>
@@ -29,7 +32,7 @@ This is a non-technical tutorial focussed on actually using the bridge via a con
         - The Avail bridge UI currently only supports bridging AVAIL tokens between Avail DA and Ethereum.
         If you initiate the bridging process from Avail DA and want to claim your AVAIL tokens on Ethereum, you need to go to `Transactions` tab and claim AVAIL by
         making sure your EVM wallet is connected to **Ethereum mainnet**, and clicking the `Claim Ready` button.
-        Conversely, if you initiate the bridging process from Ethereum and want to claim your AVAIL tokens on Avail DA, 
+        Conversely, if you initiate the bridging process from Ethereum and want to claim your AVAIL tokens on Avail DA,
         make sure your Avail wallet is connected to **Avail DA mainnet**, and click the `Claim Ready` button.
 
 3. I am not able to claim tokens even though a lot of time has passed?
@@ -49,7 +52,8 @@ This is a non-technical tutorial focussed on actually using the bridge via a con
         in your browser.
         You can find instructions on how to clear cache for a particular website [in this blog](https://support.breezechms.com/hc/en-us/articles/4402756658839-Google-Chrome-Clearing-Cache-and-Cookies-for-Specific-Sites).
 
-</details>
+  </Accordion>
+</Accordions>
 
 ## Using the Bridge
 

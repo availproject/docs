@@ -1,8 +1,5 @@
+import type { BridgeStepType, SwapStepType } from "@avail-project/nexus-core";
 import { type FC, useMemo } from "react";
-import {
-  type BridgeStepType,
-  type SwapStepType,
-} from "@avail-project/nexus-core";
 import { StepFlow } from "./step-flow";
 
 export type DisplayStep = { id: string; label: string; completed: boolean };
@@ -63,7 +60,7 @@ const TransactionProgress: FC<TransactionProgressProps> = ({
 }) => {
   const { effectiveSteps, currentIndex, allCompleted } = useMemo(() => {
     const completedTypes = new Set<string | undefined>(
-      steps?.filter((s) => s?.completed).map((s) => s?.step?.type)
+      steps?.filter((s) => s?.completed).map((s) => s?.step?.type),
     );
     // Consider only steps that were actually emitted by the SDK (ignore pre-seeded placeholders)
     const eventfulTypes = new Set<string | undefined>(
@@ -74,7 +71,7 @@ const TransactionProgress: FC<TransactionProgressProps> = ({
             "explorerURL" in st || "chain" in st || "completed" in st // present when event args were merged into step
           );
         })
-        .map((s) => s?.step?.type)
+        .map((s) => s?.step?.type),
     );
     const hasAny = (types: string[]) =>
       types.some((t) => completedTypes.has(t));

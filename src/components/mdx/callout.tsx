@@ -1,6 +1,5 @@
+import { Info, Warning, WarningCircle } from "@phosphor-icons/react/ssr";
 import { cn } from "@/lib/utils";
-import { Info } from "@phosphor-icons/react/ssr";
-import { Warning, WarningCircle } from "@phosphor-icons/react/ssr";
 
 type CalloutType = "info" | "warning" | "error" | "default";
 

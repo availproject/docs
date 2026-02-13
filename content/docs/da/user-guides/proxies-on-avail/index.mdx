@@ -4,6 +4,10 @@ id: proxies-on-avail
 description: "Proxy accounts on Avail"
 ---
 
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+
+# Proxy accounts on Avail
+
 ## Introduction
 
 A *'proxy'* of an account on Avail DA is simply another account on the network that has the power to sign transactions on behalf of the 
@@ -36,14 +40,19 @@ be an address that you control.
 You can do this using the `proxy.addProxy` extrinsic. The Avail Apps explorer provides a convenient UI abstraction for this,
 instructions for which can be found here:
 
-<Cards num={1}>
-  <Card icon={<FileIcon/>} title="Proxy accounts" href="/docs/da/user-guides/proxies-on-avail/avail-proxy" />
+<Cards>
+  <a href="/docs/da/user-guides/proxies-on-avail/avail-proxy" className="block no-underline h-full">
+    <Card className="px-4 py-3 h-full">
+      <CardTitle className="text-sm">Proxy accounts</CardTitle>
+      <CardDescription>Guide to creating and managing proxy accounts on Avail.</CardDescription>
+    </Card>
+  </a>
 </Cards>
 
 > 👉 The key principle to note here that is that you can create a proxy account that is not under your control.
 
-<details className="border p-3 rounded-md bg-[#EFF6FF]">
-<summary><b>For Example</b></summary>
+<Accordions type="single">
+  <Accordion title="For Example">
 
 You might have an account with a significant amount of funds that you want to stake on the network without taking on the
 responsibility of managing the staking operation itself.
@@ -53,7 +62,9 @@ this proxy can only sign staking-related operations on your behalf.
 
 You therefore have a situation where a second person has the power to stake funds on your behalf, but without the ability to outright
 transfer your tokens away.
-</details>
+
+  </Accordion>
+</Accordions>
 
 <Callout type="warning">
 1. The example above was a hypothetical scenario. Please take care while delegating responsibilities to proxies that you do not control.
@@ -68,12 +79,17 @@ While you get a deterministic address in the first case, the proxy address is ra
 You can create a pure proxy using the `proxy.createPure` extrinsic.
 The instructions for this can be found here:
 
-<Cards num={1}>
-  <Card icon={<FileIcon/>} title="Pure proxy accounts" href="/docs/da/user-guides/proxies-on-avail/avail-pure-proxy" />
+<Cards>
+  <a href="/docs/da/user-guides/proxies-on-avail/avail-pure-proxy" className="block no-underline h-full">
+    <Card className="px-4 py-3 h-full">
+      <CardTitle className="text-sm">Pure proxy accounts</CardTitle>
+      <CardDescription>Guide to creating and managing pure proxy accounts on Avail.</CardDescription>
+    </Card>
+  </a>
 </Cards>
 
-<details className="border p-3 rounded-md bg-[#EFF6FF]">
-<summary><b>Why would you want a pure proxy?</b></summary>
+<Accordions type="single">
+  <Accordion title="Why would you want a pure proxy?">
 
 You will see this more clearly in the [dedicated guide for setting up pure proxies](/docs/da/user-guides/proxies-on-avail/avail-pure-proxy), but the
 short answer is that using a pure proxy setup allows you to conveniently rotate the any proxy behind the pure proxy without having to
@@ -93,7 +109,9 @@ The committee votes on proposals using a multisig, which acts as the any proxy f
    out of the pure proxy.
 
 4. Any other way of implementing this would require an unstaking of funds followed by a migration into a new account.
-</details>
+
+  </Accordion>
+</Accordions>
 
 <Callout>
 Since nobody actually owns the private key of a pure proxy, it cannot be compromised via a private key leak.

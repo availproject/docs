@@ -13,13 +13,33 @@ title: API Reference
 
 This entire section is dedicated towards providing a detailed API reference for all of Avail's dev tooling.
 
-We currently document the following APIs: 
+We currently document the following APIs:
 
-<Cards num={4}>
-  <Card icon={<FileIcon />} title="Avail node API" href="/docs/da/api-reference/avail-node-api" />
-  <Card icon={<FileIcon />} title="Avail light client API" href="/docs/da/api-reference/avail-lc-api" />
-  <Card icon={<FileIcon />} title="Avail bridge API" href="/docs/da/api-reference/avail-bridge-api" />
-  <Card icon={<FileIcon />} title="Turbo DA API" href="/docs/da/api-reference/avail-turbo-da-api" />
+<Cards>
+  <a href="/docs/da/api-reference/avail-node-api" className="block no-underline h-full">
+    <Card className="px-4 py-3 h-full">
+      <CardTitle className="text-sm">Avail node API</CardTitle>
+      <CardDescription>RPC and WebSocket API documentation for Avail full nodes.</CardDescription>
+    </Card>
+  </a>
+  <a href="/docs/da/api-reference/avail-lc-api" className="block no-underline h-full">
+    <Card className="px-4 py-3 h-full">
+      <CardTitle className="text-sm">Avail light client API</CardTitle>
+      <CardDescription>HTTP API documentation for the Avail light client.</CardDescription>
+    </Card>
+  </a>
+  <a href="/docs/da/api-reference/avail-bridge-api" className="block no-underline h-full">
+    <Card className="px-4 py-3 h-full">
+      <CardTitle className="text-sm">Avail bridge API</CardTitle>
+      <CardDescription>API documentation for VectorX bridge verification.</CardDescription>
+    </Card>
+  </a>
+  <a href="/docs/da/api-reference/avail-turbo-da-api" className="block no-underline h-full">
+    <Card className="px-4 py-3 h-full">
+      <CardTitle className="text-sm">Turbo DA API</CardTitle>
+      <CardDescription>High-throughput data availability API reference.</CardDescription>
+    </Card>
+  </a>
 </Cards>
 
 Questions? Errors? Something missing?

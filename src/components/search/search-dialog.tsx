@@ -1,18 +1,18 @@
 "use client";
 
-import * as React from "react";
-import { useRouter } from "next/navigation";
-import { CaretLeft, CaretDown, Check } from "@phosphor-icons/react";
-import { useDocsSearch } from "fumadocs-core/search/client";
+import { CaretDown, CaretLeft, Check } from "@phosphor-icons/react";
 import type { SortedResult } from "fumadocs-core/search";
+import { useDocsSearch } from "fumadocs-core/search/client";
+import { useRouter } from "next/navigation";
+import * as React from "react";
+import { RecentSearches } from "@/components/search/recent-searches";
+import { RecentsView } from "@/components/search/recents-view";
+import { SearchResults } from "@/components/search/search-results";
 import {
   CommandDialog,
   CommandInput,
   CommandList,
 } from "@/components/ui/command";
-import { SearchResults } from "@/components/search/search-results";
-import { RecentSearches } from "@/components/search/recent-searches";
-import { RecentsView } from "@/components/search/recents-view";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,9 +24,8 @@ import { addRecentSearch } from "@/lib/recent-searches";
 
 const FILTER_OPTIONS = [
   { value: "all", label: "All" },
-  { value: "/docs/nexus", label: "Nexus" },
-  { value: "/docs/da", label: "Data Availability" },
-  { value: "/docs/da/user-guides", label: "User Guides" },
+  { value: "/docs/nexus/introduction-to-nexus", label: "Avail Nexus" },
+  { value: "/docs/da", label: "Avail DA" },
 ] as const;
 
 type FilterValue = (typeof FILTER_OPTIONS)[number]["value"];
@@ -168,7 +167,14 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
       });
       lastTrackedQuery.current = search;
     }
-  }, [search, isLoading, hasQuery, filteredResults.length, trackEvent, pathname]);
+  }, [
+    search,
+    isLoading,
+    hasQuery,
+    filteredResults.length,
+    trackEvent,
+    pathname,
+  ]);
 
   const handleSelect = (url: string, title: string, position: number) => {
     trackEvent("search_result_clicked", {
@@ -222,7 +228,8 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
               setViewMode("search");
               setSelectedValue("");
               requestAnimationFrame(() => {
-                const input = document.querySelector<HTMLInputElement>("[cmdk-input]");
+                const input =
+                  document.querySelector<HTMLInputElement>("[cmdk-input]");
                 input?.focus();
               });
             }}
@@ -343,7 +350,7 @@ export function useSearchDialog() {
       });
       setOpen(true);
     },
-    [trackEvent, pathname]
+    [trackEvent, pathname],
   );
 
   React.useEffect(() => {

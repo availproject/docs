@@ -12,7 +12,7 @@ export function useDebouncedValue<T>(value: T, delay: number): T {
     setter(value);
     return setter.cancel;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value, delay]);
+  }, [value, setter]);
 
   return debounced;
 }

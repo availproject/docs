@@ -1,14 +1,14 @@
 "use client";
-import React from "react";
-import ShowcaseWrapper from "./showcase-wrapper";
-import { Abi, Address, encodeFunctionData } from "viem";
 import {
   CHAIN_METADATA,
   SUPPORTED_CHAINS,
   TOKEN_CONTRACT_ADDRESSES,
   TOKEN_METADATA,
 } from "@avail-project/nexus-core";
+import React from "react";
+import { type Abi, type Address, encodeFunctionData } from "viem";
 import NexusDeposit from "../deposit/nexus-deposit";
+import ShowcaseWrapper from "./showcase-wrapper";
 
 const DepositShowcase = () => {
   const [embed, setEmbed] = React.useState(false);
@@ -90,10 +90,10 @@ const DepositShowcase = () => {
         heading={"Deposit USDC"}
         destination={{
           chainId: SUPPORTED_CHAINS.BASE,
-          tokenAddress: TOKEN_CONTRACT_ADDRESSES["USDC"][SUPPORTED_CHAINS.BASE],
+          tokenAddress: TOKEN_CONTRACT_ADDRESSES.USDC[SUPPORTED_CHAINS.BASE],
           tokenSymbol: "USDC",
-          tokenDecimals: TOKEN_METADATA["USDC"].decimals,
-          tokenLogo: TOKEN_METADATA["USDC"].icon,
+          tokenDecimals: TOKEN_METADATA.USDC.decimals,
+          tokenLogo: TOKEN_METADATA.USDC.icon,
           label: "Deposit USDC on Aave Base",
           gasTokenSymbol:
             CHAIN_METADATA[SUPPORTED_CHAINS.BASE].nativeCurrency.symbol,

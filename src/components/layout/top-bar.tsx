@@ -28,14 +28,6 @@ const MobileNav = dynamic(() => import("./mobile-nav").then((m) => m.default), {
   loading: () => <Skeleton className="w-24 h-9" />,
 });
 
-const NAV_ITEMS = [
-  {
-    id: "docs",
-    label: "Docs",
-    href: "/docs/da/get-started",
-  },
-];
-
 export default function Topbar() {
   const { theme, resolvedTheme, setTheme } = useTheme();
   const [palette, setPalette] = useState<string>("default");
@@ -76,16 +68,11 @@ export default function Topbar() {
     }
   }, [palette, resolvedTheme]);
 
-  const topItems = NAV_ITEMS.map((item) => ({
-    href: item.href,
-    label: item.label,
-  }));
-
   return (
     <>
       <div className="sticky top-0 z-40 bg-navbar-background border-b border-navbar-border">
         <div className="h-18 px-10 flex items-center justify-between gap-4">
-          {/* Left: Logo / Product Switcher */}
+          {/* Left: Logo + Mobile Nav */}
           <div className="flex items-center gap-x-6">
             <div className="hidden sm:block">
               {isProductPage ? (
@@ -100,13 +87,16 @@ export default function Topbar() {
               )}
             </div>
             <MobileNav
-              items={topItems}
+              items={[
+                { href: "/docs/nexus/introduction-to-nexus", label: "Nexus" },
+                { href: "/docs/da", label: "Data Availability" },
+              ]}
               componentItems={[]}
               className="block lg:hidden"
             />
           </div>
 
-          {/* Center: Search + Theme toggle */}
+          {/* Right: Search + Theme toggle */}
           <div className="hidden lg:flex items-center gap-3">
             <SearchBar onClick={() => setSearchOpen(true)} />
             <ThemeToggle

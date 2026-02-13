@@ -2,6 +2,7 @@
 title: "Create a new nomination pool"
 image: '/img/docs-link-preview.png'
 ---
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
 
 On-chain name of method: `nominationPools_create`
 
@@ -73,8 +74,8 @@ The rest of the code should work as is.
 1. The minimum amount of `AVAIL` required to create a nomination pool is `10_000 AVAIL`.
 2. You need to allocate privileges to some accounts while creating the pool.
 
-<details className="border p-3 rounded-md bg-[#EFF6FF] border-[#]">
-<summary>Different roles within a nomination pool</summary>
+<Accordions type="single">
+  <Accordion title="Different roles within a nomination pool">
 
 A pool consists of 4 roles, each of which having different responsibilities in managing the running of the pool.
 1. Root: Can change the nominator, bouncer, or itself. Further, it can perform any of the actions the nominator or bouncer can.
@@ -82,7 +83,8 @@ A pool consists of 4 roles, each of which having different responsibilities in m
 3. Nominator: Can select the validators the pool nominates.
 4. Bouncer: Can change the pool's state and kick (permissionlessly unbond/withdraw) members if the pool is blocked.
 
-</details>
+  </Accordion>
+</Accordions>
 
 </Callout>
 
@@ -170,8 +172,8 @@ ts-node your-file-name.ts
 
 <br/>
 
-<details className="border p-3 rounded-md bg-[#EFF6FF]">
-<summary>Sample Response:</summary>
+<Accordions type="single">
+  <Accordion title="Sample Response:">
 ```js
 {
     "isErr": false,
@@ -197,7 +199,8 @@ ts-node your-file-name.ts
     "blockNumber": 1
 }
 ```
-</details>
+  </Accordion>
+</Accordions>
 
 
   </TabsContent>
@@ -255,8 +258,8 @@ cargo run
 ```
 
 <br/>
-<details className="border p-3 rounded-md bg-[#EFF6FF]">
-<summary>Sample Response:</summary>
+<Accordions type="single">
+  <Accordion title="Sample Response:">
 ```rust showLineNumbers filename="avail-rust" name="cmd3"
 PoolCreateTxSuccess {
     event: Created {
@@ -284,7 +287,8 @@ PoolCreateTxSuccess {
     block_number: 1,
 }
 ```
-</details>
+  </Accordion>
+</Accordions>
 
   </TabsContent>
   <TabsContent value="avail-go">

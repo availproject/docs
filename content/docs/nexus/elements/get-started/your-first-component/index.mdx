@@ -1,0 +1,189 @@
+---
+title: Your First Component
+description: Render your first Nexus Elements component and understand how props and callbacks work.
+---
+
+You have installed the packages and configured the `NexusProvider`. Now it is time to render a working component. In this guide you will add the **Fast Bridge** component to a page, understand each prop it accepts, and handle its lifecycle callbacks.
+
+## What you will build
+
+By the end of this page you will have a fully functional cross-chain bridge widget embedded in your app. The user will be able to select a token, choose a source chain, and bridge assets — all with built-in progress UI, fee breakdowns, and error handling.
+
+## Step 1 — Install the Fast Bridge component
+
+If you have not already installed the Fast Bridge during the installation step, add it now:
+
+```bash
+npx shadcn@latest add @nexus-elements/fast-bridge
+```
+
+## Step 2 — Create a page for the bridge
+
+Create a new page (or add to an existing one) that renders the `FastBridge` component. Here is a complete example:
+
+```tsx title="app/bridge/page.tsx" showLineNumbers
+"use client";
+import { useAccount } from "wagmi";
+import { SUPPORTED_CHAINS } from "@avail-project/nexus-core";
+import FastBridge from "@/components/nexus/fast-bridge";
+
+export default function BridgePage() {
+  const { address } = useAccount();
+
+  if (!address) {
+    return <p>Connect your wallet to use the bridge.</p>;
+  }
+
+  return (
+    <div className="mx-auto max-w-md py-12">
+      <FastBridge
+        connectedAddress={address}
+        onComplete={() => {
+          console.log("Bridge complete!");
+        }}
+        prefill={{
+          token: "USDC",
+          chainId: SUPPORTED_CHAINS.BASE,
+        }}
+        onError={(message) => {
+          console.error("Bridge error:", message);
+        }}
+        onStart={() => {
+          console.log("Bridge started");
+        }}
+      />
+    </div>
+  );
+}
+```
+
+## Step 3 — Understand the props
+
+Here is a breakdown of every prop passed to `FastBridge` and what it controls:
+
+<TypeTable
+  type={{
+    connectedAddress: {
+      description: 'The wallet address of the connected user. Required for signing transactions.',
+      type: 'Address',
+      required: true,
+    },
+    prefill: {
+      description: 'Pre-populate the bridge form with default values so the user can bridge with fewer clicks.',
+      type: '{ token, chainId, amount?, recipient? }',
+      required: false,
+    },
+    'prefill.token': {
+      description: 'The token to bridge (e.g. "USDC", "ETH", "AVAIL").',
+      type: 'SUPPORTED_TOKENS',
+      required: false,
+    },
+    'prefill.chainId': {
+      description: 'The source chain to bridge from (e.g. SUPPORTED_CHAINS.BASE).',
+      type: 'SUPPORTED_CHAINS_IDS',
+      required: false,
+    },
+    'prefill.amount': {
+      description: 'A default amount to fill in.',
+      type: 'string',
+      required: false,
+    },
+    'prefill.recipient': {
+      description: 'A recipient address if different from the connected wallet.',
+      type: 'Address',
+      required: false,
+    },
+    onComplete: {
+      description: 'Called when the bridge transaction completes successfully. Use this to refresh balances or navigate the user.',
+      type: '() => void',
+      required: false,
+    },
+    onStart: {
+      description: 'Called when the user initiates the bridge. Useful for analytics or disabling other UI.',
+      type: '() => void',
+      required: false,
+    },
+    onError: {
+      description: 'Called if the bridge fails. The message string contains a human-readable error description.',
+      type: '(message: string) => void',
+      required: false,
+    },
+  }}
+/>
+
+<Callout type="info" title="All props are optional except connectedAddress">
+Only `connectedAddress` is required. Everything else has sensible defaults. You can render `<FastBridge connectedAddress={address} />` with zero configuration and it will work.
+</Callout>
+
+## Step 4 — Run and test
+
+Start your development server and navigate to the bridge page:
+
+```bash
+npm run dev
+```
+
+1. Open your app in the browser
+2. Connect a wallet using your wallet connection UI
+3. The bridge widget should appear with USDC on Base pre-selected
+4. Try selecting a different token or chain to verify the form is interactive
+
+<Callout type="warning" title="Testnet first">
+When testing bridge transactions, use a testnet configuration to avoid spending real funds. Check the Nexus SDK documentation for supported testnets.
+</Callout>
+
+## Swapping components
+
+Every Nexus Elements component follows the same pattern: install it, import it, and pass the relevant props. You can replace `FastBridge` with any other component using the same approach.
+
+For example, to show a unified balance view instead:
+
+```tsx
+import UnifiedBalance from "@/components/nexus/unified-balance";
+
+// No props required — it reads from the NexusProvider context
+<UnifiedBalance />
+```
+
+Or to add a swap widget:
+
+```tsx
+import Swaps from "@/components/nexus/swaps";
+
+<Swaps
+  connectedAddress={address}
+  prefill={{ token: "USDC", chainId: SUPPORTED_CHAINS.BASE }}
+  onComplete={() => console.log("Swap complete")}
+/>
+```
+
+## What's next
+
+You now have a working Nexus Elements integration. From here you can check out these other components:
+
+<Cards>
+  <a href="/docs/nexus/elements/components/fast-bridge" className="block no-underline h-full">
+    <Card className="px-4 py-3 h-full">
+      <CardTitle className="text-sm">Fast Transfer</CardTitle>
+      <CardDescription>Transfer assets across chains with source breakdown, fee details, progress steps, and allowance flow.</CardDescription>
+    </Card>
+  </a>
+  <a href="/docs/nexus/elements/components/deposit" className="block no-underline h-full">
+    <Card className="px-4 py-3 h-full">
+      <CardTitle className="text-sm">Deposit</CardTitle>
+      <CardDescription>Aggregate and swap tokens across 10+ chains into a single deposit.</CardDescription>
+    </Card>
+  </a>
+  <a href="/docs/nexus/elements/components/unified-balance" className="block no-underline h-full">
+    <Card className="px-4 py-3 h-full">
+      <CardTitle className="text-sm">Unified Balance</CardTitle>
+      <CardDescription>View unified token balances across chains with per-chain breakdown and fiat totals.</CardDescription>
+    </Card>
+  </a>
+  <a href="/docs/nexus/elements/components/swaps" className="block no-underline h-full">
+    <Card className="px-4 py-3 h-full">
+      <CardTitle className="text-sm">Swaps</CardTitle>
+      <CardDescription>Swap assets with exact-in or exact-out across supported chains.</CardDescription>
+    </Card>
+  </a>
+</Cards>

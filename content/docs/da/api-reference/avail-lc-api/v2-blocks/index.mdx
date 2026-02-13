@@ -3,6 +3,8 @@ title: "Fetch specified block status and confidence if applicable"
 image: '/img/docs-link-preview.png'
 ---
 
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+
 <Callout type="info">
 **LOOKING FOR INSTRUCTIONS ON HOW TO RUN YOUR OWN LIGHT CLIENT?**<br/>
 You can check out [our docs here](/docs/da/operate/run-a-light-client/light-client#running-the-light-client) for instructions on how to run your own light client.
@@ -112,15 +114,18 @@ async fn main() {
 }
 ```
 
-<details className="border p-3 rounded-md bg-[#EFF6FF]">
-<summary> Sample Response:</summary>
+<Accordions type="single">
+  <Accordion title="Sample Response:">
+
 ```json
 {
   "status": "unavailable|pending|verifying-header|verifying-confidence|verifying-data|incomplete|finished",
   "confidence": {confidence} // Optional
 }
 ```
-</details>
+
+  </Accordion>
+</Accordions>
 
 > If **block_number > latest_block,** block status cannot yet be derived and the response on this and other endpoints with `/v2/blocks/{block_number}` prefix is:
 

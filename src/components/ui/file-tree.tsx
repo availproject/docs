@@ -1,6 +1,9 @@
 "use client";
 
-import React, {
+import { CaretDown, CaretUp, File as FileIcon } from "@phosphor-icons/react";
+import * as AccordionPrimitive from "@radix-ui/react-accordion";
+import type React from "react";
+import {
   createContext,
   forwardRef,
   useCallback,
@@ -8,18 +11,9 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import * as AccordionPrimitive from "@radix-ui/react-accordion";
-import {
-  CaretDown,
-  CaretUp,
-  File as FileIcon,
-  Folder as FolderIcon,
-  FolderOpen as FolderOpenIcon,
-} from "@phosphor-icons/react";
-
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
 
 type TreeViewElement = {
   id: string;
@@ -138,7 +132,7 @@ const Tree = forwardRef<HTMLDivElement, TreeViewProps>(
       if (initialSelectedId) {
         expandSpecificTargetedElements(elements, initialSelectedId);
       }
-    }, [initialSelectedId, elements]);
+    }, [initialSelectedId, elements, expandSpecificTargetedElements]);
 
     const direction = dir === "rtl" ? "rtl" : "ltr";
 
@@ -226,7 +220,7 @@ const Folder = forwardRef<
       children,
       ...props
     },
-    ref,
+    _ref,
   ) => {
     const {
       direction,
@@ -344,28 +338,31 @@ const CollapseButton = forwardRef<
 >(({ className, elements, expandAll = false, children, ...props }, ref) => {
   const { expandedItems, setExpandedItems } = useTree();
 
-  const expendAllTree = useCallback((elements: TreeViewElement[]) => {
-    const expandTree = (element: TreeViewElement) => {
-      const isSelectable = element.isSelectable ?? true;
-      if (isSelectable && element.children && element.children.length > 0) {
-        setExpandedItems?.((prev) => [...(prev ?? []), element.id]);
-        element.children.forEach(expandTree);
-      }
-    };
+  const expendAllTree = useCallback(
+    (elements: TreeViewElement[]) => {
+      const expandTree = (element: TreeViewElement) => {
+        const isSelectable = element.isSelectable ?? true;
+        if (isSelectable && element.children && element.children.length > 0) {
+          setExpandedItems?.((prev) => [...(prev ?? []), element.id]);
+          element.children.forEach(expandTree);
+        }
+      };
 
-    elements.forEach(expandTree);
-  }, []);
+      elements.forEach(expandTree);
+    },
+    [setExpandedItems],
+  );
 
   const closeAll = useCallback(() => {
     setExpandedItems?.([]);
-  }, []);
+  }, [setExpandedItems]);
 
   useEffect(() => {
     console.log(expandAll);
     if (expandAll) {
       expendAllTree(elements);
     }
-  }, [expandAll]);
+  }, [expandAll, elements, expendAllTree]);
 
   return (
     <Button

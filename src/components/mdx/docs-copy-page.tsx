@@ -1,22 +1,22 @@
 "use client";
 
+import { CaretDown, Check, Copy } from "@phosphor-icons/react";
+import { useAnalytics } from "@/hooks/use-analytics";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
-import { Check, CaretDown, Copy } from "@phosphor-icons/react";
-import {
-  Popover,
-  PopoverAnchor,
-  PopoverContent,
-  PopoverTrigger,
-} from "../ui/popover";
+import { Button } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import {
+  Popover,
+  PopoverAnchor,
+  PopoverContent,
+  PopoverTrigger,
+} from "../ui/popover";
 import { Separator } from "../ui/separator";
-import { Button } from "../ui/button";
-import { useAnalytics } from "@/hooks/use-analytics";
 
 function getPromptUrl(baseURL: string, url: string) {
   return `${baseURL}?q=${encodeURIComponent(

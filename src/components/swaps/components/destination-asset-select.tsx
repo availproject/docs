@@ -1,12 +1,14 @@
 "use client";
-import { type FC, useMemo, useState } from "react";
-import { Button } from "../../ui/button";
 import {
-  type SUPPORTED_CHAINS_IDS,
   CHAIN_METADATA,
+  type SUPPORTED_CHAINS_IDS,
   type UserAsset,
 } from "@avail-project/nexus-core";
-import { DESTINATION_SWAP_TOKENS } from "../config/destination";
+import { Link2, Search, X } from "lucide-react";
+import { type FC, useMemo, useState } from "react";
+import { SHORT_CHAIN_NAME, usdFormatter } from "../../common";
+import { useNexus } from "../../nexus/NexusProvider";
+import { Button } from "../../ui/button";
 import { DialogClose } from "../../ui/dialog";
 import {
   Select,
@@ -15,17 +17,15 @@ import {
   SelectItem,
   SelectTrigger,
 } from "../../ui/select";
-import { Link2, Search, X } from "lucide-react";
-import { SHORT_CHAIN_NAME, usdFormatter } from "../../common";
+import { DESTINATION_SWAP_TOKENS } from "../config/destination";
+import type { DestinationTokenInfo } from "../hooks/useSwaps";
 import { TokenIcon } from "./token-icon";
-import { useNexus } from "../../nexus/NexusProvider";
-import { type DestinationTokenInfo } from "../hooks/useSwaps";
 
 interface DestinationAssetSelectProps {
   swapBalance: UserAsset[] | null;
   onSelect: (
     chainId: SUPPORTED_CHAINS_IDS,
-    token: DestinationTokenInfo
+    token: DestinationTokenInfo,
   ) => void;
 }
 
@@ -61,7 +61,7 @@ const DestinationAssetSelect: FC<DestinationAssetSelectProps> = ({
         balanceInFiat: usdFormatter.format(balance?.balanceInFiat ?? 0),
       };
     });
-  }, [swapBalance]);
+  }, [swapBalance, nexusSDK?.utils?.formatTokenBalance]);
 
   // Only show chains that have tokens
   const chainsWithTokens = useMemo(() => {
@@ -84,7 +84,7 @@ const DestinationAssetSelect: FC<DestinationAssetSelectProps> = ({
         (t) =>
           t.symbol.toLowerCase().includes(query) ||
           t.name.toLowerCase().includes(query) ||
-          t.tokenAddress.toLowerCase().includes(query)
+          t.tokenAddress.toLowerCase().includes(query),
       );
     }
 
@@ -104,7 +104,7 @@ const DestinationAssetSelect: FC<DestinationAssetSelectProps> = ({
           value={tempChain ? CHAIN_METADATA[tempChain].name : ""}
           onValueChange={(value) => {
             const matchedChain = chainsWithTokens.find(
-              (chain) => String(chain) === value
+              (chain) => String(chain) === value,
             );
             if (matchedChain) {
               setTempChain(matchedChain);

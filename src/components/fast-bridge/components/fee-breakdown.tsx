@@ -1,15 +1,15 @@
-import { type FC } from "react";
+import type { ReadableIntent } from "@avail-project/nexus-core";
+import { MessageCircleQuestion } from "lucide-react";
+import type { FC } from "react";
+import { useNexus } from "../../nexus/NexusProvider";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "../../ui/accordion";
-import { type ReadableIntent } from "@avail-project/nexus-core";
 import { Skeleton } from "../../ui/skeleton";
-import { useNexus } from "../../nexus/NexusProvider";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../../ui/tooltip";
-import { MessageCircleQuestion } from "lucide-react";
 
 interface FeeBreakdownProps {
   intent: ReadableIntent;

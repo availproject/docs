@@ -3,16 +3,49 @@ title: User Guides
 description: Guides for using Avail - accounts, staking, bridging, and more
 ---
 
-import { Cards, Card } from 'fumadocs-ui/components/card'
-
-
 Comprehensive guides for interacting with the Avail network.
 
 <Cards>
-  <Card title="Accounts" href="/docs/da/user-guides/accounts" />
-  <Card title="Bridge Avail" href="/docs/da/user-guides/bridge-avail" />
-  <Card title="Staking & Governance" href="/docs/da/user-guides/staking-governance" />
-  <Card title="Ledger" href="/docs/da/user-guides/ledger-avail" />
-  <Card title="Multisig" href="/docs/da/user-guides/avail-multisig" />
-  <Card title="Proxies" href="/docs/da/user-guides/proxies-on-avail" />
+  <a href="/docs/da/user-guides/accounts" className="block no-underline h-full">
+    <Card className="px-4 py-3 h-full">
+      <CardTitle className="text-sm">Accounts</CardTitle>
+      <CardDescription>Create and manage your Avail wallet and accounts.</CardDescription>
+    </Card>
+  </a>
+  <a href="/docs/da/user-guides/avail-multisig" className="block no-underline h-full">
+    <Card className="px-4 py-3 h-full">
+      <CardTitle className="text-sm">Multisig</CardTitle>
+      <CardDescription>Set up and use multisig accounts on the Avail network.</CardDescription>
+    </Card>
+  </a>
+  <a href="/docs/da/user-guides/proxies-on-avail" className="block no-underline h-full">
+    <Card className="px-4 py-3 h-full">
+      <CardTitle className="text-sm">Proxies</CardTitle>
+      <CardDescription>Delegate transaction signing with proxy and pure proxy accounts.</CardDescription>
+    </Card>
+  </a>
+  <a href="/docs/da/user-guides/avail-snap" className="block no-underline h-full">
+    <Card className="px-4 py-3 h-full">
+      <CardTitle className="text-sm">Avail Snap</CardTitle>
+      <CardDescription>Use the Avail MetaMask Snap for wallet interactions.</CardDescription>
+    </Card>
+  </a>
+  <a href="/docs/da/user-guides/ledger-avail" className="block no-underline h-full">
+    <Card className="px-4 py-3 h-full">
+      <CardTitle className="text-sm">Ledger</CardTitle>
+      <CardDescription>Manage AVAIL tokens using a Ledger hardware wallet.</CardDescription>
+    </Card>
+  </a>
+  <a href="/docs/da/user-guides/staking-governance" className="block no-underline h-full">
+    <Card className="px-4 py-3 h-full">
+      <CardTitle className="text-sm">Staking & Governance</CardTitle>
+      <CardDescription>Stake AVAIL tokens and participate in network governance.</CardDescription>
+    </Card>
+  </a>
+  <a href="/docs/da/user-guides/bridge-avail" className="block no-underline h-full">
+    <Card className="px-4 py-3 h-full">
+      <CardTitle className="text-sm">Bridge Avail</CardTitle>
+      <CardDescription>Bridge AVAIL tokens between Avail, Ethereum, and Base.</CardDescription>
+    </Card>
+  </a>
 </Cards>

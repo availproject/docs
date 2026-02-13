@@ -1,20 +1,20 @@
-import { type RefObject, useEffect, useMemo, useReducer } from "react";
 import {
-  NexusSDK,
-  type SUPPORTED_CHAINS_IDS,
   type ExactInSwapInput,
   type ExactOutSwapInput,
   NEXUS_EVENTS,
-  type SwapStepType,
+  type NexusSDK,
   type OnSwapIntentHookData,
+  type SUPPORTED_CHAINS_IDS,
+  type SwapStepType,
   type UserAsset,
 } from "@avail-project/nexus-core";
+import { type RefObject, useEffect, useMemo, useReducer } from "react";
 import {
-  useTransactionSteps,
   SWAP_EXPECTED_STEPS,
-  useNexusError,
   useDebouncedCallback,
+  useNexusError,
   usePolling,
+  useTransactionSteps,
 } from "../../common";
 
 export type SourceTokenInfo = {
@@ -219,7 +219,7 @@ const useSwaps = ({
 
     const amountBigInt = nexusSDK.utils.parseUnits(
       state.inputs.fromAmount,
-      state.inputs.fromToken.decimals
+      state.inputs.fromToken.decimals,
     );
     const swapInput: ExactInSwapInput = {
       from: [
@@ -255,7 +255,7 @@ const useSwaps = ({
 
     const amountBigInt = nexusSDK.utils.parseUnits(
       state.inputs.toAmount,
-      state.inputs.toToken.decimals
+      state.inputs.toToken.decimals,
     );
     const swapInput: ExactOutSwapInput = {
       toAmount: amountBigInt,
@@ -319,7 +319,7 @@ const useSwaps = ({
       swapBalance
         ?.find((token) => token.symbol === state.inputs?.fromToken?.symbol)
         ?.breakdown?.find(
-          (chain) => chain.chain?.id === state.inputs?.fromChainID
+          (chain) => chain.chain?.id === state.inputs?.fromChainID,
         ) ?? undefined
     );
   }, [
@@ -341,7 +341,7 @@ const useSwaps = ({
       swapBalance
         ?.find((token) => token.symbol === state?.inputs?.toToken?.symbol)
         ?.breakdown?.find(
-          (chain) => chain.chain?.id === state?.inputs?.toChainID
+          (chain) => chain.chain?.id === state?.inputs?.toChainID,
         ) ?? undefined
     );
   }, [state?.inputs?.toToken, state?.inputs?.toChainID, swapBalance, nexusSDK]);
@@ -359,7 +359,7 @@ const useSwaps = ({
   const formatBalance = (
     balance?: string | number,
     symbol?: string,
-    decimals?: number
+    decimals?: number,
   ) => {
     if (!balance || !symbol || !decimals) return undefined;
     return nexusSDK?.utils?.formatTokenBalance(balance, {
@@ -372,7 +372,7 @@ const useSwaps = ({
     if (!swapBalance) {
       fetchBalance();
     }
-  }, [swapBalance]);
+  }, [swapBalance, fetchBalance]);
 
   useEffect(() => {
     // Check validity based on current swap mode
@@ -403,6 +403,8 @@ const useSwaps = ({
     areExactInInputsValid,
     areExactOutInputsValid,
     state.status,
+    debouncedSwapStart,
+    swapIntent,
   ]);
 
   const refreshSimulation = async () => {
@@ -421,7 +423,7 @@ const useSwaps = ({
     async () => {
       await refreshSimulation();
     },
-    15000
+    15000,
   );
 
   return {

@@ -1,55 +1,57 @@
-import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import type * as React from "react";
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type MDXComponentsMap = Record<string, React.ComponentType<any>>;
-import { cn } from "@/lib/utils";
-import { ComponentPreview } from "./component-preview";
-import { CodeTabs } from "./code-tabs";
-import { ComponentSource } from "./component-source";
-import { CopyButton } from "@/components/helpers/copy-button";
-import { CodeBlockCommand } from "./code-block-command";
-import { CodeCollapsibleWrapper } from "./code-collapsible-wrapper";
 
 import {
+  ArrowsClockwise,
+  ArrowsLeftRight,
+  Brain,
+  Bridge,
   Code,
+  Coins,
   File as FileIcon,
   GithubLogo,
-  Link as LinkIcon,
-  Spinner,
-  YoutubeLogo,
-  LinkSimple,
-  Coins,
-  Brain,
-  PuzzlePiece,
-  ArrowsClockwise,
-  PaperPlaneTilt,
-  ArrowsLeftRight,
-  Bridge,
-  Swap,
   Globe,
+  Link as LinkIcon,
+  LinkSimple,
+  PaperPlaneTilt,
+  PuzzlePiece,
   Scales,
+  Spinner,
+  Swap,
+  YoutubeLogo,
 } from "@phosphor-icons/react/ssr";
-import { Callout } from "./callout";
-import { LinkCard, LinkCardGrid } from "./link-card";
-import { ConceptCard, ConceptCardGrid } from "./concept-card";
-import { IconCard, IconCardGrid } from "./icon-card";
-import { Feedback } from "./feedback";
-import { PageFooter } from "./page-footer";
-import {
-  Tabs as ShadcnTabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-} from "../ui/tabs";
+import { TypeTable } from "fumadocs-ui/components/type-table";
+import { CopyButton } from "@/components/helpers/copy-button";
+import { cn } from "@/lib/utils";
 import {
   Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
 } from "../ui/card";
+import {
+  Tabs as ShadcnTabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "../ui/tabs";
+import { Callout } from "./callout";
+import { CodeBlockCommand } from "./code-block-command";
+import { CodeCollapsibleWrapper } from "./code-collapsible-wrapper";
+import { CodeTabs } from "./code-tabs";
+import { ComponentPreview } from "./component-preview";
+import { ComponentSource } from "./component-source";
+import { ConceptCard, ConceptCardGrid } from "./concept-card";
+import { Feedback } from "./feedback";
+import { IconCard, IconCardGrid } from "./icon-card";
+import { LinkCard, LinkCardGrid } from "./link-card";
+import { PageFooter } from "./page-footer";
 
 export const mdxComponents: MDXComponentsMap = {
   // Headings
@@ -137,7 +139,10 @@ export const mdxComponents: MDXComponentsMap = {
   ),
   a: ({ className, ...props }: React.ComponentProps<"a">) => (
     <a
-      className={cn("font-medium text-link-foreground underline decoration-[var(--link-underline)] underline-offset-4 hover:decoration-[var(--link-underline-hover)]", className)}
+      className={cn(
+        "font-medium text-link-foreground underline decoration-[var(--link-underline)] underline-offset-4 hover:decoration-[var(--link-underline-hover)]",
+        className,
+      )}
       {...props}
     />
   ),
@@ -261,11 +266,7 @@ export const mdxComponents: MDXComponentsMap = {
     return (
       <>
         {__raw__ && (
-          <CopyButton
-            value={__raw__}
-            language={language}
-            codeType="block"
-          />
+          <CopyButton value={__raw__} language={language} codeType="block" />
         )}
         <code {...props} />
       </>
@@ -314,7 +315,10 @@ export const mdxComponents: MDXComponentsMap = {
   Callout,
   Link: ({ className, ...props }: React.ComponentProps<typeof Link>) => (
     <Link
-      className={cn("font-medium text-link-foreground underline decoration-[var(--link-underline)] underline-offset-4 hover:decoration-[var(--link-underline-hover)]", className)}
+      className={cn(
+        "font-medium text-link-foreground underline decoration-[var(--link-underline)] underline-offset-4 hover:decoration-[var(--link-underline-hover)]",
+        className,
+      )}
       {...props}
     />
   ),
@@ -372,7 +376,10 @@ export const mdxComponents: MDXComponentsMap = {
   CardFooter,
   // Cards wrapper for grid layout
   Cards: ({ className, ...props }: React.ComponentProps<"div">) => (
-    <div className={cn("mt-6 grid gap-4 sm:grid-cols-2", className)} {...props} />
+    <div
+      className={cn("mt-6 grid gap-4 sm:grid-cols-2", className)}
+      {...props}
+    />
   ),
   // Media and icons
   Youtube: YoutubeLogo,
@@ -404,6 +411,8 @@ export const mdxComponents: MDXComponentsMap = {
   IconCardGrid,
   // Feedback component
   Feedback,
+  // Type documentation table
+  TypeTable,
   // Page footer with navigation
   PageFooter,
 };

@@ -3,6 +3,8 @@ title: "How to Run an Avail node"
 image: '/img/docs-link-preview.png'
 ---
 
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+
 
 ## How to run an Avail node 
 
@@ -29,8 +31,8 @@ required to make sure your node can be used to access all RPC methods:
 --enable-kate-rpc
 ```
 
-<details className="border p-3 rounded-md bg-[#EFF6FF]">
-<summary>Description of the flags:</summary>
+<Accordions>
+  <Accordion title="Description of the flags:">
 
 - **--state-pruning archive**:
 
@@ -68,8 +70,10 @@ required to make sure your node can be used to access all RPC methods:
 
 - **--enable-kate-rpc**:
 
-          Enable the Kate pallet.
-</details>
+      Enable the Kate pallet.
+
+</Accordion>
+</Accordions>
 
 - Looking for a list of all available config flags? Check out the [last section of this page](/docs/da/operate/run-a-full-node/full-node#additional-configs).
 

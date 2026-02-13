@@ -1,21 +1,15 @@
-import React, { type RefObject } from "react";
-import { Label } from "../../ui/label";
-import { cn } from "@/lib/utils";
 import {
   CHAIN_METADATA,
   type OnSwapIntentHookData,
   type SUPPORTED_CHAINS_IDS,
   type UserAsset,
 } from "@avail-project/nexus-core";
-import {
-  type SwapInputs,
-  type SwapMode,
-  type TransactionStatus,
-} from "../hooks/useSwaps";
-import { Button } from "../../ui/button";
-import { TokenIcon } from "./token-icon";
-import AmountInput from "./amount-input";
+import { ChevronDown } from "lucide-react";
+import type React from "react";
+import type { RefObject } from "react";
+import { cn } from "@/lib/utils";
 import { usdFormatter } from "../../common";
+import { Button } from "../../ui/button";
 import {
   Dialog,
   DialogContent,
@@ -23,8 +17,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../../ui/dialog";
-import { ChevronDown } from "lucide-react";
+import { Label } from "../../ui/label";
+import type {
+  SwapInputs,
+  SwapMode,
+  TransactionStatus,
+} from "../hooks/useSwaps";
+import AmountInput from "./amount-input";
 import DestinationAssetSelect from "./destination-asset-select";
+import { TokenIcon } from "./token-icon";
 
 interface DestinationContainerProps {
   destinationHovered: boolean;
@@ -41,7 +42,7 @@ interface DestinationContainerProps {
   formatBalance: (
     balance?: string | number,
     symbol?: string,
-    decimals?: number
+    decimals?: number,
   ) => string | undefined;
 }
 
@@ -62,12 +63,12 @@ const DestinationContainer: React.FC<DestinationContainerProps> = ({
   // In exactOut mode, show user's input; in exactIn mode, show calculated destination
   const displayedAmount =
     swapMode === "exactOut"
-      ? inputs.toAmount ?? ""
-      : formatBalance(
+      ? (inputs.toAmount ?? "")
+      : (formatBalance(
           swapIntent?.current?.intent?.destination?.amount,
           swapIntent?.current?.intent?.destination?.token?.symbol,
-          swapIntent?.current?.intent?.destination?.token?.decimals
-        ) ?? "";
+          swapIntent?.current?.intent?.destination?.token?.decimals,
+        ) ?? "");
 
   return (
     <div className="bg-background rounded-xl flex flex-col items-center w-full gap-y-4">
@@ -79,7 +80,7 @@ const DestinationContainer: React.FC<DestinationContainerProps> = ({
               "flex transition-all duration-150 ease-out w-full justify-end gap-x-2",
               destinationHovered
                 ? "opacity-100 translate-y-0"
-                : "opacity-0 -translate-y-1"
+                : "opacity-0 -translate-y-1",
             )}
           >
             {availableStables.map((token) => (
@@ -160,10 +161,10 @@ const DestinationContainer: React.FC<DestinationContainerProps> = ({
             {usdFormatter.format(
               getFiatValue(
                 Number.parseFloat(
-                  swapIntent?.current?.intent?.destination?.amount
+                  swapIntent?.current?.intent?.destination?.amount,
                 ),
-                inputs.toToken?.logo
-              )
+                inputs.toToken?.logo,
+              ),
             )}
           </span>
         ) : (
@@ -174,7 +175,7 @@ const DestinationContainer: React.FC<DestinationContainerProps> = ({
             {formatBalance(
               destinationBalance?.balance,
               inputs?.toToken?.symbol,
-              destinationBalance?.decimals
+              destinationBalance?.decimals,
             ) ?? ""}
           </span>
         ) : (

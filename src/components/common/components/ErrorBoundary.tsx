@@ -96,7 +96,7 @@ export class WidgetErrorBoundary extends Component<
     console.error(
       `WidgetErrorBoundary [${this.props.widgetName ?? "Unknown"}]:`,
       error,
-      errorInfo
+      errorInfo,
     );
     this.props.onError?.(error, errorInfo);
   }

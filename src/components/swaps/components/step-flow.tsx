@@ -1,9 +1,9 @@
-import { type FC, Fragment, memo } from "react";
-import { TokenIcon } from "./token-icon";
-import { StackedTokenIcons } from "./stacked-token-icons";
-import { cn } from "@/lib/utils";
 import { Atom, CircleCheck, SquareArrowOutUpRight } from "lucide-react";
-import { type DisplayStep } from "./transaction-progress";
+import { type FC, Fragment, memo } from "react";
+import { cn } from "@/lib/utils";
+import { StackedTokenIcons } from "./stacked-token-icons";
+import { TokenIcon } from "./token-icon";
+import type { DisplayStep } from "./transaction-progress";
 
 interface TokenSource {
   tokenLogo: string;
@@ -98,7 +98,7 @@ const StepItem: FC<StepItemProps> = memo(
       <div
         className={cn(
           "flex gap-x-4 items-center rounded-lg w-full py-1 transition-opacity duration-300",
-          getOpacity()
+          getOpacity(),
         )}
       >
         {/* Left Indicator */}
@@ -107,7 +107,7 @@ const StepItem: FC<StepItemProps> = memo(
             <div
               className={cn(
                 "rounded-full flex items-center justify-center ring-2 ring-chart-1 ring-offset-2 ring-offset-background transition-all duration-300 animate-pulse",
-                hasMultipleSources ? "min-w-max px-1" : "size-6"
+                hasMultipleSources ? "min-w-max px-1" : "size-6",
               )}
             >
               {renderIcon()}
@@ -131,7 +131,7 @@ const StepItem: FC<StepItemProps> = memo(
                 "font-medium text-sm transition-colors duration-300",
                 isCompleted || isCurrent
                   ? "text-foreground"
-                  : "text-muted-foreground"
+                  : "text-muted-foreground",
               )}
             >
               {step.label}
@@ -160,7 +160,7 @@ const StepItem: FC<StepItemProps> = memo(
         </div>
       </div>
     );
-  }
+  },
 );
 
 StepItem.displayName = "StepItem";
@@ -189,8 +189,8 @@ export const StepFlow: FC<StepFlowProps> = memo(
           const url = isLast
             ? explorerUrls.destinationExplorerUrl
             : index === steps.length - 2
-            ? explorerUrls.sourceExplorerUrl
-            : null;
+              ? explorerUrls.sourceExplorerUrl
+              : null;
 
           // For source steps (not the last step), pass multiple sources info
           const isSourceStep = !isLast;
@@ -217,7 +217,7 @@ export const StepFlow: FC<StepFlowProps> = memo(
                   <div
                     className={cn(
                       "w-0.5 h-5 border border-dashed transition-colors duration-300",
-                      isCompleted ? "border-chart-1/50" : "border-border"
+                      isCompleted ? "border-chart-1/50" : "border-border",
                     )}
                   />
                 </div>
@@ -227,7 +227,7 @@ export const StepFlow: FC<StepFlowProps> = memo(
         })}
       </div>
     );
-  }
+  },
 );
 
 StepFlow.displayName = "StepFlow";

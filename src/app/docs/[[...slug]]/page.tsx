@@ -1,16 +1,16 @@
+import { ArrowUpRight, CaretRight } from "@phosphor-icons/react/ssr";
+import fm from "front-matter";
+import { findNeighbour } from "fumadocs-core/page-tree";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { findNeighbour } from "fumadocs-core/page-tree";
-import { source } from "@/lib/source";
-import { mdxComponents } from "@/components/mdx/mdx-components";
-import { ArrowUpRight, CaretRight } from "@phosphor-icons/react/ssr";
-import { OnThisPage } from "@/components/helpers/on-this-page";
-import fm from "front-matter";
 import { z } from "zod";
-import { Badge } from "@/components/ui/badge";
-import { PageFooter } from "@/components/mdx/page-footer";
+import { OnThisPage } from "@/components/helpers/on-this-page";
 import { TrackPageVisit } from "@/components/helpers/track-page-visit";
+import { mdxComponents } from "@/components/mdx/mdx-components";
+import { PageFooter } from "@/components/mdx/page-footer";
+import { Badge } from "@/components/ui/badge";
 import { getProductTree } from "@/lib/page-tree-utils";
+import { source } from "@/lib/source";
 
 export const revalidate = false;
 export const dynamic = "force-static";
@@ -95,7 +95,7 @@ export default async function Page(props: {
       if (segment === "docs" && index === 0) {
         return { href: "/", label: "Home" };
       }
-      const href = "/" + arr.slice(0, index + 1).join("/");
+      const href = `/${arr.slice(0, index + 1).join("/")}`;
       const segmentLabels: Record<string, string> = {
         "nexus-sdk": "Nexus SDK",
         "api-reference": "API Reference",
@@ -109,7 +109,8 @@ export default async function Page(props: {
       return { href, label };
     });
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://docs.availproject.org";
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://docs.availproject.org";
   const pageUrl = new URL(page.url, baseUrl).toString();
 
   const breadcrumbLd = {
@@ -141,10 +142,12 @@ export default async function Page(props: {
       <TrackPageVisit url={page.url} title={doc.title} />
       <script
         type="application/ld+json"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data for SEO
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
       <script
         type="application/ld+json"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data for SEO
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }}
       />
       <div className="flex min-w-0 flex-1 flex-col bg-background xl:pl-10 2xl:pl-20">
@@ -156,7 +159,7 @@ export default async function Page(props: {
               {/* Breadcrumbs */}
               {breadcrumbs.length > 0 && (
                 <nav className="flex items-center gap-1">
-                  {breadcrumbs.map((crumb, index) => (
+                  {breadcrumbs.map((crumb) => (
                     <span key={crumb.href} className="flex items-center gap-1">
                       <Link
                         href={crumb.href}
@@ -164,7 +167,10 @@ export default async function Page(props: {
                       >
                         {crumb.label}
                       </Link>
-                      <CaretRight size={20} className="text-breadcrumb-previous" />
+                      <CaretRight
+                        size={20}
+                        className="text-breadcrumb-previous"
+                      />
                     </span>
                   ))}
                   <span className="ui-16 text-breadcrumb-current">
@@ -179,9 +185,7 @@ export default async function Page(props: {
                   {doc.title}
                 </h1>
                 {doc.description && (
-                  <p className="body-16 text-foreground">
-                    {doc.description}
-                  </p>
+                  <p className="body-16 text-foreground">{doc.description}</p>
                 )}
               </div>
 
