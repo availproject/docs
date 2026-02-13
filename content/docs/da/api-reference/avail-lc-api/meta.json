@@ -1,8 +1,6 @@
 {
   "pages": [
-    "display",
-    "type",
-    "title",
+    "---HTTPS API---",
     "v2-version",
     "v2-status",
     "v2-blocks",
@@ -10,10 +8,11 @@
     "v2-blocks-header-datafields",
     "v2-submit",
     "v2-subscriptions",
+    "---WebSocket API---",
     "v2-ws-version",
     "v2-ws-status",
     "v2-ws-submit",
-    "HTTPS API",
-    "Websocket API"
+    "---Deprecated---",
+    "v1-deprecated"
   ]
 }

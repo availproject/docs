@@ -1,3 +1,7 @@
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  return (
+    <div className="bg-muted" data-page-bg="muted">
+      {children}
+    </div>
+  );
 }

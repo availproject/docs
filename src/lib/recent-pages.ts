@@ -43,7 +43,7 @@ const SEGMENT_OVERRIDES: Record<string, string> = {
   "nexus-sdk": "Nexus SDK",
   "api-reference": "API Reference",
   "user-guides": "User Guides",
-  "operate-a-node": "Operate A Node",
+  operate: "Operate",
   da: "DA",
 };
 

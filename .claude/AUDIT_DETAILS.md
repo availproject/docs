@@ -184,6 +184,7 @@ Consistently present:
 
 ~~`content/docs/nexus/cookbook-recipes/index.mdx`~~ — Resolved (content added or removed).
 
+
 Near-empty pages:
 - `da/api-reference/gas-relay-deprecated/index.mdx` — deprecation notice only
 - `da/api-reference/avail-lc-api/v1-deprecated/index.mdx` — deprecation notice only

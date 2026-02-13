@@ -90,15 +90,14 @@ content/docs/
 ├── da/                    # Avail DA
 │   ├── index.mdx
 │   ├── meta.json          # Controls sidebar order for DA
-│   ├── learn-about-avail/
-│   ├── build-with-avail/
-│   ├── operate-a-node/
-│   ├── api-reference/
+│   ├── get-started/
+│   ├── concepts/          # Networks, app IDs, explorer, tx pricing
+│   ├── build/             # Interact, rollups, Turbo DA, VectorX, bug bounty
+│   ├── operate/           # Node types, full nodes, light clients, validators
 │   ├── user-guides/
-│   ├── networks/
+│   ├── api-reference/
 │   ├── glossary/
-│   ├── faqs/
-│   └── bug-bounty/
+│   └── faqs/
 ├── nexus/                 # Avail Nexus
 │   ├── index.mdx
 │   ├── meta.json          # Controls sidebar order for Nexus
@@ -132,7 +131,7 @@ Items listed here appear in this order. Items not listed are excluded from the s
 
 ### Adding a new page
 
-1. Create a `.mdx` file in the appropriate directory (e.g. `content/docs/da/learn-about-avail/my-page.mdx`)
+1. Create a `.mdx` file in the appropriate directory (e.g. `content/docs/da/concepts/my-page.mdx`)
 2. Add frontmatter at the top:
    ```mdx
    ---
@@ -150,7 +149,9 @@ All routes are prefixed with `/docs`. Internal links **must** follow these patte
 
 | Product | Link pattern | Example |
 |---|---|---|
-| DA | `/docs/da/...` | `/docs/da/learn-about-avail/what-is-avail` |
+| DA | `/docs/da/...` | `/docs/da/get-started` |
+| DA build | `/docs/da/build/...` | `/docs/da/build/interact/app-id` |
+| DA operate | `/docs/da/operate/...` | `/docs/da/operate/run-a-full-node` |
 | DA user guides | `/docs/da/user-guides/...` | `/docs/da/user-guides/bridge-avail` |
 | DA API reference | `/docs/da/api-reference/...` | `/docs/da/api-reference/avail-node-api` |
 | Nexus | `/docs/nexus/...` | `/docs/nexus/get-started` |
@@ -158,10 +159,11 @@ All routes are prefixed with `/docs`. Internal links **must** follow these patte
 
 ### Common mistakes to avoid
 
-- **No bare paths** — `/docs/operate-a-node` won't resolve. Use `/docs/da/operate-a-node`.
+- **No bare paths** — `/docs/operate` won't resolve. Use `/docs/da/operate`.
 - **No uppercase** — `/docs/DA/...` will break. Always use `/docs/da/...`.
 - **No `.mdx` extensions** — Link to `/docs/da/faqs`, not `/docs/da/faqs.mdx`.
-- **No old paths** — `avail-nexus-sdk`, `introduction-to-nexus`, and `nexus-cheatsheet` have been renamed. Use `nexus-sdk`, `get-started`, and `cheat-sheet`.
+- **No old DA paths** — `build-with-avail`, `operate-a-node`, `learn-about-avail`, `welcome-to-avail-docs`, `interact-with-avail-da`, and `deploy-rollup-on-avail` have been renamed to `build`, `operate`, `concepts`, `get-started`, `build/interact`, and `build/rollups`.
+- **No old Nexus paths** — `avail-nexus-sdk`, `introduction-to-nexus`, and `nexus-cheatsheet` have been renamed to `nexus-sdk`, `get-started`, and `cheat-sheet`.
 - **No top-level user guides** — `/docs/user-guides/...` is incorrect. Use `/docs/da/user-guides/...`.
 
 ## Environment variables
@@ -193,8 +195,9 @@ We use **version-based** branch names:
 4. Run `pnpm build` to verify nothing is broken
 5. Open a PR against `main`
 
-> Husky is configured via `prepare` and installs on `pnpm install`.  
+> Husky is configured via `prepare` and installs on `pnpm install`.
 > Pre-commit runs `pnpm validate:precommit` (lint-staged + typecheck).
+
 
 ### Code quality
 

@@ -168,7 +168,10 @@ export function OnThisPage({
   const [copied, setCopied] = React.useState(false);
   const [isCopyLoading, setIsCopyLoading] = React.useState(false);
   const [isAIMenuOpen, setIsAIMenuOpen] = React.useState(false);
-  const [isAILoading, setIsAILoading] = React.useState<string | null>(null);
+  const prefetchedDataRef = React.useRef<{
+    content: string;
+    title: string;
+  } | null>(null);
   const { trackEvent } = useAnalytics();
 
   // Get the markdown API path from the current pathname
@@ -213,31 +216,41 @@ export function OnThisPage({
     }
   }, [pageContent, getMarkdownApiPath, trackEvent]);
 
+  // Prefetch markdown when the AI menu opens so data is ready on click
+  const handleAIMenuOpenChange = React.useCallback(
+    (open: boolean) => {
+      setIsAIMenuOpen(open);
+      if (open) {
+        prefetchedDataRef.current = null;
+        fetch(`${getMarkdownApiPath()}?format=json`)
+          .then((res) => (res.ok ? res.json() : null))
+          .then((data) => {
+            if (data) prefetchedDataRef.current = data;
+          })
+          .catch(() => {});
+      }
+    },
+    [getMarkdownApiPath],
+  );
+
   const handleOpenInAI = React.useCallback(
-    async (serviceId: string) => {
+    (serviceId: string) => {
       const service = AI_SERVICES.find((s) => s.id === serviceId);
       if (!service) return;
 
-      setIsAILoading(serviceId);
-      try {
-        const response = await fetch(`${getMarkdownApiPath()}?format=json`);
-
-        if (response.ok) {
-          const data = await response.json();
-          const url = service.getUrl(data.content, data.title);
-          trackEvent("ai_service_opened", {
-            service: serviceId as "v0" | "chatgpt" | "claude",
-          });
-          window.open(url, "_blank");
-        }
-      } catch (error) {
-        console.error("Failed to open in AI:", error);
-      } finally {
-        setIsAILoading(null);
-        setIsAIMenuOpen(false);
+      const data = prefetchedDataRef.current;
+      if (data) {
+        const url = service.getUrl(data.content, data.title);
+        trackEvent("ai_service_opened", {
+          service: serviceId as "v0" | "chatgpt" | "claude",
+        });
+        // window.open works here because we're in the synchronous click handler
+        window.open(url, "_blank");
       }
+
+      setIsAIMenuOpen(false);
     },
-    [getMarkdownApiPath, trackEvent],
+    [trackEvent],
   );
 
   const handleViewMarkdown = React.useCallback(() => {
@@ -360,7 +373,7 @@ export function OnThisPage({
       {showActions && (
         <div className="flex flex-col items-start">
           {/* Ask AI dropdown */}
-          <Popover open={isAIMenuOpen} onOpenChange={setIsAIMenuOpen}>
+          <Popover open={isAIMenuOpen} onOpenChange={handleAIMenuOpenChange}>
             <PopoverTrigger asChild>
               <button
                 type="button"
@@ -382,17 +395,12 @@ export function OnThisPage({
                     key={service.id}
                     type="button"
                     onClick={() => handleOpenInAI(service.id)}
-                    disabled={isAILoading === service.id}
                     className={cn(
-                      "flex h-10 w-full items-center gap-2 px-3 bg-menu-item-background text-search-foreground hover:bg-menu-item-background-hover transition-colors disabled:opacity-50",
+                      "flex h-10 w-full items-center gap-2 px-3 bg-menu-item-background text-search-foreground hover:bg-menu-item-background-hover transition-colors",
                       index < AI_SERVICES.length - 1 && "border-b border-menu-item-border",
                     )}
                   >
-                    {isAILoading === service.id ? (
-                      <SpinnerGap size={16} className="shrink-0 animate-spin" />
-                    ) : (
-                      service.icon
-                    )}
+                    {service.icon}
                     <span>{service.name}</span>
                   </button>
                 ))}

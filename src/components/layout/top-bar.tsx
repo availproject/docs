@@ -1,23 +1,21 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
-import { useTheme } from "next-themes";
-import { usePathname } from "next/navigation";
 import Link from "next/link";
-
-import { cn } from "@/lib/utils";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { Skeleton } from "../ui/skeleton";
+import { usePathname } from "next/navigation";
+import { useTheme } from "next-themes";
+import { useEffect, useRef, useState } from "react";
+import { AvailLogo } from "@/components/logos/avail-logo";
 import {
   SearchDialog,
   useSearchDialog,
 } from "@/components/search/search-dialog";
-import { SearchBar } from "./search-bar";
-import { ThemeToggle } from "./theme-toggle";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { Skeleton } from "../ui/skeleton";
 import { AccountMenu } from "./account-menu";
 import { ProductSwitcher } from "./product-switcher";
-import { AvailLogo } from "@/components/logos/avail-logo";
+import { SearchBar } from "./search-bar";
+import { ThemeToggle } from "./theme-toggle";
 
 const ThemeControl = dynamic(
   () => import("./theme-control").then((m) => m.default),
@@ -34,7 +32,7 @@ const NAV_ITEMS = [
   {
     id: "docs",
     label: "Docs",
-    href: "/docs/da/welcome-to-avail-docs",
+    href: "/docs/da/get-started",
   },
 ];
 
@@ -45,7 +43,8 @@ export default function Topbar() {
   const isMobile = useIsMobile();
   const { open: searchOpen, setOpen: setSearchOpen } = useSearchDialog();
   const pathname = usePathname();
-  const isProductPage = pathname.startsWith("/docs/da") || pathname.startsWith("/docs/nexus");
+  const isProductPage =
+    pathname.startsWith("/docs/da") || pathname.startsWith("/docs/nexus");
 
   useEffect(() => {
     try {
@@ -92,7 +91,10 @@ export default function Topbar() {
               {isProductPage ? (
                 <ProductSwitcher />
               ) : (
-                <Link href="/" className="inline-flex items-center cursor-pointer text-[#006BF4] dark:text-foreground">
+                <Link
+                  href="/"
+                  className="inline-flex items-center cursor-pointer text-[#006BF4] dark:text-foreground"
+                >
                   <AvailLogo />
                 </Link>
               )}
@@ -107,16 +109,17 @@ export default function Topbar() {
           {/* Center: Search + Theme toggle */}
           <div className="hidden lg:flex items-center gap-3">
             <SearchBar onClick={() => setSearchOpen(true)} />
-            <ThemeToggle theme={theme ?? "system"} resolvedTheme={resolvedTheme ?? "light"} setTheme={setTheme} />
+            <ThemeToggle
+              theme={theme ?? "system"}
+              resolvedTheme={resolvedTheme ?? "light"}
+              setTheme={setTheme}
+            />
           </div>
 
           {/* Right: Account */}
           <div className="flex items-center gap-3">
             <div className="hidden lg:block">
-              <AccountMenu
-                theme={theme ?? "system"}
-                setTheme={setTheme}
-              />
+              <AccountMenu theme={theme ?? "system"} setTheme={setTheme} />
             </div>
             {/* Mobile theme control */}
             <div className="lg:hidden">

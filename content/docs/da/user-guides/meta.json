@@ -1,4 +1,5 @@
 {
+  "title": "User Guides",
   "pages": [
     "accounts",
     "avail-multisig",
@@ -7,7 +8,6 @@
     "avail-snap",
     "ledger-avail",
     "bridge-avail",
-    "staking-governance",
-    "display"
+    "staking-governance"
   ]
 }
