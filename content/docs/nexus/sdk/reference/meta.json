@@ -1,0 +1,9 @@
+{
+  "title": "Reference",
+  "pages": [
+    "bridge-methods",
+    "swap-methods",
+    "hooks-and-errors",
+    "api-reference"
+  ]
+}

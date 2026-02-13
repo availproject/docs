@@ -1,0 +1,87 @@
+---
+image: "/img/docs-link-preview.png"
+title: What are Bridge Methods?
+description: "In Nexus, users can do Bridge, Transfer, Bridge & Execute operations which uses Nexus chain abstraction. It offers a limited set of supported tokens which can be bridged between chains."
+---
+
+
+
+Let's understand what each Nexus operation is and what it does. 
+
+<Callout type="info">
+**Note:** Check out [our list of supported tokens and chains](/docs/nexus/supported-chains-and-tokens).
+</Callout>
+## Bridge
+
+During the `Bridge` operation, the funds are bridged from N source chains to the user's preferred destination chain. 
+<div className='mt-4'/>
+
+    **Sender** = **Recipient**
+<br></br>
+<div className='mt-4'/>
+<img src="/img/nexus/bridge-op.png" alt="Bridge Operation" width="100%" align="center"/>
+<br></br>
+This function uses the `BridgeParams` struct and the `bridge` function from the Bridge Methods in the SDK.
+<br/><br/>
+<Cards>
+  <a href="docs/nexus/sdk/reference/bridge-methods/bridge" target="_blank" rel="noopener noreferrer" className="block no-underline h-full">
+    <Card className="px-4 py-3 h-full">
+      <CardTitle className="text-sm">bridge()</CardTitle>
+      <CardDescription>View `bridge()` method signature, params, and response</CardDescription>
+    </Card>
+  </a>
+</Cards>
+
+
+## Transfer 
+During the `Transfer` operation, the funds are bridged from N source chains from the `Sender` to the user's preferred destination chain at a different `Receiver` address. 
+<br/>
+It is a compound operation i.e. it involves the bridging of funds from different sources to a destination chain and then funds are transferred to the `Recipient` address. 
+<div className='mt-4'/>
+    **Sender** != **Recipient**
+<br></br>
+<div className='mt-4'/>
+<img src="/img/nexus/transfer-op.png" alt="Transfer operation" width="100%" align="center"/>
+<br/>
+This function uses the `TransferParams` struct and the `bridgeAndTransfer` function from the Bridge Methods in the SDK.
+<br/><br/>
+<Cards>
+  <a href="docs/nexus/sdk/reference/bridge-methods/bridge-and-transfer" target="_blank" rel="noopener noreferrer" className="block no-underline h-full">
+    <Card className="px-4 py-3 h-full">
+      <CardTitle className="text-sm">bridgeAndTransfer()</CardTitle>
+      <CardDescription>View `bridgeAndTransfer()` method signature, params, and response</CardDescription>
+    </Card>
+  </a>
+</Cards>
+
+## Bridge & Execute
+
+The `Bridge & Execute` operation is a more complex compound operation in Nexus. In this operation, the user bridges liquidity from N sources chains if there is a lack of enough liquidity on the destination chain, and then executes any arbitrary smart contract function. 
+<br/>
+<br/>
+Note that the smart contract can be any onchain contract on the destination chain. ALl the developer needs is the contract `address`, function `name` & `params`, and `ABI`.
+<br/> 
+<br/>
+For users, this means they don't have to do a separate bridge action to use a `Liquid App` (Nexus powered application), and just use the app as they would if they had liquidity onchain. 
+<br></br>
+<div className='mt-4'/>
+
+<img src="/img/nexus/bne-op.png" alt="Bridge and Execute operation" width="100%" align="center"/>
+<div className='mt-4'/>
+
+This function uses the `BridgeAndExecuteParams` struct and the `bridgeAndExecute` function from the Bridge Methods in the SDK.
+<br/><br/>
+<Cards>
+  <a href="docs/nexus/sdk/reference/bridge-methods/bridge-and-execute" target="_blank" rel="noopener noreferrer" className="block no-underline h-full">
+    <Card className="px-4 py-3 h-full">
+      <CardTitle className="text-sm">bridgeAndExecute()</CardTitle>
+      <CardDescription>View `bridgeAndExecute()` method signature, params, and response</CardDescription>
+    </Card>
+  </a>
+</Cards>
+
+
+<Callout type="info">
+**CONCEPTS**
+- [Learn more about the difference between Bridge and Swap methods.](/docs/nexus/understanding-avail-nexus/concepts/bridge-vs-swap)
+</Callout>

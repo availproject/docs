@@ -12,7 +12,7 @@ keywords:
   - da
 ---
 
-# How to Run the Avail light client
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
 
 <Callout type="info">
 **LOOKING FOR THE LIGHT CLIENT API REFERENCE?**<br/>
@@ -90,8 +90,8 @@ curl -sL1 avail.sh | bash
 
 2. If everything goes well, the client output will look like this:
 
-<details className="border p-3 rounded-md bg-[#EFF6FF]">
-<summary> Sample output </summary>
+<Accordions type="single">
+  <Accordion title="Sample output">
 ```shell
 2024-03-20T10:50:25.528628Z  INFO avail_light::light_client: Processing finalized block block_number=562690 block_delay=20
 2024-03-20T10:50:25.528706Z  INFO avail_light::light_client: Random cells generated: 10 block_number=562690 cells_requested=10
@@ -116,7 +116,9 @@ curl -sL1 avail.sh | bash
 2024-03-20T10:50:46.513795Z  INFO avail_light::api::v2: Message published to clients topic=ConfidenceAchieved published=0 failed=0
 2024-03-20T10:50:47.056255Z  INFO avail_light::network::p2p::event_loop: Cell upload success rate for block 562691: 0/10. Duration: 0
 ```
-</details>
+
+  </Accordion>
+</Accordions>
 
 
   </TabsContent>
@@ -186,8 +188,8 @@ You can configure the run command with a variety of [config flags](https://githu
 
 4. If everything goes well, the client output will look like this:
 
-<details className="border p-3 rounded-md bg-[#EFF6FF]">
-<summary> Sample output </summary>
+<Accordions type="single">
+  <Accordion title="Sample output">
 
 ```shell
 2024-03-20T10:50:25.528628Z  INFO avail_light::light_client: Processing finalized block block_number=562690 block_delay=20
@@ -213,7 +215,9 @@ You can configure the run command with a variety of [config flags](https://githu
 2024-03-20T10:50:46.513795Z  INFO avail_light::api::v2: Message published to clients topic=ConfidenceAchieved published=0 failed=0
 2024-03-20T10:50:47.056255Z  INFO avail_light::network::p2p::event_loop: Cell upload success rate for block 562691: 0/10. Duration: 0
 ```
-</details>
+
+  </Accordion>
+</Accordions>
 
 
 
@@ -251,8 +255,8 @@ Detailed documentation for them can be found [in our Github repo](https://github
 
   5. If everything goes well, the client output will look like this:
 
-<details className="border p-3 rounded-md bg-[#EFF6FF]">
-<summary> Sample output </summary>
+<Accordions type="single">
+  <Accordion title="Sample output">
 
 ```shell
 2024-03-20T10:22:23.821042Z  INFO avail_light::api::v2: Message published to clients topic=HeaderVerified published=0 failed=0
@@ -277,7 +281,8 @@ Detailed documentation for them can be found [in our Github repo](https://github
 2024-03-20T10:22:46.674150Z  INFO avail_light::light_client: Sleeping for 19.998042125s seconds
 ```
 
-</details>
+  </Accordion>
+</Accordions>
 
 
 
@@ -306,8 +311,8 @@ instructions on how to run the Avail light client natively on Windows without ha
 
 4. If everything goes well, the client output will look like this:
 
-<details className="border p-3 rounded-md bg-[#EFF6FF]">
-<summary> Sample output </summary>
+<Accordions type="single">
+  <Accordion title="Sample output">
 ```shell
 2024-03-20T10:22:23.821042Z  INFO avail_light::api::v2: Message published to clients topic=HeaderVerified published=0 failed=0
 2024-03-20T10:22:23.854448Z  INFO avail_light::network: Cells fetched from RPC block_number=562606 cells_total=10 cells_fetched=10 cells_verified=10 fetch_elapsed=466.901875ms proof_verification_elapsed=10.431583ms
@@ -330,7 +335,9 @@ instructions on how to run the Avail light client natively on Windows without ha
 2024-03-20T10:22:46.674087Z  INFO avail_light::api::v2: Message published to clients topic=HeaderVerified published=0 failed=0
 2024-03-20T10:22:46.674150Z  INFO avail_light::light_client: Sleeping for 19.998042125s seconds
 ```
-</details>
+
+  </Accordion>
+</Accordions>
 
 <Callout type="info">
 Please note that trying to download and run a precompiled binary via a `.zip` file might result in 
@@ -381,8 +388,8 @@ curl -sL1 avail.sh | bash
 
 7. If everything goes well, the client output will look like this:
 
-<details className="border p-3 rounded-md bg-[#EFF6FF]">
-<summary> Sample output </summary>
+<Accordions type="single">
+  <Accordion title="Sample output">
 ```shell
 2024-03-20T10:22:23.821042Z  INFO avail_light::api::v2: Message published to clients topic=HeaderVerified published=0 failed=0
 2024-03-20T10:22:23.854448Z  INFO avail_light::network: Cells fetched from RPC block_number=562606 cells_total=10 cells_fetched=10 cells_verified=10 fetch_elapsed=466.901875ms proof_verification_elapsed=10.431583ms
@@ -405,7 +412,9 @@ curl -sL1 avail.sh | bash
 2024-03-20T10:22:46.674087Z  INFO avail_light::api::v2: Message published to clients topic=HeaderVerified published=0 failed=0
 2024-03-20T10:22:46.674150Z  INFO avail_light::light_client: Sleeping for 19.998042125s seconds
 ```
-</details>
+
+  </Accordion>
+</Accordions>
 
 
   </TabsContent>

@@ -2,8 +2,7 @@
 title: "Fetch information on the active era"
 image: '/img/docs-link-preview.png'
 ---
-
-# Fetch information on the active era
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
 
 On-chain name of method: `staking_activeEra`
 
@@ -134,8 +133,8 @@ cargo run
 ```
 
 <br/>
-<details className="border p-3 rounded-md bg-[#EFF6FF]">
-<summary>Sample Response:</summary>
+<Accordions type="single">
+  <Accordion title="Sample Response:">
 ```json
 result = Some(
     ActiveEraInfo {
@@ -146,7 +145,8 @@ result = Some(
     },
 )
 ```
-</details>
+  </Accordion>
+</Accordions>
 
   </TabsContent>
   <TabsContent value="avail-go">

@@ -2,8 +2,7 @@
 title: "Nominate validator(s) for your nomination pool"
 image: '/img/docs-link-preview.png'
 ---
-
-# Nominate validator(s) for your nomination pool
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
 
 On-chain name of method: `nominationPools_nominate`
 
@@ -140,8 +139,8 @@ ts-node your-file-name.ts
 ```
 
 <br/>
-<details className="border p-3 rounded-md bg-[#EFF6FF]">
-<summary>Sample Response:</summary>
+<Accordions type="single">
+  <Accordion title="Sample Response:">
 ```js
 {
     "isErr": false,
@@ -152,7 +151,8 @@ ts-node your-file-name.ts
     "blockNumber": 48
 }
 ```
-</details>
+  </Accordion>
+</Accordions>
 
   </TabsContent>
   <TabsContent value="avail-rust">
@@ -208,8 +208,8 @@ cargo run
 ```
 
 <br/>
-<details className="border p-3 rounded-md bg-[#EFF6FF]">
-<summary>Sample Response:</summary>
+<Accordions type="single">
+  <Accordion title="Sample Response:">
 ```rust showLineNumbers filename="avail-rust" name="cmd3"
 NominateTxSuccess {
     events: ExtrinsicEvents {
@@ -233,7 +233,8 @@ NominateTxSuccess {
     block_number: 28,
 }
 ```
-</details>
+  </Accordion>
+</Accordions>
 
   </TabsContent>
 </Tabs>

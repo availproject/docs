@@ -20,6 +20,7 @@ import {
   Youtube,
 } from "lucide-react";
 import { Callout } from "./callout";
+import { TypeTable } from "fumadocs-ui/components/type-table";
 import { LinkCard, LinkCardGrid } from "./link-card";
 import { ConceptCard, ConceptCardGrid } from "./concept-card";
 import { Feedback } from "./feedback";
@@ -378,6 +379,8 @@ export const mdxComponents: MDXComponentsMap = {
   ConceptCardGrid,
   // Feedback component
   Feedback,
+  // Type documentation table
+  TypeTable,
   // Page footer with navigation
   PageFooter,
 };

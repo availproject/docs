@@ -1,7 +1,11 @@
 {
   "pages": [
-    "Optimium",
-    "Validium",
-    "sovereign-rollups"
+    "arbitrum-nitro",
+    "op-stack",
+    "zksync",
+    "zkevm",
+    "madara",
+    "cosmos-avail-module",
+    "cdk"
   ]
 }

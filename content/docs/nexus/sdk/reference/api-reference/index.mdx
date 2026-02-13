@@ -1,0 +1,259 @@
+---
+title: 'SDK Reference'
+description: 'The Nexus Core SDK provides a comprehensive set of APIs for cross-chain bridging, token transfers, and balance management across multiple EVM chains.'
+image: '/img/docs-link-preview.png'
+---
+
+
+## Agent Skills (skills.sh)
+
+You can use Codex/skills.sh skills under `skills/` to help agents integrate the SDK end-to-end.
+
+- Install all skills from the repo:
+
+```bash
+npx skills add availproject/nexus-sdk
+```
+- Install a single skill (recommended):
+
+```bash
+npx skills add https://github.com/availproject/nexus-sdk --skill nexus-sdk-integration
+```
+
+- Install from a specific branch or tag:
+
+```bash
+npx skills add https://github.com/availproject/nexus-sdk --skill nexus-sdk-integration --ref develop
+```
+<br/>
+Available skills:
+- `nexus-sdk-integration` (parent/orchestrator)
+- `nexus-sdk-setup`
+- `nexus-sdk-hooks-events`
+- `nexus-sdk-bridge-flows`
+- `nexus-sdk-swap-flows`
+- `nexus-sdk-balances-metadata-utils`
+
+## SDK Reference
+
+### Initialization
+
+```typescript title="TypeScript"
+import { NexusSDK, type NexusNetwork } from '@avail-project/nexus-core';
+
+// Mainnet
+const sdk = new NexusSDK({ network: 'mainnet' });
+
+// Testnet
+const sdkTest = new NexusSDK({ network: 'testnet' });
+
+// (Optional) Add TRON support
+const tronLinkAdapter = new TronLinkAdapter();
+sdk.addTron(tronLinkAdapter);
+
+// Initialize with wallet provider
+await sdk.initialize(window.ethereum);
+```
+
+## Event Handling
+
+**All main SDK functions support the `onEvent` hook**:
+
+- `bridge`
+- `bridgeAndTransfer`
+- `execute`
+- `bridgeAndExecute`
+- `swapWithExactIn` / `swapWithExactOut`
+
+Example usage for **progress steps**:
+
+```typescript
+sdk.bridge({...}, {
+  onEvent: (event) => {
+    if(event.name === NEXUS_EVENTS.STEPS_LIST) {
+      // Store list of steps
+    } else if(event.name === NEXUS_EVENTS.STEP_COMPLETE) {
+      // Mark step as done
+    }
+  }
+});
+```
+Additional hooks for user interactions:
+
+```typescript
+sdk.setOnIntentHook(({ intent, allow, deny, refresh }) => {
+  if (userApproves) allow();
+  else deny();
+});
+
+sdk.setOnSwapIntentHook(({ intent, allow, deny, refresh }) => {
+  if (userApproves) allow();
+  else deny();
+});
+
+sdk.setOnAllowanceHook(({ sources, allow, deny }) => {
+  allow(['min']); // 'max' or custom bigint[] supported
+});
+```
+
+### Consistent Event Pattern
+
+| Operation Type   | Event Name           | Description                             |
+| ---------------- | -------------------- | --------------------------------------- |
+| Bridge / Execute | `STEPS_LIST`         | Full ordered list of steps emitted once |
+|                  | `STEP_COMPLETE`      | Fired per completed step with data      |
+| Swap             | `SWAP_STEP_COMPLETE` | Fired per completed step with data      |
+
+Events are delivered as `{ name, args }`. `STEPS_LIST` provides an ordered list of bridge steps,
+`STEP_COMPLETE` provides the completed bridge step, and `SWAP_STEP_COMPLETE` provides the completed swap step.
+Step payloads include `type` and `typeID`, and some steps include extra data such as `explorerUrl` and `intentID`.
+
+---
+
+## Balance Operations
+
+```typescript
+const unifiedBridgeBalances = await sdk.getBalancesForBridge(); // Returns balances that can be used in bridge operations
+const swapBalances = await sdk.getBalancesForSwap(); // Returns balances that can be used in swap operations
+```
+
+---
+
+## View my Intent History
+
+```typescript
+const intents = await sdk.getMyIntents(1);
+console.log('Active intents:', intents);
+```
+
+---
+
+## SDK Utilities
+
+```typescript
+import { CHAIN_METADATA, formatTokenBalance, truncateAddress } from '@avail-project/nexus-core';
+
+const isValid = sdk.utils.isValidAddress('0x...');
+const chainMeta = CHAIN_METADATA[137];
+const formatted = sdk.utils.formatTokenBalance('0.000294700412452583', {
+  symbol: 'ETH',
+  decimals: 18,
+}); // "~0.0₄2552 ETH"
+
+// Direct imports (no sdk instance required) for stateless helpers:
+const directFormatted = formatTokenBalance(12.345678, { symbol: 'USDC' });
+const short = truncateAddress('0x1234567890123456789012345678901234567890');
+```
+
+---
+
+## Error Handling
+
+```typescript
+try {
+  await sdk.bridge({ token: 'USDC', amount: 1_530_000n, toChainId: 137 });
+} catch (err) {
+  if (err instanceof NexusError) {
+    console.error(`[${err.code}] ${err.message}`);
+  } else {
+    console.error('Unexpected error:', err);
+  }
+}
+```
+
+---
+
+## TypeScript Support
+
+```typescript
+import type {
+  BridgeParams,
+  ExecuteParams,
+  TransferParams,
+  SwapResult,
+  NexusNetwork,
+  TokenMetadata,
+} from '@avail-project/nexus-core';
+```
+
+---
+
+## Analytics
+
+The Nexus SDK includes **built-in analytics** powered by PostHog to help improve the SDK and understand usage patterns. Analytics are **enabled by default** but can be easily customized or disabled.
+
+### Default Behavior
+
+By default, the SDK sends anonymous telemetry data to Avail's PostHog instance:
+
+- SDK initialization events
+- Operation performance metrics
+- Session duration and success rates
+- Error tracking (without sensitive data)
+
+**No wallet addresses or transaction amounts** are collected unless you explicitly configure custom analytics.
+
+### Disabling Analytics
+
+```typescript
+const sdk = new NexusSDK({
+  network: 'mainnet',
+  analytics: { enabled: false },
+});
+```
+
+### Privacy Controls
+
+```typescript
+const sdk = new NexusSDK({
+  network: 'mainnet',
+  analytics: {
+    enabled: true,
+    privacy: {
+      anonymizeWallets: true, // Hash wallet addresses
+      anonymizeAmounts: true, // Exclude transaction amounts
+    },
+  },
+});
+```
+
+### Custom Analytics (BYO PostHog)
+
+You can use your own PostHog instance for custom analytics:
+
+```typescript
+const sdk = new NexusSDK({
+  network: 'mainnet',
+  analytics: {
+    enabled: true,
+    posthogApiKey: 'your-posthog-key',
+    posthogApiHost: 'https://your-posthog-instance.com',
+    appMetadata: {
+      appName: 'My DApp',
+      appVersion: '1.0.0',
+      appUrl: 'https://mydapp.com',
+    },
+  },
+});
+```
+
+### Accessing Analytics Programmatically
+
+```typescript
+// Track custom events
+sdk.analytics.track('custom_event', { foo: 'bar' });
+
+// Identify users
+sdk.analytics.identify('user-id', { plan: 'premium' });
+
+// Check if analytics is enabled
+if (sdk.analytics.isEnabled()) {
+  console.log('Analytics active');
+}
+
+// Disable analytics at runtime
+sdk.analytics.disable();
+
+// Re-enable analytics
+sdk.analytics.enable();
+```

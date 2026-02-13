@@ -1,0 +1,17 @@
+{
+  "title": "User Guides",
+  "pages": [
+    "---Wallets & Accounts---",
+    "accounts",
+    "avail-multisig",
+    "proxies-on-avail",
+    "identity",
+    "avail-snap",
+    "ledger-avail",
+    "avail-funds-recovery",
+    "---Staking & Governance---",
+    "staking-governance",
+    "---Bridging---",
+    "bridge-avail"
+  ]
+}

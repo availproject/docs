@@ -1,0 +1,85 @@
+---
+title: Installation
+description: Install the Nexus SDK packages and dependencies in your project.
+---
+
+In this guide you will install `@avail-project/nexus-core` and its peer dependencies into an existing project. By the end, your project will be ready for SDK initialization in the next step.
+
+<Callout type="info" title="Prefer a ready-made starter?">
+If you want a fully scaffolded project with wallet connection and the SDK pre-configured, use the [Quickstart](/docs/nexus/sdk/quickstart) instead. This guide is for adding the Nexus SDK to an **existing** project.
+</Callout>
+
+## Prerequisites
+
+Before you begin, make sure your project meets the following requirements:
+
+- **React 18+** with a framework like [Next.js](https://nextjs.org) or [Vite](https://vitejs.dev)
+- **A wallet connection library** such as [wagmi](https://wagmi.sh) + [RainbowKit](https://rainbowkit.com) or [ConnectKit](https://docs.family.co/connectkit)
+- **Node.js 18+** and a package manager (npm, pnpm, or yarn)
+
+<Callout type="info" title="Why a wallet library?">
+The Nexus SDK requires an [EIP-1193](https://eips.ethereum.org/EIPS/eip-1193) compatible wallet provider to sign transactions. Libraries like wagmi make it easy to retrieve the provider from a connected wallet.
+</Callout>
+
+## Step 1 — Install the core package
+
+Run one of the following commands to add the Nexus SDK to your project:
+
+<Tabs defaultValue="npm">
+  <TabsList>
+    <TabsTrigger value="npm">npm</TabsTrigger>
+    <TabsTrigger value="pnpm">pnpm</TabsTrigger>
+    <TabsTrigger value="yarn">yarn</TabsTrigger>
+  </TabsList>
+  <TabsContent value="npm">
+```bash
+npm install @avail-project/nexus-core
+```
+  </TabsContent>
+  <TabsContent value="pnpm">
+```bash
+pnpm add @avail-project/nexus-core
+```
+  </TabsContent>
+  <TabsContent value="yarn">
+```bash
+yarn add @avail-project/nexus-core
+```
+  </TabsContent>
+</Tabs>
+
+### What gets installed
+
+The `@avail-project/nexus-core` package provides:
+
+- **`NexusSDK`** — the main class for initializing the SDK and performing cross-chain operations
+- **Bridge methods** — `bridge()`, `bridgeAndTransfer()`, `bridgeAndExecute()` for moving tokens across chains
+- **Swap methods** — `swapExactIn()`, `swapExactOut()` for cross-chain token swaps
+- **Balance methods** — `getUnifiedBalances()` for aggregated multi-chain token balances
+- **Event constants** — `NEXUS_EVENTS` for tracking transaction progress
+- **Type exports** — `BridgeResult`, `EthereumProvider`, `TOKEN_CONTRACT_ADDRESSES`, and more
+
+<Callout type="info" title="Browser-only">
+The Nexus SDK is designed for **client-side browser environments only**. It cannot be used in server-side code (Node.js, API routes, etc.) because it requires access to a browser wallet provider.
+</Callout>
+
+## Step 2 — Verify the installation
+
+Confirm the package was installed by importing it in a file:
+
+```tsx
+import { NexusSDK } from "@avail-project/nexus-core";
+
+const sdk = new NexusSDK();
+console.log("Nexus SDK loaded:", typeof sdk.initialize === "function");
+```
+
+If this compiles without errors, the installation is complete.
+
+## Next step
+
+The package is installed. Next, you will create an SDK instance, connect it to a wallet, and fetch your first unified balance.
+
+<LinkCardGrid>
+  <LinkCard title="Nexus SDK Setup" href="/docs/nexus/sdk/get-started/nexus-sdk-setup" />
+</LinkCardGrid>

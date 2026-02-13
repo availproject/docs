@@ -1,0 +1,65 @@
+---
+title: "Fetch the swap balances of a user"
+---
+
+# getBalancesForSwap()
+
+<Callout type="info">
+**SET UP THE SDK BEFORE YOU START:**
+
+- You can find the SDK setup instructions in the [Get Started](/docs/nexus/sdk/get-started/nexus-sdk-setup) page.
+</Callout>
+<Callout type="info">
+**Note:** Check out [our list of supported tokens and chains](/docs/nexus/supported-chains-and-tokens).
+</Callout>
+<br/>
+Use the `getBalancesForSwap()` function to fetch token balances that can be used in swap operations across all supported chains in one call.
+
+
+## Method signature
+
+```typescript title="TypeScript"
+getBalancesForSwap(): Promise<Array<{
+    amount: string;
+    chainID: number;
+    decimals: number;
+    symbol: string;
+    tokenAddress: `0x${string}`;
+    universe: Universe;
+    value: number;
+    logo: string;
+}>>
+```
+
+## Parameters
+
+- None
+
+## Example
+
+Here is a minimal example of how to use the `getBalancesForSwap()` function to fetch balances that are eligible to be used as swap inputs:
+
+```typescript title="TypeScript"
+// Get all balances that are eligible for swap operations
+const swapBalances = await sdk.getBalancesForSwap();
+console.log('Swap balances:', swapBalances);
+```
+
+## Return Value
+
+- `getBalancesForSwap()`: Returns an array of anonymous objects with the following properties:
+
+
+```typescript title="TypeScript"
+// Docs-only alias. Not exported by the SDK.
+type SwapBalanceItem = {
+amount: string;
+chainID: number;
+decimals: number;
+symbol: string;
+tokenAddress: `0x${string}`;
+universe: Universe;
+value: number;
+logo: string;
+};
+```

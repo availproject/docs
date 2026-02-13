@@ -2,8 +2,8 @@
 title: "Get Submission Information"
 image: '/img/docs-link-preview.png'
 ---
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
 
-# Get Submission Information
 <Callout type="info">
 **NEED AN API KEY?**<br/>
 Contact our team to get an API key for accessing the Turbo DA API endpoints.
@@ -34,8 +34,8 @@ curl -X GET 'https://staging.turbo-api.availproject.org/v1/get_submission_info?s
   </TabsContent>
 </Tabs>
 
-<details className="border p-3 rounded-md bg-[#EFF6FF]">
-<summary>Sample Response:</summary>
+<Accordions type="single">
+  <Accordion title="Sample Response:">
 ```json
 {
   "data": {
@@ -58,4 +58,5 @@ curl -X GET 'https://staging.turbo-api.availproject.org/v1/get_submission_info?s
 
 > If the submission ID is invalid or not found, you'll receive an appropriate HTTP error code with an error message:
 
-</details>
+  </Accordion>
+</Accordions>

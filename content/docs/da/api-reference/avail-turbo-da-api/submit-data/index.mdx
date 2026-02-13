@@ -2,8 +2,7 @@
 title: "Submit JSON Data to Turbo DA"
 image: '/img/docs-link-preview.png'
 ---
-
-# Submit JSON Data to Turbo DA
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
 
 <Callout type="info">
 **Why does this endpoint exist?**<br/>
@@ -52,8 +51,8 @@ curl -X POST 'https://staging.turbo-api.availproject.org/v1/submit_data' \
   </TabsContent>
 </Tabs>
 
-<details className="border p-3 rounded-md bg-[#EFF6FF]">
-<summary>Sample Response:</summary>
+<Accordions type="single">
+  <Accordion title="Sample Response:">
 ```json
 {
     "submission_id": "<submission_id>"
@@ -67,4 +66,5 @@ curl -X POST 'https://staging.turbo-api.availproject.org/v1/submit_data' \
     "error": "Error message details"
 }
 ```
-</details>
+  </Accordion>
+</Accordions>

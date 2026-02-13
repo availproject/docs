@@ -21,10 +21,9 @@ import { useAnalytics } from "@/hooks/use-analytics";
 
 const FILTER_OPTIONS = [
   { value: "all", label: "All" },
-  { value: "/docs/nexus", label: "Nexus" },
-  { value: "/docs/DA", label: "Data Availability" },
-  { value: "/docs/user-guides", label: "User Guides" },
-] as const;
+  { value: "/docs/nexus/introduction-to-nexus", label: "Avail Nexus" },
+  { value: "/docs/da", label: "Avail DA" },
+] as const; 
 
 type FilterValue = (typeof FILTER_OPTIONS)[number]["value"];
 

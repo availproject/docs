@@ -3,8 +3,6 @@ title: "Transaction fees on Avail"
 image: '/img/docs-link-preview.png'
 ---
 
-# Transaction fees on Avail
-
 Every extrinsic (transaction) executed on Avail costs a certain amount of `AVAIL` tokens. These fees vary for different
 extrinsics and are determined primarily by two considerations:
 
@@ -57,7 +55,7 @@ Final fee = Base fee + Length fee + Weight fee  + Tip(optional)
 
 Posting new data to the chain is a core component of the Avail network. To ensure the fees for doing so remain
 viable, the `submitDataFeeModifier` can be adjusted when needed after going through
-[Avail's governance process](/user-guides/staking-governance/governance-on-avail).
+[Avail's governance process](/docs/da/user-guides/staking-governance/governance-on-avail).
 
 This multiplier is used to adjust the `Weight fee` component of the final fee for all `dataAvailability_submitData` transactions.
 

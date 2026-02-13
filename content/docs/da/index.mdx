@@ -3,15 +3,39 @@ title: Avail DA
 description: Documentation for Avail DA - the data availability layer
 ---
 
-import { Cards, Card } from 'fumadocs-ui/components/card'
-
-
 Welcome to the Avail DA documentation. Avail DA is the data availability layer that powers the Avail ecosystem.
 
+<div className="mt-4" />
+
 <Cards>
-  <Card title="Start Here" href="/docs/DA/welcome-to-avail-docs" />
-  <Card title="Networks" href="/docs/DA/networks" />
-  <Card title="Build with Avail" href="/docs/DA/build-with-avail" />
-  <Card title="Operate a Node" href="/docs/DA/operate-a-node" />
-  <Card title="API Reference" href="/docs/DA/api-reference" />
+  <a href="/docs/da/introduction-to-avail-da" className="block no-underline h-full">
+    <Card className="px-4 py-3 h-full">
+      <CardTitle className="text-sm">Introduction to Avail DA</CardTitle>
+      <CardDescription>Learn about Avail's data availability layer and how it works.</CardDescription>
+    </Card>
+  </a>
+  <a href="/docs/da/networks" className="block no-underline h-full">
+    <Card className="px-4 py-3 h-full">
+      <CardTitle className="text-sm">Networks</CardTitle>
+      <CardDescription>Mainnet and testnet network details, endpoints, and configuration.</CardDescription>
+    </Card>
+  </a>
+  <a href="/docs/da/build-with-avail" className="block no-underline h-full">
+    <Card className="px-4 py-3 h-full">
+      <CardTitle className="text-sm">Build with Avail</CardTitle>
+      <CardDescription>Start building applications on top of Avail's data availability layer.</CardDescription>
+    </Card>
+  </a>
+  <a href="/docs/da/operate-a-node" className="block no-underline h-full">
+    <Card className="px-4 py-3 h-full">
+      <CardTitle className="text-sm">Operate a Node</CardTitle>
+      <CardDescription>Run and manage Avail full nodes, light clients, and validators.</CardDescription>
+    </Card>
+  </a>
+  <a href="/docs/da/api-reference" className="block no-underline h-full">
+    <Card className="px-4 py-3 h-full">
+      <CardTitle className="text-sm">API Reference</CardTitle>
+      <CardDescription>Complete API documentation for interacting with Avail DA.</CardDescription>
+    </Card>
+  </a>
 </Cards>

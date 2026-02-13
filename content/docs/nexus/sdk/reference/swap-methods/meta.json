@@ -1,0 +1,8 @@
+{
+  "title": "Swap Methods",
+  "pages": [
+    "fetch-swap-balances",
+    "swap-exact-in",
+    "swap-exact-out"
+  ]
+}

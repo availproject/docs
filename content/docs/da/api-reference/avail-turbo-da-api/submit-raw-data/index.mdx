@@ -2,8 +2,8 @@
 title: "Submit Raw Data to Turbo DA"
 image: '/img/docs-link-preview.png'
 ---
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
 
-# Submit Raw Data to Turbo DA
 <Callout type="info">
 **NEED AN API KEY?**<br/>
 Contact our team to get an API key for accessing the Turbo DA API endpoints.
@@ -51,13 +51,13 @@ curl -X POST 'https://staging.turbo-api.availproject.org/v1/submit_raw_data' \
   </TabsContent>
 </Tabs>
 
-<details className="border p-3 rounded-md bg-[#EFF6FF]">
-<summary>Sample Response:</summary>
+<Accordions type="single">
+  <Accordion title="Sample Response:">
 ```json
 {
     "submission_id": "<submission_id>"
 }
-
+```
 
 > If the request fails due to invalid API key or server error, you'll receive an appropriate HTTP error code with an error message:
 
@@ -66,5 +66,6 @@ curl -X POST 'https://staging.turbo-api.availproject.org/v1/submit_raw_data' \
     "error": "Error message details"
 }
 ```
-</details>
+  </Accordion>
+</Accordions>
 
