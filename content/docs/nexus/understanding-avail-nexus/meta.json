@@ -1,7 +1,4 @@
 {
   "title": "Understanding Avail Nexus",
-  "pages": [
-    "fundamentals",
-    "concepts"
-  ]
+  "pages": ["fundamentals", "concepts"]
 }

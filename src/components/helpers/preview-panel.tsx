@@ -1,12 +1,13 @@
 "use client";
-import React, { ReactNode, useEffect } from "react";
-import { LoaderPinwheel } from "lucide-react";
-import { type EthereumProvider } from "@avail-project/nexus-core";
+import type { EthereumProvider } from "@avail-project/nexus-core";
+import { Spinner } from "@phosphor-icons/react";
+import { type ReactNode, useCallback, useEffect } from "react";
+import { toast } from "sonner";
 import { useAccount, useConnectorClient } from "wagmi";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useNexus } from "../nexus/NexusProvider";
 import { Button } from "../ui/button";
-import { toast } from "sonner";
+
 interface PreviewPanelProps {
   children: ReactNode;
   connectLabel: string;
@@ -21,10 +22,9 @@ export function PreviewPanel({
   const { nexusSDK, handleInit, loading } = useNexus();
   const isMobile = useIsMobile();
 
-  const initializeNexus = async () => {
+  const initializeNexus = useCallback(async () => {
     try {
       const mobileProvider = walletClient && {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         request: (args: unknown) => walletClient.request(args as any),
       };
       const desktopProvider = await connector?.getProvider();
@@ -38,23 +38,23 @@ export function PreviewPanel({
       console.error(error);
       toast.error(`Failed to initialize Nexus ${(error as Error)?.message}`);
     }
-  };
+  }, [walletClient, connector, isMobile, handleInit, nexusSDK]);
 
   useEffect(() => {
     if (status === "connected" && !nexusSDK) {
       initializeNexus();
     }
-  }, [status, nexusSDK]);
+  }, [status, nexusSDK, initializeNexus]);
   return (
     <div className="w-full">
       <div className="flex flex-col w-full items-center justify-center min-h-[450px] relative">
-        {(status === "connected" || status === "connecting") && nexusSDK && (
-          <>{children}</>
-        )}
+        {(status === "connected" || status === "connecting") &&
+          nexusSDK &&
+          children}
         {status === "connected" && !nexusSDK && (
           <Button onClick={initializeNexus}>
             {loading ? (
-              <LoaderPinwheel className="size-6 animate-spin" />
+              <Spinner size={24} className="animate-spin" />
             ) : (
               "Initialize Nexus"
             )}

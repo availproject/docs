@@ -1,6 +1,9 @@
 "use client";
 
-import React, {
+import { CaretDown, CaretUp, File as FileIcon } from "@phosphor-icons/react";
+import * as AccordionPrimitive from "@radix-ui/react-accordion";
+import type React from "react";
+import {
   createContext,
   forwardRef,
   useCallback,
@@ -8,18 +11,9 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import * as AccordionPrimitive from "@radix-ui/react-accordion";
-import {
-  ChevronDown,
-  ChevronUp,
-  FileIcon,
-  FolderIcon,
-  FolderOpenIcon,
-} from "lucide-react";
-
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
 
 type TreeViewElement = {
   id: string;
@@ -138,7 +132,7 @@ const Tree = forwardRef<HTMLDivElement, TreeViewProps>(
       if (initialSelectedId) {
         expandSpecificTargetedElements(elements, initialSelectedId);
       }
-    }, [initialSelectedId, elements]);
+    }, [initialSelectedId, elements, expandSpecificTargetedElements]);
 
     const direction = dir === "rtl" ? "rtl" : "ltr";
 
@@ -226,7 +220,7 @@ const Folder = forwardRef<
       children,
       ...props
     },
-    ref,
+    _ref,
   ) => {
     const {
       direction,
@@ -259,8 +253,8 @@ const Folder = forwardRef<
         >
           <span>{element}</span>
           {expandedItems?.includes(value)
-            ? (openIcon ?? <ChevronUp className="size-4" />)
-            : (closeIcon ?? <ChevronDown className="size-4" />)}
+            ? (openIcon ?? <CaretUp size={16} />)
+            : (closeIcon ?? <CaretDown size={16} />)}
         </AccordionPrimitive.Trigger>
         <AccordionPrimitive.Content className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down relative h-full overflow-hidden text-sm">
           {element && indicator && <TreeIndicator aria-hidden="true" />}
@@ -326,7 +320,7 @@ const File = forwardRef<
         onClick={() => selectItem(value)}
         {...props}
       >
-        {fileIcon ?? <FileIcon className="size-4" />}
+        {fileIcon ?? <FileIcon size={16} />}
         {children}
       </button>
     );
@@ -344,28 +338,31 @@ const CollapseButton = forwardRef<
 >(({ className, elements, expandAll = false, children, ...props }, ref) => {
   const { expandedItems, setExpandedItems } = useTree();
 
-  const expendAllTree = useCallback((elements: TreeViewElement[]) => {
-    const expandTree = (element: TreeViewElement) => {
-      const isSelectable = element.isSelectable ?? true;
-      if (isSelectable && element.children && element.children.length > 0) {
-        setExpandedItems?.((prev) => [...(prev ?? []), element.id]);
-        element.children.forEach(expandTree);
-      }
-    };
+  const expendAllTree = useCallback(
+    (elements: TreeViewElement[]) => {
+      const expandTree = (element: TreeViewElement) => {
+        const isSelectable = element.isSelectable ?? true;
+        if (isSelectable && element.children && element.children.length > 0) {
+          setExpandedItems?.((prev) => [...(prev ?? []), element.id]);
+          element.children.forEach(expandTree);
+        }
+      };
 
-    elements.forEach(expandTree);
-  }, []);
+      elements.forEach(expandTree);
+    },
+    [setExpandedItems],
+  );
 
   const closeAll = useCallback(() => {
     setExpandedItems?.([]);
-  }, []);
+  }, [setExpandedItems]);
 
   useEffect(() => {
     console.log(expandAll);
     if (expandAll) {
       expendAllTree(elements);
     }
-  }, [expandAll]);
+  }, [expandAll, elements, expendAllTree]);
 
   return (
     <Button

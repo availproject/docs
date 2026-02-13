@@ -1,6 +1,3 @@
 {
-  "pages": [
-    "overview",
-    "zkevm"
-  ]
+  "pages": ["overview", "zkevm"]
 }

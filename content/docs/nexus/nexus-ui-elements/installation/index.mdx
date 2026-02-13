@@ -1,0 +1,124 @@
+---
+title: Installation
+description: Install and configure Nexus Elements in your React project. Prebuilt components with full Nexus SDK integration, perfect for plug-and-play.
+---
+
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { ArrowSquareUpRight } from "@phosphor-icons/react/ssr";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
+
+## Important Note
+
+Nexus Elements internally uses shadcn/ui components as its foundation. While you can copy and paste components without shadcn, we strongly recommend using shadcn/ui for the best experience, optimal performance, and seamless integration.
+
+## Install shadcn/ui
+
+<Steps>
+  <p className="mb-3">
+    If you haven't already, set up shadcn/ui in your project first. Follow the
+    official installation guide
+  </p>
+  <Button
+    asChild
+    variant="secondary"
+    size="sm"
+    className="inline-flex items-center gap-2 my-2 w-full"
+  >
+    <a
+      href="https://ui.shadcn.com/docs/installation"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="no-underline"
+    >
+      Install shadcn/ui
+      <ArrowSquareUpRight size={16} />
+    </a>
+  </Button>
+  <p>Once installed, come back to continue with Nexus Elements.</p>
+</Steps>
+
+## Install Element
+
+<p className="font-serif">
+  You can now start adding Nexus Elements components to your project. The
+  command below installs the <code>unified-balance</code> component. Replace it
+  with any other component name as needed.
+</p>
+
+```bash
+npx shadcn@latest add @nexus-elements/unified-balance
+```
+
+<p className="mt-3! font-serif">
+  The command will add all required files and dependencies for the selected
+  component.
+</p>
+
+<span id="usage" className="block -mt-24 pt-24" />
+
+## Wrap your app with the provider
+
+```tsx showLineNumbers
+"use client";
+import NexusProvider from "@/components/nexus/NexusProvider";
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <NexusProvider>{children}</NexusProvider>;
+}
+```
+
+## Initialize on wallet connect
+
+```tsx showLineNumbers
+"use client";
+import { useEffect } from "react";
+import { useAccount } from "wagmi";
+import type { EthereumProvider } from "@avail-project/nexus-core";
+import { useNexus } from "@/components/nexus/NexusProvider";
+
+export function InitNexusOnConnect() {
+  const { status, connector } = useAccount();
+  const { handleInit } = useNexus();
+
+  useEffect(() => {
+    if (status === "connected") {
+      connector?.getProvider().then((p) => handleInit(p as EthereumProvider));
+    }
+  }, [status, connector, handleInit]);
+
+  return null;
+}
+```
+
+<span id="usage-without-shadcn/ui" className="block -mt-24 pt-24" />
+## No shadcn/ui
+<Card className="mt-4">
+  <CardHeader>
+    <CardTitle>Copy and paste components</CardTitle>
+    <CardDescription>
+      Visit any component page to view and copy the source files.
+    </CardDescription>
+  </CardHeader>
+  <CardContent>
+    <ul className="space-y-2 font-serif">
+      <li>Ensure all peer dependencies are installed</li>
+      <li>
+        Set up required UI primitives (buttons, inputs, dialogs, etc.) manually
+      </li>
+      <li>Configure styling and theming yourself</li>
+      <li>Handle any compatibility issues that may arise</li>
+    </ul>
+  </CardContent>
+</Card>
+```

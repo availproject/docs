@@ -1,9 +1,9 @@
 "use client";
 
+import { ThumbsDown, ThumbsUp } from "@phosphor-icons/react";
 import { useState } from "react";
-import { ThumbsUp, ThumbsDown } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { useAnalytics } from "@/hooks/use-analytics";
+import { cn } from "@/lib/utils";
 
 interface FeedbackProps {
   className?: string;
@@ -49,7 +49,7 @@ export function Feedback({ className }: FeedbackProps) {
   if (state === "submitted") {
     return (
       <div className={cn("flex items-center gap-8", className)}>
-        <p className="text-base leading-[26px] text-card-foreground">
+        <p className="body-16 text-card-foreground">
           Thanks for your feedback!
         </p>
       </div>
@@ -63,14 +63,12 @@ export function Feedback({ className }: FeedbackProps) {
         state === "expanded"
           ? "flex-col gap-6 items-start"
           : "flex-row gap-8 items-center",
-        className
+        className,
       )}
     >
       {/* Question row */}
       <div className="flex items-center gap-8">
-        <p className="text-base leading-[26px] text-card-foreground">
-          How is this guide?
-        </p>
+        <p className="body-16 text-card-foreground">How is this guide?</p>
         <div className="flex items-start gap-3">
           {/* Good button */}
           <button
@@ -78,14 +76,14 @@ export function Feedback({ className }: FeedbackProps) {
             onClick={() => handleFeedbackClick("good")}
             className={cn(
               "flex items-center gap-2 h-10 w-[100px] px-4 border transition-colors",
-              "shadow-[0px_1px_4px_0px_rgba(85,85,85,0.05)]",
+              "shadow-sm",
               feedbackType === "good"
                 ? "bg-black/10 border-border"
-                : "bg-card border-border hover:bg-card-header-background"
+                : "bg-card border-border hover:bg-card-header-background",
             )}
           >
-            <ThumbsUp className="size-5 shrink-0" />
-            <span className="flex-1 text-sm leading-[18px] text-foreground text-center">
+            <ThumbsUp size={20} className="shrink-0" />
+            <span className="flex-1 ui-14 text-foreground text-center">
               Good
             </span>
           </button>
@@ -96,14 +94,14 @@ export function Feedback({ className }: FeedbackProps) {
             onClick={() => handleFeedbackClick("bad")}
             className={cn(
               "flex items-center gap-2 h-10 w-[100px] px-4 border transition-colors",
-              "shadow-[0px_1px_4px_0px_rgba(85,85,85,0.05)]",
+              "shadow-sm",
               feedbackType === "bad"
                 ? "bg-black/10 border-border"
-                : "bg-card border-border hover:bg-card-header-background"
+                : "bg-card border-border hover:bg-card-header-background",
             )}
           >
-            <ThumbsDown className="size-5 shrink-0" />
-            <span className="flex-1 text-sm leading-[18px] text-foreground text-center">
+            <ThumbsDown size={20} className="shrink-0" />
+            <span className="flex-1 ui-14 text-foreground text-center">
               Bad
             </span>
           </button>
@@ -121,9 +119,9 @@ export function Feedback({ className }: FeedbackProps) {
             className={cn(
               "w-full h-20 p-4 resize-none",
               "bg-surface border border-card-border",
-              "text-base leading-[26px] text-foreground",
+              "body-16 text-foreground",
               "placeholder:text-muted-foreground",
-              "focus:outline-none focus:ring-1 focus:ring-brand"
+              "focus:outline-none focus:ring-1 focus:ring-brand",
             )}
           />
 
@@ -135,12 +133,12 @@ export function Feedback({ className }: FeedbackProps) {
             className={cn(
               "flex items-center justify-center gap-2 h-10 w-[100px] px-4",
               "bg-brand text-brand-foreground",
-              "shadow-[0px_1px_4px_0px_rgba(85,85,85,0.05)]",
+              "shadow-sm",
               "hover:bg-brand/90 transition-colors",
-              "disabled:opacity-50 disabled:cursor-not-allowed"
+              "disabled:opacity-50 disabled:cursor-not-allowed",
             )}
           >
-            <span className="text-sm leading-[18px] text-center">
+            <span className="ui-14 text-center">
               {isSubmitting ? "..." : "Submit"}
             </span>
           </button>

@@ -1,21 +1,17 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import type {
-  WidgetStep,
-  DepositWidgetContextValue,
-  DepositInputs,
-  DestinationConfig,
-} from "../types";
 import {
-  NEXUS_EVENTS,
   CHAIN_METADATA,
-  type SwapStepType,
   type ExecuteParams,
+  NEXUS_EVENTS,
+  parseUnits,
   type SwapAndExecuteParams,
   type SwapAndExecuteResult,
-  parseUnits,
+  type SwapStepType,
 } from "@avail-project/nexus-core";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { type Address, formatEther, type Hex } from "viem";
+import { useAccount } from "wagmi";
 import {
   SWAP_EXPECTED_STEPS,
   useNexusError,
@@ -23,19 +19,22 @@ import {
   useStopwatch,
   useTransactionSteps,
 } from "../../common";
-import { type Address, type Hex, formatEther } from "viem";
-import { useAccount } from "wagmi";
 import { useNexus } from "../../nexus/NexusProvider";
 import { SIMULATION_POLL_INTERVAL_MS } from "../constants/widget";
-
-// Import extracted hooks
-import {
-  useDepositState,
-  STEP_HISTORY,
-  type SwapSkippedData,
-} from "./use-deposit-state";
+import type {
+  DepositInputs,
+  DepositWidgetContextValue,
+  DestinationConfig,
+  WidgetStep,
+} from "../types";
 import { useAssetSelection } from "./use-asset-selection";
 import { useDepositComputed } from "./use-deposit-computed";
+// Import extracted hooks
+import {
+  STEP_HISTORY,
+  type SwapSkippedData,
+  useDepositState,
+} from "./use-deposit-state";
 
 interface UseDepositProps {
   executeDeposit: (
@@ -325,6 +324,7 @@ export function useDepositWidget(
       getFiatValue,
       dispatch,
       stopwatch,
+      fetchSwapBalance,
     ],
   );
 
@@ -446,7 +446,7 @@ export function useDepositWidget(
       stopwatch.reset();
       await fetchSwapBalance();
     }
-  }, [state.step, swapIntent, stopwatch, dispatch]);
+  }, [state.step, swapIntent, stopwatch, dispatch, fetchSwapBalance]);
 
   /**
    * Reset widget to initial state
@@ -462,7 +462,14 @@ export function useDepositWidget(
     stopwatch.stop();
     stopwatch.reset();
     await fetchSwapBalance();
-  }, [resetSteps, swapIntent, stopwatch, dispatch, resetAssetSelection]);
+  }, [
+    resetSteps,
+    swapIntent,
+    stopwatch,
+    dispatch,
+    resetAssetSelection,
+    fetchSwapBalance,
+  ]);
 
   /**
    * Refresh simulation data

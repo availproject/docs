@@ -1,6 +1,7 @@
-import { HomeLayout } from 'fumadocs-ui/layouts/home';
-import { baseOptions } from '@/lib/layout.shared';
-
-export default function Layout({ children }: LayoutProps<'/'>) {
-  return <HomeLayout {...baseOptions()}>{children}</HomeLayout>;
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="bg-muted" data-page-bg="muted">
+      {children}
+    </div>
+  );
 }

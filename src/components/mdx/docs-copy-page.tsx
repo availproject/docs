@@ -1,22 +1,22 @@
 "use client";
 
+import { CaretDown, Check, Copy } from "@phosphor-icons/react";
+import { useAnalytics } from "@/hooks/use-analytics";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
-import { Check, ChevronDown, Copy } from "lucide-react";
-import {
-  Popover,
-  PopoverAnchor,
-  PopoverContent,
-  PopoverTrigger,
-} from "../ui/popover";
+import { Button } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import {
+  Popover,
+  PopoverAnchor,
+  PopoverContent,
+  PopoverTrigger,
+} from "../ui/popover";
 import { Separator } from "../ui/separator";
-import { Button } from "../ui/button";
-import { useAnalytics } from "@/hooks/use-analytics";
 
 function getPromptUrl(baseURL: string, url: string) {
   return `${baseURL}?q=${encodeURIComponent(
@@ -100,7 +100,7 @@ export function DocsCopyPage({ page, url }: { page: string; url: string }) {
       size="sm"
       className="peer -ml-0.5 size-8 shadow-none md:size-7 md:text-[0.8rem]"
     >
-      <ChevronDown className="rotate-180 sm:rotate-0" />
+      <CaretDown className="rotate-180 sm:rotate-0" />
     </Button>
   );
 

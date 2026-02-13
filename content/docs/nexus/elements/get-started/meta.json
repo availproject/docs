@@ -1,8 +1,4 @@
 {
   "title": "Get Started",
-  "pages": [
-    "installation",
-    "nexus-provider-setup",
-    "your-first-component"
-  ]
+  "pages": ["installation", "nexus-provider-setup", "your-first-component"]
 }

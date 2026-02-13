@@ -52,7 +52,7 @@ export function computeAllCompleted<T>(steps: Array<GenericStep<T>>): boolean {
  */
 export function mergeStepsList<T>(
   prev: Array<GenericStep<T>>,
-  list: T[]
+  list: T[],
 ): Array<GenericStep<T>> {
   const completedKeys = new Set<string>();
   for (const prevStep of prev) {
@@ -78,7 +78,7 @@ export function mergeStepsList<T>(
  */
 export function mergeStepComplete<T>(
   prev: Array<GenericStep<T>>,
-  step: T
+  step: T,
 ): Array<GenericStep<T>> {
   const key = getStepKey(step);
   const updated: Array<GenericStep<T>> = [];

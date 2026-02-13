@@ -1,12 +1,15 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import type { Item, Node, Root } from "fumadocs-core/page-tree";
+import { ChevronDown, Database, Zap } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { Root, Item, Node } from "fumadocs-core/page-tree";
-import { ChevronUp, ChevronDown, Zap, Database } from "lucide-react";
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
 import { Sidebar, SidebarContent } from "@/components/ui/sidebar";
-import { cn } from "@/lib/utils";
 import { useAnalytics } from "@/hooks/use-analytics";
+import { getProductTree } from "@/lib/page-tree-utils";
+import { getActiveProduct } from "@/lib/products";
+import { cn } from "@/lib/utils";
 
 const SIDEBAR_TABS = [
   {
@@ -35,7 +38,7 @@ interface SidebarNavProps extends React.ComponentProps<typeof Sidebar> {
 function SidebarItem({
   item,
   isActive,
-  depth = 0,
+  depth: _depth = 0,
   onNavigate,
 }: {
   item: Item;
@@ -47,7 +50,7 @@ function SidebarItem({
     if (onNavigate) {
       onNavigate(
         typeof item.name === "string" ? item.name : String(item.name),
-        item.url
+        item.url,
       );
     }
   };
@@ -57,13 +60,13 @@ function SidebarItem({
       href={item.url}
       onClick={handleClick}
       className={cn(
-        "flex h-10 w-full items-center gap-2 px-4 py-2.5 text-base transition-colors",
+        "flex h-10 w-full min-w-0 items-center gap-2 px-4 py-2.5 text-base transition-colors",
         isActive
           ? "bg-sidebar-item-background-active text-sidebar-item-foreground-active"
           : "bg-transparent text-sidebar-item-foreground hover:bg-sidebar-item-background-hover",
       )}
     >
-      <span className="flex-1 truncate leading-5">{item.name}</span>
+      <span className="flex-1 min-w-0 truncate leading-5">{item.name}</span>
     </Link>
   );
 }
@@ -74,51 +77,109 @@ function SidebarFolder({
   children,
   defaultExpanded = false,
   isActive = false,
+  href,
   onToggle,
+  onNavigate,
 }: {
   name: string;
   children: React.ReactNode;
   defaultExpanded?: boolean;
-  depth?: number;
-  indexItem?: Item;
-  isIndexActive?: boolean;
   isActive?: boolean;
+  href?: string;
   onToggle?: (folderName: string) => void;
+  onNavigate?: (title: string, path: string) => void;
 }) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
+  const chevronRef = useRef<HTMLSpanElement>(null);
 
-  const handleToggle = () => {
-    setIsExpanded(!isExpanded);
+  const handleClick = (e: React.MouseEvent) => {
+    // Chevron click — toggle only, no navigation
+    if (chevronRef.current?.contains(e.target as globalThis.Node)) {
+      e.preventDefault();
+      setIsExpanded((prev) => !prev);
+      if (onToggle) onToggle(name);
+      return;
+    }
+
+    if (href) {
+      if (isActive && isExpanded) {
+        // Already on this page and expanded — collapse and don't navigate
+        e.preventDefault();
+        setIsExpanded(false);
+      } else {
+        // Expand (if collapsed) and navigate
+        if (!isExpanded) {
+          setIsExpanded(true);
+        }
+        if (onNavigate) {
+          onNavigate(name, href);
+        }
+      }
+    } else {
+      setIsExpanded(!isExpanded);
+    }
     if (onToggle) {
       onToggle(name);
     }
   };
 
+  const chevron = isExpanded ? (
+    <CaretUp size={20} className="shrink-0 text-sidebar-item-foreground" />
+  ) : (
+    <CaretDown size={20} className="shrink-0 text-sidebar-item-foreground" />
+  );
+
+  const rowClassName = cn(
+    "flex h-10 w-full min-w-0 items-center gap-2 px-4 py-2.5 text-base transition-colors",
+    isActive
+      ? "bg-sidebar-item-background-active text-sidebar-item-foreground-active"
+      : "bg-transparent text-sidebar-item-foreground hover:bg-sidebar-item-background-hover",
+  );
+
   return (
-    <div className="flex flex-col w-full">
-      <button
-        type="button"
-        onClick={handleToggle}
-        className={cn(
-          "flex h-10 w-full items-center gap-2 px-4 py-2.5 text-base transition-colors",
-          isActive
-            ? "bg-sidebar-item-background-active text-sidebar-item-foreground-active"
-            : "bg-transparent text-sidebar-item-foreground hover:bg-sidebar-item-background-hover",
-        )}
-      >
-        <span className="flex-1 truncate text-left leading-5">{name}</span>
-        {isExpanded ? (
-          <ChevronUp className="size-5 shrink-0 text-sidebar-item-foreground" />
-        ) : (
-          <ChevronDown className="size-5 shrink-0 text-sidebar-item-foreground" />
-        )}
-      </button>
+    <div className="flex flex-col w-full min-w-0">
+      {href ? (
+        <Link
+          href={href}
+          onClick={handleClick}
+          className={rowClassName}
+          aria-expanded={isExpanded}
+        >
+          <span className="flex-1 min-w-0 truncate text-left leading-5">
+            {name}
+          </span>
+          <span
+            ref={chevronRef}
+            className="shrink-0 rounded-sm p-0.5 hover:bg-sidebar-item-background-hover"
+          >
+            {chevron}
+          </span>
+        </Link>
+      ) : (
+        <button
+          type="button"
+          onClick={handleClick}
+          className={rowClassName}
+          aria-expanded={isExpanded}
+          aria-label={isExpanded ? "Collapse section" : "Expand section"}
+        >
+          <span className="flex-1 min-w-0 truncate text-left leading-5">
+            {name}
+          </span>
+          <span
+            ref={chevronRef}
+            className="shrink-0 rounded-sm p-0.5 hover:bg-sidebar-item-background-hover"
+          >
+            {chevron}
+          </span>
+        </button>
+      )}
       {isExpanded && (
-        <div className="flex gap-1 pl-4">
+        <div className="flex gap-1 pl-4 min-w-0">
           {/* Vertical line */}
           <div className="w-px shrink-0 bg-border" />
           {/* Children wrapper */}
-          <div className="flex flex-col flex-1">{children}</div>
+          <div className="flex flex-col flex-1 min-w-0">{children}</div>
         </div>
       )}
     </div>
@@ -150,7 +211,10 @@ function SidebarTabDropdown({
   const Icon = currentTab.icon;
 
   return (
-    <div ref={dropdownRef} className="relative pb-4 mb-4 border-b border-border">
+    <div
+      ref={dropdownRef}
+      className="relative pb-4 mb-4 border-b border-border"
+    >
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
@@ -205,6 +269,11 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
   const pathname = usePathname();
   const { trackEvent } = useAnalytics();
 
+  const activeProduct = getActiveProduct(pathname);
+  const _displayTree = activeProduct
+    ? getProductTree(tree, activeProduct.slug)
+    : tree;
+
   const handleNavigation = (title: string, path: string) => {
     trackEvent("nav_sidebar_item_clicked", {
       item_type: "page",
@@ -223,13 +292,13 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
   // Check if a node or its children contain the active path
   const isNodeActive = (node: Node): boolean => {
     if (node.type === "page") {
-      return pathname === node.url || pathname.startsWith(node.url + "/");
+      return pathname === node.url || pathname.startsWith(`${node.url}/`);
     }
     if (node.type === "folder") {
       if (
         node.index &&
         (pathname === node.index.url ||
-          pathname.startsWith(node.index.url + "/"))
+          pathname.startsWith(`${node.index.url}/`))
       ) {
         return true;
       }
@@ -275,20 +344,11 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
           key={folderId}
           name={node.name?.toString() ?? ""}
           defaultExpanded={shouldExpand}
-          isActive={shouldExpand}
+          isActive={isActive}
+          href={node.index?.url}
           onToggle={handleFolderToggle}
+          onNavigate={handleNavigation}
         >
-          {/* If folder has an index, show it as first item */}
-          {node.index && (
-            <SidebarItem
-              item={{
-                ...node.index,
-                name: "Overview" as React.ReactNode,
-              }}
-              isActive={pathname === node.index.url}
-              onNavigate={handleNavigation}
-            />
-          )}
           {node.children.map((child) => renderNode(child, depth + 1))}
         </SidebarFolder>
       );
@@ -318,7 +378,8 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
 
     // Match folder by checking if its index or any child URL starts with the tab prefix
     const matchesTab = (node: Node): boolean => {
-      if (node.type === "page") return node.url.startsWith(activeTab.pathPrefix);
+      if (node.type === "page")
+        return node.url.startsWith(activeTab.pathPrefix);
       if (node.type === "folder") {
         if (node.index?.url?.startsWith(activeTab.pathPrefix)) return true;
         return node.children.some(matchesTab);
@@ -348,7 +409,7 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
 
   return (
     <Sidebar
-      className="sticky top-[calc(var(--header-height)+1px)] z-30 hidden h-[calc(100vh-var(--header-height)-1px)] w-75 flex-col justify-between overflow-hidden bg-sidebar-background border-r border-border p-6 lg:flex"
+      className="sticky top-[calc(var(--header-height)+1px)] z-30 hidden h-[calc(100vh-var(--header-height)-1px)] w-75 flex-col justify-between overflow-hidden bg-sidebar-background border-r border-border p-6 ui-16 lg:flex"
       collapsible="none"
       {...props}
     >

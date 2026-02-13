@@ -1,12 +1,11 @@
 "use client";
 
+import { Check, Copy } from "@phosphor-icons/react";
 import * as React from "react";
+import { useAnalytics } from "@/hooks/use-analytics";
 import { cn } from "@/lib/utils";
-
-import { Check, Copy } from "lucide-react";
 import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { useAnalytics } from "@/hooks/use-analytics";
 
 export function CopyButton({
   value,
@@ -46,7 +45,7 @@ export function CopyButton({
           size="icon"
           variant={variant}
           className={cn(
-            "z-10 size-8 bg-transparent hover:bg-secondary active:bg-muted transition-colors",
+            "z-10 size-8 bg-transparent hover:bg-secondary active:bg-muted transition-colors extend-touch-target",
             hasCopied && "bg-muted",
             customPosition ?? "absolute top-2 right-2",
             className,
@@ -65,9 +64,9 @@ export function CopyButton({
         >
           <span className="sr-only">Copy</span>
           {hasCopied ? (
-            <Check className="size-5 text-muted-foreground" />
+            <Check size={20} className="text-muted-foreground" />
           ) : (
-            <Copy className="size-5 text-muted-foreground" />
+            <Copy size={20} className="text-muted-foreground" />
           )}
         </Button>
       </TooltipTrigger>

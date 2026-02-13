@@ -146,6 +146,9 @@ These are shadcn components. They use:
 ## Testing Changes
 
 ```bash
+# Pre-commit guardrail (runs lint-staged + typecheck)
+pnpm validate:precommit
+
 # Type check
 pnpm types:check
 

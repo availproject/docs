@@ -1,9 +1,0 @@
-{
-  "pages": [
-    "node-types",
-    "deployment-options",
-    "run-a-light-client",
-    "run-a-full-node",
-    "become-a-validator"
-  ]
-}

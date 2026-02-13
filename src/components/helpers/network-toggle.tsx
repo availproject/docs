@@ -1,6 +1,6 @@
 "use client";
-import { NexusNetwork } from "@avail-project/nexus-core";
-import React, { useState, useEffect } from "react";
+import type { NexusNetwork } from "@avail-project/nexus-core";
+import { useEffect, useState } from "react";
 
 import { getItem, setItem } from "@/lib/local-storage";
 import { NETWORK_KEY } from "@/providers/Web3Provider";

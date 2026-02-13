@@ -1,20 +1,21 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
-import { useTheme } from "next-themes";
 import Link from "next/link";
-import Image from "next/image";
-import { cn } from "@/lib/utils";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { Skeleton } from "../ui/skeleton";
+import { usePathname } from "next/navigation";
+import { useTheme } from "next-themes";
+import { useEffect, useRef, useState } from "react";
+import { AvailLogo } from "@/components/logos/avail-logo";
 import {
   SearchDialog,
   useSearchDialog,
 } from "@/components/search/search-dialog";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { Skeleton } from "../ui/skeleton";
+import { AccountMenu } from "./account-menu";
+import { ProductSwitcher } from "./product-switcher";
 import { SearchBar } from "./search-bar";
 import { ThemeToggle } from "./theme-toggle";
-import { AccountMenu } from "./account-menu";
 
 const ThemeControl = dynamic(
   () => import("./theme-control").then((m) => m.default),
@@ -27,13 +28,15 @@ const MobileNav = dynamic(() => import("./mobile-nav").then((m) => m.default), {
   loading: () => <Skeleton className="w-24 h-9" />,
 });
 
-
 export default function Topbar() {
   const { theme, resolvedTheme, setTheme } = useTheme();
   const [palette, setPalette] = useState<string>("default");
   const prevPaletteClass = useRef<string | null>(null);
   const isMobile = useIsMobile();
   const { open: searchOpen, setOpen: setSearchOpen } = useSearchDialog();
+  const pathname = usePathname();
+  const isProductPage =
+    pathname.startsWith("/docs/da") || pathname.startsWith("/docs/nexus");
 
   useEffect(() => {
     try {
@@ -71,15 +74,18 @@ export default function Topbar() {
         <div className="h-18 px-10 flex items-center justify-between gap-4">
           {/* Left: Logo + Mobile Nav */}
           <div className="flex items-center gap-x-6">
-            <Link href="/" className={cn("cursor-pointer hidden sm:block")}>
-              <Image
-                src="/new-avail-docs-logo.svg"
-                alt="Nexus"
-                width={84}
-                height={32}
-                className="h-8 w-auto"
-              />
-            </Link>
+            <div className="hidden sm:block">
+              {isProductPage ? (
+                <ProductSwitcher />
+              ) : (
+                <Link
+                  href="/"
+                  className="inline-flex items-center cursor-pointer text-[#006BF4] dark:text-foreground"
+                >
+                  <AvailLogo />
+                </Link>
+              )}
+            </div>
             <MobileNav
               items={[
                 { href: "/docs/nexus/introduction-to-nexus", label: "Nexus" },
@@ -93,16 +99,17 @@ export default function Topbar() {
           {/* Right: Search + Theme toggle */}
           <div className="hidden lg:flex items-center gap-3">
             <SearchBar onClick={() => setSearchOpen(true)} />
-            <ThemeToggle theme={resolvedTheme ?? "light"} setTheme={setTheme} />
+            <ThemeToggle
+              theme={theme ?? "system"}
+              resolvedTheme={resolvedTheme ?? "light"}
+              setTheme={setTheme}
+            />
           </div>
 
           {/* Right: Account */}
           <div className="flex items-center gap-3">
             <div className="hidden lg:block">
-              <AccountMenu
-                theme={resolvedTheme ?? "light"}
-                setTheme={setTheme}
-              />
+              <AccountMenu theme={theme ?? "system"} setTheme={setTheme} />
             </div>
             {/* Mobile theme control */}
             <div className="lg:hidden">

@@ -6,10 +6,13 @@ export default function HomePage() {
       <h1 className="text-2xl font-bold mb-4">Hello World</h1>
       <p>
         You can open{" "}
-        <Link href="/docs/nexus/introduction-to-nexus" className="font-medium underline">
+        <Link
+          href="/docs/nexus/introduction-to-nexus"
+          className="font-medium underline"
+        >
           /docs/nexus
         </Link>{" "}
-        or 
+        or
         <Link href="/docs/da" className="font-medium underline">
           /docs/da
         </Link>{" "}

@@ -1,22 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { truncateAddress } from "@avail-project/nexus-core";
 import {
-  Sun,
+  CaretDown,
+  CaretUp,
   Moon,
-  ChevronDown,
-  ChevronUp,
-  Loader2,
-  LogOut,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
+  SignOut,
+  SpinnerGap,
+  Sun,
+} from "@phosphor-icons/react";
+import { Avatar, ConnectKitButton } from "connectkit";
+import { useState } from "react";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Avatar, ConnectKitButton } from "connectkit";
-import { truncateAddress } from "@avail-project/nexus-core";
+import { cn } from "@/lib/utils";
 
 interface AccountMenuProps {
   theme: string;
@@ -37,7 +37,7 @@ export function AccountMenu({ theme, setTheme }: AccountMenuProps) {
               className="flex h-10 items-center gap-2 px-3 bg-menu-item-background border border-menu-item-border text-menu-item-foreground hover:bg-menu-item-background-hover transition-colors"
             >
               {isConnecting ? (
-                <Loader2 className="size-5 animate-spin" />
+                <SpinnerGap size={20} className="animate-spin" />
               ) : null}
               <span className="text-base leading-5">Connect</span>
             </button>
@@ -65,9 +65,9 @@ export function AccountMenu({ theme, setTheme }: AccountMenuProps) {
                   {displayName}
                 </span>
                 {open ? (
-                  <ChevronUp className="size-5 text-menu-item-foreground" />
+                  <CaretUp size={20} className="text-menu-item-foreground" />
                 ) : (
-                  <ChevronDown className="size-5 text-menu-item-foreground" />
+                  <CaretDown size={20} className="text-menu-item-foreground" />
                 )}
               </button>
             </PopoverTrigger>
@@ -76,22 +76,34 @@ export function AccountMenu({ theme, setTheme }: AccountMenuProps) {
               sideOffset={8}
               className="w-56 p-0 border-menu-item-border bg-menu-item-background"
             >
-              <div className="flex flex-col">
+              <div className="flex flex-col ui-16">
                 {/* Theme toggle */}
                 <button
                   type="button"
                   onClick={() => {
-                    setTheme(theme === "dark" ? "light" : "dark");
+                    const next =
+                      theme === "light"
+                        ? "dark"
+                        : theme === "dark"
+                          ? "system"
+                          : "light";
+                    setTheme(next);
                   }}
                   className="flex h-10 w-full items-center gap-2 px-3 border-l border-r border-t border-menu-item-border bg-menu-item-background text-menu-item-foreground hover:bg-menu-item-background-hover transition-colors"
                 >
                   {theme === "dark" ? (
-                    <Sun className="size-5" />
+                    <Sun size={20} />
+                  ) : theme === "system" ? (
+                    <Sun size={20} />
                   ) : (
-                    <Moon className="size-5" />
+                    <Moon size={20} />
                   )}
-                  <span className="text-base leading-5">
-                    {theme === "dark" ? "Avail Light" : "Avail Dark"}
+                  <span>
+                    {theme === "dark"
+                      ? "Avail Light"
+                      : theme === "system"
+                        ? "Avail Light"
+                        : "Avail Dark"}
                   </span>
                 </button>
                 {/* Disconnect */}
@@ -103,8 +115,8 @@ export function AccountMenu({ theme, setTheme }: AccountMenuProps) {
                   }}
                   className="flex h-10 w-full items-center gap-2 px-3 border border-menu-item-border bg-menu-item-background text-search-foreground hover:bg-menu-item-background-hover transition-colors"
                 >
-                  <LogOut className="size-5" />
-                  <span className="text-base leading-5">Disconnect wallet</span>
+                  <SignOut size={20} />
+                  <span>Disconnect wallet</span>
                 </button>
               </div>
             </PopoverContent>

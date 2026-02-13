@@ -1,9 +1,6 @@
+import type { BridgeStepType, SwapStepType } from "@avail-project/nexus-core";
 import { Check, Circle, LoaderPinwheel } from "lucide-react";
 import { type FC, memo, useMemo } from "react";
-import {
-  type BridgeStepType,
-  type SwapStepType,
-} from "@avail-project/nexus-core";
 
 type ProgressStep = BridgeStepType | SwapStepType;
 
@@ -63,7 +60,7 @@ const StepList: FC<{ steps: DisplayStep[]; currentIndex: number }> = memo(
         })}
       </div>
     );
-  }
+  },
 );
 StepList.displayName = "StepList";
 
@@ -94,7 +91,7 @@ const TransactionProgress: FC<TransactionProgressProps> = ({
       "Filled on destination",
     ];
     const thresholds = milestones.map(
-      (_, idx) => (idx + 1) / milestones.length
+      (_, idx) => (idx + 1) / milestones.length,
     );
     const displaySteps: DisplayStep[] = milestones.map((label, idx) => ({
       id: `M${idx}`,
@@ -103,7 +100,7 @@ const TransactionProgress: FC<TransactionProgressProps> = ({
     }));
     const current = displaySteps.findIndex((st) => !st.completed);
     return { effectiveSteps: displaySteps, currentIndex: current };
-  }, [percent, timer, completed]);
+  }, [percent, timer]);
 
   return (
     <div className="w-full flex flex-col items-center">
@@ -118,9 +115,7 @@ const TransactionProgress: FC<TransactionProgressProps> = ({
           <span className="text-2xl font-semibold text-foreground">
             {Math.floor(timer)}
           </span>
-          <span className="text-base font-semibold text-foreground">
-            .
-          </span>
+          <span className="text-base font-semibold text-foreground">.</span>
           <span className="text-base font-semibold text-muted-foreground">
             {String(Math.floor((timer % 1) * 1000)).padStart(3, "0")}s
           </span>

@@ -1,14 +1,16 @@
+import { ArrowUpRight, CaretRight } from "@phosphor-icons/react/ssr";
+import fm from "front-matter";
+import { findNeighbour } from "fumadocs-core/page-tree";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { findNeighbour } from "fumadocs-core/page-tree";
-import { source } from "@/lib/source";
-import { mdxComponents } from "@/components/mdx/mdx-components";
-import { ArrowUpRight, ChevronRight } from "lucide-react";
-import { OnThisPage } from "@/components/helpers/on-this-page";
-import fm from "front-matter";
 import { z } from "zod";
-import { Badge } from "@/components/ui/badge";
+import { OnThisPage } from "@/components/helpers/on-this-page";
+import { TrackPageVisit } from "@/components/helpers/track-page-visit";
+import { mdxComponents } from "@/components/mdx/mdx-components";
 import { PageFooter } from "@/components/mdx/page-footer";
+import { Badge } from "@/components/ui/badge";
+import { getProductTree } from "@/lib/page-tree-utils";
+import { source } from "@/lib/source";
 
 export const revalidate = false;
 export const dynamic = "force-static";
@@ -29,7 +31,8 @@ export async function generateMetadata(props: {
   const doc = page.data;
   const title = doc.title || "";
   const description = doc.description || "";
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:5001";
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://docs.availproject.org";
   const url = new URL(page.url, baseUrl).toString();
   const ogParams = `title=${encodeURIComponent(
     title,
@@ -37,6 +40,7 @@ export async function generateMetadata(props: {
   return {
     title,
     description,
+    alternates: { canonical: url },
     openGraph: {
       title,
       description,
@@ -63,7 +67,12 @@ export default async function Page(props: {
   }
   const doc = page.data;
   const MDX = doc.body;
-  const neighbours = findNeighbour(source.pageTree, page.url);
+  const productSlug = params.slug?.[0];
+  const navTree =
+    productSlug === "da" || productSlug === "nexus"
+      ? getProductTree(source.pageTree, productSlug)
+      : source.pageTree;
+  const neighbours = findNeighbour(navTree, page.url);
   const raw = await page.data.getText("raw");
   const { attributes } = fm(raw);
   const { links } = z
@@ -83,37 +92,88 @@ export default async function Page(props: {
     .filter(Boolean)
     .slice(0, -1)
     .map((segment, index, arr) => {
-      const href = "/" + arr.slice(0, index + 1).join("/");
-      const label = segment
-        .split("-")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(" ");
+      if (segment === "docs" && index === 0) {
+        return { href: "/", label: "Home" };
+      }
+      const href = `/${arr.slice(0, index + 1).join("/")}`;
+      const segmentLabels: Record<string, string> = {
+        "nexus-sdk": "Nexus SDK",
+        "api-reference": "API Reference",
+      };
+      const label =
+        segmentLabels[segment] ??
+        segment
+          .split("-")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" ");
       return { href, label };
     });
 
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://docs.availproject.org";
+  const pageUrl = new URL(page.url, baseUrl).toString();
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: breadcrumbs.map((crumb, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: crumb.label,
+      item: new URL(crumb.href, baseUrl).toString(),
+    })),
+  };
+
+  const articleLd = {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    headline: doc.title,
+    description: doc.description || "",
+    url: pageUrl,
+    publisher: {
+      "@type": "Organization",
+      name: "Avail",
+      url: baseUrl,
+    },
+  };
+
   return (
     <div className="flex items-stretch text-base xl:w-full no-scrollbar">
-      <div className="flex min-w-0 flex-1 flex-col bg-background ">
+      <TrackPageVisit url={page.url} title={doc.title} />
+      <script
+        type="application/ld+json"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data for SEO
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
+      <script
+        type="application/ld+json"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data for SEO
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }}
+      />
+      <div className="flex min-w-0 flex-1 flex-col bg-background xl:pl-10 2xl:pl-20">
         <div className="mx-auto flex w-full max-w-160 min-w-0 flex-1 flex-col gap-20 px-4 py-18 md:px-0">
           {/* Content sections */}
-          <div className="flex flex-col gap-20">
+          <div className="flex flex-col gap-4">
             {/* Header section with breadcrumbs and title */}
             <div className="flex flex-col gap-6">
               {/* Breadcrumbs */}
               {breadcrumbs.length > 0 && (
                 <nav className="flex items-center gap-1">
-                  {breadcrumbs.map((crumb, index) => (
+                  {breadcrumbs.map((crumb) => (
                     <span key={crumb.href} className="flex items-center gap-1">
                       <Link
                         href={crumb.href}
-                        className="text-base text-breadcrumb-previous hover:text-foreground transition-colors"
+                        className="ui-16 text-breadcrumb-previous hover:text-foreground transition-colors"
                       >
                         {crumb.label}
                       </Link>
-                      <ChevronRight className="size-5 text-breadcrumb-previous" />
+                      <CaretRight
+                        size={20}
+                        className="text-breadcrumb-previous"
+                      />
                     </span>
                   ))}
-                  <span className="text-base text-breadcrumb-current">
+                  <span className="ui-16 text-breadcrumb-current">
                     {doc.title}
                   </span>
                 </nav>
@@ -125,9 +185,7 @@ export default async function Page(props: {
                   {doc.title}
                 </h1>
                 {doc.description && (
-                  <p className="text-base leading-relaxed text-foreground">
-                    {doc.description}
-                  </p>
+                  <p className="body-16 text-foreground">{doc.description}</p>
                 )}
               </div>
 
@@ -153,7 +211,7 @@ export default async function Page(props: {
             </div>
 
             {/* Main content */}
-            <div className="w-full flex-1 text-foreground *:data-[slot=alert]:first:mt-0">
+            <div className="w-full flex-1 text-secondary-foreground *:data-[slot=alert]:first:mt-0">
               <MDX components={mdxComponents} />
             </div>
           </div>
@@ -181,14 +239,12 @@ export default async function Page(props: {
       </div>
 
       {/* Right sidebar - On This Page */}
-      <div className="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--header-height)-1px)] w-60 flex-col gap-4 overflow-hidden overscroll-none xl:flex">
+      <div className="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--header-height)-1px)] xl:w-70 2xl:w-80 flex-col gap-4 ui-16 xl:flex xl:pr-10 2xl:pr-20">
         <div className="h-10 shrink-0" />
-        {doc.toc?.length ? (
-          <div className="no-scrollbar overflow-y-auto relative">
-            <OnThisPage toc={doc.toc} />
-            <div className="h-12" />
-          </div>
-        ) : null}
+        <div className="no-scrollbar overflow-y-auto relative">
+          <OnThisPage toc={doc.toc} />
+          <div className="h-12" />
+        </div>
       </div>
     </div>
   );

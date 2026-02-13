@@ -41,7 +41,7 @@ export function useStopwatch(options: UseStopwatchOptions = {}) {
     }
     return stop;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [running, intervalMs]);
+  }, [running, start, stop]);
 
   return {
     seconds: elapsedSeconds,

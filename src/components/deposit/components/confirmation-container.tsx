@@ -1,18 +1,17 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import Image from "next/image";
-import SummaryCard from "./summary-card";
-import { GasPumpIcon, CoinIcon } from "./icons";
-import WidgetHeader from "./widget-header";
-import { ReceiveAmountDisplay } from "./receive-amount-display";
-import { ErrorBanner } from "./error-banner";
-import type { DepositWidgetContextValue } from "../types";
+import { formatTokenBalance } from "@avail-project/nexus-core";
+import { useMemo, useState } from "react";
+import { usdFormatter } from "../../common";
+import { useNexus } from "../../nexus/NexusProvider";
 import { Button } from "../../ui/button";
 import { CardContent } from "../../ui/card";
-import { usdFormatter } from "../../common";
-import { formatTokenBalance } from "@avail-project/nexus-core";
-import { useNexus } from "../../nexus/NexusProvider";
+import type { DepositWidgetContextValue } from "../types";
+import { ErrorBanner } from "./error-banner";
+import { CoinIcon, GasPumpIcon } from "./icons";
+import { ReceiveAmountDisplay } from "./receive-amount-display";
+import SummaryCard from "./summary-card";
+import WidgetHeader from "./widget-header";
 
 interface ConfirmationContainerProps {
   widget: DepositWidgetContextValue;
@@ -26,7 +25,7 @@ const ConfirmationContainer = ({
   onClose,
 }: ConfirmationContainerProps) => {
   const [showSpendDetails, setShowSpendDetails] = useState(false);
-  const [showFeeDetails, setShowFeeDetails] = useState(false);
+  const [_showFeeDetails, _setShowFeeDetails] = useState(false);
   const { getFiatValue } = useNexus();
 
   const {

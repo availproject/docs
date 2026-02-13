@@ -15,7 +15,7 @@ export interface Debounced<T extends AnyFn> {
  */
 export function useDebouncedCallback<T extends AnyFn>(
   fn: T,
-  delay: number
+  delay: number,
 ): Debounced<T> {
   const latest = useStableCallback(fn);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -32,21 +32,20 @@ export function useDebouncedCallback<T extends AnyFn>(
     if (timerRef.current && lastArgsRef.current) {
       clearTimeout(timerRef.current);
       timerRef.current = null;
-       
+
       latest(...lastArgsRef.current);
       lastArgsRef.current = null;
     }
   };
 
   // cancel when delay changes/unmounts
-  useEffect(() => cancel, [delay]);
+  useEffect(() => cancel, [cancel]);
 
   return useMemo(() => {
     const debounced = ((...args: Parameters<T>) => {
       lastArgsRef.current = args;
       cancel();
       timerRef.current = setTimeout(() => {
-         
         latest(...lastArgsRef.current!);
         lastArgsRef.current = null;
         timerRef.current = null;
@@ -56,5 +55,5 @@ export function useDebouncedCallback<T extends AnyFn>(
     debounced.flush = flush;
     return debounced;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [delay, latest]);
+  }, [delay, latest, cancel, flush]);
 }

@@ -1,6 +1,3 @@
 {
-  "pages": [
-    "overview",
-    "nitro-stack"
-  ]
+  "pages": ["overview", "nitro-stack"]
 }

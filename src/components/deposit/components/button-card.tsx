@@ -28,7 +28,7 @@ function ButtonCard({
         roundedBottom ? "rounded-lg" : "rounded-t-lg",
         disabled
           ? "cursor-default opacity-70"
-          : "bg-card shadow-[0_1px_12px_0_rgba(91,91,91,0.05)] hover:shadow-[0_1px_12px_0_rgba(91,91,91,0.08)] cursor-pointer"
+          : "bg-card shadow-[0_1px_12px_0_rgba(91,91,91,0.05)] hover:shadow-[0_1px_12px_0_rgba(91,91,91,0.08)] cursor-pointer",
       )}
       onClick={disabled ? undefined : onClick}
     >

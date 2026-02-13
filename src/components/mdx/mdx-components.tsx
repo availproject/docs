@@ -1,44 +1,57 @@
-import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import type * as React from "react";
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type MDXComponentsMap = Record<string, React.ComponentType<any>>;
-import { cn } from "@/lib/utils";
-import { ComponentPreview } from "./component-preview";
-import { CodeTabs } from "./code-tabs";
-import { ComponentSource } from "./component-source";
-import { CopyButton } from "@/components/helpers/copy-button";
-import { CodeBlockCommand } from "./code-block-command";
-import { CodeCollapsibleWrapper } from "./code-collapsible-wrapper";
 
 import {
+  ArrowsClockwise,
+  ArrowsLeftRight,
+  Brain,
+  Bridge,
   Code,
-  FileIcon,
-  Github,
-  LinkIcon,
-  LoaderPinwheelIcon,
-  Youtube,
-} from "lucide-react";
-import { Callout } from "./callout";
+  Coins,
+  File as FileIcon,
+  GithubLogo,
+  Globe,
+  Link as LinkIcon,
+  LinkSimple,
+  PaperPlaneTilt,
+  PuzzlePiece,
+  Scales,
+  Spinner,
+  Swap,
+  YoutubeLogo,
+} from "@phosphor-icons/react/ssr";
 import { TypeTable } from "fumadocs-ui/components/type-table";
-import { LinkCard, LinkCardGrid } from "./link-card";
-import { ConceptCard, ConceptCardGrid } from "./concept-card";
-import { Feedback } from "./feedback";
-import { PageFooter } from "./page-footer";
-import {
-  Tabs as ShadcnTabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-} from "../ui/tabs";
+import { CopyButton } from "@/components/helpers/copy-button";
+import { cn } from "@/lib/utils";
 import {
   Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
 } from "../ui/card";
+import {
+  Tabs as ShadcnTabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "../ui/tabs";
+import { Callout } from "./callout";
+import { CodeBlockCommand } from "./code-block-command";
+import { CodeCollapsibleWrapper } from "./code-collapsible-wrapper";
+import { CodeTabs } from "./code-tabs";
+import { ComponentPreview } from "./component-preview";
+import { ComponentSource } from "./component-source";
+import { ConceptCard, ConceptCardGrid } from "./concept-card";
+import { Feedback } from "./feedback";
+import { IconCard, IconCardGrid } from "./icon-card";
+import { LinkCard, LinkCardGrid } from "./link-card";
+import { PageFooter } from "./page-footer";
 
 export const mdxComponents: MDXComponentsMap = {
   // Headings
@@ -62,7 +75,7 @@ export const mdxComponents: MDXComponentsMap = {
         .replace(/\?/g, "")
         .toLowerCase();
     return (
-      <div className="mt-16 first:mt-0 flex flex-col gap-4">
+      <div className="mt-16 first:mt-0 mb-6 flex flex-col gap-4">
         <h2
           id={headingId}
           className={cn(
@@ -126,7 +139,10 @@ export const mdxComponents: MDXComponentsMap = {
   ),
   a: ({ className, ...props }: React.ComponentProps<"a">) => (
     <a
-      className={cn("font-medium underline underline-offset-4", className)}
+      className={cn(
+        "font-medium text-link-foreground underline decoration-[var(--link-underline)] underline-offset-4 hover:decoration-[var(--link-underline-hover)]",
+        className,
+      )}
       {...props}
     />
   ),
@@ -137,7 +153,7 @@ export const mdxComponents: MDXComponentsMap = {
     />
   ),
   img: ({ className, alt, ...props }: React.ComponentProps<"img">) => (
-    <img className={cn("rounded-md", className)} alt={alt} {...props} />
+    <img className={cn("mt-6 rounded-md", className)} alt={alt} {...props} />
   ),
   hr: (props: React.ComponentProps<"hr">) => (
     <hr className="my-4 md:my-8" {...props} />
@@ -225,7 +241,7 @@ export const mdxComponents: MDXComponentsMap = {
       return (
         <code
           className={cn(
-            "bg-muted relative rounded-md px-[0.3rem] py-[0.2rem] font-mono text-[0.8rem] wrap-break-word outline-none",
+            "bg-muted relative px-[0.3rem] py-[0.2rem] font-mono text-[0.8rem] wrap-break-word outline-none",
             className,
           )}
           {...props}
@@ -250,11 +266,7 @@ export const mdxComponents: MDXComponentsMap = {
     return (
       <>
         {__raw__ && (
-          <CopyButton
-            value={__raw__}
-            language={language}
-            codeType="block"
-          />
+          <CopyButton value={__raw__} language={language} codeType="block" />
         )}
         <code {...props} />
       </>
@@ -303,7 +315,10 @@ export const mdxComponents: MDXComponentsMap = {
   Callout,
   Link: ({ className, ...props }: React.ComponentProps<typeof Link>) => (
     <Link
-      className={cn("font-medium underline underline-offset-4", className)}
+      className={cn(
+        "font-medium text-link-foreground underline decoration-[var(--link-underline)] underline-offset-4 hover:decoration-[var(--link-underline-hover)]",
+        className,
+      )}
       {...props}
     />
   ),
@@ -361,22 +376,39 @@ export const mdxComponents: MDXComponentsMap = {
   CardFooter,
   // Cards wrapper for grid layout
   Cards: ({ className, ...props }: React.ComponentProps<"div">) => (
-    <div className={cn("grid gap-4 sm:grid-cols-2", className)} {...props} />
+    <div
+      className={cn("mt-6 grid gap-4 sm:grid-cols-2", className)}
+      {...props}
+    />
   ),
   // Media and icons
-  Youtube,
-  YouTube: Youtube, // Alias for nextra compatibility (uppercase T)
-  Github,
-  GithubIcon24: Github, // Alias for nextra compatibility
+  Youtube: YoutubeLogo,
+  YouTube: YoutubeLogo, // Alias for nextra compatibility (uppercase T)
+  Github: GithubLogo,
+  GithubIcon24: GithubLogo, // Alias for nextra compatibility
   FileIcon,
   LinkIcon,
-  LoaderPinwheelIcon,
+  LoaderPinwheelIcon: Spinner,
+  Link2: LinkSimple,
+  Coins,
+  Brain,
+  Puzzle: PuzzlePiece,
+  RefreshCw: ArrowsClockwise,
+  Send: PaperPlaneTilt,
+  ArrowLeftRight: ArrowsLeftRight,
+  Bridge,
+  Swap,
+  Globe,
+  Scale: Scales,
   // Link cards for documentation navigation
   LinkCard,
   LinkCardGrid,
   // Concept cards for concept/feature display
   ConceptCard,
   ConceptCardGrid,
+  // Icon cards for landing pages with icon + title + description
+  IconCard,
+  IconCardGrid,
   // Feedback component
   Feedback,
   // Type documentation table

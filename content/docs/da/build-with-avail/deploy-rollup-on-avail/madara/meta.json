@@ -1,6 +1,3 @@
 {
-  "pages": [
-    "overview",
-    "madara"
-  ]
+  "pages": ["overview", "madara"]
 }

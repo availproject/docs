@@ -1,9 +1,4 @@
 {
   "title": "Nexus Elements",
-  "pages": [
-    "quickstart",
-    "get-started",
-    "components",
-    "mcp-documentation"
-  ]
+  "pages": ["quickstart", "get-started", "components", "mcp-documentation"]
 }

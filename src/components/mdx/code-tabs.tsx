@@ -1,6 +1,6 @@
 "use client";
-import { Tabs } from "../ui/tabs";
 import * as React from "react";
+import { Tabs } from "../ui/tabs";
 
 export function CodeTabs({ children }: React.ComponentProps<typeof Tabs>) {
   const [config, setConfig] = React.useState<{

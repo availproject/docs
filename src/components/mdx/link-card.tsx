@@ -1,9 +1,9 @@
 "use client";
 
+import { ArrowUpRight } from "@phosphor-icons/react";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { useAnalytics } from "@/hooks/use-analytics";
+import { cn } from "@/lib/utils";
 
 interface LinkCardProps {
   title: string;
@@ -40,19 +40,30 @@ export function LinkCard({
       {...wrapperProps}
       onClick={handleClick}
       className={cn(
-        "group flex flex-col gap-4 border border-card-border bg-card p-4 transition-colors hover:bg-card-header-background",
-        className
+        "group flex flex-col gap-4 border border-card-border bg-card p-4 transition-colors can-hover:bg-card-header-background",
+        className,
       )}
     >
       <div
         className="h-[155px] w-full bg-muted"
-        style={image ? { backgroundImage: `url(${image})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
+        style={
+          image
+            ? {
+                backgroundImage: `url(${image})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }
+            : undefined
+        }
       />
       <div className="flex items-center gap-2">
         <span className="flex-1 text-base font-normal text-foreground">
           {title}
         </span>
-        <ArrowUpRight className="size-5 text-muted-foreground transition-colors group-hover:text-foreground" />
+        <ArrowUpRight
+          size={20}
+          className="text-muted-foreground transition-colors group-hover:text-foreground"
+        />
       </div>
     </Wrapper>
   );
