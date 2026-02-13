@@ -13,7 +13,7 @@ export function SearchBar({ className, onClick }: SearchBarProps) {
     <button
       type="button"
       className={cn(
-        "flex h-10 items-center gap-2 px-3 bg-search-background border border-search-border text-search-foreground w-85.5 hover:bg-search-background-hover transition-colors",
+        "flex h-10 items-center gap-2 px-3 bg-search-background border border-search-border text-search-foreground w-85.5 cursor-pointer hover:border-brand/20 transition-colors",
         className,
       )}
       onClick={onClick}

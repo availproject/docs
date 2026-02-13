@@ -1,66 +1,70 @@
 import {
-  Rocket,
-  Lightbulb,
-  LayoutDashboard,
-  Code,
-  BookOpen,
-  Hammer,
-  Server,
-  Compass,
-} from "lucide-react";
+  ConceptsIcon,
+  GetStartedIcon,
+  NexusSdkIcon,
+  UiElementsIcon,
+} from "@/components/home/card-icons";
 import { CategoryCard } from "@/components/home/category-card";
 
 const nexusCategories = [
   {
     href: "/docs/nexus/get-started",
-    icon: Rocket,
+    icon: <GetStartedIcon />,
     title: "Get started",
-    description: "Set up Nexus and start building.",
+    description:
+      "Pick your path — SDK for headless apps or drop-in UI Elements.",
   },
   {
     href: "/docs/nexus/concepts",
-    icon: Lightbulb,
+    icon: <ConceptsIcon />,
     title: "Concepts",
-    description: "Core ideas behind Nexus.",
+    description:
+      "Intents, solvers, liquidity routing, and how cross-chain operations work under the hood.",
   },
   {
     href: "/docs/nexus/nexus-ui-elements",
-    icon: LayoutDashboard,
+    icon: <UiElementsIcon />,
     title: "UI Elements",
-    description: "Pre-built components for your app.",
+    description:
+      "Drop-in widgets for bridging, swaps, deposits, balances, and transaction history.",
   },
   {
     href: "/docs/nexus/nexus-sdk",
-    icon: Code,
+    icon: <NexusSdkIcon />,
     title: "Nexus SDK",
-    description: "Integrate Nexus programmatically.",
+    description:
+      "Bridge and swap methods, React hooks, and full TypeScript API reference.",
   },
 ];
 
 const daCategories = [
   {
-    href: "/docs/da/welcome-to-avail-docs",
-    icon: Compass,
+    href: "/docs/da/get-started",
+    icon: <GetStartedIcon />,
     title: "Get started",
-    description: "Introduction to Avail DA.",
+    description:
+      "Overview of Avail DA's architecture with quick links to guides, APIs, and tutorials.",
   },
   {
-    href: "/docs/da/learn-about-avail",
-    icon: BookOpen,
-    title: "Learn about Avail",
-    description: "Understand data availability.",
+    href: "/docs/da/concepts",
+    icon: <ConceptsIcon />,
+    title: "Concepts",
+    description:
+      "Networks, app IDs, the block explorer, and transaction pricing.",
   },
   {
-    href: "/docs/da/build-with-avail",
-    icon: Hammer,
-    title: "Build with Avail",
-    description: "Guides for builders and developers.",
+    href: "/docs/da/build",
+    icon: <UiElementsIcon />,
+    title: "Build",
+    description:
+      "Post data, deploy rollups with OP Stack, Arbitrum, or CDK, and integrate Turbo DA.",
   },
   {
-    href: "/docs/da/operate-a-node",
-    icon: Server,
-    title: "Operate a Node",
-    description: "Run and maintain Avail nodes.",
+    href: "/docs/da/operate",
+    icon: <NexusSdkIcon />,
+    title: "Operate",
+    description:
+      "Run light clients, full nodes, or become a validator on the Avail network.",
   },
 ];
 
@@ -69,7 +73,15 @@ export function ProductGrid() {
     <section className="mx-auto w-full max-w-[938px] px-6 pb-16 md:pb-24">
       <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-16">
         {/* Nexus column */}
-        <div className="flex flex-col gap-6">
+        <div className="relative flex flex-col gap-6">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 -z-1"
+            style={{
+              background:
+                "radial-gradient(ellipse 100% 56% at 50% 50%, var(--color-hero-glow) 0%, transparent 100%)",
+            }}
+          />
           <h2
             className="text-center text-2xl text-brand md:text-[28px]"
             style={{ fontFamily: "Delight, sans-serif", fontWeight: 500 }}
@@ -78,13 +90,25 @@ export function ProductGrid() {
           </h2>
           <div className="flex flex-col">
             {nexusCategories.map((cat) => (
-              <CategoryCard key={cat.href} {...cat} className="-mt-px first:mt-0" />
+              <CategoryCard
+                key={cat.href}
+                {...cat}
+                className="-mt-px first:mt-0"
+              />
             ))}
           </div>
         </div>
 
         {/* DA column */}
-        <div className="flex flex-col gap-6">
+        <div className="relative flex flex-col gap-6">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 -z-1"
+            style={{
+              background:
+                "radial-gradient(ellipse 100% 56% at 50% 50%, var(--color-hero-glow) 0%, transparent 100%)",
+            }}
+          />
           <h2
             className="text-center text-2xl text-brand md:text-[28px]"
             style={{ fontFamily: "Delight, sans-serif", fontWeight: 500 }}
@@ -93,7 +117,11 @@ export function ProductGrid() {
           </h2>
           <div className="flex flex-col">
             {daCategories.map((cat) => (
-              <CategoryCard key={cat.href} {...cat} className="-mt-px first:mt-0" />
+              <CategoryCard
+                key={cat.href}
+                {...cat}
+                className="-mt-px first:mt-0"
+              />
             ))}
           </div>
         </div>

@@ -1,28 +1,30 @@
 {
   "pages": [
+    "---Data Availability---",
     "da-create-application-key",
     "da-submit-data",
     "da-app-keys",
     "da-next-app-id",
+    "---Balances---",
     "balances-transfer-keep-alive",
     "balances-transfer-allow-death",
     "balances-transfer-all",
     "system-account",
+    "---Staking---",
     "staking-active-era",
     "staking-bond",
     "staking-nominate",
     "staking-validate",
     "staking-chill",
     "staking-unbond",
+    "---Nomination Pools---",
     "nomination-pools-join",
     "nomination-pools-create",
     "nomination-pools-create-with-pool-id",
     "nomination-pools-nominate",
+    "---RPC---",
     "chain-get-block",
-    "Data availability pallet",
-    "Balances pallet",
-    "Staking pallet",
-    "nomination-pools",
-    "RPC Calls"
+    "author-submit-extrinsic",
+    "author-submit-and-watch-extrinsic"
   ]
 }

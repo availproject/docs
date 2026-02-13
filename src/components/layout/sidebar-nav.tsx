@@ -1,14 +1,15 @@
 "use client";
-import React, { useRef, useState } from "react";
+import { CaretDown, CaretUp } from "@phosphor-icons/react";
+import type { Item, Node, Root } from "fumadocs-core/page-tree";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { Root, Item, Node } from "fumadocs-core/page-tree";
-import { CaretUp, CaretDown } from "@phosphor-icons/react";
+import type React from "react";
+import { useRef, useState } from "react";
 import { Sidebar, SidebarContent } from "@/components/ui/sidebar";
-import { cn } from "@/lib/utils";
 import { useAnalytics } from "@/hooks/use-analytics";
-import { getActiveProduct } from "@/lib/products";
 import { getProductTree } from "@/lib/page-tree-utils";
+import { getActiveProduct } from "@/lib/products";
+import { cn } from "@/lib/utils";
 
 interface SidebarNavProps extends React.ComponentProps<typeof Sidebar> {
   tree: Root;
@@ -18,7 +19,7 @@ interface SidebarNavProps extends React.ComponentProps<typeof Sidebar> {
 function SidebarItem({
   item,
   isActive,
-  depth = 0,
+  depth: _depth = 0,
   onNavigate,
 }: {
   item: Item;
@@ -30,7 +31,7 @@ function SidebarItem({
     if (onNavigate) {
       onNavigate(
         typeof item.name === "string" ? item.name : String(item.name),
-        item.url
+        item.url,
       );
     }
   };
@@ -125,8 +126,15 @@ function SidebarFolder({
           className={rowClassName}
           aria-expanded={isExpanded}
         >
-          <span className="flex-1 min-w-0 truncate text-left leading-5">{name}</span>
-          <span ref={chevronRef} className="shrink-0 rounded-sm p-0.5 can-hover:hover:bg-sidebar-item-background-hover">{chevron}</span>
+          <span className="flex-1 min-w-0 truncate text-left leading-5">
+            {name}
+          </span>
+          <span
+            ref={chevronRef}
+            className="shrink-0 rounded-sm p-0.5 hover:bg-sidebar-item-background-hover"
+          >
+            {chevron}
+          </span>
         </Link>
       ) : (
         <button
@@ -136,8 +144,15 @@ function SidebarFolder({
           aria-expanded={isExpanded}
           aria-label={isExpanded ? "Collapse section" : "Expand section"}
         >
-          <span className="flex-1 min-w-0 truncate text-left leading-5">{name}</span>
-          <span ref={chevronRef} className="shrink-0 rounded-sm p-0.5 can-hover:hover:bg-sidebar-item-background-hover">{chevron}</span>
+          <span className="flex-1 min-w-0 truncate text-left leading-5">
+            {name}
+          </span>
+          <span
+            ref={chevronRef}
+            className="shrink-0 rounded-sm p-0.5 hover:bg-sidebar-item-background-hover"
+          >
+            {chevron}
+          </span>
         </button>
       )}
       {isExpanded && (
@@ -184,13 +199,13 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
   // Check if a node or its children contain the active path
   const isNodeActive = (node: Node): boolean => {
     if (node.type === "page") {
-      return pathname === node.url || pathname.startsWith(node.url + "/");
+      return pathname === node.url || pathname.startsWith(`${node.url}/`);
     }
     if (node.type === "folder") {
       if (
         node.index &&
         (pathname === node.index.url ||
-          pathname.startsWith(node.index.url + "/"))
+          pathname.startsWith(`${node.index.url}/`))
       ) {
         return true;
       }
@@ -337,11 +352,11 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
         <SidebarDivider />
         <div className="flex flex-col gap-1">
           <Link
-            href="/docs/da/welcome-to-avail-docs"
-            onClick={() => handleNavigation("Docs", "/docs/da/welcome-to-avail-docs")}
+            href="/docs/da/get-started"
+            onClick={() => handleNavigation("Docs", "/docs/da/get-started")}
             className={cn(
               "flex h-10 w-full items-center gap-2 px-4 py-3 text-base transition-colors",
-              pathname === "/docs/da/welcome-to-avail-docs"
+              pathname === "/docs/da/get-started"
                 ? "text-sidebar-item-foreground-active"
                 : "text-sidebar-item-foreground hover:text-sidebar-item-foreground-hover",
             )}

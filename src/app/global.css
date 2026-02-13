@@ -63,7 +63,7 @@
 }
 
 @custom-variant dark (&:is(.dark *));
-@custom-variant can-hover (&:is(@media(hover:hover) *));
+@custom-variant can-hover (@media (hover: hover));
 
 @theme inline {
     --breakpoint-xs: 375px;
@@ -181,6 +181,9 @@
     --color-page-nav-foreground-hover: var(--page-nav-foreground-hover);
     --color-page-nav-foreground-active: var(--page-nav-foreground-active);
 
+    /* Hero */
+    --color-hero-glow: var(--hero-glow);
+
     /* Breadcrumbs */
     --color-breadcrumb-current: var(--breadcrumb-current);
     --color-breadcrumb-previous: var(--breadcrumb-previous);
@@ -266,6 +269,7 @@
     /* Global */
     --radius: 0px;
     --background: var(--white-0);
+    --page-bg: var(--background);
     --foreground: var(--grey-light-1000);
     --border: var(--grey-light-200);
     --input: var(--grey-light-200);
@@ -391,6 +395,9 @@
     --feedback-info-background: var(--white-50);
     --feedback-info-foreground: var(--grey-light-900);
 
+    /* Hero */
+    --hero-glow: var(--white-0);
+
     /* Layout */
     --header-height: 72px;
 
@@ -444,7 +451,7 @@
     --card-foreground: var(--grey-dark-900);
     --card-border: var(--grey-dark-400);
     --card-header-background: var(--grey-dark-300);
-    --card-shadow: var(--blue-800);
+    --card-shadow: var(--grey-dark-400);
 
     /* Popover */
     --popover: var(--grey-dark-300);
@@ -531,11 +538,18 @@
     --feedback-info-background: var(--black-50);
     --feedback-info-foreground: var(--grey-dark-900);
 
+    /* Hero */
+    --hero-glow: var(--black-50);
+
     /* Shadows */
     --shadow-xs: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
     --shadow-sm: 0px 1px 4px 0px rgba(0, 0, 0, 0.15);
     --shadow-md: 0px 1px 12px 0px rgba(0, 0, 0, 0.15);
     --shadow-lg: 0px 4px 24px 0px rgba(0, 0, 0, 0.2);
+}
+
+:root:has([data-page-bg="muted"]) {
+  --page-bg: var(--muted);
 }
 
 @layer base {
@@ -646,6 +660,22 @@
     /* Fumadocs card description */
     [data-card] > p.text-fd-muted-foreground {
         @apply body-16;
+    }
+
+    /* Hero glow — cylindrical shadow behind text */
+    .hero-glow::before {
+        content: "";
+        position: absolute;
+        inset: -20% -15%;
+        z-index: -1;
+        pointer-events: none;
+        border-radius: 9999px;
+        background: radial-gradient(
+            ellipse 100% 100% at 50% 50%,
+            var(--color-hero-glow) 0%,
+            var(--color-hero-glow) 20%,
+            transparent 70%
+        );
     }
 
     [data-rehype-pretty-code-figure] {

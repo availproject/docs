@@ -1,0 +1,12 @@
+{
+  "pages": [
+    "basics",
+    "deployment",
+    "session-keys",
+    "stake-your-validator",
+    "backup-your-validator",
+    "upgrade-your-validator",
+    "monitor-your-validator",
+    "chill-your-validator"
+  ]
+}

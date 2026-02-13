@@ -11,7 +11,7 @@ export const products: Product[] = [
     slug: "da",
     label: "Avail DA",
     basePath: "/docs/da",
-    startUrl: "/docs/da/welcome-to-avail-docs",
+    startUrl: "/docs/da/get-started",
     logoKey: "avail-da",
   },
   {

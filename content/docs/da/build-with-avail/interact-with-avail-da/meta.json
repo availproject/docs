@@ -1,9 +1,0 @@
-{
-  "pages": [
-    "faucet",
-    "app-id",
-    "read-write-on-avail",
-    "query-balances",
-    "transfer-balances"
-  ]
-}
