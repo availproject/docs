@@ -1,4 +1,5 @@
 "use client";
+import { CaretDown, CaretUp } from "@phosphor-icons/react";
 import type { Item, Node, Root } from "fumadocs-core/page-tree";
 import { ChevronDown, Database, Zap } from "lucide-react";
 import Link from "next/link";
