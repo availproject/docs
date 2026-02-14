@@ -70,10 +70,15 @@ export function HalftoneBackground() {
     let height = 0;
     let rafId: number | undefined;
     let time = 0;
+    let lastTime: number | undefined;
     let palette = isDarkMode() ? DARK_PALETTE : LIGHT_PALETTE;
+    let paused = false;
 
     const observer = new MutationObserver(() => {
-      palette = isDarkMode() ? DARK_PALETTE : LIGHT_PALETTE;
+      const next = isDarkMode() ? DARK_PALETTE : LIGHT_PALETTE;
+      if (next === palette) return;
+      palette = next;
+      if (paused) renderFrame();
     });
     observer.observe(document.documentElement, {
       attributes: true,
@@ -83,8 +88,11 @@ export function HalftoneBackground() {
     function resize() {
       const dpr = window.devicePixelRatio || 1;
       const parent = canvas.parentElement;
-      width = parent ? parent.clientWidth : window.innerWidth;
-      height = parent ? parent.clientHeight : window.innerHeight;
+      const w = parent ? parent.clientWidth : window.innerWidth;
+      const h = parent ? parent.clientHeight : window.innerHeight;
+      if (w === width && h === height) return;
+      width = w;
+      height = h;
 
       canvas.width = width * dpr;
       canvas.height = height * dpr;
@@ -116,8 +124,10 @@ export function HalftoneBackground() {
       renderFlow(ctx, renderContext, time, FLOW_PARAMS);
     }
 
-    function animate() {
-      time += FLOW_PARAMS.speed * 16.67;
+    function animate(now: number) {
+      const dt = lastTime !== undefined ? now - lastTime : 16.67;
+      lastTime = now;
+      time += FLOW_PARAMS.speed * dt;
       renderFrame();
       rafId = requestAnimationFrame(animate);
     }
@@ -127,17 +137,38 @@ export function HalftoneBackground() {
     if (prefersReducedMotion) {
       renderFrame();
     } else {
-      animate();
+      rafId = requestAnimationFrame(animate);
     }
 
     const resizeObserver = new ResizeObserver(resize);
     if (canvas.parentElement) resizeObserver.observe(canvas.parentElement);
     window.addEventListener("resize", resize);
 
+    function onTransitionStart() {
+      paused = true;
+      if (rafId !== undefined) {
+        cancelAnimationFrame(rafId);
+        rafId = undefined;
+      }
+    }
+
+    function onTransitionEnd() {
+      paused = false;
+      if (!prefersReducedMotion && rafId === undefined) {
+        lastTime = undefined;
+        rafId = requestAnimationFrame(animate);
+      }
+    }
+
+    document.addEventListener("pixelTransitionStart", onTransitionStart);
+    document.addEventListener("pixelTransitionEnd", onTransitionEnd);
+
     return () => {
       window.removeEventListener("resize", resize);
       resizeObserver.disconnect();
       observer.disconnect();
+      document.removeEventListener("pixelTransitionStart", onTransitionStart);
+      document.removeEventListener("pixelTransitionEnd", onTransitionEnd);
       if (rafId !== undefined) cancelAnimationFrame(rafId);
     };
   }, []);

@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { cn } from "@/lib/utils";
 import { useAnalytics } from "@/hooks/use-analytics";
+import { cn } from "@/lib/utils";
 
 interface IconCardProps {
   icon: React.ReactNode;
@@ -41,18 +41,14 @@ export function IconCard({
       {...wrapperProps}
       onClick={handleClick}
       className={cn(
-        "group flex flex-col gap-3 border border-card-border bg-card p-4 w-full transition-colors can-hover:bg-secondary",
-        className
+        "group flex flex-col gap-3 border border-card-border bg-background p-4 w-full transition-colors can-hover:hover:bg-secondary",
+        className,
       )}
     >
       <div className="text-primary [&>svg]:size-6">{icon}</div>
       <div className="flex flex-col gap-2">
-        <span className="ui-16 text-foreground">
-          {title}
-        </span>
-        <p className="ui-16 text-muted-foreground">
-          {description}
-        </p>
+        <span className="ui-16 text-foreground">{title}</span>
+        <p className="ui-16 text-muted-foreground">{description}</p>
       </div>
     </Wrapper>
   );
@@ -65,7 +61,9 @@ interface IconCardGridProps {
 
 export function IconCardGrid({ children, className }: IconCardGridProps) {
   return (
-    <div className={cn("mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2", className)}>
+    <div
+      className={cn("mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2", className)}
+    >
       {children}
     </div>
   );
