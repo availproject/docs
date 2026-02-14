@@ -1,32 +1,30 @@
-"use client";
+'use client'
 
-import { usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
-import { useAccount, useChainId } from "wagmi";
+import { useEffect, useRef } from 'react'
+import { useAccount, useChainId } from 'wagmi'
+import { usePathname } from 'next/navigation'
 import {
   identifyUser,
-  POSTHOG_KEY,
   resetUser,
   setSuperProperties,
-  track,
   unsetSuperProperties,
-} from "@/lib/analytics/posthog";
-import { getItem } from "@/lib/local-storage";
-import { NETWORK_KEY } from "@/providers/Web3Provider";
+  track,
+  POSTHOG_KEY,
+} from '@/lib/analytics/posthog'
+import { getItem } from '@/lib/local-storage'
+import { NETWORK_KEY } from '@/providers/Web3Provider'
 
 /**
  * Hash a wallet address using SHA-256 for privacy-preserving identification
  * This allows tracking unique users without storing actual wallet addresses
  */
 async function hashWalletAddress(address: string): Promise<string> {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(address.toLowerCase());
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const hashHex = hashArray
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-  return `wallet_${hashHex.slice(0, 16)}`; // Use first 16 chars for shorter ID
+  const encoder = new TextEncoder()
+  const data = encoder.encode(address.toLowerCase())
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data)
+  const hashArray = Array.from(new Uint8Array(hashBuffer))
+  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('')
+  return `wallet_${hashHex.slice(0, 16)}` // Use first 16 chars for shorter ID
 }
 
 /**
@@ -36,17 +34,17 @@ async function hashWalletAddress(address: string): Promise<string> {
  * - Tracks connection/disconnection events
  */
 export function usePostHogIdentify() {
-  const { address, isConnected } = useAccount();
-  const chainId = useChainId();
-  const pathname = usePathname();
-  const wasConnected = useRef(false);
-  const previousAddress = useRef<string | null>(null);
+  const { address, isConnected } = useAccount()
+  const chainId = useChainId()
+  const pathname = usePathname()
+  const wasConnected = useRef(false)
+  const previousAddress = useRef<string | null>(null)
 
   useEffect(() => {
-    if (!POSTHOG_KEY) return;
+    if (!POSTHOG_KEY) return
 
     // Get the Nexus network from localStorage
-    const nexusNetwork = getItem(NETWORK_KEY) as string | null;
+    const nexusNetwork = getItem(NETWORK_KEY) as string | null
 
     if (isConnected && address) {
       // User connected or address changed
@@ -57,57 +55,57 @@ export function usePostHogIdentify() {
           identifyUser(hashedId, {
             chain_id: chainId,
             nexus_network: nexusNetwork,
-          });
+          })
 
           // Set super properties for all future events
           setSuperProperties({
             wallet_connected: true,
             connected_chain_id: chainId,
             nexus_network: nexusNetwork,
-          });
+          })
 
           // Track connection event (no wallet address)
-          track("wallet_connected", {
+          track('wallet_connected', {
             chain_id: chainId,
             network_name: getChainName(chainId),
             page_path: pathname,
-          });
-        });
+          })
+        })
 
-        wasConnected.current = true;
-        previousAddress.current = address;
+        wasConnected.current = true
+        previousAddress.current = address
       }
     } else if (wasConnected.current) {
       // User disconnected
-      track("wallet_disconnected", {
+      track('wallet_disconnected', {
         page_path: pathname,
-      });
+      })
 
       // Unset super properties
       unsetSuperProperties([
-        "wallet_connected",
-        "connected_chain_id",
-        "nexus_network",
-      ]);
+        'wallet_connected',
+        'connected_chain_id',
+        'nexus_network',
+      ])
 
       // Reset PostHog identity
-      resetUser();
+      resetUser()
 
-      wasConnected.current = false;
-      previousAddress.current = null;
+      wasConnected.current = false
+      previousAddress.current = null
     }
-  }, [isConnected, address, chainId, pathname]);
+  }, [isConnected, address, chainId, pathname])
 
   // Update chain ID super property when it changes
   useEffect(() => {
-    if (!POSTHOG_KEY) return;
+    if (!POSTHOG_KEY) return
 
     if (isConnected && chainId) {
       setSuperProperties({
         connected_chain_id: chainId,
-      });
+      })
     }
-  }, [chainId, isConnected]);
+  }, [chainId, isConnected])
 }
 
 /**
@@ -115,25 +113,25 @@ export function usePostHogIdentify() {
  */
 function getChainName(chainId: number): string {
   const chainNames: Record<number, string> = {
-    1: "Ethereum Mainnet",
-    10: "Optimism",
-    56: "BNB Smart Chain",
-    137: "Polygon",
-    8217: "Kaia",
-    42161: "Arbitrum One",
-    43114: "Avalanche C-Chain",
-    8453: "Base",
-    534352: "Scroll",
-    999: "HyperEVM",
-    50104: "Sophon",
-    143: "Monad",
-    11155111: "Sepolia",
-    84532: "Base Sepolia",
-    421614: "Arbitrum Sepolia",
-    11155420: "Optimism Sepolia",
-    80002: "Polygon Amoy",
-    10143: "Monad Testnet",
-  };
+    1: 'Ethereum Mainnet',
+    10: 'Optimism',
+    56: 'BNB Smart Chain',
+    137: 'Polygon',
+    8217: 'Kaia',
+    42161: 'Arbitrum One',
+    43114: 'Avalanche C-Chain',
+    8453: 'Base',
+    534352: 'Scroll',
+    999: 'HyperEVM',
+    50104: 'Sophon',
+    143: 'Monad',
+    11155111: 'Sepolia',
+    84532: 'Base Sepolia',
+    421614: 'Arbitrum Sepolia',
+    11155420: 'Optimism Sepolia',
+    80002: 'Polygon Amoy',
+    10143: 'Monad Testnet',
+  }
 
-  return chainNames[chainId] || `Chain ${chainId}`;
+  return chainNames[chainId] || `Chain ${chainId}`
 }

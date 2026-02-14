@@ -1,17 +1,12 @@
 {
-  "title": "Avail DA",
-  "description": "Documentation for the Avail DA Layer",
   "pages": [
-    "introduction-to-avail-da",
-    "display",
-    "networks",
-    "build-with-avail",
+    "get-started",
+    "concepts",
+    "build",
+    "operate",
     "user-guides",
-    "learn-about-avail",
-    "operate-a-node",
     "api-reference",
     "glossary",
-    "faqs",
-    "bug-bounty"
+    "faqs"
   ]
 }

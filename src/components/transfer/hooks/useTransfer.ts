@@ -2,7 +2,7 @@ import {
   type BridgeStepType,
   NEXUS_EVENTS,
   type NexusNetwork,
-  type NexusSDK,
+  NexusSDK,
   type OnAllowanceHookData,
   type OnIntentHookData,
   SUPPORTED_CHAINS,
@@ -11,20 +11,20 @@ import {
   type UserAsset,
 } from "@avail-project/nexus-core";
 import {
-  type RefObject,
   useEffect,
   useMemo,
-  useReducer,
   useRef,
   useState,
+  useReducer,
+  type RefObject,
 } from "react";
 import { type Address, isAddress } from "viem";
 import {
+  useStopwatch,
+  usePolling,
+  useTransactionSteps,
   type TransactionStatus,
   useNexusError,
-  usePolling,
-  useStopwatch,
-  useTransactionSteps,
 } from "../../common";
 
 export interface FastTransferState {
@@ -274,7 +274,7 @@ const useTransfer = ({
       intent.current.deny();
       intent.current = null;
     }
-  }, [intent]);
+  }, [inputs]);
 
   useEffect(() => {
     if (!isDialogOpen) {
@@ -287,7 +287,7 @@ const useTransfer = ({
     if (txError) {
       setTxError(null);
     }
-  }, [txError]);
+  }, [inputs]);
 
   return {
     inputs,

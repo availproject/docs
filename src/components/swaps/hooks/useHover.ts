@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 export function useEventListener(
   eventType: string,
   callback: (event: Event) => void,
-  element: HTMLElement | Window | null,
+  element: HTMLElement | Window | null
 ) {
   const callbackRef = useRef(callback);
 

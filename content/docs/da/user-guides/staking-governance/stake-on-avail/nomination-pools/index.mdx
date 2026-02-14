@@ -14,16 +14,13 @@ keywords:
   - stake
 ---
 
-import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
-
-# Nomination Pools
-
 ## What Are Nomination Pools?
 
 Nomination pools are a critical feature in Avail's consensus system, akin to those in [<ins>Polkadot and Substrate</ins>](https://wiki.polkadot.network/docs/learn-nomination-pools), They allow users to combine their stakes, effectively acting as a single nominator. This approach addresses the limitations of individual small stakes and ensures more efficient participation in the staking process.
 
-<Accordions type="single">
-  <Accordion title="Pool Mechanics">
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Pool Mechanics</summary>
 
 ### Features
 
@@ -56,8 +53,11 @@ Nomination pools are a critical feature in Avail's consensus system, akin to tho
 - **Voting Restrictions**: Funds in nomination pools cannot be used for voting in governance matters.
 - **Pool Switching**: To switch pools, members must unbond all funds, subject to a waiting period.
 
-</Accordion>
-  <Accordion title="Pool Administration">
+</details>
+
+<br/>
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Pool Administration</summary>
 
 ### States of a Pool
 
@@ -74,8 +74,7 @@ Nomination pools are a critical feature in Avail's consensus system, akin to tho
 
 Each role is integral to the efficient operation and governance of the nomination pool. Clear understanding and execution of these roles ensure the pool operates smoothly and aligns with the members' collective objectives.
 
-  </Accordion>
-</Accordions>
+</details>
 
 <Callout type="info">
 **UNBONDING PERIOD**<br/>
@@ -216,8 +215,8 @@ Read below for more information on the same.
 </Steps>
 
 
-<Accordions type="single">
-  <Accordion title="Setting Pool Commissions">
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Setting Pool Commissions</summary>
 
 As the pool administrator on Avail, you have the capability to establish commission rates that affect the staking rewards distribution. These are the steps and parameters to configure your pool's commissions:
 
@@ -246,8 +245,11 @@ The decision to set Max Commission and Change Rate is at the discretion of the p
 
 When setting these parameters, balance the need to incentivize pool operation with the rewards expectations of your members. Clear communication regarding commission changes is essential to maintain trust within your pool community.
 
-  </Accordion>
-  <Accordion title="Exiting a Nomination Pool">
+</details>
+<br/>
+
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary>Exiting a Nomination Pool</summary>
 
 Members of a nomination pool on Avail have the flexibility to leave the pool at any time through a process called unbonding. Here's how it works:
 
@@ -272,5 +274,4 @@ Members of a nomination pool on Avail have the flexibility to leave the pool at 
 - Pool admins should provide members with clear instructions on the unbonding and withdrawal process, including any platform-specific timelines or conditions.
 - It is advisable to keep members informed about the status of their unbonding requests and any actions they need to take to complete the withdrawal.
 
-</Accordion>
-</Accordions>
+</details>

@@ -1,11 +1,11 @@
 "use client";
 
-import { CaretRight } from "@phosphor-icons/react";
 import * as React from "react";
+import { CaretRight } from "@phosphor-icons/react";
 import { SearchResultItem } from "@/components/search/search-result-item";
 import {
-  deriveBreadcrumbs,
   getRecentPages,
+  deriveBreadcrumbs,
   type RecentPage,
 } from "@/lib/recent-pages";
 

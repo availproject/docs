@@ -1,6 +1,6 @@
-import { usdFormatter } from "../../common";
-import { Skeleton } from "../../ui/skeleton";
 import { ChevronDownIcon, ChevronUpIcon } from "./icons";
+import { Skeleton } from "../../ui/skeleton";
+import { usdFormatter } from "../../common";
 
 interface SummaryCardProps {
   icon: React.ReactNode;

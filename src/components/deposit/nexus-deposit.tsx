@@ -1,25 +1,25 @@
 "use client";
 
-import { useCallback, useState } from "react";
-import { WidgetErrorBoundary } from "../common";
-import { Button } from "../ui/button";
-import { Card } from "../ui/card";
-import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
+import { useState, useCallback } from "react";
+import { cn } from "./utils";
+import { useDepositWidget } from "./hooks/use-deposit-widget";
 import {
   AmountContainer,
-  AssetSelectionContainer,
   ConfirmationContainer,
+  TransactionStatusContainer,
   TransactionCompleteContainer,
   TransactionFailedContainer,
-  TransactionStatusContainer,
+  AssetSelectionContainer,
 } from "./components";
-import { useDepositWidget } from "./hooks/use-deposit-widget";
 import type {
+  WidgetStep,
   DepositWidgetProps,
   NavigationDirection,
-  WidgetStep,
 } from "./types";
-import { cn } from "./utils";
+import { Card } from "../ui/card";
+import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
+import { Button } from "../ui/button";
+import { WidgetErrorBoundary } from "../common";
 
 const ANIMATION_CLASSES: Record<NonNullable<NavigationDirection>, string> = {
   forward: "animate-slide-in-from-right",
@@ -67,7 +67,7 @@ const SCREENS: Record<WidgetStep, ScreenRenderer> = {
       onClose={onClose}
     />
   ),
-  "asset-selection": (widget, _heading, onClose) => (
+  "asset-selection": (widget, heading, onClose) => (
     <AssetSelectionContainer
       widget={widget}
       heading={"Pay using"}
@@ -112,7 +112,7 @@ const NexusDeposit = ({
         widget.reset();
       }
     },
-    [isControlled, onOpenChange, onClose, widget.reset],
+    [isControlled, onOpenChange, onClose],
   );
 
   const handleClose = useCallback(() => {
@@ -165,19 +165,19 @@ const NexusDeposit = ({
 
 export default NexusDeposit;
 
-export { useDepositWidget } from "./hooks/use-deposit-widget";
 // Re-export types and hooks for consumers
 export type {
-  AssetFilterType,
-  AssetSelectionState,
-  BaseDepositWidgetProps,
-  DepositInputs,
+  WidgetStep,
   DepositWidgetContextValue,
   DepositWidgetProps,
+  BaseDepositWidgetProps,
   DestinationConfig,
   ExecuteDepositParams,
   ExecuteDepositResult,
-  TransactionStatus,
   UseDepositWidgetProps,
-  WidgetStep,
+  TransactionStatus,
+  AssetFilterType,
+  DepositInputs,
+  AssetSelectionState,
 } from "./types";
+export { useDepositWidget } from "./hooks/use-deposit-widget";

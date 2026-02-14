@@ -1,17 +1,17 @@
-import type { UserAsset } from "@avail-project/nexus-core";
-import { LoaderCircle } from "lucide-react";
 import { type FC, Fragment, useEffect, useRef } from "react";
-import { SHORT_CHAIN_NAME } from "../../common";
+import { Input } from "../../ui/input";
+import { Button } from "../../ui/button";
+import { type UserAsset } from "@avail-project/nexus-core";
 import { useNexus } from "../../nexus/NexusProvider";
+import { type FastBridgeState } from "../hooks/useBridge";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "../../ui/accordion";
-import { Button } from "../../ui/button";
-import { Input } from "../../ui/input";
-import type { FastBridgeState } from "../hooks/useBridge";
+import { SHORT_CHAIN_NAME } from "../../common";
+import { LoaderCircle } from "lucide-react";
 
 interface AmountInputProps {
   amount?: string;
@@ -74,7 +74,7 @@ const AmountInput: FC<AmountInputProps> = ({
             let next = e.target.value.replaceAll(/[^0-9.]/g, "");
             const parts = next.split(".");
             if (parts.length > 2)
-              next = `${parts[0]}.${parts.slice(1).join("")}`;
+              next = parts[0] + "." + parts.slice(1).join("");
             if (next === ".") next = "0.";
             onChange(next);
             scheduleCommit(next);

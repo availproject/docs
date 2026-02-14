@@ -9,7 +9,7 @@ export const transformers: ShikiTransformer[] = [
         const raw = (this as any)?.source as string;
         node.properties ??= {};
         if (typeof raw === "string" && raw.length > 0) {
-          node.properties.__raw__ = raw;
+          node.properties["__raw__"] = raw;
           // Enable line numbers by default
           node.properties["data-line-numbers"] = "";
         }
@@ -21,10 +21,10 @@ export const transformers: ShikiTransformer[] = [
           pnpm: string,
           bun: string,
         ) => {
-          node.properties.__npm__ = npm;
-          node.properties.__yarn__ = yarn;
-          node.properties.__pnpm__ = pnpm;
-          node.properties.__bun__ = bun;
+          node.properties["__npm__"] = npm;
+          node.properties["__yarn__"] = yarn;
+          node.properties["__pnpm__"] = pnpm;
+          node.properties["__bun__"] = bun;
         };
 
         if (typeof raw === "string") {
@@ -84,10 +84,10 @@ export const transformers: ShikiTransformer[] = [
     pre(node) {
       node.properties ??= {};
       const existingClass =
-        typeof node.properties.class === "string"
-          ? (node.properties.class as string)
+        typeof node.properties["class"] === "string"
+          ? (node.properties["class"] as string)
           : "";
-      node.properties.class = [
+      node.properties["class"] = [
         "shiki",
         "no-scrollbar",
         "min-w-0",

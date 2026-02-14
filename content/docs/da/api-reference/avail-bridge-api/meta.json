@@ -1,12 +1,12 @@
 {
   "pages": [
-    "---REST API---",
-    "liveness",
-    "info",
+    "---GET API---",
     "eth-head",
     "avail-head",
     "merkle-proof",
     "storage-proof",
+    "info",
+    "liveness",
     "---Extrinsics---",
     "vector-send-message",
     "vector-send-tokens"

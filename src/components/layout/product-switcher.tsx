@@ -1,22 +1,19 @@
 "use client";
 
-import { CaretDown } from "@phosphor-icons/react";
-import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+
+import { CaretDown } from "@phosphor-icons/react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+
 import { AvailDALogo } from "@/components/logos/avail-da-logo";
 import { AvailNexusLogo } from "@/components/logos/avail-nexus-logo";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { getActiveProduct, products } from "@/lib/products";
+import { products, getActiveProduct } from "@/lib/products";
 
 const productLogos = {
   "avail-da": AvailDALogo,
   "avail-nexus": AvailNexusLogo,
 } as const;
-
 import { useAnalytics } from "@/hooks/use-analytics";
 import { cn } from "@/lib/utils";
 

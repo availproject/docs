@@ -1,9 +1,9 @@
-import { type NextRequest, NextResponse } from "next/server";
 import { source } from "@/lib/source";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ slug: string[] }> },
+  { params }: { params: Promise<{ slug: string[] }> }
 ) {
   const { slug } = await params;
   const page = source.getPage(slug);
@@ -38,7 +38,7 @@ export async function GET(
     console.error("Error fetching markdown:", error);
     return NextResponse.json(
       { error: "Failed to fetch markdown content" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

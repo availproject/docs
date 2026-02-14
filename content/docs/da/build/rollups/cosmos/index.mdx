@@ -11,12 +11,7 @@ With CADA, developers can improve the scalability and security of their decentra
 
 Learn more about the CADA module below:
 <Cards>
-  <a href="https://github.com/vitwit/avail-da-module" target="_blank" rel="noopener noreferrer" className="block no-underline h-full">
-    <Card className="px-4 py-3 h-full">
-      <CardTitle className="text-sm">Cosmos Avail DA Module</CardTitle>
-      <CardDescription>CADA module source code and documentation on GitHub.</CardDescription>
-    </Card>
-  </a>
+    <Card icon={<FileIcon />} title="Cosmos Avail DA Module" href="https://github.com/vitwit/avail-da-module" />
 </Cards>
 
 
@@ -25,9 +20,9 @@ Learn more about the CADA module below:
 Avail is the permisionless unification layer for web3. Avail is designed to be a platform that connects different ecosystems by providing a modular, scalable, and interoperable platform.
 Avail's vision is to provide a cohesive, unified user experience within a flexible and modular blockchain ecosystem, drawing on lessons from Web2 to innovate in Web3. 
 
-With Avail's foundational DA layer ([Avail DA](/docs/da/introduction-to-avail-da)), different ecosystems can innovate on top freely, while leveraging Nexus for cross-ecosystem messaging.
+With Avail's foundational DA layer ([Avail DA](/docs/da/get-started)), different ecosystems can innovate on top freely, while leveraging Nexus for cross-ecosystem messaging. 
 
-Learn more about [Avail here](/docs/da/introduction-to-avail-da).
+Learn more about [Avail here](/docs/da/get-started).
 
 ## Integration Guide
 
@@ -39,18 +34,8 @@ Note: Ensure that the Avail light client URL is correctly configured for the mod
 
 You can also use the references below for integration.You can also simply run the module from these repositories as well:
 <Cards>
-  <a href="https://github.com/vitwit/cosmos-sdk/tree/integrate_avail_da" target="_blank" rel="noopener noreferrer" className="block no-underline h-full">
-    <Card className="px-4 py-3 h-full">
-      <CardTitle className="text-sm">Cosmos SDK Integration Example</CardTitle>
-      <CardDescription>Reference Cosmos SDK fork with Avail DA integration on GitHub.</CardDescription>
-    </Card>
-  </a>
-  <a href="https://github.com/vitwit/avail-da-module/tree/main/simapp" target="_blank" rel="noopener noreferrer" className="block no-underline h-full">
-    <Card className="px-4 py-3 h-full">
-      <CardTitle className="text-sm">Avail DA Module with Simapp</CardTitle>
-      <CardDescription>Run the CADA module using the Simapp example on GitHub.</CardDescription>
-    </Card>
-  </a>
+    <Card icon={<FileIcon />} title="Cosmos SDK Integration Example" href="https://github.com/vitwit/cosmos-sdk/tree/integrate_avail_da" />
+    <Card icon={<FileIcon />} title="Avail DA Module with Simapp" href="https://github.com/vitwit/avail-da-module/tree/main/simapp" />
 </Cards>
 If you are running the chain from the Simapp repository, you can use this [init-chain script](https://github.com/vitwit/avail-da-module/blob/main/simapp/init-simapp.sh) to set up the testnet.
 
@@ -161,3 +146,6 @@ The **Cosmos Provider** is responsible for fetching block data via RPC so that t
 
     ```
 - In case of failure at any stage, the whole flow will be repeated.
+
+---
+image: "/img/docs-link-preview.png"

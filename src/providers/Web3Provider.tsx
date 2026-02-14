@@ -1,31 +1,31 @@
 "use client";
-import type { NexusNetwork } from "@avail-project/nexus-core";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ConnectKitProvider, getDefaultConfig } from "connectkit";
-import { Suspense, useEffect, useMemo, useState } from "react";
-import { type Chain, defineChain } from "viem";
 import { createConfig, WagmiProvider } from "wagmi";
+import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import {
-  arbitrum,
-  arbitrumSepolia,
-  avalanche,
-  base,
-  baseSepolia,
-  bsc,
-  kaia,
   mainnet,
-  monadTestnet,
-  optimism,
-  optimismSepolia,
-  polygon,
-  polygonAmoy,
   scroll,
+  polygon,
+  optimism,
+  arbitrum,
+  base,
+  avalanche,
+  kaia,
+  bsc,
   sepolia,
+  baseSepolia,
+  arbitrumSepolia,
+  optimismSepolia,
+  polygonAmoy,
+  monadTestnet,
 } from "wagmi/chains";
-import { PostHogIdentify } from "@/components/analytics/PostHogIdentify";
-import NexusProvider from "@/components/nexus/NexusProvider";
-import { Skeleton } from "@/components/ui/skeleton";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { Chain, defineChain } from "viem";
+import { type NexusNetwork } from "@avail-project/nexus-core";
+import { Suspense, useMemo, useState, useEffect } from "react";
 import { getItem, setItem } from "@/lib/local-storage";
+import { Skeleton } from "@/components/ui/skeleton";
+import NexusProvider from "@/components/nexus/NexusProvider";
+import { PostHogIdentify } from "@/components/analytics/PostHogIdentify";
 
 const hyperEVM = defineChain({
   id: 999,

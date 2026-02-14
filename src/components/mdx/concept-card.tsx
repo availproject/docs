@@ -1,9 +1,9 @@
 "use client";
 
-import { LinkSimple } from "@phosphor-icons/react";
 import Link from "next/link";
-import { useAnalytics } from "@/hooks/use-analytics";
+import { LinkSimple } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
+import { useAnalytics } from "@/hooks/use-analytics";
 
 interface ConceptCardProps {
   title: string;
@@ -41,7 +41,7 @@ export function ConceptCard({
       onClick={handleClick}
       className={cn(
         "group flex flex-col gap-3 border border-card-border bg-card p-4 h-[140px] w-full transition-colors can-hover:bg-secondary",
-        className,
+        className
       )}
     >
       <LinkSimple size={24} className="text-primary" />

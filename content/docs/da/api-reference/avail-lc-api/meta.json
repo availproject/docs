@@ -11,6 +11,8 @@
     "---WebSocket API---",
     "v2-ws-version",
     "v2-ws-status",
-    "v2-ws-submit"
+    "v2-ws-submit",
+    "---Deprecated---",
+    "v1-deprecated"
   ]
 }

@@ -2,7 +2,7 @@ import {
   type BridgeStepType,
   NEXUS_EVENTS,
   type NexusNetwork,
-  type NexusSDK,
+  NexusSDK,
   type OnAllowanceHookData,
   type OnIntentHookData,
   SUPPORTED_CHAINS,
@@ -11,20 +11,20 @@ import {
   type UserAsset,
 } from "@avail-project/nexus-core";
 import {
-  type RefObject,
   useEffect,
   useMemo,
-  useReducer,
   useRef,
   useState,
+  useReducer,
+  type RefObject,
 } from "react";
 import { type Address, isAddress } from "viem";
 import {
-  type TransactionStatus,
-  useNexusError,
-  usePolling,
   useStopwatch,
+  usePolling,
+  useNexusError,
   useTransactionSteps,
+  type TransactionStatus,
 } from "../../common";
 
 export interface FastBridgeState {
@@ -287,7 +287,7 @@ const useBridge = ({
       intent.current.deny();
       intent.current = null;
     }
-  }, [intent]);
+  }, [inputs]);
 
   useEffect(() => {
     if (!isDialogOpen) {
@@ -300,7 +300,7 @@ const useBridge = ({
     if (txError) {
       setTxError(null);
     }
-  }, [txError]);
+  }, [inputs]);
 
   return {
     inputs,

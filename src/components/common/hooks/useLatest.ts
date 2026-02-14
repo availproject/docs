@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from "react";
+import { useRef, useLayoutEffect } from "react";
 
 /**
  * Returns a ref that always contains the latest value.

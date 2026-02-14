@@ -1,13 +1,13 @@
 "use client";
 
+import { useMemo } from "react";
+import type { DestinationConfig, AssetSelectionState } from "../types";
 import type {
   OnSwapIntentHookData,
   UserAsset,
 } from "@avail-project/nexus-core";
 import { CHAIN_METADATA } from "@avail-project/nexus-core";
-import { useMemo } from "react";
 import { usdFormatter } from "../../common";
-import type { AssetSelectionState, DestinationConfig } from "../types";
 import type { SwapSkippedData } from "./use-deposit-state";
 
 interface UseDepositComputedProps {
@@ -86,7 +86,7 @@ export function useDepositComputed(props: UseDepositComputedProps) {
       }
     }
     return items.toSorted(
-      (a, b) => (b.balanceInFiat ?? 0) - (a.balanceInFiat ?? 0),
+      (a, b) => (b.balanceInFiat ?? 0) - (a.balanceInFiat ?? 0)
     );
   }, [swapBalance]);
 
@@ -102,7 +102,7 @@ export function useDepositComputed(props: UseDepositComputedProps) {
         }
         return sum;
       }, 0),
-    [availableAssets, assetSelection.selectedChainIds],
+    [availableAssets, assetSelection.selectedChainIds]
   );
 
   /**
@@ -112,7 +112,7 @@ export function useDepositComputed(props: UseDepositComputedProps) {
     const balance =
       swapBalance?.reduce(
         (acc, balance) => acc + parseFloat(balance.balance),
-        0,
+        0
       ) ?? 0;
     const usdBalance =
       swapBalance?.reduce((acc, balance) => acc + balance.balanceInFiat, 0) ??
@@ -140,7 +140,7 @@ export function useDepositComputed(props: UseDepositComputedProps) {
 
       // Format the token amount from raw units
       const rawAmount = Number.parseFloat(destData.amount);
-      const tokenAmount = rawAmount / 10 ** destData.token.decimals;
+      const tokenAmount = rawAmount / Math.pow(10, destData.token.decimals);
       const receiveAmountUsd = getFiatValue(tokenAmount, destData.token.symbol);
 
       // Format for display
@@ -151,7 +151,7 @@ export function useDepositComputed(props: UseDepositComputedProps) {
       const estimatedFeeEth = estimatedFeeWei / 1e18;
       const gasFeeUsd = getFiatValue(
         estimatedFeeEth,
-        destination.gasTokenSymbol ?? "ETH",
+        destination.gasTokenSymbol ?? "ETH"
       );
 
       return {
@@ -186,7 +186,7 @@ export function useDepositComputed(props: UseDepositComputedProps) {
       {
         symbol: destination.tokenSymbol,
         decimals: destination.tokenDecimals,
-      },
+      }
     );
 
     // Build sources array from intent sources
@@ -207,12 +207,12 @@ export function useDepositComputed(props: UseDepositComputedProps) {
       const matchingAsset = availableAssets.find(
         (asset) =>
           asset.chainId === source.chain.id &&
-          asset.symbol === source.token.symbol,
+          asset.symbol === source.token.symbol
       );
       if (matchingAsset) {
         const sourceAmountUsd = getFiatValue(
           Number.parseFloat(source.amount),
-          source.token.symbol,
+          source.token.symbol
         );
         sources.push({
           ...matchingAsset,
@@ -230,16 +230,16 @@ export function useDepositComputed(props: UseDepositComputedProps) {
         const usdAmount = getFiatValue(amount, source.token.symbol);
         return acc + usdAmount;
       },
-      0,
+      0
     );
 
     // Get the actual amount arriving on destination (AFTER fees)
     const destinationAmount = Number.parseFloat(
-      activeIntent.intent.destination?.amount ?? "0",
+      activeIntent.intent.destination?.amount ?? "0"
     );
     const destinationAmountUsd = getFiatValue(
       destinationAmount,
-      activeIntent.intent.destination?.token?.symbol ?? destination.tokenSymbol,
+      activeIntent.intent.destination?.token?.symbol ?? destination.tokenSymbol
     );
 
     // Calculate bridge/protocol fees
@@ -248,7 +248,7 @@ export function useDepositComputed(props: UseDepositComputedProps) {
     // Calculate destination balance used
     const usedFromDestinationUsd = Math.max(
       0,
-      receiveAmountUsd - destinationAmountUsd,
+      receiveAmountUsd - destinationAmountUsd
     );
 
     if (usedFromDestinationUsd > 0.01 && destinationBalance) {
@@ -320,7 +320,7 @@ export function useDepositComputed(props: UseDepositComputedProps) {
       const estimatedFeeEth = estimatedFeeWei / 1e18;
       const gasUsd = getFiatValue(
         estimatedFeeEth,
-        destination.gasTokenSymbol ?? "ETH",
+        destination.gasTokenSymbol ?? "ETH"
       );
       const gasFormatted = usdFormatter.format(gasUsd);
       return { totalGasFee: gasUsd, gasUsd, gasFormatted };

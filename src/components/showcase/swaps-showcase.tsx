@@ -1,5 +1,6 @@
-import SwapWidget from "../swaps/swap-widget";
+import React from "react";
 import ShowcaseWrapper from "./showcase-wrapper";
+import SwapWidget from "../swaps/swap-widget";
 
 const SwapsShowcase = () => {
   return (

@@ -3,8 +3,6 @@ title: "Fetch block data if available"
 image: '/img/docs-link-preview.png'
 ---
 
-import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
-
 <Callout type="info">
 **LOOKING FOR INSTRUCTIONS ON HOW TO RUN YOUR OWN LIGHT CLIENT?**<br/>
 You can check out [our docs here](/docs/da/operate/run-a-light-client/light-client#running-the-light-client) for instructions on how to run your own light client.
@@ -90,8 +88,8 @@ async fn main() {
 }
 ```
 
-<Accordions type="single">
-  <Accordion title="Sample Response:">
+<details className="border p-3 rounded-md bg-[#EFF6FF]">
+<summary> Sample Response:</summary>
 
 If **block_status = "finished"**, data is available and the response is:
 
@@ -106,21 +104,19 @@ If **block_status = "finished"**, data is available and the response is:
 }
 ```
 
-If **block_status** is not **"finished"**, or **`app-mode`** is not enabled, data is not available and the response is:
+If **block_status** is not **“finished”**, or **`app-mode`** is not enabled, data is not available and the response is:
 
 ```yaml
 Not Found
 ```
-If no data is available in the block against the configured `app_id` in `app-mode`:
+If no data is available in the block against the configured `app_id` in `app-mode`: 
 
 ```yaml
 {
   "data_transactions": []
 }
 ```
-
-  </Accordion>
-</Accordions>
+</details>
 
 <Callout type="info">
 The next few methods are used to submit data to the Avail network. But to use them:

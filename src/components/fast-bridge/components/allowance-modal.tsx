@@ -1,9 +1,4 @@
 "use client";
-import {
-  type AllowanceHookSource,
-  CHAIN_METADATA,
-  type OnAllowanceHookData,
-} from "@avail-project/nexus-core";
 import React, {
   type FC,
   memo,
@@ -12,10 +7,15 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { useNexus } from "../../nexus/NexusProvider";
 import { Button } from "../../ui/button";
 import { Input } from "../../ui/input";
 import { Label } from "../../ui/label";
+import {
+  type AllowanceHookSource,
+  CHAIN_METADATA,
+  type OnAllowanceHookData,
+} from "@avail-project/nexus-core";
+import { useNexus } from "../../nexus/NexusProvider";
 
 interface AllowanceModalProps {
   allowance: RefObject<OnAllowanceHookData | null>;
@@ -120,13 +120,13 @@ const AllowanceModal: FC<AllowanceModalProps> = ({
 
   const defaultChoices = useMemo<AllowanceChoice[]>(
     () => Array.from({ length: sources.length }, () => "min"),
-    [sources.length],
+    [sources.length]
   );
 
   const isCustomValueValid = (
     value: string,
     minimumRaw: bigint,
-    decimals: number,
+    decimals: number
   ): boolean => {
     if (!value || value.trim() === "") return false;
     try {
@@ -146,10 +146,10 @@ const AllowanceModal: FC<AllowanceModalProps> = ({
       return !isCustomValueValid(
         value,
         source.allowance.minimumRaw,
-        source.token.decimals,
+        source.token.decimals
       );
     });
-  }, [sources, selectedOption, customValues, isCustomValueValid]);
+  }, [sources, selectedOption, customValues]);
 
   const onClose = () => {
     deny();
@@ -260,7 +260,7 @@ const AllowanceModal: FC<AllowanceModalProps> = ({
                     !isCustomValueValid(
                       customValue,
                       source.allowance.minimumRaw,
-                      source.token.decimals,
+                      source.token.decimals
                     );
                   return (
                     <AllowanceOption

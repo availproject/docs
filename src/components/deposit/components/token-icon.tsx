@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { cn } from "../utils";
 
 type TokenIconSize = "sm" | "md" | "lg";

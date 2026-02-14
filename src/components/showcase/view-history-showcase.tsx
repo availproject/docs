@@ -1,5 +1,6 @@
-import ViewHistory from "../view-history/view-history";
+import React from "react";
 import ShowcaseWrapper from "./showcase-wrapper";
+import ViewHistory from "../view-history/view-history";
 
 const ViewHistoryShowcase = () => {
   return (

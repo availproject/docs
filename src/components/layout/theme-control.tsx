@@ -1,8 +1,16 @@
 "use client";
-import { Monitor, Moon, Palette, Sun } from "@phosphor-icons/react";
-import { Button } from "../ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Moon, Monitor, Palette, Sun } from "@phosphor-icons/react";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Button } from "../ui/button";
 
 type ThemeControlProps = {
   theme: string;
@@ -12,7 +20,7 @@ type ThemeControlProps = {
   isMobile?: boolean;
 };
 
-const _PALETTES: Record<string, string> = {
+const PALETTES: Record<string, string> = {
   default: "default",
 };
 

@@ -2,20 +2,18 @@
 title: "Fetch Bridge Balances"
 ---
 
-# getBalancesForBridge()
-
 <Callout type="info">
 **SET UP THE SDK BEFORE YOU START:**
 
-- You can find the SDK setup instructions in the [Get Started](/docs/nexus/sdk/get-started/nexus-sdk-setup) page.
+1. You can find the SDK setup instructions in the [Quickstart](/docs/nexus/nexus-quickstart) page.
+2. We also [created a tutorial](/docs/nexus/nexus-examples/nexus-initialization-basic) to make it easier to understand how devs need to initialize the Nexus SDK in their project.
 </Callout>
 
-<Callout type="info">
-**Note:** Check out [our list of supported tokens and chains](/docs/nexus/supported-chains-and-tokens).
-</Callout>
-<br/>
 Use the `getBalancesForBridge()` function to fetch token balances that can be used in bridge operations across all supported chains in one call.
 
+<Callout type="info">
+**Note:** Check out the [API reference](/docs/nexus/nexus-sdk/api-reference#supported-chains) for a full list of supported tokens and chains.
+</Callout>
 
 ## Method signature
 
@@ -36,6 +34,7 @@ If you need tokens that can be used for swaps, use `getBalancesForSwap()`.
 Here is a minimal example of how to use the `getBalancesForBridge()` function to fetch the balances accessible by the bridge operations of a user:
 
 ```typescript title="TypeScript"
+
 // Get all balances accessible by the bridge operations of a user
 const bridgeBalances = await sdk.getBalancesForBridge();
 console.log('Bridge balances:', bridgeBalances);

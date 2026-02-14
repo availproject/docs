@@ -1,8 +1,8 @@
+import React from "react";
 import dynamic from "next/dynamic";
-import type React from "react";
-import { Skeleton } from "../ui/skeleton";
-import { ComponentPreviewTabs } from "./component-preview-tabs";
 import { ComponentSource } from "./component-source";
+import { ComponentPreviewTabs } from "./component-preview-tabs";
+import { Skeleton } from "../ui/skeleton";
 
 type ComponentPreviewProps = React.ComponentProps<"div"> & {
   name: string;

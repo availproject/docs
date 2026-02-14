@@ -1,19 +1,19 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useRef, useEffect, useState, useMemo } from "react";
+import { TokenIcon } from "./token-icon";
+import { ErrorBanner } from "./error-banner";
+import { PercentageSelector } from "./percentage-selector";
+import { parseCurrencyInput } from "../utils";
+import { UpDownArrows } from "./icons";
 import { usdFormatter } from "../../common";
+import { type DestinationConfig } from "../types";
 import {
   BALANCE_SAFETY_MARGIN,
   CHARACTER_ANIMATION_DURATION_MS,
-  MAX_INPUT_WIDTH_PX,
   SHINE_ANIMATION_DURATION_MS,
+  MAX_INPUT_WIDTH_PX,
 } from "../constants/widget";
-import type { DestinationConfig } from "../types";
-import { parseCurrencyInput } from "../utils";
-import { ErrorBanner } from "./error-banner";
-import { UpDownArrows } from "./icons";
-import { PercentageSelector } from "./percentage-selector";
-import { TokenIcon } from "./token-icon";
 
 // Hoisted RegExp to avoid recreation on every render (js-hoist-regexp)
 const NUMERIC_INPUT_REGEX = /^\d*\.?\d*$/;
@@ -89,16 +89,14 @@ function AmountCard({
   const numericAmount = useMemo(() => {
     if (!amount) return 0;
     const parsed = parseFloat(amount.replace(/,/g, ""));
-    return Number.isNaN(parsed) ? 0 : parsed;
+    return isNaN(parsed) ? 0 : parsed;
   }, [amount]);
 
   // Check if amount exceeds wallet balance
   const exceedsBalance = useMemo(() => {
     if (!amount) return false;
     const numericAmount = parseFloat(amount.replace(/,/g, ""));
-    return (
-      !Number.isNaN(numericAmount) && numericAmount > totalBalance?.usdBalance
-    );
+    return !isNaN(numericAmount) && numericAmount > totalBalance?.usdBalance;
   }, [amount, totalBalance?.usdBalance]);
 
   // Check if amount exceeds selected token amount but is within wallet balance
@@ -106,7 +104,7 @@ function AmountCard({
     if (!amount || selectedTokenAmount === 0) return false;
     const numericAmount = parseFloat(amount.replace(/,/g, ""));
     return (
-      !Number.isNaN(numericAmount) &&
+      !isNaN(numericAmount) &&
       numericAmount > selectedTokenAmount &&
       numericAmount <= totalBalance?.usdBalance
     );
@@ -116,7 +114,7 @@ function AmountCard({
     if (measureRef.current) {
       setInputWidth(measureRef.current.offsetWidth);
     }
-  }, []);
+  }, [measureText]);
 
   // Trigger shine effect when USD amount changes
   useEffect(() => {

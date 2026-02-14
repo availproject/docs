@@ -1,9 +1,9 @@
 "use client";
-import dynamic from "next/dynamic";
+import React from "react";
 import { useAccount } from "wagmi";
-import { Skeleton } from "../ui/skeleton";
 import ShowcaseWrapper from "./showcase-wrapper";
-
+import dynamic from "next/dynamic";
+import { Skeleton } from "../ui/skeleton";
 const FastBridge = dynamic(
   () => import("@/components/fast-bridge/fast-bridge"),
   {

@@ -39,6 +39,7 @@ const AmountInput: FC<AmountInputProps> = ({
         }}
         onFocus={onFocus}
         maxLength={18}
+        autoFocus
         className="bg-transparent w-full text-foreground text-4xl font-medium outline-none transition-all duration-150 placeholder-muted-foreground proportional-nums disabled:opacity-50"
         disabled={disabled}
       />

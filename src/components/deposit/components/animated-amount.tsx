@@ -7,7 +7,7 @@ type AnimationDirection = "up" | "down" | "none";
  */
 function getCharDirection(
   prevChar: string | undefined,
-  currChar: string,
+  currChar: string
 ): AnimationDirection {
   // Non-digit characters (like $, comma, period) don't animate
   if (!/\d/.test(currChar)) return "none";
@@ -31,7 +31,7 @@ function getCharDirection(
  */
 function alignStringsForComparison(
   prev: string,
-  curr: string,
+  curr: string
 ): { prevAligned: string[]; currAligned: string[] } {
   // Extract parts before and after decimal
   const [prevInt, prevDec = ""] = prev.replace(/[^0-9.]/g, "").split(".");
@@ -40,12 +40,12 @@ function alignStringsForComparison(
   // Pad integer parts from the left
   const maxIntLen = Math.max(prevInt.length, currInt.length);
   const prevIntPadded = prevInt.padStart(maxIntLen, " ");
-  const _currIntPadded = currInt.padStart(maxIntLen, " ");
+  const currIntPadded = currInt.padStart(maxIntLen, " ");
 
   // Pad decimal parts from the right
   const maxDecLen = Math.max(prevDec.length, currDec.length);
   const prevDecPadded = prevDec.padEnd(maxDecLen, " ");
-  const _currDecPadded = currDec.padEnd(maxDecLen, " ");
+  const currDecPadded = currDec.padEnd(maxDecLen, " ");
 
   // Reconstruct with formatting characters from current value
   const currChars = curr.split("");
@@ -87,8 +87,8 @@ function AnimatedDigit({ char, direction, delay }: AnimatedDigitProps) {
     direction === "up"
       ? "animate-digit-up"
       : direction === "down"
-        ? "animate-digit-down"
-        : "";
+      ? "animate-digit-down"
+      : "";
 
   return (
     <span
@@ -117,7 +117,7 @@ export function AnimatedAmount({
 }: AnimatedAmountProps) {
   const { prevAligned, currAligned } = alignStringsForComparison(
     previousValue,
-    value,
+    value
   );
 
   let animatingIndex = 0;
@@ -142,3 +142,4 @@ export function AnimatedAmount({
     </span>
   );
 }
+
