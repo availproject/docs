@@ -21,6 +21,7 @@ export function pixelTransition(
   }
 
   isTransitioning = true;
+  document.dispatchEvent(new CustomEvent("pixelTransitionStart"));
   const pixelSize = 10;
   const width = window.innerWidth;
   const height = window.innerHeight;
@@ -108,6 +109,7 @@ export function pixelTransition(
         } else {
           canvas.remove();
           isTransitioning = false;
+          document.dispatchEvent(new CustomEvent("pixelTransitionEnd"));
         }
       }
 
