@@ -698,22 +698,22 @@
             top: calc(var(--spacing) * 2.5) !important;
         }
 
-        /* Bottom shadow - full width under the code block */
+        /* Bottom shadow - offset from left to match directional shadow */
         &::after {
             content: "";
             position: absolute;
             bottom: calc(-1 * var(--code-shadow-size));
-            left: 0;
+            left: var(--code-shadow-size);
             right: 0;
             height: var(--code-shadow-size);
             background-color: var(--color-card-shadow);
         }
 
-        /* Right shadow - alongside the body only */
+        /* Right shadow - offset from top to match directional shadow */
         &::before {
             content: "";
             position: absolute;
-            top: 0;
+            top: var(--code-shadow-size);
             right: calc(-1 * var(--code-shadow-size));
             bottom: calc(-1 * var(--code-shadow-size));
             width: var(--code-shadow-size);
