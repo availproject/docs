@@ -11,6 +11,8 @@ interface IconCardProps {
   href: string;
   className?: string;
   external?: boolean;
+  children?: React.ReactNode;
+  arrow?: boolean;
 }
 
 export function IconCard({
@@ -20,6 +22,7 @@ export function IconCard({
   href,
   className,
   external = false,
+  children,
 }: IconCardProps) {
   const { trackEvent } = useAnalytics();
   const isExternal = external || href.startsWith("http");
@@ -50,6 +53,9 @@ export function IconCard({
         <span className="ui-16 text-foreground">{title}</span>
         {description && (
           <p className="body-16 text-muted-foreground">{description}</p>
+        )}
+        {children && (
+          <div className="body-16 text-muted-foreground">{children}</div>
         )}
       </div>
     </Wrapper>

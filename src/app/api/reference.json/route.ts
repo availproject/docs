@@ -32,7 +32,7 @@ const REFERENCE_DATA = {
       },
       faucet: "https://faucet.avail.so",
       chainSpec:
-        "https://github.com/availproject/avail/blob/main/misc/genesis/testnet.turing.chain.spec.raw.json",
+        "https://raw.githubusercontent.com/availproject/avail/main/misc/genesis/testnet.turing.chain.spec.raw.json",
     },
   },
   contracts: {
