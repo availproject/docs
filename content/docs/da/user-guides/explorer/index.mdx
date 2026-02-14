@@ -1,0 +1,444 @@
+---
+title: "Using the Explorer"
+description: "Browse blocks, transactions, and validators on Avail DA using the network explorers."
+image: '/img/docs-link-preview.png'
+---
+
+import { cloneElement } from 'react'
+
+
+<Callout type="info">
+The Avail network has two main explorers that can be used to browse the network:
+
+1. [Avail Apps explorer](https://explorer.avail.so/): A dev-focussed explorer with powerful tools to work with the network.
+2. [Subscan explorer](https://avail-turing.subscan.io/): A simpler, and recommended way to explore the network for most users.
+
+This tutorial will focus on helping advanced users and devs get started with the Avail Apps Explorer.
+</Callout>
+
+## Switch networks
+
+<Tabs defaultValue="availapps-explorer">
+  <TabsList>
+    <TabsTrigger value="availapps-explorer">AvailApps Explorer</TabsTrigger>
+    <TabsTrigger value="subscan-explorer">Subscan Explorer</TabsTrigger>
+  </TabsList>
+  <TabsContent value="availapps-explorer">
+
+<Callout type="info">
+The Avail Apps explorer currently supports [Avail mainnet](https://mainnet.explorer.availproject.org/) and [Avail Turing testnet](https://turing.explorer.availproject.org/).
+</Callout>
+To switch networks:
+
+1. Click on the `Network name` on the top-left.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-1.png" align="center" />
+</div>
+
+2. Depending on the network you are on, click on `live networks -> Avail DA network`, or `test network -> Avail Turing testnet`.
+
+3. Click on `Switch`.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-2.png" align="center" />
+</div>
+
+
+  </TabsContent>
+  <TabsContent value="subscan-explorer">
+
+
+<Callout type="info">
+The Subscan explorer currently supports [Avail mainnet](https://avail.subscan.io/) and [Avail Turing testnet](https://avail-turing.subscan.io/).
+</Callout>
+To switch networks:
+
+1. Click on the drop-down near the top-right.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/subscan-explorer-1.png" align="center" />
+</div>
+
+2. Click on the network you want to switch to.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/subscan-explorer-2.png" align="center" />
+</div>
+
+
+  </TabsContent>
+</Tabs>
+
+
+## Look up the details of a particular transaction [#lookup-transactions]
+
+<Callout type="info">
+1. Due to how the network is designed, it is not possible for the `AvailApps` explorer to query a transaction's details using just it's hash directly from a node.
+
+2. The `Subscan` explorer however, makes it possible to do so, since it queries from a dedicated indexer
+built on top of Avail to support this feature.
+</Callout>
+
+<Tabs defaultValue="availapps-explorer">
+  <TabsList>
+    <TabsTrigger value="availapps-explorer">AvailApps Explorer</TabsTrigger>
+    <TabsTrigger value="subscan-explorer">Subscan Explorer</TabsTrigger>
+  </TabsList>
+  <TabsContent value="availapps-explorer">
+
+
+<Callout type="info">
+**Search for a txn using it's `block number`/`block hash` *AND* it's `transaction hash`**<br/>
+</Callout>
+
+1. Search for the `block number` or `block hash` of the block your transaction was included in.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-3.png" align="center" />
+</div>
+
+2. The explorer then fetches all transactions from that specific block. Click on the hash of the transaction you are interested in to get a detailed view.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-4.png" align="center" />
+</div>
+
+
+  </TabsContent>
+  <TabsContent value="subscan-explorer">
+
+
+<Callout type="info">
+**Search for a txn using just it's `transaction hash`**<br/>
+</Callout>
+
+1. Just paste a`transaction hash` and click the `search` button.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/subscan-explorer-3.png" align="center" />
+</div>
+
+2. The explorer then fetches the transaction details and displays them.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/subscan-explorer-4.png" align="center" />
+</div>
+
+
+  </TabsContent>
+</Tabs>
+
+## Create accounts within the explorer [#the-accounts-section]
+
+
+<Tabs defaultValue="availapps-explorer">
+  <TabsList>
+    <TabsTrigger value="availapps-explorer">AvailApps Explorer</TabsTrigger>
+  </TabsList>
+  <TabsContent value="availapps-explorer">
+
+The `AvailApps` explorer can be used to add or import Avail accounts into the explorer.
+
+To go to the page, click on the `Accounts` tab on the top-left, or click [this link](https://explorer.availproject.org/#/accounts).
+1. The `accounts` section shows any accounts created straight from the explorer. You don't need any wallet extensions to create or use them.
+2. The `extension` section shows any accounts connected to the explorer from wallets like `Polkadot.js`, `Subwallet`, `Talisman`, etc...
+
+The following gif shows you how to create an account straight from the explorer:
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/account-creation.gif" align="center" />
+</div>
+
+You can do a few things here:
+
+1. Create a new account using a `mnemonic` or by clicking on the `+ Account` button.
+2. Import an account via an encrypted JSON file.
+3. Connect extension accounts from wallets like `Polkadot.js`, `Subwallet`, `Talisman`, etc...
+4. Create a multisig account. We have covered instructions to do so [in our docs here](/docs/da/user-guides/avail-multisig).
+5. Create a proxy account. We have covered instructions to do so [in our docs here](/docs/da/user-guides/proxies-on-avail).
+6. The `AvailApps` explorer also allows you to use hardware wallets to safely connect cold accounts. We have covered
+instructions to do so [in our docs here](/docs/da/user-guides/ledger-avail).
+
+> Any of these accounts that you connect can be used to sign transactions on the network. Which is something we will cover in the next section.
+
+
+  </TabsContent>
+</Tabs>
+
+## Using the explorers to interact with the network
+
+<Tabs defaultValue="availapps-explorer">
+  <TabsList>
+    <TabsTrigger value="availapps-explorer">AvailApps Explorer</TabsTrigger>
+    <TabsTrigger value="subscan-explorer">Subscan Explorer</TabsTrigger>
+  </TabsList>
+  <TabsContent value="availapps-explorer">
+
+Wrt interacting with the network, the `AvailApps` explorer can be used to:
+
+1. Query data from the network by calling `Chain State` or `RPC` methods.
+2. Send transactions to the network by signing and submitting `Extrinsics`.
+
+You can find them within the `Developer` tab.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-6.png" align="center" />
+</div>
+
+
+<Callout type="info">
+**WHAT ARE PALLETS?**<br/>
+Avail organizes its runtime functionality into `pallets`. Each pallet is a collection of calls and extrinsics of a specific functionality.
+For example, the `data_availability` pallet contains all the calls and extrinsics related to querying and submitting data to the network, and so on.
+Some methods might be grouped into seemingly unrelated pallets for technical reasons, but this largely holds true.
+
+To look for a particular method within the `AvailApps` explorer, you need to know the pallet it belongs to.
+</Callout>
+
+### How to use the explorer to query the network
+
+Let us learn how to query the network using the `AvailApps` explorer by querying the balance of an account.
+1. Either go to the `Chain State` methods menu from within the `Developer` tab or click [on this link](https://explorer.avail.so/#/chainstate).
+
+2. The balance of an account can be queried by calling the `account(AccountId32)` method from within the `system` pallet. Select the `system`
+pallet from the dropdown on the left, and the `account(AccountId32)` method from the dropdown on the right.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-7.png" align="center" />
+</div>
+
+<Callout type="info">
+**THE `include option` TOGGLE**<br/>
+This toggle allows you to enter params for a method when it is toggled on.
+You can also call methods without passing a param by keeping it off. \
+But `system_account` method won't return anything without an `AccountId32` param being passed to it, so we will keep it on. \
+**Hot tip:** Try calling the `dataAvailability_appKeys` method with the `include option` toggle off to see what happens.
+</Callout>
+
+3. Either paste the address of an account in the `AccountId32` field or select an explorer-connected account from the dropdown.
+
+4. Leave the `blockhash` field empty (This will query the latest balance of the account), and click on the `+` button near the top-right.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-8.png" align="center" />
+</div>
+
+5. And that's it. You just used the `AvailApps` explorer to query the balance of an account on the Avail network. You can query other methods in a similar way.
+
+
+### How to use the explorer to send transactions to the network
+
+You can also use the `AvailApps` explorer to sign custom transactions/extrinsics and submit them to the network.
+We have covered different examples of doing so in our docs. Here is one of them:
+
+[Submit data to a particular `AppID`](#how-to-submit-data-to-my-appid).
+
+### Bonus: How to query chain constants using the explorer
+
+1. The `AvailApps` explorer allows you to query the current values of all of it's runtime constants by going to the constants tab within
+`Developer -> Chain State`.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-9.png" align="center" />
+</div>
+
+2. For example, to query the current value of the `existentialDeposit` of an account on Avail, which is the minimum amount required by an
+account to exist on the network, you can call the `balances_existentialDeposit` constant.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/new-explorer-10.png" align="center" />
+</div>
+
+> P.S: The balance displayed is in `attoAVAIL`. 1 `attoAVAIL` = $10^{-18}$ `AVAIL`.
+
+3. You can look up any other constant in a similar way.
+
+
+  </TabsContent>
+  <TabsContent value="subscan-explorer">
+
+
+The `Subscan` explorer leverages it's dedicated indexer to enable users to browse the network in some neat ways.
+
+1. You can browse network activity more conveniently by using different filters.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/subscan-explorer-5.png" align="center" />
+</div>
+
+<Callout type="info">
+- `Blocks`: Browse blocks by number.
+- `Extrinsics`: Browse all extrinsics submitted to the network.
+- `Transfers`: Browse all extrinsics that involve `AVAIL` token transfers.
+- `Data Submission`: Browse all data submissions to the network.
+</Callout>
+
+2. The `Staking` section allows you to browse the staking activity on the network.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/subscan-explorer-6.png" align="center" />
+</div>
+
+3. The `Governance` section allows you to browse all governance-related activity on the network, including all past proposals.
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/subscan-explorer-7.png" align="center" />
+</div>
+
+4. The `Tools` section supports some useful features:
+
+<br/>
+<div align="center">
+<img src="/img/new-explorer/subscan-explorer-8.png" align="center" />
+</div>
+
+<Callout type="info">
+- `Charts`: Some charts for a visual representation of network activity.
+- `Account Format Transform`: Transform an account address into different formats supported by various Substrate-based chains.
+- `Price Converter`: Lookup the historical price of `AVAIL` by `block number` or `timestamp`.
+- `Runtime`: Browse data related to runtime extrinsics.
+</Callout>
+
+
+
+  </TabsContent>
+</Tabs>
+
+## Working with App IDs in the explorer
+
+The following sections walk you through querying, creating, and submitting data to App IDs using the AvailApps explorer.
+
+### How to check the next available `appID`?
+
+Anyone can create their own `appID` on Avail DA. Let us first check out the next available `appID` on the network.
+
+1. Make sure you're on the `chain state` section of the explorer. You can access it by [simply clicking this link](https://explorer.availproject.org/#/chainstate),
+or by navigating to it through the `developer` tab near the top right.
+
+2. Within the `dataAvailability` pallet, select the `nextAppId` method.
+No need to pass any params, just click the `+` button next to the method name.
+
+3. You will be returned the next available `index`/`id` for a new `appID`.
+
+<br/>
+<div align="center">
+<img src="/img/app-ids/app-id-4.png" align="center" />
+</div>
+
+### How to register my own `appID`?
+
+1. Make sure you have one or more Avail DA wallets connected to the explorer. If you don't know how to do so,
+you can follow our docs on [setting up a new wallet](/docs/da/user-guides/accounts#creating-an-account-on-avail-da).
+
+2. Simply [click this link](https://explorer.availproject.org/#/extrinsics) OR navigate to the `extrinsics` section of the explorer through the `developer` tab.
+
+<Callout type="info">
+Please note that the `Developer` tab does not show the `extrinsics` section at all if you don't
+have a wallet set up on the explorer or an extension wallet connected to it.
+So make sure you have an [Avail DA wallet set up](/docs/da/user-guides/accounts) before moving forward.
+</Callout>
+
+3. Select the `dataAvailability` pallet, and the `createApplicationKey` method.
+
+<br/>
+<div align="center">
+<img src="/img/app-ids/app-id-5.png" align="center" />
+</div>
+
+4. Enter a `key` for your `appID`. It can be anything you like, really.
+
+5. This is how it should look like in the end:
+
+<br/>
+<div align="center">
+<img src="/img/app-ids/app-id-6.png" align="center" />
+</div>
+
+6. Click on `Submit Transaction`, and then click on `Sign and Submit` in the box that pops up.
+
+<br/>
+<div align="center">
+<img src="/img/app-ids/app-id-7.png" align="center" />
+</div>
+
+<Callout type="info">
+**DO NOT CHANGE THE `appID` FOR THIS TRANSACTION**<br/>
+
+1. Each and every single transaction on Avail DA has an `appID` associated with it, which is **greater than or equal to** `0`.
+2. A transaction or data submission with the `appID` of `0` is used for **chain-level** operations.
+3. This is what we need to use for creating a new `appID`, since the act of creating a new `appID` has nothing to do with a specific '*app*' on Avail DA.
+4. This field would instead have been a positive integer if we, for example, were submitting data to a specific application on Avail DA.
+</Callout>
+
+7. Authorize the transaction through your wallet, and you're done! You've successfully created your own `appID` on Avail DA.
+
+8. You can verify `7` by using the steps covered earlier to query the `appKeys` method :)
+
+### How to submit data to my `appID`?
+
+You can submit data to your, or any other `appID` on Avail DA using the explorer by calling the
+`submitData` extrinsic from within the `dataAvailability` pallet.
+
+1. Make sure you have one or more Avail DA wallets connected to the explorer. If you don't know how to do so,
+you can follow our docs on [setting up a new wallet](/docs/da/user-guides/accounts#creating-an-account-on-avail-da).
+
+2. Simply [click this link](https://explorer.availproject.org/#/extrinsics) OR navigate to the `extrinsics` section of the explorer through the `developer` tab.
+
+3. Select the `dataAvailability` pallet, and the `submitData` method.
+
+<br/>
+<div align="center">
+<img src="/img/app-ids/app-id-8.png" align="center" />
+</div>
+
+4. Enter a random `data` string that you want to submit to your `appID`, and then click on
+`Submit Transaction`.
+
+<br/>
+<div align="center">
+<img src="/img/app-ids/app-id-9.png" align="center" />
+</div>
+
+5. Fill in the `AppID` that you want to submit the data to. Click on `Sign and Submit` to authorize the transaction through your wallet.
+
+<br/>
+<div align="center">
+<img src="/img/app-ids/app-id-10.png" align="center" />
+</div>
+
+6. Wait for the transaction to be included in a block and then open the detailed view of the block.
+
+<br/>
+<div align="center">
+<img src="/img/app-ids/app-id-11.png" align="center" />
+</div>
+
+7. Click on your specific transaction to see it's details. This is what it should look like:
+
+<br/>
+<div align="center">
+<img src="/img/app-ids/app-id-12.png" align="center" />
+</div>
+
+## Wrapping up
+
+We will update this page with more examples and information as we go along.
+Feel free to join [our Discord](https://discord.gg/AvailProject) and suggest any additions that you would like to see here.

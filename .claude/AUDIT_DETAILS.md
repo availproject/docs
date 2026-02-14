@@ -127,7 +127,14 @@ Previous 7 errors all resolved. 4 new errors found:
 
 ## Placeholder / Coming Soon Pages
 
-**All resolved.** No "coming soon" placeholder pages remain.
+2 remaining "coming soon" pages in the Nexus section:
+
+| File | Detail |
+|------|--------|
+| `nexus/nexus-sdk/build-your-first-liquid-app/index.mdx` | "coming soon" callout |
+| `nexus/nexus-ui-elements/mcp-documentation/index.mdx` | "coming soon" callout |
+
+See `memory/CONTENT_AUDIT.md` § 3 for tracking.
 
 ---
 

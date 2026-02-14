@@ -408,8 +408,8 @@
     --shadow-lg: 0px 4px 24px 0px rgba(91, 91, 91, 0.08);
 
     /* Fonts */
-    --font-sans: "Delight", var(--font-geist-sans), system-ui, sans-serif;
-    --font-serif: var(--font-geist-sans), system-ui, sans-serif;
+    --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+    --font-serif: "Delight", var(--font-geist-sans), system-ui, sans-serif;
     --font-mono: var(--font-geist-mono), monospace;
 }
 

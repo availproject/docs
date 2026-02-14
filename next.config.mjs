@@ -1,6 +1,6 @@
-import { createMDX } from 'fumadocs-mdx/next';
-import { fileURLToPath } from 'node:url';
-import { dirname } from 'node:path';
+import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+import { createMDX } from "fumadocs-mdx/next";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -17,7 +17,16 @@ const config = {
   },
   async redirects() {
     return [
-      { source: '/docs', destination: '/docs/da/welcome-to-avail-docs', permanent: false },
+      {
+        source: "/docs",
+        destination: "/docs/da/welcome-to-avail-docs",
+        permanent: false,
+      },
+      {
+        source: "/docs/da/concepts/networks",
+        destination: "/docs/da/build/networks",
+        permanent: true,
+      },
     ];
   },
 };

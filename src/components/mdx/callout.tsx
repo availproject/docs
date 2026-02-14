@@ -1,6 +1,5 @@
+import { Info, Warning, WarningCircle } from "@phosphor-icons/react/ssr";
 import { cn } from "@/lib/utils";
-import { Info } from "@phosphor-icons/react/ssr";
-import { Warning, WarningCircle } from "@phosphor-icons/react/ssr";
 
 type CalloutType = "info" | "warning" | "error" | "default";
 
@@ -42,7 +41,7 @@ export function Callout({
   );
 
   return (
-    <div className={cn("flex flex-col mt-6", className)}>
+    <div className={cn("flex flex-col my-6", className)}>
       {/* Header - separate from body/shadow group */}
       <div className="flex">
         <div className="flex items-center gap-2 w-full p-4 bg-card-header-background border-l border-r border-t border-card-border">

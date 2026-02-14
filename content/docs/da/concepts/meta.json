@@ -1,3 +1,9 @@
 {
-  "pages": ["networks", "app-ids", "explorer", "tx-pricing"]
+  "pages": [
+    "what-is-avail-da",
+    "how-avail-da-works",
+    "app-ids",
+    "explorer",
+    "tx-pricing"
+  ]
 }
