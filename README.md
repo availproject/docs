@@ -18,6 +18,7 @@ The site covers two products:
 | [shadcn/ui](https://ui.shadcn.com/) | UI component primitives |
 | [Radix UI](https://www.radix-ui.com/) | Accessible headless components |
 | [Biome](https://biomejs.dev/) | Linting and formatting |
+| [Vitest](https://vitest.dev/) | Unit testing |
 | [PostHog](https://posthog.com/) | Analytics |
 
 ## Getting started
@@ -49,6 +50,7 @@ Open [http://localhost:3000](http://localhost:3000) to view the site.
 | `pnpm types:check` | Run Fumadocs MDX codegen + type checking |
 | `pnpm lint` | Lint with Biome |
 | `pnpm lint:staged` | Run Biome on staged files only |
+| `pnpm test` | Run unit tests with Vitest |
 | `pnpm validate:precommit` | Run the same checks as the Husky pre-commit hook |
 | `pnpm format` | Format with Biome |
 
@@ -63,7 +65,7 @@ docs-fumadocs/
 │   ├── app/               # Next.js App Router pages and layouts
 │   │   ├── (home)/        # Landing page
 │   │   ├── docs/          # Documentation layout and pages
-│   │   ├── api/           # API routes (search)
+│   │   ├── api/           # API routes (search, markdown, reference.json)
 │   │   └── og/            # Open Graph image generation
 │   ├── components/
 │   │   ├── layout/        # Sidebar, navbar, product switcher
@@ -205,6 +207,37 @@ We use **version-based** branch names:
 - `pnpm format` — Auto-format with Biome
 - `pnpm types:check` — Ensure TypeScript types are correct
 - `pnpm build` — Full production build (catches broken links and missing pages)
+
+## Agent-friendly endpoints
+
+The site exposes several endpoints designed for AI agents, LLMs, and programmatic access:
+
+| Endpoint | Description |
+|---|---|
+| `/llms.txt` | Intent-based quick-reference with categorized links ("If you want to...") |
+| `/llms-full.txt` | Full concatenated markdown of all pages. Supports `?section=` filtering (e.g. `?section=da/build`) |
+| `/api/markdown/{slug}` | Raw markdown for any page. Also accessible via `Accept: text/markdown` content negotiation on any docs page |
+| `/api/reference.json` | Structured JSON with networks, contracts, SDK versions, and API endpoints |
+
+### Content negotiation
+
+Any docs page returns raw markdown instead of HTML when requested with `Accept: text/markdown`:
+
+```bash
+curl -H "Accept: text/markdown" https://docs.availproject.org/docs/da/get-started
+```
+
+### Filtering llms-full.txt
+
+Retrieve only a specific section to reduce token usage:
+
+```bash
+# All DA build docs
+curl https://docs.availproject.org/llms-full.txt?section=da/build
+
+# All Nexus docs
+curl https://docs.availproject.org/llms-full.txt?section=nexus
+```
 
 ## Further reading
 
