@@ -1,6 +1,3 @@
 {
-  "pages": [
-    "nexus-core",
-    "nexus-elements"
-  ]
+  "pages": ["nexus-core"]
 }
