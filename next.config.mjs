@@ -19,7 +19,7 @@ const config = {
     return [
       {
         source: "/docs",
-        destination: "/docs/da/welcome-to-avail-docs",
+        destination: "/docs/da/get-started",
         permanent: false,
       },
       {
