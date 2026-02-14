@@ -17,7 +17,7 @@ const REFERENCE_DATA = {
       ],
       explorer: {
         subscan: "https://avail.subscan.io",
-        avail: "http://mainnet.explorer.availproject.org",
+        avail: "https://mainnet.explorer.availproject.org",
       },
       chainSpec:
         "https://raw.githubusercontent.com/availproject/avail/main/misc/genesis/mainnet.chain.spec.raw.json",
@@ -28,7 +28,7 @@ const REFERENCE_DATA = {
       ws: ["wss://turing-rpc.avail.so/ws"],
       explorer: {
         subscan: "https://avail-turing.subscan.io",
-        avail: "http://turing.explorer.availproject.org",
+        avail: "https://turing.explorer.availproject.org",
       },
       faucet: "https://faucet.avail.so",
       chainSpec:

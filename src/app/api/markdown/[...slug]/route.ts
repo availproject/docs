@@ -1,10 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
+import { AGENT_HEADERS } from "@/lib/agent-headers";
 import { source } from "@/lib/source";
-
-const AGENT_HEADERS = {
-  "Content-Signal": "ai-train=yes, search=yes, ai-input=yes",
-  Vary: "accept",
-};
 
 export async function GET(
   request: NextRequest,
