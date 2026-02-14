@@ -1,9 +1,9 @@
 "use client";
 
-import { ThumbsDown, ThumbsUp } from "@phosphor-icons/react";
 import { useState } from "react";
-import { useAnalytics } from "@/hooks/use-analytics";
+import { ThumbsUp, ThumbsDown } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
+import { useAnalytics } from "@/hooks/use-analytics";
 
 interface FeedbackProps {
   className?: string;
@@ -63,12 +63,14 @@ export function Feedback({ className }: FeedbackProps) {
         state === "expanded"
           ? "flex-col gap-6 items-start"
           : "flex-row gap-8 items-center",
-        className,
+        className
       )}
     >
       {/* Question row */}
       <div className="flex items-center gap-8">
-        <p className="body-16 text-card-foreground">How is this guide?</p>
+        <p className="body-16 text-card-foreground">
+          How is this guide?
+        </p>
         <div className="flex items-start gap-3">
           {/* Good button */}
           <button
@@ -79,7 +81,7 @@ export function Feedback({ className }: FeedbackProps) {
               "shadow-sm",
               feedbackType === "good"
                 ? "bg-black/10 border-border"
-                : "bg-card border-border hover:bg-card-header-background",
+                : "bg-card border-border hover:bg-card-header-background"
             )}
           >
             <ThumbsUp size={20} className="shrink-0" />
@@ -97,7 +99,7 @@ export function Feedback({ className }: FeedbackProps) {
               "shadow-sm",
               feedbackType === "bad"
                 ? "bg-black/10 border-border"
-                : "bg-card border-border hover:bg-card-header-background",
+                : "bg-card border-border hover:bg-card-header-background"
             )}
           >
             <ThumbsDown size={20} className="shrink-0" />
@@ -121,7 +123,7 @@ export function Feedback({ className }: FeedbackProps) {
               "bg-surface border border-card-border",
               "body-16 text-foreground",
               "placeholder:text-muted-foreground",
-              "focus:outline-none focus:ring-1 focus:ring-brand",
+              "focus:outline-none focus:ring-1 focus:ring-brand"
             )}
           />
 
@@ -135,7 +137,7 @@ export function Feedback({ className }: FeedbackProps) {
               "bg-brand text-brand-foreground",
               "shadow-sm",
               "hover:bg-brand/90 transition-colors",
-              "disabled:opacity-50 disabled:cursor-not-allowed",
+              "disabled:opacity-50 disabled:cursor-not-allowed"
             )}
           >
             <span className="ui-14 text-center">

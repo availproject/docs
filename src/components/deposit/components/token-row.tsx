@@ -1,16 +1,17 @@
 "use client";
 
-import { formatTokenBalance } from "@avail-project/nexus-core";
-import { usdFormatter } from "../../common";
+import Image from "next/image";
+import { ChevronDownIcon } from "./icons";
+import type { Token } from "../types";
+import { getTokenCheckState } from "../utils/asset-helpers";
 import { Checkbox } from "../../ui/checkbox";
+import { usdFormatter } from "../../common";
+import { formatTokenBalance } from "@avail-project/nexus-core";
 import { TOKEN_IMAGES } from "../constants/assets";
 import {
   CHAIN_ITEM_HEIGHT_PX,
   VERTICAL_LINE_TOP_OFFSET_PX,
 } from "../constants/widget";
-import type { Token } from "../types";
-import { getTokenCheckState } from "../utils/asset-helpers";
-import { ChevronDownIcon } from "./icons";
 
 interface TokenRowProps {
   token: Token;

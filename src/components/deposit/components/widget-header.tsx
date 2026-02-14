@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { CloseIcon, LeftChevronIcon } from "./icons";
 
 interface WidgetHeaderProps {

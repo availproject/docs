@@ -1,11 +1,11 @@
-import fs from "node:fs/promises";
-import path from "node:path";
-import { Code, File, FileText, Terminal } from "@phosphor-icons/react/ssr";
-import type * as React from "react";
-import { CopyButton } from "@/components/helpers/copy-button";
-import { highlightCode } from "@/lib/highlight-code";
+import fs from "fs/promises";
+import path from "path";
+import * as React from "react";
 import { cn } from "@/lib/utils";
+import { CopyButton } from "@/components/helpers/copy-button";
 import { CodeCollapsibleWrapper } from "./code-collapsible-wrapper";
+import { highlightCode } from "@/lib/highlight-code";
+import { Code, File, FileText, Terminal } from "@phosphor-icons/react/ssr";
 import {
   RegistryCodeBrowser,
   type RegistryProcessedFile,
@@ -27,7 +27,7 @@ type RegistryItem = {
 };
 
 export async function getRegistryItem(
-  name: string,
+  name: string
 ): Promise<RegistryItem | null> {
   try {
     const response = await fetch(`${REGISTRY_BASE_URL}/${name}.json`, {
@@ -97,7 +97,7 @@ export async function ComponentSource({
         const ext = f.path.split(".").pop() ?? "tsx";
         const highlighted = await highlightCode(fileCode, ext);
         return { path: f.path, code: fileCode, highlighted, language: ext };
-      }),
+      })
     );
 
     // Load provider files if available
@@ -112,7 +112,7 @@ export async function ComponentSource({
         const ext = f.path.split(".").pop() ?? "tsx";
         const highlighted = await highlightCode(fileCode, ext);
         return { path: f.path, code: fileCode, highlighted, language: ext };
-      }),
+      })
     );
 
     return (

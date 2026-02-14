@@ -1,3 +1,6 @@
 {
-  "pages": ["avail-proxy", "avail-pure-proxy"]
+  "pages": [
+    "avail-proxy",
+    "avail-pure-proxy"
+  ]
 }

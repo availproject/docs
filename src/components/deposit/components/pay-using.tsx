@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
+import ButtonCard from "./button-card";
+import { RightChevronIcon, CoinIcon } from "./icons";
 import { Skeleton } from "../../ui/skeleton";
 import { LOADING_SKELETON_DELAY_MS } from "../constants/widget";
-import ButtonCard from "./button-card";
-import { CoinIcon, RightChevronIcon } from "./icons";
 
 interface PayUsingProps {
   onClick?: () => void;

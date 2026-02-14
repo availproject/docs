@@ -1,0 +1,186 @@
+---
+title: "Nexus Core"
+description: "Get started with Nexus Core"
+image: "/img/docs-link-preview.png"
+---
+
+This page will help you quickly get started with `nexus-core`, using a Next JS template.
+
+<Callout type="info">
+**PREFER VITE?**
+
+We prepared two template repos for devs to get started with `nexus-core` as easily as possible:
+
+1. [nexus-nextjs-template](https://github.com/availproject/nexus-nextjs-template)
+2. [nexus-vite-template](https://github.com/availproject/nexus-vite-template)
+</Callout>
+
+<Callout type="info">
+- For more docs on `nexus-core`, you can refer to the [Nexus SDK reference](/docs/nexus/nexus-sdk).
+- Also refer to the [API reference](/docs/nexus/nexus-sdk/api-reference) for a complete feature list.
+</Callout>
+
+Getting started with the headless Nexus SDK is simple.
+
+<Steps>
+
+### Clone the template repo
+
+Clone the repo by running this command in your terminal:
+
+<Tabs defaultValue="git-clone">
+  <TabsList>
+    <TabsTrigger value="git-clone">git clone</TabsTrigger>
+    <TabsTrigger value="github-cli">github CLI</TabsTrigger>
+  </TabsList>
+  <TabsContent value="git-clone">
+```bash 
+git clone https://github.com/availproject/nexus-nextjs-template
+```
+  </TabsContent>
+  <TabsContent value="github-cli">
+```bash 
+gh repo clone availproject/nexus-nextjs-template
+```
+  </TabsContent>
+</Tabs>
+
+### Install the dependencies
+
+In this template, we use ConnectKit with Wagmi & Viem for a seamless wallet connection experience, with cross-chain support being powered by `@avail-project/nexus-core`.
+Install the dependencies by opening a terminal in the root of the project and running this command:
+
+```bash 
+npm install
+```
+
+### Uncomment `initializeNexus()` in `NexusProvider.tsx`
+
+Go to `src/components/nexus/NexusProvider.tsx` and uncomment the `initializeNexus()` function.
+This function:
+
+1. Fetches the EIP-1193 Provider from the connected wallet.
+2. Initializes the Nexus SDK if it is not already initialized.
+3. Fetches the unified balances of the connected wallet.
+
+This page is also where we register the hooks for the Nexus SDK and store the data in the context.
+You can read more about hooks here: [Hooks and Errors](/docs/nexus/nexus-sdk/hooks-and-errors)
+
+```tsx title="src/components/nexus/NexusProvider.tsx"
+  const initializeNexus = async (provider: EthereumProvider) => {
+    setLoading(true);
+    try {
+      if (sdk.isInitialized()) throw new Error("Nexus is already initialized");
+      await sdk.initialize(provider);
+      setNexusSDK(sdk);
+      initChainsAndTokens();
+      const [unifiedBalanceResult, rates] = await Promise.allSettled([
+        sdk?.getUnifiedBalances(true),
+        sdk?.utils?.getCoinbaseRates(),
+      ]);
+
+      if (unifiedBalanceResult.status === "fulfilled") {
+        unifiedBalance.current = unifiedBalanceResult.value;
+      }
+
+      if (rates?.status === "fulfilled") {
+        // Coinbase returns "units per USD" (e.g., 1 USD = 0.00028 ETH).
+        // Convert to "USD per unit" (e.g., 1 ETH = ~$3514) for straightforward UI calculations.
+
+        const usdPerUnit: Record<string, number> = {};
+
+        for (const [symbol, value] of Object.entries(rates ?? {})) {
+          const unitsPerUsd = Number.parseFloat(String(value));
+          if (Number.isFinite(unitsPerUsd) && unitsPerUsd > 0) {
+            usdPerUnit[symbol.toUpperCase()] = 1 / unitsPerUsd;
+          }
+        }
+
+        for (const token of ["ETH", "USDC", "USDT"]) {
+          usdPerUnit[token] ??= 1;
+        }
+        exchangeRate.current = usdPerUnit;
+      }
+    } catch (error) {
+      console.error("Error initializing Nexus:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+```
+
+### Update the `Web3Provider.tsx` file
+
+Go to `src/providers/Web3Provider.tsx` and:
+
+1. Uncomment the `walletConnectProjectId` variable. you can get an API key from [WalletConnect Cloud](https://cloud.walletconnect.com/).
+Set up the variable in the `.env` file at the root of the project.
+
+2. Uncomment the `transports` object.
+This object is used to set up the chains that you want to support.
+
+3. Uncomment the `Web3Provider` component. We wrap our `NexusProvider` with `WagmiProvider` so that it can borrow
+the EIP-1193 Provider from the connected wallet.
+The `ConnectKitProvider` is used to provide a pre-configured WalletConnect modal for the user to connect their wallet.
+The wallet provider itself comes from Wagmi.
+
+
+```tsx title="src/providers/Web3Provider.tsx"
+const Web3Provider = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <NexusProvider>
+          <ConnectKitProvider theme="soft" mode="light">
+            {children}
+          </ConnectKitProvider>
+        </NexusProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
+};
+```
+
+### Wrap everything in `Web3Provider`
+
+Go to `src/app/layout.tsx` and uncomment the `Web3Provider` component.
+This will wrap our entire app and provide the necessary context for the Nexus SDK to work.
+
+```tsx title="src/app/layout.tsx"
+import Web3Provider from "@/providers/Web3Provider";
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body><Web3Provider>{children}</Web3Provider></body>
+    </html>
+  );
+}
+```
+
+### Run the app
+
+Run the app by running this command in your terminal:
+
+```bash 
+npm run dev
+```
+
+Your app should now be running at `http://localhost:3000`.
+Play around with the code to tweak the existing components or add new ones.
+
+Or maybe you'd like to add a pre-configured React component to your app? Check out [Nexus Elements Quickstart](/docs/nexus/nexus-ui-elements/installation).
+
+</Steps>
+
+## What's next?
+
+Congratulations on finishing the quickstart!
+Feel free to explore the following resources to learn more about the Nexus SDK:
+
+- [Nexus Core SDK Reference](/docs/nexus/nexus-sdk)
+- [Nexus Core API Reference](/docs/nexus/nexus-sdk/api-reference)

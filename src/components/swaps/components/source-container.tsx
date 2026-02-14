@@ -1,14 +1,19 @@
+import React, { type RefObject } from "react";
+import { Label } from "../../ui/label";
+import { cn } from "@/lib/utils";
+import { Button } from "../../ui/button";
+import {
+  type TransactionStatus,
+  type SwapInputs,
+  type SwapMode,
+} from "../hooks/useSwaps";
+import { computeAmountFromFraction, usdFormatter } from "../../common";
 import {
   CHAIN_METADATA,
-  type OnSwapIntentHookData,
   type UserAsset,
+  type OnSwapIntentHookData,
 } from "@avail-project/nexus-core";
-import { ChevronDown } from "lucide-react";
-import type React from "react";
-import type { RefObject } from "react";
-import { cn } from "@/lib/utils";
-import { computeAmountFromFraction, usdFormatter } from "../../common";
-import { Button } from "../../ui/button";
+import AmountInput from "./amount-input";
 import {
   Dialog,
   DialogContent,
@@ -16,15 +21,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../../ui/dialog";
-import { Label } from "../../ui/label";
-import type {
-  SwapInputs,
-  SwapMode,
-  TransactionStatus,
-} from "../hooks/useSwaps";
-import AmountInput from "./amount-input";
-import SourceAssetSelect from "./source-asset-select";
 import { TokenIcon } from "./token-icon";
+import { ChevronDown } from "lucide-react";
+import SourceAssetSelect from "./source-asset-select";
 
 const RANGE_OPTIONS = [
   {
@@ -62,7 +61,7 @@ interface SourceContainerProps {
   formatBalance: (
     balance?: string | number,
     symbol?: string,
-    decimals?: number,
+    decimals?: number
   ) => string | undefined;
 }
 
@@ -85,12 +84,12 @@ const SourceContainer: React.FC<SourceContainerProps> = ({
   // In exactIn mode, show user's input; in exactOut mode, show calculated source from intent
   const displayedAmount =
     swapMode === "exactIn"
-      ? (inputs.fromAmount ?? "")
-      : (formatBalance(
+      ? inputs.fromAmount ?? ""
+      : formatBalance(
           swapIntent?.current?.intent?.sources?.[0]?.amount,
           swapIntent?.current?.intent?.sources?.[0]?.token?.symbol,
-          swapIntent?.current?.intent?.sources?.[0]?.token?.decimals,
-        ) ?? "");
+          swapIntent?.current?.intent?.sources?.[0]?.token?.decimals
+        ) ?? "";
 
   const isDisabled =
     isExactOut || status === "simulating" || status === "swapping";
@@ -122,7 +121,7 @@ const SourceContainer: React.FC<SourceContainerProps> = ({
             "flex transition-all duration-150 ease-out w-full justify-end gap-x-2",
             sourceHovered
               ? "opacity-100 translate-y-0"
-              : "opacity-0 -translate-y-1",
+              : "opacity-0 -translate-y-1"
           )}
         >
           {RANGE_OPTIONS.map((option) => (
@@ -138,7 +137,7 @@ const SourceContainer: React.FC<SourceContainerProps> = ({
                   availableBalance?.balance ?? "0",
                   option.value,
                   inputs?.fromToken?.decimals,
-                  SAFETY_MARGIN,
+                  SAFETY_MARGIN
                 );
                 setInputs({ fromAmount: amount, toAmount: undefined });
               }}
@@ -155,7 +154,7 @@ const SourceContainer: React.FC<SourceContainerProps> = ({
           onChange={(val) => {
             if (availableBalance?.balance) {
               const parsedAvailableBalance = Number.parseFloat(
-                availableBalance?.balance,
+                availableBalance?.balance
               );
               const parsedVal = Number.parseFloat(val);
               if (parsedVal > parsedAvailableBalance) {
@@ -174,7 +173,7 @@ const SourceContainer: React.FC<SourceContainerProps> = ({
             <div
               className={cn(
                 "flex items-center gap-x-3 bg-card/50 hover:bg-card-foreground/10 border border-border min-w-max rounded-full p-1 cursor-pointer transition-colors",
-                isDisabled ? "pointer-events-none select-none opacity-50" : "",
+                isDisabled ? "pointer-events-none select-none opacity-50" : ""
               )}
             >
               <TokenIcon
@@ -210,8 +209,8 @@ const SourceContainer: React.FC<SourceContainerProps> = ({
             {usdFormatter.format(
               getFiatValue(
                 Number.parseFloat(inputs.fromAmount),
-                inputs.fromToken?.logo,
-              ),
+                inputs.fromToken?.logo
+              )
             )}
           </span>
         ) : (
@@ -222,7 +221,7 @@ const SourceContainer: React.FC<SourceContainerProps> = ({
           {formatBalance(
             availableBalance?.balance ?? "0",
             inputs?.fromToken?.symbol,
-            availableBalance?.decimals,
+            availableBalance?.decimals
           )}
         </span>
       </div>

@@ -1,16 +1,14 @@
-import { products } from "@/lib/products";
 import { source } from "@/lib/source";
+import { products } from "@/lib/products";
 
 type ProductSlug = (typeof products)[number]["slug"];
-type DocsPage = typeof source.getPages extends () => Array<infer T> ? T : never;
+type DocsPage = (typeof source.getPages extends () => Array<infer T> ? T : never);
 
 function urlBelongsToProduct(url: string, slug: ProductSlug): boolean {
   const normalized = url.toLowerCase();
 
   if (slug === "nexus") {
-    return (
-      normalized === "/docs/nexus" || normalized.startsWith("/docs/nexus/")
-    );
+    return normalized === "/docs/nexus" || normalized.startsWith("/docs/nexus/");
   }
 
   return (

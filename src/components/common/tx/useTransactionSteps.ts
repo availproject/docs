@@ -1,12 +1,12 @@
 import { useMemo, useRef, useState } from "react";
+import type { GenericStep } from "./types";
+import { getStepKey } from "./types";
 import {
   computeAllCompleted,
   mergeStepComplete,
   mergeStepsList,
   seedSteps,
 } from "./steps";
-import type { GenericStep } from "./types";
-import { getStepKey } from "./types";
 
 interface UseTransactionStepsOptions<T> {
   expected?: T[];
@@ -17,11 +17,11 @@ interface UseTransactionStepsOptions<T> {
  * replace the list on "steps list" events, and mark individual steps complete.
  */
 export function useTransactionSteps<
-  T extends { typeID?: string; type?: string },
+  T extends { typeID?: string; type?: string }
 >(options: UseTransactionStepsOptions<T> = {}) {
   const { expected } = options;
   const [steps, setSteps] = useState<Array<GenericStep<T>>>(() =>
-    expected ? seedSteps(expected) : [],
+    expected ? seedSteps(expected) : []
   );
   const lastSignatureRef = useRef<string>("");
 

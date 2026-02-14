@@ -1,22 +1,23 @@
 "use client";
 
-import { truncateAddress } from "@avail-project/nexus-core";
+import { useState } from "react";
 import {
+  Sun,
+  Moon,
+  Monitor,
   CaretDown,
   CaretUp,
-  Moon,
-  SignOut,
   SpinnerGap,
-  Sun,
+  SignOut,
 } from "@phosphor-icons/react";
-import { Avatar, ConnectKitButton } from "connectkit";
-import { useState } from "react";
+import { cn } from "@/lib/utils";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
+import { Avatar, ConnectKitButton } from "connectkit";
+import { truncateAddress } from "@avail-project/nexus-core";
 
 interface AccountMenuProps {
   theme: string;
@@ -81,12 +82,7 @@ export function AccountMenu({ theme, setTheme }: AccountMenuProps) {
                 <button
                   type="button"
                   onClick={() => {
-                    const next =
-                      theme === "light"
-                        ? "dark"
-                        : theme === "dark"
-                          ? "system"
-                          : "light";
+                    const next = theme === "light" ? "dark" : theme === "dark" ? "system" : "light";
                     setTheme(next);
                   }}
                   className="flex h-10 w-full items-center gap-2 px-3 border-l border-r border-t border-menu-item-border bg-menu-item-background text-menu-item-foreground hover:bg-menu-item-background-hover transition-colors"
@@ -99,11 +95,7 @@ export function AccountMenu({ theme, setTheme }: AccountMenuProps) {
                     <Moon size={20} />
                   )}
                   <span>
-                    {theme === "dark"
-                      ? "Avail Light"
-                      : theme === "system"
-                        ? "Avail Light"
-                        : "Avail Dark"}
+                    {theme === "dark" ? "Avail Light" : theme === "system" ? "Avail Light" : "Avail Dark"}
                   </span>
                 </button>
                 {/* Disconnect */}

@@ -1,8 +1,7 @@
-import type {
-  ReadableIntent,
-  SUPPORTED_TOKENS,
+import {
+  type ReadableIntent,
+  type SUPPORTED_TOKENS,
 } from "@avail-project/nexus-core";
-import { useNexus } from "../../nexus/NexusProvider";
 import {
   Accordion,
   AccordionContent,
@@ -10,6 +9,7 @@ import {
   AccordionTrigger,
 } from "../../ui/accordion";
 import { Skeleton } from "../../ui/skeleton";
+import { useNexus } from "../../nexus/NexusProvider";
 
 interface SourceBreakdownProps {
   intent?: ReadableIntent;

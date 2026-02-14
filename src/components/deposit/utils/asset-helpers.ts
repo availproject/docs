@@ -1,6 +1,6 @@
-import { CHAIN_METADATA } from "@avail-project/nexus-core";
+import type { Token, AssetFilterType } from "../types";
 import { STABLECOIN_SYMBOLS } from "../constants/widget";
-import type { AssetFilterType, Token } from "../types";
+import { CHAIN_METADATA } from "@avail-project/nexus-core";
 
 export function isStablecoin(symbol: string): boolean {
   return STABLECOIN_SYMBOLS.includes(

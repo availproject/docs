@@ -1,12 +1,11 @@
 "use client";
+import React, { useState, useEffect } from "react";
+import { Toggle } from "../ui/toggle";
 import { Check, X } from "@phosphor-icons/react";
-import type React from "react";
-import { useEffect, useState } from "react";
 import { getItem } from "@/lib/local-storage";
 import { NETWORK_KEY } from "@/providers/Web3Provider";
-import NetworkToggle from "../helpers/network-toggle";
 import { PreviewPanel } from "../helpers/preview-panel";
-import { Toggle } from "../ui/toggle";
+import NetworkToggle from "../helpers/network-toggle";
 
 type ElementType =
   | "deposit"
@@ -82,7 +81,11 @@ const ShowcaseWrapper = ({
             {...toggleProps}
           >
             <p className="text-sm font-medium">{label}</p>
-            {isPressed ? <Check size={16} /> : <X size={16} />}
+            {isPressed ? (
+              <Check size={16} />
+            ) : (
+              <X size={16} />
+            )}
           </Toggle>
         )}
       </div>

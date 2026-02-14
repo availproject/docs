@@ -1,11 +1,12 @@
 "use client";
 
-import { Check, Copy } from "@phosphor-icons/react";
 import * as React from "react";
-import { useAnalytics } from "@/hooks/use-analytics";
 import { cn } from "@/lib/utils";
+
+import { Check, Copy } from "@phosphor-icons/react";
 import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { useAnalytics } from "@/hooks/use-analytics";
 
 export function CopyButton({
   value,

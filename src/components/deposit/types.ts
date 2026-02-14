@@ -1,7 +1,7 @@
 import type {
+  SUPPORTED_CHAINS_IDS,
   ExecuteParams,
   OnSwapIntentHookData,
-  SUPPORTED_CHAINS_IDS,
   SwapStepType,
   UserAsset,
 } from "@avail-project/nexus-core";

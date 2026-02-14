@@ -1,10 +1,7 @@
-import type {
-  SUPPORTED_CHAINS_IDS,
-  SUPPORTED_TOKENS,
+import {
+  type SUPPORTED_CHAINS_IDS,
+  type SUPPORTED_TOKENS,
 } from "@avail-project/nexus-core";
-import { useMemo } from "react";
-import { useNexus } from "../../nexus/NexusProvider";
-import { Label } from "../../ui/label";
 import {
   Select,
   SelectContent,
@@ -13,6 +10,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../ui/select";
+import { Label } from "../../ui/label";
+import { useNexus } from "../../nexus/NexusProvider";
+import { useMemo } from "react";
 
 interface TokenSelectProps {
   selectedToken?: SUPPORTED_TOKENS;

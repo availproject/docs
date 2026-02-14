@@ -1,6 +1,6 @@
-import type { RFF } from "@avail-project/nexus-core";
-import { useCallback, useEffect, useState } from "react";
+import { type RFF } from "@avail-project/nexus-core";
 import { useNexus } from "../../nexus/NexusProvider";
+import { useCallback, useEffect, useState } from "react";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -45,7 +45,7 @@ const useViewHistory = () => {
     if (!history) {
       fetchIntentHistory();
     }
-  }, [history, fetchIntentHistory]);
+  }, [history]);
 
   const loadMore = useCallback(() => {
     if (!history || isLoadingMore || !hasMore) return;
@@ -82,7 +82,7 @@ const useViewHistory = () => {
           loadMore();
         }
       },
-      { threshold: 0.1, root: rootElement ?? null },
+      { threshold: 0.1, root: rootElement ?? null }
     );
 
     observer.observe(sentinelNode);
@@ -90,7 +90,7 @@ const useViewHistory = () => {
     return () => {
       observer.disconnect();
     };
-  }, [sentinelNode, loadMore, hasMore, isLoadingMore]);
+  }, [sentinelNode, loadMore, hasMore, isLoadingMore, displayedHistory.length]);
 
   const getStatus = (pastIntent: RFF) => {
     if (pastIntent?.fulfilled) {

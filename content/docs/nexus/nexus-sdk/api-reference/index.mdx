@@ -1,0 +1,569 @@
+---
+title: 'API Reference'
+description: 'Complete API reference for the Nexus Core SDK including initialization, network configuration, bridging, transfers, and utility functions'
+image: '/img/docs-link-preview.png'
+---
+
+The Nexus Core SDK provides a comprehensive set of APIs for cross-chain bridging, token transfers, and balance management across multiple EVM chains.
+
+## Quick Start
+
+```typescript title="TypeScript"
+import { NexusSDK, NEXUS_EVENTS } from '@avail-project/nexus-core';
+
+// Initialize SDK
+const sdk = new NexusSDK({ network: 'mainnet' });
+await sdk.initialize(provider); // Your EVM-compatible wallet provider
+
+// ---------------------------
+// 1️⃣ Get unified balances
+// ---------------------------
+const balances = await sdk.getUnifiedBalances(false); // false = CA balances only
+console.log('Balances:', balances);
+
+// ---------------------------
+// 2️⃣ Bridge tokens
+// ---------------------------
+const bridgeResult = await sdk.bridge(
+  {
+    token: 'USDC',
+    amount: 1_500_000n,  // bigint (base units)
+    toChainId: 137,      // Polygon
+    // recipient?: '0x...' // optional
+  },
+  {
+    onEvent: (event) => {
+      if (event.name === NEXUS_EVENTS.STEPS_LIST) console.log('Bridge steps:', event.args);
+      if (event.name === NEXUS_EVENTS.STEP_COMPLETE) console.log('Step completed:', event.args);
+    },
+  },
+);
+
+// ---------------------------
+// 3️⃣ Transfer tokens
+// ---------------------------
+const transferResult = await sdk.bridgeAndTransfer(
+  {
+    token: 'ETH',
+    amount: 1_500_000n,  // bigint (base units)
+    toChainId: 1,        // Ethereum
+    recipient: '0x742d35Cc6634C0532925a3b8D4C9db96c4b4Db45',
+  },
+  {
+    onEvent: (event) => {
+      if (event.name === NEXUS_EVENTS.STEPS_LIST) console.log('Transfer steps:', event.args);
+      if (event.name === NEXUS_EVENTS.STEP_COMPLETE) console.log('Step completed:', event.args);
+    },
+  },
+);
+
+// ---------------------------
+// 4️⃣ Execute a contract
+// ---------------------------
+const executeResult = await sdk.execute(
+  {
+    toChainId: 1,
+    to: '0x...',
+    value: 0n,
+    data: '0x...',
+    tokenApproval: { token: 'USDC', amount: 10_000n },
+  },
+  {
+    onEvent: (event) => {
+      if (event.name === NEXUS_EVENTS.STEPS_LIST) console.log('Execute steps:', event.args);
+      if (event.name === NEXUS_EVENTS.STEP_COMPLETE) console.log('Step completed:', event.args);
+    },
+  },
+);
+
+// ---------------------------
+// 5️⃣ Bridge and Execute
+// ---------------------------
+const bridgeAndExecuteResult = await sdk.bridgeAndExecute(
+  {
+    token: 'USDC',
+    amount: 100_000_000n,
+    toChainId: 1,
+    sourceChains: [8453],
+    execute: {
+      to: '0x...',
+      data: '0x...',
+      tokenApproval: { token: 'USDC', amount: 100_000_000n },
+    },
+  },
+  {
+    onEvent: (event) => {
+      if (event.name === NEXUS_EVENTS.STEPS_LIST) console.log('Bridge+Execute steps:', event.args);
+      if (event.name === NEXUS_EVENTS.STEP_COMPLETE) console.log('Step completed:', event.args);
+    },
+  },
+);
+
+// ---------------------------
+// 6️⃣ Swap tokens
+// ---------------------------
+const swapResult = await sdk.swapWithExactIn(
+  {
+    from: [
+      { chainId: 10, amount: 1_000_000n, tokenAddress: '0x...' },
+    ],
+    toChainId: 8453,
+    toTokenAddress: '0x...',
+  },
+  {
+    onEvent: (event) => console.log('Swap event:', event),
+  },
+);
+```
+
+## Configuration Options
+
+### Supported Chains
+
+<Tabs defaultValue="mainnet">
+  <TabsList>
+    <TabsTrigger value="mainnet">Mainnet</TabsTrigger>
+    <TabsTrigger value="testnet">Testnet</TabsTrigger>
+  </TabsList>
+  <TabsContent value="mainnet">
+
+
+| Network   | Chain ID  | Native | Status |
+| --------- | --------- | ------ | ------ |
+| Ethereum  | 1         | ETH    | ✅     |
+| Optimism  | 10        | ETH    | ✅     |
+| Polygon   | 137       | MATIC  | ✅     |
+| Arbitrum  | 42161     | ETH    | ✅     |
+| Avalanche | 43114     | AVAX   | ✅     |
+| Base      | 8453      | ETH    | ✅     |
+| Scroll    | 534352    | ETH    | ✅     |
+| Sophon    | 50104     | SOPH   | ✅     |
+| Kaia      | 8217      | KAIA   | ✅     |
+| BNB       | 56        | BNB    | ✅     |
+| HyperEVM  | 999       | HYPE   | ✅     |
+| TRON      | 728126428 | TRX    | ✅     |
+
+
+  </TabsContent>
+  <TabsContent value="testnet">
+
+
+| Network          | Chain ID | Native | Status |
+| ---------------- | -------- | ------ | ------ |
+| Optimism Sepolia | 11155420 | ETH    | ✅     |
+| Polygon Amoy     | 80002    | MATIC  | ✅     |
+| Arbitrum Sepolia | 421614   | ETH    | ✅     |
+| Base Sepolia     | 84532    | ETH    | ✅     |
+| Sepolia          | 11155111 | ETH    | ✅     |
+| Monad Testnet    | 10143    | MON    | ✅     |
+| Validium         | 567      | VLDM   | ✅     |
+
+
+  </TabsContent>
+</Tabs>
+
+### Supported Tokens
+
+| Token | Name       | Decimals | Networks       |
+| ----- | ---------- | -------- | -------------- |
+| ETH   | Ethereum   | 18       | All EVM chains |
+| USDC  | USD Coin   | 6        | All supported  |
+| USDT  | Tether USD | 6        | All supported  |
+
+## API Reference
+
+### Initialization
+
+```typescript title="TypeScript"
+import { NexusSDK, type NexusNetwork } from '@avail-project/nexus-core';
+
+// Mainnet
+const sdk = new NexusSDK({ network: 'mainnet' });
+
+// Testnet
+const sdkTest = new NexusSDK({ network: 'testnet' });
+
+// (Optional) Add TRON support
+const tronLinkAdapter = new TronLinkAdapter();
+sdk.addTron(tronLinkAdapter);
+
+// Initialize with wallet provider
+await sdk.initialize(window.ethereum);
+```
+
+### Event Handling
+
+**All main SDK functions support the `onEvent` hook**:
+
+- `bridge`
+- `bridgeAndTransfer`
+- `execute`
+- `bridgeAndExecute`
+- `swapWithExactIn` / `swapWithExactOut`
+
+Example usage for **progress steps**:
+
+```typescript
+sdk.bridge({...}, {
+  onEvent: (event) => {
+    if(event.name === NEXUS_EVENTS.STEPS_LIST) {
+      // Store list of steps
+    } else if(event.name === NEXUS_EVENTS.STEP_COMPLETE) {
+      // Mark step as done
+    }
+  }
+});
+```
+
+Additional hooks for user interactions:
+
+```typescript
+sdk.setOnIntentHook(({ intent, allow, deny, refresh }) => {
+  if (userApproves) allow();
+  else deny();
+});
+
+sdk.setOnSwapIntentHook(({ intent, allow, deny, refresh }) => {
+  if (userApproves) allow();
+  else deny();
+});
+
+sdk.setOnAllowanceHook(({ sources, allow, deny }) => {
+  allow(['min']); // 'max' or custom bigint[] supported
+});
+```
+
+### Unified Balance(s)
+
+```typescript title="TypeScript"
+const balances = await sdk.getUnifiedBalances(); // CA balances only
+
+const allBalances = await sdk.getUnifiedBalances(true); // Includes swappable tokens
+```
+
+### Bridge Operations
+
+```typescript title="TypeScript"
+import type { BridgeParams, BridgeResult, SimulationResult } from '@avail-project/nexus-core';
+
+// Bridge tokens between chains
+const result: BridgeResult = await sdk.bridge({
+  token: 'USDC',
+  amount: 83_500_000n,
+  toChainId: 137,
+} satisfies BridgeParams);
+
+// Simulate bridge to preview costs
+const simulation: SimulationResult = await sdk.simulateBridge({
+  token: 'USDC',
+  amount: 83_500_000n,
+  toChainId: 137,
+});
+```
+
+### Transfer Operations
+
+```typescript title="TypeScript"
+// Bridge + transfer (attribution)
+const result = await sdk.bridgeAndTransfer({
+  token: 'USDC',
+  amount: 1_530_000n,
+  toChainId: 42161,
+  recipient: '0x...',
+});
+
+const simulation = await sdk.simulateBridgeAndTransfer({
+  token: 'USDC',
+  amount: 1_530_000n, // = 1.53 USDC when 6 decimals
+  toChainId: 42161,
+  recipient: '0x...',
+});
+```
+
+### Execute Operations
+
+```typescript title="TypeScript"
+// Direct contract execution
+const result = await sdk.execute({
+  toChainId: 1,
+  to: '0xc3d688B66703497DAA19211EEdff47f25384cdc3',
+  data: '0x...',
+  tokenApproval: { token: 'USDC', amount: 1000000n },
+});
+
+// Bridge and execute
+const result2 = await sdk.bridgeAndExecute({
+  token: 'USDC',
+  amount: 100_000_000n,
+  toChainId: 1,
+  sourceChains: [8453],
+  execute: {
+    to: '0xa354F35829Ae975e850e23e9615b11Da1B3dC4DE',
+    data: '0x...',
+    tokenApproval: { token: 'USDC', amount: 100_000_000n },
+  },
+});
+```
+
+### Swap Operations
+
+```typescript title="TypeScript"
+import type { ExactInSwapInput, OnEventParam, SwapResult } from '@avail-project/nexus-core';
+
+const swapWithExactInResult = await sdk.swapWithExactIn(
+  {
+    from: [{ chainId: 10, amount: 1_000_000n, tokenAddress: '0x...' }],
+    toChainId: 8453,
+    toTokenAddress: '0x...',
+  },
+  { onEvent: (event) => console.log(event) },
+);
+```
+
+#### Swap Types
+
+| Type          | Description                                       | Example                     |
+| ------------- | ------------------------------------------------- | --------------------------- |
+| **EXACT_IN**  | Specify the amount you're spending; output varies | "Swap 100 USDC for max ETH" |
+| **EXACT_OUT** | Specify the amount you'll receive; input varies   | "Get exactly 1 ETH"         |
+
+## Allowance Management
+
+```typescript title="TypeScript"
+import type { AllowanceResponse } from '@avail-project/nexus-core';
+
+// Check allowances
+const allowances: AllowanceResponse[] = await sdk.getAllowance(137, ['USDC', 'USDT']);
+
+// Set allowances
+await sdk.setAllowance(137, ['USDC'], 1000000n);
+
+// Revoke allowances
+await sdk.revokeAllowance(137, ['USDC']);
+```
+
+## Intent Management
+
+```typescript title="TypeScript"
+import type { RequestForFunds } from '@avail-project/nexus-core';
+
+// Get user's transaction intents
+const intents: RequestForFunds[] = await sdk.getMyIntents(1);
+```
+
+## Utilities
+
+All utility functions are available under `sdk.utils`:
+
+```typescript title="TypeScript"
+import type { ChainMetadata, TokenMetadata, SUPPORTED_TOKENS } from '@avail-project/nexus-core';
+
+// Address utilities
+const isValid: boolean = sdk.utils.isValidAddress('0x...');
+const shortened: string = sdk.utils.truncateAddress('0x...');
+
+// Balance formatting
+const formatted: string = sdk.utils.formatBalance('1000000', 6);
+const units: bigint = sdk.utils.parseUnits('100.5', 6);
+const readable: string = sdk.utils.formatUnits(100500000n, 6);
+
+// Token amount formatting
+const formattedAmount: string = sdk.utils.formatTokenAmount('1000000', 'USDC'); // "1.0 USDC"
+const testnetFormatted: string = sdk.utils.formatTestnetTokenAmount('1000000', 'USDC'); // "1.0 USDC"
+
+// Chain & token info
+const chainMeta: ChainMetadata | undefined = sdk.utils.getChainMetadata(137);
+const tokenMeta: TokenMetadata | undefined = sdk.utils.getTokenMetadata('USDC');
+const mainnetTokenMeta: TokenMetadata | undefined = sdk.utils.getMainnetTokenMetadata('USDC');
+const testnetTokenMeta: TokenMetadata | undefined = sdk.utils.getTestnetTokenMetadata('USDC');
+
+// Chain/token validation
+const isSupported: boolean = sdk.utils.isSupportedChain(137);
+const isSupportedToken: boolean = sdk.utils.isSupportedToken('USDC');
+
+// Get supported chains
+const chains: Array<{ id: number; name: string; logo: string }> = sdk.utils.getSupportedChains();
+
+// Swap discovery utilities
+const swapOptions: SupportedChainsResult = sdk.utils.getSwapSupportedChainsAndTokens();
+
+// Chain ID conversion
+const hexChainId: string = sdk.utils.chainIdToHex(137);
+const decimalChainId: number = sdk.utils.hexToChainId('0x89');
+```
+
+### Usage Examples
+
+
+### Basic Bridge with Result Handling
+
+```typescript title="TypeScript"
+import { NexusSDK, type BridgeResult } from '@avail-project/nexus-core';
+
+const sdk = new NexusSDK();
+await sdk.initialize(window.ethereum);
+
+try {
+  const result: BridgeResult = await sdk.bridge({
+    token: 'USDC',
+    amount: 100,
+    chainId: 137,
+  });
+
+  if (result.success) {
+    console.log('✅ Bridge successful!');
+    if (result.explorerUrl) {
+      console.log('View transaction:', result.explorerUrl);
+    }
+  } else {
+    console.error('❌ Bridge failed:', result.error);
+  }
+} catch (error) {
+  console.error('Bridge error:', error);
+}
+```
+
+### Execute with Receipt Confirmation
+
+```typescript title="TypeScript"
+import type { ExecuteResult } from '@avail-project/nexus-core';
+
+// MakerDAO DSR (Dai Savings Rate) Deposit
+const result: ExecuteResult = await sdk.execute({
+  toChainId: 1,
+  contractAddress: '0x373238337Bfe1146fb49989fc222523f83081dDb', // DSR Manager
+  contractAbi: [
+    {
+      inputs: [
+        { internalType: 'address', name: 'usr', type: 'address' },
+        { internalType: 'uint256', name: 'wad', type: 'uint256' },
+      ],
+      name: 'join',
+      outputs: [],
+      stateMutability: 'nonpayable',
+      type: 'function',
+    },
+  ],
+  functionName: 'join',
+  buildFunctionParams: (
+    token: SUPPORTED_TOKENS,
+    amount: string,
+    chainId: SUPPORTED_CHAINS_IDS,
+    userAddress: `0x${string}`,
+  ) => {
+    const decimals = TOKEN_METADATA[token].decimals;
+    const amountWei = parseUnits(amount, decimals);
+    return {
+      functionParams: [userAddress, amountWei],
+    };
+  },
+  waitForReceipt: true,
+  requiredConfirmations: 3,
+  tokenApproval: {
+    token: 'USDC', // Will be converted to DAI in the bridge
+    amount: '1000000',
+  },
+});
+
+console.log('Transaction hash:', result.transactionHash);
+console.log('Explorer URL:', result.explorerUrl);
+console.log('Gas used:', result.gasUsed);
+console.log('Confirmations:', result.confirmations);
+```
+
+### Complete Portfolio Management
+
+```typescript title="TypeScript"
+import type { UserAsset, ChainMetadata } from '@avail-project/nexus-core';
+
+// Get complete balance overview
+const balances: UserAsset[] = await sdk.getUnifiedBalances();
+
+for (const asset of balances) {
+  console.log(`\n${asset.symbol}: ${asset.balance}`);
+  console.log(`Fiat value: $${asset.balanceInFiat || 0}`);
+
+  if (asset.breakdown) {
+    console.log('Chain breakdown:');
+    for (const chainBalance of asset.breakdown) {
+      const chain: ChainMetadata | undefined = sdk.utils.getChainMetadata(chainBalance.chain.id);
+      console.log(`  ${chain?.name}: ${chainBalance.balance}`);
+    }
+  }
+}
+```
+
+## Error Handling
+
+```typescript title="TypeScript"
+import type { BridgeResult } from '@avail-project/nexus-core';
+
+try {
+  const result: BridgeResult = await sdk.bridge({ token: 'USDC', amount: 100, chainId: 137 });
+
+  if (!result.success) {
+    // Handle bridge failure
+    console.error('Bridge failed:', result.error);
+  }
+} catch (error) {
+  if (error.message.includes('User denied')) {
+    // User cancelled transaction
+  } else if (error.message.includes('Insufficient')) {
+    // Insufficient balance
+  } else if (error.message.includes('Unsupported')) {
+    // Unsupported chain or token
+  } else {
+    // Other errors
+    console.error('Unexpected error:', error);
+  }
+}
+```
+
+```typescript title="TypeScript"
+import type { ExecuteSimulation, ExecuteResult } from '@avail-project/nexus-core';
+
+// Simulate before executing
+const simulation: ExecuteSimulation = await sdk.simulateExecute(params);
+if (simulation.success) {
+  const result: ExecuteResult = await sdk.execute(params);
+}
+
+// Cleanup when done
+sdk.removeAllListeners();
+await sdk.deinit();
+```
+
+## TypeScript Support
+
+The SDK is fully typed with comprehensive TypeScript definitions. Import the types you need:
+
+```typescript title="TypeScript"
+import type {
+  BridgeParams,
+  BridgeResult,
+  TransferParams,
+  TransferResult,
+  ExecuteParams,
+  ExecuteResult,
+  ExecuteSimulation,
+  BridgeAndExecuteParams,
+  BridgeAndExecuteResult,
+  SimulationResult,
+  SwapInput,
+  SwapResult,
+  SwapBalances,
+  SupportedChainsResult,
+  DESTINATION_SWAP_TOKENS,
+  UserAsset,
+  TokenBalance,
+  AllowanceResponse,
+  ChainMetadata,
+  TokenMetadata,
+  OnIntentHook,
+  OnAllowanceHook,
+  EthereumProvider,
+  RequestArguments,
+  EventListener,
+  NexusNetwork,
+} from '@avail-project/nexus-core';
+```

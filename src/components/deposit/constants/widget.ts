@@ -18,13 +18,7 @@ export const VERTICAL_LINE_TOP_OFFSET_PX = 48;
 export const MAX_INPUT_WIDTH_PX = 300;
 
 // Asset Selection
-export const STABLECOIN_SYMBOLS = [
-  "USDC",
-  "USDT",
-  "DAI",
-  "TUSD",
-  "USDP",
-] as const;
+export const STABLECOIN_SYMBOLS = ["USDC", "USDT", "DAI", "TUSD", "USDP"] as const;
 
 // Animation classes (for reference, actual classes defined in CSS)
 export const ANIMATION_CLASSES = {

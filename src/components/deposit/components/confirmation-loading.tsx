@@ -1,8 +1,8 @@
 "use client";
 
+import WidgetHeader from "./widget-header";
 import { CardContent } from "../../ui/card";
 import { Skeleton } from "../../ui/skeleton";
-import WidgetHeader from "./widget-header";
 
 interface ConfirmationLoadingProps {
   onClose?: () => void;

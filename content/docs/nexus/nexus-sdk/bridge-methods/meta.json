@@ -1,0 +1,11 @@
+{
+  "pages": [
+    "fetch-bridge-balances",
+    "bridge",
+    "transfer",
+    "bridge-and-execute",
+    "bridge-events",
+    "Methods",
+    "Events"
+  ]
+}

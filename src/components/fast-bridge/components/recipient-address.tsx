@@ -1,10 +1,10 @@
 "use client";
-import { Check, Edit } from "lucide-react";
 import { type FC, useState } from "react";
-import type { Address } from "viem";
-import { useNexus } from "../../nexus/NexusProvider";
-import { Button } from "../../ui/button";
 import { Input } from "../../ui/input";
+import { Check, Edit } from "lucide-react";
+import { Button } from "../../ui/button";
+import { useNexus } from "../../nexus/NexusProvider";
+import { type Address } from "viem";
 
 interface RecipientAddressProps {
   address?: Address;

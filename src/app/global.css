@@ -165,19 +165,6 @@
         --search-results-foreground-primary
     );
 
-    /* Fumadocs UI component tokens (fd- prefix) */
-    --color-fd-background: var(--background);
-    --color-fd-foreground: var(--foreground);
-    --color-fd-card: var(--card);
-    --color-fd-card-foreground: var(--card-foreground);
-    --color-fd-border: var(--border);
-    --color-fd-primary: var(--primary);
-    --color-fd-primary-foreground: var(--primary-foreground);
-    --color-fd-muted: var(--muted);
-    --color-fd-muted-foreground: var(--muted-foreground);
-    --color-fd-accent: var(--accent);
-    --color-fd-accent-foreground: var(--accent-foreground);
-
     /* Keyboard shortcuts */
     --color-key-background: var(--key-background);
     --color-key-foreground: var(--key-foreground);

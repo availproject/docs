@@ -1,14 +1,14 @@
 "use client";
 
-import { ArrowDownUp, Loader2, RefreshCcw } from "lucide-react";
 import { useCallback, useMemo, useRef } from "react";
+import { ArrowDownUp, Loader2, RefreshCcw } from "lucide-react";
 import { useNexus } from "../nexus/NexusProvider";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
-import DestinationContainer from "./components/destination-container";
-import SourceContainer from "./components/source-container";
-import ViewTransaction from "./components/view-transaction";
 import useHover from "./hooks/useHover";
+import SourceContainer from "./components/source-container";
+import DestinationContainer from "./components/destination-container";
+import ViewTransaction from "./components/view-transaction";
 import useSwaps, { type SwapInputs } from "./hooks/useSwaps";
 
 function SwapWidget({
@@ -72,7 +72,7 @@ function SwapWidget({
       return;
     }
     const isValidSource = swapBalance?.find(
-      (bal) => bal.symbol === inputs.toToken?.symbol,
+      (bal) => bal.symbol === inputs.toToken?.symbol
     );
     if (!isValidSource) {
       const switched: SwapInputs = {

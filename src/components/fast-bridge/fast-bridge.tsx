@@ -1,14 +1,13 @@
 "use client";
-import type {
-  SUPPORTED_CHAINS_IDS,
-  SUPPORTED_TOKENS,
-} from "@avail-project/nexus-core";
-import { LoaderPinwheel, X } from "lucide-react";
-import type { FC } from "react";
-import type { Address } from "viem";
-import { useNexus } from "../nexus/NexusProvider";
-import { Button } from "../ui/button";
+import { type FC } from "react";
 import { Card, CardContent } from "../ui/card";
+import ChainSelect from "./components/chain-select";
+import TokenSelect from "./components/token-select";
+import { Button } from "../ui/button";
+import { LoaderPinwheel, X } from "lucide-react";
+import { useNexus } from "../nexus/NexusProvider";
+import AmountInput from "./components/amount-input";
+import FeeBreakdown from "./components/fee-breakdown";
 import {
   Dialog,
   DialogContent,
@@ -16,17 +15,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { Skeleton } from "../ui/skeleton";
-import ViewHistory from "../view-history/view-history";
-import AllowanceModal from "./components/allowance-modal";
-import AmountInput from "./components/amount-input";
-import ChainSelect from "./components/chain-select";
-import FeeBreakdown from "./components/fee-breakdown";
-import RecipientAddress from "./components/recipient-address";
-import SourceBreakdown from "./components/source-breakdown";
-import TokenSelect from "./components/token-select";
 import TransactionProgress from "./components/transaction-progress";
+import AllowanceModal from "./components/allowance-modal";
 import useBridge from "./hooks/useBridge";
+import SourceBreakdown from "./components/source-breakdown";
+import {
+  type SUPPORTED_CHAINS_IDS,
+  type SUPPORTED_TOKENS,
+} from "@avail-project/nexus-core";
+import { type Address } from "viem";
+import { Skeleton } from "../ui/skeleton";
+import RecipientAddress from "./components/recipient-address";
+import ViewHistory from "../view-history/view-history";
 
 interface FastBridgeProps {
   connectedAddress: Address;

@@ -17,7 +17,10 @@ interface TransactionStepsProps {
 
 type StepStatus = "completed" | "in-progress" | "pending";
 
-function getStepStatus(steps: SimplifiedStep[], stepIndex: number): StepStatus {
+function getStepStatus(
+  steps: SimplifiedStep[],
+  stepIndex: number,
+): StepStatus {
   const step = steps[stepIndex];
   if (step?.completed) return "completed";
 

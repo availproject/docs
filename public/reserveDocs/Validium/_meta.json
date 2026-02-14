@@ -1,5 +1,5 @@
 {
-  "zkevm": "Polygon zkEVM",
-  "madara": "Madara Starknet",
-  "zksync": "ZKsync's ZK Stack"
+    "zkevm": "Polygon zkEVM",
+    "madara": "Madara Starknet",
+    "zksync": "ZKsync's ZK Stack"
 }

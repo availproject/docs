@@ -2,7 +2,10 @@
 
 import * as React from "react";
 import { SearchResultItem } from "@/components/search/search-result-item";
-import { getRecentSearches, type RecentSearch } from "@/lib/recent-searches";
+import {
+  getRecentSearches,
+  type RecentSearch,
+} from "@/lib/recent-searches";
 
 interface RecentSearchesProps {
   onSelect: (query: string) => void;

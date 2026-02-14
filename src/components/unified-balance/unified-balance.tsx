@@ -1,17 +1,17 @@
 "use client";
-import type { NexusSDK, UserAsset } from "@avail-project/nexus-core";
-import { DollarSign } from "lucide-react";
 import React, { memo, useMemo } from "react";
-import { cn } from "@/lib/utils";
 import { useNexus } from "../nexus/NexusProvider";
+import { Label } from "../ui/label";
+import { DollarSign } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "../ui/accordion";
-import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
+import { cn } from "@/lib/utils";
+import { NexusSDK, type UserAsset } from "@avail-project/nexus-core";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
 const BalanceBreakdown = ({
@@ -40,7 +40,7 @@ const BalanceBreakdown = ({
       <Accordion type="single" collapsible className="w-full space-y-4">
         {tokens.map((token) => {
           const positiveBreakdown = token.breakdown.filter(
-            (chain) => Number.parseFloat(chain.balance) > 0,
+            (chain) => Number.parseFloat(chain.balance) > 0
           );
           const chainsCount = positiveBreakdown.length;
           const chainsLabel =
@@ -119,7 +119,7 @@ const BalanceBreakdown = ({
                               {
                                 symbol: token.symbol,
                                 decimals: token.decimals,
-                              },
+                              }
                             )}
                           </p>
                           <p className="text-xs text-muted-foreground">
@@ -163,16 +163,16 @@ const UnifiedBalance = ({ className }: { className?: string }) => {
   const tokens = useMemo(
     () =>
       bridgableBalance?.filter(
-        (token) => Number.parseFloat(token.balance) > 0,
+        (token) => Number.parseFloat(token.balance) > 0
       ) ?? [],
-    [bridgableBalance],
+    [bridgableBalance]
   );
 
   const swapTokens = useMemo(
     () =>
       swapBalance?.filter((token) => Number.parseFloat(token.balance) > 0) ??
       [],
-    [swapBalance],
+    [swapBalance]
   );
 
   if (!swapBalance) {

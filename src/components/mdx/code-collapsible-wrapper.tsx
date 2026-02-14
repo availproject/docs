@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { useAnalytics } from "@/hooks/use-analytics";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import {
@@ -9,6 +8,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "../ui/collapsible";
+import { useAnalytics } from "@/hooks/use-analytics";
 
 export function CodeCollapsibleWrapper({
   className,

@@ -1,10 +1,10 @@
 "use client";
 
-import { Button } from "../../ui/button";
 import { CardContent, CardFooter } from "../../ui/card";
-import type { DepositWidgetContextValue } from "../types";
-import { ReceiveAmountDisplay } from "./receive-amount-display";
+import { Button } from "../../ui/button";
 import WidgetHeader from "./widget-header";
+import { ReceiveAmountDisplay } from "./receive-amount-display";
+import type { DepositWidgetContextValue } from "../types";
 
 interface TransactionFailedContainerProps {
   widget: DepositWidgetContextValue;

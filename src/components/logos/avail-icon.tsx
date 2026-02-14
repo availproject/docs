@@ -1,9 +1,6 @@
 import { cn } from "@/lib/utils";
 
-export function AvailIcon({
-  className,
-  ...props
-}: React.SVGProps<SVGSVGElement>) {
+export function AvailIcon({ className, ...props }: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       width="24"
