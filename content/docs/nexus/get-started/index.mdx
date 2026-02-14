@@ -22,18 +22,21 @@ Nexus aims to reframe the mindset of both consumers and developers when using or
 
 Get started building your Liquid App today by integrating Nexus.
 
-<Cards num={2}>
-
-  <Card arrow title="Explore Nexus SDK (Headless)" href="/docs/nexus/nexus-quickstart/nexus-core">
-    <img className="cardImage" src="/img/nexus-intro/sdk.png" alt="Explore Nexus SDK (Headless)" target="_blank" rel="noopener noreferrer"/>
-  </Card>
-
-  <Card arrow title="Explore Nexus Elements (UI widgets)" href="https://elements.nexus.availproject.org/docs/get-started">
-    <img className="cardImage"src="/img/nexus-intro/elements-2.png" alt="Explore Nexus Elements (UI widgets)" target="_blank" rel="noopener noreferrer" height={396}/>
-  </Card>
-  
-
-</Cards>
+<IconCardGrid>
+  <IconCard
+    icon={<CodeIcon />}
+    title="Nexus SDK (Headless)"
+    description="Integrate Nexus directly into your app logic with full control over the UX — bridging, swaps, and intents via a simple TypeScript API."
+    href="/docs/nexus/nexus-quickstart/nexus-core"
+  />
+  <IconCard
+    icon={<Puzzle />}
+    title="Nexus UI Elements (UI Widgets)"
+    description="Drop in pre-built UI components for cross-chain operations — get bridging and swaps working in minutes with minimal code."
+    href="https://elements.nexus.availproject.org/docs/get-started"
+    external
+  />
+</IconCardGrid>
 
 ## Learn about Nexus Features
 Dive deep into the core features your application can leverage when building with Avail. 
@@ -44,22 +47,32 @@ Dive deep into the core features your application can leverage when building wit
 *Build liquid apps that can provide a truly bridgeless experience onchain.*
 
 
-<Cards num={2}>
-
-  <Card arrow title="Bridge, Transfer, Bridge & Execute" href="/docs/nexus/concepts/nexus-ops">
-    <img className="cardImage" src="/img/nexus/crosschain.png" alt="Explore Nexus SDK (Headless)" target="_blank" rel="noopener noreferrer"/>
-  </Card>
-
-  <Card arrow title="Crosschain Swaps" href="/docs/nexus/concepts/xcs-swaps">
-    <img className="cardImage"src="/img/nexus/swaps.png" alt="Explore Nexus Elements (UI widgets)" target="_blank" rel="noopener noreferrer" height={396}/>
-  </Card>
-  
-
-</Cards>
+<IconCardGrid>
+  <IconCard
+    icon={<Bridge />}
+    title="Bridge, Transfer, Bridge & Execute"
+    description="Cross-chain bridging methods — move assets between chains, transfer to different addresses, or bridge and execute a contract call in one step."
+    href="/docs/nexus/concepts/nexus-ops"
+  />
+  <IconCard
+    icon={<Swap />}
+    title="Crosschain Swaps"
+    description="Exact In and Exact Out crosschain swaps — exchange tokens across chains with precise control over input or output amounts."
+    href="/docs/nexus/concepts/xcs-swaps"
+  />
+</IconCardGrid>
 
 ### Quick access Nexus SDK reference
 
-<Cards>
-  <Card arrow title="Bridge Methods" href="/docs/nexus/nexus-sdk/bridge-methods"/>
-  <Card arrow title="Swap Methods" href="/docs/nexus/nexus-sdk/swap-methods"/>
-</Cards>
+<IconCardGrid>
+  <IconCard
+    icon={<Bridge />}
+    title="Bridge Methods"
+    href="/docs/nexus/nexus-sdk/bridge-methods"
+  />
+  <IconCard
+    icon={<Swap />}
+    title="Swap Methods"
+    href="/docs/nexus/nexus-sdk/swap-methods"
+  />
+</IconCardGrid>
