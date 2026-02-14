@@ -1,13 +1,13 @@
 {
   "pages": [
     "chain-abstraction",
-    "allowances",
     "intent",
     "solvers",
     "intent-lifecycle",
     "nexus-ops",
     "xcs-swaps",
     "source-chain-selection",
+    "allowances",
     "bridge-v-swap"
   ]
 }
