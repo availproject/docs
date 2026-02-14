@@ -1,6 +1,6 @@
 # Audit Details
 
-> Generated: 2026-02-11
+> Generated: 2026-02-14
 >
 > Detailed breakdowns from the code health audit. Referenced by [CODE_HEALTH_AUDIT.md](./CODE_HEALTH_AUDIT.md).
 > Run `/audit` to regenerate.
@@ -11,7 +11,7 @@
 
 | Check | Status |
 |-------|--------|
-| `next build` | **Passes** — 390 static pages generated (Next.js 16, Turbopack) |
+| `next build` | **Passes** — 384 static pages generated (Next.js 16, Turbopack) |
 | `tsc --noEmit` | **Clean** — no TypeScript errors |
 | Build warnings | `Failed to fetch registry item: 404` (2 occurrences — shadcn registry fetch) |
 
@@ -19,79 +19,42 @@
 
 ## Biome Lint Breakdown
 
-**Total: 455 errors, 185 warnings** (252 files checked)
+**Total: 383 errors, 166 warnings, 23 infos** _(down from 455 errors, 185 warnings)_
 
 | Rule | Count | Severity | Auto-fixable |
 |------|-------|----------|-------------|
-| Format/parse (CSS + JSON) | ~190 | Error | Yes (`biome format --write`) |
-| `lint/style/useImportType` | ~77 | Warning | Yes |
-| `lint/correctness/useExhaustiveDependencies` | ~56 | Error | Needs review |
+| `assist/source/organizeImports` | ~125 | Error | Yes (`biome check --write`) |
+| `lint/style/useImportType` | ~76 | Warning | Yes |
 | `lint/performance/noImgElement` | ~34 | Warning | Use `next/image` |
-| `lint/correctness/noUnusedImports` | ~20 | Error | Yes |
-| `lint/complexity/useLiteralKeys` | ~11 | Warning | Yes |
-| `lint/correctness/noUnusedVariables` | ~10 | Error | Yes |
-| `lint/complexity/noImportantStyles` | ~10 | Warning | Refactor CSS |
+| `lint/a11y/noSvgWithoutTitle` | ~34 | Error | Add `<title>` to SVGs |
 | `lint/suspicious/noExplicitAny` | ~9 | Warning | Type properly |
-| `lint/suspicious/noArrayIndexKey` | ~8 | Warning | Use stable keys |
-| `lint/correctness/noUnusedFunctionParameters` | ~8 | Error | Yes |
+| `lint/a11y/useButtonType` | ~8 | Error | Add `type="button"` |
 | `lint/style/noNonNullAssertion` | ~7 | Warning | Add null checks |
-| `lint/suspicious/useIterableCallbackReturn` | ~6 | Warning | Add return |
-| `lint/style/useTemplate` | ~5 | Warning | Yes |
-| `lint/style/useNodejsImportProtocol` | ~4 | Warning | Yes |
-| `lint/suspicious/noGlobalIsNan` | ~3 | Warning | Use `Number.isNaN` |
-| `lint/security/noDangerouslySetInnerHtml` | ~3 | Error | Needs review |
-| `lint/correctness/useHookAtTopLevel` | ~3 | Error | Needs review |
-| `lint/correctness/useParseIntRadix` | ~3 | Error | Yes |
-| `lint/suspicious/noDocumentCookie` | ~1 | Warning | Mixed |
-| `lint/style/useExponentiationOperator` | ~1 | Warning | Yes |
+| `lint/style/useTemplate` | ~3 | Info | Yes |
+| `lint/a11y/noAutofocus` | ~1 | Error | Needs review |
+| `lint/a11y/useAltText` | ~1 | Error | Add alt text |
 
-**Quick win:** `npx biome check --write` auto-fixes ~300 issues (formatting, unused imports, import types, literal keys, template strings, parseInt radix, Node.js protocol).
+**Changes since last audit:**
+- Format/parse errors: ~190 → 0 _(resolved)_
+- `useExhaustiveDependencies`: ~56 → 0 _(resolved or suppressed)_
+- `noUnusedImports`: ~20 → 0 _(resolved)_
+- `noUnusedVariables`: ~10 → 0 _(resolved)_
+- `noUnusedFunctionParameters`: ~8 → 0 _(resolved)_
+- `organizeImports`: NEW — 125 errors (auto-fixable)
+- `noSvgWithoutTitle`: NEW — 34 errors
+- `useButtonType`: NEW — 8 errors
 
-### Top offenders for `useExhaustiveDependencies`
-
-- `src/components/transfer/hooks/useTransfer.ts` (lines 272, 286)
-- `src/components/fast-bridge/hooks/useBridge.ts` (lines 285, 299)
-- `src/components/swaps/hooks/useSwaps.ts` (line 377)
-- `src/components/common/hooks/useStopwatch.ts` (line 36)
-- `src/components/nexus/NexusProvider.tsx` (line 232)
-
-### CSS parse errors
-
-`src/app/global.css` (lines 65, 67, 573, 581, 589, 597, 611, 616, 724)
+**Quick win:** `npx biome check --write` auto-fixes ~200+ issues (import organization, import types, template strings).
 
 ---
 
 ## Broken Links in Content
 
-### Internal broken links (4 remaining — 3 resolved since last audit)
+### All previously tracked broken links: RESOLVED
 
-| File | Broken Link | Fix |
-|------|-------------|-----|
-| ~~`content/docs/da/faqs/index.mdx`~~ | ~~`/docs/clash-of-nodes/faqs.mdx`~~ | ~~Resolved — now links to external blog~~ |
-| ~~`content/docs/da/build-with-avail/.../Optimium/op-stack/index.mdx`~~ | ~~`/docs/introduction-to-avail/avail-da`~~ | ~~Resolved — now uses `/docs/da/welcome-to-avail-docs`~~ |
-| ~~`content/docs/da/build-with-avail/.../cosmos-avail-module/index.mdx`~~ | ~~`/docs/introduction-to-avail/...` (×2)~~ | ~~Resolved — now uses `/docs/da/welcome-to-avail-docs`~~ |
-| `content/docs/da/user-guides/.../stake-on-avail/overview/index.mdx:60` | `/docs/glossary#era` | `/docs/da/glossary#era` — missing `/da/` segment |
-| `content/docs/da/user-guides/.../staking-governance/overview/index.mdx:26` | `/docs/da/build-with-avail/vectorx#using-the-bridge` | Remove anchor — `#using-the-bridge` heading no longer exists |
-| `content/docs/nexus/concepts/bridge-v-swap/index.mdx:21,47` | Self-referential links to own page | Line 21: `/docs/nexus/nexus-sdk/swap-methods`; Line 47: remove |
-| `content/docs/da/glossary/index.mdx:27` | Relative link `(../user-guides/staking-governance/overview)` | Use absolute `/docs/da/user-guides/staking-governance/overview` |
+The v1.3.0 restructure fixed all 7 broken internal links and all 11 external-to-internal link conversions that were tracked in the previous audit.
 
-### Frontmatter links to docs.availproject.org (NEW — 20 links across 10 files)
-
-10 Nexus element/component files have `doc:` and `api:` frontmatter fields pointing to `https://docs.availproject.org/nexus/...` instead of internal `/docs/nexus/...` paths. These are used by component rendering, so impact depends on how the site consumes them. Lower priority than content links.
-
-### External links that should be internal (NEW — 11 links across 4 files)
-
-| File | External `docs.availproject.org` Link | Internal Equivalent |
-|------|---------------------------------------|---------------------|
-| `da/faqs/index.mdx:60` | `https://docs.availproject.org/` | `/docs/da` |
-| `da/faqs/index.mdx:61` | `.../docs/operate-a-node/become-a-validator` | `/docs/da/operate-a-node/become-a-validator` |
-| `da/faqs/index.mdx:62` | `.../docs/operate-a-node/run-a-light-client` | `/docs/da/operate-a-node/run-a-light-client` |
-| `da/.../cosmos-avail-module/index.mdx:104` | `.../docs/operate-a-node/run-a-light-client/Overview` | `/docs/da/operate-a-node/run-a-light-client/Overview` |
-| `da/.../Validium/cdk/cdk/index.mdx:226` | `.../docs/build-with-avail/vectorx` | `/docs/da/build-with-avail/vectorx` |
-| `da/.../Validium/zksync/zksync/index.mdx:169` | `.../user-guides/accounts` | `/docs/da/user-guides/accounts` |
-| `da/.../Validium/zksync/zksync/index.mdx:170` | `.../docs/build-with-avail/interact-with-avail-da/faucet` | `/docs/da/build-with-avail/interact-with-avail-da/faucet` |
-| `da/.../Validium/zksync/zksync/index.mdx:171,180,223` | `.../docs/build-with-avail/interact-with-avail-da/app-id` (×3) | `/docs/da/build-with-avail/interact-with-avail-da/app-id` |
-| `da/.../Validium/zksync/zksync/index.mdx:199` | `.../docs/networks#alternate-endpoints` | `/docs/da/networks#alternate-endpoints` |
+No broken internal links or stale `docs.availproject.org` references remain in content files.
 
 ---
 
@@ -99,7 +62,7 @@
 
 ### Exact duplicates (6 files — HIGH)
 
-`nexus/nexus-quickstart/nexus-elements/` contains 6 files identical to `nexus/nexus-ui-elements/components/`:
+`nexus/nexus-quickstart/nexus-elements/` contains 6 files with similar content to `nexus/nexus-ui-elements/components/`:
 
 | File | Action |
 |------|--------|
@@ -124,27 +87,15 @@
 
 ## Stray Code Fences
 
-Files with quadruple backticks (`````) instead of triple, causing rendering issues:
-
-| File | Line |
-|------|------|
-| `content/docs/nexus/nexus-quickstart/nexus-elements/swaps.mdx` | 89 |
-| `content/docs/nexus/nexus-quickstart/nexus-elements/transfer.mdx` | 98 |
-| `content/docs/nexus/nexus-quickstart/nexus-elements/view-history.mdx` | 81 |
-| `content/docs/nexus/nexus-quickstart/nexus-elements/unified-balance.mdx` | 83 |
-| `content/docs/nexus/nexus-ui-elements/components/swaps.mdx` | 89 |
-| `content/docs/nexus/nexus-ui-elements/components/view-history.mdx` | 81 |
-| `content/docs/nexus/nexus-ui-elements/components/transfer.mdx` | 98 |
-| `content/docs/nexus/nexus-ui-elements/components/unified-balance.mdx` | 83 |
-| `content/docs/da/api-reference/avail-bridge-api/vector-send-message/index.mdx` | 81 |
-
-Also: `content/docs/nexus/nexus-ui-elements/installation/index.mdx:124` — stray trailing triple-backtick after `</Card>`.
+**All resolved.** No quadruple-backtick issues remain in any MDX files.
 
 ---
 
 ## Missing Frontmatter Descriptions
 
-**122 out of 191 files (64%)** lack a `description` field. _(Was 123/190 — marginal improvement.)_
+**117 out of 188 files (62%) lack a `description` field.** _(Was 122/191 — marginal improvement from file removal, not new descriptions.)_
+
+Coverage: 71/188 = 37.8%
 
 Consistently missing:
 - Nearly all DA API reference files
@@ -163,33 +114,20 @@ Consistently present:
 
 ## Spelling Errors
 
-| File | Error | Fix |
-|------|-------|-----|
-| `content/docs/da/build-with-avail/.../Optimium/op-stack/index.mdx` | "permisionless" | "permissionless" |
-| `content/docs/da/build-with-avail/.../cosmos-avail-module/index.mdx` | "permisionless" | "permissionless" |
-| `content/docs/da/faqs/index.mdx` | "buiding" | "building" |
-| `content/docs/da/user-guides/accounts/index.mdx` | "nnote" | "note" |
-| `content/docs/da/user-guides/avail-multisig/index.mdx:110` | "seperate" | "separate" |
-| `content/docs/da/operate-a-node/become-a-validator/0020-simple-deployment/index.mdx:132` | "seperate" | "separate" |
-| `content/docs/da/api-reference/avail-node-api/da-app-keys/index.mdx:212` | "seperated" | "separated" |
+Previous 7 errors all resolved. 4 new errors found:
+
+| File | Line | Error | Fix |
+|------|------|-------|-----|
+| `content/docs/da/build/interact/faucet/index.mdx` | 15 | "forseeable" | "foreseeable" |
+| `content/docs/da/user-guides/accounts/index.mdx` | 60 | "tour Avail account" | "your Avail account" |
+| `content/docs/da/user-guides/accounts/index.mdx` | 79 | "nnote" | "note" |
+| `content/docs/da/user-guides/accounts/index.mdx` | 247 | "metedata" | "metadata" |
 
 ---
 
 ## Placeholder / Coming Soon Pages
 
-| File | Content |
-|------|---------|
-| `content/docs/nexus/nexus-ui-elements/mcp-documentation/index.mdx` | "This page is coming soon." |
-| `content/docs/nexus/nexus-sdk/build-your-first-liquid-app/index.mdx` | "This guide is coming soon." |
-
-~~`content/docs/nexus/cookbook-recipes/index.mdx`~~ — Resolved (content added or removed).
-
-
-Near-empty pages:
-- `da/api-reference/gas-relay-deprecated/index.mdx` — deprecation notice only
-- `da/api-reference/avail-lc-api/v1-deprecated/index.mdx` — deprecation notice only
-- `da/build-with-avail/deploy-rollup-on-avail/Validium/index.mdx` — cards nav only
-- `da/build-with-avail/deploy-rollup-on-avail/Validium/zksync/index.mdx` — single card link
+**All resolved.** No "coming soon" placeholder pages remain.
 
 ---
 
@@ -197,8 +135,9 @@ Near-empty pages:
 
 | Issue | Detail |
 |-------|--------|
-| Unused devDependency | `tw-animate-css` — listed in devDependencies but not imported anywhere |
-| False positive | `fumadocs-mdx:collections` in `src/lib/source.ts` — virtual module resolved by Fumadocs at build time |
+| ~~Unused devDependency~~ | ~~`tw-animate-css`~~ — Resolved: now imported in `global.css` |
+
+No dependency issues found.
 
 ---
 
@@ -207,15 +146,13 @@ Near-empty pages:
 | Priority | Category | Items | Action |
 |----------|----------|-------|--------|
 | **HIGH** | Duplicate content | 6 files | Remove `nexus-quickstart/nexus-elements/` or `nexus-ui-elements/components/` |
-| **HIGH** | Biome quick-fix | ~300 | Run `npx biome check --write` |
-| **HIGH** | External→internal links | 11 links | Convert `docs.availproject.org` references to internal `/docs/da/...` paths |
-| **MEDIUM** | Broken internal links | 4 remaining | Fix link paths (3 resolved since last audit) |
-| **LOW** | Frontmatter external links | 20 links | Convert Nexus element `doc:`/`api:` fields to internal paths |
-| **MEDIUM** | Stray code fences | 9 files | Fix quadruple → triple backticks |
-| **MEDIUM** | Exhaustive deps | ~56 | Review hook dependencies |
+| **HIGH** | Biome quick-fix | ~200+ | Run `npx biome check --write` (organizeImports, useImportType) |
+| **MEDIUM** | Accessibility | ~43 | Add SVG titles, button types, alt text |
 | **MEDIUM** | `next/image` | ~34 | Replace `<img>` with `<Image>` |
-| **LOW** | Missing descriptions | 122 files | Add frontmatter `description` |
+| **MEDIUM** | DRY violations | 3 | Extract shared utilities, remove duplication |
+| **MEDIUM** | File size violations | 2 files | Split `on-this-page.tsx` (460) and `mdx-components.tsx` (415) |
+| **LOW** | Missing descriptions | 117 files | Add frontmatter `description` |
 | **LOW** | Dead code | 4 files | Remove unused code |
-| **LOW** | Spelling errors | 7 | Fix typos |
-| **LOW** | Coming soon pages | 2 | Draft content or hide from nav |
-| **LOW** | Unused dep | 1 | Remove `tw-animate-css` |
+| **LOW** | Spelling errors | 4 | Fix typos |
+| **LOW** | Stale hardcoded values | 3 | Fix `/docs/components` link, feedback mock, magic numbers |
+| **LOW** | Minor quality | 2 | Fix alt text, remove eslint-disable |
