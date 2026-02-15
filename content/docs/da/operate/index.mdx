@@ -1,13 +1,40 @@
 ---
 image: "/img/docs-link-preview.png"
 title: Operate
+description: "Run Avail DA infrastructure — light clients, full nodes, and validators."
 ---
 
-<Cards>
-  <Card icon={<FileIcon />} title="Types of Nodes" href="/docs/da/operate/node-types" />
-  <Card icon={<FileIcon />} title="Hosted Deployments" href="/docs/da/operate/deployment-options" />
-  <Card icon={<FileIcon />} title="Run an Avail light client" href="/docs/da/operate/run-a-light-client" />
-  <Card icon={<FileIcon />} title="Run an Avail Node" href="/docs/da/operate/run-a-full-node" />
-  <Card icon={<FileIcon />} title="Become a Validator" href="/docs/da/operate/become-a-validator" />
+Run Avail DA infrastructure. Start with [Node Types](/docs/da/operate/node-types) to understand the options, or jump straight to the setup guide for your target role.
 
-</Cards>
+<IconCardGrid>
+  <IconCard
+    icon={<Cube />}
+    title="Node Types"
+    description="Compare light clients, full nodes, and validators — requirements, trade-offs, and use cases."
+    href="/docs/da/operate/node-types"
+  />
+  <IconCard
+    icon={<Globe />}
+    title="Hosted Deployments"
+    description="Deploy Avail nodes using third-party infrastructure providers."
+    href="/docs/da/operate/deployment-options"
+  />
+  <IconCard
+    icon={<Compass />}
+    title="Light Client"
+    description="Verify data availability through sampling without storing full blocks."
+    href="/docs/da/operate/run-a-light-client"
+  />
+  <IconCard
+    icon={<Gear />}
+    title="Full Node"
+    description="Store complete block data and serve the network."
+    href="/docs/da/operate/run-a-full-node"
+  />
+  <IconCard
+    icon={<ShieldCheck />}
+    title="Validator"
+    description="Produce blocks, validate transactions, and earn staking rewards."
+    href="/docs/da/operate/become-a-validator"
+  />
+</IconCardGrid>

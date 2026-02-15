@@ -1,11 +1,34 @@
 ---
 image: "/img/docs-link-preview.png"
 title: Build
+description: "Integrate with Avail DA — post data directly, deploy a rollup, or use Turbo DA for high-throughput submissions."
 ---
 
-<Cards>
-  <Card icon={<FileIcon />} title="Interact Directly with Avail DA" href="/docs/da/build/interact" />
-  <Card icon={<FileIcon />} title="Deploy a Rollup on Avail DA" href="/docs/da/build/rollups" />  
-  <Card icon={<FileIcon />} title="Get started with Turbo DA" href="/docs/da/build/turbo-da" />
-  <Card icon={<FileIcon />} title="Use the Avail Bridge" href="/docs/da/build/vectorx" />
-</Cards>
+Choose how to integrate with Avail DA. Start with [Interact](/docs/da/build/interact) to post and read data directly, or pick a rollup framework if you're deploying a chain.
+
+<IconCardGrid>
+  <IconCard
+    icon={<CodeIcon />}
+    title="Interact"
+    description="Post data, create App IDs, and query balances using the SDK or API."
+    href="/docs/da/build/interact"
+  />
+  <IconCard
+    icon={<Cube />}
+    title="Rollups"
+    description="Deploy a rollup on Avail DA — OP Stack, Arbitrum Nitro, Polygon CDK, and more."
+    href="/docs/da/build/rollups"
+  />
+  <IconCard
+    icon={<Gear />}
+    title="Turbo DA"
+    description="High-throughput data submission optimized for production workloads."
+    href="/docs/da/build/turbo-da"
+  />
+  <IconCard
+    icon={<Bridge />}
+    title="Bridge"
+    description="Bridge tokens and data between Avail and other chains using VectorX."
+    href="/docs/da/build/vectorx"
+  />
+</IconCardGrid>
