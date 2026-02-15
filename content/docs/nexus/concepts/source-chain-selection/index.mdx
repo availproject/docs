@@ -2,6 +2,7 @@
 image: "/img/docs-link-preview.png"
 title: Liquidity Routing
 description: Control which chains your tokens are sourced from, or let Nexus optimize the route automatically.
+hideFooter: true
 ---
 
 When a user does a [Nexus operation](/docs/nexus/concepts/nexus-ops), it involves the sourcing of liquidity by Nexus from wherever they have it. 
@@ -15,7 +16,7 @@ For [Bridge Methods](/docs/nexus/nexus-sdk/bridge-methods), this means you can j
 sourceChains?: number[];
 ```
 
-If kept in its default setting, the Nexus protocol handles the source selection using an internal algorithm. But if needed, the developer can enable/disable the selection of source chains and limit liquidity be sourced form the set chains **ONLY**. 
+If kept in its default setting, the Nexus protocol handles the source selection using an internal algorithm. But if needed, the developer can enable/disable the selection of source chains and limit liquidity be sourced from the set chains **ONLY**. 
 
 ### Swap Methods
 For [Swap Methods](/docs/nexus/concepts/bridge-v-swap), you can define the source chains when using the `ExactIn` Swap method. In this case you also need to mention the `chainId`, `amount`, and `tokenAddress`.
@@ -32,4 +33,17 @@ interface ExactInSwapInput {
 <Callout>
 [Learn more about the difference between Bridge and Swap methods.](/docs/nexus/concepts/bridge-v-swap)
 </Callout>
+
+<PageFooter
+  previous={{
+    title: "Crosschain Swaps",
+    description: "Swap any token on any chain.",
+    href: "/docs/nexus/concepts/xcs-swaps"
+  }}
+  next={{
+    title: "Understanding Balance Types",
+    description: "Why bridge and swap use different balances.",
+    href: "/docs/nexus/concepts/bridge-v-swap"
+  }}
+/>
 
