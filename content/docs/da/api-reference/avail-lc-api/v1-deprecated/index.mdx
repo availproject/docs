@@ -4,8 +4,30 @@ image: '/img/docs-link-preview.png'
 ---
 
 <Callout type="warning">
-**V1 HAS BEEN DEPRECATED**<br />
-The Avail light client API has been upgraded, and all the latest methods work under the path `/v2`.
-They provide all the features of `V1`, and more.
-Please refer to the [Avail light client API reference](/docs/da/api-reference/avail-lc-api) for detailed information.
+**The V1 Light Client API has been deprecated.**
+All V1 endpoints have equivalent V2 replacements. Please migrate to the [V2 API](/docs/da/api-reference/avail-lc-api).
 </Callout>
+
+## What replaced it
+
+The V2 API is a backward-compatible upgrade that preserves all V1 functionality while adding WebSocket support for real-time subscriptions and selective field queries for more efficient data retrieval.
+
+## How to migrate
+
+Change `/v1/` to `/v2/` in your endpoint paths. All V1 endpoints have direct V2 equivalents:
+
+| V1 endpoint              | V2 equivalent                                  |
+| ------------------------ | ---------------------------------------------- |
+| `/v1/version`            | `GET /v2/version`                              |
+| `/v1/status`             | `GET /v2/status`                               |
+| `/v1/blocks/{n}`         | `GET /v2/blocks/{n}`                           |
+| `/v1/blocks/{n}/header`  | `GET /v2/blocks/{n}/header`                    |
+| `/v1/blocks/{n}/data`    | `GET /v2/blocks/{n}/data?fields=data,extrinsic`|
+| `/v1/submit`             | `POST /v2/submit`                              |
+
+### New in V2
+
+- **WebSocket API** — real-time subscriptions for block and data availability events
+- **Selective field queries** — request only the fields you need (e.g., `?fields=data,extrinsic`)
+
+See the [V2 API reference](/docs/da/api-reference/avail-lc-api) for full endpoint documentation.
