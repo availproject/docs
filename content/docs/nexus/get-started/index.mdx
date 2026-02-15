@@ -7,14 +7,6 @@ description: Build cross-chain apps with Avail Nexus — accept payments from an
 
 Nexus lets your app move assets and execute transactions across chains without requiring users to bridge manually. Your users get a single-balance experience — your app handles the cross-chain complexity under the hood.
 
-## What Changes for Your Users
-
-| Without Nexus | With Nexus |
-|---|---|
-| User bridges manually, switches chains, manages gas per chain | User signs once — Nexus routes funds across chains |
-| Dev writes bridge logic per chain pair | Dev calls a single SDK method with token + destination |
-| Balances scattered across 12 chains | One unified balance |
-
 ## Quick Look — How the SDK Works
 
 <Tabs defaultValue="pseudocode">
@@ -51,6 +43,14 @@ You'll be prompted to choose your framework (Next.js, Vite, etc.) and auth provi
 
   </TabsContent>
 </Tabs>
+
+## What Changes for Your Users
+
+| Without Nexus | With Nexus |
+|---|---|
+| User bridges manually, switches chains, manages gas per chain | User signs once — Nexus routes funds across chains |
+| Dev writes bridge logic per chain pair | Dev calls a single SDK method with token + destination |
+| Balances scattered across 12 chains | One unified balance |
 
 ## Choose Your Path
 
