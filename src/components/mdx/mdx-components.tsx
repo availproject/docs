@@ -350,20 +350,9 @@ export const mdxComponents: MDXComponentsMap = {
     />
   ),
   Step: ({ className, ...props }: React.ComponentProps<"h3">) => (
-    <h3
-      className={cn(
-        "font-heading mt-4 scroll-m-32 text-xl font-medium tracking-tight",
-        className,
-      )}
-      {...props}
-    />
+    <h3 className={cn("step", className)} {...props} />
   ),
-  Steps: ({ ...props }) => (
-    <div
-      className="[&>h3]:step steps mb-12 [counter-reset:step] *:[h3]:first:mt-0!"
-      {...props}
-    />
-  ),
+  Steps: ({ ...props }) => <div className="steps" {...props} />,
   // Custom components used across docs
   ComponentPreview,
   ComponentSource,
