@@ -1,78 +1,137 @@
 ---
 image: "/img/docs-link-preview.png"
-title: Get started
+title: Get Started with Avail Nexus
+sidebar_label: Get Started
+description: Build cross-chain apps with Avail Nexus — accept payments from any chain, swap tokens across ecosystems, and execute contracts remotely.
 ---
- Avail Nexus is a meta-interoperability protocol that unifies users, assets, apps, and chains, letting developers build once, scale everywhere, and access liquidity and users from across the Web3 economy.
 
+Nexus lets your app move assets and execute transactions across chains without requiring users to bridge manually. Your users get a single-balance experience — your app handles the cross-chain complexity under the hood.
 
+## What Changes for Your Users
 
-- Unifies assets across chains
-- Executes intents across ecosystems
-- Let's apps interact with contracts anywhere
-- Handles gas, routing, and verification under the hood
-- Treats liquidity as a single global resource
+| Without Nexus | With Nexus |
+|---|---|
+| User bridges manually, switches chains, manages gas per chain | User signs once — Nexus routes funds across chains |
+| Dev writes bridge logic per chain pair | Dev calls a single SDK method with token + destination |
+| Balances scattered across 12 chains | One unified balance |
 
-Deposit, Swap, Stake, Buy, Play - Avail Nexus abstracts chains away so that "intent" replaces complexity.
+## Quick Look — How the SDK Works
 
-A seamless “bridgeless" experience. 
+<Tabs defaultValue="pseudocode">
+  <TabsList>
+    <TabsTrigger value="pseudocode">SDK Pseudocode</TabsTrigger>
+    <TabsTrigger value="scaffold">Scaffold an App</TabsTrigger>
+  </TabsList>
+  <TabsContent value="pseudocode">
 
-## Integrate Nexus - Create Liquid Apps
+```ts
+// 1. Initialize
+const sdk = new NexusSDK({ network: 'mainnet' });
 
-Nexus aims to reframe the mindset of both consumers and developers when using or building apps. With Nexus applications instantly gain access to users and liquidity from across Web3. They are longer just simple apps, they become *Liquid Apps*.
+// 2. See unified balance across all chains
+const balance = await sdk.getUnifiedBalances();
+// → { USDC: 350, ETH: 1.2 } (total across Arbitrum, Base, Ethereum...)
 
-Get started building your Liquid App today by integrating Nexus.
+// 3. Bridge to any chain — Nexus finds the best route
+await sdk.bridge({ token: 'USDC', amount: 100, toChain: 'arbitrum' });
+
+// 4. Or swap any token → any token, cross-chain
+await sdk.swap({ from: 'USDC', to: 'ETH', amount: 50, toChain: 'base' });
+```
+
+  </TabsContent>
+  <TabsContent value="scaffold">
+
+```bash
+npx create-liquid-apps my-app
+cd my-app && npm run dev
+```
+
+You'll be prompted to choose your framework (Next.js, Vite, etc.) and auth provider. The generated app comes with Nexus SDK pre-configured.
+
+  </TabsContent>
+</Tabs>
+
+## Choose Your Path
 
 <IconCardGrid>
   <IconCard
-    icon={<CodeIcon />}
-    title="Nexus SDK (Headless)"
-    description="Integrate Nexus directly into your app logic with full control over the UX — bridging, swaps, and intents via a simple TypeScript API."
-    href="/docs/nexus/nexus-quickstart/nexus-core"
+    icon={<Gear />}
+    title="Add Cross-Chain to My App"
+    description="Use Nexus Core directly — a TypeScript API for bridging, swaps, and intent management. ~15 min."
+    href="/docs/nexus/nexus-sdk/quickstart"
   />
   <IconCard
     icon={<Puzzle />}
-    title="Nexus UI Elements (UI Widgets)"
-    description="Drop in pre-built UI components for cross-chain operations — get bridging and swaps working in minutes with minimal code."
-    href="https://elements.nexus.availproject.org/docs/get-started"
-    external
+    title="Drop in UI Components"
+    description="Pre-built React components for bridging, swaps, and balances — shadcn-based. ~10 min."
+    href="/docs/nexus/nexus-ui-elements/installation"
+  />
+  <IconCard
+    icon={<CodeIcon />}
+    title="Start a New App from Scratch"
+    description="Scaffold a working app with create-liquid-apps — framework and auth pre-configured. ~5 min."
+    href="/docs/nexus/nexus-sdk"
+  />
+  <IconCard
+    icon={<Brain />}
+    title="Cookbook & Recipes"
+    description="Copy-paste patterns for common cross-chain flows — payments, swaps, and more."
+    href="/docs/nexus/cookbook-recipes"
   />
 </IconCardGrid>
 
-## Learn about Nexus Features
-Dive deep into the core features your application can leverage when building with Avail. 
+<Callout>
+**Prerequisites:** Node.js 18+, a package manager (npm/pnpm/yarn), and an EVM wallet (MetaMask, WalletConnect, etc.). The Nexus SDK is client-side only — it cannot run in server-side environments.
+</Callout>
 
-- Bridge, Transfer, Bridge & Execute - Bridge Methods
-- Exact In & Exact Out crosschain swaps - Swap Methods
+## How Nexus Works
 
-*Build liquid apps that can provide a truly bridgeless experience onchain.*
+When a user initiates a cross-chain action, Nexus handles the entire flow behind a single signature:
 
+<Steps>
+
+### User Expresses an Intent
+The user says "Move 100 USDC to Arbitrum" — your app creates an [intent](/docs/nexus/concepts/intent), a structured declaration of the desired outcome.
+
+### Protocol Collects Funds
+Using pre-approved [allowances](/docs/nexus/concepts/allowances), Nexus accesses the user's funds across source chains and deposits them into vault contracts.
+
+### Solvers Compete
+[Solvers](/docs/nexus/concepts/solvers) — liquidity providers — race to fulfill the intent by providing funds on the destination chain. Competition keeps fees low.
+
+### Funds Arrive
+The user receives tokens on the destination chain. Settlement with the solver happens asynchronously in the background.
+
+</Steps>
+
+## Supported Chains & Tokens
+
+Nexus currently supports bridging and swaps across major EVM chains including Ethereum, Arbitrum, Base, Optimism, and more. Bridge operations support canonical tokens (ETH, USDC, USDT), while swap operations support a broader range of tokens through DEX aggregator partners.
+
+<Callout type="info">
+For the full list of supported chains and tokens, see the [SDK API Reference](/docs/nexus/nexus-sdk).
+</Callout>
+
+## Next Steps
 
 <IconCardGrid>
   <IconCard
-    icon={<Bridge />}
-    title="Bridge, Transfer, Bridge & Execute"
-    description="Cross-chain bridging methods — move assets between chains, transfer to different addresses, or bridge and execute a contract call in one step."
-    href="/docs/nexus/concepts/nexus-ops"
+    icon={<Compass />}
+    title="Explore Concepts"
+    description="Chain abstraction, intents, solvers — understand the full system."
+    href="/docs/nexus/concepts"
   />
   <IconCard
-    icon={<Swap />}
-    title="Crosschain Swaps"
-    description="Exact In and Exact Out crosschain swaps — exchange tokens across chains with precise control over input or output amounts."
-    href="/docs/nexus/concepts/xcs-swaps"
-  />
-</IconCardGrid>
-
-### Quick access Nexus SDK reference
-
-<IconCardGrid>
-  <IconCard
-    icon={<Bridge />}
-    title="Bridge Methods"
-    href="/docs/nexus/nexus-sdk/bridge-methods"
+    icon={<CodeIcon />}
+    title="SDK Reference"
+    description="Complete API docs for Bridge Methods, Swap Methods, and more."
+    href="/docs/nexus/nexus-sdk"
   />
   <IconCard
-    icon={<Swap />}
-    title="Swap Methods"
-    href="/docs/nexus/nexus-sdk/swap-methods"
+    icon={<Brain />}
+    title="Cookbook"
+    description="Practical recipes for common cross-chain patterns."
+    href="/docs/nexus/cookbook-recipes"
   />
 </IconCardGrid>

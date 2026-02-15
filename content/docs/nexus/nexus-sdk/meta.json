@@ -1,7 +1,9 @@
 {
   "title": "Nexus SDK",
   "pages": [
+    "quickstart",
     "build-your-first-liquid-app",
+    "examples",
     "bridge-methods",
     "swap-methods",
     "hooks-and-errors",
