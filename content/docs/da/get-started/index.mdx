@@ -1,58 +1,139 @@
 ---
+title: Get Started with Avail DA
+sidebar_label: Get Started
+description: Post data to Avail DA and read it back — in TypeScript, Rust, or Go.
 image: "/img/docs-link-preview.png"
-title: Get Started
 ---
 
-Avail DA delivers verifiable data availability that lets every chain launch faster, scale further, and reach more users. Avail DA guarantees data integrity through a combination of:
+Avail DA is a modular data availability layer purpose-built so rollups can post, verify, and retrieve data without running a full node. Rollup teams across the ecosystem use Avail DA to scale throughput while keeping verification light and decentralized. On this page you'll install an SDK, submit data to the Turing testnet, and read it back — in under 5 minutes.
 
-- **Validity proofs** — cryptographic proofs that verify data correctness without re-executing transactions
-- **KZG polynomial commitments** — efficient commitment schemes that enable compact data verification
-- **Data availability sampling (DAS)** — light clients randomly sample small portions of block data to probabilistically verify the entire block is available
-- **Light client verification** — anyone can verify data availability by running a light client, without needing a full node
+## Quick Look — Submit & Read Data
 
-Read these key blogs to learn more about our vision:
+<Tabs defaultValue="typescript">
+  <TabsList>
+    <TabsTrigger value="typescript">TypeScript</TabsTrigger>
+    <TabsTrigger value="rust">Rust</TabsTrigger>
+    <TabsTrigger value="go">Go</TabsTrigger>
+  </TabsList>
+  <TabsContent value="typescript">
 
-<Cards num={2}>
-  <Card arrow title="Avail DA" href="https://blog.availproject.org/avails-core-features-explained/">
-    <img className="cardImage" src="/img/start-here/validity-proofs.png" alt="Validity Proofs" target="_blank" rel="noopener noreferrer"/>
-  </Card>
-  <Card arrow title="What is Avail?" href="https://blog.availproject.org/what-is-avail/">
-    <img className="cardImage"src="/img/start-here/what-is-avail.png" alt="What is Avail?" target="_blank" rel="noopener noreferrer" height={396}/>
-  </Card>
-</Cards>
+```typescript
+import { Account, SDK, Block } from "avail-js-sdk";
 
-## Some Quick Links
+const sdk = await SDK.New("wss://turing-rpc.avail.so/ws");
+const account = Account.new("YOUR_SEED_PHRASE");
 
-### User Guides
+// Step 1: Submit data
+const tx = sdk.tx.dataAvailability.submitData("Hello, Avail!");
+const res = await tx.executeWaitForInclusion(account, { app_id: 89 });
+console.log(`Block: ${res.blockHash} | Tx: ${res.txHash}`);
 
-<Cards num={3}>
-  <Card icon={<FileIcon />} title="Set up a new Avail wallet" href="/docs/da/user-guides/accounts" />
-  <Card icon={<FileIcon />} title="Bridge AVAIL to Ethereum" href="/docs/da/build/vectorx" />
-  <Card icon={<FileIcon />} title="Stake on Avail DA" href="/docs/da/user-guides/staking-governance/stake-on-avail" />
-</Cards>
+// Step 2: Read it back
+const block = await Block.New(sdk.client, res.blockHash);
+const blobs = block.dataSubmissions({ txHash: res.txHash });
+console.log(blobs[0].toAscii()); // "Hello, Avail!"
+```
 
-### Developer Documentation
+  </TabsContent>
+  <TabsContent value="rust">
 
-<Cards num={2}>
-  <Card icon={<FileIcon />} title="Get testnet tokens from the faucet" href="/docs/da/build/interact/faucet" />
-  <Card icon={<FileIcon />} title="Check out all endpoints and network information" href="/docs/da/build/networks" />
-  <Card icon={<FileIcon />} title="Deploy your own rollup on Avail DA" href="/docs/da/build/rollups" />
-  <Card icon={<FileIcon />} title="Start posting data to Avail DA" href="/docs/da/build/interact/read-write-on-avail" />
-  <Card icon={<FileIcon />} title="Run your own Avail light client" href="/docs/da/operate/run-a-light-client" />
-  <Card icon={<FileIcon />} title="Run your own Avail node" href="/docs/da/operate/run-a-full-node" />
-  <Card icon={<FileIcon />} title="Become a validator on Avail DA" href="/docs/da/operate/become-a-validator" />
-</Cards>
+```rust
+use avail_rust::prelude::*;
 
-### API reference
+let sdk = SDK::new("wss://turing-rpc.avail.so/ws").await?;
+let account = account::from_secret_uri("YOUR_SEED_PHRASE")?;
 
-<Cards num={3}>
-  <Card icon={<FileIcon />} title="Avail node API reference" href="/docs/da/api-reference/avail-node-api" />
-  <Card icon={<FileIcon />} title="Avail light client API reference" href="/docs/da/api-reference/avail-lc-api" />
-  <Card icon={<FileIcon />} title="Avail VectorX API reference" href="/docs/da/api-reference/avail-bridge-api" />
-</Cards>
+// Step 1: Submit data
+let data = String::from("Hello, Avail!").into_bytes();
+let tx = sdk.tx.data_availability.submit_data(data);
+let options = Options::new().app_id(89);
+let res = tx.execute_and_watch_inclusion(&account, options).await?;
+println!("Block: {:?} | Tx: {:?}", res.block_hash, res.tx_hash);
 
-### Bug Bounty
+// Step 2: Read it back
+let block = Block::new(&sdk.client, res.block_hash).await?;
+let blobs = block.data_submissions(Filter::new().tx_hash(res.tx_hash));
+println!("{:?}", blobs[0].to_ascii().unwrap()); // "Hello, Avail!"
+```
 
-<Cards num={2}>
-  <Card icon={<FileIcon />} title="Bug Bounty" href="/docs/da/build/bug-bounty" />
-</Cards>
+  </TabsContent>
+  <TabsContent value="go">
+
+```go
+sdk, _ := SDK.NewSDK("https://turing-rpc.avail.so/rpc")
+acc, _ := SDK.Account.NewKeyPair("YOUR_SEED_PHRASE")
+
+// Step 1: Submit data
+tx := sdk.Tx.DataAvailability.SubmitData([]byte("Hello, Avail!"))
+res, _ := tx.ExecuteAndWatchInclusion(acc, SDK.NewTransactionOptions().WithAppId(89))
+fmt.Println("Block:", res.BlockHash.ToHexWith0x(), "| Tx:", res.TxHash.ToHexWith0x())
+
+// Step 2: Read it back
+block, _ := SDK.NewBlock(sdk.Client, res.BlockHash)
+blobs := block.DataSubmissions(SDK.Filter{}.WTxHash(res.TxHash))
+fmt.Println(string(blobs[0].Data)) // "Hello, Avail!"
+```
+
+  </TabsContent>
+</Tabs>
+
+For complete examples with error handling, see the [full Read & Write guide](/docs/da/build/interact/read-write-on-avail).
+
+<Callout>
+**Prerequisites:** Before running the code above, you'll need:
+- [Testnet AVAIL tokens](/docs/da/build/interact/faucet) — free from the faucet
+- [An App ID](/docs/da/build/interact/app-id) — identifies your data namespace
+- An SDK installed: `pnpm add avail-js-sdk` · `cargo add avail-rust` · `go get github.com/availproject/avail-go-sdk`
+</Callout>
+
+## Choose Your Path
+
+<IconCardGrid>
+  <IconCard
+    icon={<Send />}
+    title="Post Data to Avail"
+    description="Full read & write tutorial with TypeScript, Rust, and Go SDKs. ~15 min."
+    href="/docs/da/build/interact/read-write-on-avail"
+  />
+  <IconCard
+    icon={<Cube />}
+    title="Deploy a Rollup"
+    description="Launch an OP Stack, Arbitrum Nitro, or Polygon CDK rollup on Avail DA."
+    href="/docs/da/build/rollups"
+  />
+  <IconCard
+    icon={<Globe />}
+    title="Run a Light Client"
+    description="Verify data availability by sampling — no full node needed. ~10 min."
+    href="/docs/da/operate/run-a-light-client"
+  />
+  <IconCard
+    icon={<Gear />}
+    title="Run a Validator"
+    description="Operate a full validator node on the Avail network."
+    href="/docs/da/operate/become-a-validator"
+  />
+</IconCardGrid>
+
+## Next Steps
+
+<IconCardGrid>
+  <IconCard
+    icon={<Brain />}
+    title="Explore Concepts"
+    description="What is Avail DA, how it works, App IDs, and transaction pricing."
+    href="/docs/da/concepts"
+  />
+  <IconCard
+    icon={<CodeIcon />}
+    title="API Reference"
+    description="Node API, Light Client API, Bridge API, and Turbo DA API."
+    href="/docs/da/api-reference"
+  />
+  <IconCard
+    icon={<Compass />}
+    title="Networks & Endpoints"
+    description="Mainnet and Turing testnet RPC/WS endpoints and explorers."
+    href="/docs/da/build/networks"
+  />
+</IconCardGrid>
