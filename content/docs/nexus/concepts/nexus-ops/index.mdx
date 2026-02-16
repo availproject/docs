@@ -1,6 +1,8 @@
 ---
 image: "/img/docs-link-preview.png"
 title: Bridge, Transfer & Execute
+description: Move tokens to yourself, send to another address, or bridge and call any smart contract in one action.
+hideFooter: true
 ---
 
 In Nexus, apart from [crosschain swaps](/docs/nexus/concepts/xcs-swaps), users can do ***Bridge, Transfer, Bridge & Execute*** which uses Nexus chain abstraction (aka **Bridge Methods**).
@@ -34,7 +36,7 @@ This function uses the `TransferParams` struct and the `bridgeAndTransfer` funct
 
 The `Bridge & Execute` operation is a more complex compound operation in Nexus. In this operation, the user bridges liquidity from N sources chains if there is a lack of enough liquidity on the destination chain, and then executes any arbitrary smart contract function. 
 
-Note that the smart contract can be any onchain contract on the destination chain. ALl the developer needs is the contract `address`, function `name` & `params`, and `ABI`. 
+Note that the smart contract can be any onchain contract on the destination chain. All the developer needs is the contract `address`, function `name` & `params`, and `ABI`. 
 
 For users, this means they don't have to do a separate bridge action to use a `Liquid App` (Nexus powered application), and just use the app as they would if they had liquidity onchain. 
 
@@ -52,3 +54,16 @@ This function uses the `BridgeAndExecuteParams` struct and the `bridgeAndExecute
 - [Learn more about the difference between Bridge and Swap methods.](/docs/nexus/concepts/bridge-v-swap)
 - [SDK reference](/docs/nexus/nexus-sdk/bridge-methods) (Bridge Methods)
 </Callout>
+
+<PageFooter
+  previous={{
+    title: "Token Allowances",
+    description: "Approve tokens for cross-chain operations.",
+    href: "/docs/nexus/concepts/allowances"
+  }}
+  next={{
+    title: "Crosschain Swaps",
+    description: "Swap any token on any chain.",
+    href: "/docs/nexus/concepts/xcs-swaps"
+  }}
+/>

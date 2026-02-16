@@ -2,12 +2,14 @@
   "title": "User Guides",
   "pages": [
     "accounts",
-    "avail-multisig",
-    "proxies-on-avail",
+    "explorer",
     "identity",
-    "avail-snap",
-    "ledger-avail",
+    "staking-governance",
     "bridge-avail",
-    "staking-governance"
+    "ledger-avail",
+    "avail-funds-recovery",
+    "avail-snap",
+    "avail-multisig",
+    "proxies-on-avail"
   ]
 }

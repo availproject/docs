@@ -1,5 +1,6 @@
 ---
-title: "Transaction Pricing"
+title: "How Transaction Pricing Works"
+description: "How AVAIL token fees are calculated based on compute, storage, and data submission requirements."
 image: '/img/docs-link-preview.png'
 ---
 
@@ -34,11 +35,9 @@ Weight fee = [Congestion multiplier * Weight of transaction]
 Final fee = Base fee + Length fee + Weight fee  + Tip(optional)
 ```
 
-- Executing most transactions like transferring funds and creating proxys don't vary in terms  of fees since
-processing a transaction that transfers `1` AVAIL requires the same amount of computation as processing a
-transaction that transfers `1000` AVAIL.
+Most transactions like balance transfers and proxy creation have predictable fees — transferring `1` AVAIL requires the same computation as transferring `1000` AVAIL, so the Weight fee stays constant.
 
-- This however changes when we talk about transactions that post new data to the network. We will look at it now.
+This changes for transactions that post new data to the network, where the size of the data directly affects the cost.
 
 ## Fees calculation for DA transactions
 
@@ -68,11 +67,29 @@ To query the current value of the `submitDataFeeModifier`:
 
 #### Significance of the data input
 
-- For most extrinsics on Avail, the 'raw size' of the input parameters doesn't matter much. For DA transactions
-however, the size of the data being posted makes a lot of difference.
+For most extrinsics on Avail, the raw size of the input parameters doesn't matter much. DA transactions are different — the size of the data being posted has a direct impact on both fee components:
 
-- The size of the data being posted is directly proportional to the amount of computing resources required to
-generate commitments for it. Hence, the 'Length fee' varies significantly.
+The **Length fee** scales with the encoded size of the data, since larger submissions consume more block space. The **Weight fee** also increases because generating KZG commitments for the data requires more computation as the data grows.
 
-- And of course, the bigger the data, the more storage space it will consume on-chain. Hence, 'Weight fee' will also
-vary significantly.
+In short, larger data submissions cost more in both dimensions — storage and compute.
+
+#### Worked example
+
+Consider a `submitData` transaction posting a 512-byte data blob under normal network conditions (no congestion):
+
+```
+Base fee:    0.124 AVAIL  (constant)
+Length fee:  proportional to ~512 bytes of encoded data
+Weight fee:  [1.0 * weight] * submitDataFeeModifier
+Tip:         0 (optional)
+```
+
+The exact fee depends on the current `submitDataFeeModifier` and congestion multiplier, both of which can be queried on-chain. Under low congestion with a neutral modifier, a 512-byte submission typically costs a fraction of an AVAIL token. Larger submissions (e.g. 128 KB) cost proportionally more due to the increased length and commitment generation weight.
+
+<Callout type="info">
+**Related concepts**
+
+- Learn about [App IDs](/docs/da/concepts/app-ids), which are used to organize data submissions on the network.
+- Understand [how Avail DA works](/docs/da/concepts/how-avail-da-works) — including KZG commitments that drive the Weight fee.
+- See [Networks & Endpoints](/docs/da/build/networks) for network details and contract addresses.
+</Callout>

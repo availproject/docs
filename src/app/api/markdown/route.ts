@@ -1,5 +1,6 @@
+import { type NextRequest, NextResponse } from "next/server";
+import { AGENT_HEADERS } from "@/lib/agent-headers";
 import { source } from "@/lib/source";
-import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   // Handle the root /docs page (empty slug)
@@ -11,17 +12,21 @@ export async function GET(request: NextRequest) {
 
   try {
     const raw = await page.data.getText("raw");
+    const tokenEstimate = Math.ceil(raw.length / 4);
 
     // Check if user wants JSON response or raw markdown
     const format = request.nextUrl.searchParams.get("format");
 
     if (format === "json") {
-      return NextResponse.json({
-        title: page.data.title,
-        description: page.data.description,
-        url: page.url,
-        content: raw,
-      });
+      return NextResponse.json(
+        {
+          title: page.data.title,
+          description: page.data.description,
+          url: page.url,
+          content: raw,
+        },
+        { headers: AGENT_HEADERS },
+      );
     }
 
     // Return raw markdown with proper content type
@@ -29,13 +34,15 @@ export async function GET(request: NextRequest) {
       headers: {
         "Content-Type": "text/markdown; charset=utf-8",
         "Content-Disposition": 'inline; filename="index.md"',
+        "x-markdown-tokens": String(tokenEstimate),
+        ...AGENT_HEADERS,
       },
     });
   } catch (error) {
     console.error("Error fetching markdown:", error);
     return NextResponse.json(
       { error: "Failed to fetch markdown content" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

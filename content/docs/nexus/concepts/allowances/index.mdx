@@ -1,6 +1,8 @@
 ---
 image: "/img/docs-link-preview.png"
 title: Token Allowances
+description: Approve tokens for Nexus smart contracts to enable cross-chain operations on your behalf.
+hideFooter: true
 ---
 
 The Nexus SDK requires allowances.
@@ -40,3 +42,16 @@ Here is how the allowances enables chain abstracted transactions:
 5. The user signs the intent. Solvers then supply liquidity in the user's EOA to transact on the destination chain.
 6. User can now transact on any destination chain and pay gas fee.
 7. The protocol settles transactions with the solvers using the funds collected on the source chains.
+
+<PageFooter
+  previous={{
+    title: "How Intents are Processed",
+    description: "From creation to fulfillment.",
+    href: "/docs/nexus/concepts/intent-lifecycle"
+  }}
+  next={{
+    title: "Bridge, Transfer & Execute",
+    description: "Move, send, or call contracts in one action.",
+    href: "/docs/nexus/concepts/nexus-ops"
+  }}
+/>

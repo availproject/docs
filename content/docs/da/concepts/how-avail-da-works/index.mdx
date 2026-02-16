@@ -1,0 +1,71 @@
+---
+title: "How Avail DA Works"
+description: "How Avail DA guarantees data availability through erasure coding, KZG commitments, data availability sampling, and nominated proof-of-stake consensus."
+image: '/img/docs-link-preview.png'
+---
+
+Avail DA's core job is to guarantee that data posted by rollups is available for anyone to retrieve and verify. It achieves this through a pipeline of cryptographic techniques and a consensus mechanism designed specifically for this purpose.
+
+## Block data lifecycle
+
+When a rollup submits data to Avail, it goes through this pipeline:
+
+1. **Data submission** — The rollup posts transaction data via a `submitData` extrinsic, tagged with its [App ID](/docs/da/concepts/app-ids).
+2. **Matrix construction** — The block data is chunked and arranged into a 2D matrix of equal-sized cells.
+3. **Erasure coding** — Each row of the matrix is extended using Reed-Solomon erasure codes, adding redundancy.
+4. **KZG commitments** — Each row is committed to using KZG polynomial commitments. These commitments are included in the block header.
+5. **Consensus** — Validators attest to the block header (which contains the commitments), finalizing it.
+6. **Data availability sampling** — Light clients randomly sample cells from the matrix to verify the data is available.
+
+## Erasure coding
+
+Erasure coding spreads data across redundant "shards" so that the original data can be reconstructed even if some shards are missing. In Avail, each row of the block data matrix is erasure-coded, effectively doubling its size.
+
+This matters because a malicious block producer trying to hide even a single transaction would need to withhold a large portion of the block. Random sampling by light clients becomes far more likely to catch the gap. Without erasure coding, a bad actor could hide a small piece of data that sampling might miss. With it, any attempt to hide data requires withholding so much that it's nearly impossible to evade detection.
+
+## KZG polynomial commitments
+
+Each row of the erasure-coded matrix is committed to using KZG commitments. These are compact cryptographic proofs included in every block header that provide two guarantees:
+
+1. **Binding** — It's computationally infeasible to produce a commitment that matches incorrect data. If the commitment is valid, the data is correct.
+2. **Efficient verification** — A light client can verify that any individual cell belongs to the committed row without downloading the full row. This is what makes cell-level sampling practical.
+
+Together with erasure coding, KZG commitments mean that verifying a single cell proves both that the cell data is correct and that it belongs to the committed block data.
+
+## Data availability sampling (DAS)
+
+DAS is how light clients verify that block data is available without downloading entire blocks. The process works like this:
+
+1. A light client receives a new finalized block header containing KZG commitments.
+2. It randomly selects a set of cells from the block's data matrix.
+3. It retrieves those cells — first from the peer-to-peer DHT network, then via RPC if needed.
+4. It verifies each cell against the KZG commitment in the header.
+5. It calculates a **confidence score** — the probability that the full block data is available given the number of cells successfully verified.
+
+With enough samples (a small constant number), a light client achieves near-100% confidence that the entire block is available. This is a key property of Avail: **you don't need a full node to verify data availability**. A light client running on consumer hardware can do it.
+
+<Callout type="info">
+Light clients that verify cells also re-share them on the peer-to-peer network, increasing overall data availability for the network. The more light clients sampling, the stronger the DA guarantee becomes.
+</Callout>
+
+## Consensus: how blocks are finalized
+
+Avail uses **Nominated Proof of Stake (NPoS)** for validator selection, combined with two Substrate-based protocols for block production and finality:
+
+| Protocol | Role |
+|----------|------|
+| **BABE** (Blind Assignment for Blockchain Extension) | Block production — validators are assigned slots to produce blocks |
+| **GRANDPA** (GHOST-based Recursive Ancestor Deriving Prefix Agreement) | Finality — validators vote to finalize chains of blocks |
+
+Validators in Avail don't execute transactions. They attest that data has been correctly packaged into blocks with valid KZG commitments. This is a lighter workload than execution-based chains, which is why Avail can support larger block sizes without proportionally increasing validator requirements.
+
+A supermajority of validators must sign off on a block header (which includes the KZG commitments and a Merkle root of the data) for it to be finalized via GRANDPA. Once finalized, the data is considered available and immutable.
+
+<Callout type="info">
+**Next steps**
+
+- Understand how rollup data is organized with [App IDs](/docs/da/concepts/app-ids).
+- Learn how [transaction pricing](/docs/da/concepts/tx-pricing) works for data submissions.
+- Run your own [light client](/docs/da/operate/run-a-light-client) to participate in DAS.
+- Become a [validator](/docs/da/operate/become-a-validator) on the Avail network.
+</Callout>

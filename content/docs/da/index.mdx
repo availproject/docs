@@ -3,16 +3,43 @@ title: Avail DA
 description: Documentation for Avail DA - the data availability layer
 ---
 
-import { Cards, Card } from 'fumadocs-ui/components/card'
-
-
 Welcome to the Avail DA documentation. Avail DA is the data availability layer that powers the Avail ecosystem.
 
-<Cards>
-  <Card title="Get Started" href="/docs/da/get-started" />
-  <Card title="Concepts" href="/docs/da/concepts" />
-  <Card title="Build" href="/docs/da/build" />
-  <Card title="Operate" href="/docs/da/operate" />
-  <Card title="User Guides" href="/docs/da/user-guides" />
-  <Card title="API Reference" href="/docs/da/api-reference" />
-</Cards>
+<IconCardGrid>
+  <IconCard
+    icon={<Compass />}
+    title="Get Started"
+    description="An overview of Avail DA and quick links to get up and running."
+    href="/docs/da/get-started"
+  />
+  <IconCard
+    icon={<Cube />}
+    title="Concepts"
+    description="Understand how Avail DA works — data availability, consensus, App IDs, and pricing."
+    href="/docs/da/concepts"
+  />
+  <IconCard
+    icon={<Gear />}
+    title="Build"
+    description="Integrate your rollup, post data, and connect to Avail DA."
+    href="/docs/da/build"
+  />
+  <IconCard
+    icon={<Globe />}
+    title="Operate"
+    description="Run a light client, full node, or become a validator on the Avail network."
+    href="/docs/da/operate"
+  />
+  <IconCard
+    icon={<IdentificationBadge />}
+    title="User Guides"
+    description="Accounts, staking, bridging, Ledger setup, and more."
+    href="/docs/da/user-guides"
+  />
+  <IconCard
+    icon={<CodeIcon />}
+    title="API Reference"
+    description="Node API, light client API, bridge API, and Turbo DA API reference."
+    href="/docs/da/api-reference"
+  />
+</IconCardGrid>

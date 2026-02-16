@@ -11,6 +11,7 @@ import {
   useSearchDialog,
 } from "@/components/search/search-dialog";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { pixelTransition } from "@/lib/pixel-transition";
 import { Skeleton } from "../ui/skeleton";
 import { AccountMenu } from "./account-menu";
 import { ProductSwitcher } from "./product-switcher";
@@ -45,6 +46,30 @@ export default function Topbar() {
   const pathname = usePathname();
   const isProductPage =
     pathname.startsWith("/docs/da") || pathname.startsWith("/docs/nexus");
+
+  // Toggle theme with "T" key + pixel transition from center
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === "t" && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        const target = e.target as HTMLElement;
+        if (
+          target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.isContentEditable
+        ) {
+          return;
+        }
+        e.preventDefault();
+        const next = resolvedTheme === "dark" ? "light" : "dark";
+        pixelTransition(() => setTheme(next), {
+          x: window.innerWidth / 2,
+          y: window.innerHeight / 2,
+        });
+      }
+    };
+    document.addEventListener("keydown", down);
+    return () => document.removeEventListener("keydown", down);
+  }, [resolvedTheme, setTheme]);
 
   useEffect(() => {
     try {

@@ -1,12 +1,28 @@
+import { type NextRequest, NextResponse } from "next/server";
+import { AGENT_HEADERS } from "@/lib/agent-headers";
 import { source } from "@/lib/source";
-import { NextRequest, NextResponse } from "next/server";
+
+function getPageFromSlug(slug: string[]) {
+  const directMatch = source.getPage(slug);
+  if (directMatch) {
+    return directMatch;
+  }
+
+  // DA content is canonicalized under /docs/DA/* while many links and
+  // users request /docs/da/*. Support both casings for API consumers.
+  if (slug.length > 0 && slug[0].toLowerCase() === "da") {
+    return source.getPage(["DA", ...slug.slice(1)]);
+  }
+
+  return null;
+}
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ slug: string[] }> }
+  { params }: { params: Promise<{ slug: string[] }> },
 ) {
   const { slug } = await params;
-  const page = source.getPage(slug);
+  const page = getPageFromSlug(slug);
 
   if (!page) {
     return NextResponse.json({ error: "Page not found" }, { status: 404 });
@@ -14,17 +30,21 @@ export async function GET(
 
   try {
     const raw = await page.data.getText("raw");
+    const tokenEstimate = Math.ceil(raw.length / 4);
 
     // Check if user wants JSON response or raw markdown
     const format = request.nextUrl.searchParams.get("format");
 
     if (format === "json") {
-      return NextResponse.json({
-        title: page.data.title,
-        description: page.data.description,
-        url: page.url,
-        content: raw,
-      });
+      return NextResponse.json(
+        {
+          title: page.data.title,
+          description: page.data.description,
+          url: page.url,
+          content: raw,
+        },
+        { headers: AGENT_HEADERS },
+      );
     }
 
     // Return raw markdown with proper content type
@@ -32,13 +52,15 @@ export async function GET(
       headers: {
         "Content-Type": "text/markdown; charset=utf-8",
         "Content-Disposition": `inline; filename="${slug.join("-") || "index"}.md"`,
+        "x-markdown-tokens": String(tokenEstimate),
+        ...AGENT_HEADERS,
       },
     });
   } catch (error) {
     console.error("Error fetching markdown:", error);
     return NextResponse.json(
       { error: "Failed to fetch markdown content" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

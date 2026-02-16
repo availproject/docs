@@ -1,8 +1,320 @@
 ---
 title: Build Your First Liquid App
-description: A step-by-step guide to building your first crosschain application with the Nexus SDK.
+description: Go from zero to a working cross-chain bridge in seven steps — install, connect, check balances, simulate, bridge, track progress, and handle errors.
+hideFooter: true
 ---
 
+Your user has USDC on three chains but needs it on Arbitrum. Without [chain abstraction](/docs/nexus/concepts/chain-abstraction), they'd manually bridge from each chain, pay gas three times, and wait for each transfer to confirm. With the Nexus SDK, they sign once — and the protocol handles the rest.
+
+In this tutorial you'll build that flow end-to-end: install the SDK, connect a wallet, check unified balances, simulate fees, execute a bridge, track progress with events, and handle errors gracefully.
+
 <Callout>
-This guide is coming soon. Check back for a complete walkthrough on building your first Liquid App with the Nexus SDK.
+**Just want the code?** Clone a working starter:
+- [Next.js template](https://github.com/availproject/nexus-nextjs-template)
+- [Vite template](https://github.com/availproject/nexus-vite-template)
 </Callout>
+
+## Prerequisites
+
+- Node.js 18+ and a package manager (npm, pnpm, or yarn)
+- An EVM wallet browser extension (MetaMask, Rabby, etc.)
+- Testnet tokens — get USDC on any [supported testnet chain](/docs/nexus/nexus-sdk/api-reference)
+
+<Callout type="info">
+The Nexus SDK is **client-side only**. It needs access to the browser's wallet provider (`window.ethereum`) and cannot run in Node.js or server-side rendering.
+</Callout>
+
+## Tutorial
+
+<Steps>
+
+### Install the SDK
+
+```bash
+pnpm add @avail-project/nexus-core
+```
+
+The SDK ships its own TypeScript types — no separate `@types` package needed.
+
+### Create an SDK instance
+
+The SDK instance is your entry point for all cross-chain operations. Create it once, reuse everywhere.
+
+<Tabs defaultValue="testnet">
+  <TabsList>
+    <TabsTrigger value="testnet">Testnet</TabsTrigger>
+    <TabsTrigger value="mainnet">Mainnet</TabsTrigger>
+  </TabsList>
+  <TabsContent value="testnet">
+
+```ts title="src/lib/nexus.ts"
+import { NexusSDK } from '@avail-project/nexus-core';
+
+export const sdk = new NexusSDK({ network: 'testnet' });
+```
+
+Testnet connects to Arbitrum Sepolia, Base Sepolia, Optimism Sepolia, and other test networks. Use this while developing.
+
+  </TabsContent>
+  <TabsContent value="mainnet">
+
+```ts title="src/lib/nexus.ts"
+import { NexusSDK } from '@avail-project/nexus-core';
+
+export const sdk = new NexusSDK({ network: 'mainnet' });
+```
+
+Mainnet connects to Ethereum, Arbitrum, Base, Optimism, Polygon, and [12+ production chains](/docs/nexus/nexus-sdk/api-reference).
+
+  </TabsContent>
+</Tabs>
+
+### Connect a wallet and initialize
+
+Before the SDK can read balances or submit transactions, it needs an [EIP-1193 provider](https://eips.ethereum.org/EIPS/eip-1193) — the standard interface every wallet extension exposes.
+
+```ts
+// Using window.ethereum directly
+await sdk.initialize(window.ethereum);
+
+// Or with wagmi/RainbowKit — pass the walletClient's transport
+const walletClient = await getWalletClient();
+await sdk.initialize(walletClient.transport);
+```
+
+After this, `sdk.isInitialized()` returns `true` and the SDK knows which address is connected.
+
+<Callout type="info">
+**When to deinit:** If your app supports wallet switching, call `sdk.deinit()` before re-initializing with a new provider. For single-wallet apps, you won't need it.
+</Callout>
+
+### Fetch balances
+
+This is the core value of chain abstraction — instead of querying each chain individually, one call returns the user's balances across all connected chains.
+
+```ts
+const balances = await sdk.getBalancesForBridge();
+
+console.log(balances);
+// → [{ symbol: "USDC", balance: "125.50", chainId: 421614, ... }, ...]
+```
+
+Each entry in the array represents a token on a specific chain. Your UI can aggregate these by symbol to show totals, and the SDK figures out which chains to pull from during a bridge.
+
+### Simulate before you bridge
+
+Always simulate first. A simulation returns the exact fee breakdown — protocol fees, solver fees, gas — without submitting any transaction. This is what you'd show in a confirmation dialog.
+
+```ts
+const simulation = await sdk.simulateBridge({
+  token: 'USDC',
+  amount: 1_000_000n, // 1 USDC (6 decimals)
+  toChainId: 421614,  // Arbitrum Sepolia
+});
+
+console.log(simulation.intent.fees);
+// → { protocol: "0.01", solver: "0.005", caGas: "0.002", total: "0.017" }
+```
+
+The returned [intent](/docs/nexus/concepts/intent) object contains a full breakdown: source chains, destination, fees, and the token metadata. This is the same structure your [intent hook](#hooks-approve-before-you-sign) will receive.
+
+<Callout>
+**Amounts use `bigint` in base units.** USDC has 6 decimals, so `1_000_000n` = 1 USDC. ETH has 18 decimals, so `1_000_000_000_000_000_000n` = 1 ETH. TypeScript's underscore separators keep these readable.
+</Callout>
+
+### Execute the bridge
+
+Once the user confirms, call `bridge()` with the same parameters. Pass an `onEvent` callback to track progress in real-time — the SDK emits events as each step completes.
+
+```ts
+import { NEXUS_EVENTS } from '@avail-project/nexus-core';
+
+const result = await sdk.bridge(
+  {
+    token: 'USDC',
+    amount: 1_000_000n,
+    toChainId: 421614,
+  },
+  {
+    onEvent: (event) => {
+      if (event.name === NEXUS_EVENTS.STEPS_LIST) {
+        // Fired first — the full list of steps the SDK will execute
+        console.log('Plan:', event.args);
+      }
+      if (event.name === NEXUS_EVENTS.STEP_COMPLETE) {
+        // Fired after each step completes
+        console.log('Done:', event.args.type, event.args.data?.explorerURL);
+      }
+    },
+  }
+);
+
+console.log('Bridge complete:', result.explorerUrl);
+```
+
+Behind the scenes, the SDK is collecting funds from source chains via [allowances](/docs/nexus/concepts/allowances), publishing the [intent](/docs/nexus/concepts/intent) to [solvers](/docs/nexus/concepts/solvers), and waiting for settlement. The `onEvent` callback lets you render a step-by-step checklist so users see progress instead of a spinner.
+
+For the full event type reference, see [Bridge Events](/docs/nexus/nexus-sdk/bridge-methods/bridge-events).
+
+### Handle errors
+
+Wrap SDK calls with `NexusError` handling. Every SDK error has a machine-readable `code` you can switch on, plus a human-readable `message` for logging.
+
+```ts
+import { NexusError, ERROR_CODES } from '@avail-project/nexus-core';
+
+try {
+  await sdk.bridge({ token: 'USDC', amount: 1_000_000n, toChainId: 421614 });
+} catch (err) {
+  if (err instanceof NexusError) {
+    switch (err.code) {
+      case ERROR_CODES.INSUFFICIENT_BALANCE:
+        // Show "not enough funds" in your UI
+        break;
+      case ERROR_CODES.USER_DENIED_INTENT:
+        // User rejected the transaction — no action needed
+        break;
+      case ERROR_CODES.SDK_NOT_INITIALIZED:
+        // Prompt wallet connection
+        break;
+      default:
+        console.error(`[${err.code}] ${err.message}`);
+    }
+  }
+}
+```
+
+For the full list of error codes, see [Hooks and Errors](/docs/nexus/nexus-sdk/hooks-and-errors).
+
+</Steps>
+
+## Complete working example
+
+Here's everything wired together as a single TypeScript module. Adapt this to your framework — the SDK calls are the same whether you're using React, Vue, or vanilla JS.
+
+<CodeCollapsibleWrapper title="Full example: bridge with progress tracking">
+
+```ts title="bridge-example.ts"
+import { NexusSDK, NEXUS_EVENTS, NexusError, ERROR_CODES } from '@avail-project/nexus-core';
+
+// 1. Create instance
+const sdk = new NexusSDK({ network: 'testnet' });
+
+export async function initNexus(provider: any) {
+  if (sdk.isInitialized()) return;
+  await sdk.initialize(provider);
+}
+
+export async function getBalances() {
+  return sdk.getBalancesForBridge();
+}
+
+export async function bridgeUSDC(
+  amount: bigint,
+  toChainId: number,
+  onStep?: (step: { type: string; done: boolean; explorerUrl?: string }) => void
+) {
+  // Simulate first
+  const simulation = await sdk.simulateBridge({ token: 'USDC', amount, toChainId });
+  console.log('Estimated fees:', simulation.intent.fees.total);
+
+  // Track progress
+  const steps: string[] = [];
+
+  // Execute
+  const result = await sdk.bridge(
+    { token: 'USDC', amount, toChainId },
+    {
+      onEvent: (event) => {
+        if (event.name === NEXUS_EVENTS.STEPS_LIST) {
+          const list = Array.isArray(event.args) ? event.args : [event.args];
+          list.forEach((s) => {
+            steps.push(s.type);
+            onStep?.({ type: s.type, done: false });
+          });
+        }
+        if (event.name === NEXUS_EVENTS.STEP_COMPLETE) {
+          onStep?.({
+            type: event.args.type,
+            done: true,
+            explorerUrl: event.args.data?.explorerURL,
+          });
+        }
+      },
+    }
+  );
+
+  return result.explorerUrl;
+}
+
+// Error-handled wrapper
+export async function safeBridge(amount: bigint, toChainId: number) {
+  try {
+    const url = await bridgeUSDC(amount, toChainId);
+    return { success: true as const, explorerUrl: url };
+  } catch (err) {
+    if (err instanceof NexusError) {
+      return { success: false as const, code: err.code, message: err.message };
+    }
+    throw err;
+  }
+}
+```
+
+</CodeCollapsibleWrapper>
+
+## Hooks — approve before you sign
+
+By default, the SDK auto-approves intents and uses minimum allowances. For production apps, you'll want to let users review and confirm before anything is signed.
+
+**Intent hook** — inspect the plan before execution:
+
+```ts
+sdk.setOnIntentHook(({ intent, allow, deny }) => {
+  // Show intent.fees, intent.sources, intent.destination in your UI
+  if (userConfirmed) allow();
+  else deny();
+});
+```
+
+**Allowance hook** — control token approval amounts:
+
+```ts
+sdk.setOnAllowanceHook(({ sources, allow, deny }) => {
+  // sources contains the token, chain, and current vs required allowance
+  allow(['min']); // or 'max', or custom bigint amounts per source
+});
+```
+
+These hooks fire during `bridge()`, `bridgeAndTransfer()`, and `bridgeAndExecute()`. For full details and the `refresh()` option, see [Hooks and Errors](/docs/nexus/nexus-sdk/hooks-and-errors).
+
+## What's next
+
+<IconCardGrid>
+  <IconCard
+    icon={<Swap />}
+    title="Swap Methods"
+    description="Trade any token for any token across chains with exact-in or exact-out swaps."
+    href="/docs/nexus/nexus-sdk/swap-methods"
+  />
+  <IconCard
+    icon={<Bridge />}
+    title="Bridge & Execute"
+    description="Bridge tokens and execute a contract call on the destination chain in one step."
+    href="/docs/nexus/nexus-sdk/bridge-methods/bridge-and-execute"
+  />
+  <IconCard
+    icon={<Puzzle />}
+    title="UI Components"
+    description="Pre-built React components for bridging, swaps, and balances — drop into any app."
+    href="/docs/nexus/nexus-ui-elements/installation"
+  />
+</IconCardGrid>
+
+<PageFooter
+  next={{
+    title: "Bridge Methods",
+    description: "Full API reference for bridge, transfer, and bridgeAndExecute.",
+    href: "/docs/nexus/nexus-sdk/bridge-methods"
+  }}
+/>

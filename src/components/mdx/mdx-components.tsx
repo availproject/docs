@@ -1,62 +1,74 @@
-import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import type * as React from "react";
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type MDXComponentsMap = Record<string, React.ComponentType<any>>;
-import { cn } from "@/lib/utils";
-import { ComponentPreview } from "./component-preview";
-import { CodeTabs } from "./code-tabs";
-import { ComponentSource } from "./component-source";
-import { CopyButton } from "@/components/helpers/copy-button";
-import { CodeBlockCommand } from "./code-block-command";
-import { CodeCollapsibleWrapper } from "./code-collapsible-wrapper";
 
 import {
-  Code,
-  File as FileIcon,
-  GithubLogo,
-  Link as LinkIcon,
-  Spinner,
-  YoutubeLogo,
-  LinkSimple,
-  Coins,
-  Brain,
-  PuzzlePiece,
   ArrowsClockwise,
-  PaperPlaneTilt,
   ArrowsLeftRight,
+  Brain,
   Bridge,
-  Swap,
+  Code,
+  Coins,
+  Compass,
+  Cube,
+  CurrencyEth,
+  File as FileIcon,
+  GearSix,
+  GithubLogo,
   Globe,
+  Graph,
+  IdentificationBadge,
+  Key,
+  Link as LinkIcon,
+  LinkSimple,
+  MetaLogo,
+  PaperPlaneTilt,
+  PuzzlePiece,
   Scales,
+  ShieldCheck,
+  Spinner,
+  Swap,
+  UserCircle,
+  UsersThree,
+  Wallet,
+  YoutubeLogo,
 } from "@phosphor-icons/react/ssr";
-import { Callout } from "./callout";
-import { LinkCard, LinkCardGrid } from "./link-card";
-import { ConceptCard, ConceptCardGrid } from "./concept-card";
-import { IconCard, IconCardGrid } from "./icon-card";
-import { Feedback } from "./feedback";
-import { PageFooter } from "./page-footer";
+import { CopyButton } from "@/components/helpers/copy-button";
+import { cn } from "@/lib/utils";
 import {
-  Tabs as ShadcnTabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-} from "../ui/tabs";
-import {
-  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
 } from "../ui/card";
+import {
+  Tabs as ShadcnTabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "../ui/tabs";
+import { Callout } from "./callout";
+import { CodeBlockCommand } from "./code-block-command";
+import { CodeCollapsibleWrapper } from "./code-collapsible-wrapper";
+import { CodeTabs } from "./code-tabs";
+import { ComponentPreview } from "./component-preview";
+import { ComponentSource } from "./component-source";
+import { ConceptCard, ConceptCardGrid } from "./concept-card";
+import { Feedback } from "./feedback";
+import { IconCard, IconCardGrid } from "./icon-card";
+import { LinkCard, LinkCardGrid } from "./link-card";
+import { PageFooter } from "./page-footer";
 
 export const mdxComponents: MDXComponentsMap = {
   // Headings
   h1: ({ className, ...props }: React.ComponentProps<"h1">) => (
     <h1
       className={cn(
-        "font-heading mt-2 scroll-m-28 text-3xl font-bold tracking-tight font-sans",
+        "font-heading mt-2 scroll-m-28 text-3xl font-bold tracking-tight font-serif",
         className,
       )}
       {...props}
@@ -77,7 +89,7 @@ export const mdxComponents: MDXComponentsMap = {
         <h2
           id={headingId}
           className={cn(
-            "font-sans text-xl font-medium leading-relaxed tracking-wide text-brand scroll-m-28",
+            "font-serif text-xl font-medium leading-relaxed tracking-wide text-brand scroll-m-28",
             className,
           )}
           {...props}
@@ -100,7 +112,7 @@ export const mdxComponents: MDXComponentsMap = {
       <h3
         id={headingId}
         className={cn(
-          "font-heading mt-12 scroll-m-28 text-lg font-medium tracking-tight font-sans",
+          "mt-12 scroll-m-28 text-lg font-medium tracking-tight",
           className,
         )}
         {...props}
@@ -121,7 +133,27 @@ export const mdxComponents: MDXComponentsMap = {
       <h4
         id={headingId}
         className={cn(
-          "font-heading mt-8 scroll-m-28 text-base font-medium tracking-tight font-sans",
+          "mt-8 scroll-m-28 text-base font-medium tracking-tight",
+          className,
+        )}
+        {...props}
+      />
+    );
+  },
+  h5: ({ className, id, ...props }: React.ComponentProps<"h5">) => {
+    const headingId =
+      id ||
+      props.children
+        ?.toString()
+        .replace(/ /g, "-")
+        .replace(/'/g, "")
+        .replace(/\?/g, "")
+        .toLowerCase();
+    return (
+      <h5
+        id={headingId}
+        className={cn(
+          "mt-8 scroll-m-28 text-sm font-medium tracking-tight",
           className,
         )}
         {...props}
@@ -131,19 +163,22 @@ export const mdxComponents: MDXComponentsMap = {
   // Text
   p: ({ className, ...props }: React.ComponentProps<"p">) => (
     <span
-      className={cn("leading-relaxed not-first:mt-6 font-serif", className)}
+      className={cn("leading-relaxed not-first:mt-6", className)}
       {...props}
     />
   ),
   a: ({ className, ...props }: React.ComponentProps<"a">) => (
     <a
-      className={cn("font-medium text-link-foreground underline decoration-[var(--link-underline)] underline-offset-4 hover:decoration-[var(--link-underline-hover)]", className)}
+      className={cn(
+        "font-medium text-link-foreground underline decoration-[var(--link-underline)] underline-offset-4 hover:decoration-[var(--link-underline-hover)]",
+        className,
+      )}
       {...props}
     />
   ),
   blockquote: ({ className, ...props }: React.ComponentProps<"blockquote">) => (
     <blockquote
-      className={cn("mt-6 border-l-2 pl-6 italic font-serif", className)}
+      className={cn("mt-6 border-l-2 pl-6 italic", className)}
       {...props}
     />
   ),
@@ -153,23 +188,53 @@ export const mdxComponents: MDXComponentsMap = {
   hr: (props: React.ComponentProps<"hr">) => (
     <hr className="my-4 md:my-8" {...props} />
   ),
+  // Tables
+  table: ({ className, ...props }: React.ComponentProps<"table">) => (
+    <div className="overflow-x-auto my-6">
+      <table
+        className={cn(
+          "w-full text-base border-collapse [&_strong]:font-normal [&_a]:text-muted-foreground [&_a]:decoration-muted-foreground/30 [&_a]:font-normal [&_a:hover]:text-brand",
+          className,
+        )}
+        {...props}
+      />
+    </div>
+  ),
+  thead: ({ className, ...props }: React.ComponentProps<"thead">) => (
+    <thead
+      className={cn("bg-muted border-b border-border", className)}
+      {...props}
+    />
+  ),
+  th: ({ className, ...props }: React.ComponentProps<"th">) => (
+    <th
+      className={cn(
+        "text-left px-4 py-3 font-normal text-muted-foreground text-xs uppercase tracking-wider",
+        className,
+      )}
+      {...props}
+    />
+  ),
+  td: ({ className, ...props }: React.ComponentProps<"td">) => (
+    <td
+      className={cn("px-4 py-3 border-t border-border", className)}
+      {...props}
+    />
+  ),
+  tr: ({ className, ...props }: React.ComponentProps<"tr">) => (
+    <tr className={cn(className)} {...props} />
+  ),
   figure: ({ className, ...props }: React.ComponentProps<"figure">) => {
     return <figure className={cn(className)} {...props} />;
   },
   ul: ({ className, ...props }: React.ComponentProps<"ul">) => (
-    <ul
-      className={cn("my-6 ml-6 list-disc font-serif", className)}
-      {...props}
-    />
+    <ul className={cn("my-6 ml-6 list-disc", className)} {...props} />
   ),
   ol: ({ className, ...props }: React.ComponentProps<"ol">) => (
-    <ol
-      className={cn("my-6 ml-6 list-decimal font-serif", className)}
-      {...props}
-    />
+    <ol className={cn("my-6 ml-6 list-decimal", className)} {...props} />
   ),
   li: ({ className, ...props }: React.ComponentProps<"li">) => (
-    <li className={cn("mt-2 font-serif", className)} {...props} />
+    <li className={cn("mt-2", className)} {...props} />
   ),
   figcaption: ({
     className,
@@ -184,7 +249,7 @@ export const mdxComponents: MDXComponentsMap = {
     return (
       <figcaption
         className={cn(
-          "text-code-foreground [&_svg]:text-code-foreground flex items-center gap-2 [&_svg]:size-4 [&_svg]:opacity-70 font-serif ",
+          "text-code-foreground [&_svg]:text-code-foreground flex items-center gap-2 [&_svg]:size-4 [&_svg]:opacity-70",
           className,
         )}
         {...props}
@@ -261,11 +326,7 @@ export const mdxComponents: MDXComponentsMap = {
     return (
       <>
         {__raw__ && (
-          <CopyButton
-            value={__raw__}
-            language={language}
-            codeType="block"
-          />
+          <CopyButton value={__raw__} language={language} codeType="block" />
         )}
         <code {...props} />
       </>
@@ -289,20 +350,9 @@ export const mdxComponents: MDXComponentsMap = {
     />
   ),
   Step: ({ className, ...props }: React.ComponentProps<"h3">) => (
-    <h3
-      className={cn(
-        "font-heading mt-4 scroll-m-32 text-xl font-medium tracking-tight",
-        className,
-      )}
-      {...props}
-    />
+    <h3 className={cn("step", className)} {...props} />
   ),
-  Steps: ({ ...props }) => (
-    <div
-      className="[&>h3]:step steps mb-12 [counter-reset:step] *:[h3]:first:mt-0!"
-      {...props}
-    />
-  ),
+  Steps: ({ ...props }) => <div className="steps" {...props} />,
   // Custom components used across docs
   ComponentPreview,
   ComponentSource,
@@ -314,7 +364,10 @@ export const mdxComponents: MDXComponentsMap = {
   Callout,
   Link: ({ className, ...props }: React.ComponentProps<typeof Link>) => (
     <Link
-      className={cn("font-medium text-link-foreground underline decoration-[var(--link-underline)] underline-offset-4 hover:decoration-[var(--link-underline-hover)]", className)}
+      className={cn(
+        "font-medium text-link-foreground underline decoration-[var(--link-underline)] underline-offset-4 hover:decoration-[var(--link-underline-hover)]",
+        className,
+      )}
       {...props}
     />
   ),
@@ -333,7 +386,7 @@ export const mdxComponents: MDXComponentsMap = {
   }: React.ComponentProps<typeof TabsList>) => (
     <TabsList
       className={cn(
-        "justify-start gap-4 rounded-none bg-transparent px-0",
+        "inline-flex items-center gap-1 rounded-none bg-muted p-1",
         className,
       )}
       {...props}
@@ -345,7 +398,7 @@ export const mdxComponents: MDXComponentsMap = {
   }: React.ComponentProps<typeof TabsTrigger>) => (
     <TabsTrigger
       className={cn(
-        "text-muted-foreground data-[state=active]:text-foreground data-[state=active]:border-primary dark:data-[state=active]:border-primary hover:text-primary rounded-none border-0 border-b-2 border-transparent bg-transparent px-0 pb-3 text-base data-[state=active]:bg-transparent data-[state=active]:shadow-none dark:data-[state=active]:bg-transparent",
+        "rounded-none px-4 py-2 text-sm font-normal text-muted-foreground transition-colors data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm",
         className,
       )}
       {...props}
@@ -357,23 +410,20 @@ export const mdxComponents: MDXComponentsMap = {
   }: React.ComponentProps<typeof TabsContent>) => (
     <TabsContent
       className={cn(
-        "relative [&_h3.font-heading]:text-base [&_h3.font-heading]:font-medium *:[figure]:first:mt-0 [&>.steps]:mt-6",
+        "relative mt-4 [&_h3.font-heading]:text-base [&_h3.font-heading]:font-medium *:[figure]:first:mt-0 [&>.steps]:mt-6",
         className,
       )}
       {...props}
     />
   ),
-  // Card components
-  Card,
+  // Card components — IconCard handles icon/title/description/href used across MDX
+  Card: IconCard,
+  Cards: IconCardGrid,
   CardHeader,
   CardTitle,
   CardDescription,
   CardContent,
   CardFooter,
-  // Cards wrapper for grid layout
-  Cards: ({ className, ...props }: React.ComponentProps<"div">) => (
-    <div className={cn("mt-6 grid gap-4 sm:grid-cols-2", className)} {...props} />
-  ),
   // Media and icons
   Youtube: YoutubeLogo,
   YouTube: YoutubeLogo, // Alias for nextra compatibility (uppercase T)
@@ -385,6 +435,7 @@ export const mdxComponents: MDXComponentsMap = {
   Link2: LinkSimple,
   Coins,
   Brain,
+  CodeIcon: Code,
   Puzzle: PuzzlePiece,
   RefreshCw: ArrowsClockwise,
   Send: PaperPlaneTilt,
@@ -393,6 +444,18 @@ export const mdxComponents: MDXComponentsMap = {
   Swap,
   Globe,
   Scale: Scales,
+  Graph,
+  IdentificationBadge,
+  Compass,
+  CurrencyEth,
+  Cube,
+  Gear: GearSix,
+  Wallet,
+  UserCircle,
+  ShieldCheck,
+  UsersThree,
+  Key,
+  MetaLogo,
   // Link cards for documentation navigation
   LinkCard,
   LinkCardGrid,

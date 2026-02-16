@@ -1,14 +1,40 @@
 ---
 image: "/img/docs-link-preview.png"
 title: Interact with DA
+description: "Post data, create App IDs, and query balances on Avail DA using the SDK or API."
 ---
 
+Interact with Avail DA directly. Start by [getting testnet tokens](/docs/da/build/interact/faucet), then [create an App ID](/docs/da/build/interact/app-id) to begin posting data.
 
-<Cards>
-  <Card icon={<FileIcon />} title="Get Testnet Tokens" href="/docs/da/build/interact/faucet" />
-  <Card icon={<FileIcon />} title="Create an AppID" href="/docs/da/build/interact/app-id" />
-  <Card icon={<FileIcon />} title="Read & Write data on Avail DA" href="/docs/da/build/interact/read-write-on-avail" />
-  <Card icon={<FileIcon />} title="Query Balances on Avail DA" href="/docs/da/build/interact/query-balances" />
-  <Card icon={<FileIcon />} title="Transfer Balances on Avail DA" href="/docs/da/build/interact/transfer-balances" />
-
-</Cards>
+<IconCardGrid>
+  <IconCard
+    icon={<Coins />}
+    title="Get Testnet Tokens"
+    description="Get AVAIL tokens on the Turing testnet to start experimenting."
+    href="/docs/da/build/interact/faucet"
+  />
+  <IconCard
+    icon={<IdentificationBadge />}
+    title="Create an AppID"
+    description="Register a unique App ID to separate your data submissions on Avail DA."
+    href="/docs/da/build/interact/app-id"
+  />
+  <IconCard
+    icon={<CodeIcon />}
+    title="Read & Write Data"
+    description="Submit data blobs and read them back using the SDK."
+    href="/docs/da/build/interact/read-write-on-avail"
+  />
+  <IconCard
+    icon={<Compass />}
+    title="Query Balances"
+    description="Check AVAIL token balances for any account."
+    href="/docs/da/build/interact/query-balances"
+  />
+  <IconCard
+    icon={<ArrowLeftRight />}
+    title="Transfer Balances"
+    description="Send AVAIL tokens between accounts."
+    href="/docs/da/build/interact/transfer-balances"
+  />
+</IconCardGrid>

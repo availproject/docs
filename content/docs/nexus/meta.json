@@ -2,8 +2,8 @@
   "pages": [
     "get-started",
     "concepts",
-    "nexus-ui-elements",
     "nexus-sdk",
+    "nexus-ui-elements",
     "cookbook-recipes",
     "cheat-sheet"
   ]

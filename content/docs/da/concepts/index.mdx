@@ -1,13 +1,39 @@
 ---
 title: Concepts
-description: Core concepts behind Avail DA — networks, app IDs, the explorer, and transaction pricing.
+description: Understand the key building blocks of Avail DA, from network architecture to transaction pricing.
 ---
 
-import { Cards, Card } from 'fumadocs-ui/components/card'
+Key concepts you need to know before you start building with Avail DA.
 
-<Cards>
-  <Card title="Networks" href="/docs/da/concepts/networks" description="Mainnet and testnet endpoints, chain specs, and bridge contracts." />
-  <Card title="App IDs" href="/docs/da/concepts/app-ids" description="How application IDs work on Avail DA." />
-  <Card title="Explorer" href="/docs/da/concepts/explorer" description="Get started with the Avail Apps explorer." />
-  <Card title="Transaction Pricing" href="/docs/da/concepts/tx-pricing" description="How transaction fees are calculated on Avail." />
-</Cards>
+<IconCardGrid>
+  <IconCard
+    icon={<Cube />}
+    title="What is Avail DA?"
+    description="A modular data availability layer purpose-built for rollups — scalable, verifiable DA without execution overhead."
+    href="/docs/da/concepts/what-is-avail-da"
+  />
+  <IconCard
+    icon={<Gear />}
+    title="How Avail DA Works"
+    description="Erasure coding, KZG commitments, data availability sampling, and how blocks are finalized."
+    href="/docs/da/concepts/how-avail-da-works"
+  />
+  <IconCard
+    icon={<IdentificationBadge />}
+    title="What are App IDs?"
+    description="Unique identifiers that separate and filter data submissions on Avail DA by application."
+    href="/docs/da/concepts/app-ids"
+  />
+  <IconCard
+    icon={<Compass />}
+    title="Using the Explorer"
+    description="Browse blocks, transactions, and validators on Avail DA using the network explorers."
+    href="/docs/da/concepts/explorer"
+  />
+  <IconCard
+    icon={<CurrencyEth />}
+    title="How Transaction Pricing Works"
+    description="How AVAIL token fees are calculated based on compute and storage requirements."
+    href="/docs/da/concepts/tx-pricing"
+  />
+</IconCardGrid>

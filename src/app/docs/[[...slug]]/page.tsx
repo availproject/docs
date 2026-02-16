@@ -1,16 +1,16 @@
+import { ArrowUpRight, CaretRight } from "@phosphor-icons/react/ssr";
+import fm from "front-matter";
+import { findNeighbour } from "fumadocs-core/page-tree";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { findNeighbour } from "fumadocs-core/page-tree";
-import { source } from "@/lib/source";
-import { mdxComponents } from "@/components/mdx/mdx-components";
-import { ArrowUpRight, CaretRight } from "@phosphor-icons/react/ssr";
-import { OnThisPage } from "@/components/helpers/on-this-page";
-import fm from "front-matter";
 import { z } from "zod";
-import { Badge } from "@/components/ui/badge";
-import { PageFooter } from "@/components/mdx/page-footer";
+import { OnThisPage } from "@/components/helpers/on-this-page";
 import { TrackPageVisit } from "@/components/helpers/track-page-visit";
+import { mdxComponents } from "@/components/mdx/mdx-components";
+import { PageFooter } from "@/components/mdx/page-footer";
+import { Badge } from "@/components/ui/badge";
 import { getProductTree } from "@/lib/page-tree-utils";
+import { source } from "@/lib/source";
 
 export const revalidate = false;
 export const dynamic = "force-static";
@@ -75,7 +75,7 @@ export default async function Page(props: {
   const neighbours = findNeighbour(navTree, page.url);
   const raw = await page.data.getText("raw");
   const { attributes } = fm(raw);
-  const { links } = z
+  const { links, hideFooter } = z
     .object({
       links: z
         .object({
@@ -83,6 +83,7 @@ export default async function Page(props: {
           api: z.string().optional(),
         })
         .optional(),
+      hideFooter: z.boolean().optional(),
     })
     .parse(attributes);
 
@@ -95,7 +96,7 @@ export default async function Page(props: {
       if (segment === "docs" && index === 0) {
         return { href: "/", label: "Home" };
       }
-      const href = "/" + arr.slice(0, index + 1).join("/");
+      const href = `/${arr.slice(0, index + 1).join("/")}`;
       const segmentLabels: Record<string, string> = {
         "nexus-sdk": "Nexus SDK",
         "api-reference": "API Reference",
@@ -109,7 +110,8 @@ export default async function Page(props: {
       return { href, label };
     });
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://docs.availproject.org";
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://docs.availproject.org";
   const pageUrl = new URL(page.url, baseUrl).toString();
 
   const breadcrumbLd = {
@@ -139,14 +141,8 @@ export default async function Page(props: {
   return (
     <div className="flex items-stretch text-base xl:w-full no-scrollbar">
       <TrackPageVisit url={page.url} title={doc.title} />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }}
-      />
+      <script type="application/ld+json">{JSON.stringify(breadcrumbLd)}</script>
+      <script type="application/ld+json">{JSON.stringify(articleLd)}</script>
       <div className="flex min-w-0 flex-1 flex-col bg-background xl:pl-10 2xl:pl-20">
         <div className="mx-auto flex w-full max-w-160 min-w-0 flex-1 flex-col gap-20 px-4 py-18 md:px-0">
           {/* Content sections */}
@@ -156,7 +152,7 @@ export default async function Page(props: {
               {/* Breadcrumbs */}
               {breadcrumbs.length > 0 && (
                 <nav className="flex items-center gap-1">
-                  {breadcrumbs.map((crumb, index) => (
+                  {breadcrumbs.map((crumb) => (
                     <span key={crumb.href} className="flex items-center gap-1">
                       <Link
                         href={crumb.href}
@@ -164,7 +160,10 @@ export default async function Page(props: {
                       >
                         {crumb.label}
                       </Link>
-                      <CaretRight size={20} className="text-breadcrumb-previous" />
+                      <CaretRight
+                        size={20}
+                        className="text-breadcrumb-previous"
+                      />
                     </span>
                   ))}
                   <span className="ui-16 text-breadcrumb-current">
@@ -175,11 +174,11 @@ export default async function Page(props: {
 
               {/* Title and description */}
               <div className="flex flex-col gap-4">
-                <h1 className="font-sans text-[28px] font-medium leading-9 tracking-[0.56px] text-brand">
+                <h1 className="font-serif text-[28px] font-medium leading-9 tracking-[0.56px] text-brand">
                   {doc.title}
                 </h1>
                 {doc.description && (
-                  <p className="body-16 text-foreground">
+                  <p className="body-16 text-secondary-foreground">
                     {doc.description}
                   </p>
                 )}
@@ -213,24 +212,26 @@ export default async function Page(props: {
           </div>
 
           {/* Footer section */}
-          <PageFooter
-            previous={
-              neighbours.previous
-                ? {
-                    title: neighbours.previous.name?.toString() ?? "",
-                    href: neighbours.previous.url,
-                  }
-                : undefined
-            }
-            next={
-              neighbours.next
-                ? {
-                    title: neighbours.next.name?.toString() ?? "",
-                    href: neighbours.next.url,
-                  }
-                : undefined
-            }
-          />
+          {!hideFooter && (
+            <PageFooter
+              previous={
+                neighbours.previous
+                  ? {
+                      title: neighbours.previous.name?.toString() ?? "",
+                      href: neighbours.previous.url,
+                    }
+                  : undefined
+              }
+              next={
+                neighbours.next
+                  ? {
+                      title: neighbours.next.name?.toString() ?? "",
+                      href: neighbours.next.url,
+                    }
+                  : undefined
+              }
+            />
+          )}
         </div>
       </div>
 

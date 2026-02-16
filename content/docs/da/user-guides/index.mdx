@@ -1,18 +1,81 @@
 ---
 title: User Guides
-description: Guides for using Avail - accounts, staking, bridging, and more
+description: Guides for using Avail — accounts, staking, bridging, and more.
 ---
 
-import { Cards, Card } from 'fumadocs-ui/components/card'
+Step-by-step guides for interacting with the Avail network as an end user.
 
+## Getting Started
 
-Comprehensive guides for interacting with the Avail network.
+<IconCardGrid>
+  <IconCard
+    icon={<Wallet />}
+    title="Accounts"
+    description="Create and manage your Avail wallet accounts."
+    href="/docs/da/user-guides/accounts"
+  />
+  <IconCard
+    icon={<Compass />}
+    title="Using the Explorer"
+    description="Browse blocks, transactions, and validators using the network explorers."
+    href="/docs/da/user-guides/explorer"
+  />
+  <IconCard
+    icon={<UserCircle />}
+    title="Identity"
+    description="Set an on-chain identity on the Avail network."
+    href="/docs/da/user-guides/identity"
+  />
+</IconCardGrid>
 
-<Cards>
-  <Card title="Accounts" href="/docs/da/user-guides/accounts" />
-  <Card title="Bridge Avail" href="/docs/da/user-guides/bridge-avail" />
-  <Card title="Staking & Governance" href="/docs/da/user-guides/staking-governance" />
-  <Card title="Ledger" href="/docs/da/user-guides/ledger-avail" />
-  <Card title="Multisig" href="/docs/da/user-guides/avail-multisig" />
-  <Card title="Proxies" href="/docs/da/user-guides/proxies-on-avail" />
-</Cards>
+## Staking & Governance
+
+<IconCardGrid>
+  <IconCard
+    icon={<Coins />}
+    title="Staking & Governance"
+    description="Stake AVAIL tokens, nominate validators, and participate in on-chain governance."
+    href="/docs/da/user-guides/staking-governance"
+  />
+  <IconCard
+    icon={<Bridge />}
+    title="Bridge AVAIL"
+    description="Bridge AVAIL tokens between Avail and other chains."
+    href="/docs/da/user-guides/bridge-avail"
+  />
+</IconCardGrid>
+
+## Security & Advanced
+
+<IconCardGrid>
+  <IconCard
+    icon={<ShieldCheck />}
+    title="Ledger"
+    description="Use a Ledger hardware wallet to manage your AVAIL tokens securely."
+    href="/docs/da/user-guides/ledger-avail"
+  />
+  <IconCard
+    icon={<ArrowLeftRight />}
+    title="Fund Recovery"
+    description="Recover funds from a Polkadot-derived Ledger address on the Avail network."
+    href="/docs/da/user-guides/avail-funds-recovery"
+  />
+  <IconCard
+    icon={<MetaLogo />}
+    title="MetaMask Snap"
+    description="Interact with Avail DA directly from MetaMask using the Avail Snap."
+    href="/docs/da/user-guides/avail-snap"
+  />
+  <IconCard
+    icon={<UsersThree />}
+    title="Multisig"
+    description="Create and manage multisig accounts for shared control of funds."
+    href="/docs/da/user-guides/avail-multisig"
+  />
+  <IconCard
+    icon={<Key />}
+    title="Proxies"
+    description="Set up proxy accounts to delegate specific actions without exposing your main keys."
+    href="/docs/da/user-guides/proxies-on-avail"
+  />
+</IconCardGrid>

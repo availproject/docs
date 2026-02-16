@@ -1,0 +1,57 @@
+---
+title: "What is Avail DA?"
+description: "Avail DA is a modular data availability layer purpose-built for rollups — providing scalable, verifiable DA without execution overhead."
+image: '/img/docs-link-preview.png'
+---
+
+Rollups need somewhere to post their transaction data so that anyone can verify it's available. Traditionally this means posting to Ethereum L1, but that's expensive and doesn't scale — every byte of calldata competes for the same limited block space.
+
+Avail DA is a purpose-built data availability layer that solves this. Instead of piggybacking on a general-purpose L1, rollups post their data to Avail, where it's ordered, committed to with cryptographic proofs, and made available for verification — all without Avail needing to execute any of it.
+
+## How Avail fits in the modular stack
+
+A modular blockchain separates its core functions into specialized layers:
+
+| Layer | Responsibility | Example |
+|-------|---------------|---------|
+| **Execution** | Process transactions and update state | Your rollup (OP Stack, Arbitrum Orbit, ZK chains, etc.) |
+| **Settlement** | Verify execution proofs and resolve disputes | Ethereum |
+| **Data Availability** | Guarantee that transaction data was published and is retrievable | **Avail DA** |
+
+Avail sits at the DA layer. It doesn't execute transactions, validate state transitions, or handle settlement. It does one thing — ensures the data your rollup posts is available — and it does it well.
+
+## What makes Avail DA different
+
+### No execution overhead
+
+Avail validators don't re-execute your transactions. They attest that data has been correctly published and committed to. This means Avail can support much larger blocks than chains where validators must process every transaction.
+
+### Validity proofs, not just attestations
+
+Avail uses **KZG polynomial commitments** to generate validity proofs for block data. These proofs are included in every block header, allowing anyone to verify data correctness without downloading the entire block.
+
+### Data availability sampling (DAS)
+
+Light clients on Avail randomly sample small portions of each block to probabilistically verify that the full data is available. Combined with erasure coding, this gives near-100% confidence with minimal bandwidth. This means even devices with limited resources can verify DA without trusting a full node.
+
+### App IDs for data isolation
+
+Each application on Avail gets its own [App ID](/docs/da/concepts/app-ids). Your rollup only needs to download the data posted under its App ID — not the entire block. Other chains using Avail at the same time don't affect your throughput or costs.
+
+## Who uses Avail DA
+
+Avail DA is designed for **rollup developers and infrastructure teams** who need:
+
+- A scalable DA layer that won't bottleneck their rollup's throughput
+- Cryptographic guarantees (not just committee attestations) that data is available
+- A chain-agnostic solution that works with any execution environment — EVM, SVM, custom VMs
+
+Rollup frameworks like OP Stack, Arbitrum Orbit, ZKsync, Madara, and others can integrate Avail DA as their data availability backend.
+
+<Callout type="info">
+**Next steps**
+
+- Learn [how Avail DA works](/docs/da/concepts/how-avail-da-works) under the hood — DAS, erasure coding, and consensus.
+- Ready to build? Jump to the [Build section](/docs/da/build) to integrate your rollup with Avail DA.
+- See [Networks & Endpoints](/docs/da/build/networks) for RPC URLs and contract addresses.
+</Callout>

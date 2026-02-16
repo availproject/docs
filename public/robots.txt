@@ -7,3 +7,10 @@ Host: https://docs.availproject.org
 
 # Sitemaps
 Sitemap: https://docs.availproject.org/sitemap.xml
+
+# LLM / AI agent endpoints
+# llms.txt (intent-based index):     https://docs.availproject.org/llms.txt
+# llms-full.txt (full content dump): https://docs.availproject.org/llms-full.txt
+# Structured reference data (JSON):  https://docs.availproject.org/api/reference.json
+# Markdown API (per-page):           https://docs.availproject.org/api/markdown/{slug}
+# Content negotiation:               Send Accept: text/markdown to any /docs/* URL

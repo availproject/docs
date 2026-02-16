@@ -3,8 +3,24 @@ title: "Gas Relay Deprecated"
 image: '/img/docs-link-preview.png'
 ---
 
-<Callout type="info">
-**GAS RELAY IS NOW TURBO DA!**<br/>
-The gas relay service is being replaced by Turbo DA.
-We'll update our docs soon, but you can check out our [Turbo DA Github repo](https://github.com/availproject/turbo-da) for the latest updates.
+<Callout type="warning">
+**Gas Relay has been deprecated.**
+This service has been replaced by Turbo DA. Gas Relay endpoints are no longer available.
 </Callout>
+
+## What replaced it
+
+[Turbo DA](/docs/da/build/turbo-da) is a gasless transaction submission service that provides sub-250ms pre-confirmations for data posted to Avail DA. It replaces the Gas Relay with a credit-based model where you purchase data credits (measured in KB/MB) instead of paying gas fees per transaction.
+
+## How to migrate
+
+1. **Get a Turbo DA account** — sign in at the Turbo DA dashboard and configure your AppID:
+
+   |              | Mainnet                                                              | Turing Testnet                                                                     |
+   | ------------ | -------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+   | **Dashboard** | [turbo.availproject.org](https://turbo.availproject.org/)           | [staging.turbo.availproject.org](https://staging.turbo.availproject.org/)           |
+   | **API**       | [turbo-api.availproject.org](https://turbo-api.availproject.org/)   | [staging.turbo-api.availproject.org](https://staging.turbo-api.availproject.org/)   |
+
+2. **Generate an API key** — from the dashboard, click "Generate new key" and save it securely. Keys are only shown once.
+
+3. **Update your integration** — replace Gas Relay calls with the Turbo DA API. See the [Turbo DA guide](/docs/da/build/turbo-da) for a step-by-step walkthrough or the [Turbo DA API reference](/docs/da/api-reference/avail-turbo-da-api) for endpoint details.
