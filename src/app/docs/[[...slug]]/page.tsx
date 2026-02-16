@@ -75,7 +75,7 @@ export default async function Page(props: {
   const neighbours = findNeighbour(navTree, page.url);
   const raw = await page.data.getText("raw");
   const { attributes } = fm(raw);
-  const { links } = z
+  const { links, hideFooter } = z
     .object({
       links: z
         .object({
@@ -83,6 +83,7 @@ export default async function Page(props: {
           api: z.string().optional(),
         })
         .optional(),
+      hideFooter: z.boolean().optional(),
     })
     .parse(attributes);
 
@@ -211,24 +212,26 @@ export default async function Page(props: {
           </div>
 
           {/* Footer section */}
-          <PageFooter
-            previous={
-              neighbours.previous
-                ? {
-                    title: neighbours.previous.name?.toString() ?? "",
-                    href: neighbours.previous.url,
-                  }
-                : undefined
-            }
-            next={
-              neighbours.next
-                ? {
-                    title: neighbours.next.name?.toString() ?? "",
-                    href: neighbours.next.url,
-                  }
-                : undefined
-            }
-          />
+          {!hideFooter && (
+            <PageFooter
+              previous={
+                neighbours.previous
+                  ? {
+                      title: neighbours.previous.name?.toString() ?? "",
+                      href: neighbours.previous.url,
+                    }
+                  : undefined
+              }
+              next={
+                neighbours.next
+                  ? {
+                      title: neighbours.next.name?.toString() ?? "",
+                      href: neighbours.next.url,
+                    }
+                  : undefined
+              }
+            />
+          )}
         </div>
       </div>
 

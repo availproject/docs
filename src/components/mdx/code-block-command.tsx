@@ -1,77 +1,68 @@
 "use client";
 
-import * as React from "react";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Check, Copy, Terminal } from "@phosphor-icons/react";
-import { Button } from "../ui/button";
-import { cn } from "@/lib/utils";
+import * as React from "react";
 import { useAnalytics } from "@/hooks/use-analytics";
+import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 // Tokenize and highlight bash/shell commands
 function highlightCommand(command: string): React.ReactNode[] {
-  const tokens: React.ReactNode[] = [];
   const parts = command.split(/(\s+)/);
-
   let isFirstWord = true;
 
-  parts.forEach((part, index) => {
-    // Whitespace
+  return parts.map((part) => {
+    // Whitespace — plain string, no key needed
     if (/^\s+$/.test(part)) {
-      tokens.push(<span key={index}>{part}</span>);
-      return;
+      return part;
     }
 
     // Command (first word): npx, npm, pnpm, yarn, bun, bunx, etc.
     if (isFirstWord) {
-      tokens.push(
-        <span key={index} className="text-[#e36209] dark:text-[#ffab70]">
+      isFirstWord = false;
+      return (
+        <span key={part} className="text-[#e36209] dark:text-[#ffab70]">
           {part}
         </span>
       );
-      isFirstWord = false;
-      return;
     }
 
     // Subcommands: install, add, run, dlx, create, etc.
     if (/^(install|add|run|dlx|create|exec|init|--bun)$/.test(part)) {
-      tokens.push(
-        <span key={index} className="text-[#22863a] dark:text-[#85e89d]">
+      return (
+        <span key={part} className="text-[#22863a] dark:text-[#85e89d]">
           {part}
         </span>
       );
-      return;
     }
 
     // Flags: -g, --save-dev, etc.
     if (part.startsWith("-")) {
-      tokens.push(
-        <span key={index} className="text-[#6f42c1] dark:text-[#b392f0]">
+      return (
+        <span key={part} className="text-[#6f42c1] dark:text-[#b392f0]">
           {part}
         </span>
       );
-      return;
     }
 
     // Scoped packages: @scope/package or @latest
     if (part.startsWith("@")) {
-      tokens.push(
-        <span key={index} className="text-[#005cc5] dark:text-[#79b8ff]">
+      return (
+        <span key={part} className="text-[#005cc5] dark:text-[#79b8ff]">
           {part}
         </span>
       );
-      return;
     }
 
     // Default text
-    tokens.push(
-      <span key={index} className="text-card-foreground">
+    return (
+      <span key={part} className="text-card-foreground">
         {part}
       </span>
     );
   });
-
-  return tokens;
 }
 
 export function CodeBlockCommand({
@@ -141,7 +132,7 @@ export function CodeBlockCommand({
       }}
     >
       {/* Header with terminal icon and tabs */}
-      <div className="relative flex items-center h-[52px] border border-b-0 border-card-border bg-card px-4">
+      <div className="relative flex items-center h-[52px] border-b border-card-border px-4">
         <Terminal size={20} className="text-card-foreground shrink-0" />
         <TabsList className="ml-3 rounded-none bg-transparent p-0 h-auto gap-0">
           {Object.entries(tabs).map(([key]) => (
@@ -151,7 +142,7 @@ export function CodeBlockCommand({
               className={cn(
                 "px-2 py-1.5 h-auto rounded-none border-none shadow-none",
                 "font-mono text-sm text-muted-foreground",
-                "data-[state=active]:bg-muted data-[state=active]:text-muted-foreground"
+                "data-[state=active]:bg-muted data-[state=active]:text-muted-foreground",
               )}
             >
               {key}
@@ -167,7 +158,7 @@ export function CodeBlockCommand({
               variant="ghost"
               className={cn(
                 "absolute right-2.5 top-2.5 size-8 bg-transparent hover:bg-secondary active:bg-muted transition-colors",
-                hasCopied && "bg-muted"
+                hasCopied && "bg-muted",
               )}
               onClick={copyCommand}
             >
@@ -186,7 +177,7 @@ export function CodeBlockCommand({
       </div>
 
       {/* Code body */}
-      <div className="border border-card-border bg-card">
+      <div>
         {Object.entries(tabs).map(([key, value]) => (
           <TabsContent key={key} value={key} className="mt-0 px-4 py-5">
             <pre className="overflow-x-auto">

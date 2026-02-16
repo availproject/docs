@@ -655,20 +655,16 @@
         margin-bottom: calc(var(--spacing) * 12);
     }
 
-    /* Vertical connector line */
+    /* Vertical connector line — single container-level line;
+       number boxes paint over intersections via opaque backgrounds. */
     .steps::before {
         content: "";
         position: absolute;
-        left: 11px; /* center of 24px box */
-        top: 24px; /* start below first number box */
+        left: 11px; /* center of 24px number box */
+        top: 26px; /* below first number box */
         bottom: 0;
         width: 1px;
         background: var(--color-border);
-    }
-
-    /* Hide connector when only one step */
-    .steps:has(> h3:only-of-type)::before {
-        display: none;
     }
 
     /* Step heading with numbered indicator */
