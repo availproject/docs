@@ -7,7 +7,8 @@ export async function GET(
   { params }: { params: Promise<{ slug: string[] }> },
 ) {
   const { slug } = await params;
-  const page = source.getPage(slug);
+  const normalizedSlug = slug.map((s) => s.toLowerCase());
+  const page = source.getPage(normalizedSlug);
 
   if (!page) {
     return NextResponse.json({ error: "Page not found" }, { status: 404 });

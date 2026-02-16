@@ -27,6 +27,42 @@ const config = {
         destination: "/docs/da/build/networks",
         permanent: true,
       },
+      // Legacy Nexus redirects (v1.5.0 restructure)
+      {
+        source: "/docs/nexus/nexus-overview",
+        destination: "/docs/nexus/get-started",
+        permanent: true,
+      },
+      {
+        source: "/docs/nexus/nexus-examples",
+        destination: "/docs/nexus/nexus-sdk/examples",
+        permanent: true,
+      },
+      {
+        source: "/docs/nexus/nexus-examples/:slug*",
+        destination: "/docs/nexus/nexus-sdk/examples/:slug*",
+        permanent: true,
+      },
+      {
+        source: "/docs/nexus/nexus-quickstart",
+        destination: "/docs/nexus/nexus-sdk/quickstart",
+        permanent: true,
+      },
+      {
+        source: "/docs/nexus/nexus-quickstart/nexus-core",
+        destination: "/docs/nexus/nexus-sdk",
+        permanent: true,
+      },
+      {
+        source: "/docs/nexus/nexus-quickstart/nexus-elements",
+        destination: "/docs/nexus/nexus-sdk/nexus-elements",
+        permanent: true,
+      },
+      {
+        source: "/docs/nexus/nexus-quickstart/nexus-elements/:slug*",
+        destination: "/docs/nexus/nexus-ui-elements/components/:slug*",
+        permanent: true,
+      },
     ];
   },
 };
