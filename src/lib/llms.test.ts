@@ -117,6 +117,11 @@ describe("generateLlmsTxt", () => {
     expect(output).toContain("/api/reference.json");
     expect(output).toContain("/llms-full.txt");
   });
+
+  it("uses live Nexus overview path", () => {
+    expect(output).toContain("- [Nexus overview](/docs/nexus):");
+    expect(output).not.toContain("/docs/nexus/nexus-overview");
+  });
 });
 
 describe("generateLlmsFullTxt", () => {

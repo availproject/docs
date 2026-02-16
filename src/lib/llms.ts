@@ -128,7 +128,7 @@ export function generateLlmsTxt(): string {
     "### Build with Avail Nexus",
     "",
     "- [Get started with Nexus](/docs/nexus/get-started): Introduction to Avail Nexus",
-    "- [Nexus overview](/docs/nexus/nexus-overview): Architecture and design",
+    "- [Nexus overview](/docs/nexus): Architecture and design",
     "- [Nexus SDK](/docs/nexus/nexus-sdk): SDK reference and guides",
     "- [Build your first Liquid App](/docs/nexus/nexus-sdk/build-your-first-liquid-app): Step-by-step tutorial",
     "- [Bridge methods](/docs/nexus/nexus-sdk/bridge-methods): Cross-chain bridge functions",

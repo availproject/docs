@@ -2,12 +2,27 @@ import { type NextRequest, NextResponse } from "next/server";
 import { AGENT_HEADERS } from "@/lib/agent-headers";
 import { source } from "@/lib/source";
 
+function getPageFromSlug(slug: string[]) {
+  const directMatch = source.getPage(slug);
+  if (directMatch) {
+    return directMatch;
+  }
+
+  // DA content is canonicalized under /docs/DA/* while many links and
+  // users request /docs/da/*. Support both casings for API consumers.
+  if (slug.length > 0 && slug[0].toLowerCase() === "da") {
+    return source.getPage(["DA", ...slug.slice(1)]);
+  }
+
+  return null;
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ slug: string[] }> },
 ) {
   const { slug } = await params;
-  const page = source.getPage(slug);
+  const page = getPageFromSlug(slug);
 
   if (!page) {
     return NextResponse.json({ error: "Page not found" }, { status: 404 });

@@ -36,7 +36,7 @@ describe("middleware", () => {
     );
     const rewrite = res.headers.get("x-middleware-rewrite");
     expect(rewrite).not.toBeNull();
-    expect(new URL(rewrite!).pathname).toBe("/api/markdown/da/build/networks");
+    expect(new URL(rewrite!).pathname).toBe("/api/markdown/DA/build/networks");
   });
 
   it("maps root /docs URL to /api/markdown", () => {
@@ -58,6 +58,7 @@ describe("middleware", () => {
       makeRequest("/docs/da/build", "text/markdown", { format: "json" }),
     );
     const rewrite = new URL(res.headers.get("x-middleware-rewrite")!);
+    expect(rewrite.pathname).toBe("/api/markdown/DA/build");
     expect(rewrite.searchParams.get("format")).toBe("json");
   });
 
@@ -72,6 +73,6 @@ describe("middleware", () => {
     );
     const rewrite = res.headers.get("x-middleware-rewrite");
     expect(rewrite).not.toBeNull();
-    expect(new URL(rewrite!).pathname).toBe("/api/markdown/da/build");
+    expect(new URL(rewrite!).pathname).toBe("/api/markdown/DA/build");
   });
 });
