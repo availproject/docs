@@ -18,6 +18,21 @@ export const config = {
   matcher: "/docs/:path*",
 };
 
+function normalizeDocsSlugForMarkdownApi(slug: string): string {
+  if (!slug) {
+    return slug;
+  }
+
+  const [section, ...rest] = slug.split("/");
+  // DA docs are canonicalized as /docs/DA/* in the content source.
+  // Normalize lowercase incoming URLs so markdown API lookups succeed.
+  if (section.toLowerCase() === "da") {
+    return ["DA", ...rest].join("/");
+  }
+
+  return slug;
+}
+
 function acceptsMarkdown(request: NextRequest): boolean {
   const accept = request.headers.get("accept") ?? "";
   // Match explicit text/markdown preference.
@@ -31,8 +46,9 @@ export function middleware(request: NextRequest) {
   }
 
   // Strip the /docs prefix to get the slug for the markdown API.
-  // /docs/da/build/networks → /api/markdown/da/build/networks
-  const slug = request.nextUrl.pathname.replace(/^\/docs\/?/, "");
+  // /docs/da/build/networks → /api/markdown/DA/build/networks
+  const rawSlug = request.nextUrl.pathname.replace(/^\/docs\/?/, "");
+  const slug = normalizeDocsSlugForMarkdownApi(rawSlug);
   const markdownUrl = new URL(
     slug ? `/api/markdown/${slug}` : "/api/markdown",
     request.url,

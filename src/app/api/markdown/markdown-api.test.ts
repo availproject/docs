@@ -6,9 +6,10 @@ const FAKE_CONTENT = "# Test Page\n\nSome markdown content here for testing.";
 vi.mock("@/lib/source", () => ({
   source: {
     getPage: (slug: string[]) => {
-      if (slug.length === 0 || (slug[0] === "da" && slug[1] === "build")) {
+      if (slug.length === 0 || (slug[0] === "DA" && slug[1] === "build")) {
         return {
-          url: slug.length === 0 ? "/docs" : `/docs/${slug.join("/")}`,
+          url:
+            slug.length === 0 ? "/docs" : `/docs/DA/${slug.slice(1).join("/")}`,
           data: {
             title: "Test Page",
             description: "A test page",
@@ -75,7 +76,7 @@ describe("markdown API - root route", () => {
 });
 
 describe("markdown API - slug route", () => {
-  it("returns markdown for valid slug", async () => {
+  it("returns markdown for lowercase DA slug (compat mode)", async () => {
     const res = await slugGET(makeRequest("/api/markdown/da/build"), {
       params: Promise.resolve({ slug: ["da", "build"] }),
     });
@@ -83,6 +84,13 @@ describe("markdown API - slug route", () => {
     expect(res.headers.get("Content-Type")).toBe(
       "text/markdown; charset=utf-8",
     );
+  });
+
+  it("returns markdown for uppercase DA slug", async () => {
+    const res = await slugGET(makeRequest("/api/markdown/DA/build"), {
+      params: Promise.resolve({ slug: ["DA", "build"] }),
+    });
+    expect(res.status).toBe(200);
   });
 
   it("returns 404 for non-existent page", async () => {
