@@ -50,7 +50,7 @@ const config = {
       },
       {
         source: "/docs/nexus/nexus-quickstart/nexus-core",
-        destination: "/docs/nexus/nexus-sdk",
+        destination: "/docs/nexus/nexus-sdk/quickstart",
         permanent: true,
       },
       {
