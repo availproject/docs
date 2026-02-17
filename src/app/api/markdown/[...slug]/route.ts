@@ -29,8 +29,8 @@ export async function GET(
   }
 
   try {
-    const raw = await page.data.getText("raw");
-    const tokenEstimate = Math.ceil(raw.length / 4);
+    const content = await page.data.getText("processed");
+    const tokenEstimate = Math.ceil(content.length / 4);
 
     // Check if user wants JSON response or raw markdown
     const format = request.nextUrl.searchParams.get("format");
@@ -41,14 +41,14 @@ export async function GET(
           title: page.data.title,
           description: page.data.description,
           url: page.url,
-          content: raw,
+          content,
         },
         { headers: AGENT_HEADERS },
       );
     }
 
-    // Return raw markdown with proper content type
-    return new NextResponse(raw, {
+    // Return processed markdown with proper content type
+    return new NextResponse(content, {
       headers: {
         "Content-Type": "text/markdown; charset=utf-8",
         "Content-Disposition": `inline; filename="${slug.join("-") || "index"}.md"`,

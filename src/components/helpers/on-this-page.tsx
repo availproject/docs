@@ -11,6 +11,7 @@ import {
 } from "@phosphor-icons/react";
 import { usePathname } from "next/navigation";
 import React from "react";
+import { toast } from "sonner";
 import { useAnalytics } from "@/hooks/use-analytics";
 import { REPO } from "@/lib/repo";
 import { cn, TOC_BY_PATH } from "@/lib/utils";
@@ -219,9 +220,12 @@ export function OnThisPage({
           content_length: markdown.length,
         });
         setTimeout(() => setCopied(false), 2000);
+      } else {
+        toast.error("Failed to copy page content.");
       }
     } catch (error) {
       console.error("Failed to copy markdown:", error);
+      toast.error("Failed to copy page content.");
     } finally {
       setIsCopyLoading(false);
     }
