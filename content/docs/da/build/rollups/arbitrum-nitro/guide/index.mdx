@@ -3,7 +3,9 @@ title: "Deploy Arbitrum Orbit with Avail DA"
 image: '/img/docs-link-preview.png'
 ---
 
-This guide follows the deployment of an Arbitrum Orbit chain (L3) with Arbitrum Sepolia (L2) as the base chain. You can follow the same steps with any [other supported chains](/docs/da/build/rollups/arbitrum-nitro/guide#reference) with the relevant contract addresses.
+# Deploy Arbitrum Orbit with Avail DA
+
+This guide follows the deployment of an Arbitrum Orbit chain (L3) with Arbitrum Sepolia (L2) as the base chain. You can follow the same steps with any [other supported chains](/da/build-with-avail/Optimium/arbitrum-nitro/nitro-stack#reference) with the relevant contract addresses.
 
 <Callout type="info">
 This guide is based on [Arbitrum Orbit Quickstart](https://docs.arbitrum.io/launch-orbit-chain/orbit-quickstart)
@@ -14,12 +16,12 @@ This guide is based on [Arbitrum Orbit Quickstart](https://docs.arbitrum.io/laun
 #### Docker
 - You need to have [docker](https://docs.docker.com/engine/) and [docker-compose](https://docs.docker.com/compose/) installed on your machine.
 #### Avail 
-- An Avail account with some AVAIL tokens in it. You can refer to [our docs here](/docs/da/user-guides/accounts) to get started.
-- An application key (`app-id`) for your rollup. Learn [how to get your `app-id` here](/docs/da/build/interact/app-id). 
+- An Avail account with some AVAIL tokens in it. You can refer to [our docs here](/user-guides/accounts) to get started.
+- An application key (`app-id`) for your rollup. Learn [how to get your `app-id` here](/da/build-with-avail/interact-with-avail-da/app-id). 
 
 #### Arbitrum Sepolia 
 - At least 1 ETH over Arbsepolia Testnet. You can follow [Step 1](https://docs.arbitrum.io/launch-orbit-chain/orbit-quickstart#step-1-acquire-arbitrum-testnet-eth-and-the-native-token-for-orbit-chains-with-custom-gas-tokens) on Arbitrum Orbit Doc for acquiring testnet $ETH
-- This guide will use [Arbitrum's ArbSepolia](https://docs.arbitrum.io/build-decentralized-apps/public-chains#arbitrum-sepolia) and [Avail's Turing](/docs/da/networks) testnets.
+- This guide will use [Arbitrum's ArbSepolia](https://docs.arbitrum.io/build-decentralized-apps/public-chains#arbitrum-sepolia) and [Avail's Turing](/da/networks) testnets.
 
 
 ## Download avail-nitro-node docker image
@@ -192,4 +194,4 @@ This will transfer any remaining balance from the batch poster and validator wal
 #### Appendix E: Troubleshooting
 You may see error getting latest batch count in your node's output logs (from Appendix B). This is usually safe to ignore. It's usually displayed when your Orbit chain's base contract deployment isn't yet finalized on the L1 chain. This finalization can take 15-20 minutes, but don't worry - the deployment doesn't need to be L1-finalized in order for your chain to function properly.
 
-Learn more about customizing and using your Orbit chain from the [Arbitrum Orbit Docs](https://docs.arbitrum.io/launch-orbit-chain/orbit-gentle-introduction). 
+Learn more about customizing and using your Orbit chain from the [Arbitrum Orbit Docs](https://docs.arbitrum.io/launch-orbit-chain/orbit-gentle-introduction).
