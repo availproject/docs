@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     description: "Documentation for Avail - Build with Avail",
     images: [
       {
-        url: "/img/opengraph-preview.png",
+        url: "/opengraph-preview.png",
         width: 1200,
         height: 630,
         alt: "Avail Docs",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
       template: "%s | Avail Docs",
     },
     description: "Documentation for Avail - Build with Avail",
-    images: ["/img/opengraph-preview.png"],
+    images: ["/opengraph-preview.png"],
   },
 };
 

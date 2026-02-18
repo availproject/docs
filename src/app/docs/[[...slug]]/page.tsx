@@ -45,7 +45,7 @@ export async function generateMetadata(props: {
       url,
       images: [
         {
-          url: "/img/opengraph-preview.png",
+          url: "/opengraph-preview.png",
           width: 1200,
           height: 630,
           alt: title,
@@ -56,7 +56,7 @@ export async function generateMetadata(props: {
       card: "summary_large_image",
       title,
       description,
-      images: ["/img/opengraph-preview.png"],
+      images: ["/opengraph-preview.png"],
     },
   };
 }
