@@ -1,12 +1,14 @@
 {
   "pages": [
     "get-started",
+    "networks",
     "concepts",
     "build",
     "operate",
     "user-guides",
     "api-reference",
     "glossary",
-    "faqs"
+    "faqs",
+    "bug-bounty"
   ]
 }

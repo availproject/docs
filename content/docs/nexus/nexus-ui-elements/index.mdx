@@ -1,15 +1,58 @@
 ---
-title: Nexus UI Elements
-description: Pre-built UI components powered by the Nexus SDK for plug-and-play integration.
+title: Nexus Elements 
+description: Install and configure Nexus Elements in your React project. Prebuilt components with full Nexus SDK integration, perfect for plug-and-play.
 ---
 
-Nexus UI Elements is a shadcn-based component library built on top of the Nexus SDK. It provides ready-to-use widgets for bridging, swapping, deposits, and balance views — so you can ship crosschain UX without building from scratch.
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { SquareArrowUpRight } from "lucide-react";
 
-<Cards num={2}>
-  <Card arrow title="Installation" href="/docs/nexus/nexus-ui-elements/installation">
-    Set up Nexus Elements in your project
-  </Card>
-  <Card arrow title="Components" href="/docs/nexus/nexus-ui-elements/components">
-    Browse available UI components
-  </Card>
+A shadcn-based component library built on top of nexus that allows devs to integrate working components into their project conveniently. Nexus Elements currently provides the following components:
+
+<div className="mt-4" />
+<Cards>
+  <Card
+    href="/docs/nexus/nexus-ui-elements/components/deposit"
+    title="Deposit"
+    description="A Plug and Play Deposit Widget with Unified Balances. Aggregate and swap multiple tokens across 10+ chains to deposit as any desired token on any chain and address."
+    className="sm:col-span-2"
+    arrow
+  />
+  <Card
+    href="/docs/nexus/nexus-ui-elements/components/unified-balance"
+    title="Unified Balance"
+    description="View unified token balances across chains with per-chain breakdown and fiat totals."
+    arrow
+  />
+  <Card
+    href="/docs/nexus/nexus-ui-elements/components/fast-bridge"
+    title="Fast Bridge"
+    description="Bridge assets across chains with source breakdown, fee details, progress steps, and allowance flow."
+    arrow
+  />
+  <Card
+    href="/docs/nexus/nexus-ui-elements/components/transfer"
+    title="Fast Transfer"
+    description="Transfer assets across chains with source breakdown, fee details, progress steps, and allowance flow."
+    arrow
+  />
+  <Card
+    href="/docs/nexus/nexus-ui-elements/components/swaps"
+    title="Swaps"
+    description="Swap assets with exact-in or exact-out across supported chains. Intent-based with prefill, callbacks, and progress UI."
+    arrow
+  />
+  <Card
+    href="/docs/nexus/nexus-ui-elements/components/view-history"
+    title="View Intent History"
+    description="View your transaction history with Nexus."
+    arrow
+  />
 </Cards>
+
+## Get Started 
+
+Spin up a Nexus Elements integrated boilerplate quickly and iterate fast using our [Quickstart](/docs/nexus/nexus-ui-elements/quickstart) guide.
+<br/><br/>
+Or get started with manually installing and setting up your first component in your project in our [Get Started](/docs/nexus/nexus-ui-elements/get-started/installation) guide.
+

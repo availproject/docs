@@ -1,0 +1,1020 @@
+[
+  {
+    "path": "/docs",
+    "title": "Get Started",
+    "description": "Welcome to Avail Documentation - your guide to data availability, cross-chain interoperability, and network participation",
+    "filePath": "content/docs/index.mdx"
+  },
+  {
+    "path": "/docs/da",
+    "title": "Avail DA",
+    "description": "Documentation for Avail DA - the data availability layer",
+    "filePath": "content/docs/da/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference",
+    "title": "API Reference",
+    "filePath": "content/docs/da/api-reference/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-bridge-api",
+    "title": "Bridge API",
+    "filePath": "content/docs/da/api-reference/avail-bridge-api/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-bridge-api/avail-head",
+    "title": "Get current Avail head",
+    "filePath": "content/docs/da/api-reference/avail-bridge-api/avail-head/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-bridge-api/eth-head",
+    "title": "Get current Ethereum head",
+    "filePath": "content/docs/da/api-reference/avail-bridge-api/eth-head/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-bridge-api/info",
+    "title": "Get bridge deployment details",
+    "filePath": "content/docs/da/api-reference/avail-bridge-api/info/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-bridge-api/liveness",
+    "title": "Check liveness of server",
+    "filePath": "content/docs/da/api-reference/avail-bridge-api/liveness/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-bridge-api/merkle-proof",
+    "title": "Get Merkle proof for a particular extrinsic",
+    "filePath": "content/docs/da/api-reference/avail-bridge-api/merkle-proof/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-bridge-api/storage-proof",
+    "title": "Get storage proof for a block",
+    "filePath": "content/docs/da/api-reference/avail-bridge-api/storage-proof/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-bridge-api/vector-send-message",
+    "title": "Bridge a message from origin to destination chain",
+    "filePath": "content/docs/da/api-reference/avail-bridge-api/vector-send-message/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-bridge-api/vector-send-tokens",
+    "title": "Bridge tokens from origin to destination chain",
+    "filePath": "content/docs/da/api-reference/avail-bridge-api/vector-send-tokens/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-lc-api",
+    "title": "Light Client API",
+    "description": "Avail Light client API reference",
+    "filePath": "content/docs/da/api-reference/avail-lc-api/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-lc-api/v1-deprecated",
+    "title": "V1 Deprecated",
+    "filePath": "content/docs/da/api-reference/avail-lc-api/v1-deprecated/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-lc-api/v2-blocks",
+    "title": "Fetch specified block status and confidence if applicable",
+    "filePath": "content/docs/da/api-reference/avail-lc-api/v2-blocks/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-lc-api/v2-blocks-header",
+    "title": "Fetch the header for a specific block if available",
+    "filePath": "content/docs/da/api-reference/avail-lc-api/v2-blocks-header/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-lc-api/v2-blocks-header-datafields",
+    "title": "Fetch block data if available",
+    "filePath": "content/docs/da/api-reference/avail-lc-api/v2-blocks-header-datafields/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-lc-api/v2-status",
+    "title": "Fetch current status and active modes of the light client",
+    "filePath": "content/docs/da/api-reference/avail-lc-api/v2-status/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-lc-api/v2-submit",
+    "title": "Submit data to Avail DA",
+    "filePath": "content/docs/da/api-reference/avail-lc-api/v2-submit/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-lc-api/v2-subscriptions",
+    "title": "WebSocket API",
+    "filePath": "content/docs/da/api-reference/avail-lc-api/v2-subscriptions/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-lc-api/v2-version",
+    "title": "Fetch the latest block",
+    "filePath": "content/docs/da/api-reference/avail-lc-api/v2-version/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-lc-api/v2-ws-status",
+    "title": "Request current Avail light client status data",
+    "filePath": "content/docs/da/api-reference/avail-lc-api/v2-ws-status/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-lc-api/v2-ws-submit",
+    "title": "Submit data to Avail DA",
+    "filePath": "content/docs/da/api-reference/avail-lc-api/v2-ws-submit/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-lc-api/v2-ws-version",
+    "title": "Request Avail light client version data",
+    "filePath": "content/docs/da/api-reference/avail-lc-api/v2-ws-version/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-node-api",
+    "title": "Node API",
+    "filePath": "content/docs/da/api-reference/avail-node-api/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-node-api/author-submit-and-watch-extrinsic",
+    "title": "author-submit-and-watch-extrinsic",
+    "description": "Manually submit an extrinsic to the network and wait for finalization",
+    "filePath": "content/docs/da/api-reference/avail-node-api/author-submit-and-watch-extrinsic/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-node-api/author-submit-extrinsic",
+    "title": "author-submit-extrinsic",
+    "description": "Manually Submit an extrinsic to the network",
+    "filePath": "content/docs/da/api-reference/avail-node-api/author-submit-extrinsic/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-node-api/balances-transfer-all",
+    "title": "Transfer all funds from one account to another",
+    "filePath": "content/docs/da/api-reference/avail-node-api/balances-transfer-all/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-node-api/balances-transfer-allow-death",
+    "title": "Transfer funds without ensuring min balance for sender",
+    "filePath": "content/docs/da/api-reference/avail-node-api/balances-transfer-allow-death/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-node-api/balances-transfer-keep-alive",
+    "title": "Transfer funds while ensuring min balance for sender",
+    "filePath": "content/docs/da/api-reference/avail-node-api/balances-transfer-keep-alive/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-node-api/chain-get-block",
+    "title": "Fetch block data from Avail DA using RPC calls",
+    "filePath": "content/docs/da/api-reference/avail-node-api/chain-get-block/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-node-api/da-app-keys",
+    "title": "Fetch an AppID from Avail DA",
+    "filePath": "content/docs/da/api-reference/avail-node-api/da-app-keys/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-node-api/da-create-application-key",
+    "title": "Create a new App ID on Avail DA",
+    "filePath": "content/docs/da/api-reference/avail-node-api/da-create-application-key/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-node-api/da-next-app-id",
+    "title": "Fetch the next available App ID on Avail DA",
+    "filePath": "content/docs/da/api-reference/avail-node-api/da-next-app-id/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-node-api/da-submit-data",
+    "title": "Submit new data to Avail DA",
+    "filePath": "content/docs/da/api-reference/avail-node-api/da-submit-data/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-node-api/nomination-pools-create",
+    "title": "Create a new nomination pool",
+    "filePath": "content/docs/da/api-reference/avail-node-api/nomination-pools-create/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-node-api/nomination-pools-create-with-pool-id",
+    "title": "Create a new nomination pool with a specific pool ID",
+    "filePath": "content/docs/da/api-reference/avail-node-api/nomination-pools-create-with-pool-id/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-node-api/nomination-pools-join",
+    "title": "Join a nomination pool",
+    "filePath": "content/docs/da/api-reference/avail-node-api/nomination-pools-join/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-node-api/nomination-pools-nominate",
+    "title": "Nominate validator(s) for your nomination pool",
+    "filePath": "content/docs/da/api-reference/avail-node-api/nomination-pools-nominate/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-node-api/staking-active-era",
+    "title": "Fetch information on the active era",
+    "filePath": "content/docs/da/api-reference/avail-node-api/staking-active-era/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-node-api/staking-bond",
+    "title": "Bond AVAIL tokens on Avail DA",
+    "filePath": "content/docs/da/api-reference/avail-node-api/staking-bond/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-node-api/staking-chill",
+    "title": "Stop validating on Avail DA",
+    "filePath": "content/docs/da/api-reference/avail-node-api/staking-chill/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-node-api/staking-nominate",
+    "title": "Nominate staked AVAIL tokens to one or more validators",
+    "filePath": "content/docs/da/api-reference/avail-node-api/staking-nominate/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-node-api/staking-unbond",
+    "title": "Unbond AVAIL tokens from Avail DA",
+    "filePath": "content/docs/da/api-reference/avail-node-api/staking-unbond/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-node-api/staking-validate",
+    "title": "Become a validator on Avail DA",
+    "filePath": "content/docs/da/api-reference/avail-node-api/staking-validate/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-node-api/system-account",
+    "title": "Fetch balances and other information for an account",
+    "description": "Query the balances and many other informational points for an account on Avail DA",
+    "filePath": "content/docs/da/api-reference/avail-node-api/system-account/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-turbo-da-api",
+    "title": "Turbo DA API",
+    "filePath": "content/docs/da/api-reference/avail-turbo-da-api/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-turbo-da-api/get-pre-image",
+    "title": "Retrieve Pre-Image Data",
+    "filePath": "content/docs/da/api-reference/avail-turbo-da-api/get-pre-image/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-turbo-da-api/get-submission-info",
+    "title": "Get Submission Information",
+    "filePath": "content/docs/da/api-reference/avail-turbo-da-api/get-submission-info/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-turbo-da-api/submit-data",
+    "title": "Submit JSON Data to Turbo DA",
+    "filePath": "content/docs/da/api-reference/avail-turbo-da-api/submit-data/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/avail-turbo-da-api/submit-raw-data",
+    "title": "Submit Raw Data to Turbo DA",
+    "filePath": "content/docs/da/api-reference/avail-turbo-da-api/submit-raw-data/index.mdx"
+  },
+  {
+    "path": "/docs/da/api-reference/gas-relay-deprecated",
+    "title": "Gas Relay Deprecated",
+    "filePath": "content/docs/da/api-reference/gas-relay-deprecated/index.mdx"
+  },
+  {
+    "path": "/docs/da/bug-bounty",
+    "title": "Bug Bounty",
+    "filePath": "content/docs/da/bug-bounty/index.mdx"
+  },
+  {
+    "path": "/docs/da/build",
+    "title": "Build",
+    "description": "Integrate with Avail DA — post data directly, deploy a rollup, or use Turbo DA for high-throughput submissions.",
+    "filePath": "content/docs/da/build/index.mdx"
+  },
+  {
+    "path": "/docs/da/build/interact",
+    "title": "Interact with DA",
+    "description": "Post data, create App IDs, and query balances on Avail DA using the SDK or API.",
+    "filePath": "content/docs/da/build/interact/index.mdx"
+  },
+  {
+    "path": "/docs/da/build/interact/app-id",
+    "title": "Create an App ID",
+    "description": "Learn how to generate unique application identifers for your Avail-based solution.",
+    "filePath": "content/docs/da/build/interact/app-id/index.mdx"
+  },
+  {
+    "path": "/docs/da/build/interact/faucet",
+    "title": "Testnet Faucet",
+    "description": "Using the Avail Testnet Faucet",
+    "filePath": "content/docs/da/build/interact/faucet/index.mdx"
+  },
+  {
+    "path": "/docs/da/build/interact/query-balances",
+    "title": "Query Balances",
+    "filePath": "content/docs/da/build/interact/query-balances/index.mdx"
+  },
+  {
+    "path": "/docs/da/build/interact/read-write-on-avail",
+    "title": "Read & Write Data",
+    "filePath": "content/docs/da/build/interact/read-write-on-avail/index.mdx"
+  },
+  {
+    "path": "/docs/da/build/interact/transfer-balances",
+    "title": "Transfer Balances",
+    "filePath": "content/docs/da/build/interact/transfer-balances/index.mdx"
+  },
+  {
+    "path": "/docs/da/build/rollups",
+    "title": "Rollups",
+    "description": "Choose a rollup framework and deploy on Avail DA for data availability.",
+    "filePath": "content/docs/da/build/rollups/index.mdx"
+  },
+  {
+    "path": "/docs/da/build/rollups/arbitrum-nitro",
+    "title": "Arbitrum Nitro stack",
+    "filePath": "content/docs/da/build/rollups/arbitrum-nitro/index.mdx"
+  },
+  {
+    "path": "/docs/da/build/rollups/arbitrum-nitro/guide",
+    "title": "Deploy Arbitrum Orbit with Avail DA",
+    "filePath": "content/docs/da/build/rollups/arbitrum-nitro/guide/index.mdx"
+  },
+  {
+    "path": "/docs/da/build/rollups/arbitrum-nitro/overview",
+    "title": "Building on the Arbitrum Nitro stack with Avail DA",
+    "filePath": "content/docs/da/build/rollups/arbitrum-nitro/overview/index.mdx"
+  },
+  {
+    "path": "/docs/da/build/rollups/cdk",
+    "title": "Polygon CDK",
+    "filePath": "content/docs/da/build/rollups/cdk/index.mdx"
+  },
+  {
+    "path": "/docs/da/build/rollups/cdk/guide",
+    "title": "Deploy a Polygon cdk Validium with Avail DA",
+    "description": "Discover how to utilize Avail as a data availability layer.",
+    "filePath": "content/docs/da/build/rollups/cdk/guide/index.mdx"
+  },
+  {
+    "path": "/docs/da/build/rollups/cosmos",
+    "title": "Cosmos Avail DA module",
+    "filePath": "content/docs/da/build/rollups/cosmos/index.mdx"
+  },
+  {
+    "path": "/docs/da/build/rollups/madara",
+    "title": "Madara Starknet",
+    "filePath": "content/docs/da/build/rollups/madara/index.mdx"
+  },
+  {
+    "path": "/docs/da/build/rollups/madara/guide",
+    "title": "How to Use Madara with Avail",
+    "description": "Discover how to utilize Avail as a data availability layer to build a Substrate-based Validium with Madara.",
+    "filePath": "content/docs/da/build/rollups/madara/guide/index.mdx"
+  },
+  {
+    "path": "/docs/da/build/rollups/madara/overview",
+    "title": "Building on the Madara Stack with Avail",
+    "description": "Discover how to utilize Avail as a data availability layer.",
+    "filePath": "content/docs/da/build/rollups/madara/overview/index.mdx"
+  },
+  {
+    "path": "/docs/da/build/rollups/op-stack",
+    "title": "OP Stack",
+    "filePath": "content/docs/da/build/rollups/op-stack/index.mdx"
+  },
+  {
+    "path": "/docs/da/build/rollups/op-stack/guide",
+    "title": "Deploy OP Stack chain with Avail DA",
+    "description": "Discover how to utilize Avail as a data availability layer.",
+    "filePath": "content/docs/da/build/rollups/op-stack/guide/index.mdx"
+  },
+  {
+    "path": "/docs/da/build/rollups/op-stack/overview",
+    "title": "Building on the OP Stack with Avail",
+    "description": "Discover how to utilize Avail as a data availability layer.",
+    "filePath": "content/docs/da/build/rollups/op-stack/overview/index.mdx"
+  },
+  {
+    "path": "/docs/da/build/rollups/zkevm",
+    "title": "Polygon zkEVM",
+    "filePath": "content/docs/da/build/rollups/zkevm/index.mdx"
+  },
+  {
+    "path": "/docs/da/build/rollups/zkevm/guide",
+    "title": "How to Use Polygon zkEVM with Avail",
+    "description": "Discover how to utilize Avail as a data availability layer.",
+    "filePath": "content/docs/da/build/rollups/zkevm/guide/index.mdx"
+  },
+  {
+    "path": "/docs/da/build/rollups/zkevm/overview",
+    "title": "Building on the Polygon zkEVM with Avail",
+    "description": "Discover how to utilize Avail as a data availability layer.",
+    "filePath": "content/docs/da/build/rollups/zkevm/overview/index.mdx"
+  },
+  {
+    "path": "/docs/da/build/rollups/zksync",
+    "title": "ZKsync's ZK Stack",
+    "filePath": "content/docs/da/build/rollups/zksync/index.mdx"
+  },
+  {
+    "path": "/docs/da/build/rollups/zksync/guide",
+    "title": "Deploy a ZK Stack Validium with Avail DA",
+    "description": "Discover how to utilize Avail as a data availability layer.",
+    "filePath": "content/docs/da/build/rollups/zksync/guide/index.mdx"
+  },
+  {
+    "path": "/docs/da/build/turbo-da",
+    "title": "Turbo DA",
+    "filePath": "content/docs/da/build/turbo-da/index.mdx"
+  },
+  {
+    "path": "/docs/da/build/vectorx",
+    "title": "VectorX DA verification",
+    "filePath": "content/docs/da/build/vectorx/index.mdx"
+  },
+  {
+    "path": "/docs/da/concepts",
+    "title": "Concepts",
+    "description": "Understand the key building blocks of Avail DA, from network architecture to transaction pricing.",
+    "filePath": "content/docs/da/concepts/index.mdx"
+  },
+  {
+    "path": "/docs/da/concepts/app-ids",
+    "title": "What are App IDs?",
+    "description": "Unique identifiers that separate and filter data submissions on Avail DA by application.",
+    "filePath": "content/docs/da/concepts/app-ids/index.mdx"
+  },
+  {
+    "path": "/docs/da/concepts/explorer",
+    "title": "Using the Explorer",
+    "description": "Browse blocks, transactions, validators, and data submissions on Avail DA using the network explorers.",
+    "filePath": "content/docs/da/concepts/explorer/index.mdx"
+  },
+  {
+    "path": "/docs/da/concepts/how-avail-da-works",
+    "title": "How Avail DA Works",
+    "description": "How Avail DA guarantees data availability through erasure coding, KZG commitments, data availability sampling, and nominated proof-of-stake consensus.",
+    "filePath": "content/docs/da/concepts/how-avail-da-works/index.mdx"
+  },
+  {
+    "path": "/docs/da/concepts/tx-pricing",
+    "title": "How Transaction Pricing Works",
+    "description": "How AVAIL token fees are calculated based on compute, storage, and data submission requirements.",
+    "filePath": "content/docs/da/concepts/tx-pricing/index.mdx"
+  },
+  {
+    "path": "/docs/da/concepts/what-is-avail-da",
+    "title": "What is Avail DA?",
+    "description": "Avail DA is a modular data availability layer purpose-built for rollups — providing scalable, verifiable DA without execution overhead.",
+    "filePath": "content/docs/da/concepts/what-is-avail-da/index.mdx"
+  },
+  {
+    "path": "/docs/da/faqs",
+    "title": "FAQs",
+    "description": "FAQs on Avail and the Avail ecosystem.",
+    "filePath": "content/docs/da/faqs/index.mdx"
+  },
+  {
+    "path": "/docs/da/get-started",
+    "title": "Get Started with Avail DA",
+    "description": "Post data to Avail DA and read it back — in TypeScript, Rust, or Go.",
+    "filePath": "content/docs/da/get-started/index.mdx"
+  },
+  {
+    "path": "/docs/da/glossary",
+    "title": "Glossary",
+    "description": "A glossary of essential terms, definitions, and concepts related to Avail.",
+    "filePath": "content/docs/da/glossary/index.mdx"
+  },
+  {
+    "path": "/docs/da/networks",
+    "title": "Network Information",
+    "description": "Mainnet and testnet RPC endpoints, chain specs, and bridge contract addresses.",
+    "filePath": "content/docs/da/networks/index.mdx"
+  },
+  {
+    "path": "/docs/da/operate",
+    "title": "Operate",
+    "description": "Run Avail DA infrastructure — light clients, full nodes, and validators.",
+    "filePath": "content/docs/da/operate/index.mdx"
+  },
+  {
+    "path": "/docs/da/operate/become-a-validator",
+    "title": "Become a Validator",
+    "description": "Set up, stake, and maintain an Avail DA validator node — from first deploy to monitoring.",
+    "filePath": "content/docs/da/operate/become-a-validator/index.mdx"
+  },
+  {
+    "path": "/docs/da/operate/become-a-validator/backup-your-validator",
+    "title": "How to Backup Your Avail Validator",
+    "description": "A comprehensive guide on backup tasks essential for maintaining an Avail Validator.",
+    "filePath": "content/docs/da/operate/become-a-validator/backup-your-validator/index.mdx"
+  },
+  {
+    "path": "/docs/da/operate/become-a-validator/basics",
+    "title": "Avail Node - Basics",
+    "description": "Learn how to run an Avail Node.",
+    "filePath": "content/docs/da/operate/become-a-validator/basics/index.mdx"
+  },
+  {
+    "path": "/docs/da/operate/become-a-validator/chill-your-validator",
+    "title": "Chill Your Validator",
+    "description": "Learn about how Chill & Slashing Affect an Avail validator.",
+    "filePath": "content/docs/da/operate/become-a-validator/chill-your-validator/index.mdx"
+  },
+  {
+    "path": "/docs/da/operate/become-a-validator/deployment",
+    "title": "Avail Node - Simple Deployment",
+    "description": "Learn how to run deploy Avail Node on a server.",
+    "filePath": "content/docs/da/operate/become-a-validator/deployment/index.mdx"
+  },
+  {
+    "path": "/docs/da/operate/become-a-validator/monitor-your-validator",
+    "title": "How to Monitor Your Avail Validator Node",
+    "description": "Learn about monitoring a validator",
+    "filePath": "content/docs/da/operate/become-a-validator/monitor-your-validator/index.mdx"
+  },
+  {
+    "path": "/docs/da/operate/become-a-validator/session-keys",
+    "title": "Avail Node - Session Keys",
+    "description": "Learn how to generate session keys",
+    "filePath": "content/docs/da/operate/become-a-validator/session-keys/index.mdx"
+  },
+  {
+    "path": "/docs/da/operate/become-a-validator/stake-your-validator",
+    "title": "How to Stake Your Validator",
+    "description": "Learn about running an Avail validator using binaries.",
+    "filePath": "content/docs/da/operate/become-a-validator/stake-your-validator/index.mdx"
+  },
+  {
+    "path": "/docs/da/operate/become-a-validator/upgrade-your-validator",
+    "title": "How to Upgrade Your Avail Validator",
+    "description": "Learn about upgrading a validator",
+    "filePath": "content/docs/da/operate/become-a-validator/upgrade-your-validator/index.mdx"
+  },
+  {
+    "path": "/docs/da/operate/deployment-options",
+    "title": "Deployment Options",
+    "description": "Discover service providers that offer node deployment services for Avail.",
+    "filePath": "content/docs/da/operate/deployment-options/index.mdx"
+  },
+  {
+    "path": "/docs/da/operate/node-types",
+    "title": "Node Types",
+    "description": "Understand the various types of nodes in the Avail network and their unique functionalities.",
+    "filePath": "content/docs/da/operate/node-types/index.mdx"
+  },
+  {
+    "path": "/docs/da/operate/run-a-full-node",
+    "title": "Full Node",
+    "description": "Run a full Avail node that stores complete block data and serves the network.",
+    "filePath": "content/docs/da/operate/run-a-full-node/index.mdx"
+  },
+  {
+    "path": "/docs/da/operate/run-a-full-node/full-node",
+    "title": "How to Run an Avail node",
+    "filePath": "content/docs/da/operate/run-a-full-node/full-node/index.mdx"
+  },
+  {
+    "path": "/docs/da/operate/run-a-full-node/overview",
+    "title": "System Requirements",
+    "description": "Learn about running an Avail validator using Docker.",
+    "filePath": "content/docs/da/operate/run-a-full-node/overview/index.mdx"
+  },
+  {
+    "path": "/docs/da/operate/run-a-light-client",
+    "title": "Light Client",
+    "description": "Run an Avail light client to verify data availability through sampling.",
+    "filePath": "content/docs/da/operate/run-a-light-client/index.mdx"
+  },
+  {
+    "path": "/docs/da/operate/run-a-light-client/light-client",
+    "title": "How to Run an Avail light client",
+    "description": "Learn how to run an Avail light client.",
+    "filePath": "content/docs/da/operate/run-a-light-client/light-client/index.mdx"
+  },
+  {
+    "path": "/docs/da/operate/run-a-light-client/light-client-challenge",
+    "title": "The Light Client Lift-off challenge",
+    "filePath": "content/docs/da/operate/run-a-light-client/light-client-challenge/index.mdx"
+  },
+  {
+    "path": "/docs/da/operate/run-a-light-client/overview",
+    "title": "Introduction to Avail light clients",
+    "description": "Learn about Avail's data availability chain",
+    "filePath": "content/docs/da/operate/run-a-light-client/overview/index.mdx"
+  },
+  {
+    "path": "/docs/da/user-guides",
+    "title": "User Guides",
+    "description": "Guides for using Avail — accounts, staking, bridging, and more.",
+    "filePath": "content/docs/da/user-guides/index.mdx"
+  },
+  {
+    "path": "/docs/da/user-guides/accounts",
+    "title": "Accounts",
+    "description": "Comprehensive guide on creating and managing Avail accounts.",
+    "filePath": "content/docs/da/user-guides/accounts/index.mdx"
+  },
+  {
+    "path": "/docs/da/user-guides/avail-funds-recovery",
+    "title": "Ledger Fund Recovery",
+    "filePath": "content/docs/da/user-guides/avail-funds-recovery/index.mdx"
+  },
+  {
+    "path": "/docs/da/user-guides/avail-multisig",
+    "title": "Multisigs",
+    "filePath": "content/docs/da/user-guides/avail-multisig/index.mdx"
+  },
+  {
+    "path": "/docs/da/user-guides/avail-snap",
+    "title": "MetaMask Snap",
+    "filePath": "content/docs/da/user-guides/avail-snap/index.mdx"
+  },
+  {
+    "path": "/docs/da/user-guides/bridge-avail",
+    "title": "Bridging",
+    "description": "Bridge AVAIL to different chains",
+    "filePath": "content/docs/da/user-guides/bridge-avail/index.mdx"
+  },
+  {
+    "path": "/docs/da/user-guides/bridge-avail/avail-base",
+    "title": "Bridge between Avail & Base",
+    "filePath": "content/docs/da/user-guides/bridge-avail/avail-base/index.mdx"
+  },
+  {
+    "path": "/docs/da/user-guides/bridge-avail/avail-ethereum",
+    "title": "Bridge AVAIL to Ethereum using the VectorX bridge",
+    "filePath": "content/docs/da/user-guides/bridge-avail/avail-ethereum/index.mdx"
+  },
+  {
+    "path": "/docs/da/user-guides/bridge-avail/ethereum-base",
+    "title": "Bridge between Ethereum & Base",
+    "filePath": "content/docs/da/user-guides/bridge-avail/ethereum-base/index.mdx"
+  },
+  {
+    "path": "/docs/da/user-guides/explorer",
+    "title": "Using the Explorer",
+    "description": "Browse blocks, transactions, and validators on Avail DA using the network explorers.",
+    "filePath": "content/docs/da/user-guides/explorer/index.mdx"
+  },
+  {
+    "path": "/docs/da/user-guides/identity",
+    "title": "Identity",
+    "description": "Learn how to set an on-chain identity on the Avail Network.",
+    "filePath": "content/docs/da/user-guides/identity/index.mdx"
+  },
+  {
+    "path": "/docs/da/user-guides/ledger-avail",
+    "title": "Ledger",
+    "filePath": "content/docs/da/user-guides/ledger-avail/index.mdx"
+  },
+  {
+    "path": "/docs/da/user-guides/proxies-on-avail",
+    "title": "Proxies",
+    "description": "Proxy accounts on Avail",
+    "filePath": "content/docs/da/user-guides/proxies-on-avail/index.mdx"
+  },
+  {
+    "path": "/docs/da/user-guides/proxies-on-avail/avail-proxy",
+    "title": "Proxy Accounts on Avail DA",
+    "filePath": "content/docs/da/user-guides/proxies-on-avail/avail-proxy/index.mdx"
+  },
+  {
+    "path": "/docs/da/user-guides/proxies-on-avail/avail-pure-proxy",
+    "title": "Pure proxy accounts on Avail",
+    "description": "How to create pure proxy accounts on Avail",
+    "filePath": "content/docs/da/user-guides/proxies-on-avail/avail-pure-proxy/index.mdx"
+  },
+  {
+    "path": "/docs/da/user-guides/staking-governance",
+    "title": "Staking & Governance",
+    "description": "Stake AVAIL tokens, nominate validators, and participate in on-chain governance.",
+    "filePath": "content/docs/da/user-guides/staking-governance/index.mdx"
+  },
+  {
+    "path": "/docs/da/user-guides/staking-governance/governance-on-avail",
+    "title": "Avail Governance V1",
+    "filePath": "content/docs/da/user-guides/staking-governance/governance-on-avail/index.mdx"
+  },
+  {
+    "path": "/docs/da/user-guides/staking-governance/governance-on-avail/avail-improvement-proposal",
+    "title": "Avail Improvement Proposal (AIP)",
+    "filePath": "content/docs/da/user-guides/staking-governance/governance-on-avail/avail-improvement-proposal/index.mdx"
+  },
+  {
+    "path": "/docs/da/user-guides/staking-governance/governance-on-avail/avail-transparency-report",
+    "title": "Avail Transparency Report",
+    "filePath": "content/docs/da/user-guides/staking-governance/governance-on-avail/avail-transparency-report/index.mdx"
+  },
+  {
+    "path": "/docs/da/user-guides/staking-governance/governance-on-avail/overview",
+    "title": "Governance Phase 1 Overview",
+    "filePath": "content/docs/da/user-guides/staking-governance/governance-on-avail/overview/index.mdx"
+  },
+  {
+    "path": "/docs/da/user-guides/staking-governance/governance-on-avail/technical-committee",
+    "title": "Technical Committee",
+    "filePath": "content/docs/da/user-guides/staking-governance/governance-on-avail/technical-committee/index.mdx"
+  },
+  {
+    "path": "/docs/da/user-guides/staking-governance/overview",
+    "title": "AVAIL",
+    "filePath": "content/docs/da/user-guides/staking-governance/overview/index.mdx"
+  },
+  {
+    "path": "/docs/da/user-guides/staking-governance/stake-on-avail",
+    "title": "Stake on Avail",
+    "filePath": "content/docs/da/user-guides/staking-governance/stake-on-avail/index.mdx"
+  },
+  {
+    "path": "/docs/da/user-guides/staking-governance/stake-on-avail/direct-nomination",
+    "title": "How to Nominate",
+    "description": "Comprehensive guide on how to nominate.",
+    "filePath": "content/docs/da/user-guides/staking-governance/stake-on-avail/direct-nomination/index.mdx"
+  },
+  {
+    "path": "/docs/da/user-guides/staking-governance/stake-on-avail/nomination-pools",
+    "title": "How to Create Nomination Pools on Avail",
+    "description": "Learn how to create and join nomination pools on the Avail network.",
+    "filePath": "content/docs/da/user-guides/staking-governance/stake-on-avail/nomination-pools/index.mdx"
+  },
+  {
+    "path": "/docs/da/user-guides/staking-governance/stake-on-avail/overview",
+    "title": "Stake on Avail",
+    "filePath": "content/docs/da/user-guides/staking-governance/stake-on-avail/overview/index.mdx"
+  },
+  {
+    "path": "/docs/nexus",
+    "title": "Avail Nexus",
+    "description": "Documentation for Avail Nexus - cross-chain interoperability",
+    "filePath": "content/docs/nexus/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/concepts",
+    "title": "Concepts",
+    "filePath": "content/docs/nexus/concepts/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/concepts/allowances",
+    "title": "Token Allowances",
+    "description": "Approve tokens for Nexus smart contracts to enable cross-chain operations on your behalf.",
+    "filePath": "content/docs/nexus/concepts/allowances/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/concepts/bridge-v-swap",
+    "title": "Understanding Balance Types",
+    "description": "Why bridge and swap operations use different token balances, and when to use each.",
+    "filePath": "content/docs/nexus/concepts/bridge-v-swap/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/concepts/chain-abstraction",
+    "title": "What is Chain Abstraction?",
+    "description": "Eliminate manual bridging, chain switching, and wallet complexity for a seamless cross-chain experience.",
+    "filePath": "content/docs/nexus/concepts/chain-abstraction/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/concepts/intent",
+    "title": "What is an Intent?",
+    "description": "A user's desired outcome expressed as a transaction request that solvers compete to fulfill.",
+    "filePath": "content/docs/nexus/concepts/intent/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/concepts/intent-lifecycle",
+    "title": "How Intents are Processed",
+    "description": "The journey of an intent from creation to fulfillment — submission, validation, and execution.",
+    "filePath": "content/docs/nexus/concepts/intent-lifecycle/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/concepts/nexus-ops",
+    "title": "Bridge, Transfer & Execute",
+    "description": "Move tokens to yourself, send to another address, or bridge and call any smart contract in one action.",
+    "filePath": "content/docs/nexus/concepts/nexus-ops/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/concepts/solvers",
+    "title": "What are Solvers?",
+    "description": "Decentralized agents that compete to fulfill user intents by providing liquidity across chains.",
+    "filePath": "content/docs/nexus/concepts/solvers/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/concepts/source-chain-selection",
+    "title": "Liquidity Routing",
+    "description": "Control which chains your tokens are sourced from, or let Nexus optimize the route automatically.",
+    "filePath": "content/docs/nexus/concepts/source-chain-selection/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/concepts/xcs-swaps",
+    "title": "Crosschain Swaps",
+    "description": "Swap any token on any chain to any other token on any chain using ExactIn or ExactOut methods.",
+    "filePath": "content/docs/nexus/concepts/xcs-swaps/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/contracts",
+    "title": "Contract Addresses",
+    "description": "Avail Nexus smart contract addresses across supported chains.",
+    "filePath": "content/docs/nexus/contracts/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/cookbook-recipes",
+    "title": "Cookbook Recipes",
+    "description": "Practical examples and recipes for building with Nexus.",
+    "filePath": "content/docs/nexus/cookbook-recipes/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/get-started",
+    "title": "Get Started with Avail Nexus",
+    "description": "Build cross-chain apps with Avail Nexus — accept payments from any chain, swap tokens across ecosystems, and execute contracts remotely.",
+    "filePath": "content/docs/nexus/get-started/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk",
+    "title": "Nexus SDK",
+    "description": "Full SDK control for building cross-chain applications with Avail Nexus.",
+    "filePath": "content/docs/nexus/nexus-sdk/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/cookbook-recipes",
+    "title": "Cookbook Recipes",
+    "description": "The cookbook hosts small code snippets in a question-answer format. It does not walk you through the whole setup, it rather aims to answer some questions around specific uses.",
+    "filePath": "content/docs/nexus/nexus-sdk/cookbook-recipes/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/get-started/bridge-tokens",
+    "title": "Bridge Tokens",
+    "description": "Add cross-chain token bridging to your Nexus SDK project.",
+    "filePath": "content/docs/nexus/nexus-sdk/get-started/bridge-tokens/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/get-started/deposit-into-aave",
+    "title": "Deposit into Aave",
+    "description": "Bridge tokens and immediately deposit them into Aave using a single SDK call.",
+    "filePath": "content/docs/nexus/nexus-sdk/get-started/deposit-into-aave/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/get-started/initializing-nexus-with-rainbowkit",
+    "title": "Initializing Nexus with RainbowKit",
+    "description": "Replace window.ethereum with RainbowKit for a polished wallet connection experience.",
+    "filePath": "content/docs/nexus/nexus-sdk/get-started/initializing-nexus-with-rainbowkit/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/get-started/installation",
+    "title": "Installation",
+    "description": "Install the Nexus SDK packages and dependencies in your project.",
+    "filePath": "content/docs/nexus/nexus-sdk/get-started/installation/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup",
+    "title": "Nexus SDK Setup",
+    "description": "Initialize the Nexus SDK with a connected wallet and fetch your first unified balance.",
+    "filePath": "content/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/nexus-elements",
+    "title": "Nexus Elements Reference",
+    "filePath": "content/docs/nexus/nexus-sdk/nexus-elements/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/quickstart",
+    "title": "Quickstart",
+    "description": "Scaffold a working Nexus SDK app in under two minutes with create-liquid-apps.",
+    "filePath": "content/docs/nexus/nexus-sdk/quickstart/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/reference",
+    "title": "SDK Reference",
+    "description": "API reference for the Avail Nexus SDK bridge, swap, and balance methods.",
+    "filePath": "content/docs/nexus/nexus-sdk/reference/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/reference/bridge-methods",
+    "title": "Bridge Methods",
+    "filePath": "content/docs/nexus/nexus-sdk/reference/bridge-methods/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/reference/bridge-methods/bridge",
+    "title": "Bridge Tokens",
+    "filePath": "content/docs/nexus/nexus-sdk/reference/bridge-methods/bridge/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-and-execute",
+    "title": "Bridge and Execute",
+    "filePath": "content/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-and-execute/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-events",
+    "title": "Bridge Events",
+    "filePath": "content/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-events/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/reference/bridge-methods/fetch-bridge-balances",
+    "title": "Fetch Bridge Balances",
+    "filePath": "content/docs/nexus/nexus-sdk/reference/bridge-methods/fetch-bridge-balances/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/reference/bridge-methods/transfer",
+    "title": "Bridge and Transfer",
+    "filePath": "content/docs/nexus/nexus-sdk/reference/bridge-methods/transfer/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/reference/hooks-and-errors",
+    "title": "Hooks and Errors",
+    "description": "Hooks and Error Codes for the Nexus SDK",
+    "filePath": "content/docs/nexus/nexus-sdk/reference/hooks-and-errors/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/reference/swap-methods",
+    "title": "Swap Methods",
+    "filePath": "content/docs/nexus/nexus-sdk/reference/swap-methods/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/reference/swap-methods/fetch-swap-balances",
+    "title": "Fetch Swap Balances",
+    "filePath": "content/docs/nexus/nexus-sdk/reference/swap-methods/fetch-swap-balances/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/reference/swap-methods/swap-events",
+    "title": "Swap Events",
+    "filePath": "content/docs/nexus/nexus-sdk/reference/swap-methods/swap-events/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-in",
+    "title": "Swap Exact Input",
+    "filePath": "content/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-in/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-out",
+    "title": "Swap Exact Out",
+    "filePath": "content/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-out/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/reference/utility-reference",
+    "title": "Utility Reference",
+    "description": "Complete reference for Nexus SDK utilities, helpers, and types.",
+    "filePath": "content/docs/nexus/nexus-sdk/reference/utility-reference/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-ui-elements",
+    "title": "Nexus Elements",
+    "description": "Install and configure Nexus Elements in your React project. Prebuilt components with full Nexus SDK integration, perfect for plug-and-play.",
+    "filePath": "content/docs/nexus/nexus-ui-elements/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-ui-elements/components/deposit",
+    "title": "Deposit",
+    "description": "A Plug and Play Deposit Widget with Unified Balances. Aggregate and swap multiple tokens across 10+ chains to deposit as any desired token on any chain and address.",
+    "filePath": "content/docs/nexus/nexus-ui-elements/components/deposit.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-ui-elements/components/fast-bridge",
+    "title": "Fast Bridge",
+    "description": "Bridge assets across chains with source breakdown, fee details, progress steps, and allowance flow. Intent-based and optimized for UX.",
+    "filePath": "content/docs/nexus/nexus-ui-elements/components/fast-bridge.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-ui-elements/components/swaps",
+    "title": "Swaps",
+    "description": "Swap assets with exact-in or exact-out across supported chains. Intent-based with prefill, callbacks, and progress UI.",
+    "filePath": "content/docs/nexus/nexus-ui-elements/components/swaps.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-ui-elements/components/transfer",
+    "title": "Fast Transfer",
+    "description": "Transfer assets across chains with source breakdown, fee details, progress steps, and allowance flow. Intent-based and optimized for UX.",
+    "filePath": "content/docs/nexus/nexus-ui-elements/components/transfer.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-ui-elements/components/unified-balance",
+    "title": "Unified Balance",
+    "description": "View unified token balances across chains with per-chain breakdown and fiat totals.",
+    "filePath": "content/docs/nexus/nexus-ui-elements/components/unified-balance.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-ui-elements/components/view-history",
+    "title": "View History",
+    "description": "View your transaction history with Nexus.",
+    "filePath": "content/docs/nexus/nexus-ui-elements/components/view-history.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-ui-elements/get-started/installation",
+    "title": "Installation",
+    "description": "Install Nexus Elements packages and dependencies in your project.",
+    "filePath": "content/docs/nexus/nexus-ui-elements/get-started/installation/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-ui-elements/get-started/nexus-provider-setup",
+    "title": "NexusProvider Setup",
+    "description": "Wrap your application with the NexusProvider to enable Nexus Elements components.",
+    "filePath": "content/docs/nexus/nexus-ui-elements/get-started/nexus-provider-setup/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-ui-elements/get-started/your-first-component",
+    "title": "Your First Component",
+    "description": "Render your first Nexus Elements component and understand how props and callbacks work.",
+    "filePath": "content/docs/nexus/nexus-ui-elements/get-started/your-first-component/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-ui-elements/mcp-documentation",
+    "title": "MCP Server",
+    "description": "Use the shadcn MCP server to browse, search, and install components from registries.",
+    "filePath": "content/docs/nexus/nexus-ui-elements/mcp-documentation/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-ui-elements/quickstart",
+    "title": "Quickstart",
+    "description": "Scaffold a working Nexus Elements app in under two minutes with create-liquid-apps.",
+    "filePath": "content/docs/nexus/nexus-ui-elements/quickstart/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/supported-chains-and-tokens",
+    "title": "Supported Chains & Tokens",
+    "description": "List of chains and tokens supported by Avail Nexus.",
+    "filePath": "content/docs/nexus/supported-chains-and-tokens/index.mdx"
+  }
+]

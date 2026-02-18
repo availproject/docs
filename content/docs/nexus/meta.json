@@ -1,10 +1,12 @@
 {
   "pages": [
     "get-started",
-    "concepts",
-    "nexus-sdk",
+    "supported-chains-and-tokens",
     "nexus-ui-elements",
+    "nexus-sdk",
+    "concepts",
     "cookbook-recipes",
-    "cheat-sheet"
+    "contracts"
+
   ]
 }

@@ -14,6 +14,12 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "format": "biome format --write",
+    "redirects:crawl-old": "node scripts/crawl-old-docs.mjs",
+    "redirects:list-new": "node scripts/list-new-docs.mjs",
+    "redirects:generate": "node scripts/generate-redirects.mjs",
+    "redirects:report": "node scripts/generate-redirects-report.mjs",
+    "links:validate": "node scripts/validate-internal-links.mjs",
+    "links:fix": "node scripts/validate-internal-links.mjs --fix",
     "prepare": "husky"
   },
   "dependencies": {
@@ -62,11 +68,13 @@
   "devDependencies": {
     "@biomejs/biome": "^2.3.10",
     "@tailwindcss/postcss": "^4.1.18",
+    "@types/jest": "^30.0.0",
     "@types/mdx": "^2.0.13",
     "@types/node": "^24.10.2",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "husky": "^9.1.7",
+    "jest": "^30.2.0",
     "lint-staged": "^16.2.7",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.18",

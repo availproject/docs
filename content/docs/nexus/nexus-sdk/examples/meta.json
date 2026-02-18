@@ -1,9 +1,0 @@
-{
-  "title": "Examples",
-  "pages": [
-    "nexus-initialization-basic",
-    "nexus-initialization-rainbowkit",
-    "nexus-bridge",
-    "bridge-execute"
-  ]
-}
