@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
+import { applyRedirects } from "./redirect-middleware";
 
 /**
  * Content negotiation middleware.
@@ -15,7 +16,13 @@ import { type NextRequest, NextResponse } from "next/server";
  */
 
 export const config = {
-  matcher: "/docs/:path*",
+  // Run on docs URLs (for markdown rewrites) and on legacy paths that need redirects.
+  matcher: [
+    "/docs/:path*",
+    "/da/:path*",
+    "/nexus/:path*",
+    "/user-guides/:path*",
+  ],
 };
 
 function normalizeDocsSlugForMarkdownApi(slug: string): string {
@@ -41,6 +48,17 @@ function acceptsMarkdown(request: NextRequest): boolean {
 }
 
 export function middleware(request: NextRequest) {
+  // First, try to apply redirect rules for legacy URLs.
+  const redirectResponse = applyRedirects(request);
+  if (redirectResponse) {
+    return redirectResponse;
+  }
+
+  // Only docs paths participate in markdown content negotiation.
+  if (!request.nextUrl.pathname.startsWith("/docs")) {
+    return NextResponse.next();
+  }
+
   if (!acceptsMarkdown(request)) {
     return NextResponse.next();
   }

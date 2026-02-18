@@ -1,0 +1,342 @@
+[
+  {
+    "source": "/nexus/concepts",
+    "destination": "/docs/nexus/cheat-sheet"
+  },
+  {
+    "source": "/nexus/nexus-examples/nexus-initialization-basic",
+    "destination": "/docs/nexus/cheat-sheet"
+  },
+  {
+    "source": "/da/archived-content",
+    "destination": "/docs/da/build"
+  },
+  {
+    "source": "/da/clash-of-nodes",
+    "destination": "/docs/da/build"
+  },
+  {
+    "source": "/da/learn-about-avail/avail-apps-explorer",
+    "destination": "/docs/da/concepts/explorer"
+  },
+  {
+    "source": "/da/learn-about-avail",
+    "destination": "/docs/da/concepts/how-avail-da-works"
+  },
+  {
+    "source": "/nexus/introduction-to-nexus",
+    "destination": "/docs/nexus/nexus-sdk"
+  },
+  {
+    "source": "/nexus/nexus-examples",
+    "destination": "/docs/nexus/nexus-sdk"
+  },
+  {
+    "source": "/nexus/nexus-examples/nexus-bridge",
+    "destination": "/docs/nexus/nexus-sdk/reference/bridge-methods"
+  },
+  {
+    "source": "/nexus/nexus-examples/nexus-initialization-rainbowkit",
+    "destination": "/docs/nexus/nexus-sdk/get-started/initializing-nexus-with-rainbowkit"
+  },
+  {
+    "source": "/da/build-with-avail/deploy-rollup-on-avail",
+    "destination": "/docs/da/build"
+  },
+  {
+    "source": "/da/introduction-to-avail-da",
+    "destination": "/docs/da/concepts/how-avail-da-works"
+  },
+  {
+    "source": "/nexus/nexus-quickstart/nexus-core",
+    "destination": "/docs/nexus/nexus-sdk/quickstart"
+  },
+  {
+    "source": "/nexus/nexus-overview",
+    "destination": "/docs/nexus"
+  },
+  {
+    "source": "/da/build-with-avail/deploy-rollup-on-avail/cosmos-avail-module",
+    "destination": "/docs/da/build/rollups/cosmos"
+  },
+  {
+    "source": "/nexus/nexus-examples/bridge-and-transfer",
+    "destination": "/docs/nexus/nexus-sdk/reference/bridge-methods/transfer"
+  },
+  {
+    "source": "/nexus/nexus-examples/bridge-execute",
+    "destination": "/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-and-execute"
+  },
+  {
+    "source": "/da/build-with-avail/deploy-rollup-on-avail/arbitrum-nitro/nitro-stack",
+    "destination": "/docs/da/build/rollups/arbitrum-nitro/overview"
+  },
+  {
+    "source": "/da/build-with-avail",
+    "destination": "/docs/da/build"
+  },
+  {
+    "source": "/nexus/cookbook",
+    "destination": "/docs/nexus/cookbook-recipes"
+  },
+  {
+    "source": "/nexus/avail-nexus-sdk/api-reference",
+    "destination": "/docs/da/api-reference"
+  },
+  {
+    "source": "/da/operate-a-node/become-a-validator/0020-simple-deployment",
+    "destination": "/docs/da/operate/become-a-validator/deployment"
+  },
+  {
+    "source": "/da/operate-a-node",
+    "destination": "/docs/da/operate/node-types"
+  },
+  {
+    "source": "/nexus/nexus-quickstart",
+    "destination": "/docs/nexus/nexus-sdk/quickstart"
+  },
+  {
+    "source": "/da/operate-a-node/become-a-validator/0010-basics",
+    "destination": "/docs/da/operate/become-a-validator/basics"
+  },
+  {
+    "source": "/da/operate-a-node/run-a-light-client/0010-light-client",
+    "destination": "/docs/da/operate/run-a-light-client/light-client"
+  },
+  {
+    "source": "/da/build-with-avail/deploy-rollup-on-avail/zksync",
+    "destination": "/docs/da/build/rollups/zksync"
+  },
+  {
+    "source": "/da/build-with-avail/deploy-rollup-on-avail/zksync/zksync",
+    "destination": "/docs/da/build/rollups/zksync"
+  },
+  {
+    "source": "/da/learn-about-avail/tx-pricing",
+    "destination": "/docs/da/concepts/tx-pricing"
+  },
+  {
+    "source": "/nexus/avail-nexus-sdk",
+    "destination": "/docs/nexus/nexus-sdk"
+  },
+  {
+    "source": "/da/build-with-avail/deploy-rollup-on-avail/cdk",
+    "destination": "/docs/da/build/rollups/cdk"
+  },
+  {
+    "source": "/da/build-with-avail/deploy-rollup-on-avail/cdk/cdk",
+    "destination": "/docs/da/build/rollups/cdk"
+  },
+  {
+    "source": "/da/build-with-avail/deploy-rollup-on-avail/madara",
+    "destination": "/docs/da/build/rollups/madara"
+  },
+  {
+    "source": "/da/build-with-avail/deploy-rollup-on-avail/madara/madara",
+    "destination": "/docs/da/build/rollups/madara"
+  },
+  {
+    "source": "/da/build-with-avail/deploy-rollup-on-avail/zkevm",
+    "destination": "/docs/da/build/rollups/zkevm"
+  },
+  {
+    "source": "/da/build-with-avail/deploy-rollup-on-avail/zkevm/zkevm",
+    "destination": "/docs/da/build/rollups/zkevm"
+  },
+  {
+    "source": "/da/operate-a-node/become-a-validator/0030-session-keys",
+    "destination": "/docs/da/operate/become-a-validator/session-keys"
+  },
+  {
+    "source": "/da/build-with-avail/interact-with-avail-da",
+    "destination": "/docs/da/build/interact"
+  },
+  {
+    "source": "/da/build-with-avail/deploy-rollup-on-avail/madara/overview",
+    "destination": "/docs/da/build/rollups/madara/overview"
+  },
+  {
+    "source": "/da/build-with-avail/deploy-rollup-on-avail/zkevm/overview",
+    "destination": "/docs/da/build/rollups/zkevm/overview"
+  },
+  {
+    "source": "/da/learn-about-avail/app-ids",
+    "destination": "/docs/da/concepts/app-ids"
+  },
+  {
+    "source": "/da/build-with-avail/deploy-rollup-on-avail/arbitrum-nitro",
+    "destination": "/docs/da/build/rollups/arbitrum-nitro"
+  },
+  {
+    "source": "/da/build-with-avail/deploy-rollup-on-avail/op-stack",
+    "destination": "/docs/da/build/rollups/op-stack"
+  },
+  {
+    "source": "/da/build-with-avail/deploy-rollup-on-avail/op-stack/op-stack",
+    "destination": "/docs/da/build/rollups/op-stack"
+  },
+  {
+    "source": "/da/build-with-avail/deploy-rollup-on-avail/op-stack/overview",
+    "destination": "/docs/da/build/rollups/op-stack/overview"
+  },
+  {
+    "source": "/nexus/nexus-quickstart/nexus-elements",
+    "destination": "/docs/nexus/nexus-sdk/nexus-elements"
+  },
+  {
+    "source": "/da/build-with-avail/deploy-rollup-on-avail/arbitrum-nitro/overview",
+    "destination": "/docs/da/build/rollups/arbitrum-nitro/overview"
+  },
+  {
+    "source": "/nexus/avail-nexus-sdk/bridge-methods/bridge",
+    "destination": "/docs/nexus/nexus-sdk/reference/bridge-methods/bridge"
+  },
+  {
+    "source": "/da/build-with-avail/interact-with-avail-da/faucet",
+    "destination": "/docs/da/build/interact/faucet"
+  },
+  {
+    "source": "/nexus/avail-nexus-sdk/bridge-methods",
+    "destination": "/docs/nexus/nexus-sdk/reference/bridge-methods"
+  },
+  {
+    "source": "/nexus/avail-nexus-sdk/hooks-and-errors",
+    "destination": "/docs/nexus/nexus-sdk/reference/hooks-and-errors"
+  },
+  {
+    "source": "/nexus/avail-nexus-sdk/swap-methods",
+    "destination": "/docs/nexus/nexus-sdk/reference/swap-methods"
+  },
+  {
+    "source": "/nexus/avail-nexus-sdk/swap-methods/swap-exact-in",
+    "destination": "/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-in"
+  },
+  {
+    "source": "/da/operate-a-node/run-a-light-client/Overview",
+    "destination": "/docs/da/operate/run-a-light-client/overview"
+  },
+  {
+    "source": "/nexus/avail-nexus-sdk/bridge-methods/bridge-and-execute",
+    "destination": "/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-and-execute"
+  },
+  {
+    "source": "/nexus/avail-nexus-sdk/bridge-methods/bridge-events",
+    "destination": "/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-events"
+  },
+  {
+    "source": "/nexus/avail-nexus-sdk/bridge-methods/transfer",
+    "destination": "/docs/nexus/nexus-sdk/reference/bridge-methods/transfer"
+  },
+  {
+    "source": "/nexus/avail-nexus-sdk/swap-methods/swap-events",
+    "destination": "/docs/nexus/nexus-sdk/reference/swap-methods/swap-events"
+  },
+  {
+    "source": "/da/build-with-avail/vectorx",
+    "destination": "/docs/da/build/vectorx"
+  },
+  {
+    "source": "/nexus/avail-nexus-sdk/nexus-elements",
+    "destination": "/docs/nexus/nexus-sdk/nexus-elements"
+  },
+  {
+    "source": "/da/build-with-avail/turbo-da",
+    "destination": "/docs/da/build/turbo-da"
+  },
+  {
+    "source": "/da/operate-a-node/run-a-full-node/overview",
+    "destination": "/docs/da/operate/run-a-full-node/overview"
+  },
+  {
+    "source": "/da/build-with-avail/interact-with-avail-da/app-id",
+    "destination": "/docs/da/build/interact/app-id"
+  },
+  {
+    "source": "/da/operate-a-node/become-a-validator",
+    "destination": "/docs/da/operate/become-a-validator"
+  },
+  {
+    "source": "/da/operate-a-node/deployment-options",
+    "destination": "/docs/da/operate/deployment-options"
+  },
+  {
+    "source": "/nexus/avail-nexus-sdk/bridge-methods/fetch-bridge-balances",
+    "destination": "/docs/nexus/nexus-sdk/reference/bridge-methods/fetch-bridge-balances"
+  },
+  {
+    "source": "/nexus/avail-nexus-sdk/swap-methods/fetch-swap-balances",
+    "destination": "/docs/nexus/nexus-sdk/reference/swap-methods/fetch-swap-balances"
+  },
+  {
+    "source": "/nexus/avail-nexus-sdk/swap-methods/swap-exact-out",
+    "destination": "/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-out"
+  },
+  {
+    "source": "/da/build-with-avail/interact-with-avail-da/query-balances",
+    "destination": "/docs/da/build/interact/query-balances"
+  },
+  {
+    "source": "/da/build-with-avail/interact-with-avail-da/transfer-balances",
+    "destination": "/docs/da/build/interact/transfer-balances"
+  },
+  {
+    "source": "/da/operate-a-node/run-a-light-client",
+    "destination": "/docs/da/operate/run-a-light-client"
+  },
+  {
+    "source": "/da/operate-a-node/become-a-validator/backup-your-validator",
+    "destination": "/docs/da/operate/become-a-validator/backup-your-validator"
+  },
+  {
+    "source": "/da/operate-a-node/become-a-validator/upgrade-your-validator",
+    "destination": "/docs/da/operate/become-a-validator/upgrade-your-validator"
+  },
+  {
+    "source": "/da/operate-a-node/run-a-light-client/light-client-challenge",
+    "destination": "/docs/da/operate/run-a-light-client/light-client-challenge"
+  },
+  {
+    "source": "/da/operate-a-node/become-a-validator/stake-your-validator",
+    "destination": "/docs/da/operate/become-a-validator/stake-your-validator"
+  },
+  {
+    "source": "/da/build-with-avail/interact-with-avail-da/read-write-on-avail",
+    "destination": "/docs/da/build/interact/read-write-on-avail"
+  },
+  {
+    "source": "/da/operate-a-node/become-a-validator/chill-your-validator",
+    "destination": "/docs/da/operate/become-a-validator/chill-your-validator"
+  },
+  {
+    "source": "/da/operate-a-node/become-a-validator/monitor-your-validator",
+    "destination": "/docs/da/operate/become-a-validator/monitor-your-validator"
+  },
+  {
+    "source": "/da/operate-a-node/node-types",
+    "destination": "/docs/da/operate/node-types"
+  },
+  {
+    "source": "/da/operate-a-node/run-a-full-node",
+    "destination": "/docs/da/operate/run-a-full-node"
+  },
+  {
+    "source": "/da/operate-a-node/run-a-full-node/full-node",
+    "destination": "/docs/da/operate/run-a-full-node/full-node"
+  },
+  {
+    "source": "/api-reference",
+    "destination": "/docs/da/api-reference"
+  },
+  {
+    "source": "/da",
+    "destination": "/docs/da"
+  },
+  {
+    "source": "/nexus",
+    "destination": "/docs/nexus"
+  },
+  {
+    "source": "/user-guides",
+    "destination": "/docs/da/user-guides"
+  }
+]
