@@ -34,9 +34,6 @@ export async function generateMetadata(props: {
   const baseUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://docs.availproject.org";
   const url = new URL(page.url, baseUrl).toString();
-  const ogParams = `title=${encodeURIComponent(
-    title,
-  )}&description=${encodeURIComponent(description)}`;
   return {
     title,
     description,
@@ -46,13 +43,20 @@ export async function generateMetadata(props: {
       description,
       type: "article",
       url,
-      images: [{ url: `/og?${ogParams}` }],
+      images: [
+        {
+          url: "/img/opengraph-preview.png",
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: [{ url: `/og?${ogParams}` }],
+      images: ["/img/opengraph-preview.png"],
     },
   };
 }
