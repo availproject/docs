@@ -6,14 +6,14 @@ title: "Bridge and Transfer"
 **SET UP THE SDK BEFORE YOU START:**
 
 1. You can find the SDK setup instructions in the [Quickstart](/docs/nexus/nexus-sdk/quickstart) page.
-2. We also [created a tutorial](/docs/nexus/nexus-sdk/examples/nexus-initialization-basic) to make it easier to understand how devs need to initialize the Nexus SDK in their project.
+2. We also [created a tutorial](/docs/nexus/nexus-sdk/quickstart) to make it easier to understand how devs need to initialize the Nexus SDK in their project.
 </Callout>
 
 Use the `bridgeAndTransfer()` function to source a token from multiple source chains to a single destination chain.
 Use the `simulateBridgeAndTransfer()` function to simulate the bridge and transfer transaction to preview the costs and fees, before actually executing the transaction.
 
 <Callout type="info">
-**Note:** Check out the [API reference](/docs/nexus/nexus-sdk/api-reference) for a full list of supported tokens and chains.
+**Note:** Check out the [API reference](/docs/nexus/supported-chains-and-tokens) for a full list of supported tokens and chains.
 </Callout>
 
 ## Method signature
@@ -57,7 +57,7 @@ export interface TransferParams {
     - `STEP_COMPLETE`: A single `BridgeStepType` that is emitted for each completed step of the intent's fulfillment.
  
  <Callout>
-You can check out the type definitions for each step type in the [Bridge Events](/docs/nexus/nexus-sdk/bridge-methods/bridge-events) page.
+You can check out the type definitions for each step type in the [Bridge Events](/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-events) page.
 </Callout>
 
 ## Example

@@ -6,7 +6,7 @@ description: Initialize the Nexus SDK with a connected wallet and fetch your fir
 In this guide you will create a Nexus SDK instance, connect it to a wallet provider, and fetch unified balances across all supported chains. By the end you will have a minimal Next.js app with four buttons that demonstrate the full SDK lifecycle.
 
 <Callout type="info" title="Prefer a ready-made starter?">
-Run `npx create-liquid-apps` to scaffold a complete project in one command. See the [Quickstart](/docs/nexus/sdk/quickstart) for details. This guide is for setting up the SDK manually in an existing project.
+Run `npx create-liquid-apps` to scaffold a complete project in one command. See the [Quickstart](/docs/nexus/nexus-sdk/quickstart) for details. This guide is for setting up the SDK manually in an existing project.
 </Callout>
 
 ## Prerequisites
@@ -14,7 +14,7 @@ Run `npx create-liquid-apps` to scaffold a complete project in one command. See 
 - [Node.js](https://nodejs.org) version 20 or higher
 - A package manager — this guide uses `pnpm`, but `npm` and `yarn` work too
 - An [EIP-1193](https://eips.ethereum.org/EIPS/eip-1193) compatible wallet (e.g. MetaMask) installed in your browser
-- `@avail-project/nexus-core` installed in your project (see [Installation](/docs/nexus/sdk/get-started/installation))
+- `@avail-project/nexus-core` installed in your project (see [Installation](/docs/nexus/nexus-sdk/get-started/installation))
 
 ## What you will build
 
@@ -26,7 +26,7 @@ A minimal Next.js page with four buttons:
 4. **De-initialize** — tears down the SDK instance
 
 <Callout type="info" title="What is a unified balance?">
-A unified balance aggregates all instances of a token (e.g. USDC) the user holds across multiple chains into a single view. Learn more in the [Unified Balance concept page](/docs/nexus/concepts/unified-balance).
+A unified balance aggregates all instances of a token (e.g. USDC) the user holds across multiple chains into a single view. Learn more in the [Unified Balance concept page](/docs/nexus/concepts/bridge-v-swap).
 </Callout>
 
 ## Step 1 — Create a Next.js project
@@ -162,7 +162,7 @@ export default function InitButton({
 ```
 
 <Callout type="info" title="Using a wallet library?">
-This tutorial uses `window.ethereum` directly for simplicity. If you use wagmi, RainbowKit, or another wallet library, see [Initializing Nexus with RainbowKit](/docs/nexus/sdk/get-started/initializing-nexus-with-rainbowkit) for how to retrieve the provider from a connector.
+This tutorial uses `window.ethereum` directly for simplicity. If you use wagmi, RainbowKit, or another wallet library, see [Initializing Nexus with RainbowKit](/docs/nexus/nexus-sdk/get-started/initializing-nexus-with-rainbowkit) for how to retrieve the provider from a connector.
 </Callout>
 
 ### fetch-unified-balance-button.tsx
