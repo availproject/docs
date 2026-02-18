@@ -1,0 +1,318 @@
+---
+title: Nexus SDK Setup
+description: Initialize the Nexus SDK with a connected wallet and fetch your first unified balance.
+---
+
+In this guide you will create a Nexus SDK instance, connect it to a wallet provider, and fetch unified balances across all supported chains. By the end you will have a minimal Next.js app with four buttons that demonstrate the full SDK lifecycle.
+
+<Callout type="info" title="Prefer a ready-made starter?">
+Run `npx create-liquid-apps` to scaffold a complete project in one command. See the [Quickstart](/docs/nexus/sdk/quickstart) for details. This guide is for setting up the SDK manually in an existing project.
+</Callout>
+
+## Prerequisites
+
+- [Node.js](https://nodejs.org) version 20 or higher
+- A package manager — this guide uses `pnpm`, but `npm` and `yarn` work too
+- An [EIP-1193](https://eips.ethereum.org/EIPS/eip-1193) compatible wallet (e.g. MetaMask) installed in your browser
+- `@avail-project/nexus-core` installed in your project (see [Installation](/docs/nexus/sdk/get-started/installation))
+
+## What you will build
+
+A minimal Next.js page with four buttons:
+
+1. **Connect Wallet** — connects an EIP-1193 wallet
+2. **Initialize Nexus** — passes the wallet provider to the SDK
+3. **Fetch Unified Balances** — retrieves token balances across all supported chains
+4. **De-initialize** — tears down the SDK instance
+
+<Callout type="info" title="What is a unified balance?">
+A unified balance aggregates all instances of a token (e.g. USDC) the user holds across multiple chains into a single view. Learn more in the [Unified Balance concept page](/docs/nexus/concepts/unified-balance).
+</Callout>
+
+## Step 1 — Create a Next.js project
+
+If you don't have an existing project, scaffold one:
+
+```bash
+pnpm create next-app@latest my-nexus-app --ts --eslint --app --src-dir
+cd my-nexus-app
+```
+
+Install the Nexus SDK:
+
+```bash
+pnpm add @avail-project/nexus-core
+```
+
+## Step 2 — Create the SDK instance
+
+Create a single shared SDK instance that the rest of the app will import. This file lives outside of React so it has no component lifecycle concerns.
+
+```tsx title="src/lib/nexus.ts"
+import { NexusSDK } from "@avail-project/nexus-core";
+
+// Create a single SDK instance.
+// Pass { network: 'testnet' } to use testnet chains.
+// Defaults to 'mainnet' if omitted.
+export const sdk = new NexusSDK({ network: "testnet" });
+
+export function isInitialized() {
+  return sdk.isInitialized();
+}
+
+export async function initializeWithProvider(provider: any) {
+  if (!provider)
+    throw new Error("No EIP-1193 provider (e.g. MetaMask) found");
+  if (sdk.isInitialized()) return;
+  await sdk.initialize(provider);
+}
+
+export async function deinit() {
+  if (!sdk.isInitialized()) return;
+  await sdk.deinit();
+}
+
+export async function getUnifiedBalances() {
+  return await sdk.getUnifiedBalances();
+}
+```
+
+### What each function does
+
+| Function | Type | Description |
+| --- | --- | --- |
+| `isInitialized()` | `() => boolean` | Returns true if the SDK has been initialized with a wallet provider. |
+| `initializeWithProvider(provider)` | `(provider: any) => Promise<void>` | Passes an EIP-1193 provider to the SDK. Must be called after a wallet is connected. |
+| `deinit()` | `() => Promise<void>` | Tears down the SDK and resets internal state. |
+| `getUnifiedBalances()` | `() => Promise<UnifiedBalance>` | Returns a JSON object with the user's token balances across all supported chains. |
+
+<Callout type="warning" title="Initialize after wallet connection">
+`sdk.initialize(provider)` requires an active wallet connection. Calling it before the user has connected will throw an error.
+</Callout>
+
+## Step 3 — Create the UI components
+
+Create four button components in the `src/components` directory.
+
+<Steps>
+
+### connect-button.tsx
+
+Connects an EIP-1193 wallet using the browser's injected provider (`window.ethereum`).
+
+```tsx title="src/components/connect-button.tsx"
+"use client";
+
+export default function ConnectButton({
+  className,
+}: {
+  className?: string;
+}) {
+  const onClick = async () => {
+    const eth = (window as any)?.ethereum;
+    if (!eth)
+      return alert("Install an EIP-1193 wallet (e.g. MetaMask)");
+    await eth.request?.({ method: "eth_requestAccounts" });
+    alert("Wallet connected");
+  };
+  return (
+    <button className={className} onClick={onClick}>
+      Connect Wallet
+    </button>
+  );
+}
+```
+
+### init-button.tsx
+
+Initializes the Nexus SDK with the connected wallet's provider.
+
+```tsx title="src/components/init-button.tsx"
+"use client";
+
+import { initializeWithProvider, isInitialized } from "../lib/nexus";
+
+export default function InitButton({
+  className,
+  onReady,
+}: {
+  className?: string;
+  onReady?: () => void;
+}) {
+  const onClick = async () => {
+    const eth = (window as any)?.ethereum;
+    try {
+      await initializeWithProvider(eth);
+      onReady?.();
+      alert("Nexus initialized");
+    } catch (e: any) {
+      alert(e?.message ?? "Init failed");
+    }
+  };
+  return (
+    <button
+      className={className}
+      onClick={onClick}
+      disabled={isInitialized()}
+    >
+      Initialize Nexus
+    </button>
+  );
+}
+```
+
+<Callout type="info" title="Using a wallet library?">
+This tutorial uses `window.ethereum` directly for simplicity. If you use wagmi, RainbowKit, or another wallet library, see [Initializing Nexus with RainbowKit](/docs/nexus/sdk/get-started/initializing-nexus-with-rainbowkit) for how to retrieve the provider from a connector.
+</Callout>
+
+### fetch-unified-balance-button.tsx
+
+Fetches the user's unified balances across all supported chains.
+
+```tsx title="src/components/fetch-unified-balance-button.tsx"
+"use client";
+
+import { getUnifiedBalances, isInitialized } from "../lib/nexus";
+
+export default function FetchUnifiedBalanceButton({
+  className,
+  onResult,
+}: {
+  className?: string;
+  onResult?: (r: any) => void;
+}) {
+  const onClick = async () => {
+    if (!isInitialized()) return alert("Initialize first");
+    const res = await getUnifiedBalances();
+    onResult?.(res);
+    console.log(res);
+  };
+  return (
+    <button
+      className={className}
+      onClick={onClick}
+      disabled={!isInitialized()}
+    >
+      Fetch Unified Balances
+    </button>
+  );
+}
+```
+
+### de-init-button.tsx
+
+De-initializes the SDK and resets state.
+
+```tsx title="src/components/de-init-button.tsx"
+"use client";
+
+import { deinit, isInitialized } from "../lib/nexus";
+
+export default function DeinitButton({
+  className,
+  onDone,
+}: {
+  className?: string;
+  onDone?: () => void;
+}) {
+  const onClick = async () => {
+    await deinit();
+    onDone?.();
+    alert("Nexus de-initialized");
+  };
+  return (
+    <button
+      className={className}
+      onClick={onClick}
+      disabled={!isInitialized()}
+    >
+      De-initialize
+    </button>
+  );
+}
+```
+
+</Steps>
+
+## Step 4 — Assemble the page
+
+Wire all four components together in a single page:
+
+```tsx title="src/app/page.tsx"
+"use client";
+
+import { useState } from "react";
+import ConnectButton from "@/components/connect-button";
+import InitButton from "@/components/init-button";
+import FetchUnifiedBalanceButton from "@/components/fetch-unified-balance-button";
+import DeinitButton from "@/components/de-init-button";
+import { isInitialized } from "@/lib/nexus";
+
+export default function Page() {
+  const [initialized, setInitialized] = useState(isInitialized());
+  const [balances, setBalances] = useState<any>(null);
+
+  const btn =
+    "px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 " +
+    "disabled:opacity-50 disabled:cursor-not-allowed";
+
+  return (
+    <main className="min-h-screen flex items-center justify-center">
+      <div className="flex flex-col items-center gap-4">
+        <ConnectButton className={btn} />
+        <InitButton
+          className={btn}
+          onReady={() => setInitialized(true)}
+        />
+        <FetchUnifiedBalanceButton
+          className={btn}
+          onResult={(r) => setBalances(r)}
+        />
+        <DeinitButton
+          className={btn}
+          onDone={() => {
+            setInitialized(false);
+            setBalances(null);
+          }}
+        />
+
+        <div className="mt-2">
+          <b>SDK Status:</b>{" "}
+          {initialized ? "Initialized" : "Not initialized"}
+        </div>
+
+        {balances && (
+          <pre className="whitespace-pre-wrap">
+            {JSON.stringify(balances, null, 2)}
+          </pre>
+        )}
+      </div>
+    </main>
+  );
+}
+```
+
+## Step 5 — Run and test
+
+```bash
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) and click through the buttons in order:
+
+1. **Connect Wallet** — approve the wallet prompt in MetaMask
+2. **Initialize Nexus** — the SDK connects to the wallet provider
+3. **Fetch Unified Balances** — a JSON object appears showing your tokens across chains
+4. **De-initialize** — the SDK resets
+
+<Callout type="info" title="What you just built">
+In a few lines of code you connected to a wallet, initialized the Nexus SDK, and fetched a cross-chain view of every token the user holds. From here you can bridge tokens, execute swaps, or build any custom UI on top of the headless SDK.
+</Callout>
+
+## Next step
+
+Upgrade your wallet connection experience by replacing `window.ethereum` with RainbowKit.
+
+<Cards>
+  <Card href="/docs/nexus/nexus-sdk/get-started/initializing-nexus-with-rainbowkit" title="Initializing Nexus with RainbowKit" arrow />
+</Cards>

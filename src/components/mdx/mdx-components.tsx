@@ -469,6 +469,7 @@ export const mdxComponents: MDXComponentsMap = {
   Feedback,
   // Page footer with navigation
   PageFooter,
+
 };
 
 export function useMDXComponents(

@@ -1,0 +1,163 @@
+---
+title: Quickstart
+description: Scaffold a working Nexus Elements app in under two minutes with create-liquid-apps.
+---
+
+The fastest way to start building with Nexus Elements is the `create-liquid-apps` starter kit. It scaffolds a complete project with your chosen framework, wallet provider, and pre-configured Nexus Elements components, all in a single command.
+<div className="mt-4" />
+By the end of this guide you will have a running app with a cross-chain bridge and unified balance view.
+
+## Prerequisites
+
+Before you begin, make sure you have the following:
+
+- **A WalletConnect Project ID** -> Get one free at [cloud.walletconnect.com](https://cloud.walletconnect.com) (needed for wallet connections)
+
+## Step 1 — Scaffold your project
+
+<div className="mt-4" />
+
+- Run the following command to scaffold a Nexus Elements app:
+
+```bash
+npx create-liquid-apps my-nexus-app --framework next --widgets nexus-elements --auth wagmi-familyconnect
+```
+
+<div className="mt-4" />
+
+This will create a Next.js project with Nexus Elements components and Wagmi + ConnectKit for wallet connections.
+
+<Callout type="info" title="Prefer React + Vite?">
+Replace `--framework next` with `--framework react-vite` to scaffold a lightweight Vite boilerplate instead.
+</Callout>
+
+<Callout type="info" title="Interactive mode">
+You can also run `pnpx create-liquid-apps` without any flags. The CLI will walk you through each option with interactive prompts. When asked for the Nexus flavor, select **Nexus Elements**.
+</Callout>
+
+<div className="mt-4" />
+
+The CLI will clone the template, install all dependencies, and initialize a git repository. When it finishes you will see:
+
+```bash
+Success! Created my-nexus-app using next.
+```
+
+## Step 2 — Configure environment variables
+
+<div className="mt-4" />
+
+- Move into your project and set up the environment file:
+
+```bash
+cd my-nexus-app
+cp .env.local.example .env.local
+```
+<div className="mt-4" />
+
+- Open `.env.local` and add your WalletConnect Project ID:
+
+```bash title=".env.local"
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id_here
+```
+
+<Callout type="warning" title="Don't skip this step">
+Without a valid WalletConnect Project ID, wallet connection will fail silently. Get one for free at [cloud.walletconnect.com](https://cloud.walletconnect.com).
+</Callout>
+
+## Step 3 — Start the development server
+
+```bash
+npm run dev
+```
+<div className="mt-4" />
+
+Open [http://localhost:3000](http://localhost:3000) in your browser. You should see the starter app with a **Connect Wallet** button.
+
+## Step 4 — Connect and explore
+
+1. Click **Connect Wallet** and connect using MetaMask, Coinbase Wallet, or any WalletConnect-compatible wallet
+2. Once connected, the **Unified Balance** component displays your cross-chain token balances
+3. The **Fast Bridge** component below it lets you bridge assets across chains.
+
+<Callout type="info" title="What you are seeing">
+The scaffolded app comes pre-wired with two Nexus Elements components: `UnifiedBalance` (shows aggregated cross-chain balances) and `FastBridge` (intent-based asset bridging). Both are fully functional out of the box.
+</Callout>
+
+## What's in the project
+
+Here is an overview of the key files the CLI generated:
+
+
+
+```ascii
+my-nexus-app/
+├── app/
+│   ├── layout.tsx          # Root layout with Web3Provider
+│   └── page.tsx            # Main page with Elements components
+├── components/
+│   ├── nexus/
+│   │         └── NexusProvider.tsx   # Nexus SDK context provider
+│   ├── fast-bridge/            # FastBridge component + subcomponents
+│   ├── unified-balance/        # UnifiedBalance component
+│   └── ui/                     # shadcn/ui primitives
+├── providers/
+│   └── wagmi.tsx           # Wagmi + ConnectKit + NexusProvider setup
+└── .env.local.example      # Environment variable template
+```
+
+The provider nesting is already configured for you in `providers/wagmi.tsx`:
+
+`WagmiProvider` → `QueryClientProvider` → `ConnectKitProvider` → `NexusProvider` → `{children}`
+
+## Next steps
+
+You have a running app with working Nexus Elements components. From here you can:
+
+<Cards>
+  <Card
+    href="/docs/nexus/nexus-ui-elements/get-started/your-first-component#swapping-components"
+    title="Add a Nexus Elements component manually"
+    description="Add Nexus Elements to an existing project step by step."
+    arrow
+  />
+  <Card
+    href="/docs/nexus/nexus-ui-elements/components/fast-bridge"
+    title="Component Reference"
+    description="Full API docs, props, and previews for every component."
+    arrow
+  />
+  <Card
+    href="/docs/nexus/nexus-ui-elements/mcp-documentation"
+    title="MCP Server"
+    description="Install components from your IDE with natural language."
+    arrow
+  />
+  <Card
+    href="https://github.com/abheektripathy/create-liquid-app"
+    title="GitHub Repository"
+    description="View the create-liquid-apps source, templates, and contribute."
+    external
+    arrow
+  />
+</Cards>
+
+## Troubleshooting
+
+### 1. Wallet connection fails
+
+1. Verify your WalletConnect Project ID is set correctly in `.env.local`.
+2. Make sure you are using `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` as the variable name.
+3. Restart the dev server after changing environment variables.
+
+### 2. Dependencies fail to install
+
+1. Make sure you are running Node.js 18 or later: `node --version`.
+2. Delete `node_modules` and the lockfile, then reinstall: `rm -rf node_modules pnpm-lock.yaml && pnpm install`.
+3. If using bun, ensure version 1.1.0+: `bun --version`.
+
+### 3. Components not rendering
+
+1. Confirm `NexusProvider` wraps your component tree — check `providers/wagmi.tsx`.
+2. Ensure a wallet is connected. Most components require an active wallet connection to display data.
+3. Check the browser console for errors related to missing env variables or network issues.

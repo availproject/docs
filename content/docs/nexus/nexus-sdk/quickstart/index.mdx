@@ -1,186 +1,160 @@
 ---
-title: "Nexus Core"
-description: "Get started with Nexus Core"
-image: "/img/docs-link-preview.png"
+title: Quickstart
+description: Scaffold a working Nexus SDK app in under two minutes with create-liquid-apps.
 ---
 
-This page will help you quickly get started with `nexus-core`, using a Next JS template.
+The fastest way to start building with the Nexus SDK is the `create-liquid-apps` starter kit. It scaffolds a complete project with your chosen framework, wallet provider, and a pre-configured headless Nexus SDK setup, all in a single command.
+<div className="mt-4" />
+By the end of this guide you will have a running app that initializes the Nexus SDK with a connected wallet and fetches unified cross-chain balances.
 
-<Callout type="info">
-**PREFER VITE?**
+## Prerequisites
 
-We prepared two template repos for devs to get started with `nexus-core` as easily as possible:
+Before you begin, make sure you have the following:
 
-1. [nexus-nextjs-template](https://github.com/availproject/nexus-nextjs-template)
-2. [nexus-vite-template](https://github.com/availproject/nexus-vite-template)
+- **A WalletConnect Project ID** -> Get one free at [cloud.walletconnect.com](https://cloud.walletconnect.com) (needed for wallet connections)
+
+## Step 1 — Scaffold your project
+
+<div className="mt-4" />
+
+- Run the following command to scaffold a Nexus SDK app:
+
+```bash
+npx create-liquid-apps my-nexus-app --framework next --widgets nexus-core --auth wagmi-familyconnect
+```
+
+<div className="mt-4" />
+
+This will create a Next.js project with the headless Nexus SDK (`@avail-project/nexus-core`) and Wagmi + ConnectKit for wallet connections.
+
+<Callout type="info" title="Prefer React + Vite?">
+Replace `--framework next` with `--framework react-vite` to scaffold a lightweight Vite boilerplate instead.
 </Callout>
 
-<Callout type="info">
-- For more docs on `nexus-core`, you can refer to the [Nexus SDK reference](/docs/nexus/nexus-sdk).
-- Also refer to the [API reference](/docs/nexus/nexus-sdk/api-reference) for a complete feature list.
+<Callout type="info" title="Interactive mode">
+You can also run `pnpx create-liquid-apps` without any flags. The CLI will walk you through each option with interactive prompts. When asked for the Nexus flavor, select **Nexus Core**.
 </Callout>
 
-Getting started with the headless Nexus SDK is simple.
+<div className="mt-4" />
 
-<Steps>
+The CLI will clone the template, install all dependencies, and initialize a git repository. When it finishes you will see:
 
-### Clone the template repo
-
-Clone the repo by running this command in your terminal:
-
-<Tabs defaultValue="git-clone">
-  <TabsList>
-    <TabsTrigger value="git-clone">git clone</TabsTrigger>
-    <TabsTrigger value="github-cli">github CLI</TabsTrigger>
-  </TabsList>
-  <TabsContent value="git-clone">
-```bash 
-git clone https://github.com/availproject/nexus-nextjs-template
-```
-  </TabsContent>
-  <TabsContent value="github-cli">
-```bash 
-gh repo clone availproject/nexus-nextjs-template
-```
-  </TabsContent>
-</Tabs>
-
-### Install the dependencies
-
-In this template, we use ConnectKit with Wagmi & Viem for a seamless wallet connection experience, with cross-chain support being powered by `@avail-project/nexus-core`.
-Install the dependencies by opening a terminal in the root of the project and running this command:
-
-```bash 
-npm install
+```bash
+Success! Created my-nexus-app using next.
 ```
 
-### Uncomment `initializeNexus()` in `NexusProvider.tsx`
+## Step 2 — Configure environment variables
 
-Go to `src/components/nexus/NexusProvider.tsx` and uncomment the `initializeNexus()` function.
-This function:
+<div className="mt-4" />
 
-1. Fetches the EIP-1193 Provider from the connected wallet.
-2. Initializes the Nexus SDK if it is not already initialized.
-3. Fetches the unified balances of the connected wallet.
+- Move into your project and set up the environment file:
 
-This page is also where we register the hooks for the Nexus SDK and store the data in the context.
-You can read more about hooks here: [Hooks and Errors](/docs/nexus/nexus-sdk/hooks-and-errors)
+```bash
+cd my-nexus-app
+cp .env.local.example .env.local
+```
+<div className="mt-4" />
 
-```tsx title="src/components/nexus/NexusProvider.tsx"
-  const initializeNexus = async (provider: EthereumProvider) => {
-    setLoading(true);
-    try {
-      if (sdk.isInitialized()) throw new Error("Nexus is already initialized");
-      await sdk.initialize(provider);
-      setNexusSDK(sdk);
-      initChainsAndTokens();
-      const [unifiedBalanceResult, rates] = await Promise.allSettled([
-        sdk?.getUnifiedBalances(true),
-        sdk?.utils?.getCoinbaseRates(),
-      ]);
+- Open `.env.local` and add your WalletConnect Project ID:
 
-      if (unifiedBalanceResult.status === "fulfilled") {
-        unifiedBalance.current = unifiedBalanceResult.value;
-      }
-
-      if (rates?.status === "fulfilled") {
-        // Coinbase returns "units per USD" (e.g., 1 USD = 0.00028 ETH).
-        // Convert to "USD per unit" (e.g., 1 ETH = ~$3514) for straightforward UI calculations.
-
-        const usdPerUnit: Record<string, number> = {};
-
-        for (const [symbol, value] of Object.entries(rates ?? {})) {
-          const unitsPerUsd = Number.parseFloat(String(value));
-          if (Number.isFinite(unitsPerUsd) && unitsPerUsd > 0) {
-            usdPerUnit[symbol.toUpperCase()] = 1 / unitsPerUsd;
-          }
-        }
-
-        for (const token of ["ETH", "USDC", "USDT"]) {
-          usdPerUnit[token] ??= 1;
-        }
-        exchangeRate.current = usdPerUnit;
-      }
-    } catch (error) {
-      console.error("Error initializing Nexus:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+```bash title=".env.local"
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id_here
 ```
 
-### Update the `Web3Provider.tsx` file
+<Callout type="warning" title="Don't skip this step">
+Without a valid WalletConnect Project ID, wallet connection will fail silently. Get one for free at [cloud.walletconnect.com](https://cloud.walletconnect.com).
+</Callout>
 
-Go to `src/providers/Web3Provider.tsx` and:
+## Step 3 — Start the development server
 
-1. Uncomment the `walletConnectProjectId` variable. you can get an API key from [WalletConnect Cloud](https://cloud.walletconnect.com/).
-Set up the variable in the `.env` file at the root of the project.
-
-2. Uncomment the `transports` object.
-This object is used to set up the chains that you want to support.
-
-3. Uncomment the `Web3Provider` component. We wrap our `NexusProvider` with `WagmiProvider` so that it can borrow
-the EIP-1193 Provider from the connected wallet.
-The `ConnectKitProvider` is used to provide a pre-configured WalletConnect modal for the user to connect their wallet.
-The wallet provider itself comes from Wagmi.
-
-
-```tsx title="src/providers/Web3Provider.tsx"
-const Web3Provider = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <NexusProvider>
-          <ConnectKitProvider theme="soft" mode="light">
-            {children}
-          </ConnectKitProvider>
-        </NexusProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
-  );
-};
-```
-
-### Wrap everything in `Web3Provider`
-
-Go to `src/app/layout.tsx` and uncomment the `Web3Provider` component.
-This will wrap our entire app and provide the necessary context for the Nexus SDK to work.
-
-```tsx title="src/app/layout.tsx"
-import Web3Provider from "@/providers/Web3Provider";
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body><Web3Provider>{children}</Web3Provider></body>
-    </html>
-  );
-}
-```
-
-### Run the app
-
-Run the app by running this command in your terminal:
-
-```bash 
+```bash
 npm run dev
 ```
+<div className="mt-4" />
 
-Your app should now be running at `http://localhost:3000`.
-Play around with the code to tweak the existing components or add new ones.
+Open [http://localhost:3000](http://localhost:3000) in your browser. You should see the starter app with a **Connect Wallet** button.
 
-Or maybe you'd like to add a pre-configured React component to your app? Check out [Nexus Elements Quickstart](/docs/nexus/nexus-ui-elements/installation).
+## Step 4 — Connect and explore
 
-</Steps>
+1. Click **Connect Wallet** and connect using MetaMask, Coinbase Wallet, or any WalletConnect-compatible wallet.
+2. Once connected, the SDK initializes automatically with the wallet's EIP-1193 provider.
+3. The app fetches and displays your **Unified Balances** — an aggregated view of your tokens across all supported chains.
 
-## What's next?
+<Callout type="info" title="What you are seeing">
+The scaffolded app comes pre-wired with the headless Nexus SDK (`@avail-project/nexus-core`). Unlike Nexus Elements, there are no pre-built UI components — the SDK gives you full control to build your own interface on top of cross-chain operations like bridging, swapping, and balance fetching.
+</Callout>
 
-Congratulations on finishing the quickstart!
-Feel free to explore the following resources to learn more about the Nexus SDK:
+## What's in the project
 
-- [Nexus Core SDK Reference](/docs/nexus/nexus-sdk)
-- [Nexus Core API Reference](/docs/nexus/nexus-sdk/api-reference)
+Here is an overview of the key files the CLI generated:
+
+```ascii
+my-nexus-app/
+├── app/
+│   ├── layout.tsx          # Root layout with Web3Provider
+│   └── page.tsx            # Main page with SDK usage examples
+├── components/
+│   └── nexus/
+│         └── NexusProvider.tsx   # Nexus SDK context provider
+├── lib/
+│   └── nexus.ts            # SDK instance and helper functions
+├── providers/
+│   └── Web3Provider.tsx    # Wagmi + ConnectKit + NexusProvider setup
+└── .env.local.example      # Environment variable template
+```
+
+The provider nesting is already configured for you in `providers/Web3Provider.tsx`:
+
+`WagmiProvider` → `QueryClientProvider` → `NexusProvider` → `ConnectKitProvider` → `{children}`
+
+## Next steps
+
+You have a running app with a fully initialized Nexus SDK. From here you can:
+
+<Cards>
+  <Card
+    href="/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup"
+    title="Set up the SDK manually"
+    description="Add the Nexus SDK to an existing project step by step."
+    arrow
+  />
+  <Card
+    href="/docs/nexus/nexus-sdk/get-started/bridge-tokens"
+    title="Bridge Tokens"
+    description="Move tokens across chains using the SDK's bridge methods."
+    arrow
+  />
+  <Card
+    href="/docs/nexus/nexus-sdk/api-reference"
+    title="SDK Reference"
+    description="Full API docs for bridge, swap, and balance methods."
+    arrow
+  />
+  <Card
+    href="https://github.com/abheektripathy/create-liquid-app"
+    title="GitHub Repository"
+    description="View the create-liquid-apps source, templates, and contribute."
+    external
+    arrow
+  />
+</Cards>
+
+## Troubleshooting
+
+### 1. Wallet connection fails
+
+1. Verify your WalletConnect Project ID is set correctly in `.env.local`.
+2. Make sure you are using `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` as the variable name.
+3. Restart the dev server after changing environment variables.
+
+### 2. Dependencies fail to install
+
+1. Make sure you are running Node.js 18 or later: `node --version`.
+2. Delete `node_modules` and the lockfile, then reinstall: `rm -rf node_modules pnpm-lock.yaml && pnpm install`.
+3. If using bun, ensure version 1.1.0+: `bun --version`.
+
+### 3. SDK initialization fails
+
+1. Confirm a wallet is connected before the SDK attempts to initialize — the `initialize()` call requires an active EIP-1193 provider.
+2. Check `NexusProvider.tsx` to ensure `initializeNexus()` is being called after wallet connection.
+3. Check the browser console for errors related to missing provider or network issues.

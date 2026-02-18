@@ -1,9 +1,9 @@
 {
   "pages": [
     "get-started",
-    "concepts",
-    "nexus-sdk",
     "nexus-ui-elements",
+    "nexus-sdk",
+    "concepts",
     "cookbook-recipes",
     "cheat-sheet"
   ]

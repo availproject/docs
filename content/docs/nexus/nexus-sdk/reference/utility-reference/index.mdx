@@ -1,0 +1,707 @@
+---
+title: "Utility Reference"
+description: "Complete reference for Nexus SDK utilities, helpers, and types."
+---
+
+### SDK Initialization Options
+
+```typescript
+import { NexusSDK } from '@avail-project/nexus-core';
+
+const sdk = new NexusSDK({
+  // Network: 'mainnet' | 'testnet' | custom NetworkConfig
+  network: 'mainnet',
+
+  // Enable debug logging
+  debug: false,
+
+  // Chain ID for SIWE (Sign-In with Ethereum) signing
+  siweChain: 1,
+
+  // Analytics configuration (see Analytics section)
+  analytics: {
+    enabled: true,
+    privacy: {
+      anonymizeWallets: true,
+      anonymizeAmounts: true,
+    },
+  },
+});
+```
+
+### Network Configuration
+
+```typescript
+// Mainnet
+const mainnetSdk = new NexusSDK({ network: 'mainnet' });
+
+// Testnet
+const testnetSdk = new NexusSDK({ network: 'testnet' });
+
+// Custom network config (advanced)
+const customSdk = new NexusSDK({
+  network: {
+    // Custom network configuration object
+  },
+});
+```
+
+---
+
+## Reference
+
+### Initialization & Lifecycle
+
+#### `initialize(provider)`
+
+Initialize the SDK with an EVM-compatible wallet provider.
+
+```typescript
+await sdk.initialize(window.ethereum);
+```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `provider` | `EthereumProvider` | EIP-1193 compatible provider (MetaMask, WalletConnect, etc.) |
+
+#### `setEVMProvider(provider)`
+
+Set or update the EVM provider without full re-initialization.
+
+```typescript
+await sdk.setEVMProvider(newProvider);
+```
+
+#### `isInitialized()`
+
+Check if SDK is fully initialized.
+
+```typescript
+if (sdk.isInitialized()) {
+  // Safe to call SDK methods
+}
+```
+
+#### `triggerAccountChange()`
+
+Manually trigger account change detection (useful for some wallet integrations).
+
+```typescript
+sdk.triggerAccountChange();
+```
+
+#### `deinit()`
+
+Clean up SDK resources. Call when unmounting your app.
+
+```typescript
+await sdk.deinit();
+```
+
+---
+
+### Balance Operations
+
+#### `getBalancesForBridge()`
+
+Get user's token balances across all supported chains for bridge operations.
+
+```typescript
+const assets = await sdk.getBalancesForBridge();
+
+**UserAsset:**
+
+```typescript
+type UserAsset = {
+  symbol: string;
+  balance: string;          // Total balance (human-readable)
+  balanceInFiat: number;    // USD value
+  decimals: number;
+  icon?: string;
+  breakdown: AssetBreakdown[];
+};
+
+type AssetBreakdown = {
+  balance: string;
+  balanceInFiat: number;
+  chain: { id: number; name: string; logo: string };
+  contractAddress: Hex;
+  decimals: number;
+  symbol: string;
+};
+```
+
+#### `getBalancesForSwap(onlyNativesAndStables?)`
+
+Get user's token balances for swap operations.
+
+```typescript
+// All swap-supported tokens
+const allBalances = await sdk.getBalancesForSwap();
+
+// Only native tokens and stablecoins
+const stableBalances = await sdk.getBalancesForSwap(true);
+```
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `onlyNativesAndStables` | `boolean` | `false` | Filter to only native tokens and stablecoins |
+
+---
+
+## Bridge Helpers
+#### `simulateBridge(params)`
+
+Simulate a bridge operation to estimate fees and preview the intent.
+
+```typescript
+const simulation = await sdk.simulateBridge({
+  token: 'USDC',
+  amount: 100_000_000n,
+  toChainId: 137,
+});
+
+console.log('Estimated fees:', simulation.intent.fees);
+console.log('Source chains:', simulation.intent.sources);
+```
+
+**SimulationResult:**
+
+```typescript
+type SimulationResult = {
+  intent: ReadableIntent;
+  token: TokenInfo;
+};
+```
+
+#### `calculateMaxForBridge(params)`
+
+Calculate the maximum amount that can be bridged for a given token.
+
+```typescript
+const max = await sdk.calculateMaxForBridge({
+  token: 'USDC',
+  toChainId: 137,
+});
+
+console.log(`Max bridgeable: ${max.amount} ${max.symbol}`);
+console.log('From chains:', max.sourceChainIds);
+```
+
+**BridgeMaxResult:**
+
+```typescript
+type BridgeMaxResult = {
+  amountRaw: bigint;
+  amount: string; // Human-readable
+  symbol: string;
+  sourceChainIds: number[];
+};
+```
+---
+
+### Transfer Helpers
+
+#### `simulateBridgeAndTransfer(params)`
+
+Simulate a bridge-and-transfer operation.
+
+```typescript
+const simulation = await sdk.simulateBridgeAndTransfer({
+  token: 'USDC',
+  amount: 50_000_000n,
+  toChainId: 42161,
+  recipient: '0x...',
+});
+```
+
+---
+
+### Execute Helpers
+
+#### `simulateExecute(params)`
+
+Simulate contract execution to estimate gas.
+
+```typescript
+const simulation = await sdk.simulateExecute({
+  toChainId: 1,
+  to: '0x...',
+  data: '0x...',
+});
+
+console.log('Gas estimate:', simulation.gasUsed);
+console.log('Gas fee:', simulation.gasFee);
+```
+
+**ExecuteSimulation:**
+
+```typescript
+type ExecuteSimulation = {
+  gasUsed: bigint;
+  gasPrice: bigint;
+  gasFee: bigint; // gasUsed * gasPrice
+};
+```
+
+#### `simulateBridgeAndExecute(params)`
+
+Simulate bridge-and-execute to estimate costs.
+
+```typescript
+const simulation = await sdk.simulateBridgeAndExecute({
+  token: 'USDC',
+  amount: 100_000_000n,
+  toChainId: 1,
+  execute: { to: '0x...', data: '0x...' },
+});
+
+console.log('Bridge simulation:', simulation.bridgeSimulation);
+console.log('Execute simulation:', simulation.executeSimulation);
+```
+
+**BridgeAndExecuteSimulationResult:**
+
+```typescript
+type BridgeAndExecuteSimulationResult = {
+  bridgeSimulation: SimulationResult | null; // null if bridge not needed
+  executeSimulation: ExecuteSimulation;
+};
+```
+
+---
+
+### Swap Helpers
+
+#### `getSwapSupportedChains()`
+
+Get chains and tokens supported for swap operations.
+
+```typescript
+const supported = sdk.getSwapSupportedChains();
+console.log('Supported chains:', supported);
+```
+
+---
+
+### Intent Management
+
+#### `getMyIntents(page?)`
+
+Retrieve user's historical intents with pagination.
+
+```typescript
+const intents = await sdk.getMyIntents(1); // Page 1
+console.log('My intents:', intents);
+```
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `page` | `number` | `1` | Page number for pagination |
+
+#### `refundIntent(intentID: number)`
+
+Request a refund for a failed or stuck intent.
+
+```typescript
+const intents = await sdk.getMyIntents(1);
+const intentID = Number(intents[0]?.id);
+await sdk.refundIntent(intentID);
+```
+---
+
+## Events & Steps
+
+The SDK emits step-by-step progress events during operations, enabling real-time UI updates.
+
+### Bridge Steps
+
+Bridge operations emit the following step types:
+
+| Step Type | Type ID | Description |
+|-----------|---------|-------------|
+| `INTENT_ACCEPTED` | `IA` | Intent created and accepted by solver |
+| `INTENT_HASH_SIGNED` | `IHS` | User signed the intent hash |
+| `INTENT_SUBMITTED` | `IS` | Intent submitted to the network |
+| `INTENT_FULFILLED` | `IF` | Intent fulfilled by solver |
+| `ALLOWANCE_USER_APPROVAL` | `AUA_{chainId}` | Waiting for user to approve allowance |
+| `ALLOWANCE_APPROVAL_MINED` | `AAM_{chainId}` | Allowance approval transaction mined |
+| `ALLOWANCE_ALL_DONE` | `AAD` | All allowances approved |
+| `INTENT_DEPOSIT` | `ID_{index}` | Deposit initiated on source chain |
+| `INTENT_DEPOSITS_CONFIRMED` | `UIDC` | All deposits confirmed |
+| `INTENT_COLLECTION` | `IC_{index}` | Collecting funds from source |
+| `INTENT_COLLECTION_COMPLETE` | `ICC` | All funds collected |
+| `APPROVAL` | `AP` | Token approval for execution |
+| `TRANSACTION_SENT` | `TS` | Execute transaction sent |
+| `TRANSACTION_CONFIRMED` | `CN` | Execute transaction confirmed |
+
+**Step Data Structure:**
+
+```typescript
+type BridgeStepType = {
+  type: string;   // Step type name
+  typeID: string; // Unique identifier
+  data?: {
+    // Additional data (varies by step type)
+    chainID?: number;
+    chainName?: string;
+    amount?: string;
+    explorerURL?: string;
+    intentID?: number;
+    txHash?: Hex;
+  };
+};
+```
+
+### Swap Steps
+
+Swap operations emit the following step types:
+
+| Step Type | Description |
+|-----------|-------------|
+| `SWAP_START` | Swap operation started |
+| `DETERMINING_SWAP` | Calculating optimal swap route |
+| `CREATE_PERMIT_EOA_TO_EPHEMERAL` | Creating permit for ephemeral wallet |
+| `CREATE_PERMIT_FOR_SOURCE_SWAP` | Creating permit for source swap |
+| `SOURCE_SWAP_BATCH_TX` | Executing source chain swaps |
+| `SOURCE_SWAP_HASH` | Source swap transaction hash |
+| `BRIDGE_DEPOSIT` | Bridge deposit for cross-chain swap |
+| `RFF_ID` | Request for funds ID |
+| `DESTINATION_SWAP_BATCH_TX` | Executing destination swaps |
+| `DESTINATION_SWAP_HASH` | Destination swap transaction hash |
+| `SWAP_COMPLETE` | Swap completed successfully |
+| `SWAP_SKIPPED` | Swap skipped (sufficient balance exists) |
+
+**Swap Step Data Structure:**
+
+```typescript
+type SwapStepType = {
+  type: string;
+  typeID: string;
+  completed: boolean;
+  chain?: { id: number; name: string };
+  symbol?: string;
+  explorerURL?: string;
+  data?: { /* varies by step */ };
+};
+```
+
+### Building Progress UIs
+
+Example of building a progress indicator:
+
+```typescript
+import { NEXUS_EVENTS, type BridgeStepType } from '@avail-project/nexus-core';
+
+// State for tracking progress
+let steps: BridgeStepType[] = [];
+let completedSteps: Set<string> = new Set();
+
+sdk.bridge(params, {
+  onEvent: (event) => {
+    if (event.name === NEXUS_EVENTS.STEPS_LIST) {
+      // Initialize with all expected steps
+      steps = event.args;
+      renderProgress();
+    }
+
+    if (event.name === NEXUS_EVENTS.STEP_COMPLETE) {
+      // Mark step as complete
+      completedSteps.add(event.args.typeID);
+      renderProgress();
+
+      // Handle specific steps
+      if (event.args.type === 'INTENT_SUBMITTED') {
+        console.log('View on explorer:', event.args.data?.explorerURL);
+      }
+    }
+  },
+});
+
+function renderProgress() {
+  steps.forEach((step, index) => {
+    const isComplete = completedSteps.has(step.typeID);
+    const isCurrent = index === completedSteps.size;
+    console.log(`${isComplete ? '✓' : isCurrent ? '●' : '○'} ${step.type}`);
+  });
+}
+```
+
+---
+
+## TypeScript Reference
+
+### Core Types
+
+```typescript
+import type {
+  // SDK Configuration
+  NexusNetwork,
+  AnalyticsConfig,
+
+  // Operation Parameters
+  BridgeParams,
+  TransferParams,
+  ExecuteParams,
+  BridgeAndExecuteParams,
+  ExactInSwapInput,
+  ExactOutSwapInput,
+
+  // Operation Results
+  BridgeResult,
+  TransferResult,
+  ExecuteResult,
+  BridgeAndExecuteResult,
+  SwapResult,
+  BridgeMaxResult,
+
+  // Simulation Results
+  SimulationResult,
+  ExecuteSimulation,
+  BridgeAndExecuteSimulationResult,
+
+  // Intent & Hook Types
+  ReadableIntent,
+  SwapIntent,
+  OnIntentHook,
+  OnIntentHookData,
+  OnAllowanceHook,
+  OnAllowanceHookData,
+  AllowanceHookSources,
+  OnSwapIntentHook,
+  OnSwapIntentHookData,
+
+  // Step Types
+  BridgeStepType,
+  SwapStepType,
+
+  // Balance Types
+  UserAsset,
+  AssetBreakdown,
+
+  // Metadata
+  ChainMetadata,
+  TokenMetadata,
+  TokenInfo,
+
+  // Errors
+  NexusError,
+  NexusErrorData,
+} from '@avail-project/nexus-core';
+```
+
+### Constants
+
+```typescript
+import {
+  // Event names
+  NEXUS_EVENTS,
+
+  // Chain IDs
+  SUPPORTED_CHAINS,
+  MAINNET_CHAIN_IDS,
+  TESTNET_CHAIN_IDS,
+
+  // Metadata
+  CHAIN_METADATA,
+  TOKEN_METADATA,
+  TOKEN_CONTRACT_ADDRESSES,
+
+  // Steps
+  BRIDGE_STEPS,
+  SWAP_STEPS,
+
+  // Errors
+  ERROR_CODES,
+} from '@avail-project/nexus-core';
+```
+
+---
+
+## Utilities
+
+### Formatting Functions
+
+```typescript
+import {
+  formatTokenBalance,
+  formatTokenBalanceParts,
+  formatUnits,
+  parseUnits,
+} from '@avail-project/nexus-core';
+
+// Format token balance for display
+const formatted = formatTokenBalance(1234567890n, 6, { symbol: 'USDC' });
+// "1,234.57 USDC"
+
+// Get formatted parts separately
+const parts = formatTokenBalanceParts(1234567890n, 6);
+// { integer: "1,234", decimal: "57", symbol: "USDC" }
+
+// Convert between units
+const wei = parseUnits('1.5', 18); // 1500000000000000000n
+const eth = formatUnits(wei, 18);  // "1.5"
+```
+
+### Address Utilities
+
+```typescript
+import { isValidAddress, truncateAddress } from '@avail-project/nexus-core';
+
+// Validate Ethereum address
+const valid = isValidAddress('0x742d35Cc6634C0532925a3b8D4C9db96c4b4Db45'); // true
+
+// Truncate for display
+const short = truncateAddress('0x742d35Cc6634C0532925a3b8D4C9db96c4b4Db45');
+// "0x742d...Db45"
+
+const custom = truncateAddress('0x742d35Cc6634C0532925a3b8D4C9db96c4b4Db45', 6, 4);
+// "0x742d35...Db45"
+```
+
+### Chain & Token Info
+
+```typescript
+import { CHAIN_METADATA, getSupportedChains } from '@avail-project/nexus-core';
+
+// Get chain metadata
+const polygon = CHAIN_METADATA[137];
+console.log(polygon.name);        // "Polygon"
+console.log(polygon.nativeCurrency); // { name: "MATIC", symbol: "MATIC", decimals: 18 }
+
+// Get all supported chains and tokens
+const mainnet = getSupportedChains('mainnet');
+const testnet = getSupportedChains('testnet');
+
+// Via SDK instance
+const chains = sdk.utils.getSupportedChains();
+const isSupported = sdk.utils.isSupportedChain(137); // true
+```
+
+### Price Rates
+
+```typescript
+// Get current token prices from Coinbase
+const rates = await sdk.utils.getCoinbaseRates();
+console.log(rates.ETH);  // "3456.78"
+console.log(rates.USDC); // "1.00"
+```
+
+---
+
+## Analytics
+
+The Nexus SDK includes **built-in analytics** powered by PostHog to help improve the SDK and understand usage patterns. Analytics are **enabled by default** but can be easily customized or disabled.
+
+### Default Behavior
+
+By default, the SDK sends anonymous telemetry data to Avail's PostHog instance:
+
+- SDK initialization events
+- Operation performance metrics
+- Session duration and success rates
+- Error tracking (without sensitive data)
+
+The SDK does **not** automatically call `analytics.identify()`.
+Transaction amounts can be anonymized via `privacy.anonymizeAmounts`, and analytics can be fully disabled via `enabled: false`.
+
+Note: operation metadata may include transaction context (for example, recipient or contract addresses) in tracked events.
+
+### Disabling Analytics
+
+```typescript
+const sdk = new NexusSDK({
+  network: 'mainnet',
+  analytics: { enabled: false },
+});
+```
+
+### Privacy Controls
+
+```typescript
+const sdk = new NexusSDK({
+  network: 'mainnet',
+  analytics: {
+    enabled: true,
+    privacy: {
+      anonymizeWallets: true, // Hash wallet addresses
+      anonymizeAmounts: true, // Exclude transaction amounts
+    },
+  },
+});
+```
+
+### Custom Analytics (BYO PostHog)
+
+```typescript
+const sdk = new NexusSDK({
+  network: 'mainnet',
+  analytics: {
+    enabled: true,
+    posthogApiKey: 'your-posthog-key',
+    posthogApiHost: 'https://your-posthog-instance.com',
+    appMetadata: {
+      appName: 'My DApp',
+      appVersion: '1.0.0',
+      appUrl: 'https://mydapp.com',
+    },
+  },
+});
+```
+
+### Accessing Analytics Programmatically
+
+```typescript
+// Track custom events
+sdk.analytics.track('custom_event', { foo: 'bar' });
+
+// Identify users
+sdk.analytics.identify('user-id', { plan: 'premium' });
+
+// Check if analytics is enabled
+if (sdk.analytics.isEnabled()) {
+  console.log('Analytics active');
+}
+
+// Disable/enable at runtime
+sdk.analytics.disable();
+sdk.analytics.enable();
+```
+
+---
+
+## Common Pitfalls
+
+- SDK method amounts are atomic units (`bigint`), not human-readable decimal strings.
+- `bridge`/`bridgeAndTransfer`/`bridgeAndExecute` use token symbols (for example, `USDC`), while swap methods use token contract addresses.
+- `refundIntent` requires an `intentID` (`number`), usually from `getMyIntents()`.
+- `setEVMProvider()` only updates/attaches a provider; call `initialize()` early to set up full session state.
+
+---
+
+## Skills Integration
+
+This repo ships Codex/skills.sh skills under `skills/` to help agents integrate the SDK end-to-end.
+
+### Install Skills
+
+```bash
+# Install all skills
+npx skills add availproject/nexus-sdk
+
+# Install single skill (recommended)
+npx skills add https://github.com/availproject/nexus-sdk --skill nexus-sdk-integration
+
+# Install from specific branch
+npx skills add https://github.com/availproject/nexus-sdk --skill nexus-sdk-integration --ref develop
+```
+
+### Available Skills
+
+- `nexus-sdk-integration` — Parent/orchestrator skill
+- `nexus-sdk-setup` — SDK setup and configuration
+- `nexus-sdk-hooks-events` — Hooks and event handling
+- `nexus-sdk-bridge-flows` — Bridge operation flows
+- `nexus-sdk-swap-flows` — Swap operation flows
+- `nexus-sdk-balances-metadata-utils` — Balances and utilities
+
