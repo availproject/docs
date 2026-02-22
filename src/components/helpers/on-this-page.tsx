@@ -383,52 +383,54 @@ export function OnThisPage({
   }
 
   return (
-    <div className={cn("flex flex-col gap-12", className)}>
-      {/* Table of Contents */}
+    <div className={cn("flex flex-col", className)}>
+      {/* Table of Contents - scrollable */}
       {toc?.length > 0 && (
-        <div ref={tocContainerRef} className="relative flex items-start">
-          {/* Track + indicator wrapper */}
-          <div className="relative flex w-[8px] shrink-0 self-stretch items-center justify-center">
-            {/* Vertical line track - stretches with content */}
-            <div className="absolute top-0 bottom-0 w-px bg-border" />
+        <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar">
+          <div ref={tocContainerRef} className="relative flex items-start">
+            {/* Track + indicator wrapper */}
+            <div className="relative flex w-[8px] shrink-0 self-stretch items-center justify-center">
+              {/* Vertical line track - stretches with content */}
+              <div className="absolute top-0 bottom-0 w-px bg-border" />
 
-            {/* Blue active indicator - positioned based on actual element position */}
-            <div
-              className="absolute w-[5px] bg-brand transition-all duration-200"
-              style={{
-                top: `${indicatorStyle.top}px`,
-                height: `${indicatorStyle.height}px`,
-              }}
-            />
-          </div>
+              {/* Blue active indicator - positioned based on actual element position */}
+              <div
+                className="absolute w-[5px] bg-brand transition-all duration-200"
+                style={{
+                  top: `${indicatorStyle.top}px`,
+                  height: `${indicatorStyle.height}px`,
+                }}
+              />
+            </div>
 
-          <div className="flex flex-1 flex-col items-start">
-            {toc.map((item) => (
-              <a
-                key={item.url}
-                href={item.url}
-                onClick={() => handleTocClick(item)}
-                className={cn(
-                  "flex min-h-10 items-center px-4 py-2.5 text-base leading-5 no-underline transition-colors w-full",
-                  item.url === `#${activeHeading}`
-                    ? "text-page-nav-foreground-active"
-                    : "text-page-nav-foreground hover:text-page-nav-foreground-hover",
-                  item.depth === 3 && "pl-8",
-                  item.depth === 4 && "pl-12",
-                )}
-                data-active={item.url === `#${activeHeading}`}
-                data-depth={item.depth}
-              >
-                <span className="flex-1">{item.title}</span>
-              </a>
-            ))}
+            <div className="flex flex-1 flex-col items-start">
+              {toc.map((item) => (
+                <a
+                  key={item.url}
+                  href={item.url}
+                  onClick={() => handleTocClick(item)}
+                  className={cn(
+                    "flex min-h-10 items-center px-4 py-2.5 text-base leading-5 no-underline transition-colors w-full",
+                    item.url === `#${activeHeading}`
+                      ? "text-page-nav-foreground-active"
+                      : "text-page-nav-foreground hover:text-page-nav-foreground-hover",
+                    item.depth === 3 && "pl-8",
+                    item.depth === 4 && "pl-12",
+                  )}
+                  data-active={item.url === `#${activeHeading}`}
+                  data-depth={item.depth}
+                >
+                  <span className="flex-1">{item.title}</span>
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       )}
 
-      {/* Actions */}
+      {/* Actions - pinned at bottom */}
       {showActions && (
-        <div className="flex flex-col items-start">
+        <div className="shrink-0 pt-12 pb-20 flex flex-col items-start">
           {/* Ask AI dropdown */}
           <Popover open={isAIMenuOpen} onOpenChange={handleAIMenuOpenChange}>
             <PopoverTrigger asChild>

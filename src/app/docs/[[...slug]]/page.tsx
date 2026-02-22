@@ -148,7 +148,7 @@ export default async function Page(props: {
       <script type="application/ld+json">{JSON.stringify(breadcrumbLd)}</script>
       <script type="application/ld+json">{JSON.stringify(articleLd)}</script>
       <div className="flex min-w-0 flex-1 flex-col bg-background xl:pl-10 2xl:pl-20">
-        <div className="mx-auto flex w-full max-w-160 min-w-0 flex-1 flex-col gap-20 px-4 py-18 md:px-0">
+        <div className="mx-auto flex w-full max-w-160 min-w-0 flex-1 flex-col gap-20 px-4 py-20 md:px-0">
           {/* Content sections */}
           <div className="flex flex-col gap-4">
             {/* Header section with breadcrumbs and title */}
@@ -241,11 +241,8 @@ export default async function Page(props: {
 
       {/* Right sidebar - On This Page */}
       <div className="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--header-height)-1px)] xl:w-70 2xl:w-80 flex-col gap-4 ui-16 xl:flex xl:pr-10 2xl:pr-20">
-        <div className="h-10 shrink-0" />
-        <div className="no-scrollbar overflow-y-auto relative">
-          <OnThisPage toc={doc.toc} />
-          <div className="h-12" />
-        </div>
+        <div className="h-20 shrink-0" />
+        <OnThisPage toc={doc.toc} className="flex-1 min-h-0" />
       </div>
     </div>
   );
