@@ -241,13 +241,22 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
         );
       }
 
+      // If no index page, link to the first child page
+      const firstChildUrl =
+        node.children[0]?.type === "page"
+          ? node.children[0].url
+          : node.children[0]?.type === "folder"
+            ? node.children[0].index?.url
+            : undefined;
+      const folderHref = node.index?.url ?? firstChildUrl;
+
       return (
         <SidebarFolder
           key={folderId}
           name={node.name?.toString() ?? ""}
           defaultExpanded={shouldExpand}
           isActive={isActive}
-          href={node.index?.url}
+          href={folderHref}
           onToggle={handleFolderToggle}
           onNavigate={handleNavigation}
         >
@@ -302,13 +311,21 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
           );
         }
 
+        const firstChildUrl =
+          item.children[0]?.type === "page"
+            ? item.children[0].url
+            : item.children[0]?.type === "folder"
+              ? item.children[0].index?.url
+              : undefined;
+        const folderHref = item.index?.url ?? firstChildUrl;
+
         return (
           <SidebarFolder
             key={folderId}
             name={item.name?.toString() ?? ""}
             defaultExpanded={shouldExpand}
             isActive={isActive}
-            href={item.index?.url}
+            href={folderHref}
             onToggle={handleFolderToggle}
             onNavigate={handleNavigation}
           >
