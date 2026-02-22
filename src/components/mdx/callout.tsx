@@ -41,7 +41,7 @@ export function Callout({
   );
 
   return (
-    <div className={cn("flex items-start my-6", className)}>
+    <div className={cn("flex items-start my-8", className)}>
       {/* Wrapper: header + body + bottom shadow */}
       <div className="flex flex-col flex-1 min-w-0">
         {/* Header */}

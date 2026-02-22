@@ -69,6 +69,19 @@ const config = {
         destination: "/docs/nexus/nexus-sdk/quickstart",
         permanent: false,
       },
+      // Skip-to-first-child: reference sections land directly on first method
+      {
+        source: "/docs/nexus/nexus-sdk/reference/bridge-methods",
+        destination:
+          "/docs/nexus/nexus-sdk/reference/bridge-methods/fetch-bridge-balances",
+        permanent: false,
+      },
+      {
+        source: "/docs/nexus/nexus-sdk/reference/swap-methods",
+        destination:
+          "/docs/nexus/nexus-sdk/reference/swap-methods/fetch-swap-balances",
+        permanent: false,
+      },
     ];
   },
 };

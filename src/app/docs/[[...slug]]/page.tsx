@@ -120,10 +120,22 @@ export default async function Page(props: {
       return { href, label };
     });
 
+  // Truncate visible breadcrumbs: show first 2 + … + last 1 when > 3 items
+  const MAX_VISIBLE = 3;
+  const visibleBreadcrumbs =
+    breadcrumbs.length > MAX_VISIBLE
+      ? [
+          ...breadcrumbs.slice(0, 2),
+          { href: "", label: "…" },
+          ...breadcrumbs.slice(-1),
+        ]
+      : breadcrumbs;
+
   const baseUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://docs.availproject.org";
   const pageUrl = new URL(page.url, baseUrl).toString();
 
+  // Use full breadcrumbs for SEO structured data
   const breadcrumbLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -160,16 +172,25 @@ export default async function Page(props: {
             {/* Header section with breadcrumbs and title */}
             <div className="flex flex-col gap-6">
               {/* Breadcrumbs */}
-              {breadcrumbs.length > 0 && (
+              {visibleBreadcrumbs.length > 0 && (
                 <nav className="flex items-center gap-1">
-                  {breadcrumbs.map((crumb) => (
-                    <span key={crumb.href} className="flex items-center gap-1">
-                      <Link
-                        href={crumb.href}
-                        className="ui-16 text-breadcrumb-previous hover:text-foreground transition-colors"
-                      >
-                        {crumb.label}
-                      </Link>
+                  {visibleBreadcrumbs.map((crumb) => (
+                    <span
+                      key={crumb.href || "ellipsis"}
+                      className="flex items-center gap-1"
+                    >
+                      {crumb.href ? (
+                        <Link
+                          href={crumb.href}
+                          className="ui-16 text-breadcrumb-previous hover:text-foreground transition-colors"
+                        >
+                          {crumb.label}
+                        </Link>
+                      ) : (
+                        <span className="ui-16 text-breadcrumb-previous">
+                          {crumb.label}
+                        </span>
+                      )}
                       <CaretRight
                         size={20}
                         className="text-breadcrumb-previous"

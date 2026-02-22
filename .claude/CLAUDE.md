@@ -174,7 +174,7 @@ function MyComponent() {
 ## Code Conventions
 
 - **Products as data, not literals**: Use `products` from `src/lib/products.ts` for product names, paths, and slugs. Never hardcode product links or labels in components.
-- **Internal links**: Always use `/docs/da/...` or `/docs/nexus/...` prefixes. Never use bare paths like `/docs/get-started` or old paths like `/docs/introduction-to-avail`.
+- **Internal links**: Always use `/docs/da/...` or `/docs/nexus/...` prefixes. Never use bare paths like `/docs/get-started` or old paths like `/docs/introduction-to-avail`, `/docs/da/build/bug-bounty` (now `/docs/da/bug-bounty`), `/docs/da/build/networks` (now `/docs/da/networks`), `/docs/nexus/cheat-sheet` (now `/docs/nexus/contracts`), or `/docs/nexus/nexus-sdk/api-reference` (now `/docs/nexus/nexus-sdk/reference`).
 - **No magic numbers**: Extract repeated constants (e.g. character limits, timeouts) into named variables.
 - **DRY heading utilities**: If generating heading IDs from text, use a shared utility rather than inlining `.replace()` chains.
 - **Content files**: No `.mdx` extensions in links. Spell-check content before committing.
