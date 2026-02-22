@@ -113,6 +113,23 @@ describe("generateLlmsTxt", () => {
     expect(output).not.toContain("- [Faucet](/docs/da/build/interact/faucet):");
   });
 
+  it("includes all 9 Nexus concept URLs", () => {
+    const conceptUrls = [
+      "/docs/nexus/concepts/chain-abstraction",
+      "/docs/nexus/concepts/intent",
+      "/docs/nexus/concepts/intent-lifecycle",
+      "/docs/nexus/concepts/solvers",
+      "/docs/nexus/concepts/xcs-swaps",
+      "/docs/nexus/concepts/allowances",
+      "/docs/nexus/concepts/bridge-v-swap",
+      "/docs/nexus/concepts/nexus-ops",
+      "/docs/nexus/concepts/source-chain-selection",
+    ];
+    for (const url of conceptUrls) {
+      expect(output).toContain(url);
+    }
+  });
+
   it("references /api/reference.json and /llms-full.txt", () => {
     expect(output).toContain("/api/reference.json");
     expect(output).toContain("/llms-full.txt");
