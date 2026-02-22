@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { AGENT_HEADERS } from "@/lib/agent-headers";
 
 export const revalidate = false;
 
@@ -108,8 +109,8 @@ const REFERENCE_DATA = {
 export function GET() {
   return NextResponse.json(REFERENCE_DATA, {
     headers: {
-      "Content-Signal": "ai-train=yes, search=yes, ai-input=yes",
       "Cache-Control": "public, max-age=3600, s-maxage=86400",
+      ...AGENT_HEADERS,
     },
   });
 }

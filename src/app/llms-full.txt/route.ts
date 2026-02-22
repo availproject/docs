@@ -1,4 +1,5 @@
 import type { NextRequest } from "next/server";
+import { AGENT_HEADERS } from "@/lib/agent-headers";
 import { generateLlmsFullTxt } from "@/lib/llms";
 
 export const dynamic = "force-dynamic";
@@ -12,6 +13,7 @@ export async function GET(request: NextRequest) {
       "Cache-Control": section
         ? "public, max-age=300, s-maxage=3600"
         : "public, max-age=3600, s-maxage=86400",
+      ...AGENT_HEADERS,
     },
   });
 }
