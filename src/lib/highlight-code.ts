@@ -89,7 +89,6 @@ export const transformers: ShikiTransformer[] = [
           : "";
       node.properties["class"] = [
         "shiki",
-        "no-scrollbar",
         "min-w-0",
         "overflow-x-auto",
         "px-4",
