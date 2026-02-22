@@ -11,17 +11,17 @@ By the end of this guide you will have a running app that initializes the Nexus 
 You will need a **WalletConnect Project ID**. Get one free at [cloud.walletconnect.com](https://cloud.walletconnect.com).
 </Callout>
 
-## Get Started
+## Step 1 — Scaffold your project
 
-<Steps>
+<div className="mt-4" />
 
-### Scaffold your project
-
-Run the following command to scaffold a Nexus SDK app:
+- Run the following command to scaffold a Nexus SDK app:
 
 ```bash
 npx create-liquid-apps my-nexus-app --framework next --widgets nexus-core --auth wagmi-familyconnect
 ```
+
+<div className="mt-4" />
 
 This will create a Next.js project with the headless Nexus SDK (`@avail-project/nexus-core`) and Wagmi + ConnectKit for wallet connections.
 
@@ -33,22 +33,27 @@ Replace `--framework next` with `--framework react-vite` to scaffold a lightweig
 You can also run `pnpx create-liquid-apps` without any flags. The CLI will walk you through each option with interactive prompts. When asked for the Nexus flavor, select **Nexus Core**.
 </Callout>
 
+<div className="mt-4" />
+
 The CLI will clone the template, install all dependencies, and initialize a git repository. When it finishes you will see:
 
 ```bash
 Success! Created my-nexus-app using next.
 ```
 
-### Configure environment variables
+## Step 2 — Configure environment variables
 
-Move into your project and set up the environment file:
+<div className="mt-4" />
+
+- Move into your project and set up the environment file:
 
 ```bash
 cd my-nexus-app
 cp .env.local.example .env.local
 ```
+<div className="mt-4" />
 
-Open `.env.local` and add your WalletConnect Project ID:
+- Open `.env.local` and add your WalletConnect Project ID:
 
 ```bash title=".env.local"
 NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id_here
@@ -58,15 +63,16 @@ NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id_here
 Without a valid WalletConnect Project ID, wallet connection will fail silently. Get one for free at [cloud.walletconnect.com](https://cloud.walletconnect.com).
 </Callout>
 
-### Start the development server
+## Step 3 — Start the development server
 
 ```bash
 npm run dev
 ```
+<div className="mt-4" />
 
 Open [http://localhost:3000](http://localhost:3000) in your browser. You should see the starter app with a **Connect Wallet** button.
 
-### Connect and explore
+## Step 4 — Connect and explore
 
 1. Click **Connect Wallet** and connect using MetaMask, Coinbase Wallet, or any WalletConnect-compatible wallet.
 2. Once connected, the SDK initializes automatically with the wallet's EIP-1193 provider.
@@ -75,8 +81,6 @@ Open [http://localhost:3000](http://localhost:3000) in your browser. You should 
 <Callout type="info" title="What you are seeing">
 The scaffolded app comes pre-wired with the headless Nexus SDK (`@avail-project/nexus-core`). Unlike Nexus Elements, there are no pre-built UI components — the SDK gives you full control to build your own interface on top of cross-chain operations like bridging, swapping, and balance fetching.
 </Callout>
-
-</Steps>
 
 ## What's in the project
 
