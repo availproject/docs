@@ -675,6 +675,7 @@
         font-size: var(--text-xl);
         font-weight: 500;
         letter-spacing: var(--tracking-tight);
+        color: var(--foreground) !important;
         scroll-margin-top: 8rem;
         margin-top: calc(var(--spacing) * 6);
     }
