@@ -1,3 +1,4 @@
+import { cleanMarkdownForAgents } from "@/lib/markdown-clean";
 import { products } from "@/lib/products";
 import { source } from "@/lib/source";
 
@@ -205,7 +206,8 @@ export async function generateLlmsFullTxt(section?: string): Promise<string> {
     lines.push("", `## ${product.label}`);
 
     for (const page of pages) {
-      const content = await page.data.getText("processed");
+      const raw = await page.data.getText("processed");
+      const content = cleanMarkdownForAgents(raw);
       lines.push("", `### ${page.data.title}`, "", content);
     }
   }

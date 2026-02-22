@@ -2,6 +2,8 @@ import { NextRequest } from "next/server";
 import { describe, expect, it, vi } from "vitest";
 
 const FAKE_CONTENT = "# Test Page\n\nSome markdown content here for testing.";
+// cleanMarkdownForAgents adds a trailing newline to plain markdown
+const CLEANED_CONTENT = `${FAKE_CONTENT}\n`;
 
 vi.mock("@/lib/source", () => ({
   source: {
@@ -106,7 +108,7 @@ describe("markdown API - slug route", () => {
     });
     const tokens = Number(res.headers.get("x-markdown-tokens"));
     expect(tokens).toBeGreaterThan(0);
-    expect(tokens).toBe(Math.ceil(FAKE_CONTENT.length / 4));
+    expect(tokens).toBe(Math.ceil(CLEANED_CONTENT.length / 4));
   });
 
   it("returns JSON with format=json param", async () => {
@@ -116,6 +118,6 @@ describe("markdown API - slug route", () => {
     );
     const data = await res.json();
     expect(data.title).toBe("Test Page");
-    expect(data.content).toBe(FAKE_CONTENT);
+    expect(data.content).toBe(CLEANED_CONTENT);
   });
 });
