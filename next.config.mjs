@@ -63,6 +63,12 @@ const config = {
         destination: "/docs/nexus/nexus-ui-elements/components/:slug*",
         permanent: true,
       },
+      // Skip-to-quickstart: SDK section lands directly on quickstart
+      {
+        source: "/docs/nexus/nexus-sdk",
+        destination: "/docs/nexus/nexus-sdk/quickstart",
+        permanent: false,
+      },
     ];
   },
 };
