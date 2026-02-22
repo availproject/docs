@@ -104,17 +104,17 @@ async fn main() {
 <details className="border p-3 rounded-md bg-[#EFF6FF]">
 <summary> Sample Response:</summary>
 
-```yaml
+```json
 {
-  "block_number": {block-number},
+  "block_number": "{block-number}",
   "block_hash": "{block-hash}",
   "hash": "{transaction-hash}",
-  "index": {transaction-index}
+  "index": "{transaction-index}"
 }
 ```
 If app mode is not active (or signing key is not configured and `data` is submitted) response is:
 
-```yaml
+```text
 Not found
 ```
 </details>

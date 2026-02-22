@@ -15,7 +15,7 @@ keywords:
 
 ## Introduction
 
-Embark on setting up your own OP stack chain in [alt-da mode](https://docs.optimism.io/stack/beta-features/alt-da-mode) using Avail as Data Availability layer . This guide targets Ethereum's Sepolia testnet and Avail Turing testnet. For a detailed understanding, review the [<ins>Optimism Documentation</ins>](https://stack.optimism.io/docs/build/getting-started/#know-before-you-go).
+Embark on setting up your own OP stack chain in [alt-da mode](https://docs.optimism.io/stack/beta-features/alt-da-mode) using Avail as Data Availability layer . This guide targets Ethereum's Sepolia testnet and Avail Turing testnet. For a detailed understanding, review the [Optimism Documentation](https://stack.optimism.io/docs/build/getting-started/#know-before-you-go).
 
 ## Prerequisites
 
@@ -36,7 +36,7 @@ Ensure you have installed the following software.
 | [Just](https://github.com/casey/just) | `1.35.0` | `just --version` |
 
 
-##### Use the following releases while following the guide:
+### Use the following releases while following the guide:
 | **Component** | **Version** |
 | --- | --- |
 | op-node | v1.13.3 |
@@ -45,16 +45,16 @@ Ensure you have installed the following software.
 | op-deployer | v0.3.2 |
 | op-proposer | v1.10.0 |
 
-##### Get Access to a Sepolia Node
+### Get Access to a Sepolia Node
 
-For deploying to Sepolia, access an L1 node using a provider like [<ins>Alchemy</ins>](https://www.alchemy.com/dapps/Sepolia) or [<ins>run your own Sepolia node</ins>](https://notes.ethereum.org/@launchpad/Sepolia).
+For deploying to Sepolia, access an L1 node using a provider like [Alchemy](https://www.alchemy.com/dapps/Sepolia) or [run your own Sepolia node](https://notes.ethereum.org/@launchpad/Sepolia).
 
 
 ## Setup Avail DA server
 
 This introduces a sidecar DA Server for Optimism that interacts with Avail DA for posting and retrieving data.
 
-#### Run avail-da server(binary).
+### Run avail-da server(binary).
 
 1. Build Avail DA Server
    ```bash
@@ -68,7 +68,7 @@ This introduces a sidecar DA Server for Optimism that interacts with Avail DA fo
    ./bin/avail-da-server ./cmd/avail  --addr=localhost --port=8000 --avail.rpc=<WS url to an avail node> --avail.seed=<> --avail.appid=<>
    ```
 
-#### Run using docker
+### Run using docker
 
 - Copy `.env.example` to `.env`. Fill the values inside.
 
@@ -342,7 +342,7 @@ Deploy essential L1 contracts for the chain’s functionality:
 
 ### `op-node`
 
-1. Build `op-node` from [optimism](#configure-op-stack)
+1. Build `op-node` from the [Configure op-stack](#configure-op-stack) section above
    ```bash
    cd op-node
    git checkout op-node/v1.13.3
@@ -391,7 +391,7 @@ Deploy essential L1 contracts for the chain’s functionality:
    
 ### `op-batcher`
 
-1. Build `op-batcher` from [optimism](#configure-op-stack)
+1. Build `op-batcher` from the [Configure op-stack](#configure-op-stack) section above
 
    ```bash
    cd op-batcher
@@ -431,7 +431,7 @@ Deploy essential L1 contracts for the chain’s functionality:
 
 ### `op-proposer`
 
-1. Build `op-proposer` from [optimism](#configure-op-stack)
+1. Build `op-proposer` from the [Configure op-stack](#configure-op-stack) section above
 
    ```bash
    cd op-proposer
