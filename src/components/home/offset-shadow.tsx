@@ -12,7 +12,13 @@ export function OffsetShadow({
   active,
 }: OffsetShadowProps) {
   return (
-    <div className={cn("group relative can-hover:hover:z-10", className)}>
+    <div
+      className={cn(
+        "group relative can-hover:hover:z-10",
+        active && "z-10",
+        className,
+      )}
+    >
       <div
         aria-hidden="true"
         className={cn(

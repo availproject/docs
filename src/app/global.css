@@ -173,6 +173,7 @@
     /* Menu items */
     --color-menu-item-background: var(--menu-item-background);
     --color-menu-item-background-hover: var(--menu-item-background-hover);
+    --color-menu-item-background-active: var(--menu-item-background-active);
     --color-menu-item-foreground: var(--menu-item-foreground);
     --color-menu-item-border: var(--menu-item-border);
 

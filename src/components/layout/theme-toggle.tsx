@@ -62,7 +62,7 @@ export function ThemeToggle({
         type="button"
         className={cn(
           "flex h-10 items-center px-2 bg-menu-item-background border border-menu-item-border cursor-pointer hover:border-brand/20 transition-colors",
-          open && "bg-menu-item-background-active",
+          open && "bg-white",
         )}
       >
         {open ? (
@@ -98,7 +98,7 @@ export function ThemeToggle({
               setOpen(false);
             }}
             className={cn(
-              "flex h-10 w-full items-center gap-2 px-3 border-b border-menu-item-border transition-colors",
+              "flex h-10 w-full items-center gap-2 px-3 border-b border-menu-item-border cursor-pointer transition-colors",
               theme === "light"
                 ? "bg-menu-item-background text-menu-item-foreground"
                 : "bg-menu-item-background text-search-foreground hover:bg-menu-item-background-hover",
@@ -119,7 +119,7 @@ export function ThemeToggle({
               setOpen(false);
             }}
             className={cn(
-              "flex h-10 w-full items-center gap-2 px-3 border-b border-menu-item-border transition-colors",
+              "flex h-10 w-full items-center gap-2 px-3 border-b border-menu-item-border cursor-pointer transition-colors",
               theme === "dark"
                 ? "bg-menu-item-background text-menu-item-foreground"
                 : "bg-menu-item-background text-search-foreground hover:bg-menu-item-background-hover",
@@ -140,7 +140,7 @@ export function ThemeToggle({
               setOpen(false);
             }}
             className={cn(
-              "flex h-10 w-full items-center gap-2 px-3 transition-colors",
+              "flex h-10 w-full items-center gap-2 px-3 cursor-pointer transition-colors",
               theme === "system"
                 ? "bg-menu-item-background text-menu-item-foreground"
                 : "bg-menu-item-background text-search-foreground hover:bg-menu-item-background-hover",
