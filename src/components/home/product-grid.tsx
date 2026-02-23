@@ -117,7 +117,7 @@ export function ProductGrid() {
             }}
           />
           <h2
-            className="text-center text-2xl text-brand md:text-[28px]"
+            className="text-center text-xl text-brand md:text-[28px]"
             style={{ fontFamily: "Delight, sans-serif", fontWeight: 500 }}
           >
             Avail Nexus
@@ -144,7 +144,7 @@ export function ProductGrid() {
             }}
           />
           <h2
-            className="text-center text-2xl text-brand md:text-[28px]"
+            className="text-center text-xl text-brand md:text-[28px]"
             style={{ fontFamily: "Delight, sans-serif", fontWeight: 500 }}
           >
             Avail DA

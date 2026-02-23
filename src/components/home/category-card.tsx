@@ -28,7 +28,7 @@ export function CategoryCard({
       <Link
         href={href}
         className={cn(
-          "relative flex items-center gap-4 bg-card border border-card-border px-5 py-6",
+          "relative flex items-center gap-4 bg-card border border-card-border px-4 py-5 md:px-5 md:py-6",
           "[transition:translate_200ms_cubic-bezier(0.165,0.84,0.44,1),border-color_200ms_ease]",
           "can-hover:group-hover:-translate-x-1.5 can-hover:group-hover:-translate-y-1.5 can-hover:group-hover:border-brand/20",
           "active:-translate-x-0.5 active:-translate-y-0.5 active:duration-100",

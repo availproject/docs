@@ -5,10 +5,10 @@ import type { GridPosition, RenderContext } from "@/lib/halftone-animations";
 import { renderFlow } from "@/lib/halftone-animations";
 import { SimplexNoise } from "@/lib/simplex-noise";
 
-// --- Grid constants ---
-const PIXEL_SIZE = 2;
-const GAP = 4;
-const CELL_SIZE = PIXEL_SIZE + GAP;
+// --- Grid constants (at reference width) ---
+const BASE_PIXEL_SIZE = 2;
+const BASE_GAP = 4;
+const REFERENCE_WIDTH = 1440;
 
 // --- Flow animation params ---
 const FLOW_PARAMS = {
@@ -38,10 +38,14 @@ function lerp(a: number, b: number, t: number) {
   return a + (b - a) * t;
 }
 
-function buildGrid(width: number, height: number): GridPosition[] {
+function buildGrid(
+  width: number,
+  height: number,
+  cellSize: number,
+): GridPosition[] {
   const positions: GridPosition[] = [];
-  for (let y = CELL_SIZE / 2; y < height; y += CELL_SIZE) {
-    for (let x = CELL_SIZE / 2; x < width; x += CELL_SIZE) {
+  for (let y = cellSize / 2; y < height; y += cellSize) {
+    for (let x = cellSize / 2; x < width; x += cellSize) {
       positions.push({ x, y });
     }
   }
@@ -68,6 +72,8 @@ export function HalftoneBackground() {
     let gridPositions: GridPosition[] = [];
     let width = 0;
     let height = 0;
+    let currentPixelSize = BASE_PIXEL_SIZE;
+    let currentNoiseScale = FLOW_PARAMS.scale;
     let rafId: number | undefined;
     let time = 0;
     let lastTime: number | undefined;
@@ -98,7 +104,14 @@ export function HalftoneBackground() {
       canvas.height = height * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      gridPositions = buildGrid(width, height);
+      // Scale grid and noise relative to viewport so mobile looks proportional
+      const scaleFactor = Math.min(1, width / REFERENCE_WIDTH);
+      currentPixelSize = Math.max(1, Math.round(BASE_PIXEL_SIZE * scaleFactor));
+      const gap = Math.max(2, Math.round(BASE_GAP * scaleFactor));
+      const cellSize = currentPixelSize + gap;
+      currentNoiseScale = FLOW_PARAMS.scale * (REFERENCE_WIDTH / width);
+
+      gridPositions = buildGrid(width, height, cellSize);
     }
 
     function renderFrame() {
@@ -107,7 +120,7 @@ export function HalftoneBackground() {
       const renderContext: RenderContext = {
         noise,
         gridPositions,
-        pixelSize: PIXEL_SIZE,
+        pixelSize: currentPixelSize,
         width,
         height,
         getColor(intensity: number, alpha: number) {
@@ -121,7 +134,10 @@ export function HalftoneBackground() {
       ctx.fillStyle = palette.bg;
       ctx.fillRect(0, 0, width, height);
 
-      renderFlow(ctx, renderContext, time, FLOW_PARAMS);
+      renderFlow(ctx, renderContext, time, {
+        ...FLOW_PARAMS,
+        scale: currentNoiseScale,
+      });
     }
 
     function animate(now: number) {
@@ -176,7 +192,7 @@ export function HalftoneBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="pointer-events-none absolute inset-0 z-0 hidden md:block"
+      className="pointer-events-none absolute inset-0 z-0"
       tabIndex={-1}
     />
   );

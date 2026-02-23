@@ -8,9 +8,9 @@ export default function HomePage() {
   return (
     <main id="main-content" className="relative">
       {/* Frame padding — thin muted border visible on top + sides */}
-      <div className="px-2 pt-2 md:px-3 md:pt-3">
+      <div className="md:px-3 md:pt-3">
         {/* Content panel — white bg, rounded corners */}
-        <div className="relative overflow-hidden border border-border bg-background">
+        <div className="relative overflow-hidden md:border md:border-border bg-background">
           <HalftoneBackground />
           <div className="relative z-10">
             <HeroSection />
