@@ -69,7 +69,7 @@ export function Feedback({ className }: FeedbackProps) {
       )}
     >
       {/* Question row */}
-      <div className="flex items-center gap-8">
+      <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
         <p className="body-16 text-card-foreground">How is this guide?</p>
         <div className="flex items-start gap-3">
           {/* Good button */}
