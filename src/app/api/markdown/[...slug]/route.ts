@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { AGENT_HEADERS } from "@/lib/agent-headers";
+import { trackAgentRequest } from "@/lib/analytics/agent-tracking";
 import { cleanMarkdownForAgents } from "@/lib/markdown-clean";
 import { source } from "@/lib/source";
 
@@ -34,8 +35,15 @@ export async function GET(
     const content = cleanMarkdownForAgents(raw);
     const tokenEstimate = Math.ceil(content.length / 4);
 
-    // Check if user wants JSON response or raw markdown
     const format = request.nextUrl.searchParams.get("format");
+
+    trackAgentRequest(request, {
+      route: "/api/markdown/[slug]",
+      slug: slug.join("/"),
+      format: format === "json" ? "json" : "markdown",
+      token_count: tokenEstimate,
+      content_length: content.length,
+    });
 
     if (format === "json") {
       return NextResponse.json(
