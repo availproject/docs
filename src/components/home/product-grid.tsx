@@ -35,7 +35,7 @@ const nexusCategories = [
       "Drop-in widgets for bridging, swaps, deposits, balances, and transaction history.",
   },
   {
-    href: "/docs/nexus/nexus-sdk",
+    href: "/docs/nexus/nexus-sdk/quickstart",
     icon: <NexusSdkIcon />,
     title: "Nexus SDK",
     description:
