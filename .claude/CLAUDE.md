@@ -89,4 +89,4 @@ rm -rf .next && pnpm build # clear cache if CSS issues
 
 ## Code Health
 
-For tracked tech debt, dead code, and broken links, see [CODE_HEALTH_AUDIT.md](./CODE_HEALTH_AUDIT.md).
+For current site health (build, lint, content quality, dead code), see [HEALTH.md](./HEALTH.md). Run `/audit` to regenerate from scratch.
