@@ -9,7 +9,7 @@ let client: PostHog | null = null;
 export function getPostHogServer(): PostHog | null {
   if (!POSTHOG_KEY) return null;
   if (!client) {
-    client = new PostHog(POSTHOG_KEY, { host: POSTHOG_HOST });
+    client = new PostHog(POSTHOG_KEY, { host: POSTHOG_HOST, flushAt: 1 });
   }
   return client;
 }

@@ -11,7 +11,6 @@ export async function GET(request: NextRequest) {
   trackAgentRequest(request, {
     route: "/llms.txt",
     content_length: text.length,
-    status: 200,
   });
 
   return new Response(text, {

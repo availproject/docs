@@ -21,7 +21,6 @@ type AgentEventProperties = {
   section?: string;
   token_count?: number;
   content_length?: number;
-  status?: number;
 };
 
 export function trackAgentRequest(

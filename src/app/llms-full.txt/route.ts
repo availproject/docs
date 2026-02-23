@@ -13,7 +13,6 @@ export async function GET(request: NextRequest) {
     route: "/llms-full.txt",
     section,
     content_length: text.length,
-    status: 200,
   });
 
   return new Response(text, {

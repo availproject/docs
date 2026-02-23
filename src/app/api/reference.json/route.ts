@@ -582,7 +582,6 @@ export function GET(request?: NextRequest) {
   if (request)
     trackAgentRequest(request, {
       route: "/api/reference.json",
-      status: 200,
     });
 
   return NextResponse.json(REFERENCE_DATA, {

@@ -24,7 +24,6 @@ export async function GET(request: NextRequest) {
       format: format === "json" ? "json" : "markdown",
       token_count: tokenEstimate,
       content_length: content.length,
-      status: 200,
     });
 
     if (format === "json") {

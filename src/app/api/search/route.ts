@@ -16,7 +16,6 @@ const { GET: searchHandler } = createFromSource(source, {
 export async function GET(request: NextRequest) {
   trackAgentRequest(request, {
     route: "/api/search",
-    status: 200,
   });
 
   return searchHandler(request);
