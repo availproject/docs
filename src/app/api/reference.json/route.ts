@@ -1,7 +1,9 @@
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { AGENT_HEADERS } from "@/lib/agent-headers";
+import { trackAgentRequest } from "@/lib/analytics/agent-tracking";
 
-export const revalidate = false;
+export const dynamic = "force-dynamic";
 
 const REFERENCE_DATA = {
   _meta: {
@@ -576,7 +578,13 @@ const REFERENCE_DATA = {
   },
 } as const;
 
-export function GET() {
+export function GET(request?: NextRequest) {
+  if (request)
+    trackAgentRequest(request, {
+      route: "/api/reference.json",
+      status: 200,
+    });
+
   return NextResponse.json(REFERENCE_DATA, {
     headers: {
       "Cache-Control": "public, max-age=3600, s-maxage=86400",
