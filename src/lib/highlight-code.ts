@@ -61,8 +61,7 @@ export const transformers: ShikiTransformer[] = [
               raw.replace("npm create", "pnpm create"),
               raw.replace("npm create", "bun create"),
             );
-          }
-          if (raw.startsWith("npx")) {
+          } else if (raw.startsWith("npx")) {
             setCliVariants(
               raw,
               raw.replace("npx", "yarn"),

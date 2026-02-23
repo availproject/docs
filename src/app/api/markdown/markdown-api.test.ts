@@ -52,7 +52,7 @@ describe("markdown API - root route", () => {
   it("has x-markdown-tokens header with correct estimate", async () => {
     const res = await rootGET(makeRequest("/api/markdown"));
     const tokens = Number(res.headers.get("x-markdown-tokens"));
-    expect(tokens).toBe(Math.ceil(FAKE_CONTENT.length / 4));
+    expect(tokens).toBe(Math.ceil(CLEANED_CONTENT.length / 4));
   });
 
   it("has Content-Signal header", async () => {
@@ -73,7 +73,7 @@ describe("markdown API - root route", () => {
     expect(data).toHaveProperty("title", "Test Page");
     expect(data).toHaveProperty("description", "A test page");
     expect(data).toHaveProperty("url");
-    expect(data).toHaveProperty("content", FAKE_CONTENT);
+    expect(data).toHaveProperty("content", CLEANED_CONTENT);
   });
 });
 
