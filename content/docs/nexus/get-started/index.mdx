@@ -20,9 +20,12 @@ Nexus lets your app move assets and execute transactions across chains without r
 // 1. Initialize
 const sdk = new NexusSDK({ network: 'mainnet' });
 
-// 2. See unified balance across all chains
-const balance = await sdk.getUnifiedBalances();
-// → { USDC: 350, ETH: 1.2 } (total across Arbitrum, Base, Ethereum...)
+// 2. See balances across all chains
+const bridgeBalances = await sdk.getBalancesForBridge();
+// → Returns tokens available for bridging across chains
+
+const swapBalances = await sdk.getBalancesForSwap();
+// → Returns tokens available for cross-chain swaps
 
 // 3. Bridge to any chain — Nexus finds the best route
 await sdk.bridge({ token: 'USDC', amount: 100, toChain: 'arbitrum' });

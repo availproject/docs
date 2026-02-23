@@ -128,6 +128,7 @@ export default function Topbar() {
               items={topItems}
               componentItems={[]}
               className="block lg:hidden"
+              onSearchClick={() => setSearchOpen(true)}
             />
           </div>
 
