@@ -1,7 +1,8 @@
 "use client";
-import { NexusNetwork } from "@avail-project/nexus-core";
-import React, { useState, useEffect } from "react";
+import type { NexusNetwork } from "@avail-project/nexus-core";
+import { useEffect, useState } from "react";
 
+import { useAnalytics } from "@/hooks/use-analytics";
 import { getItem, setItem } from "@/lib/local-storage";
 import { NETWORK_KEY } from "@/providers/Web3Provider";
 import { useNexus } from "../nexus/NexusProvider";
@@ -14,6 +15,7 @@ import {
 } from "../ui/select";
 
 const NetworkToggle = () => {
+  const { trackEvent } = useAnalytics();
   const { nexusSDK, deinitializeNexus } = useNexus();
   const [currentNetwork, setCurrentNetwork] = useState<NexusNetwork>("mainnet");
 
@@ -35,9 +37,16 @@ const NetworkToggle = () => {
       await deinitializeNexus();
     }
 
+    trackEvent("network_changed", {
+      network: newValue as "mainnet" | "testnet",
+      previous_network: currentNetwork as "mainnet" | "testnet",
+    });
+
     setItem(NETWORK_KEY, newValue);
     setCurrentNetwork(newValue as NexusNetwork);
-    window.location.reload();
+
+    // Brief delay so PostHog can send the event before page reload
+    setTimeout(() => window.location.reload(), 100);
   };
 
   return (

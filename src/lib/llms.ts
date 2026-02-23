@@ -1,3 +1,4 @@
+import { cleanMarkdownForAgents } from "@/lib/markdown-clean";
 import { products } from "@/lib/products";
 import { source } from "@/lib/source";
 
@@ -147,6 +148,10 @@ export function generateLlmsTxt(): string {
     "- [Intent lifecycle](/docs/nexus/concepts/intent-lifecycle): From creation to settlement",
     "- [Solvers](/docs/nexus/concepts/solvers): Who fulfills intents",
     "- [Cross-chain swaps](/docs/nexus/concepts/xcs-swaps): How XCS swaps work",
+    "- [Token allowances](/docs/nexus/concepts/allowances): Approve tokens for Nexus contracts",
+    "- [Balance types](/docs/nexus/concepts/bridge-v-swap): Why bridge and swap use different balances",
+    "- [Nexus operations](/docs/nexus/concepts/nexus-ops): Bridge, transfer, or bridge & execute in one action",
+    "- [Liquidity routing](/docs/nexus/concepts/source-chain-selection): Control which chains tokens are sourced from",
     "",
     "## Full page index",
     "",
@@ -205,7 +210,8 @@ export async function generateLlmsFullTxt(section?: string): Promise<string> {
     lines.push("", `## ${product.label}`);
 
     for (const page of pages) {
-      const content = await page.data.getText("processed");
+      const raw = await page.data.getText("processed");
+      const content = cleanMarkdownForAgents(raw);
       lines.push("", `### ${page.data.title}`, "", content);
     }
   }

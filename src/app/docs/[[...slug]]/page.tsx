@@ -101,11 +101,17 @@ export default async function Page(props: {
         return { href: "/", label: "Home" };
       }
       const href = `/${arr.slice(0, index + 1).join("/")}`;
+      const pathSoFar = arr.slice(0, index + 1).join("/");
       const segmentLabels: Record<string, string> = {
         "nexus-sdk": "Nexus SDK",
         "api-reference": "API Reference",
       };
+      const pathLabels: Record<string, string> = {
+        "docs/nexus/nexus-sdk/get-started": "Manual Setup",
+        "docs/nexus/nexus-ui-elements/get-started": "Manual Setup",
+      };
       const label =
+        pathLabels[pathSoFar] ??
         segmentLabels[segment] ??
         segment
           .split("-")
@@ -114,10 +120,22 @@ export default async function Page(props: {
       return { href, label };
     });
 
+  // Truncate visible breadcrumbs: show first 2 + … + last 1 when > 3 items
+  const MAX_VISIBLE = 3;
+  const visibleBreadcrumbs =
+    breadcrumbs.length > MAX_VISIBLE
+      ? [
+          ...breadcrumbs.slice(0, 2),
+          { href: "", label: "…" },
+          ...breadcrumbs.slice(-1),
+        ]
+      : breadcrumbs;
+
   const baseUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://docs.availproject.org";
   const pageUrl = new URL(page.url, baseUrl).toString();
 
+  // Use full breadcrumbs for SEO structured data
   const breadcrumbLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -148,22 +166,31 @@ export default async function Page(props: {
       <script type="application/ld+json">{JSON.stringify(breadcrumbLd)}</script>
       <script type="application/ld+json">{JSON.stringify(articleLd)}</script>
       <div className="flex min-w-0 flex-1 flex-col bg-background xl:pl-10 2xl:pl-20">
-        <div className="mx-auto flex w-full max-w-160 min-w-0 flex-1 flex-col gap-20 px-4 py-18 md:px-0">
+        <div className="mx-auto flex w-full max-w-160 min-w-0 flex-1 flex-col gap-20 px-4 py-20 md:px-0">
           {/* Content sections */}
           <div className="flex flex-col gap-4">
             {/* Header section with breadcrumbs and title */}
             <div className="flex flex-col gap-6">
               {/* Breadcrumbs */}
-              {breadcrumbs.length > 0 && (
+              {visibleBreadcrumbs.length > 0 && (
                 <nav className="flex items-center gap-1">
-                  {breadcrumbs.map((crumb) => (
-                    <span key={crumb.href} className="flex items-center gap-1">
-                      <Link
-                        href={crumb.href}
-                        className="ui-16 text-breadcrumb-previous hover:text-foreground transition-colors"
-                      >
-                        {crumb.label}
-                      </Link>
+                  {visibleBreadcrumbs.map((crumb) => (
+                    <span
+                      key={crumb.href || "ellipsis"}
+                      className="flex items-center gap-1"
+                    >
+                      {crumb.href ? (
+                        <Link
+                          href={crumb.href}
+                          className="ui-16 text-breadcrumb-previous hover:text-foreground transition-colors"
+                        >
+                          {crumb.label}
+                        </Link>
+                      ) : (
+                        <span className="ui-16 text-breadcrumb-previous">
+                          {crumb.label}
+                        </span>
+                      )}
                       <CaretRight
                         size={20}
                         className="text-breadcrumb-previous"
@@ -241,11 +268,8 @@ export default async function Page(props: {
 
       {/* Right sidebar - On This Page */}
       <div className="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--header-height)-1px)] xl:w-70 2xl:w-80 flex-col gap-4 ui-16 xl:flex xl:pr-10 2xl:pr-20">
-        <div className="h-10 shrink-0" />
-        <div className="no-scrollbar overflow-y-auto relative">
-          <OnThisPage toc={doc.toc} />
-          <div className="h-12" />
-        </div>
+        <div className="h-20 shrink-0" />
+        <OnThisPage toc={doc.toc} className="flex-1 min-h-0" />
       </div>
     </div>
   );

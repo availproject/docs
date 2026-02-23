@@ -6,7 +6,6 @@ import { useAnalytics } from "@/hooks/use-analytics";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 // Tokenize and highlight bash/shell commands
 function highlightCommand(command: string): React.ReactNode[] {
@@ -150,30 +149,23 @@ export function CodeBlockCommand({
           ))}
         </TabsList>
         {/* Copy button */}
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              data-slot="copy-button"
-              size="icon"
-              variant="ghost"
-              className={cn(
-                "absolute right-2.5 top-2.5 size-8 bg-transparent hover:bg-secondary active:bg-muted transition-colors",
-                hasCopied && "bg-muted",
-              )}
-              onClick={copyCommand}
-            >
-              <span className="sr-only">Copy</span>
-              {hasCopied ? (
-                <Check size={20} className="text-muted-foreground" />
-              ) : (
-                <Copy size={20} className="text-muted-foreground" />
-              )}
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            {hasCopied ? "Copied" : "Copy to Clipboard"}
-          </TooltipContent>
-        </Tooltip>
+        <Button
+          data-slot="copy-button"
+          size="icon"
+          variant="ghost"
+          className={cn(
+            "absolute right-2.5 top-2.5 size-8 cursor-pointer bg-transparent hover:bg-secondary active:bg-muted transition-colors",
+            hasCopied && "bg-muted",
+          )}
+          onClick={copyCommand}
+        >
+          <span className="sr-only">Copy</span>
+          {hasCopied ? (
+            <Check size={20} className="text-muted-foreground" />
+          ) : (
+            <Copy size={20} className="text-muted-foreground" />
+          )}
+        </Button>
       </div>
 
       {/* Code body */}

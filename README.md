@@ -93,22 +93,25 @@ content/docs/
 │   ├── index.mdx
 │   ├── meta.json          # Controls sidebar order for DA
 │   ├── get-started/
-│   ├── concepts/          # Networks, app IDs, explorer, tx pricing
-│   ├── build/             # Interact, rollups, Turbo DA, VectorX, bug bounty
+│   ├── networks/          # Network endpoints and configuration
+│   ├── concepts/          # What is Avail DA, how it works, app IDs, explorer, tx pricing
+│   ├── build/             # Interact, rollups, Turbo DA, VectorX
 │   ├── operate/           # Node types, full nodes, light clients, validators
 │   ├── user-guides/
 │   ├── api-reference/
 │   ├── glossary/
-│   └── faqs/
+│   ├── faqs/
+│   └── bug-bounty/
 ├── nexus/                 # Avail Nexus
 │   ├── index.mdx
 │   ├── meta.json          # Controls sidebar order for Nexus
 │   ├── get-started/
+│   ├── supported-chains-and-tokens/
+│   ├── nexus-ui-elements/ # Quickstart, get-started guides, components, MCP docs
+│   ├── nexus-sdk/         # Quickstart, get-started guides, reference (bridge/swap methods), cookbook
 │   ├── concepts/
-│   ├── nexus-sdk/
-│   ├── nexus-ui-elements/
 │   ├── cookbook-recipes/
-│   └── cheat-sheet/
+│   └── contracts/
 ├── index.mdx              # Root docs page
 └── meta.json              # Top-level navigation
 ```
@@ -121,10 +124,12 @@ Each `meta.json` file controls the **order** of pages and folders in the sidebar
 {
   "pages": [
     "get-started",
-    "concepts",
+    "supported-chains-and-tokens",
+    "nexus-ui-elements",
     "nexus-sdk",
+    "concepts",
     "cookbook-recipes",
-    "cheat-sheet"
+    "contracts"
   ]
 }
 ```
@@ -157,7 +162,7 @@ All routes are prefixed with `/docs`. Internal links **must** follow these patte
 | DA user guides | `/docs/da/user-guides/...` | `/docs/da/user-guides/bridge-avail` |
 | DA API reference | `/docs/da/api-reference/...` | `/docs/da/api-reference/avail-node-api` |
 | Nexus | `/docs/nexus/...` | `/docs/nexus/get-started` |
-| Nexus SDK | `/docs/nexus/nexus-sdk/...` | `/docs/nexus/nexus-sdk/api-reference` |
+| Nexus SDK | `/docs/nexus/nexus-sdk/...` | `/docs/nexus/nexus-sdk/reference` |
 
 ### Common mistakes to avoid
 
@@ -165,7 +170,7 @@ All routes are prefixed with `/docs`. Internal links **must** follow these patte
 - **No uppercase** — `/docs/DA/...` will break. Always use `/docs/da/...`.
 - **No `.mdx` extensions** — Link to `/docs/da/faqs`, not `/docs/da/faqs.mdx`.
 - **No old DA paths** — `build-with-avail`, `operate-a-node`, `learn-about-avail`, `welcome-to-avail-docs`, `interact-with-avail-da`, and `deploy-rollup-on-avail` have been renamed to `build`, `operate`, `concepts`, `get-started`, `build/interact`, and `build/rollups`.
-- **No old Nexus paths** — `avail-nexus-sdk`, `introduction-to-nexus`, and `nexus-cheatsheet` have been renamed to `nexus-sdk`, `get-started`, and `cheat-sheet`.
+- **No old Nexus paths** — `avail-nexus-sdk`, `introduction-to-nexus`, `nexus-cheatsheet`, and `cheat-sheet` have been renamed to `nexus-sdk`, `get-started`, and `contracts`. The old `nexus-sdk/api-reference` is now `nexus-sdk/reference`.
 - **No top-level user guides** — `/docs/user-guides/...` is incorrect. Use `/docs/da/user-guides/...`.
 
 ## Environment variables

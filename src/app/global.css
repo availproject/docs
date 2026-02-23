@@ -173,6 +173,7 @@
     /* Menu items */
     --color-menu-item-background: var(--menu-item-background);
     --color-menu-item-background-hover: var(--menu-item-background-hover);
+    --color-menu-item-background-active: var(--menu-item-background-active);
     --color-menu-item-foreground: var(--menu-item-foreground);
     --color-menu-item-border: var(--menu-item-border);
 
@@ -675,6 +676,7 @@
         font-size: var(--text-xl);
         font-weight: 500;
         letter-spacing: var(--tracking-tight);
+        color: var(--foreground) !important;
         scroll-margin-top: 8rem;
         margin-top: calc(var(--spacing) * 6);
     }
@@ -744,9 +746,9 @@
         color: var(--color-card-foreground);
         border-radius: 0;
         border: 1px solid var(--color-card-border);
-        margin-top: calc(var(--spacing) * 6);
+        margin-top: calc(var(--spacing) * 8);
         margin-right: var(--code-shadow-size);
-        margin-bottom: calc(var(--spacing) * 4);
+        margin-bottom: calc(var(--spacing) * 6);
         overflow: visible;
         font-size: var(--text-sm);
         outline: none;
@@ -799,7 +801,6 @@
         padding-left: calc(var(--spacing) * 4) !important;
         padding-right: calc(var(--spacing) * 4) !important;
         position: relative;
-        overflow-x: auto;
     }
 
     [data-line-numbers] {

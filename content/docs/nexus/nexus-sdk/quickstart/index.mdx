@@ -9,9 +9,7 @@ By the end of this guide you will have a running app that initializes the Nexus 
 
 ## Prerequisites
 
-Before you begin, make sure you have the following:
-
-- **A WalletConnect Project ID** -> Get one free at [cloud.walletconnect.com](https://cloud.walletconnect.com) (needed for wallet connections)
+You will need a **WalletConnect Project ID**. Get one free at [cloud.walletconnect.com](https://cloud.walletconnect.com).
 
 ## Step 1 — Scaffold your project
 
@@ -111,33 +109,32 @@ The provider nesting is already configured for you in `providers/Web3Provider.ts
 
 You have a running app with a fully initialized Nexus SDK. From here you can:
 
-<Cards>
-  <Card
-    href="/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup"
+<IconCardGrid>
+  <IconCard
+    icon={<Gear />}
     title="Set up the SDK manually"
     description="Add the Nexus SDK to an existing project step by step."
-    arrow
+    href="/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup"
   />
-  <Card
-    href="/docs/nexus/nexus-sdk/get-started/bridge-tokens"
+  <IconCard
+    icon={<Bridge />}
     title="Bridge Tokens"
     description="Move tokens across chains using the SDK's bridge methods."
-    arrow
+    href="/docs/nexus/nexus-sdk/get-started/bridge-tokens"
   />
-  <Card
-    href="/docs/nexus/nexus-sdk/reference"
+  <IconCard
+    icon={<FileIcon />}
     title="SDK Reference"
     description="Full API docs for bridge, swap, and balance methods."
-    arrow
+    href="/docs/nexus/nexus-sdk/reference"
   />
-  <Card
-    href="https://github.com/abheektripathy/create-liquid-app"
+  <IconCard
+    icon={<Github />}
     title="GitHub Repository"
     description="View the create-liquid-apps source, templates, and contribute."
-    external
-    arrow
+    href="https://github.com/abheektripathy/create-liquid-app"
   />
-</Cards>
+</IconCardGrid>
 
 ## Troubleshooting
 

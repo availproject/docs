@@ -1,8 +1,14 @@
 import {
+  ApiReferenceIcon,
+  BuildIcon,
   ConceptsIcon,
+  CookbookIcon,
   GetStartedIcon,
   NexusSdkIcon,
+  OperateIcon,
+  SupportedChainsIcon,
   UiElementsIcon,
+  UserGuidesIcon,
 } from "@/components/home/card-icons";
 import { CategoryCard } from "@/components/home/category-card";
 
@@ -15,11 +21,11 @@ const nexusCategories = [
       "Pick your path — SDK for headless apps or drop-in UI Elements.",
   },
   {
-    href: "/docs/nexus/concepts",
-    icon: <ConceptsIcon />,
-    title: "Concepts",
+    href: "/docs/nexus/supported-chains-and-tokens",
+    icon: <SupportedChainsIcon />,
+    title: "Supported Chains & Tokens",
     description:
-      "Intents, solvers, liquidity routing, and how cross-chain operations work under the hood.",
+      "Mainnet and testnet chains, token types, decimals, and swap support at a glance.",
   },
   {
     href: "/docs/nexus/nexus-ui-elements",
@@ -29,11 +35,25 @@ const nexusCategories = [
       "Drop-in widgets for bridging, swaps, deposits, balances, and transaction history.",
   },
   {
-    href: "/docs/nexus/nexus-sdk",
+    href: "/docs/nexus/nexus-sdk/quickstart",
     icon: <NexusSdkIcon />,
     title: "Nexus SDK",
     description:
       "Bridge and swap methods, React hooks, and full TypeScript API reference.",
+  },
+  {
+    href: "/docs/nexus/concepts",
+    icon: <ConceptsIcon />,
+    title: "Concepts",
+    description:
+      "Intents, solvers, liquidity routing, and how cross-chain operations work under the hood.",
+  },
+  {
+    href: "/docs/nexus/cookbook-recipes",
+    icon: <CookbookIcon />,
+    title: "Cookbook Recipes",
+    description:
+      "Copy-paste code patterns for bridges, swaps, token lookups, and event handling.",
   },
 ];
 
@@ -54,17 +74,31 @@ const daCategories = [
   },
   {
     href: "/docs/da/build",
-    icon: <UiElementsIcon />,
+    icon: <BuildIcon />,
     title: "Build",
     description:
       "Post data, deploy rollups with OP Stack, Arbitrum, or CDK, and integrate Turbo DA.",
   },
   {
     href: "/docs/da/operate",
-    icon: <NexusSdkIcon />,
+    icon: <OperateIcon />,
     title: "Operate",
     description:
       "Run light clients, full nodes, or become a validator on the Avail network.",
+  },
+  {
+    href: "/docs/da/user-guides",
+    icon: <UserGuidesIcon />,
+    title: "User Guides",
+    description:
+      "Create accounts, stake AVAIL, participate in governance, and bridge tokens.",
+  },
+  {
+    href: "/docs/da/api-reference",
+    icon: <ApiReferenceIcon />,
+    title: "API Reference",
+    description:
+      "Node, Light Client, Bridge, and Turbo DA endpoint documentation with code examples.",
   },
 ];
 

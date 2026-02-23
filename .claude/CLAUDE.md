@@ -16,52 +16,58 @@ This is the Avail documentation site built with Fumadocs and Next.js. It covers 
 - Keep all components less than 400 lines — split if needed
 - Don't define multiple components in one single file
 - Create reusable components wherever possible
+- Act autonomously on code changes and bug fixes. Ask before running servers, pushing code, or destructive operations.
+
+## Working Principles
+
+### Self-Improvement Loop
+- After ANY correction from the user, update `memory/lessons.md` with the pattern
+- Write rules for yourself that prevent the same mistake from recurring
+- Review lessons at session start for the active project
+
+### Verification Before Done
+- Never mark a task complete without proving it works
+- Run `pnpm build` or `pnpm validate:precommit` to verify changes
+- Diff behavior between main and your changes when relevant
+- Ask yourself: "Would a staff engineer approve this?"
+
+### Autonomous Bug Fixing
+- When given a bug report: investigate and fix it directly
+- Point at logs, errors, failing tests — then resolve them
+- Zero context switching required from the user
+
+### Demand Elegance (Balanced)
+- For non-trivial changes: pause and ask "is there a more elegant way?"
+- If a fix feels hacky: "Knowing everything I know now, implement the elegant solution"
+- Skip this for simple, obvious fixes — don't over-engineer
+- Challenge your own work before presenting it
+
+## Session Start
+1. Read `memory/lessons.md`
+2. Ask which project (or if ad-hoc)
+3. If project: read its `plans/<project>/README.md`
 
 ## Versioning & PRs
 - Branch and PR names use version numbers: `v1.1.0`, `v1.2.0`, etc.
-- Commit messages carry the context — no need to repeat it in the branch name
 - **Minor bump** (`v1.X.0`) for each PR with features, docs, or refactors
 - **Patch bump** (`v1.X.Y`) for hotfixes
 - Baseline: `main` as of PR #8 = `v1.0.0`
 
+## Code Conventions
+
+- **Products as data, not literals**: Use `products` from `src/lib/products.ts` for product names, paths, and slugs. Never hardcode product links or labels in components.
+- **Internal links**: Always use `/docs/da/...` or `/docs/nexus/...` prefixes. Never use bare paths or old paths. See `memory/reference.md` for the full link pattern map.
+- **No magic numbers**: Extract repeated constants into named variables.
+- **DRY heading utilities**: Use shared utilities rather than inlining `.replace()` chains.
+- **Content files**: No `.mdx` extensions in links. Spell-check content before committing.
+
 ## Design System
 
-We use a **two-layer token architecture**:
+Two-layer token architecture: Primitives (`--blue-500`) → Semantic tokens (`--primary`, `--sidebar-background`). For full reference on token naming, categories, and usage, see `src/styles/DESIGN_SYSTEM.md`.
 
-```
-Layer 1: Primitives (--blue-500, --grey-light-700)
-              ↓
-Layer 2: Semantic Tokens (--primary, --sidebar-background)
-```
+## Analytics
 
-### Token Naming Convention
-
-- **Global tokens**: `--[property]` (e.g., `--primary`, `--background`, `--border`)
-- **Component tokens**: `--[component]-[property]` (e.g., `--sidebar-background`, `--navbar-border`)
-
-### Key Token Categories
-
-| Category | Example Tokens |
-|----------|---------------|
-| Global | `background`, `foreground`, `border`, `primary`, `brand` |
-| Sidebar | `sidebar-background`, `sidebar-item-foreground-active` |
-| Navbar | `navbar-background`, `navbar-border` |
-| Search | `search-background`, `search-foreground`, `search-border` |
-| Cards | `card`, `card-foreground`, `card-border` |
-| Page Nav | `page-nav-foreground`, `page-nav-foreground-active` |
-
-### Usage in Tailwind
-
-```tsx
-// Correct - use semantic tokens directly
-<div className="bg-sidebar-background text-sidebar-item-foreground">
-<div className="bg-card border border-card-border">
-<div className="text-foreground bg-background">
-
-// Incorrect - don't use var() wrapper or docs- prefix
-<div className="bg-[var(--sidebar-background)]">  // Wrong
-<div className="bg-docs-sidebar-bg">              // Wrong (old naming)
-```
+PostHog for user behavior tracking. For setup, types, hooks, and usage, see `src/lib/analytics/ANALYTICS.md`.
 
 ## Key Files
 
@@ -74,111 +80,13 @@ Layer 2: Semantic Tokens (--primary, --sidebar-background)
 | `src/components/mdx/` | MDX components for docs content |
 | `src/lib/source.ts` | Fumadocs content source configuration |
 
-## Adding New Tokens
-
-1. Add to `:root` in `global.css`:
-   ```css
-   --new-token: var(--blue-300);
-   ```
-
-2. Add dark mode in `.dark`:
-   ```css
-   --new-token: var(--blue-400);
-   ```
-
-3. Add Tailwind mapping in `@theme inline`:
-   ```css
-   --color-new-token: var(--new-token);
-   ```
-
-4. Use in components:
-   ```tsx
-   <div className="bg-new-token">
-   ```
-
-## Important Notes
-
-- **No `docs-` prefix**: We removed the `docs-` prefix from all tokens for simplicity
-- **Two layers only**: Primitives → Semantic tokens (no intermediate layer)
-- **shadcn compatible**: Standard shadcn tokens (`--primary`, `--card`, etc.) work out of the box
-- **Dark mode**: All tokens have light/dark variants defined in `:root` and `.dark`
-
-## Common Tasks
-
-### Install new shadcn component
-```bash
-pnpm dlx shadcn@latest add [component-name]
-```
-Components automatically use your theme tokens.
-
-### Run development server
-```bash
-pnpm dev
-```
-
-### Build for production
-```bash
-pnpm build
-```
-
-### Pre-commit guardrail (lint-staged + typecheck)
-```bash
-pnpm validate:precommit
-```
-
-### Clear cache (if CSS issues)
-```bash
-rm -rf .next && pnpm build
-```
-
-## Analytics (PostHog)
-
-We use PostHog for comprehensive user behavior tracking. See `src/lib/analytics/ANALYTICS.md` for full documentation.
-
-### Key Files
-
-| File | Purpose |
-|------|---------|
-| `src/lib/analytics/types.ts` | TypeScript types for all events |
-| `src/lib/analytics/posthog.ts` | PostHog initialization and track function |
-| `src/hooks/use-analytics.ts` | React hooks for tracking |
-| `src/providers/PostHogProvider.tsx` | Provider component |
-
-### Environment Variables
+## Guardrails
 
 ```bash
-NEXT_PUBLIC_POSTHOG_KEY=phc_your_project_key
-NEXT_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com
+pnpm validate:precommit   # lint-staged + typecheck
+rm -rf .next && pnpm build # clear cache if CSS issues
 ```
-
-### Using Analytics in Components
-
-```tsx
-import { useAnalytics } from "@/hooks/use-analytics";
-
-function MyComponent() {
-  const { trackEvent } = useAnalytics();
-
-  const handleClick = () => {
-    trackEvent("nav_card_clicked", {
-      card_title: "My Card",
-      card_type: "concept",
-      destination_path: "/docs/example",
-    });
-  };
-
-  return <button onClick={handleClick}>Click me</button>;
-}
-```
-
-## Code Conventions
-
-- **Products as data, not literals**: Use `products` from `src/lib/products.ts` for product names, paths, and slugs. Never hardcode product links or labels in components.
-- **Internal links**: Always use `/docs/da/...` or `/docs/nexus/...` prefixes. Never use bare paths like `/docs/get-started` or old paths like `/docs/introduction-to-avail`.
-- **No magic numbers**: Extract repeated constants (e.g. character limits, timeouts) into named variables.
-- **DRY heading utilities**: If generating heading IDs from text, use a shared utility rather than inlining `.replace()` chains.
-- **Content files**: No `.mdx` extensions in links. Spell-check content before committing.
 
 ## Code Health
 
-For a detailed audit of tech debt, dead code, broken links, and other tracked issues, see [CODE_HEALTH_AUDIT.md](./CODE_HEALTH_AUDIT.md). Review periodically and pick items to resolve.
+For current site health (build, lint, content quality, dead code), see [HEALTH.md](./HEALTH.md). Run `/audit` to regenerate from scratch.

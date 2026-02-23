@@ -163,7 +163,7 @@ export const mdxComponents: MDXComponentsMap = {
   // Text
   p: ({ className, ...props }: React.ComponentProps<"p">) => (
     <span
-      className={cn("leading-relaxed not-first:mt-6", className)}
+      className={cn("leading-relaxed not-first:mt-8", className)}
       {...props}
     />
   ),
@@ -264,7 +264,7 @@ export const mdxComponents: MDXComponentsMap = {
     return (
       <pre
         className={cn(
-          "no-scrollbar min-w-0 overflow-x-auto px-4 py-3.5 outline-none has-data-[slot=tabs]:p-0",
+          "min-w-0 overflow-x-auto px-4 py-3.5 outline-none has-data-[slot=tabs]:p-0",
           className,
         )}
         {...props}
@@ -469,7 +469,6 @@ export const mdxComponents: MDXComponentsMap = {
   Feedback,
   // Page footer with navigation
   PageFooter,
-
 };
 
 export function useMDXComponents(

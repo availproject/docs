@@ -167,11 +167,6 @@ function SidebarFolder({
   );
 }
 
-// Divider component
-function SidebarDivider() {
-  return <div className="h-px w-full bg-border" />;
-}
-
 export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
   const pathname = usePathname();
   const { trackEvent } = useAnalytics();
@@ -246,13 +241,22 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
         );
       }
 
+      // If no index page, link to the first child page
+      const firstChildUrl =
+        node.children[0]?.type === "page"
+          ? node.children[0].url
+          : node.children[0]?.type === "folder"
+            ? node.children[0].index?.url
+            : undefined;
+      const folderHref = node.index?.url ?? firstChildUrl;
+
       return (
         <SidebarFolder
           key={folderId}
           name={node.name?.toString() ?? ""}
           defaultExpanded={shouldExpand}
           isActive={isActive}
-          href={node.index?.url}
+          href={folderHref}
           onToggle={handleFolderToggle}
           onNavigate={handleNavigation}
         >
@@ -307,13 +311,21 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
           );
         }
 
+        const firstChildUrl =
+          item.children[0]?.type === "page"
+            ? item.children[0].url
+            : item.children[0]?.type === "folder"
+              ? item.children[0].index?.url
+              : undefined;
+        const folderHref = item.index?.url ?? firstChildUrl;
+
         return (
           <SidebarFolder
             key={folderId}
             name={item.name?.toString() ?? ""}
             defaultExpanded={shouldExpand}
             isActive={isActive}
-            href={item.index?.url}
+            href={folderHref}
             onToggle={handleFolderToggle}
             onNavigate={handleNavigation}
           >
@@ -346,37 +358,6 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
       <SidebarContent className="no-scrollbar flex-1 overflow-y-auto overflow-x-hidden">
         <div className="flex flex-col gap-1 min-w-0">{renderTopLevel()}</div>
       </SidebarContent>
-
-      {/* Footer section */}
-      <div className="flex flex-col gap-6 mt-auto">
-        <SidebarDivider />
-        <div className="flex flex-col gap-1">
-          <Link
-            href="/docs/da/get-started"
-            onClick={() => handleNavigation("Docs", "/docs/da/get-started")}
-            className={cn(
-              "flex h-10 w-full items-center gap-2 px-4 py-3 text-base transition-colors",
-              pathname === "/docs/da/get-started"
-                ? "text-sidebar-item-foreground-active"
-                : "text-sidebar-item-foreground hover:text-sidebar-item-foreground-hover",
-            )}
-          >
-            Docs
-          </Link>
-          <Link
-            href="/docs/components"
-            onClick={() => handleNavigation("Components", "/docs/components")}
-            className={cn(
-              "flex h-10 w-full items-center gap-2 px-4 py-3 text-base transition-colors",
-              pathname.startsWith("/docs/components")
-                ? "text-sidebar-item-foreground-active"
-                : "text-sidebar-item-foreground hover:text-sidebar-item-foreground-hover",
-            )}
-          >
-            Components
-          </Link>
-        </div>
-      </div>
     </Sidebar>
   );
 }

@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { AGENT_HEADERS } from "@/lib/agent-headers";
+import { cleanMarkdownForAgents } from "@/lib/markdown-clean";
 import { source } from "@/lib/source";
 
 export async function GET(request: NextRequest) {
@@ -11,7 +12,8 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const content = await page.data.getText("processed");
+    const raw = await page.data.getText("processed");
+    const content = cleanMarkdownForAgents(raw);
     const tokenEstimate = Math.ceil(content.length / 4);
 
     // Check if user wants JSON response or raw markdown

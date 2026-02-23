@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { TrackedExternalLink } from "./tracked-external-link";
 
 type FooterLink = {
   label: string;
@@ -78,14 +79,11 @@ function FooterLink({ link }: { link: FooterLink }) {
 
   if (link.external) {
     return (
-      <a
+      <TrackedExternalLink
         href={link.href}
-        target="_blank"
-        rel="noopener noreferrer"
+        label={link.label}
         className={className}
-      >
-        {link.label}
-      </a>
+      />
     );
   }
 

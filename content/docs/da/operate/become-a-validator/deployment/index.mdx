@@ -2,7 +2,7 @@
 image: "/img/docs-link-preview.png"
 id: simple-node-deployment
 title: Avail Node - Simple Deployment
-sidebar_label: Simple Deployment
+sidebarTitle: Simple Deployment
 description: 'Learn how to run deploy Avail Node on a server.'
 keywords:
   - docs
@@ -69,7 +69,7 @@ That said, Latitude is used for this chapter and here are the steps on how to cr
 8. SSH into your server by running the following command in your terminal:
 
 ```bash
-// Replace the IP with your own
+# Replace the IP with your own
 ssh ubuntu@199.xxx.xxx.xxx
 ```
 
@@ -131,7 +131,7 @@ We will create a system service file for our node to run automatically, even on 
 
 4. Create a seperate directory to store all your node data:
 
-```
+```bash
 mkdir node-data
 ```
 
@@ -167,7 +167,7 @@ sudo nano /etc/systemd/system/avail.service
 
 7. Paste the following text and save it:
 
-```
+```ini
 [Unit]
 Description=Avail Node
 
@@ -192,7 +192,7 @@ Let's let's break it down for clarity.
 - **RestartSec**: Specifies the time to sleep before restarting the service after it exits unexpectedly. In this case, it's set to 5 seconds.
 - **WantedBy**: Specifies the target or targets that this service should be included in. Here, it is set to multi-user.target, which is a common target for services that should be started in a multi-user system.
 
-We discussed what the command line arguments do in the previous chapter, so we won't repeat ourselves here.
+We discussed what the command line arguments do in the [previous chapter](/docs/da/operate/become-a-validator/basics), so we won't repeat ourselves here.
 
 8. Now, let's enable the service file and start our deamon
 
@@ -242,7 +242,7 @@ Nov 29 14:56:28 MyAwesomeAvailServer data-avail[13040]: 2023-11-29 14:56:28 ⚙�
 Nov 29 14:56:33 MyAwesomeAvailServer data-avail[13040]: 2023-11-29 14:56:33 ⚙️  Syncing 92.8 bps, target=#93564 (12 peers), best: #2662 (0xdb75…7806), finalized #2560 (0x1282…a791), ⬇ 821.7kiB/s ⬆ 2.6kiB/s
 ```
 
-As expected, the node is syncing new blocks. If these logs are new to you, head back to the previous chapter where we explained in detail what they mean.
+As expected, the node is syncing new blocks. If these logs are new to you, head back to the [previous chapter](/docs/da/operate/become-a-validator/basics) where we explained in detail what they mean.
 
 ## Docker/Podman
 
@@ -297,7 +297,7 @@ Let's break it down for clarity.
 - **-p**: is used to publish a container's port to the host. It allows you to map a port from the container to a port on the host, making services running inside the container accessible from outside.
 - **docker.io/availj/avail:v1.8.0.3**: Refers to the name of the Docker image from which you want to create a container. A Docker image is a lightweight, stand-alone, executable package that includes everything needed to run a piece of software, including the code, a runtime, libraries, environment variables, and config files.
 
-We discussed what the command line arguments do in the previous chapter, so we won't repeat ourselves here.
+We discussed what the command line arguments do in the [previous chapter](/docs/da/operate/become-a-validator/basics), so we won't repeat ourselves here.
 
 <Callout type="info">
 Podman doesn't have the `--restart` flag, instead it utilizes Quadlets. To know more about how to setup a Quadlet following [this link](https://www.redhat.com/sysadmin/quadlet-podman)
@@ -324,7 +324,7 @@ Output
 2023-11-29 22:55:06 ⚙️  Syncing 225.4 bps, target=#94987 (8 peers), best: #5800 (0xbc68…13e8), finalized #5632 (0x5180…98c8), ⬇ 129.3kiB/s ⬆ 0.8kiB/s
 ```
 
-As expected, the node is syncing new blocks. If these logs are new to you, head back to the previous chapter where we explained in detail what they mean.
+As expected, the node is syncing new blocks. If these logs are new to you, head back to the [previous chapter](/docs/da/operate/become-a-validator/basics) where we explained in detail what they mean.
 
 ## What's Next
 
