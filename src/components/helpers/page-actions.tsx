@@ -106,6 +106,8 @@ export function PageActions({ pageContent }: Readonly<PageActionsProps>) {
     title: string;
   } | null>(null);
 
+  const githubEditUrl = `https://github.com/${REPO.owner}/${REPO.name}/edit/${REPO.branch}/${REPO.contentDir}${pathname?.replace(/^\/docs/, "") || ""}/index.mdx`;
+
   const getMarkdownApiPath = React.useCallback(() => {
     const path = pathname?.replace(/^\/docs\/?/, "") || "";
     if (!path) return "/api/markdown";
@@ -300,10 +302,17 @@ export function PageActions({ pageContent }: Readonly<PageActionsProps>) {
 
         {/* Edit in GitHub */}
         <a
-          href={`https://github.com/${REPO.owner}/${REPO.name}/edit/${REPO.branch}/${REPO.contentDir}${pathname?.replace(/^\/docs/, "") || ""}/index.mdx`}
+          href={githubEditUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 text-page-nav-foreground hover:text-page-nav-foreground-hover transition-colors cursor-pointer"
+          onClick={() =>
+            trackEvent("external_link_clicked", {
+              destination_url: githubEditUrl,
+              link_text: "Edit in GitHub",
+              category: "github_edit",
+            })
+          }
         >
           <GithubLogo size={20} className="shrink-0" />
           <span className="text-base">Edit in GitHub</span>

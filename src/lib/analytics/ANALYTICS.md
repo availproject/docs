@@ -85,15 +85,22 @@ PostHogProvider (outermost in layout.tsx)
 | Event | Description | Properties |
 |-------|-------------|------------|
 | `search_dialog_opened` | Search modal opened | `trigger_type` (keyboard/click), `page_path` |
-| `search_query_submitted` | Search query executed | `query`, `results_count`, `page_path` |
+| `search_query_submitted` | Search query executed | `query`, `results_count`, `filter`, `page_path` |
 | `search_result_clicked` | Search result selected | `result_position`, `result_title`, `result_path`, `query`, `page_path` |
 
-### 7. Wallet Events
+### 7. External Link Events
+
+| Event | Description | Properties |
+|-------|-------------|------------|
+| `external_link_clicked` | External link clicked | `destination_url`, `link_text`, `category` (footer/github_edit/v0/other), `page_path` |
+
+### 8. Wallet Events
 
 | Event | Description | Properties |
 |-------|-------------|------------|
 | `wallet_connected` | Wallet connection | `chain_id`, `network_name`, `page_path` |
 | `wallet_disconnected` | Wallet disconnect | `page_path` |
+| `network_changed` | Testnet/mainnet toggle | `network`, `previous_network`, `page_path` |
 
 ## User Identification
 
