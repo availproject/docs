@@ -695,11 +695,11 @@
         position: relative;
         counter-reset: step;
         padding-left: 40px;
+        margin-top: calc(var(--spacing) * 8);
         margin-bottom: calc(var(--spacing) * 12);
     }
 
-    /* Vertical connector line — single container-level line;
-       number boxes paint over intersections via opaque backgrounds. */
+    /* Vertical connector line */
     .steps::before {
         content: "";
         position: absolute;
@@ -710,25 +710,34 @@
         background: var(--color-border);
     }
 
-    /* Step heading with numbered indicator */
-    .steps > h3 {
+    /* Step wrapper div — the h3 wrapper from mdx-components becomes the step container.
+       Handles counter-increment and hosts the numbered indicator via ::before. */
+    .steps > div:has(> h3) {
         position: relative;
         counter-increment: step;
+        margin-top: calc(var(--spacing) * 6);
+        /* Reset wrapper div styles — Steps controls its own spacing */
+        margin-bottom: 0;
+        padding: 0;
+        gap: 0;
+    }
+
+    .steps > div:has(> h3):first-child {
+        margin-top: 0;
+    }
+
+    /* Step heading styles */
+    .steps > div > h3 {
         font-family: var(--font-heading);
         font-size: var(--text-xl);
         font-weight: 500;
         letter-spacing: var(--tracking-tight);
         color: var(--foreground) !important;
         scroll-margin-top: 8rem;
-        margin-top: calc(var(--spacing) * 6);
     }
 
-    .steps > h3:first-of-type {
-        margin-top: 0;
-    }
-
-    /* Numbered square indicator */
-    .steps > h3::before {
+    /* Numbered square indicator — on the wrapper div */
+    .steps > div:has(> h3)::before {
         content: counter(step);
         position: absolute;
         left: -40px;
@@ -746,8 +755,13 @@
         border: 1px solid var(--color-border);
     }
 
+    /* Hide the heading separator line inside steps */
+    .steps > div > h3 + div {
+        display: none;
+    }
+
     /* Step content spacing */
-    .steps > *:not(h3) {
+    .steps > *:not(div:has(> h3)) {
         margin-left: 0;
     }
 
