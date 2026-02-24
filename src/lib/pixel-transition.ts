@@ -1,12 +1,17 @@
 let isTransitioning = false;
+let generation = 0;
 
 export function pixelTransition(
   callback: () => void,
   origin?: { x: number; y: number },
 ): void {
   if (isTransitioning) {
-    callback();
-    return;
+    document.querySelectorAll("[data-pixel-transition]").forEach((el) => {
+      el.remove();
+    });
+    isTransitioning = false;
+    generation++;
+    // fall through to start a fresh transition
   }
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     callback();
@@ -36,6 +41,7 @@ export function pixelTransition(
     zIndex: "99999",
     pointerEvents: "none",
   });
+  canvas.setAttribute("data-pixel-transition", "");
 
   // Read the page-level background from --page-bg custom property.
   // Layouts declare their dominant bg via data-page-bg on a wrapper;
@@ -88,6 +94,7 @@ export function pixelTransition(
   // before starting the dissolve — otherwise cleared pixels reveal
   // the OLD theme (same color as the canvas) and nothing is visible.
   const duration = 400;
+  const myGeneration = generation;
 
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
@@ -95,6 +102,7 @@ export function pixelTransition(
       let lastCleared = 0;
 
       function animate(currentTime: number) {
+        if (myGeneration !== generation) return;
         const progress = Math.min((currentTime - startTime) / duration, 1);
         const eased = 1 - (1 - progress) ** 2;
         const targetCleared = Math.floor(eased * pixels.length);
