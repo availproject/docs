@@ -1,19 +1,22 @@
 "use client";
 
-import { useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
-
 import { CaretDown } from "@phosphor-icons/react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 import { AvailDALogo } from "@/components/logos/avail-da-logo";
 import { AvailNexusLogo } from "@/components/logos/avail-nexus-logo";
-import { products, getActiveProduct } from "@/lib/products";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { getActiveProduct, products } from "@/lib/products";
 
 const productLogos = {
   "avail-da": AvailDALogo,
   "avail-nexus": AvailNexusLogo,
 } as const;
+
 import { useAnalytics } from "@/hooks/use-analytics";
 import { cn } from "@/lib/utils";
 
@@ -40,7 +43,7 @@ export function ProductSwitcher() {
           <CaretDown
             size={20}
             className={cn(
-              "shrink-0 translate-y-[2px] text-muted-foreground",
+              "hidden lg:block shrink-0 translate-y-[2px] text-muted-foreground",
               open && "rotate-180",
             )}
           />
@@ -63,7 +66,7 @@ export function ProductSwitcher() {
               router.push("/");
               setOpen(false);
             }}
-            className="flex h-10 w-full items-center gap-2 px-3 border-b border-menu-item-border transition-colors bg-menu-item-background text-search-foreground hover:bg-menu-item-background-hover"
+            className="flex h-12 w-full items-center gap-2 px-4 border-b border-menu-item-border transition-colors bg-menu-item-background text-search-foreground hover:bg-menu-item-background-hover"
           >
             <span>Homepage</span>
           </button>
@@ -83,7 +86,7 @@ export function ProductSwitcher() {
                   setOpen(false);
                 }}
                 className={cn(
-                  "flex h-10 w-full items-center gap-2 px-3 transition-colors [&:not(:last-child)]:border-b [&:not(:last-child)]:border-menu-item-border",
+                  "flex h-12 w-full items-center gap-2 px-4 transition-colors [&:not(:last-child)]:border-b [&:not(:last-child)]:border-menu-item-border",
                   isActive
                     ? "bg-menu-item-background text-menu-item-foreground"
                     : "bg-menu-item-background text-search-foreground hover:bg-menu-item-background-hover",

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type React from "react";
 import { useRef, useState } from "react";
-import { Sidebar, SidebarContent } from "@/components/ui/sidebar";
+import { Sidebar, SidebarContent, useSidebar } from "@/components/ui/sidebar";
 import { useAnalytics } from "@/hooks/use-analytics";
 import { getProductTree } from "@/lib/page-tree-utils";
 import { getActiveProduct } from "@/lib/products";
@@ -169,14 +169,15 @@ function SidebarFolder({
 
 export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
   const pathname = usePathname();
+  const { setOpenMobile } = useSidebar();
   const { trackEvent } = useAnalytics();
-
   const activeProduct = getActiveProduct(pathname);
   const displayTree = activeProduct
     ? getProductTree(tree, activeProduct.slug)
     : tree;
 
   const handleNavigation = (title: string, path: string) => {
+    setOpenMobile(false);
     trackEvent("nav_sidebar_item_clicked", {
       item_type: "page",
       item_title: title,
@@ -351,12 +352,15 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
 
   return (
     <Sidebar
-      className="sticky top-[calc(var(--header-height)+1px)] z-30 hidden h-[calc(100vh-var(--header-height)-1px)] w-75 flex-col justify-between overflow-hidden bg-sidebar-background border-r border-border p-6 ui-16 lg:flex"
-      collapsible="none"
+      className="sticky top-[calc(var(--header-height)+1px)] z-30 h-[calc(100vh-var(--header-height)-1px)] w-75 flex-col justify-between overflow-hidden bg-sidebar-background border-r border-border p-6 ui-16"
+      collapsible="offcanvas"
+      side="left"
       {...props}
     >
       <SidebarContent className="no-scrollbar flex-1 overflow-y-auto overflow-x-hidden">
-        <div className="flex flex-col gap-1 min-w-0">{renderTopLevel()}</div>
+        <div className="flex flex-col gap-1 min-w-0 pt-4">
+          {renderTopLevel()}
+        </div>
       </SidebarContent>
     </Sidebar>
   );
