@@ -117,7 +117,10 @@ export default async function Page(props: {
           .split("-")
           .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
           .join(" ");
-      return { href, label };
+      // Non-existent pages render as plain text (href="" → <span>)
+      const slugArr = arr.slice(1, index + 1);
+      const exists = source.getPage(slugArr) != null;
+      return { href: exists ? href : "", label };
     });
 
   // Truncate visible breadcrumbs: show first 2 + … + last 1 when > 3 items

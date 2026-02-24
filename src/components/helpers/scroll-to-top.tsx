@@ -15,5 +15,14 @@ export function ScrollToTop() {
     }
   }, [pathname]);
 
+  // Scroll to hash target on mount (browser may miss it if DOM renders after initial hash check)
+  useEffect(() => {
+    const hash = window.location.hash.slice(1);
+    if (hash) {
+      const el = document.getElementById(hash);
+      if (el) el.scrollIntoView();
+    }
+  }, []);
+
   return null;
 }

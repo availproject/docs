@@ -304,6 +304,27 @@
     --card-header-background: var(--white-50);
     --card-shadow: var(--blue-50);
 
+    /* Callout: Info (default) */
+    --callout-info-bg: var(--white-0);
+    --callout-info-fg: var(--grey-light-900);
+    --callout-info-border: var(--grey-light-200);
+    --callout-info-header: var(--white-50);
+    --callout-info-shadow: var(--blue-50);
+
+    /* Callout: Warning */
+    --callout-warning-bg: var(--feedback-warning-background);
+    --callout-warning-fg: var(--feedback-warning-foreground);
+    --callout-warning-border: hsl(43, 60%, 75%);
+    --callout-warning-header: hsl(46, 90%, 93%);
+    --callout-warning-shadow: hsl(43, 60%, 75%);
+
+    /* Callout: Error */
+    --callout-error-bg: var(--feedback-error-background);
+    --callout-error-fg: var(--feedback-error-foreground);
+    --callout-error-border: hsl(0, 50%, 85%);
+    --callout-error-header: hsl(0, 60%, 96%);
+    --callout-error-shadow: hsl(0, 50%, 85%);
+
     /* Popover */
     --popover: var(--white-0);
     --popover-foreground: var(--grey-light-1000);
@@ -453,6 +474,27 @@
     --card-border: var(--grey-dark-400);
     --card-header-background: var(--grey-dark-300);
     --card-shadow: var(--grey-dark-400);
+
+    /* Callout: Info (default) */
+    --callout-info-bg: var(--grey-dark-200);
+    --callout-info-fg: var(--grey-dark-900);
+    --callout-info-border: var(--grey-dark-400);
+    --callout-info-header: var(--grey-dark-300);
+    --callout-info-shadow: var(--grey-dark-400);
+
+    /* Callout: Warning */
+    --callout-warning-bg: var(--feedback-warning-background);
+    --callout-warning-fg: var(--feedback-warning-foreground);
+    --callout-warning-border: hsl(34, 50%, 30%);
+    --callout-warning-header: hsl(34, 80%, 18%);
+    --callout-warning-shadow: hsl(34, 50%, 30%);
+
+    /* Callout: Error */
+    --callout-error-bg: var(--feedback-error-background);
+    --callout-error-fg: var(--feedback-error-foreground);
+    --callout-error-border: hsl(0, 40%, 30%);
+    --callout-error-header: hsl(0, 50%, 22%);
+    --callout-error-shadow: hsl(0, 40%, 30%);
 
     /* Popover */
     --popover: var(--grey-dark-300);
@@ -653,11 +695,11 @@
         position: relative;
         counter-reset: step;
         padding-left: 40px;
+        margin-top: calc(var(--spacing) * 8);
         margin-bottom: calc(var(--spacing) * 12);
     }
 
-    /* Vertical connector line — single container-level line;
-       number boxes paint over intersections via opaque backgrounds. */
+    /* Vertical connector line */
     .steps::before {
         content: "";
         position: absolute;
@@ -668,25 +710,34 @@
         background: var(--color-border);
     }
 
-    /* Step heading with numbered indicator */
-    .steps > h3 {
+    /* Step wrapper div — the h3 wrapper from mdx-components becomes the step container.
+       Handles counter-increment and hosts the numbered indicator via ::before. */
+    .steps > div:has(> h3) {
         position: relative;
         counter-increment: step;
+        margin-top: calc(var(--spacing) * 6);
+        /* Reset wrapper div styles — Steps controls its own spacing */
+        margin-bottom: 0;
+        padding: 0;
+        gap: 0;
+    }
+
+    .steps > div:has(> h3):first-child {
+        margin-top: 0;
+    }
+
+    /* Step heading styles */
+    .steps > div > h3 {
         font-family: var(--font-heading);
         font-size: var(--text-xl);
         font-weight: 500;
         letter-spacing: var(--tracking-tight);
         color: var(--foreground) !important;
         scroll-margin-top: 8rem;
-        margin-top: calc(var(--spacing) * 6);
     }
 
-    .steps > h3:first-of-type {
-        margin-top: 0;
-    }
-
-    /* Numbered square indicator */
-    .steps > h3::before {
+    /* Numbered square indicator — on the wrapper div */
+    .steps > div:has(> h3)::before {
         content: counter(step);
         position: absolute;
         left: -40px;
@@ -704,8 +755,13 @@
         border: 1px solid var(--color-border);
     }
 
+    /* Hide the heading separator line inside steps */
+    .steps > div > h3 + div {
+        display: none;
+    }
+
     /* Step content spacing */
-    .steps > *:not(h3) {
+    .steps > *:not(div:has(> h3)) {
         margin-left: 0;
     }
 
