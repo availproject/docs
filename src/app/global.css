@@ -304,6 +304,27 @@
     --card-header-background: var(--white-50);
     --card-shadow: var(--blue-50);
 
+    /* Callout: Info (default) */
+    --callout-info-bg: var(--white-0);
+    --callout-info-fg: var(--grey-light-900);
+    --callout-info-border: var(--grey-light-200);
+    --callout-info-header: var(--white-50);
+    --callout-info-shadow: var(--blue-50);
+
+    /* Callout: Warning */
+    --callout-warning-bg: var(--feedback-warning-background);
+    --callout-warning-fg: var(--feedback-warning-foreground);
+    --callout-warning-border: hsl(43, 60%, 75%);
+    --callout-warning-header: hsl(46, 90%, 93%);
+    --callout-warning-shadow: hsl(43, 60%, 75%);
+
+    /* Callout: Error */
+    --callout-error-bg: var(--feedback-error-background);
+    --callout-error-fg: var(--feedback-error-foreground);
+    --callout-error-border: hsl(0, 50%, 85%);
+    --callout-error-header: hsl(0, 60%, 96%);
+    --callout-error-shadow: hsl(0, 50%, 85%);
+
     /* Popover */
     --popover: var(--white-0);
     --popover-foreground: var(--grey-light-1000);
@@ -453,6 +474,27 @@
     --card-border: var(--grey-dark-400);
     --card-header-background: var(--grey-dark-300);
     --card-shadow: var(--grey-dark-400);
+
+    /* Callout: Info (default) */
+    --callout-info-bg: var(--grey-dark-200);
+    --callout-info-fg: var(--grey-dark-900);
+    --callout-info-border: var(--grey-dark-400);
+    --callout-info-header: var(--grey-dark-300);
+    --callout-info-shadow: var(--grey-dark-400);
+
+    /* Callout: Warning */
+    --callout-warning-bg: var(--feedback-warning-background);
+    --callout-warning-fg: var(--feedback-warning-foreground);
+    --callout-warning-border: hsl(34, 50%, 30%);
+    --callout-warning-header: hsl(34, 80%, 18%);
+    --callout-warning-shadow: hsl(34, 50%, 30%);
+
+    /* Callout: Error */
+    --callout-error-bg: var(--feedback-error-background);
+    --callout-error-fg: var(--feedback-error-foreground);
+    --callout-error-border: hsl(0, 40%, 30%);
+    --callout-error-header: hsl(0, 50%, 22%);
+    --callout-error-shadow: hsl(0, 40%, 30%);
 
     /* Popover */
     --popover: var(--grey-dark-300);
