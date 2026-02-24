@@ -27,6 +27,7 @@ export const docs = defineDocs({
 
 export default defineConfig({
   mdxOptions: {
+    remarkNpmOptions: false, // Disable built-in remark-npm — we use our own Shiki transformer in highlight-code.ts
     rehypePlugins: (plugins) => {
       plugins.shift(); // Remove default code highlighter
       plugins.push([
