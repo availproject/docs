@@ -15,38 +15,77 @@ type TocEntry = {
   depth: number;
 };
 
-function useActiveItem(itemIds: string[]) {
+// Must exceed scroll-margin on headings (112px for h2–h5, 128px for .steps h3)
+const TOC_SCROLL_OFFSET_PX = 140;
+// How long after last scroll event before we consider scroll "settled"
+const SCROLL_IDLE_MS = 150;
+
+function useActiveItem(
+  itemIds: string[],
+  overrideId: string | null,
+  clearOverride: () => void,
+) {
   const [activeId, setActiveId] = React.useState<string | null>(null);
+  const overrideRef = React.useRef(overrideId);
+  overrideRef.current = overrideId;
+
+  // Immediately apply click override
+  React.useEffect(() => {
+    if (overrideId) setActiveId(overrideId);
+  }, [overrideId]);
 
   React.useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setActiveId(entry.target.id);
-          }
-        }
-      },
-      { rootMargin: "0% 0% -80% 0%" },
-    );
+    if (!itemIds.length) return;
 
-    for (const id of itemIds ?? []) {
-      const element = document.getElementById(id);
-      if (element) {
-        observer.observe(element);
+    let rafId = 0;
+    let idleTimer = 0;
+
+    function scan() {
+      const { scrollY, innerHeight } = window;
+      const docHeight = document.documentElement.scrollHeight;
+
+      // Near bottom of page — activate last item
+      if (scrollY + innerHeight >= docHeight - 30) {
+        setActiveId(itemIds[itemIds.length - 1]);
+        return;
       }
+
+      // Find last heading that has scrolled past the offset
+      let found: string | null = null;
+      for (const id of itemIds) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= TOC_SCROLL_OFFSET_PX) {
+          found = id;
+        }
+      }
+
+      // Default to first item when at top of page
+      setActiveId(found ?? itemIds[0]);
     }
 
-    return () => {
-      for (const id of itemIds ?? []) {
-        const element = document.getElementById(id);
-        if (element) {
-          observer.unobserve(element);
-        }
+    function onScroll() {
+      if (overrideRef.current) {
+        // During click override: don't scan, but detect when scroll settles
+        window.clearTimeout(idleTimer);
+        idleTimer = window.setTimeout(() => {
+          clearOverride();
+        }, SCROLL_IDLE_MS);
+        return;
       }
-      observer.disconnect();
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(scan);
+    }
+
+    // Initial scan on mount (handles page load with hash)
+    if (!overrideRef.current) scan();
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(rafId);
+      window.clearTimeout(idleTimer);
     };
-  }, [itemIds]);
+  }, [itemIds, clearOverride]);
 
   return activeId;
 }
@@ -90,12 +129,15 @@ export function OnThisPage({
     () => toc.map((item) => item.url.replace("#", "")),
     [toc],
   );
-  const activeHeading = useActiveItem(itemIds);
+  const [clickedId, setClickedId] = React.useState<string | null>(null);
+  const clearOverride = React.useCallback(() => setClickedId(null), []);
+  const activeHeading = useActiveItem(itemIds, clickedId, clearOverride);
   const { trackEvent } = useAnalytics();
 
   const handleTocClick = React.useCallback(
     (item: TocEntry) => {
       const headingId = item.url.replace("#", "");
+      setClickedId(headingId);
       trackEvent("nav_toc_heading_clicked", {
         heading_text: typeof item.title === "string" ? item.title : headingId,
         heading_level: item.depth,
