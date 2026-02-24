@@ -4,7 +4,7 @@ import type { Item, Node, Root } from "fumadocs-core/page-tree";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type React from "react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Sidebar, SidebarContent, useSidebar } from "@/components/ui/sidebar";
 import { useAnalytics } from "@/hooks/use-analytics";
 import { getProductTree } from "@/lib/page-tree-utils";
@@ -72,6 +72,13 @@ function SidebarFolder({
 }) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
   const chevronRef = useRef<HTMLSpanElement>(null);
+
+  // Sync expanded state when the active route changes into this folder
+  useEffect(() => {
+    if (defaultExpanded) {
+      setIsExpanded(true);
+    }
+  }, [defaultExpanded]);
 
   const handleClick = (e: React.MouseEvent) => {
     // Chevron click — toggle only, no navigation
