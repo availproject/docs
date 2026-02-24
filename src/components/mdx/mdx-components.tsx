@@ -59,6 +59,7 @@ import { ComponentPreview } from "./component-preview";
 import { ComponentSource } from "./component-source";
 import { ConceptCard, ConceptCardGrid } from "./concept-card";
 import { Feedback } from "./feedback";
+import { HeadingAnchor } from "./heading-anchor";
 import { IconCard, IconCardGrid } from "./icon-card";
 import { LinkCard, LinkCardGrid } from "./link-card";
 import { PageFooter } from "./page-footer";
@@ -74,11 +75,11 @@ export const mdxComponents: MDXComponentsMap = {
       {...props}
     />
   ),
-  h2: ({ className, id, ...props }: React.ComponentProps<"h2">) => {
+  h2: ({ className, id, children, ...props }: React.ComponentProps<"h2">) => {
     // Use the id from Fumadocs (via rehype-slug) if available, otherwise generate from text
     const headingId =
       id ||
-      props.children
+      children
         ?.toString()
         .replace(/ /g, "-")
         .replace(/'/g, "")
@@ -89,41 +90,50 @@ export const mdxComponents: MDXComponentsMap = {
         <h2
           id={headingId}
           className={cn(
-            "font-serif text-xl font-medium leading-relaxed tracking-wide text-brand scroll-m-28",
+            "group flex items-center font-serif text-xl font-medium leading-relaxed tracking-wide text-brand scroll-m-28",
             className,
           )}
           {...props}
-        />
+        >
+          {children}
+          <HeadingAnchor id={headingId} />
+        </h2>
         <div className="h-px w-full bg-border" />
       </div>
     );
   },
-  h3: ({ className, id, ...props }: React.ComponentProps<"h3">) => {
+  h3: ({ className, id, children, ...props }: React.ComponentProps<"h3">) => {
     // Use the id from Fumadocs (via rehype-slug) if available, otherwise generate from text
     const headingId =
       id ||
-      props.children
+      children
         ?.toString()
         .replace(/ /g, "-")
         .replace(/'/g, "")
         .replace(/\?/g, "")
         .toLowerCase();
     return (
-      <h3
-        id={headingId}
-        className={cn(
-          "mt-12 scroll-m-28 text-lg font-medium tracking-tight",
-          className,
-        )}
-        {...props}
-      />
+      <div className="mt-12 first:mt-0 mb-4 flex flex-col gap-3">
+        <h3
+          id={headingId}
+          className={cn(
+            "group flex items-center font-serif text-lg font-medium leading-relaxed tracking-wide text-brand scroll-m-28",
+            className,
+          )}
+          {...props}
+        >
+          {children}
+          <HeadingAnchor id={headingId} />
+        </h3>
+        <div className="h-px w-full bg-border" />
+      </div>
     );
   },
-  h4: ({ className, id, ...props }: React.ComponentProps<"h4">) => {
+  h4: ({ className, id, children, ...props }: React.ComponentProps<"h4">) => {
     // Use the id from Fumadocs (via rehype-slug) if available, otherwise generate from text
     const headingId =
       id ||
-      props.children
+      children
         ?.toString()
         .replace(/ /g, "-")
         .replace(/'/g, "")
@@ -133,17 +143,20 @@ export const mdxComponents: MDXComponentsMap = {
       <h4
         id={headingId}
         className={cn(
-          "mt-8 scroll-m-28 text-base font-medium tracking-tight",
+          "group flex items-center mt-8 scroll-m-28 text-base font-medium tracking-tight",
           className,
         )}
         {...props}
-      />
+      >
+        {children}
+        <HeadingAnchor id={headingId} />
+      </h4>
     );
   },
-  h5: ({ className, id, ...props }: React.ComponentProps<"h5">) => {
+  h5: ({ className, id, children, ...props }: React.ComponentProps<"h5">) => {
     const headingId =
       id ||
-      props.children
+      children
         ?.toString()
         .replace(/ /g, "-")
         .replace(/'/g, "")
@@ -153,11 +166,14 @@ export const mdxComponents: MDXComponentsMap = {
       <h5
         id={headingId}
         className={cn(
-          "mt-8 scroll-m-28 text-sm font-medium tracking-tight",
+          "group flex items-center mt-8 scroll-m-28 text-sm font-medium tracking-tight",
           className,
         )}
         {...props}
-      />
+      >
+        {children}
+        <HeadingAnchor id={headingId} />
+      </h5>
     );
   },
   // Text
