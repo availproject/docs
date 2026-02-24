@@ -17,7 +17,7 @@ export function Feedback({ className }: FeedbackProps) {
   const [feedbackType, setFeedbackType] = useState<FeedbackType>(null);
   const [feedbackText, setFeedbackText] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { trackEvent } = useAnalytics();
+  const { trackEvent, pathname } = useAnalytics();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleFeedbackClick = (type: "good" | "bad") => {
@@ -31,21 +31,31 @@ export function Feedback({ className }: FeedbackProps) {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
+    const rating = feedbackType === "good" ? "positive" : "negative";
+
     try {
-      // You can add analytics or API call here
-      // await fetch('/api/feedback', { method: 'POST', body: JSON.stringify({ type: feedbackType, text: feedbackText }) });
-      await new Promise((resolve) => setTimeout(resolve, 500)); // Simulate API call
-      trackEvent("feedback_submitted", {
-        rating: feedbackType === "good" ? "positive" : "negative",
-        has_comment: feedbackText.length > 0,
-        comment_length: feedbackText.length,
+      await fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          rating,
+          comment: feedbackText || undefined,
+          pagePath: pathname,
+        }),
       });
-      setState("submitted");
     } catch (error) {
       console.error("Failed to submit feedback:", error);
-    } finally {
-      setIsSubmitting(false);
     }
+
+    // Track in PostHog regardless of API success
+    trackEvent("feedback_submitted", {
+      rating,
+      has_comment: feedbackText.length > 0,
+      comment_length: feedbackText.length,
+    });
+
+    setState("submitted");
+    setIsSubmitting(false);
   };
 
   if (state === "submitted") {
