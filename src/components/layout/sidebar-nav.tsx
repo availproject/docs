@@ -359,7 +359,7 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
 
   return (
     <Sidebar
-      className="sticky top-[calc(var(--header-height)+1px)] z-30 h-[calc(100vh-var(--header-height)-1px)] w-75 flex-col justify-between overflow-hidden bg-sidebar-background border-r border-border p-6 ui-16"
+      className="w-75 flex-col justify-between overflow-hidden bg-sidebar-background border-r border-border p-6 ui-16"
       collapsible="offcanvas"
       side="left"
       {...props}
