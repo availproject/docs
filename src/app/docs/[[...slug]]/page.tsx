@@ -166,14 +166,14 @@ export default async function Page(props: {
       <script type="application/ld+json">{JSON.stringify(breadcrumbLd)}</script>
       <script type="application/ld+json">{JSON.stringify(articleLd)}</script>
       <div className="flex min-w-0 flex-1 flex-col bg-background xl:pl-10 2xl:pl-20">
-        <div className="mx-auto flex w-full max-w-160 min-w-0 flex-1 flex-col gap-20 px-4 py-20 md:px-0">
+        <div className="mx-auto flex w-full max-w-160 min-w-0 flex-1 flex-col gap-20 px-4 py-10 md:px-0 md:py-20">
           {/* Content sections */}
           <div className="flex flex-col gap-4">
             {/* Header section with breadcrumbs and title */}
             <div className="flex flex-col gap-6">
               {/* Breadcrumbs */}
               {visibleBreadcrumbs.length > 0 && (
-                <nav className="flex items-center gap-1">
+                <nav className="flex flex-wrap items-center gap-x-1 gap-y-2">
                   {visibleBreadcrumbs.map((crumb) => (
                     <span
                       key={crumb.href || "ellipsis"}
@@ -205,7 +205,7 @@ export default async function Page(props: {
 
               {/* Title and description */}
               <div className="flex flex-col gap-4">
-                <h1 className="font-serif text-[28px] font-medium leading-9 tracking-[0.56px] text-brand">
+                <h1 className="font-serif text-2xl md:text-[28px] font-medium leading-8 md:leading-9 tracking-[0.56px] text-brand">
                   {doc.title}
                 </h1>
                 {doc.description && (
