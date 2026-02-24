@@ -10,20 +10,21 @@ export default function DocsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <SidebarProvider
+      defaultOpen
+      className="flex min-h-svh flex-col"
+      style={{ "--sidebar-width": "300px" } as React.CSSProperties}
+    >
       <ScrollToTop />
       <Topbar />
       <div className="container-wrapper flex flex-1 flex-col">
-        <SidebarProvider
-          defaultOpen
-          className="min-h-min flex-1 items-start px-0 [--sidebar-width:300px] [--top-spacing:0] lg:grid lg:grid-cols-[var(--sidebar-width)_minmax(0,1fr)] lg:[--top-spacing:calc(var(--spacing)*4)]"
-        >
+        <div className="min-h-min flex-1 items-start px-0 lg:grid lg:grid-cols-[var(--sidebar-width)_minmax(0,1fr)]">
           <SidebarNav tree={source.pageTree} />
           <main id="main-content" className="h-full w-full bg-background">
             {children}
           </main>
-        </SidebarProvider>
+        </div>
       </div>
-    </>
+    </SidebarProvider>
   );
 }

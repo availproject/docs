@@ -22,11 +22,11 @@ A minimal Next.js page with four buttons:
 
 1. **Connect Wallet** — connects an EIP-1193 wallet
 2. **Initialize Nexus** — passes the wallet provider to the SDK
-3. **Fetch Unified Balances** — retrieves token balances across all supported chains
+3. **Fetch Balances** — retrieves token balances across all supported chains
 4. **De-initialize** — tears down the SDK instance
 
-<Callout type="info" title="What is a unified balance?">
-A unified balance aggregates all instances of a token (e.g. USDC) the user holds across multiple chains into a single view. Learn more in the [Unified Balance concept page](/docs/nexus/concepts/bridge-v-swap).
+<Callout type="info" title="Balance methods">
+The SDK provides two balance methods: `getBalancesForBridge()` returns tokens available for bridging, while `getBalancesForSwap()` returns tokens available for cross-chain swaps. Learn more in the [Bridge vs Swap concept page](/docs/nexus/concepts/bridge-v-swap).
 </Callout>
 
 ## Step 1 — Create a Next.js project
@@ -72,8 +72,12 @@ export async function deinit() {
   await sdk.deinit();
 }
 
-export async function getUnifiedBalances() {
-  return await sdk.getUnifiedBalances();
+export async function getBalancesForBridge() {
+  return await sdk.getBalancesForBridge();
+}
+
+export async function getBalancesForSwap() {
+  return await sdk.getBalancesForSwap();
 }
 ```
 
@@ -84,7 +88,8 @@ export async function getUnifiedBalances() {
 | `isInitialized()` | `() => boolean` | Returns true if the SDK has been initialized with a wallet provider. |
 | `initializeWithProvider(provider)` | `(provider: any) => Promise<void>` | Passes an EIP-1193 provider to the SDK. Must be called after a wallet is connected. |
 | `deinit()` | `() => Promise<void>` | Tears down the SDK and resets internal state. |
-| `getUnifiedBalances()` | `() => Promise<UnifiedBalance>` | Returns a JSON object with the user's token balances across all supported chains. |
+| `getBalancesForBridge()` | `() => Promise<UserAsset[]>` | Returns bridgeable token balances across all supported chains. |
+| `getBalancesForSwap()` | `() => Promise<UserAsset[]>` | Returns swappable token balances across all supported chains. |
 
 <Callout type="warning" title="Initialize after wallet connection">
 `sdk.initialize(provider)` requires an active wallet connection. Calling it before the user has connected will throw an error.
@@ -165,16 +170,16 @@ export default function InitButton({
 This tutorial uses `window.ethereum` directly for simplicity. If you use wagmi, RainbowKit, or another wallet library, see [Initializing Nexus with RainbowKit](/docs/nexus/nexus-sdk/get-started/initializing-nexus-with-rainbowkit) for how to retrieve the provider from a connector.
 </Callout>
 
-### fetch-unified-balance-button.tsx
+### fetch-balances-button.tsx
 
-Fetches the user's unified balances across all supported chains.
+Fetches the user's balances across all supported chains.
 
-```tsx title="src/components/fetch-unified-balance-button.tsx"
+```tsx title="src/components/fetch-balances-button.tsx"
 "use client";
 
-import { getUnifiedBalances, isInitialized } from "../lib/nexus";
+import { getBalancesForBridge, getBalancesForSwap, isInitialized } from "../lib/nexus";
 
-export default function FetchUnifiedBalanceButton({
+export default function FetchBalancesButton({
   className,
   onResult,
 }: {
@@ -183,7 +188,11 @@ export default function FetchUnifiedBalanceButton({
 }) {
   const onClick = async () => {
     if (!isInitialized()) return alert("Initialize first");
-    const res = await getUnifiedBalances();
+    // Use getBalancesForBridge() for bridgeable tokens
+    // Use getBalancesForSwap() for swappable tokens
+    const bridgeBalances = await getBalancesForBridge();
+    const swapBalances = await getBalancesForSwap();
+    const res = { bridgeBalances, swapBalances };
     onResult?.(res);
     console.log(res);
   };
@@ -193,7 +202,7 @@ export default function FetchUnifiedBalanceButton({
       onClick={onClick}
       disabled={!isInitialized()}
     >
-      Fetch Unified Balances
+      Fetch Balances
     </button>
   );
 }
@@ -244,7 +253,7 @@ Wire all four components together in a single page:
 import { useState } from "react";
 import ConnectButton from "@/components/connect-button";
 import InitButton from "@/components/init-button";
-import FetchUnifiedBalanceButton from "@/components/fetch-unified-balance-button";
+import FetchBalancesButton from "@/components/fetch-balances-button";
 import DeinitButton from "@/components/de-init-button";
 import { isInitialized } from "@/lib/nexus";
 
@@ -264,7 +273,7 @@ export default function Page() {
           className={btn}
           onReady={() => setInitialized(true)}
         />
-        <FetchUnifiedBalanceButton
+        <FetchBalancesButton
           className={btn}
           onResult={(r) => setBalances(r)}
         />
@@ -302,7 +311,7 @@ Open [http://localhost:3000](http://localhost:3000) and click through the button
 
 1. **Connect Wallet** — approve the wallet prompt in MetaMask
 2. **Initialize Nexus** — the SDK connects to the wallet provider
-3. **Fetch Unified Balances** — a JSON object appears showing your tokens across chains
+3. **Fetch Balances** — a JSON object appears showing your tokens across chains
 4. **De-initialize** — the SDK resets
 
 <Callout type="info" title="What you just built">

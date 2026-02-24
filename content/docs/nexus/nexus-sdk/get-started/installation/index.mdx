@@ -55,7 +55,7 @@ The `@avail-project/nexus-core` package provides:
 - **`NexusSDK`** — the main class for initializing the SDK and performing cross-chain operations
 - **Bridge methods** — `bridge()`, `bridgeAndTransfer()`, `bridgeAndExecute()` for moving tokens across chains
 - **Swap methods** — `swapExactIn()`, `swapExactOut()` for cross-chain token swaps
-- **Balance methods** — `getUnifiedBalances()` for aggregated multi-chain token balances
+- **Balance methods** — `getBalancesForBridge()` and `getBalancesForSwap()` for multi-chain token balances
 - **Event constants** — `NEXUS_EVENTS` for tracking transaction progress
 - **Type exports** — `BridgeResult`, `EthereumProvider`, `TOKEN_CONTRACT_ADDRESSES`, and more
 
@@ -78,7 +78,7 @@ If this compiles without errors, the installation is complete.
 
 ## Next step
 
-The package is installed. Next, you will create an SDK instance, connect it to a wallet, and fetch your first unified balance.
+The package is installed. Next, you will create an SDK instance, connect it to a wallet, and fetch your first token balances.
 
 <Cards>
   <Card href="/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup" title="Nexus SDK Setup" arrow />

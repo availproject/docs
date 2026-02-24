@@ -1,48 +1,33 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import { List, MagnifyingGlass, Moon, Sun } from "@phosphor-icons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { useEffect, useRef, useState } from "react";
+import { AvailIcon } from "@/components/logos/avail-icon";
 import { AvailLogo } from "@/components/logos/avail-logo";
 import {
   SearchDialog,
   useSearchDialog,
 } from "@/components/search/search-dialog";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useSidebar } from "@/components/ui/sidebar";
 import { pixelTransition } from "@/lib/pixel-transition";
-import { Skeleton } from "../ui/skeleton";
 import { AccountMenu } from "./account-menu";
 import { ProductSwitcher } from "./product-switcher";
 import { SearchBar } from "./search-bar";
 import { ThemeToggle } from "./theme-toggle";
 
-const ThemeControl = dynamic(
-  () => import("./theme-control").then((m) => m.default),
-  {
-    loading: () => <Skeleton className="w-24 h-9" />,
-  },
-);
-
-const MobileNav = dynamic(() => import("./mobile-nav").then((m) => m.default), {
-  loading: () => <Skeleton className="w-24 h-9" />,
-});
-
-const NAV_ITEMS = [
-  {
-    id: "docs",
-    label: "Docs",
-    href: "/docs/da/get-started",
-  },
-];
-
 export default function Topbar() {
   const { theme, resolvedTheme, setTheme } = useTheme();
   const [palette, setPalette] = useState<string>("default");
   const prevPaletteClass = useRef<string | null>(null);
-  const isMobile = useIsMobile();
-  const { open: searchOpen, setOpen: setSearchOpen } = useSearchDialog();
+  const {
+    open: searchOpen,
+    setOpen: setSearchOpen,
+    openWithClick,
+  } = useSearchDialog();
+  const { openMobile, setOpenMobile } = useSidebar();
   const pathname = usePathname();
   const isProductPage =
     pathname.startsWith("/docs/da") || pathname.startsWith("/docs/nexus");
@@ -101,39 +86,48 @@ export default function Topbar() {
     }
   }, [palette, resolvedTheme]);
 
-  const topItems = NAV_ITEMS.map((item) => ({
-    href: item.href,
-    label: item.label,
-  }));
-
   return (
     <>
-      <div className="sticky top-0 z-40 bg-navbar-background border-b border-navbar-border">
-        <div className="h-18 px-10 flex items-center justify-between gap-4">
-          {/* Left: Logo / Product Switcher */}
-          <div className="flex items-center gap-x-6">
-            <div className="hidden sm:block">
-              {isProductPage ? (
-                <ProductSwitcher />
-              ) : (
+      <div
+        className={`sticky top-0 z-50 bg-navbar-background border-b border-navbar-border transition-shadow duration-500 ease-in-out${openMobile ? " shadow-[0_4px_12px_rgba(0,0,0,0.08)]" : ""}`}
+      >
+        <div className="h-18 px-4 lg:px-10 flex items-center justify-between gap-4">
+          {/* Left: Sidebar trigger + Logo */}
+          <div className="flex items-center gap-x-3 lg:gap-x-6">
+            {/* Mobile sidebar trigger */}
+            <button
+              type="button"
+              className="lg:hidden extend-touch-target flex items-center justify-center size-10"
+              onClick={() => setOpenMobile(true)}
+              aria-label="Open navigation"
+            >
+              <List size={24} weight="regular" />
+            </button>
+
+            {isProductPage ? (
+              <ProductSwitcher />
+            ) : (
+              <>
                 <Link
                   href="/"
-                  className="inline-flex items-center cursor-pointer text-[#006BF4] dark:text-foreground"
+                  className="hidden lg:inline-flex items-center cursor-pointer text-[#006BF4] dark:text-foreground"
                 >
                   <AvailLogo />
                 </Link>
-              )}
-            </div>
-            <MobileNav
-              items={topItems}
-              componentItems={[]}
-              className="block lg:hidden"
-            />
+                <Link
+                  href="/"
+                  className="lg:hidden inline-flex items-center"
+                  aria-label="Avail home"
+                >
+                  <AvailIcon className="size-6 text-[#006BF4] dark:text-foreground" />
+                </Link>
+              </>
+            )}
           </div>
 
-          {/* Center: Search + Theme toggle */}
+          {/* Center: Desktop search + theme toggle */}
           <div className="hidden lg:flex items-center gap-3">
-            <SearchBar onClick={() => setSearchOpen(true)} />
+            <SearchBar onClick={openWithClick} />
             <ThemeToggle
               theme={theme ?? "system"}
               resolvedTheme={resolvedTheme ?? "light"}
@@ -141,20 +135,42 @@ export default function Topbar() {
             />
           </div>
 
-          {/* Right: Account */}
-          <div className="flex items-center gap-3">
+          {/* Right */}
+          <div className="flex items-center gap-2 lg:gap-3">
+            {/* Mobile search trigger */}
+            <button
+              type="button"
+              className="lg:hidden extend-touch-target flex items-center justify-center size-10"
+              onClick={openWithClick}
+              aria-label="Search documentation"
+            >
+              <MagnifyingGlass size={20} weight="regular" />
+            </button>
+
+            {/* Mobile theme toggle */}
+            <button
+              type="button"
+              className="lg:hidden extend-touch-target flex items-center justify-center size-10"
+              onClick={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const next = resolvedTheme === "dark" ? "light" : "dark";
+                pixelTransition(() => setTheme(next), {
+                  x: rect.left + rect.width / 2,
+                  y: rect.top + rect.height / 2,
+                });
+              }}
+              aria-label={`Switch to ${resolvedTheme === "dark" ? "light" : "dark"} theme`}
+            >
+              {resolvedTheme === "dark" ? (
+                <Moon size={20} weight="regular" />
+              ) : (
+                <Sun size={20} weight="regular" />
+              )}
+            </button>
+
+            {/* Desktop account menu */}
             <div className="hidden lg:block">
               <AccountMenu theme={theme ?? "system"} setTheme={setTheme} />
-            </div>
-            {/* Mobile theme control */}
-            <div className="lg:hidden">
-              <ThemeControl
-                theme={theme ?? ""}
-                setTheme={setTheme}
-                palette={palette}
-                setPalette={setPalette}
-                isMobile={isMobile}
-              />
             </div>
           </div>
         </div>
