@@ -76,6 +76,7 @@ export interface FeedbackSubmittedEvent {
     rating: "positive" | "negative";
     has_comment: boolean;
     comment_length: number;
+    has_image: boolean;
     page_path: string;
     page_title?: string;
   };

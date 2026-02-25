@@ -43,6 +43,7 @@ interface FeedbackPayload {
   rating: "positive" | "negative";
   pagePath: string;
   comment?: string;
+  imageUrl?: string;
 }
 
 function validatePayload(
@@ -52,7 +53,10 @@ function validatePayload(
     return { valid: false, error: "Request body must be a JSON object" };
   }
 
-  const { rating, pagePath, comment } = body as Record<string, unknown>;
+  const { rating, pagePath, comment, imageUrl } = body as Record<
+    string,
+    unknown
+  >;
 
   if (rating !== "positive" && rating !== "negative") {
     return {
@@ -80,6 +84,15 @@ function validatePayload(
     }
   }
 
+  if (imageUrl !== undefined && imageUrl !== null) {
+    if (
+      typeof imageUrl !== "string" ||
+      !imageUrl.includes(".public.blob.vercel-storage.com")
+    ) {
+      return { valid: false, error: "imageUrl must be a valid blob URL" };
+    }
+  }
+
   return {
     valid: true,
     data: {
@@ -87,6 +100,10 @@ function validatePayload(
       pagePath,
       comment:
         typeof comment === "string" && comment.length > 0 ? comment : undefined,
+      imageUrl:
+        typeof imageUrl === "string" && imageUrl.length > 0
+          ? imageUrl
+          : undefined,
     },
   };
 }
@@ -120,7 +137,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: result.error }, { status: 400 });
   }
 
-  const { rating, pagePath, comment } = result.data;
+  const { rating, pagePath, comment, imageUrl } = result.data;
   const token = process.env.GITHUB_FEEDBACK_TOKEN;
 
   if (!token) {
@@ -134,13 +151,19 @@ export async function POST(request: NextRequest) {
   const emoji = rating === "positive" ? "👍" : "👎";
   const title = `Feedback: ${emoji} ${pagePath}`;
   const labels = ["feedback", `feedback:${rating}`];
-  const issueBody = [
+  const issueBodyParts = [
     `**Page:** ${pagePath}`,
     `**Rating:** ${rating}`,
     `**Timestamp:** ${new Date().toISOString()}`,
     "",
     comment ? `**Comment:**\n\n${comment}` : "*No comment provided*",
-  ].join("\n");
+  ];
+
+  if (imageUrl) {
+    issueBodyParts.push("", `**Screenshot:**\n\n![Screenshot](${imageUrl})`);
+  }
+
+  const issueBody = issueBodyParts.join("\n");
 
   try {
     const response = await fetch(
@@ -169,7 +192,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return NextResponse.json({ success: true });
+    const issue = (await response.json()) as { html_url: string };
+    return NextResponse.json({ success: true, issueUrl: issue.html_url });
   } catch (error) {
     console.error("Failed to create GitHub issue:", error);
     return NextResponse.json(
