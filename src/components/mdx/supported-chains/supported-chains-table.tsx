@@ -42,20 +42,35 @@ function ChainRows({
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border bg-muted">
-                <th className="px-4 py-2.5 text-left text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                <th
+                  scope="col"
+                  className="px-4 py-2.5 text-left text-xs font-medium tracking-wide text-muted-foreground uppercase"
+                >
                   Network
                 </th>
-                <th className="px-4 py-2.5 text-left text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                <th
+                  scope="col"
+                  className="px-4 py-2.5 text-left text-xs font-medium tracking-wide text-muted-foreground uppercase"
+                >
                   Chain ID
                 </th>
-                <th className="px-4 py-2.5 text-left text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                <th
+                  scope="col"
+                  className="px-4 py-2.5 text-left text-xs font-medium tracking-wide text-muted-foreground uppercase"
+                >
                   Native
                 </th>
-                <th className="px-4 py-2.5 text-left text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                <th
+                  scope="col"
+                  className="px-4 py-2.5 text-left text-xs font-medium tracking-wide text-muted-foreground uppercase"
+                >
                   Supported Tokens
                 </th>
                 {showSwaps && (
-                  <th className="px-4 py-2.5 text-right text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                  <th
+                    scope="col"
+                    className="px-4 py-2.5 text-right text-xs font-medium tracking-wide text-muted-foreground uppercase"
+                  >
                     Swaps
                   </th>
                 )}
@@ -183,13 +198,22 @@ function TokenReferenceTable() {
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-border bg-muted">
-            <th className="px-4 py-2.5 text-left text-xs font-medium tracking-wide text-muted-foreground uppercase">
+            <th
+              scope="col"
+              className="px-4 py-2.5 text-left text-xs font-medium tracking-wide text-muted-foreground uppercase"
+            >
               Token
             </th>
-            <th className="px-4 py-2.5 text-left text-xs font-medium tracking-wide text-muted-foreground uppercase">
+            <th
+              scope="col"
+              className="px-4 py-2.5 text-left text-xs font-medium tracking-wide text-muted-foreground uppercase"
+            >
               Name
             </th>
-            <th className="px-4 py-2.5 text-right text-xs font-medium tracking-wide text-muted-foreground uppercase">
+            <th
+              scope="col"
+              className="px-4 py-2.5 text-right text-xs font-medium tracking-wide text-muted-foreground uppercase"
+            >
               Decimals
             </th>
           </tr>

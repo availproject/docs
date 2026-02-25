@@ -120,18 +120,18 @@ export const vaultTestnet: VaultEntry[] = [
 // --- USDC ---
 
 export const usdcMainnet: TokenEntry[] = [
-  { chain: "Ethereum", address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48" },
+  { chain: "Ethereum", address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48" },
   { chain: "Base", address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913" },
-  { chain: "Polygon", address: "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359" },
+  { chain: "Polygon", address: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359" },
   {
     chain: "Arbitrum One",
-    address: "0xaf88d065e77c8cc2239327c5edb3a432268e5831",
+    address: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
   },
-  { chain: "Optimism", address: "0x0b2c639c533813f4aa9d7837caf62653d097ff85" },
-  { chain: "Scroll", address: "0x06efdbff2a14a7c8e15944d1f4a48f9f95f663a4" },
+  { chain: "Optimism", address: "0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85" },
+  { chain: "Scroll", address: "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4" },
   {
     chain: "Avalanche C-Chain",
-    address: "0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
+    address: "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
   },
   { chain: "BNB Chain", address: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d" },
   {
@@ -176,18 +176,18 @@ export const usdcTestnet: TokenEntry[] = [
 // --- USDT ---
 
 export const usdtMainnet: TokenEntry[] = [
-  { chain: "Ethereum", address: "0xdac17f958d2ee523a2206206994597c13d831ec7" },
-  { chain: "Polygon", address: "0xc2132d05d31c914a87c6611c10748aeb04b58e8f" },
+  { chain: "Ethereum", address: "0xdAC17F958D2ee523a2206206994597C13D831ec7" },
+  { chain: "Polygon", address: "0xc2132D05D31c914a87C6611C10748AEb04B58e8F" },
   {
     chain: "Arbitrum One",
-    address: "0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9",
+    address: "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
   },
-  { chain: "Kaia", address: "0xd077a400968890eacc75cdc901f0356c943e4fdb" },
-  { chain: "Optimism", address: "0x94b008aa00579c1307b0ef2c499ad98a8ce58e58" },
-  { chain: "Scroll", address: "0xf55bec9cafdbe8730f096aa55dad6d22d44099df" },
+  { chain: "Kaia", address: "0xd077A400968890Eacc75cdc901F0356c943e4fDb" },
+  { chain: "Optimism", address: "0x94b008aA00579c1307B0EF2c499aD98a8ce58e58" },
+  { chain: "Scroll", address: "0xf55BEC9cafDbE8730f096Aa55dad6D22d44099Df" },
   {
     chain: "Avalanche C-Chain",
-    address: "0x9702230a8ea53601f5cd2dc00fdbc13d4df4a8c7",
+    address: "0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7",
   },
   { chain: "BNB Chain", address: "0x55d398326f99059fF775485246999027B3197955" },
   {

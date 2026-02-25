@@ -49,21 +49,25 @@ export function Feedback({ className }: FeedbackProps) {
     });
   };
 
-  const addImage = useCallback((file: File) => {
-    setImageError(null);
+  const addImage = useCallback(
+    (file: File) => {
+      setImageError(null);
 
-    if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
-      setImageError("Only PNG, JPEG, GIF, and WebP images are supported.");
-      return;
-    }
-    if (file.size > MAX_IMAGE_SIZE) {
-      setImageError("Image must be under 5 MB.");
-      return;
-    }
+      if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+        setImageError("Only PNG, JPEG, GIF, and WebP images are supported.");
+        return;
+      }
+      if (file.size > MAX_IMAGE_SIZE) {
+        setImageError("Image must be under 5 MB.");
+        return;
+      }
 
-    setPastedImage(file);
-    setPreviewUrl(URL.createObjectURL(file));
-  }, []);
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      setPastedImage(file);
+      setPreviewUrl(URL.createObjectURL(file));
+    },
+    [previewUrl],
+  );
 
   const removeImage = useCallback(() => {
     if (previewUrl) URL.revokeObjectURL(previewUrl);
@@ -121,19 +125,18 @@ export function Feedback({ className }: FeedbackProps) {
       const data = (await res.json()) as { issueUrl?: string };
       setIssueUrl(data.issueUrl ?? null);
       setState("submitted");
+      trackEvent("feedback_submitted", {
+        rating,
+        has_comment: feedbackText.length > 0,
+        comment_length: feedbackText.length,
+        has_image: !!pastedImage,
+      });
     } catch (error) {
       console.error("Failed to submit feedback:", error);
       setState("error");
+    } finally {
+      setIsSubmitting(false);
     }
-
-    trackEvent("feedback_submitted", {
-      rating,
-      has_comment: feedbackText.length > 0,
-      comment_length: feedbackText.length,
-      has_image: !!pastedImage,
-    });
-
-    setIsSubmitting(false);
   };
 
   if (state === "submitted") {
@@ -162,9 +165,19 @@ export function Feedback({ className }: FeedbackProps) {
   if (state === "error") {
     return (
       <div className={cn("flex items-center gap-8", className)}>
-        <p className="body-16 text-muted-foreground">
-          Something went wrong. Please try again later.
-        </p>
+        <p className="body-16 text-muted-foreground">Something went wrong.</p>
+        <button
+          type="button"
+          onClick={() => setState("idle")}
+          className={cn(
+            "flex items-center justify-center gap-2 h-10 px-4",
+            "border border-border bg-card",
+            "shadow-sm",
+            "hover:bg-card-header-background transition-colors",
+          )}
+        >
+          <span className="ui-14 text-foreground">Try again</span>
+        </button>
       </div>
     );
   }
@@ -227,6 +240,7 @@ export function Feedback({ className }: FeedbackProps) {
           {/* Textarea */}
           <textarea
             ref={textareaRef}
+            aria-label="Feedback comment"
             value={feedbackText}
             onChange={(e) => setFeedbackText(e.target.value)}
             onPaste={handlePaste}
@@ -247,14 +261,16 @@ export function Feedback({ className }: FeedbackProps) {
           {/* Image preview */}
           {previewUrl && (
             <div className="relative inline-block">
+              {/* biome-ignore lint/performance/noImgElement: blob URL preview incompatible with next/image */}
               <img
                 src={previewUrl}
                 alt="Screenshot preview"
-                className="h-16 w-auto border border-card-border object-cover"
+                className="h-16 w-auto max-w-full border border-card-border object-cover"
               />
               <button
                 type="button"
                 onClick={removeImage}
+                aria-label="Remove screenshot"
                 className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center bg-foreground text-background rounded-full"
               >
                 <X size={12} weight="bold" />

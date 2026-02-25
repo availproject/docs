@@ -38,13 +38,22 @@ function VaultRows({ entries }: { entries: VaultEntry[] }) {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border bg-muted">
-                <th className="px-4 py-2.5 text-left text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                <th
+                  scope="col"
+                  className="px-4 py-2.5 text-left text-xs font-medium tracking-wide text-muted-foreground uppercase"
+                >
                   Chain
                 </th>
-                <th className="px-4 py-2.5 text-left text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                <th
+                  scope="col"
+                  className="px-4 py-2.5 text-left text-xs font-medium tracking-wide text-muted-foreground uppercase"
+                >
                   Chain ID
                 </th>
-                <th className="px-4 py-2.5 text-left text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                <th
+                  scope="col"
+                  className="px-4 py-2.5 text-left text-xs font-medium tracking-wide text-muted-foreground uppercase"
+                >
                   Vault Contract Address
                 </th>
               </tr>
@@ -103,10 +112,16 @@ function TokenRows({ entries }: { entries: TokenEntry[] }) {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border bg-muted">
-                <th className="px-4 py-2.5 text-left text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                <th
+                  scope="col"
+                  className="px-4 py-2.5 text-left text-xs font-medium tracking-wide text-muted-foreground uppercase"
+                >
                   Chain
                 </th>
-                <th className="px-4 py-2.5 text-left text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                <th
+                  scope="col"
+                  className="px-4 py-2.5 text-left text-xs font-medium tracking-wide text-muted-foreground uppercase"
+                >
                   Contract Address
                 </th>
               </tr>

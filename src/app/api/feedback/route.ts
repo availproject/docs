@@ -1,41 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-
-// --- Rate limiting ---
-
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
-const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour
-const RATE_LIMIT_MAX = 10;
-let requestsSinceCleanup = 0;
-
-function getClientIp(request: NextRequest): string {
-  return (
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    request.headers.get("x-real-ip") ||
-    "unknown"
-  );
-}
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const entry = rateLimitMap.get(ip);
-
-  // Lazy cleanup every 100 requests
-  requestsSinceCleanup++;
-  if (requestsSinceCleanup >= 100) {
-    requestsSinceCleanup = 0;
-    for (const [key, value] of rateLimitMap) {
-      if (now > value.resetAt) rateLimitMap.delete(key);
-    }
-  }
-
-  if (!entry || now > entry.resetAt) {
-    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
-    return false;
-  }
-
-  entry.count++;
-  return entry.count > RATE_LIMIT_MAX;
-}
+import { getClientIp, isRateLimited } from "./rate-limit";
 
 // --- Validation ---
 
@@ -85,10 +49,18 @@ function validatePayload(
   }
 
   if (imageUrl !== undefined && imageUrl !== null) {
-    if (
-      typeof imageUrl !== "string" ||
-      !imageUrl.includes(".public.blob.vercel-storage.com")
-    ) {
+    if (typeof imageUrl !== "string") {
+      return { valid: false, error: "imageUrl must be a valid blob URL" };
+    }
+    try {
+      const parsed = new URL(imageUrl);
+      if (
+        parsed.protocol !== "https:" ||
+        !parsed.hostname.endsWith(".public.blob.vercel-storage.com")
+      ) {
+        return { valid: false, error: "imageUrl must be a valid blob URL" };
+      }
+    } catch {
       return { valid: false, error: "imageUrl must be a valid blob URL" };
     }
   }

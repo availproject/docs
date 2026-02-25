@@ -211,7 +211,7 @@ export const mdxComponents: MDXComponentsMap = {
   ),
   // Tables
   table: ({ className, ...props }: React.ComponentProps<"table">) => (
-    <div className="overflow-hidden border border-border my-6">
+    <div className="overflow-x-auto border border-border my-6">
       <table
         className={cn(
           "w-full text-sm border-collapse [&_strong]:font-normal [&_a]:text-muted-foreground [&_a]:decoration-muted-foreground/30 [&_a]:font-normal [&_a:hover]:text-brand",
@@ -229,6 +229,7 @@ export const mdxComponents: MDXComponentsMap = {
   ),
   th: ({ className, ...props }: React.ComponentProps<"th">) => (
     <th
+      scope="col"
       className={cn(
         "text-left px-4 py-2.5 font-medium text-muted-foreground text-xs uppercase tracking-wide",
         className,
