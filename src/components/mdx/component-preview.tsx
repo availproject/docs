@@ -9,7 +9,6 @@ type ComponentPreviewProps = React.ComponentProps<"div"> & {
   styleName?: "nexus-elements";
   align?: "center" | "start" | "end";
   hideCode?: boolean;
-  chromeLessOnMobile?: boolean;
   showAllFiles?: boolean;
 };
 
@@ -33,7 +32,6 @@ export function ComponentPreview({
   className,
   align = "center",
   hideCode = false,
-  chromeLessOnMobile = false,
   showAllFiles = true,
   ...props
 }: ComponentPreviewProps) {
@@ -68,7 +66,6 @@ export function ComponentPreview({
           showAllFiles={showAllFiles}
         />
       }
-      chromeLessOnMobile={chromeLessOnMobile}
       {...props}
     />
   );

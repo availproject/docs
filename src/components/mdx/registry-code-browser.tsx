@@ -74,8 +74,7 @@ export function RegistryCodeBrowser({
   componentFiles: RegistryProcessedFile[];
   providerFiles?: RegistryProcessedFile[];
 }) {
-  const [tab, _setTab] = React.useState<"component" | "provider">("component");
-  const files = tab === "component" ? componentFiles : (providerFiles ?? []);
+  const files = componentFiles;
   const [idx, setIdx] = React.useState(0);
   const { trackEvent } = useAnalytics();
 
@@ -102,7 +101,7 @@ export function RegistryCodeBrowser({
     >
       <figcaption
         data-rehype-pretty-code-title=""
-        className="flex items-center gap-3 [&_svg]:size-4 [&_svg]:opacity-70"
+        className="text-code-foreground [&_svg]:text-code-foreground flex items-center gap-3 [&_svg]:size-4 [&_svg]:opacity-70"
         data-language={current?.language}
       >
         {current && <LanguageIcon language={current.language} />}
