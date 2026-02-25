@@ -174,7 +174,10 @@ function ComponentCode({
   title: string | undefined;
 }) {
   return (
-    <figure data-rehype-pretty-code-figure="" className="[&>pre]:max-h-96">
+    <figure
+      data-rehype-pretty-code-figure=""
+      className="[&_pre]:min-w-0 [&_pre]:overflow-x-auto [&_pre]:max-h-96"
+    >
       {title && (
         <figcaption
           data-rehype-pretty-code-title=""
