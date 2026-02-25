@@ -1,13 +1,13 @@
 ---
 title: Installation
-description: Install Nexus Elements packages and dependencies in your project.
+description: Install Nexus UI Elements packages and dependencies in your project.
 ---
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SquareArrowUpRight } from "lucide-react";
 
-In this guide, you will install the required dependencies and add your first Nexus Elements component to an existing React project. By the end, your project will be ready for the provider setup in the next step.
+In this guide, you will install the required dependencies and add your first Nexus UI Elements component to an existing React project. By the end, your project will be ready for the provider setup in the next step.
 
 ## Prerequisites
 
@@ -19,12 +19,12 @@ Before you begin, make sure your project meets the following requirements:
 - **Node.js 18+** and a package manager (npm, pnpm, or yarn)
 
 <Callout type="info" title="Why wagmi?">
-Nexus Elements needs access to the user's connected wallet provider to sign transactions. The library is designed to work with wagmi's hooks, but any EIP-1193 compatible provider will work.
+Nexus UI Elements needs access to the user's connected wallet provider to sign transactions. The library is designed to work with wagmi's hooks, but any EIP-1193 compatible provider will work.
 </Callout>
 
 ## Step 1 — Install shadcn/ui
 
-Nexus Elements is built on [shadcn/ui](https://ui.shadcn.com) primitives. If your project doesn't have shadcn/ui set up yet, follow the official installation guide first.
+Nexus UI Elements is built on [shadcn/ui](https://ui.shadcn.com) primitives. If your project doesn't have shadcn/ui set up yet, follow the official installation guide first.
 
 <Button
   asChild
@@ -47,9 +47,9 @@ Nexus Elements is built on [shadcn/ui](https://ui.shadcn.com) primitives. If you
 If shadcn/ui is already configured in your project, skip this step and proceed directly to installing your first component below.
 </Callout>
 
-## Step 2 — Add a Nexus Elements component
+## Step 2 — Add a Nexus UI Elements component
 
-With shadcn/ui configured, you can now install any Nexus Elements component using the CLI. Each component is a self-contained package that brings in its own dependencies and source files.
+With shadcn/ui configured, you can now install any Nexus UI Elements component using the CLI. Each component is a self-contained package that brings in its own dependencies and source files.
 
 Run the following command to install a component — here we use `unified-balance` as an example:
 
@@ -86,7 +86,7 @@ ls src/components/nexus/
 You should see the component files along with a `NexusProvider.tsx` file that was automatically scaffolded. This provider is essential — you will configure it in the next step.
 
 <Callout type="info" title="What's the NexusProvider?">
-The `NexusProvider` is a React context provider that initializes the Nexus SDK and makes it available to all Nexus Elements components in your app. No component will function without it.
+The `NexusProvider` is a React context provider that initializes the Nexus SDK and makes it available to all Nexus UI Elements components in your app. No component will function without it.
 </Callout>
 
 ## Next step

@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
-import type { AssetSelectionState } from "../types";
 import type { UserAsset } from "@avail-project/nexus-core";
+import { useCallback, useEffect, useState } from "react";
+import type { AssetSelectionState } from "../types";
 
 /**
  * Creates fresh initial asset selection state
@@ -51,7 +51,7 @@ export function useAssetSelection(swapBalance: UserAsset[] | null) {
     (update: Partial<AssetSelectionState>) => {
       setAssetSelectionState((prev) => ({ ...prev, ...update }));
     },
-    []
+    [],
   );
 
   const resetAssetSelection = useCallback(() => {

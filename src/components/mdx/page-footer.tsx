@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { CaretLeft, CaretRight } from "@phosphor-icons/react";
+import Link from "next/link";
+import { useAnalytics } from "@/hooks/use-analytics";
 import { cn } from "@/lib/utils";
 import { Feedback } from "./feedback";
-import { useAnalytics } from "@/hooks/use-analytics";
 
 interface PageFooterNavItemProps {
   title: string;
@@ -29,13 +29,13 @@ function PageFooterNavItem({
       onClick={onNavigate}
       className={cn(
         "group flex flex-1 flex-col gap-4 border border-card-border bg-card p-4 transition-colors hover:bg-card-header-background",
-        isPrevious ? "items-start" : "items-end"
+        isPrevious ? "items-start" : "items-end",
       )}
     >
       <div
         className={cn(
           "flex w-full items-center gap-1",
-          isPrevious ? "justify-start" : "justify-end"
+          isPrevious ? "justify-start" : "justify-end",
         )}
       >
         {isPrevious && (
@@ -50,7 +50,7 @@ function PageFooterNavItem({
         <p
           className={cn(
             "w-full text-sm leading-[22px] text-muted-foreground",
-            !isPrevious && "text-right line-clamp-1"
+            !isPrevious && "text-right line-clamp-1",
           )}
         >
           {description}
@@ -86,7 +86,7 @@ export function PageFooter({
   const handleNavClick = (
     direction: "previous" | "next",
     destinationPath: string,
-    destinationTitle: string
+    destinationTitle: string,
   ) => {
     trackEvent("nav_footer_link_clicked", {
       direction,
@@ -134,9 +134,7 @@ export function PageFooter({
                 description={next.description}
                 href={next.href}
                 direction="next"
-                onNavigate={() =>
-                  handleNavClick("next", next.href, next.title)
-                }
+                onNavigate={() => handleNavClick("next", next.href, next.title)}
               />
             )}
           </div>

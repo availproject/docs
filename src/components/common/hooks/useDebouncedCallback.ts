@@ -15,7 +15,7 @@ export interface Debounced<T extends AnyFn> {
  */
 export function useDebouncedCallback<T extends AnyFn>(
   fn: T,
-  delay: number
+  delay: number,
 ): Debounced<T> {
   const latest = useStableCallback(fn);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -32,7 +32,7 @@ export function useDebouncedCallback<T extends AnyFn>(
     if (timerRef.current && lastArgsRef.current) {
       clearTimeout(timerRef.current);
       timerRef.current = null;
-       
+
       latest(...lastArgsRef.current);
       lastArgsRef.current = null;
     }
@@ -46,7 +46,6 @@ export function useDebouncedCallback<T extends AnyFn>(
       lastArgsRef.current = args;
       cancel();
       timerRef.current = setTimeout(() => {
-         
         latest(...lastArgsRef.current!);
         lastArgsRef.current = null;
         timerRef.current = null;

@@ -10,7 +10,7 @@ import { useStableCallback } from "./useStableCallback";
 export function usePolling(
   enabled: boolean,
   fn: () => Promise<void> | void,
-  intervalMs: number
+  intervalMs: number,
 ) {
   const inFlightRef = useRef(false);
   const wrapped = useStableCallback(async () => {

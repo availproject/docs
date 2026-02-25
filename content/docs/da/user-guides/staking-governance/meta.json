@@ -1,7 +1,3 @@
 {
-  "pages": [
-    "overview",
-    "stake-on-avail",
-    "governance-on-avail"
-  ]
+  "pages": ["overview", "stake-on-avail", "governance-on-avail"]
 }

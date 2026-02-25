@@ -13,7 +13,7 @@ interface UseIntervalOptions {
 export function useInterval(
   callback: () => void,
   delay: number | null,
-  options: UseIntervalOptions = {}
+  options: UseIntervalOptions = {},
 ) {
   const { enabled = true, immediate = false } = options;
   const savedCallback = useStableCallback(callback);

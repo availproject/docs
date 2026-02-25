@@ -1,14 +1,14 @@
 "use client";
-import { type FC, useMemo, useState } from "react";
-import { Button } from "../../ui/button";
-import { useNexus } from "../../nexus/NexusProvider";
 import {
-  type UserAsset,
-  type SUPPORTED_CHAINS_IDS,
   CHAIN_METADATA,
+  type SUPPORTED_CHAINS_IDS,
+  type UserAsset,
 } from "@avail-project/nexus-core";
-import { TOKEN_IMAGES } from "../config/destination";
 import { Link2, Loader2, Search, X } from "lucide-react";
+import { type FC, useMemo, useState } from "react";
+import { SHORT_CHAIN_NAME } from "../../common";
+import { useNexus } from "../../nexus/NexusProvider";
+import { Button } from "../../ui/button";
 import { DialogClose } from "../../ui/dialog";
 import {
   Select,
@@ -17,9 +17,9 @@ import {
   SelectItem,
   SelectTrigger,
 } from "../../ui/select";
+import { TOKEN_IMAGES } from "../config/destination";
+import type { SourceTokenInfo } from "../hooks/useSwaps";
 import { TokenIcon } from "./token-icon";
-import { SHORT_CHAIN_NAME } from "../../common";
-import { type SourceTokenInfo } from "../hooks/useSwaps";
 
 interface SourceAssetSelectProps {
   onSelect: (chainId: SUPPORTED_CHAINS_IDS, token: SourceTokenInfo) => void;
@@ -78,7 +78,7 @@ const SourceAssetSelect: FC<SourceAssetSelectProps> = ({
     if (!swapSupportedChainsAndTokens || !allTokens.length) return [];
     const chainIdsWithTokens = new Set(allTokens.map((t) => t.chainId));
     return swapSupportedChainsAndTokens.filter((c) =>
-      chainIdsWithTokens.has(c.id)
+      chainIdsWithTokens.has(c.id),
     );
   }, [swapSupportedChainsAndTokens, allTokens]);
 
@@ -98,7 +98,7 @@ const SourceAssetSelect: FC<SourceAssetSelectProps> = ({
         (t) =>
           t.symbol.toLowerCase().includes(query) ||
           t.name.toLowerCase().includes(query) ||
-          t.contractAddress.toLowerCase().includes(query)
+          t.contractAddress.toLowerCase().includes(query),
       );
     }
 
@@ -127,7 +127,7 @@ const SourceAssetSelect: FC<SourceAssetSelectProps> = ({
         value={tempChain?.name}
         onValueChange={(value) => {
           const matchedChain = chainsWithTokens.find(
-            (chain) => chain.name === value
+            (chain) => chain.name === value,
           );
           if (matchedChain) {
             setTempChain(matchedChain);

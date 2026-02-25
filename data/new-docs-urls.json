@@ -857,7 +857,7 @@
   },
   {
     "path": "/docs/nexus/nexus-sdk/nexus-elements",
-    "title": "Nexus Elements Reference",
+    "title": "Nexus UI Elements Reference",
     "filePath": "content/docs/nexus/nexus-sdk/nexus-elements/index.mdx"
   },
   {
@@ -941,8 +941,8 @@
   },
   {
     "path": "/docs/nexus/nexus-ui-elements",
-    "title": "Nexus Elements",
-    "description": "Install and configure Nexus Elements in your React project. Prebuilt components with full Nexus SDK integration, perfect for plug-and-play.",
+    "title": "Nexus UI Elements",
+    "description": "Install and configure Nexus UI Elements in your React project. Prebuilt components with full Nexus SDK integration, perfect for plug-and-play.",
     "filePath": "content/docs/nexus/nexus-ui-elements/index.mdx"
   },
   {
@@ -984,19 +984,19 @@
   {
     "path": "/docs/nexus/nexus-ui-elements/get-started/installation",
     "title": "Installation",
-    "description": "Install Nexus Elements packages and dependencies in your project.",
+    "description": "Install Nexus UI Elements packages and dependencies in your project.",
     "filePath": "content/docs/nexus/nexus-ui-elements/get-started/installation/index.mdx"
   },
   {
     "path": "/docs/nexus/nexus-ui-elements/get-started/nexus-provider-setup",
     "title": "NexusProvider Setup",
-    "description": "Wrap your application with the NexusProvider to enable Nexus Elements components.",
+    "description": "Wrap your application with the NexusProvider to enable Nexus UI Elements components.",
     "filePath": "content/docs/nexus/nexus-ui-elements/get-started/nexus-provider-setup/index.mdx"
   },
   {
     "path": "/docs/nexus/nexus-ui-elements/get-started/your-first-component",
     "title": "Your First Component",
-    "description": "Render your first Nexus Elements component and understand how props and callbacks work.",
+    "description": "Render your first Nexus UI Elements component and understand how props and callbacks work.",
     "filePath": "content/docs/nexus/nexus-ui-elements/get-started/your-first-component/index.mdx"
   },
   {
@@ -1008,7 +1008,7 @@
   {
     "path": "/docs/nexus/nexus-ui-elements/quickstart",
     "title": "Quickstart",
-    "description": "Scaffold a working Nexus Elements app in under two minutes with create-liquid-apps.",
+    "description": "Scaffold a working Nexus UI Elements app in under two minutes with create-liquid-apps.",
     "filePath": "content/docs/nexus/nexus-ui-elements/quickstart/index.mdx"
   },
   {

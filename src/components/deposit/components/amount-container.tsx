@@ -1,14 +1,14 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
-import WidgetHeader from "./widget-header";
-import type { DepositWidgetContextValue } from "../types";
-import AmountCard from "./amount-card";
-import PayUsing from "./pay-using";
-import { ErrorBanner } from "./error-banner";
 import { Button } from "../../ui/button";
 import { CardContent } from "../../ui/card";
 import { Skeleton } from "../../ui/skeleton";
+import type { DepositWidgetContextValue } from "../types";
+import AmountCard from "./amount-card";
+import { ErrorBanner } from "./error-banner";
+import PayUsing from "./pay-using";
+import WidgetHeader from "./widget-header";
 
 interface AmountContainerProps {
   widget: DepositWidgetContextValue;

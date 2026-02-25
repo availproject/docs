@@ -287,76 +287,6 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
     return null;
   };
 
-  // Render top-level items
-  const renderTopLevel = () => {
-    return displayTree.children.map((item, index) => {
-      if (item.type === "page") {
-        const isActive = pathname === item.url;
-        return (
-          <SidebarItem
-            key={item.$id ?? item.url}
-            item={item}
-            isActive={isActive}
-            onNavigate={handleNavigation}
-          />
-        );
-      }
-
-      if (item.type === "folder") {
-        const folderId = item.$id ?? `folder-${index}`;
-        const hasChildren = item.children.length > 0;
-        const isActive = item.index ? pathname === item.index.url : false;
-        const shouldExpand = isNodeActive(item);
-
-        if (!hasChildren && item.index) {
-          return (
-            <SidebarItem
-              key={folderId}
-              item={item.index}
-              isActive={isActive}
-              onNavigate={handleNavigation}
-            />
-          );
-        }
-
-        const firstChildUrl =
-          item.children[0]?.type === "page"
-            ? item.children[0].url
-            : item.children[0]?.type === "folder"
-              ? item.children[0].index?.url
-              : undefined;
-        const folderHref = item.index?.url ?? firstChildUrl;
-
-        return (
-          <SidebarFolder
-            key={folderId}
-            name={item.name?.toString() ?? ""}
-            defaultExpanded={shouldExpand}
-            isActive={isActive}
-            href={folderHref}
-            onToggle={handleFolderToggle}
-            onNavigate={handleNavigation}
-          >
-            {item.children.map((child) => renderNode(child, 1))}
-          </SidebarFolder>
-        );
-      }
-
-      if (item.type === "separator") {
-        return (
-          <div
-            key={item.$id ?? `sep-${index}`}
-            className="px-4 pt-6 pb-2 text-xs font-semibold uppercase tracking-wider text-sidebar-item-foreground"
-          >
-            {item.name}
-          </div>
-        );
-      }
-
-      return null;
-    });
-  };
-
   return (
     <Sidebar
       className="w-75 flex-col justify-between overflow-hidden bg-sidebar-background border-r border-border p-6 ui-16"
@@ -366,7 +296,7 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
     >
       <SidebarContent className="no-scrollbar flex-1 overflow-y-auto overflow-x-hidden">
         <div className="flex flex-col gap-1 min-w-0 pt-4">
-          {renderTopLevel()}
+          {displayTree.children.map((node) => renderNode(node, 0))}
         </div>
       </SidebarContent>
     </Sidebar>

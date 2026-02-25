@@ -1,25 +1,25 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { cn } from "./utils";
-import { useDepositWidget } from "./hooks/use-deposit-widget";
-import {
-  AmountContainer,
-  ConfirmationContainer,
-  TransactionStatusContainer,
-  TransactionCompleteContainer,
-  TransactionFailedContainer,
-  AssetSelectionContainer,
-} from "./components";
-import type {
-  WidgetStep,
-  DepositWidgetProps,
-  NavigationDirection,
-} from "./types";
+import { useCallback, useState } from "react";
+import { WidgetErrorBoundary } from "../common";
+import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
-import { Button } from "../ui/button";
-import { WidgetErrorBoundary } from "../common";
+import {
+  AmountContainer,
+  AssetSelectionContainer,
+  ConfirmationContainer,
+  TransactionCompleteContainer,
+  TransactionFailedContainer,
+  TransactionStatusContainer,
+} from "./components";
+import { useDepositWidget } from "./hooks/use-deposit-widget";
+import type {
+  DepositWidgetProps,
+  NavigationDirection,
+  WidgetStep,
+} from "./types";
+import { cn } from "./utils";
 
 const ANIMATION_CLASSES: Record<NonNullable<NavigationDirection>, string> = {
   forward: "animate-slide-in-from-right",
@@ -165,19 +165,19 @@ const NexusDeposit = ({
 
 export default NexusDeposit;
 
+export { useDepositWidget } from "./hooks/use-deposit-widget";
 // Re-export types and hooks for consumers
 export type {
-  WidgetStep,
+  AssetFilterType,
+  AssetSelectionState,
+  BaseDepositWidgetProps,
+  DepositInputs,
   DepositWidgetContextValue,
   DepositWidgetProps,
-  BaseDepositWidgetProps,
   DestinationConfig,
   ExecuteDepositParams,
   ExecuteDepositResult,
-  UseDepositWidgetProps,
   TransactionStatus,
-  AssetFilterType,
-  DepositInputs,
-  AssetSelectionState,
+  UseDepositWidgetProps,
+  WidgetStep,
 } from "./types";
-export { useDepositWidget } from "./hooks/use-deposit-widget";

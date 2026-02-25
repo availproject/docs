@@ -1,15 +1,14 @@
-import React from "react";
 import dynamic from "next/dynamic";
-import { ComponentSource } from "./component-source";
-import { ComponentPreviewTabs } from "./component-preview-tabs";
+import type React from "react";
 import { Skeleton } from "../ui/skeleton";
+import { ComponentPreviewTabs } from "./component-preview-tabs";
+import { ComponentSource } from "./component-source";
 
 type ComponentPreviewProps = React.ComponentProps<"div"> & {
   name: string;
   styleName?: "nexus-elements";
   align?: "center" | "start" | "end";
   hideCode?: boolean;
-  chromeLessOnMobile?: boolean;
   showAllFiles?: boolean;
 };
 
@@ -33,7 +32,6 @@ export function ComponentPreview({
   className,
   align = "center",
   hideCode = false,
-  chromeLessOnMobile = false,
   showAllFiles = true,
   ...props
 }: ComponentPreviewProps) {
@@ -68,7 +66,6 @@ export function ComponentPreview({
           showAllFiles={showAllFiles}
         />
       }
-      chromeLessOnMobile={chromeLessOnMobile}
       {...props}
     />
   );

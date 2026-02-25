@@ -1,6 +1,6 @@
-import { type RFF } from "@avail-project/nexus-core";
-import { useNexus } from "../../nexus/NexusProvider";
+import type { RFF } from "@avail-project/nexus-core";
 import { useCallback, useEffect, useState } from "react";
+import { useNexus } from "../../nexus/NexusProvider";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -82,7 +82,7 @@ const useViewHistory = () => {
           loadMore();
         }
       },
-      { threshold: 0.1, root: rootElement ?? null }
+      { threshold: 0.1, root: rootElement ?? null },
     );
 
     observer.observe(sentinelNode);

@@ -5,11 +5,11 @@ links:
   doc: https://ui.shadcn.com/docs/mcp
 ---
 
-The shadcn MCP Server lets Cursor (and other MCP-compatible IDEs) talk directly to your Nexus Elements registry so you can browse, search, and install UI packages with natural language. Detailed platform-agnostic docs live at [ui.shadcn.com/docs/mcp](https://ui.shadcn.com/docs/mcp), but this page focuses on the Nexus Elements setup.
+The shadcn MCP Server lets Cursor (and other MCP-compatible IDEs) talk directly to your Nexus UI Elements registry so you can browse, search, and install UI packages with natural language. Detailed platform-agnostic docs live at [ui.shadcn.com/docs/mcp](https://ui.shadcn.com/docs/mcp), but this page focuses on the Nexus UI Elements setup.
 
 ## Nexus Registry Setup
 
-Add the Nexus Elements registry to your local `components.json`. This gives any MCP client access to the published components.
+Add the Nexus UI Elements registry to your local `components.json`. This gives any MCP client access to the published components.
 
 ```json title="components.json" showLineNumbers
 {
@@ -23,7 +23,7 @@ Add the Nexus Elements registry to your local `components.json`. This gives any 
 
 ## Quick Start
 
-Select your MCP client and run the matching init command. Once the server is connected, the prompts below will install Nexus Elements components straight from the registry.
+Select your MCP client and run the matching init command. Once the server is connected, the prompts below will install Nexus UI Elements components straight from the registry.
 
 <Tabs defaultValue="cursor">
   <TabsList>
@@ -119,7 +119,7 @@ args = ["shadcn@latest", "mcp"]
 ## Supported Registries
 
 - **shadcn/ui registry** – ships with every MCP install for the canonical set of components.
-- **Nexus Elements registry** – `@nexus-elements` namespace for the Avail-specific UI kit.
+- **Nexus UI Elements registry** – `@nexus-elements` namespace for the Avail-specific UI kit.
 - **Third-party registries** – any endpoint that follows the shadcn spec.
 - **Private registries** – internal libraries with optional auth headers or tokens.
 

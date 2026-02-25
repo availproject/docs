@@ -1,17 +1,17 @@
-import fs from "fs/promises";
-import path from "path";
-import * as React from "react";
-import { cn } from "@/lib/utils";
-import { CopyButton } from "@/components/helpers/copy-button";
-import { CodeCollapsibleWrapper } from "./code-collapsible-wrapper";
-import { highlightCode } from "@/lib/highlight-code";
+import fs from "node:fs/promises";
+import path from "node:path";
 import { Code, File, FileText, Terminal } from "@phosphor-icons/react/ssr";
+import type * as React from "react";
+import { CopyButton } from "@/components/helpers/copy-button";
+import { highlightCode } from "@/lib/highlight-code";
+import { cn } from "@/lib/utils";
+import { CodeCollapsibleWrapper } from "./code-collapsible-wrapper";
 import {
   RegistryCodeBrowser,
   type RegistryProcessedFile,
 } from "./registry-code-browser";
 export const STYLES = [
-  { name: "nexus-elements" as const, title: "Nexus Elements" },
+  { name: "nexus-elements" as const, title: "Nexus UI Elements" },
 ] as const;
 export type Style = (typeof STYLES)[number];
 
@@ -27,7 +27,7 @@ type RegistryItem = {
 };
 
 export async function getRegistryItem(
-  name: string
+  name: string,
 ): Promise<RegistryItem | null> {
   try {
     const response = await fetch(`${REGISTRY_BASE_URL}/${name}.json`, {
@@ -97,7 +97,7 @@ export async function ComponentSource({
         const ext = f.path.split(".").pop() ?? "tsx";
         const highlighted = await highlightCode(fileCode, ext);
         return { path: f.path, code: fileCode, highlighted, language: ext };
-      })
+      }),
     );
 
     // Load provider files if available
@@ -112,7 +112,7 @@ export async function ComponentSource({
         const ext = f.path.split(".").pop() ?? "tsx";
         const highlighted = await highlightCode(fileCode, ext);
         return { path: f.path, code: fileCode, highlighted, language: ext };
-      })
+      }),
     );
 
     return (
@@ -174,7 +174,10 @@ function ComponentCode({
   title: string | undefined;
 }) {
   return (
-    <figure data-rehype-pretty-code-figure="" className="[&>pre]:max-h-96">
+    <figure
+      data-rehype-pretty-code-figure=""
+      className="[&_pre]:min-w-0 [&_pre]:overflow-x-auto [&_pre]:max-h-96"
+    >
       {title && (
         <figcaption
           data-rehype-pretty-code-title=""
@@ -186,6 +189,7 @@ function ComponentCode({
         </figcaption>
       )}
       <CopyButton value={code} />
+      {/* biome-ignore lint/security/noDangerouslySetInnerHtml: server-rendered syntax-highlighted code */}
       <div dangerouslySetInnerHTML={{ __html: highlightedCode }} />
     </figure>
   );

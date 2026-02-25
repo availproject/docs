@@ -78,7 +78,7 @@ export const StackedTokenIcons = ({
                     "h-6 w-6 text-xs": size === "sm",
                     "h-8 w-8 text-sm": size === "md",
                     "h-10 w-10 text-base": size === "lg",
-                  }
+                  },
                 )}
               >
                 {source.symbol?.charAt(0) ?? "?"}
@@ -113,7 +113,7 @@ export const StackedTokenIcons = ({
                 "h-6 w-6 text-[10px]": size === "sm",
                 "h-8 w-8 text-xs": size === "md",
                 "h-10 w-10 text-sm": size === "lg",
-              }
+              },
             )}
           >
             +{remainingCount}

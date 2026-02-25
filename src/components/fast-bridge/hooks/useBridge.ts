@@ -2,7 +2,7 @@ import {
   type BridgeStepType,
   NEXUS_EVENTS,
   type NexusNetwork,
-  NexusSDK,
+  type NexusSDK,
   type OnAllowanceHookData,
   type OnIntentHookData,
   SUPPORTED_CHAINS,
@@ -11,20 +11,20 @@ import {
   type UserAsset,
 } from "@avail-project/nexus-core";
 import {
+  type RefObject,
   useEffect,
   useMemo,
+  useReducer,
   useRef,
   useState,
-  useReducer,
-  type RefObject,
 } from "react";
 import { type Address, isAddress } from "viem";
 import {
-  useStopwatch,
-  usePolling,
-  useNexusError,
-  useTransactionSteps,
   type TransactionStatus,
+  useNexusError,
+  usePolling,
+  useStopwatch,
+  useTransactionSteps,
 } from "../../common";
 
 export interface FastBridgeState {
