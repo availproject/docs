@@ -18,7 +18,8 @@ The site covers two products:
 | [shadcn/ui](https://ui.shadcn.com/) | UI component primitives |
 | [Radix UI](https://www.radix-ui.com/) | Accessible headless components |
 | [Biome](https://biomejs.dev/) | Linting and formatting |
-| [Vitest](https://vitest.dev/) | Unit testing |
+| [Vitest](https://vitest.dev/) | Unit testing (`pnpm test`) |
+| [Jest](https://jestjs.io/) | Legacy test suite (`__tests__/`) |
 | [PostHog](https://posthog.com/) | Analytics |
 
 ## Getting started
@@ -53,14 +54,19 @@ Open [http://localhost:3000](http://localhost:3000) to view the site.
 | `pnpm test` | Run unit tests with Vitest |
 | `pnpm validate:precommit` | Run the same checks as the Husky pre-commit hook |
 | `pnpm format` | Format with Biome |
+| `pnpm links:validate` | Validate internal links across all MDX content |
+| `pnpm links:fix` | Auto-fix broken internal links |
+| `pnpm redirects:generate` | Generate redirect mappings from old → new paths |
+| `pnpm redirects:report` | Report on redirect coverage |
 
 ## Project structure
 
 ```
 docs-fumadocs/
 ├── content/docs/          # MDX content (see "Content structure" below)
+├── data/                  # Static data (JSON)
 ├── public/                # Static assets (images, fonts, icons)
-├── scripts/               # Utility scripts (e.g. migration helpers)
+├── scripts/               # Redirect generators, link validators, and migration helpers
 ├── src/
 │   ├── app/               # Next.js App Router pages and layouts
 │   │   ├── (home)/        # Landing page
@@ -79,6 +85,7 @@ docs-fumadocs/
 │   └── styles/            # Design system documentation
 ├── source.config.ts       # Fumadocs MDX configuration
 ├── next.config.mjs        # Next.js configuration
+├── AGENTS.md              # AI agent conventions (design tokens, file locations)
 ├── biome.json             # Biome linter/formatter configuration
 └── components.json        # shadcn/ui configuration
 ```
@@ -173,6 +180,14 @@ All routes are prefixed with `/docs`. Internal links **must** follow these patte
 - **No old Nexus paths** — `avail-nexus-sdk`, `introduction-to-nexus`, `nexus-cheatsheet`, and `cheat-sheet` have been renamed to `nexus-sdk`, `get-started`, and `contracts`. The old `nexus-sdk/api-reference` is now `nexus-sdk/reference`.
 - **No top-level user guides** — `/docs/user-guides/...` is incorrect. Use `/docs/da/user-guides/...`.
 
+### Redirects
+
+Legacy paths from the old docs site are handled via redirects in `next.config.mjs`. The `redirects:*` scripts manage these mappings — use `pnpm redirects:report` to check coverage and `pnpm redirects:generate` to rebuild them from crawl data.
+
+## Deployment
+
+The site is deployed on [Vercel](https://vercel.com/) via Git integration. Pushing to `main` triggers a production deploy.
+
 ## Environment variables
 
 Create a `.env.local` file in the project root with:
@@ -251,3 +266,4 @@ curl https://docs.availproject.org/llms-full.txt?section=nexus
 - [Tailwind CSS v4 documentation](https://tailwindcss.com/docs)
 - [Design system docs](src/styles/DESIGN_SYSTEM.md) — Token architecture and usage
 - [Analytics docs](src/lib/analytics/ANALYTICS.md) — PostHog event tracking implementation
+- [AI agents guide](AGENTS.md) — Design tokens and conventions for AI agents
