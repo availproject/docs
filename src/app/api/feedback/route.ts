@@ -7,6 +7,7 @@ interface FeedbackPayload {
   rating: "positive" | "negative";
   pagePath: string;
   comment?: string;
+  contactInfo?: string;
   imageUrl?: string;
 }
 
@@ -17,7 +18,7 @@ function validatePayload(
     return { valid: false, error: "Request body must be a JSON object" };
   }
 
-  const { rating, pagePath, comment, imageUrl } = body as Record<
+  const { rating, pagePath, comment, contactInfo, imageUrl } = body as Record<
     string,
     unknown
   >;
@@ -48,6 +49,18 @@ function validatePayload(
     }
   }
 
+  if (contactInfo !== undefined && contactInfo !== null) {
+    if (typeof contactInfo !== "string") {
+      return { valid: false, error: "contactInfo must be a string" };
+    }
+    if (contactInfo.length > 200) {
+      return {
+        valid: false,
+        error: "contactInfo must be 200 characters or fewer",
+      };
+    }
+  }
+
   if (imageUrl !== undefined && imageUrl !== null) {
     if (typeof imageUrl !== "string") {
       return { valid: false, error: "imageUrl must be a valid blob URL" };
@@ -72,6 +85,10 @@ function validatePayload(
       pagePath,
       comment:
         typeof comment === "string" && comment.length > 0 ? comment : undefined,
+      contactInfo:
+        typeof contactInfo === "string" && contactInfo.length > 0
+          ? contactInfo
+          : undefined,
       imageUrl:
         typeof imageUrl === "string" && imageUrl.length > 0
           ? imageUrl
@@ -109,7 +126,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: result.error }, { status: 400 });
   }
 
-  const { rating, pagePath, comment, imageUrl } = result.data;
+  const { rating, pagePath, comment, contactInfo, imageUrl } = result.data;
   const token = process.env.GITHUB_FEEDBACK_TOKEN;
 
   if (!token) {
@@ -130,6 +147,10 @@ export async function POST(request: NextRequest) {
     "",
     comment ? `**Comment:**\n\n${comment}` : "*No comment provided*",
   ];
+
+  if (contactInfo) {
+    issueBodyParts.push("", `**Contact:** ${contactInfo}`);
+  }
 
   if (imageUrl) {
     issueBodyParts.push("", `**Screenshot:**\n\n![Screenshot](${imageUrl})`);
