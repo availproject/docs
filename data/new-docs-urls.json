@@ -994,10 +994,10 @@
     "filePath": "content/docs/nexus/nexus-ui-elements/get-started/nexus-provider-setup/index.mdx"
   },
   {
-    "path": "/docs/nexus/nexus-ui-elements/get-started/your-first-component",
-    "title": "Your First Component",
+    "path": "/docs/nexus/nexus-ui-elements/get-started/your-first-ui-element",
+    "title": "Your First UI Element",
     "description": "Render your first Nexus UI Elements component and understand how props and callbacks work.",
-    "filePath": "content/docs/nexus/nexus-ui-elements/get-started/your-first-component/index.mdx"
+    "filePath": "content/docs/nexus/nexus-ui-elements/get-started/your-first-ui-element/index.mdx"
   },
   {
     "path": "/docs/nexus/nexus-ui-elements/mcp-documentation",
