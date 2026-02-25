@@ -1,9 +1,9 @@
 ---
 title: NexusProvider Setup
-description: Wrap your application with the NexusProvider to enable Nexus Elements components.
+description: Wrap your application with the NexusProvider to enable Nexus UI Elements components.
 ---
 
-Every Nexus Elements component relies on the **NexusProvider** — a React context provider that initializes the Nexus SDK and shares wallet state across your component tree. Without it, components cannot sign transactions or read on-chain data.
+Every Nexus UI Elements component relies on the **NexusProvider** — a React context provider that initializes the Nexus SDK and shares wallet state across your component tree. Without it, components cannot sign transactions or read on-chain data.
 
 In this step you will:
 1. Wrap your application layout with the provider
@@ -113,7 +113,7 @@ Both `NexusProvider` and `InitNexusOnConnect` must be client components (marked 
 
 ## Without shadcn/ui
 
-If you are not using shadcn/ui, you can still use Nexus Elements by manually copying the component source files from each component page. Keep in mind:
+If you are not using shadcn/ui, you can still use Nexus UI Elements by manually copying the component source files from each component page. Keep in mind:
 
 - You must install all peer dependencies listed on the component page yourself
 - UI primitives (buttons, inputs, dialogs, selects) must be provided by your own component library or built from scratch
@@ -131,7 +131,7 @@ The provider is configured and the SDK will initialize as soon as the user conne
   <Card
     href="/docs/nexus/nexus-ui-elements/get-started/your-first-component"
     title="Your First Component"
-    description="Go to next step. Setting up your first Nexus Elements component"
+    description="Go to next step. Setting up your first Nexus UI Elements component"
     className="sm:col-span-2"
     arrow
   />

@@ -1,9 +1,9 @@
 ---
 title: Quickstart
-description: Scaffold a working Nexus Elements app in under two minutes with create-liquid-apps.
+description: Scaffold a working Nexus UI Elements app in under two minutes with create-liquid-apps.
 ---
 
-The fastest way to start building with Nexus Elements is the `create-liquid-apps` starter kit. It scaffolds a complete project with your chosen framework, wallet provider, and pre-configured Nexus Elements components, all in a single command.
+The fastest way to start building with Nexus UI Elements is the `create-liquid-apps` starter kit. It scaffolds a complete project with your chosen framework, wallet provider, and pre-configured Nexus UI Elements components, all in a single command.
 <div className="mt-4" />
 By the end of this guide you will have a running app with a cross-chain bridge and unified balance view.
 
@@ -17,7 +17,7 @@ Before you begin, make sure you have the following:
 
 <div className="mt-4" />
 
-- Run the following command to scaffold a Nexus Elements app:
+- Run the following command to scaffold a Nexus UI Elements app:
 
 ```bash
 npx create-liquid-apps my-nexus-app --framework next --widgets nexus-elements --auth wagmi-familyconnect
@@ -25,14 +25,14 @@ npx create-liquid-apps my-nexus-app --framework next --widgets nexus-elements --
 
 <div className="mt-4" />
 
-This will create a Next.js project with Nexus Elements components and Wagmi + ConnectKit for wallet connections.
+This will create a Next.js project with Nexus UI Elements components and Wagmi + ConnectKit for wallet connections.
 
 <Callout type="info" title="Prefer React + Vite?">
 Replace `--framework next` with `--framework react-vite` to scaffold a lightweight Vite boilerplate instead.
 </Callout>
 
 <Callout type="info" title="Interactive mode">
-You can also run `pnpx create-liquid-apps` without any flags. The CLI will walk you through each option with interactive prompts. When asked for the Nexus flavor, select **Nexus Elements**.
+You can also run `pnpx create-liquid-apps` without any flags. The CLI will walk you through each option with interactive prompts. When asked for the Nexus flavor, select **Nexus UI Elements**.
 </Callout>
 
 <div className="mt-4" />
@@ -81,7 +81,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser. You should 
 3. The **Fast Bridge** component below it lets you bridge assets across chains.
 
 <Callout type="info" title="What you are seeing">
-The scaffolded app comes pre-wired with two Nexus Elements components: `UnifiedBalance` (shows aggregated cross-chain balances) and `FastBridge` (intent-based asset bridging). Both are fully functional out of the box.
+The scaffolded app comes pre-wired with two Nexus UI Elements components: `UnifiedBalance` (shows aggregated cross-chain balances) and `FastBridge` (intent-based asset bridging). Both are fully functional out of the box.
 </Callout>
 
 ## What's in the project
@@ -112,13 +112,13 @@ The provider nesting is already configured for you in `providers/wagmi.tsx`:
 
 ## Next steps
 
-You have a running app with working Nexus Elements components. From here you can:
+You have a running app with working Nexus UI Elements components. From here you can:
 
 <Cards>
   <Card
     href="/docs/nexus/nexus-ui-elements/get-started/your-first-component#swapping-components"
-    title="Add a Nexus Elements component manually"
-    description="Add Nexus Elements to an existing project step by step."
+    title="Add a Nexus UI Elements component manually"
+    description="Add Nexus UI Elements to an existing project step by step."
     arrow
   />
   <Card
