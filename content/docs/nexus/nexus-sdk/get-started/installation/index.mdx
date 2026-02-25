@@ -65,13 +65,13 @@ The Nexus SDK is designed for **client-side browser environments only**. It cann
 
 ## Step 2 — Verify the installation
 
-Confirm the package was installed by importing it in a file:
+Confirm the package was installed by importing and instantiating it:
 
 ```tsx
 import { NexusSDK } from "@avail-project/nexus-core";
 
 const sdk = new NexusSDK();
-console.log("Nexus SDK loaded:", typeof sdk.initialize === "function");
+console.log("Nexus SDK ready");
 ```
 
 If this compiles without errors, the installation is complete.
