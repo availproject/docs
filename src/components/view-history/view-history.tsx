@@ -1,19 +1,19 @@
 "use client";
 
+import { type RFF, TOKEN_METADATA } from "@avail-project/nexus-core";
+import { Clock, LoaderPinwheel, SquareArrowOutUpRight } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
-  DialogTrigger,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
-import { Clock, LoaderPinwheel, SquareArrowOutUpRight } from "lucide-react";
-import { TOKEN_METADATA, type RFF } from "@avail-project/nexus-core";
-import { cn } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 import useViewHistory from "./hooks/useViewHistory";
 
 const SourceChains = ({ sources }: { sources: RFF["sources"] }) => {
@@ -24,7 +24,7 @@ const SourceChains = ({ sources }: { sources: RFF["sources"] }) => {
           key={source?.chain?.id}
           className={cn(
             "rounded-full transition-transform hover:scale-110",
-            index > 0 && "-ml-2"
+            index > 0 && "-ml-2",
           )}
           style={{ zIndex: sources.length - index }}
         >
@@ -75,7 +75,7 @@ const DestinationToken = ({
           key={dest.token.symbol}
           className={cn(
             "rounded-full transition-transform hover:scale-110",
-            index > 0 && "-ml-2"
+            index > 0 && "-ml-2",
           )}
           style={{ zIndex: destination.length - index }}
         >

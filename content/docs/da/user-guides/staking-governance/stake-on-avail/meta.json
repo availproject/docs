@@ -1,7 +1,3 @@
 {
-  "pages": [
-    "overview",
-    "direct-nomination",
-    "nomination-pools"
-  ]
+  "pages": ["overview", "direct-nomination", "nomination-pools"]
 }

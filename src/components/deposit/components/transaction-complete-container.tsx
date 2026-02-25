@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import WidgetHeader from "./widget-header";
-import { ReceiveAmountDisplay } from "./receive-amount-display";
+import { usdFormatter } from "../../common";
+import { Button } from "../../ui/button";
+import { CardContent, CardFooter } from "../../ui/card";
 import type { DepositWidgetContextValue } from "../types";
 import { ArrowBoxUpRightIcon, ChevronDownIcon, ChevronUpIcon } from "./icons";
-import { CardContent, CardFooter } from "../../ui/card";
-import { Button } from "../../ui/button";
-import { usdFormatter } from "../../common";
+import { ReceiveAmountDisplay } from "./receive-amount-display";
+import WidgetHeader from "./widget-header";
 
 function formatTimer(seconds: number): string {
   const secs = Math.round(seconds);

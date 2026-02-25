@@ -1,7 +1,3 @@
 {
-  "pages": [
-    "avail-ethereum",
-    "avail-base",
-    "ethereum-base"
-  ]
+  "pages": ["avail-ethereum", "avail-base", "ethereum-base"]
 }

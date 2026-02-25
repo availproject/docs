@@ -1,24 +1,24 @@
-import React, { FC, type RefObject, useMemo } from "react";
+import type {
+  NexusSDK,
+  OnSwapIntentHookData,
+  SwapStepType,
+} from "@avail-project/nexus-core";
+import { MoveDown, XIcon } from "lucide-react";
+import React, { type FC, type RefObject, useMemo } from "react";
+import { type GenericStep, usdFormatter } from "../../common";
+import { Button } from "../../ui/button";
 import {
   Dialog,
   DialogClose,
   DialogContent,
   DialogHeader,
 } from "../../ui/dialog";
-import {
-  NexusSDK,
-  type SwapStepType,
-  type OnSwapIntentHookData,
-} from "@avail-project/nexus-core";
-import { MoveDown, XIcon } from "lucide-react";
-import { TokenIcon } from "./token-icon";
-import { StackedTokenIcons } from "./stacked-token-icons";
-import { type GenericStep, usdFormatter } from "../../common";
-import { TOKEN_IMAGES } from "../config/destination";
-import { Button } from "../../ui/button";
-import { type TransactionStatus } from "../hooks/useSwaps";
-import TransactionProgress from "./transaction-progress";
 import { Separator } from "../../ui/separator";
+import { TOKEN_IMAGES } from "../config/destination";
+import type { TransactionStatus } from "../hooks/useSwaps";
+import { StackedTokenIcons } from "./stacked-token-icons";
+import { TokenIcon } from "./token-icon";
+import TransactionProgress from "./transaction-progress";
 
 interface ViewTransactionProps {
   steps: GenericStep<SwapStepType>[];

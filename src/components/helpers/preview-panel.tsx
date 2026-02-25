@@ -1,12 +1,13 @@
 "use client";
-import React, { ReactNode, useEffect } from "react";
+import type { EthereumProvider } from "@avail-project/nexus-core";
 import { Spinner } from "@phosphor-icons/react";
-import { type EthereumProvider } from "@avail-project/nexus-core";
+import React, { type ReactNode, useEffect } from "react";
+import { toast } from "sonner";
 import { useAccount, useConnectorClient } from "wagmi";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useNexus } from "../nexus/NexusProvider";
 import { Button } from "../ui/button";
-import { toast } from "sonner";
+
 interface PreviewPanelProps {
   children: ReactNode;
   connectLabel: string;

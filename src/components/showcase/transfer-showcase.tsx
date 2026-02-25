@@ -1,6 +1,6 @@
 import React from "react";
-import ShowcaseWrapper from "./showcase-wrapper";
 import FastTransfer from "../transfer/transfer";
+import ShowcaseWrapper from "./showcase-wrapper";
 
 const TransferShowcase = () => {
   return (

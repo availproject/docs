@@ -1,19 +1,19 @@
 "use client";
 
-import { useCallback, useRef, useEffect, useState, useMemo } from "react";
-import { TokenIcon } from "./token-icon";
-import { ErrorBanner } from "./error-banner";
-import { PercentageSelector } from "./percentage-selector";
-import { parseCurrencyInput } from "../utils";
-import { UpDownArrows } from "./icons";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usdFormatter } from "../../common";
-import { type DestinationConfig } from "../types";
 import {
   BALANCE_SAFETY_MARGIN,
   CHARACTER_ANIMATION_DURATION_MS,
-  SHINE_ANIMATION_DURATION_MS,
   MAX_INPUT_WIDTH_PX,
+  SHINE_ANIMATION_DURATION_MS,
 } from "../constants/widget";
+import type { DestinationConfig } from "../types";
+import { parseCurrencyInput } from "../utils";
+import { ErrorBanner } from "./error-banner";
+import { UpDownArrows } from "./icons";
+import { PercentageSelector } from "./percentage-selector";
+import { TokenIcon } from "./token-icon";
 
 // Hoisted RegExp to avoid recreation on every render (js-hoist-regexp)
 const NUMERIC_INPUT_REGEX = /^\d*\.?\d*$/;

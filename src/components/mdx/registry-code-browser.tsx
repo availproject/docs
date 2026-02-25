@@ -1,7 +1,9 @@
 "use client";
 
+import { Code, File, FileText, Terminal } from "@phosphor-icons/react";
 import * as React from "react";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
+import { CopyButton } from "@/components/helpers/copy-button";
+import { useAnalytics } from "@/hooks/use-analytics";
 import {
   Select,
   SelectContent,
@@ -11,9 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { CopyButton } from "@/components/helpers/copy-button";
-import { Code, File, FileText, Terminal } from "@phosphor-icons/react";
-import { useAnalytics } from "@/hooks/use-analytics";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
 export type RegistryProcessedFile = {
   path: string;
@@ -77,11 +77,7 @@ export function RegistryCodeBrowser({
     (p || "").replace(/^registry\/nexus-elements\//, "components/");
 
   return (
-    <Tabs
-      value={tab}
-      onValueChange={handleTabChange}
-      className="grid gap-4"
-    >
+    <Tabs value={tab} onValueChange={handleTabChange} className="grid gap-4">
       <TabsContent value="component" className="w-full border-none!">
         {currentComponent && (
           <figure

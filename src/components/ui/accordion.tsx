@@ -1,8 +1,8 @@
 "use client";
 
-import * as React from "react";
-import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { CaretDown } from "@phosphor-icons/react";
+import * as AccordionPrimitive from "@radix-ui/react-accordion";
+import type * as React from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -47,7 +47,10 @@ function AccordionTrigger({
       >
         {children}
         {!hideChevron && (
-          <CaretDown size={16} className="text-muted-foreground pointer-events-none shrink-0 translate-y-0.5 transition-transform duration-200" />
+          <CaretDown
+            size={16}
+            className="text-muted-foreground pointer-events-none shrink-0 translate-y-0.5 transition-transform duration-200"
+          />
         )}
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>

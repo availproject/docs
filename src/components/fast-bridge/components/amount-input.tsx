@@ -1,17 +1,17 @@
+import type { UserAsset } from "@avail-project/nexus-core";
+import { LoaderCircle } from "lucide-react";
 import { type FC, Fragment, useEffect, useRef } from "react";
-import { Input } from "../../ui/input";
-import { Button } from "../../ui/button";
-import { type UserAsset } from "@avail-project/nexus-core";
+import { SHORT_CHAIN_NAME } from "../../common";
 import { useNexus } from "../../nexus/NexusProvider";
-import { type FastBridgeState } from "../hooks/useBridge";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "../../ui/accordion";
-import { SHORT_CHAIN_NAME } from "../../common";
-import { LoaderCircle } from "lucide-react";
+import { Button } from "../../ui/button";
+import { Input } from "../../ui/input";
+import type { FastBridgeState } from "../hooks/useBridge";
 
 interface AmountInputProps {
   amount?: string;

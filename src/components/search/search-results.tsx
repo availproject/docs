@@ -1,7 +1,7 @@
 "use client";
 
-import * as React from "react";
 import { CaretRight } from "@phosphor-icons/react";
+import * as React from "react";
 import { SearchResultItem } from "@/components/search/search-result-item";
 
 interface GroupedResult {
@@ -33,7 +33,11 @@ function titleMatchesQuery(title: string, query: string): boolean {
   return title.toLowerCase().includes(q);
 }
 
-export function SearchResults({ results, search, onSelect }: SearchResultsProps) {
+export function SearchResults({
+  results,
+  search,
+  onSelect,
+}: SearchResultsProps) {
   if (results.length === 0) return null;
 
   return (
@@ -51,7 +55,10 @@ export function SearchResults({ results, search, onSelect }: SearchResultsProps)
                 {group.breadcrumbs.map((crumb, index) => (
                   <React.Fragment key={index}>
                     {index > 0 && (
-                      <CaretRight size={16} className="text-search-foreground" />
+                      <CaretRight
+                        size={16}
+                        className="text-search-foreground"
+                      />
                     )}
                     <span className="ui-16 text-search-foreground">
                       {crumb}
@@ -67,33 +74,34 @@ export function SearchResults({ results, search, onSelect }: SearchResultsProps)
           </SearchResultItem>
 
           {/* Child results — only show when the title doesn't match the query */}
-          {group.children.length > 0 && !titleMatchesQuery(group.title, search) && (
-            <div className="flex gap-1">
-              {/* Vertical connector line */}
-              <div className="w-2 shrink-0 border-l-2 border-border ml-2" />
-              {/* Child items */}
-              <div className="flex flex-col flex-1 gap-2">
-                {group.children.map((child, childIndex) => (
-                  <SearchResultItem
-                    key={child.id}
-                    value={child.id}
-                    onSelect={() =>
-                      onSelect(
-                        child.url,
-                        child.content,
-                        groupIndex * 100 + childIndex + 1
-                      )
-                    }
-                    className="ui-16 text-search-results-foreground"
-                  >
-                    {child.type === "heading"
-                      ? `# ${child.content}`
-                      : child.content}
-                  </SearchResultItem>
-                ))}
+          {group.children.length > 0 &&
+            !titleMatchesQuery(group.title, search) && (
+              <div className="flex gap-1">
+                {/* Vertical connector line */}
+                <div className="w-2 shrink-0 border-l-2 border-border ml-2" />
+                {/* Child items */}
+                <div className="flex flex-col flex-1 gap-2">
+                  {group.children.map((child, childIndex) => (
+                    <SearchResultItem
+                      key={child.id}
+                      value={child.id}
+                      onSelect={() =>
+                        onSelect(
+                          child.url,
+                          child.content,
+                          groupIndex * 100 + childIndex + 1,
+                        )
+                      }
+                      className="ui-16 text-search-results-foreground"
+                    >
+                      {child.type === "heading"
+                        ? `# ${child.content}`
+                        : child.content}
+                    </SearchResultItem>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </div>
       ))}
     </div>
