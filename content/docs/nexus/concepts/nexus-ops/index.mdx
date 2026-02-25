@@ -6,7 +6,7 @@ description: Move tokens to yourself, send to another address, or bridge and cal
 hideFooter: true
 ---
 
-In Nexus, apart from [crosschain swaps](/docs/nexus/concepts/xcs-swaps), users can do ***Bridge, Transfer, Bridge & Execute*** which uses Nexus chain abstraction (aka **Bridge Methods**).
+In Nexus, apart from [crosschain swaps](/docs/nexus/concepts/xcs-swaps), users can do **Bridge**, **Transfer**, and **Bridge & Execute** which uses Nexus chain abstraction (aka **Bridge Methods**).
 
 Let's understand what each Nexus operation is and what it does. 
 
@@ -16,17 +16,17 @@ During the `Bridge` operation, the funds are bridged from N source chains to the
 
     `Sender` = `Recipient`
 
-<br></br>
+<br />
 <img src="/img/nexus/bridge-op.png" alt="Bridge Operation" width="100%" align="center"/>
 
 This function uses the `BridgeParams` struct and the `bridge` function from the Bridge Methods in the SDK.
 
 
 ## Transfer 
-During the `Transfer` operation, the funds are bridged from N source chains from the `Sender` to the user's preferred destination chain at a different `Receiver` address. It is a compound operation i.e. it involves the bridging of funds from different sources to a destination chain and then funds are transferred to the `Recipient` address. 
+During the `Transfer` operation, the funds are bridged from N source chains from the `Sender` to the user's preferred destination chain at a different `Receiver` address. This is a compound operation: funds are bridged from multiple source chains to a destination chain, then transferred to the `Recipient` address. 
 
     `Sender` != `Recipient`
-<br></br>
+<br />
 
 <img src="/img/nexus/transfer-op.png" alt="Transfer operation" width="100%" align="center"/>
 
@@ -43,7 +43,7 @@ For users, this means they don't have to do a separate bridge action to use a `L
 
 A bridgeless experience. 
 
-<br></br>
+<br />
 
 
 <img src="/img/nexus/bne-op.png" alt="Bridge and Execute operation" width="100%" align="center"/>
