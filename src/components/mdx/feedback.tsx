@@ -370,7 +370,7 @@ export function Feedback({ className }: FeedbackProps) {
             type="submit"
             disabled={isSubmitting}
             className={cn(
-              "flex items-center justify-center gap-2 h-10 min-w-[140px] px-5",
+              "flex items-center justify-center gap-2 h-10 w-fit min-w-[140px] px-5",
               "bg-brand text-brand-foreground",
               "shadow-sm touch-manipulation",
               "transition-[background-color,transform]",
