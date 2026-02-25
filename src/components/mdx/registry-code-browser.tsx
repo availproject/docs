@@ -50,7 +50,7 @@ function FileSelector({
 
   return (
     <Select value={String(idx)} onValueChange={onFileChange}>
-      <SelectTrigger className="text-sm font-mono border px-2 py-1 bg-transparent">
+      <SelectTrigger className="text-sm font-mono border px-2 py-1 bg-background rounded-none">
         <SelectValue placeholder="Select file" />
       </SelectTrigger>
       <SelectContent>
@@ -102,7 +102,7 @@ export function RegistryCodeBrowser({
     >
       <figcaption
         data-rehype-pretty-code-title=""
-        className="flex items-center gap-2 [&_svg]:size-4 [&_svg]:opacity-70"
+        className="flex items-center gap-3 [&_svg]:size-4 [&_svg]:opacity-70"
         data-language={current?.language}
       >
         {current && <LanguageIcon language={current.language} />}
