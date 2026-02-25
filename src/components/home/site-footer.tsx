@@ -12,7 +12,7 @@ const pagesColumn1: FooterLink[] = [
   { label: "Home", href: "https://www.availproject.org", external: true },
   {
     label: "About us",
-    href: "https://www.availproject.org/about",
+    href: "https://www.availproject.org/aboutus",
     external: true,
   },
   { label: "Nexus", href: "/docs/nexus/get-started" },
@@ -32,28 +32,31 @@ const pagesColumn2: FooterLink[] = [
     external: true,
   },
   {
-    label: "Privacy Policy",
-    href: "https://www.availproject.org/privacy-policy",
+    label: "T&C",
+    href: "https://www.availproject.org/termsandconditions",
     external: true,
   },
-  { label: "T&C", href: "https://www.availproject.org/terms", external: true },
   {
     label: "Whitepaper",
-    href: "https://docs.availproject.org/whitepaper.pdf",
+    href: "https://www.availproject.org/whitepaper",
     external: true,
   },
 ];
 
 const supportLinks: FooterLink[] = [
   { label: "Docs", href: "/docs/da/get-started" },
-  { label: "Discord", href: "https://discord.gg/y6fHnxZQX8", external: true },
+  {
+    label: "Discord",
+    href: "https://discord.com/invite/AvailProject",
+    external: true,
+  },
   { label: "GitHub", href: "https://github.com/availproject", external: true },
 ];
 
 const pressKitLinks: FooterLink[] = [
   {
     label: "Brand Assets",
-    href: "https://github.com/availproject/brand-assets",
+    href: "https://www.availproject.org/brand",
     external: true,
   },
 ];
@@ -62,13 +65,13 @@ const socialLinks: FooterLink[] = [
   { label: "X (Twitter)", href: "https://x.com/AvailProject", external: true },
   {
     label: "LinkedIn",
-    href: "https://www.linkedin.com/company/avail-project/",
+    href: "https://www.linkedin.com/company/availproject/",
     external: true,
   },
-  { label: "Telegram", href: "https://t.me/avaboricuazo", external: true },
+  { label: "Telegram", href: "https://t.me/AvailCommunity", external: true },
   {
     label: "YouTube",
-    href: "https://www.youtube.com/@Aboricuazo",
+    href: "https://www.youtube.com/@Availproject",
     external: true,
   },
 ];
