@@ -77,6 +77,7 @@ export interface FeedbackSubmittedEvent {
     has_comment: boolean;
     comment_length: number;
     has_image: boolean;
+    has_contact: boolean;
     page_path: string;
     page_title?: string;
   };
