@@ -103,6 +103,8 @@ export default async function Page(props: {
       const href = `/${arr.slice(0, index + 1).join("/")}`;
       const pathSoFar = arr.slice(0, index + 1).join("/");
       const segmentLabels: Record<string, string> = {
+        da: "DA",
+        "nexus-ui-elements": "Nexus UI Elements",
         "nexus-sdk": "Nexus SDK",
         "api-reference": "API Reference",
       };
