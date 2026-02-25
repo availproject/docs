@@ -2,7 +2,7 @@
 
 import { ThumbsDown, ThumbsUp, X } from "@phosphor-icons/react";
 import { upload } from "@vercel/blob/client";
-import confetti from "canvas-confetti";
+import type { Options as ConfettiOptions } from "canvas-confetti";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useAnalytics } from "@/hooks/use-analytics";
 import { cn } from "@/lib/utils";
@@ -95,13 +95,6 @@ export function Feedback({ className }: FeedbackProps) {
     [addImage],
   );
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
-      e.preventDefault();
-      handleSubmit();
-    }
-  };
-
   const handleSubmit = async () => {
     setIsSubmitting(true);
     const rating = feedbackType === "good" ? "positive" : "negative";
@@ -136,7 +129,8 @@ export function Feedback({ className }: FeedbackProps) {
       setIssueUrl(data.issueUrl ?? null);
       setState("submitted");
 
-      // Raycast-style confetti from bottom corners
+      // Raycast-style confetti from bottom corners (lazy-loaded)
+      const { default: confetti } = await import("canvas-confetti");
       const colors = [
         "#FF4136",
         "#0074D9",
@@ -147,7 +141,7 @@ export function Feedback({ className }: FeedbackProps) {
         "#FFDC00",
         "#7FDBFF",
       ];
-      const defaults = {
+      const defaults: ConfettiOptions = {
         spread: 120,
         startVelocity: 75,
         ticks: 300,
@@ -155,7 +149,7 @@ export function Feedback({ className }: FeedbackProps) {
         decay: 0.92,
         scalar: 1.2,
         colors,
-        shapes: ["square", "circle"] as confetti.Shape[],
+        shapes: ["square", "circle"],
         disableForReducedMotion: true,
       };
       confetti({
@@ -183,6 +177,13 @@ export function Feedback({ className }: FeedbackProps) {
       setState("error");
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+      e.preventDefault();
+      handleSubmit();
     }
   };
 
@@ -215,7 +216,13 @@ export function Feedback({ className }: FeedbackProps) {
         <p className="body-16 text-muted-foreground">Something went wrong.</p>
         <button
           type="button"
-          onClick={() => setState("idle")}
+          onClick={() => {
+            setState("idle");
+            setFeedbackText("");
+            setContactInfo("");
+            setFeedbackType(null);
+            removeImage();
+          }}
           className={cn(
             "flex items-center justify-center gap-2 h-10 px-4",
             "border border-border bg-card",
@@ -359,25 +366,22 @@ export function Feedback({ className }: FeedbackProps) {
             </div>
           )}
 
-          <div className="flex items-center gap-4">
-            {/* Submit */}
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className={cn(
-                "flex items-center justify-center gap-2 h-10 px-5",
-                "bg-brand text-brand-foreground",
-                "shadow-sm touch-manipulation",
-                "transition-[background-color,transform]",
-                "hover:bg-brand/90 active:scale-[0.97]",
-                "disabled:opacity-50 disabled:cursor-not-allowed",
-              )}
-            >
-              <span className="ui-14 text-center">
-                {isSubmitting ? "..." : "Submit Feedback"}
-              </span>
-            </button>
-          </div>
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className={cn(
+              "flex items-center justify-center gap-2 h-10 min-w-[140px] px-5",
+              "bg-brand text-brand-foreground",
+              "shadow-sm touch-manipulation",
+              "transition-[background-color,transform]",
+              "hover:bg-brand/90 active:scale-[0.97]",
+              "disabled:opacity-50 disabled:cursor-not-allowed",
+            )}
+          >
+            <span className="ui-14 text-center">
+              {isSubmitting ? "..." : "Submit Feedback"}
+            </span>
+          </button>
         </form>
       )}
     </div>
