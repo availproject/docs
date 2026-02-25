@@ -58,11 +58,16 @@ import { CodeTabs } from "./code-tabs";
 import { ComponentPreview } from "./component-preview";
 import { ComponentSource } from "./component-source";
 import { ConceptCard, ConceptCardGrid } from "./concept-card";
+import {
+  TokenAddressesTable,
+  VaultContractTable,
+} from "./contract-addresses/contract-addresses-table";
 import { Feedback } from "./feedback";
 import { HeadingAnchor } from "./heading-anchor";
 import { IconCard, IconCardGrid } from "./icon-card";
 import { LinkCard, LinkCardGrid } from "./link-card";
 import { PageFooter } from "./page-footer";
+import { SupportedChainsTable } from "./supported-chains/supported-chains-table";
 
 export const mdxComponents: MDXComponentsMap = {
   // Headings
@@ -206,10 +211,10 @@ export const mdxComponents: MDXComponentsMap = {
   ),
   // Tables
   table: ({ className, ...props }: React.ComponentProps<"table">) => (
-    <div className="overflow-x-auto my-6">
+    <div className="overflow-x-auto border border-border my-6">
       <table
         className={cn(
-          "w-full text-base border-collapse [&_strong]:font-normal [&_a]:text-muted-foreground [&_a]:decoration-muted-foreground/30 [&_a]:font-normal [&_a:hover]:text-brand",
+          "w-full text-sm border-collapse [&_strong]:font-normal [&_a]:text-muted-foreground [&_a]:decoration-muted-foreground/30 [&_a]:font-normal [&_a:hover]:text-brand",
           className,
         )}
         {...props}
@@ -224,8 +229,9 @@ export const mdxComponents: MDXComponentsMap = {
   ),
   th: ({ className, ...props }: React.ComponentProps<"th">) => (
     <th
+      scope="col"
       className={cn(
-        "text-left px-4 py-3 font-normal text-muted-foreground text-xs uppercase tracking-wider",
+        "text-left px-4 py-2.5 font-medium text-muted-foreground text-xs uppercase tracking-wide",
         className,
       )}
       {...props}
@@ -233,12 +239,12 @@ export const mdxComponents: MDXComponentsMap = {
   ),
   td: ({ className, ...props }: React.ComponentProps<"td">) => (
     <td
-      className={cn("px-4 py-3 border-t border-border", className)}
+      className={cn("px-4 py-3 border-b border-border", className)}
       {...props}
     />
   ),
   tr: ({ className, ...props }: React.ComponentProps<"tr">) => (
-    <tr className={cn(className)} {...props} />
+    <tr className={cn("last:border-b-0", className)} {...props} />
   ),
   figure: ({ className, ...props }: React.ComponentProps<"figure">) => {
     return <figure className={cn(className)} {...props} />;
@@ -481,6 +487,11 @@ export const mdxComponents: MDXComponentsMap = {
   // Icon cards for landing pages with icon + title + description
   IconCard,
   IconCardGrid,
+  // Supported chains & tokens table
+  SupportedChainsTable,
+  // Contract addresses tables
+  VaultContractTable,
+  TokenAddressesTable,
   // Feedback component
   Feedback,
   // Page footer with navigation

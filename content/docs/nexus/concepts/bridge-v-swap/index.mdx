@@ -11,19 +11,15 @@ Nexus allows you to query 2 types of balances for different use cases. These bal
 - Bridge Balance
 - Swap Balance
 
-### Bridge Balance
-Under [Bridge Methods](/docs/nexus/nexus-sdk/reference/bridge-methods/fetch-bridge-balances), you can fetch [Bridge Balance](/docs/nexus/nexus-sdk/reference/bridge-methods/fetch-bridge-balances) (previously Unified Balance). It is used to fetch token balances that can be used in bridge operations across all supported chains in one call. 
-
-If you're using any of the Bridge Methods you will be sourcing liquidity from the tokens and chains that are available by this call. 
+## Bridge Balance
+Use [Fetch Bridge Balance](/docs/nexus/nexus-sdk/reference/bridge-methods/fetch-bridge-balances) (previously Unified Balance) to get all token balances available for bridge operations across supported chains in a single call. Any Bridge Method you call will source liquidity from these balances.
 
 ```jsx
 getBalancesForBridge(): Promise<UserAsset[]>
 ```
 
-### Swap Methods
-Within [Swap Methods](/docs/nexus/nexus-sdk/reference/swap-methods/fetch-swap-balances), you can fetch [Swap Balance](/docs/nexus/nexus-sdk/reference/swap-methods/fetch-swap-balances). It is used to to fetch token balances that can be used in swap operations across all supported chains in one call.
-
-If you're using any of the Swap Methods you will be sourcing liquidity from the tokens and chains that are available by this call. 
+## Swap Balance
+Use [Fetch Swap Balance](/docs/nexus/nexus-sdk/reference/swap-methods/fetch-swap-balances) to get all token balances available for swap operations across supported chains in a single call. Any Swap Method you call will source liquidity from these balances.
 
 ```jsx
 getBalancesForSwap(): Promise<Array<{
@@ -38,12 +34,12 @@ getBalancesForSwap(): Promise<Array<{
 }>>
 ```
 
-## Why are there 2 different balances that can be used?
-This is because of crosschain swaps in Nexus fundamentally work. Instead of Nexus solvers having to manage multiple token liquidity on multiple chains, they only manage liquidity of the canonical `Bridge` tokens (currently ETH, USDC, USDT). 
+## Why two different balances?
+Nexus solvers only manage liquidity for canonical bridge tokens (currently ETH, USDC, USDT). Bridge balances reflect what solvers can move across chains directly.
 
-Although the orchestration of the intent for crosschain swaps are handled by Nexus, the swaps themselves are handled by our partner DEX aggregators to provide users with best prices and liquidity for a large spread of tokens onchain. 
+For crosschain swaps, Nexus orchestrates the intent but the actual swaps are executed by partner DEX aggregators. This means swap operations can access a much wider range of tokens, since they aren't limited by solver liquidity.
 
-In short, the swap operations are not limited by solver liquidity, and hence we need a different set of balances for users to see what their "swappable" balances are, which are not the same as their "bridgeable" assets. 
+Because the available tokens differ between bridging and swapping, each operation needs its own balance query — your "swappable" balances are not the same as your "bridgeable" assets.
 
 
 <Callout>

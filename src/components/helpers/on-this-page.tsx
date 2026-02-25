@@ -162,6 +162,8 @@ export function OnThisPage({
     ) as HTMLElement | null;
 
     if (activeLink) {
+      activeLink.scrollIntoView({ block: "nearest", behavior: "smooth" });
+
       const containerRect = tocContainerRef.current.getBoundingClientRect();
       const linkRect = activeLink.getBoundingClientRect();
 
