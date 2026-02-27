@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 const REFERENCE_DATA = {
   _meta: {
-    lastUpdated: "2026-02-23",
+    lastUpdated: "2026-02-27",
     version: "2.0.0",
     description: "Structured reference data for Avail DA and Nexus",
   },
@@ -416,13 +416,6 @@ const REFERENCE_DATA = {
           swapsEnabled: true,
         },
         {
-          name: "Sophon",
-          chainId: 50104,
-          nativeToken: "SOPH",
-          supportedTokens: ["SOPH", "ETH", "USDC", "USDT"],
-          swapsEnabled: false,
-        },
-        {
           name: "Kaia",
           chainId: 8217,
           nativeToken: "KAIA",
@@ -444,13 +437,6 @@ const REFERENCE_DATA = {
           swapsEnabled: false,
         },
         {
-          name: "Tron",
-          chainId: 728126428,
-          nativeToken: "TRX",
-          supportedTokens: ["TRX", "USDT"],
-          swapsEnabled: false,
-        },
-        {
           name: "Monad",
           chainId: 143,
           nativeToken: "MON",
@@ -469,7 +455,7 @@ const REFERENCE_DATA = {
           chainId: 4326,
           nativeToken: "ETH",
           supportedTokens: ["ETH", "USDm"],
-          swapsEnabled: true,
+          swapsEnabled: false,
         },
       ],
       testnet: [
@@ -516,24 +502,10 @@ const REFERENCE_DATA = {
           swapsEnabled: false,
         },
         {
-          name: "Tron Testnet",
-          chainId: 2494104990,
-          nativeToken: "TRX",
-          supportedTokens: ["TRX", "USDT"],
-          swapsEnabled: false,
-        },
-        {
           name: "Citrea Testnet",
           chainId: 5115,
           nativeToken: "cBTC",
           supportedTokens: ["cBTC"],
-          swapsEnabled: false,
-        },
-        {
-          name: "MegaETH Testnet",
-          chainId: 6342,
-          nativeToken: "ETH",
-          supportedTokens: ["ETH"],
           swapsEnabled: false,
         },
       ],
@@ -548,9 +520,7 @@ const REFERENCE_DATA = {
       { symbol: "BNB", name: "BNB", decimals: 18 },
       { symbol: "HYPE", name: "HyperEVM", decimals: 18 },
       { symbol: "KAIA", name: "Kaia", decimals: 18 },
-      { symbol: "SOPH", name: "Sophon", decimals: 18 },
       { symbol: "MON", name: "Monad", decimals: 18 },
-      { symbol: "TRX", name: "Tron", decimals: 6 },
       { symbol: "cBTC", name: "Citrea BTC", decimals: 18 },
     ],
     sdks: {
