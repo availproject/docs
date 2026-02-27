@@ -176,6 +176,11 @@ export const usdcMainnet: TokenEntry[] = [
     address: "0xE045e6c36cF77FAA2CfB54466D71A3aEF7bBE839",
     tokenName: "USDC.e",
   },
+  {
+    chain: "MegaETH",
+    address: "0xFAfDdbb3FC7688494971a79cc65DCa3EF82079E7",
+    tokenName: "USDm",
+  },
 ];
 
 export const usdcTestnet: TokenEntry[] = [
