@@ -122,6 +122,12 @@ function TokenRows({ entries }: { entries: TokenEntry[] }) {
                   scope="col"
                   className="px-4 py-2.5 text-left text-xs font-medium tracking-wide text-muted-foreground uppercase"
                 >
+                  Token
+                </th>
+                <th
+                  scope="col"
+                  className="px-4 py-2.5 text-left text-xs font-medium tracking-wide text-muted-foreground uppercase"
+                >
                   Contract Address
                 </th>
               </tr>
@@ -134,6 +140,9 @@ function TokenRows({ entries }: { entries: TokenEntry[] }) {
                 >
                   <td className="px-4 py-3 font-medium text-foreground">
                     {entry.chain}
+                  </td>
+                  <td className="px-4 py-3 font-mono text-sm text-foreground">
+                    {entry.tokenName}
                   </td>
                   <td className="px-4 py-3 font-mono text-xs text-muted-foreground break-all">
                     {entry.address}
@@ -152,9 +161,12 @@ function TokenRows({ entries }: { entries: TokenEntry[] }) {
             key={entry.chain}
             className="border border-border bg-card p-4 shadow-[var(--shadow-xs)]"
           >
-            <span className="mb-2 block font-medium text-foreground">
-              {entry.chain}
-            </span>
+            <div className="mb-2 flex items-center justify-between">
+              <span className="font-medium text-foreground">{entry.chain}</span>
+              <span className="font-mono text-sm text-muted-foreground">
+                {entry.tokenName}
+              </span>
+            </div>
             <p className="font-mono text-xs text-muted-foreground break-all">
               {entry.address}
             </p>
