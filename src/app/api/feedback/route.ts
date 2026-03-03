@@ -149,7 +149,8 @@ export async function POST(request: NextRequest) {
   ];
 
   if (contactInfo) {
-    issueBodyParts.push("", `**Contact:** \`${contactInfo}\``);
+    const safeContact = contactInfo.replace(/[`\n\r]/g, "");
+    issueBodyParts.push("", `**Contact:** \`${safeContact}\``);
   }
 
   if (imageUrl) {
