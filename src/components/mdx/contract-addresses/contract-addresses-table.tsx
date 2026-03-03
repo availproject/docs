@@ -141,7 +141,7 @@ function TokenRows({ entries }: { entries: TokenEntry[] }) {
                   <td className="px-4 py-3 font-medium text-foreground">
                     {entry.chain}
                   </td>
-                  <td className="px-4 py-3 font-mono text-sm text-foreground">
+                  <td className="px-4 py-3 font-mono text-sm text-foreground whitespace-nowrap">
                     {entry.tokenName}
                   </td>
                   <td className="px-4 py-3 font-mono text-xs text-muted-foreground break-all">
