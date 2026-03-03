@@ -154,13 +154,13 @@ export function Feedback({ className }: FeedbackProps) {
       };
       confetti({
         ...defaults,
-        particleCount: 200,
+        particleCount: 100,
         angle: 70,
         origin: { x: 0, y: 1 },
       });
       confetti({
         ...defaults,
-        particleCount: 200,
+        particleCount: 100,
         angle: 110,
         origin: { x: 1, y: 1 },
       });
