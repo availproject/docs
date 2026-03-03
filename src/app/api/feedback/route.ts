@@ -149,7 +149,7 @@ export async function POST(request: NextRequest) {
   ];
 
   if (contactInfo) {
-    issueBodyParts.push("", `**Contact:** ${contactInfo}`);
+    issueBodyParts.push("", `**Contact:** \`${contactInfo}\``);
   }
 
   if (imageUrl) {
