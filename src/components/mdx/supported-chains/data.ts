@@ -63,13 +63,6 @@ export const mainnetChains: Chain[] = [
     swaps: true,
   },
   {
-    name: "Sophon",
-    chainId: 50104,
-    native: "SOPH",
-    tokens: ["SOPH", "ETH", "USDC", "USDT"],
-    swaps: false,
-  },
-  {
     name: "Kaia",
     chainId: 8217,
     native: "KAIA",
@@ -91,13 +84,6 @@ export const mainnetChains: Chain[] = [
     swaps: false,
   },
   {
-    name: "Tron",
-    chainId: 728126428,
-    native: "TRX",
-    tokens: ["TRX", "USDT"],
-    swaps: false,
-  },
-  {
     name: "Monad",
     chainId: 143,
     native: "MON",
@@ -116,7 +102,7 @@ export const mainnetChains: Chain[] = [
     chainId: 4326,
     native: "ETH",
     tokens: ["ETH", "USDm"],
-    swaps: true,
+    swaps: false,
   },
 ];
 
@@ -164,24 +150,10 @@ export const testnetChains: Chain[] = [
     swaps: false,
   },
   {
-    name: "Tron Testnet",
-    chainId: 2494104990,
-    native: "TRX",
-    tokens: ["TRX", "USDT"],
-    swaps: false,
-  },
-  {
     name: "Citrea Testnet",
     chainId: 5115,
     native: "cBTC",
     tokens: ["cBTC"],
-    swaps: false,
-  },
-  {
-    name: "MegaETH Testnet",
-    chainId: 6342,
-    native: "ETH",
-    tokens: ["ETH"],
     swaps: false,
   },
 ];
@@ -196,8 +168,6 @@ export const tokenReference: TokenInfo[] = [
   { symbol: "BNB", name: "BNB", decimals: 18 },
   { symbol: "HYPE", name: "Hyperliquid", decimals: 18 },
   { symbol: "KAIA", name: "Kaia", decimals: 18 },
-  { symbol: "SOPH", name: "Sophon", decimals: 18 },
   { symbol: "MON", name: "Monad", decimals: 18 },
-  { symbol: "TRX", name: "Tron", decimals: 6 },
   { symbol: "cBTC", name: "Citrea BTC", decimals: 18 },
 ];

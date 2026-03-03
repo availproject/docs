@@ -449,9 +449,9 @@
 
     /* Brand */
     --brand: var(--grey-dark-1000);
-    --brand-foreground: var(--white-0);
+    --brand-foreground: var(--black-50);
     --primary: var(--grey-dark-1000);
-    --primary-foreground: var(--white-0);
+    --primary-foreground: var(--black-50);
 
     /* Secondary */
     --secondary: var(--grey-dark-200);
