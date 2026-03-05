@@ -56,16 +56,6 @@ export function usePageViewTracking() {
         isFirstPageView.current = false;
       }
 
-      // Track page navigation if not first page
-      if (previousPathname.current) {
-        track("page_navigation", {
-          from_path: previousPathname.current,
-          to_path: pathname,
-          navigation_type: "browser",
-          page_path: pathname,
-        });
-      }
-
       trackPageView(pathname);
       previousPathname.current = pathname;
     }
@@ -141,13 +131,7 @@ export function useScrollDepthTracking() {
 export function useTimeOnPageTracking() {
   const pathname = usePathname();
   const startTime = useRef<number>(Date.now());
-  const sectionsViewed = useRef<Set<string>>(new Set());
   const maxScrollDepth = useRef<number>(0);
-
-  // Track section views (call this from components that observe sections)
-  const trackSectionView = useCallback((sectionId: string) => {
-    sectionsViewed.current.add(sectionId);
-  }, []);
 
   // Track max scroll depth
   useEffect(() => {
@@ -183,7 +167,7 @@ export function useTimeOnPageTracking() {
     return () => {
       window.removeEventListener("scroll", throttledHandler);
     };
-  }, [pathname]);
+  }, []);
 
   // Send time on page event on unmount or page leave
   useEffect(() => {
@@ -191,10 +175,13 @@ export function useTimeOnPageTracking() {
 
     // Reset on pathname change
     startTime.current = Date.now();
-    sectionsViewed.current.clear();
     maxScrollDepth.current = 0;
+    let hasSent = false;
 
     const sendTimeOnPage = () => {
+      if (hasSent) return;
+      hasSent = true;
+
       const timeSpent = Math.round((Date.now() - startTime.current) / 1000);
 
       // Only track if user spent at least 1 second
@@ -202,23 +189,17 @@ export function useTimeOnPageTracking() {
         track("time_on_page", {
           time_spent_seconds: timeSpent,
           max_scroll_depth: maxScrollDepth.current,
-          sections_viewed: Array.from(sectionsViewed.current),
+          sections_viewed: [],
           page_path: pathname,
         });
       }
     };
 
-    const handleBeforeUnload = () => {
-      sendTimeOnPage();
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
+    window.addEventListener("beforeunload", sendTimeOnPage);
 
     return () => {
       sendTimeOnPage();
-      window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.removeEventListener("beforeunload", sendTimeOnPage);
     };
   }, [pathname]);
-
-  return { trackSectionView };
 }

@@ -15,16 +15,6 @@ export interface CodeCopyClickedEvent {
   };
 }
 
-export interface CodeBlockViewedEvent {
-  event: "code_block_viewed";
-  properties: {
-    language?: string;
-    code_title?: string;
-    code_type?: "block" | "command" | "component";
-    page_path: string;
-  };
-}
-
 export interface CodePackageManagerSelectedEvent {
   event: "code_package_manager_selected";
   properties: {
@@ -47,15 +37,6 @@ export interface CodeFileSelectedEvent {
   properties: {
     file_name: string;
     component_name?: string;
-    page_path: string;
-  };
-}
-
-export interface CodeTabSwitchedEvent {
-  event: "code_tab_switched";
-  properties: {
-    tab_name: string;
-    previous_tab?: string;
     page_path: string;
   };
 }
@@ -211,16 +192,6 @@ export interface TimeOnPageEvent {
   };
 }
 
-export interface SectionViewedEvent {
-  event: "section_viewed";
-  properties: {
-    section_id: string;
-    section_title: string;
-    time_in_section_ms: number;
-    page_path: string;
-  };
-}
-
 // Wallet events
 export interface WalletConnectedEvent {
   event: "wallet_connected";
@@ -250,24 +221,6 @@ export interface SessionStartedEvent {
     utm_term?: string;
     utm_content?: string;
     entry_page: string;
-    page_path: string;
-  };
-}
-
-// Page navigation tracking for user flows
-export interface PageNavigationEvent {
-  event: "page_navigation";
-  properties: {
-    from_path: string;
-    to_path: string;
-    navigation_type:
-      | "internal_link"
-      | "sidebar"
-      | "footer"
-      | "card"
-      | "toc"
-      | "search"
-      | "browser";
     page_path: string;
   };
 }
@@ -312,11 +265,9 @@ export interface NetworkChangedEvent {
 // Union type of all analytics events
 export type AnalyticsEvent =
   | CodeCopyClickedEvent
-  | CodeBlockViewedEvent
   | CodePackageManagerSelectedEvent
   | CodeCollapsibleToggledEvent
   | CodeFileSelectedEvent
-  | CodeTabSwitchedEvent
   | FeedbackRatingClickedEvent
   | FeedbackSubmittedEvent
   | AICopyForLLMClickedEvent
@@ -334,13 +285,11 @@ export type AnalyticsEvent =
   | RecentSearchClickedEvent
   | ScrollDepthReachedEvent
   | TimeOnPageEvent
-  | SectionViewedEvent
   | WalletConnectedEvent
   | WalletDisconnectedEvent
   | SessionStartedEvent
   | ExternalLinkClickedEvent
-  | NetworkChangedEvent
-  | PageNavigationEvent;
+  | NetworkChangedEvent;
 
 // Helper type to extract event name from event type
 export type EventName = AnalyticsEvent["event"];
