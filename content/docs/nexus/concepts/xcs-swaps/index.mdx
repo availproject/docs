@@ -9,11 +9,9 @@ In Nexus, users can do crosschain swaps (aka **Swap Methods**) which allows them
 
 Canonical assets like ETH, USDC and USDT are used to simplify the routing process for solvers and are used as the "interim" or "express" tokens, to make it cheaper for users. 
 
-<br />
+<ThemedImage light="/img/nexus/swaps-light.png" dark="/img/nexus/swaps-dark.png" alt="Crosschain Swaps" />
 
-<img src="/img/nexus/swaps.png" alt="Swaps" width="100%" align="center"/>
-
-
+*Showing a subset of supported chains. See [Supported Chains & Tokens](/docs/nexus/supported-chains-and-tokens) for the full list.*
 
 ## Routing possibilities
 Avail Nexus SDK automatically manages the entire transaction lifecycle. It analyses and suggests the optimal routing path to fulfill the user’s intent, resulting in an ‘any token in’, ‘any token out’ effect.
@@ -22,8 +20,9 @@ Avail Nexus SDK automatically manages the entire transaction lifecycle. It analy
 2. **Source Swap → Bridge:** A user sends a custom asset like OP from chain A, and gets a canonical asset like USDT on chain B.
 3. **Source Swap → Bridge → Destination Swap:** A user sends a custom asset like OP from chain A, and gets a custom asset like PEPE on chain B.
 
-<br />
-<img src="/img/nexus/swap-routes.png" alt="Swap Routes" width="100%" align="center"/>
+<ThemedImage light="/img/nexus/swap-routes-light.png" dark="/img/nexus/swap-routes-dark.png" alt="Swap Routes" />
+
+*Showing a subset of supported chains. See [Supported Chains & Tokens](/docs/nexus/supported-chains-and-tokens) for the full list.*
 
 ## Exact In & Exact Out Swaps
 

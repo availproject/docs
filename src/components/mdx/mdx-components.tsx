@@ -68,6 +68,7 @@ import { IconCard, IconCardGrid } from "./icon-card";
 import { LinkCard, LinkCardGrid } from "./link-card";
 import { PageFooter } from "./page-footer";
 import { SupportedChainsTable } from "./supported-chains/supported-chains-table";
+import { ThemedImage } from "./themed-image";
 
 export const mdxComponents: MDXComponentsMap = {
   // Headings
@@ -492,6 +493,8 @@ export const mdxComponents: MDXComponentsMap = {
   // Contract addresses tables
   VaultContractTable,
   TokenAddressesTable,
+  // Theme-aware images (light/dark variants)
+  ThemedImage,
   // Feedback component
   Feedback,
   // Page footer with navigation
