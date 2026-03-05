@@ -45,10 +45,8 @@ export function initPostHog(): void {
       persistence: "localStorage+cookie",
       // Respect Do Not Track
       respect_dnt: true,
-      loaded: (posthogInstance) => {
-        if (process.env.NODE_ENV === "development") {
-          posthogInstance.opt_out_capturing();
-        }
+      loaded: () => {
+        // Capturing enabled in all environments
       },
     });
   } catch {
