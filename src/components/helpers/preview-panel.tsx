@@ -1,5 +1,8 @@
 "use client";
-import type { EthereumProvider } from "@avail-project/nexus-core";
+import {
+  type EthereumProvider,
+  truncateAddress,
+} from "@avail-project/nexus-core";
 import { Spinner, SpinnerGap } from "@phosphor-icons/react";
 import { ConnectKitButton } from "connectkit";
 import { type ReactNode, useEffect } from "react";
@@ -47,6 +50,20 @@ export function PreviewPanel({ children }: Readonly<PreviewPanelProps>) {
   return (
     <div className="w-full">
       <div className="flex flex-col w-full items-center justify-center min-h-[450px] relative">
+        {status === "connected" && (
+          <ConnectKitButton.Custom>
+            {({ show, address }) => (
+              <button
+                type="button"
+                onClick={show}
+                className="absolute top-3 right-3 z-10 flex items-center gap-1.5 px-2.5 py-1.5 text-xs text-muted-foreground bg-muted/50 border border-border rounded-md hover:bg-muted transition-colors"
+              >
+                <span className="size-1.5 rounded-full bg-emerald-500" />
+                {truncateAddress(address ?? "", 4, 4)}
+              </button>
+            )}
+          </ConnectKitButton.Custom>
+        )}
         {(status === "connected" || status === "connecting") &&
           nexusSDK &&
           children}
