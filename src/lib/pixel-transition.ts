@@ -99,18 +99,32 @@ export function pixelTransition(
       let lastCleared = 0;
 
       function animate(currentTime: number) {
-        const progress = Math.min((currentTime - startTime) / duration, 1);
-        const eased = 1 - (1 - progress) ** 2;
-        const targetCleared = Math.floor(eased * pixels.length);
+        try {
+          const progress = Math.min((currentTime - startTime) / duration, 1);
+          const eased = 1 - (1 - progress) ** 2;
+          const targetCleared = Math.floor(eased * pixels.length);
 
-        for (let i = lastCleared; i < targetCleared && i < pixels.length; i++) {
-          ctx?.clearRect(pixels[i][0], pixels[i][1], pixelSize, pixelSize);
-        }
-        lastCleared = targetCleared;
+          for (
+            let i = lastCleared;
+            i < targetCleared && i < pixels.length;
+            i++
+          ) {
+            const pixel = pixels[i];
+            if (!pixel) continue;
+            ctx?.clearRect(pixel[0], pixel[1], pixelSize, pixelSize);
+          }
+          lastCleared = targetCleared;
 
-        if (progress < 1) {
-          requestAnimationFrame(animate);
-        } else {
+          if (progress < 1) {
+            requestAnimationFrame(animate);
+          } else {
+            canvas.remove();
+            isTransitioning = false;
+            document.dispatchEvent(new CustomEvent("pixelTransitionEnd"));
+          }
+        } catch {
+          // If anything throws, clean up immediately — never leave the
+          // overlay stuck or isTransitioning locked.
           canvas.remove();
           isTransitioning = false;
           document.dispatchEvent(new CustomEvent("pixelTransitionEnd"));
