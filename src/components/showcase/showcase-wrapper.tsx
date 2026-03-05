@@ -30,7 +30,6 @@ type ToggleControlProps = Omit<
 
 interface ShowcaseWrapperProps extends ToggleControlProps {
   children: React.ReactNode;
-  connectLabel?: string;
   type: ElementType;
   toggleLabel?: string;
   toggle?: boolean;
@@ -39,7 +38,6 @@ interface ShowcaseWrapperProps extends ToggleControlProps {
 
 const ShowcaseWrapper = ({
   children,
-  connectLabel = "Connect wallet to use Nexus",
   type,
   toggle,
   toggleLabel,
@@ -99,7 +97,7 @@ const ShowcaseWrapper = ({
           </p>
         </div>
       ) : (
-        <PreviewPanel connectLabel={connectLabel}>{children}</PreviewPanel>
+        <PreviewPanel>{children}</PreviewPanel>
       )}
     </div>
   );

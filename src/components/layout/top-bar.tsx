@@ -13,7 +13,6 @@ import {
 } from "@/components/search/search-dialog";
 import { useSidebar } from "@/components/ui/sidebar";
 import { pixelTransition } from "@/lib/pixel-transition";
-import { AccountMenu } from "./account-menu";
 import { ProductSwitcher } from "./product-switcher";
 import { SearchBar } from "./search-bar";
 import { ThemeToggle } from "./theme-toggle";
@@ -167,11 +166,6 @@ export default function Topbar() {
                 <Sun size={20} weight="regular" />
               )}
             </button>
-
-            {/* Desktop account menu */}
-            <div className="hidden lg:block">
-              <AccountMenu theme={theme ?? "system"} setTheme={setTheme} />
-            </div>
           </div>
         </div>
       </div>

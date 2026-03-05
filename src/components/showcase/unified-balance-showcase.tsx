@@ -1,5 +1,4 @@
 import dynamic from "next/dynamic";
-import React from "react";
 import { Skeleton } from "../ui/skeleton";
 import ShowcaseWrapper from "./showcase-wrapper";
 
@@ -12,10 +11,7 @@ const UnifiedBalance = dynamic(
 
 const UnifiedBalanceShowcase = () => {
   return (
-    <ShowcaseWrapper
-      connectLabel="Connect wallet to use Nexus Unified Balance"
-      type="unified-balance"
-    >
+    <ShowcaseWrapper type="unified-balance">
       <UnifiedBalance />
     </ShowcaseWrapper>
   );
