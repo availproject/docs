@@ -14,6 +14,10 @@ Instead of converting funds first, users specify a [clear intent](/docs/nexus/co
 
 [Solvers](/docs/nexus/concepts/solvers) compete to provide liquidity on the destination chain, and once available, users confirm the transaction. Settlement with solvers happens asynchronously using the collected funds.
 
+<ThemedImage light="/img/nexus/chain-abstraction-light.png" dark="/img/nexus/chain-abstraction-dark.png" alt="Chain Abstraction" />
+
+*Showing a subset of supported chains. See [Supported Chains & Tokens](/docs/nexus/supported-chains-and-tokens) for the full list.*
+
 As part of setup, devs configure [allowances](/docs/nexus/concepts/allowances) per chain and token. Users approve or reject these allowances. For supported chains and tokens, the protocol uses these allowances to deposit required funds for transactions on the destination chain.
 
 

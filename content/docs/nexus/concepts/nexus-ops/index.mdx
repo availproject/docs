@@ -16,8 +16,9 @@ During the `Bridge` operation, the funds are bridged from N source chains to the
 
     `Sender` = `Recipient`
 
-<br />
-<img src="/img/nexus/bridge-op.png" alt="Bridge Operation" width="100%" align="center"/>
+<ThemedImage light="/img/nexus/bridge-op-light.png" dark="/img/nexus/bridge-op-dark.png" alt="Bridge Operation" />
+
+*Showing a subset of supported chains. See [Supported Chains & Tokens](/docs/nexus/supported-chains-and-tokens) for the full list.*
 
 This function uses the `BridgeParams` struct and the `bridge` function from the Bridge Methods in the SDK.
 
@@ -26,9 +27,9 @@ This function uses the `BridgeParams` struct and the `bridge` function from the 
 During the `Transfer` operation, the funds are bridged from N source chains from the `Sender` to the user's preferred destination chain at a different `Receiver` address. This is a compound operation: funds are bridged from multiple source chains to a destination chain, then transferred to the `Recipient` address. 
 
     `Sender` != `Recipient`
-<br />
+<ThemedImage light="/img/nexus/transfer-op-light.png" dark="/img/nexus/transfer-op-dark.png" alt="Transfer Operation" />
 
-<img src="/img/nexus/transfer-op.png" alt="Transfer operation" width="100%" align="center"/>
+*Showing a subset of supported chains. See [Supported Chains & Tokens](/docs/nexus/supported-chains-and-tokens) for the full list.*
 
 This function uses the `TransferParams` struct and the `bridgeAndTransfer` function from the Bridge Methods in the SDK.
 
@@ -43,10 +44,9 @@ For users, this means they don't have to do a separate bridge action to use a `L
 
 A bridgeless experience. 
 
-<br />
+<ThemedImage light="/img/nexus/bne-op-light.png" dark="/img/nexus/bne-op-dark.png" alt="Bridge and Execute Operation" />
 
-
-<img src="/img/nexus/bne-op.png" alt="Bridge and Execute operation" width="100%" align="center"/>
+*Showing a subset of supported chains. See [Supported Chains & Tokens](/docs/nexus/supported-chains-and-tokens) for the full list.*
 
 This function uses the `BridgeAndExecuteParams` struct and the `bridgeAndExecute` function from the Bridge Methods in the SDK.
 
