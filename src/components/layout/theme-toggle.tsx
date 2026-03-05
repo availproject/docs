@@ -62,7 +62,7 @@ export function ThemeToggle({
         type="button"
         className={cn(
           "flex h-10 items-center px-2 bg-menu-item-background border border-menu-item-border cursor-pointer hover:border-brand/20 transition-colors",
-          open && "bg-white",
+          open && "bg-popover",
         )}
       >
         {open ? (
