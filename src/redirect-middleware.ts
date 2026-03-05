@@ -53,5 +53,18 @@ export function applyRedirects(request: NextRequest): NextResponse | null {
     return NextResponse.redirect(url, { status: 301 });
   }
 
+  // Catch-all: redirect unmatched legacy paths to homepage
+  const normalizedPathname = normalizePath(pathname);
+  if (
+    normalizedPathname.startsWith("/da") ||
+    normalizedPathname.startsWith("/nexus") ||
+    normalizedPathname.startsWith("/user-guides") ||
+    normalizedPathname.startsWith("/api-reference")
+  ) {
+    const url = new URL("/", origin);
+    url.search = search;
+    return NextResponse.redirect(url, { status: 302 });
+  }
+
   return null;
 }

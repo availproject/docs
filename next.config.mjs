@@ -27,38 +27,6 @@ const config = {
         destination: "/docs/da/build/networks",
         permanent: true,
       },
-      // Legacy URL redirects (old site used /nexus and /da without /docs prefix)
-      {
-        source: "/nexus/:path*",
-        destination: "/docs/nexus/:path*",
-        permanent: true,
-      },
-      // Legacy DA path renames (before adding /docs prefix)
-      {
-        source: "/da/build-with-avail/:path*",
-        destination: "/docs/da/build/:path*",
-        permanent: true,
-      },
-      {
-        source: "/da/operate-a-node/:path*",
-        destination: "/docs/da/operate/:path*",
-        permanent: true,
-      },
-      {
-        source: "/da/api-reference/avail-nexus-sdk/:path*",
-        destination: "/docs/nexus/nexus-sdk/:path*",
-        permanent: true,
-      },
-      {
-        source: "/da/clash-of-nodes/:path*",
-        destination: "/docs/da/faqs",
-        permanent: true,
-      },
-      {
-        source: "/da/:path*",
-        destination: "/docs/da/:path*",
-        permanent: true,
-      },
       // Legacy end-user-guide paths
       {
         source: "/docs/end-user-guide/vectorx",
