@@ -40,7 +40,6 @@ PostHogProvider (outermost in layout.tsx)
 |-------|-------------|------------|
 | `$pageview` | Automatic page view on navigation | `$current_url`, `$pathname`, `referrer`, `referrer_domain`, `utm_*` |
 | `session_started` | First page view with attribution | `entry_page`, `referrer`, `referrer_domain`, `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content` |
-| `page_navigation` | Track user flow between pages | `from_path`, `to_path`, `navigation_type`, `page_path` |
 | `scroll_depth_reached` | User scrolled to 25/50/75/100% | `depth_percentage`, `time_to_reach_ms`, `page_path` |
 | `time_on_page` | Sent on page leave | `time_spent_seconds`, `max_scroll_depth`, `sections_viewed`, `page_path` |
 
@@ -49,11 +48,9 @@ PostHogProvider (outermost in layout.tsx)
 | Event | Description | Properties |
 |-------|-------------|------------|
 | `code_copy_clicked` | User copied code | `language`, `content_length`, `code_title`, `code_type` (inline/block/command/component), `page_path` |
-| `code_block_viewed` | Code block entered viewport | `language`, `code_title`, `code_type`, `page_path` |
 | `code_package_manager_selected` | Tab switch in command blocks | `package_manager` (pnpm/npm/yarn/bun), `page_path` |
 | `code_collapsible_toggled` | Expand/collapse code sections | `is_expanded`, `title`, `page_path` |
 | `code_file_selected` | File selection in code browser | `file_name`, `component_name`, `page_path` |
-| `code_tab_switched` | Component/Provider tab switch | `tab_name`, `previous_tab`, `page_path` |
 
 ### 3. Feedback Events
 
@@ -207,17 +204,17 @@ PostHog is initialized with these settings (see `src/lib/analytics/posthog.ts`):
 - `persistence: 'localStorage+cookie'` - Cross-session tracking
 - `respect_dnt: true` - Honor Do Not Track
 
-## Debugging
+## Ad-Blocker Bypass
 
-Enable PostHog debug mode in development by uncommenting in `posthog.ts`:
+PostHog requests are proxied through the app's own domain via Next.js rewrites in `next.config.mjs`:
+- `/ingest/*` → `https://us.i.posthog.com/*`
+- `/ingest/static/*` → `https://us-assets.i.posthog.com/static/*`
 
-```typescript
-loaded: (posthogInstance) => {
-  if (process.env.NODE_ENV === 'development') {
-    posthogInstance.debug()
-  }
-}
-```
+This prevents ad blockers from blocking analytics requests. The PostHog client is configured with `api_host: "/ingest"`.
+
+## Development
+
+PostHog automatically opts out of capturing in development (`NODE_ENV === "development"`). No dev traffic is sent to the production PostHog instance.
 
 ## Privacy Considerations
 

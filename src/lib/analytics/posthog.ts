@@ -20,37 +20,41 @@ export function initPostHog(): void {
     return;
   }
 
-  posthog.init(POSTHOG_KEY, {
-    api_host: POSTHOG_HOST,
-    // Disable automatic pageview capture - we handle it manually for SPA
-    capture_pageview: false,
-    // Disable automatic pageleave capture - we handle it manually
-    capture_pageleave: false,
-    // Session recording configuration
-    session_recording: {
-      // Mask all text inputs for privacy
-      maskAllInputs: true,
-      // Mask sensitive text content
-      maskTextSelector: "[data-ph-mask]",
-    },
-    // Autocapture configuration - only capture specific elements
-    autocapture: {
-      dom_event_allowlist: ["click", "submit"],
-      element_allowlist: ["button", "a", "input", "form"],
-      css_selector_allowlist: ["[data-ph-capture]"],
-    },
-    // Persistence configuration
-    persistence: "localStorage+cookie",
-    // Respect Do Not Track
-    respect_dnt: true,
-    // Disable in development unless explicitly enabled
-    loaded: (posthogInstance) => {
-      if (process.env.NODE_ENV === "development") {
-        // Uncomment to debug in development
-        // posthogInstance.debug()
-      }
-    },
-  });
+  try {
+    posthog.init(POSTHOG_KEY, {
+      api_host: "/ingest",
+      ui_host: POSTHOG_HOST,
+      // Disable automatic pageview capture - we handle it manually for SPA
+      capture_pageview: false,
+      // Disable automatic pageleave capture - we handle it manually
+      capture_pageleave: false,
+      // Session recording configuration
+      session_recording: {
+        // Mask all text inputs for privacy
+        maskAllInputs: true,
+        // Mask sensitive text content
+        maskTextSelector: "[data-ph-mask]",
+      },
+      // Autocapture configuration - only capture specific elements
+      autocapture: {
+        dom_event_allowlist: ["click", "submit"],
+        element_allowlist: ["button", "a", "input", "form"],
+        css_selector_allowlist: ["[data-ph-capture]"],
+      },
+      // Persistence configuration
+      persistence: "localStorage+cookie",
+      // Respect Do Not Track
+      respect_dnt: true,
+      loaded: (posthogInstance) => {
+        if (process.env.NODE_ENV === "development") {
+          posthogInstance.opt_out_capturing();
+        }
+      },
+    });
+  } catch {
+    // Silently fail — don't crash the app if PostHog init fails
+    // (e.g. corrupted localStorage, blocked by browser policy)
+  }
 }
 
 /**
@@ -220,7 +224,9 @@ export function unsetSuperProperties(propertyNames: string[]): void {
     return;
   }
 
-  propertyNames.forEach((name) => posthog.unregister(name));
+  for (const name of propertyNames) {
+    posthog.unregister(name);
+  }
 }
 
 // Export PostHog instance for advanced usage
