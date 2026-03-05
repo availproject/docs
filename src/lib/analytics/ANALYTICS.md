@@ -204,13 +204,13 @@ PostHog is initialized with these settings (see `src/lib/analytics/posthog.ts`):
 - `persistence: 'localStorage+cookie'` - Cross-session tracking
 - `respect_dnt: true` - Honor Do Not Track
 
-## Ad-Blocker Bypass
+## Request Proxying
 
 PostHog requests are proxied through the app's own domain via Next.js rewrites in `next.config.mjs`:
 - `/ingest/*` → `https://us.i.posthog.com/*`
 - `/ingest/static/*` → `https://us-assets.i.posthog.com/static/*`
 
-This prevents ad blockers from blocking analytics requests. The PostHog client is configured with `api_host: "/ingest"`.
+This improves data reliability by routing analytics through a first-party endpoint. The PostHog client is configured with `api_host: "/ingest"`.
 
 ## Development
 
