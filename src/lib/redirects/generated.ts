@@ -7,7 +7,7 @@ import type { RedirectRule } from "./types";
 export const generatedRedirectRules: RedirectRule[] = [
   {
     source: "/nexus/nexus-examples/nexus-initialization-basic",
-    destination: "/docs/nexus/cheat-sheet",
+    destination: "/docs/nexus/get-started",
   },
   { source: "/da/archived-content", destination: "/docs/da/build" },
   { source: "/da/clash-of-nodes", destination: "/docs/da/build" },
@@ -307,5 +307,27 @@ export const generatedRedirectRules: RedirectRule[] = [
   {
     source: "/da/operate-a-node/run-a-full-node/full-node",
     destination: "/docs/da/operate/run-a-full-node/full-node",
+  },
+  // Off-sitemap legacy paths (not in old-docs-urls.json)
+  {
+    source: "/da/api-reference/avail-nexus-sdk/api-reference",
+    destination: "/docs/nexus/nexus-sdk/reference",
+  },
+  {
+    source: "/da/build-with-avail/Optimium/arbitrum-nitro/nitro-stack",
+    destination: "/docs/da/build/rollups/arbitrum-nitro",
+  },
+  {
+    source: "/da/operate-a-node/run-a-full-node/requirements",
+    destination: "/docs/da/operate/run-a-full-node",
+  },
+  {
+    source:
+      "/da/operate-a-node/run-a-light-client/Reference/embedding-the-light-client",
+    destination: "/docs/da/operate/run-a-light-client",
+  },
+  {
+    source: "/nexus/avail-nexus-sdk/examples/nexus-core/api-reference",
+    destination: "/docs/nexus/nexus-sdk/reference",
   },
 ];

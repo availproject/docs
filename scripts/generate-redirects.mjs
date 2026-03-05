@@ -129,7 +129,7 @@ async function main() {
 
   const sectionFallbackDestination = {
     da: "/docs/da/build",
-    nexus: "/docs/nexus/cheat-sheet",
+    nexus: "/docs/nexus/get-started",
     "user-guides": "/docs/da/user-guides",
     root: "/docs",
     other: "/docs",

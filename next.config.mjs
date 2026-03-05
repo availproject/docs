@@ -40,6 +40,12 @@ const config = {
         destination: "/docs/da/build/networks",
         permanent: true,
       },
+      // Legacy end-user-guide paths
+      {
+        source: "/docs/end-user-guide/vectorx",
+        destination: "/docs/da/user-guides/bridge-avail/avail-ethereum",
+        permanent: true,
+      },
       // Legacy Nexus redirects (v1.5.0 restructure)
       {
         source: "/docs/nexus/nexus-overview",
