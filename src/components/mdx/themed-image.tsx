@@ -6,12 +6,10 @@ export function ThemedImage({
   light,
   dark,
   alt,
-  width = "100%",
 }: {
   light: string;
   dark: string;
   alt: string;
-  width?: string;
 }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -28,8 +26,7 @@ export function ThemedImage({
         <img
           src={light}
           alt={alt}
-          width={width}
-          className="border border-border"
+          className="w-full border border-border rounded-md"
         />
       </button>
       <button
@@ -41,8 +38,7 @@ export function ThemedImage({
         <img
           src={dark}
           alt={alt}
-          width={width}
-          className="border border-border"
+          className="w-full border border-border rounded-md"
         />
       </button>
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: dialog backdrop click-to-close is standard UX */}
@@ -57,13 +53,15 @@ export function ThemedImage({
         <img
           src={light}
           alt={alt}
-          className="max-w-full max-h-[70vh] object-contain block dark:hidden"
+          loading="lazy"
+          className="max-w-full max-h-[70vh] object-contain rounded-md block dark:hidden"
         />
         {/* biome-ignore lint/performance/noImgElement: CSS theme switching requires native img */}
         <img
           src={dark}
           alt={alt}
-          className="max-w-full max-h-[70vh] object-contain hidden dark:block"
+          loading="lazy"
+          className="max-w-full max-h-[70vh] object-contain rounded-md hidden dark:block"
         />
       </dialog>
     </>
