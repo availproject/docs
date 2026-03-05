@@ -59,6 +59,25 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // .md suffix → rewrite to markdown API
+  // e.g. /docs/nexus/get-started.md → /api/markdown/nexus/get-started
+  if (request.nextUrl.pathname.endsWith(".md")) {
+    const rawSlug = request.nextUrl.pathname
+      .replace(/\.md$/, "")
+      .replace(/^\/docs\/?/, "");
+    const slug = normalizeDocsSlugForMarkdownApi(rawSlug);
+    const markdownUrl = new URL(
+      slug ? `/api/markdown/${slug}` : "/api/markdown",
+      request.url,
+    );
+    request.nextUrl.searchParams.forEach((value, key) => {
+      markdownUrl.searchParams.set(key, value);
+    });
+    return NextResponse.rewrite(markdownUrl, {
+      headers: { Vary: "accept" },
+    });
+  }
+
   if (!acceptsMarkdown(request)) {
     return NextResponse.next();
   }

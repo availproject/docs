@@ -63,7 +63,11 @@ vi.mock("@/lib/products", () => ({
   ],
 }));
 
-import { generateLlmsFullTxt, generateLlmsTxt } from "./llms";
+import {
+  generateLlmsFullTxt,
+  generateLlmsSectionTxt,
+  generateLlmsTxt,
+} from "./llms";
 
 describe("generateLlmsTxt", () => {
   let output: string;
@@ -76,9 +80,22 @@ describe("generateLlmsTxt", () => {
     expect(output.startsWith("# Avail Documentation")).toBe(true);
   });
 
+  it("has spoke file references", () => {
+    expect(output).toContain("## Section-Specific Documentation");
+    expect(output).toContain("/llms-da.txt");
+    expect(output).toContain("/llms-nexus.txt");
+    expect(output).toContain("/llms-full.txt");
+  });
+
   it("has Quick Reference section with RPC URLs", () => {
     expect(output).toContain("## Quick Reference");
     expect(output).toContain("https://mainnet-rpc.avail.so/rpc");
+  });
+
+  it("spoke references appear before Quick Reference", () => {
+    const spokeIdx = output.indexOf("## Section-Specific Documentation");
+    const quickRefIdx = output.indexOf("## Quick Reference");
+    expect(spokeIdx).toBeLessThan(quickRefIdx);
   });
 
   it('has "If you want to..." section', () => {
@@ -100,16 +117,13 @@ describe("generateLlmsTxt", () => {
   });
 
   it("pages with descriptions use title: description format", () => {
-    // "Get Started" has description "Welcome to Avail DA"
     expect(output).toContain(
       "- [Get Started](/docs/da/get-started): Welcome to Avail DA",
     );
   });
 
   it("pages without descriptions use title-only format", () => {
-    // "Faucet" has empty description
     expect(output).toContain("- [Faucet](/docs/da/build/interact/faucet)");
-    // Make sure there's no trailing colon
     expect(output).not.toContain("- [Faucet](/docs/da/build/interact/faucet):");
   });
 
@@ -136,6 +150,33 @@ describe("generateLlmsTxt", () => {
   });
 });
 
+describe("generateLlmsSectionTxt", () => {
+  it("da section includes DA pages", async () => {
+    const output = await generateLlmsSectionTxt("da");
+    expect(output).toContain("# Avail DA Documentation");
+    expect(output).toContain("## Get Started");
+    expect(output).toContain("## Networks");
+    expect(output).toContain("## Faucet");
+  });
+
+  it("da section excludes Nexus pages", async () => {
+    const output = await generateLlmsSectionTxt("da");
+    expect(output).not.toContain("Nexus Get Started");
+  });
+
+  it("nexus section includes Nexus pages", async () => {
+    const output = await generateLlmsSectionTxt("nexus");
+    expect(output).toContain("# Avail Nexus Documentation");
+    expect(output).toContain("## Nexus Get Started");
+  });
+
+  it("nexus section excludes DA pages", async () => {
+    const output = await generateLlmsSectionTxt("nexus");
+    expect(output).not.toContain("## Networks");
+    expect(output).not.toContain("## Faucet");
+  });
+});
+
 describe("generateLlmsFullTxt", () => {
   it("without section, includes pages from all products", async () => {
     const output = await generateLlmsFullTxt();
@@ -149,7 +190,6 @@ describe("generateLlmsFullTxt", () => {
     const output = await generateLlmsFullTxt("da/build");
     expect(output).toContain("### Networks");
     expect(output).toContain("### Faucet");
-    // Should NOT include top-level da pages or nexus pages
     expect(output).not.toContain("### Get Started");
     expect(output).not.toContain("### Nexus Get Started");
   });

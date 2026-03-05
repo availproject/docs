@@ -6,6 +6,7 @@ import {
   Copy,
   FileText,
   GithubLogo,
+  SparkleIcon,
   SpinnerGap,
 } from "@phosphor-icons/react";
 import { usePathname } from "next/navigation";
@@ -316,6 +317,15 @@ export function PageActions({ pageContent }: Readonly<PageActionsProps>) {
         >
           <GithubLogo size={20} className="shrink-0" />
           <span className="text-base">Edit in GitHub</span>
+        </a>
+
+        {/* AI-friendly features */}
+        <a
+          href="/docs/ai-features"
+          className="flex items-center gap-2 text-page-nav-foreground hover:text-page-nav-foreground-hover transition-colors cursor-pointer"
+        >
+          <SparkleIcon size={20} className="shrink-0" />
+          <span className="text-base">AI Friendly Features</span>
         </a>
       </div>
     </div>

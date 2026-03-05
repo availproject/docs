@@ -1,0 +1,271 @@
+---
+title: AI-Friendly Features
+description: How AI agents and LLMs can interact with Avail documentation — llms.txt, markdown access, MCP servers, agent skills, and more.
+---
+
+Avail documentation is built to be consumed by AI agents, LLMs, and developer tools alongside human readers. This page describes every AI-friendly feature available.
+
+## Feature Overview
+
+| Feature | Access | Description |
+|---------|--------|-------------|
+| [llms.txt hub](/llms.txt) | `GET /llms.txt` | Lightweight routing index with quick-reference links and page listing |
+| [Section spokes](#section-specific-llmstxt) | `GET /llms-da.txt`, `/llms-nexus.txt` | Focused content dumps per product (fits within context windows) |
+| [Full dump](/llms-full.txt) | `GET /llms-full.txt` | All documentation as a single text file |
+| [.md suffix](#md-suffix-access) | Append `.md` to any page URL | Get any docs page as clean markdown |
+| [Content negotiation](#content-negotiation) | `Accept: text/markdown` header | Request markdown from any docs URL via HTTP header |
+| [Markdown API](#markdown-api) | `GET /api/markdown/{slug}` | Programmatic markdown access with JSON option |
+| [Structured data](#structured-reference-data) | `GET /api/reference.json` | Networks, contracts, SDKs as machine-readable JSON |
+| [AI headers](#ai-headers) | Automatic | `Content-Signal`, `X-Robots-Tag`, and `Vary` on all AI responses |
+| [Agent detection](#agent-detection) | Automatic | Identifies Claude, ChatGPT, Cursor, Perplexity via User-Agent |
+| [Copy for LLM](#page-actions) | Page sidebar | One-click copy of cleaned markdown for the current page |
+| [Ask AI](#page-actions) | Page sidebar | Open page context in v0, ChatGPT, or Claude |
+| [MCP Server](#mcp-server-for-nexus-ui-elements) | shadcn MCP | Browse and install Nexus UI Elements via natural language |
+| [Agent Skills](#agent-skills-for-nexus-sdk) | skills.sh | Install Nexus SDK skills for Codex and other agents |
+
+---
+
+## llms.txt Hub & Spoke Architecture
+
+The documentation follows a hub-and-spoke pattern so agents can fetch only what they need:
+
+- **Hub** — [`/llms.txt`](/llms.txt): Quick reference links, network endpoints, and a full page index. Start here.
+- **Spoke: DA** — [`/llms-da.txt`](/llms-da.txt): Full content dump for Avail DA (data availability layer, build guides, operations, user guides, API reference).
+- **Spoke: Nexus** — [`/llms-nexus.txt`](/llms-nexus.txt): Full content dump for Avail Nexus (SDK, concepts, contracts, UI elements, supported chains and tokens).
+- **Full dump** — [`/llms-full.txt`](/llms-full.txt): Every page in one file. Supports `?section=` filtering (e.g. `?section=da/build`).
+
+### Section-Specific llms.txt
+
+Spokes keep context usage efficient. For example, if an agent only needs Nexus SDK documentation:
+
+```bash
+curl https://docs.availproject.org/llms-nexus.txt
+```
+
+Or filter the full dump to a specific section:
+
+```bash
+curl "https://docs.availproject.org/llms-full.txt?section=nexus/nexus-sdk"
+```
+
+---
+
+## .md Suffix Access
+
+Append `.md` to any documentation URL to get its content as clean markdown:
+
+```bash
+# Get a page as markdown
+curl https://docs.availproject.org/docs/nexus/get-started.md
+
+# Also supports JSON format
+curl "https://docs.availproject.org/docs/nexus/get-started.md?format=json"
+```
+
+The markdown is cleaned for agent consumption — JSX components, import statements, and frontmatter are stripped, while Callouts, Tabs, and Cards are converted to readable text.
+
+---
+
+## Content Negotiation
+
+Send `Accept: text/markdown` in your HTTP request to receive markdown instead of HTML from any `/docs/**` URL:
+
+```bash
+curl -H "Accept: text/markdown" https://docs.availproject.org/docs/da/build/networks
+```
+
+Browser requests (with `Accept: */*`) still receive normal HTML pages.
+
+---
+
+## Markdown API
+
+The programmatic API at `/api/markdown/{slug}` powers all markdown features:
+
+```bash
+# Plain markdown
+curl https://docs.availproject.org/api/markdown/nexus/get-started
+
+# JSON format (includes title, description, URL, and content)
+curl "https://docs.availproject.org/api/markdown/nexus/get-started?format=json"
+```
+
+JSON response shape:
+
+```json
+{
+  "title": "Get Started with Nexus",
+  "description": "Introduction to Avail Nexus",
+  "url": "/docs/nexus/get-started",
+  "content": "## Get Started with Nexus\n\n..."
+}
+```
+
+---
+
+## Structured Reference Data
+
+Machine-readable reference data is available at [`/api/reference.json`](/api/reference.json):
+
+```bash
+curl https://docs.availproject.org/api/reference.json
+```
+
+This returns structured JSON with networks, contract addresses, SDK packages, and other reference data that agents can parse directly.
+
+---
+
+## AI Headers
+
+All AI-facing responses include these headers:
+
+| Header | Value | Purpose |
+|--------|-------|---------|
+| `Content-Signal` | `ai-train=yes, search=yes, ai-input=yes` | Signals content is available for AI training, search, and input |
+| `X-Robots-Tag` | `noindex` | Prevents search engines from indexing raw markdown responses |
+| `Vary` | `accept` | Tells CDNs to cache HTML and markdown representations separately |
+
+---
+
+## Agent Detection
+
+The docs automatically detect AI agent requests via User-Agent patterns and track them with PostHog analytics. Recognized agents include:
+
+- **Claude** (Anthropic)
+- **ChatGPT / GPT** (OpenAI)
+- **Cursor**
+- **Perplexity**
+
+This helps us understand how agents consume our documentation and improve the experience.
+
+---
+
+## Page Actions
+
+Every documentation page includes AI actions in the right sidebar:
+
+- **Ask AI** — Opens page content in v0, ChatGPT, or Claude with context pre-loaded
+- **Copy for LLM** — Copies the cleaned markdown of the current page to your clipboard
+- **View as markdown** — Opens the raw markdown in a new tab
+- **AI features** — Links to this page
+
+---
+
+## MCP Server for Nexus UI Elements
+
+The [Nexus UI Elements](/docs/nexus/nexus-ui-elements) registry supports the [Model Context Protocol (MCP)](https://modelcontextprotocol.io), allowing AI assistants to browse, search, and install Nexus UI components with natural language.
+
+### Quick Setup
+
+<Steps>
+
+### Add the Nexus Elements registry
+
+Add to your project's `components.json`:
+
+```json title="components.json"
+{
+  "registries": {
+    "@nexus-elements": "https://elements.nexus.availproject.org/r/{name}.json"
+  }
+}
+```
+
+### Initialize the MCP server
+
+<Tabs defaultValue="cursor">
+  <TabsList>
+    <TabsTrigger value="cursor">Cursor</TabsTrigger>
+    <TabsTrigger value="claude">Claude Code</TabsTrigger>
+    <TabsTrigger value="vscode">VS Code</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cursor">
+
+```bash
+npx shadcn@latest mcp init --client cursor
+```
+
+Enable the shadcn MCP server in Cursor Settings.
+
+  </TabsContent>
+
+  <TabsContent value="claude">
+
+```bash
+npx shadcn@latest mcp init --client claude
+```
+
+Restart Claude Code and confirm with `/mcp`.
+
+  </TabsContent>
+
+  <TabsContent value="vscode">
+
+```bash
+npx shadcn@latest mcp init --client vscode
+```
+
+Open `.vscode/mcp.json`, click **Start** next to the shadcn server.
+
+  </TabsContent>
+</Tabs>
+
+### Use natural language to install components
+
+Once connected, try prompts like:
+
+- "Show me all available components in the Nexus Elements registry"
+- "Add the transfer component from @nexus-elements to my project"
+- "Install the unified-balance and fast-bridge components from @nexus-elements"
+
+</Steps>
+
+For full details, see the [MCP Server documentation](/docs/nexus/nexus-ui-elements/mcp-documentation).
+
+---
+
+## Agent Skills for Nexus SDK
+
+The [Nexus SDK](https://github.com/availproject/nexus-sdk) ships [skills.sh](https://skills.sh) skills that help AI coding agents (Codex, Claude Code, Cursor, etc.) integrate the SDK end-to-end.
+
+### Install Skills
+
+```bash
+# Install all skills
+npx skills add availproject/nexus-sdk
+
+# Install a single skill (recommended)
+npx skills add https://github.com/availproject/nexus-sdk --skill nexus-sdk-integration
+
+# Install from a specific branch
+npx skills add https://github.com/availproject/nexus-sdk --skill nexus-sdk-integration --ref develop
+```
+
+### Available Skills
+
+| Skill | Description |
+|-------|-------------|
+| `nexus-sdk-integration` | Parent/orchestrator skill — coordinates all sub-skills |
+| `nexus-sdk-setup` | SDK initialization and configuration |
+| `nexus-sdk-hooks-events` | Hooks and event handling patterns |
+| `nexus-sdk-bridge-flows` | Bridge operation flows |
+| `nexus-sdk-swap-flows` | Swap operation flows |
+| `nexus-sdk-balances-metadata-utils` | Balances, metadata, and utility functions |
+
+Once installed, your AI coding agent can set up the Nexus SDK, configure bridges, handle events, and execute cross-chain operations using these skills as context.
+
+For full details, see the [Skills Integration reference](/docs/nexus/nexus-sdk/reference/utility-reference#skills-integration).
+
+---
+
+## Summary for Agents
+
+If you are an AI agent reading this page, here is the quickest path to Avail documentation:
+
+1. **Start with** [`/llms.txt`](/llms.txt) for an overview and quick reference
+2. **Fetch section spokes** for focused content: [`/llms-da.txt`](/llms-da.txt) or [`/llms-nexus.txt`](/llms-nexus.txt)
+3. **Get individual pages** by appending `.md` to any URL (e.g. `/docs/nexus/get-started.md`)
+4. **Use the JSON API** at `/api/markdown/{slug}?format=json` for structured page data
+5. **Reference data** is at [`/api/reference.json`](/api/reference.json)
+6. **Full SDK TypeDoc** at [availproject.github.io/nexus-sdk](https://availproject.github.io/nexus-sdk/)
