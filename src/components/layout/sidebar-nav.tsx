@@ -187,11 +187,13 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
 
   // Persist last active product so cross-cutting pages (e.g. /docs/ai-features)
   // keep the sidebar in context instead of falling back to the root tree.
-  if (activeProduct) {
-    try {
-      sessionStorage.setItem("lastActiveProduct", activeProduct.slug);
-    } catch {}
-  }
+  useEffect(() => {
+    if (activeProduct) {
+      try {
+        sessionStorage.setItem("lastActiveProduct", activeProduct.slug);
+      } catch {}
+    }
+  }, [activeProduct]);
 
   const displayTree = (() => {
     if (activeProduct) return getProductTree(tree, activeProduct.slug);

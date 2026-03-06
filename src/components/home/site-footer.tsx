@@ -10,7 +10,7 @@ import {
 } from "@/lib/footer-links";
 import { TrackedExternalLink } from "./tracked-external-link";
 
-function FooterLinkItem({ link }: { link: FooterLink }) {
+export function FooterLinkItem({ link }: { link: FooterLink }) {
   const className =
     "ui-14 text-muted-foreground transition-[color] hover:text-foreground";
 
@@ -31,7 +31,7 @@ function FooterLinkItem({ link }: { link: FooterLink }) {
   );
 }
 
-function FooterColumn({
+export function FooterColumn({
   heading,
   links,
 }: {

@@ -273,14 +273,12 @@ export default async function Page(props: {
       </div>
 
       {/* Right sidebar - On This Page */}
-      <div className="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--header-height)-1px)] xl:w-70 2xl:w-80 flex-col gap-4 ui-16 xl:flex xl:pr-10 2xl:pr-20">
-        {!hideRightSidebar && (
-          <>
-            <div className="h-20 shrink-0" />
-            <OnThisPage toc={doc.toc} className="flex-1 min-h-0" />
-          </>
-        )}
-      </div>
+      {!hideRightSidebar && (
+        <div className="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--header-height)-1px)] xl:w-70 2xl:w-80 flex-col gap-4 ui-16 xl:flex xl:pr-10 2xl:pr-20">
+          <div className="h-20 shrink-0" />
+          <OnThisPage toc={doc.toc} className="flex-1 min-h-0" />
+        </div>
+      )}
     </div>
   );
 }
