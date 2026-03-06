@@ -7,6 +7,42 @@ links:
 
 This page covers two ways AI assistants can work with Nexus UI Elements: the **MCP server** for browsing and installing components via natural language, and **Agent Skills** for giving coding agents deep context about each component.
 
+## Agent Skills
+
+[skills.sh](https://skills.sh) skills give AI coding agents (Codex, Claude Code, Cursor, etc.) deep context about Nexus UI Elements components, enabling them to scaffold and integrate pre-built React components for bridging, swaps, deposits, and more.
+
+### Install Skills
+
+```bash
+# Install all UI Elements skills
+npx skills add availproject/nexus-elements
+
+# Install a single skill
+npx skills add https://github.com/availproject/nexus-elements --skill nexus-elements-overview
+```
+
+### Available Skills
+
+| Skill | Description |
+|-------|-------------|
+| `nexus-elements-overview` | Overview of all Nexus UI Elements components |
+| `nexus-elements-common` | Shared patterns and conventions across components |
+| `nexus-elements-nexus-provider` | NexusProvider setup and configuration |
+| `nexus-elements-deposit` | Deposit component integration |
+| `nexus-elements-bridge-deposit` | Bridge deposit component integration |
+| `nexus-elements-fast-bridge` | Fast bridge component integration |
+| `nexus-elements-swaps` | Swaps component integration |
+| `nexus-elements-transfer` | Transfer component integration |
+| `nexus-elements-unified-balance` | Unified balance display component |
+| `nexus-elements-view-history` | Transaction history component |
+
+Browse all available skills at [skills.sh/availproject/nexus-elements](https://skills.sh/availproject/nexus-elements).
+
+<Callout type="info" title="Looking for SDK skills?">
+  The Nexus SDK has its own set of agent skills for bridge flows, swap flows, hooks, and more. See the [SDK Skills Integration](/docs/nexus/nexus-sdk/reference/utility-reference#skills-integration) section.
+</Callout>
+
+
 ## MCP Server
 
 The shadcn MCP Server lets Cursor (and other MCP-compatible IDEs) talk directly to your Nexus UI Elements registry so you can browse, search, and install UI packages with natural language. Detailed platform-agnostic docs live at [ui.shadcn.com/docs/mcp](https://ui.shadcn.com/docs/mcp), but this page focuses on the Nexus UI Elements setup.
@@ -276,38 +312,3 @@ You can mix public, third-party, and internal registries by extending `component
 - [MCP specification](https://modelcontextprotocol.io/) – full protocol details.
 
 ---
-
-## Agent Skills
-
-[skills.sh](https://skills.sh) skills give AI coding agents (Codex, Claude Code, Cursor, etc.) deep context about Nexus UI Elements components, enabling them to scaffold and integrate pre-built React components for bridging, swaps, deposits, and more.
-
-### Install Skills
-
-```bash
-# Install all UI Elements skills
-npx skills add availproject/nexus-elements
-
-# Install a single skill
-npx skills add https://github.com/availproject/nexus-elements --skill nexus-elements-overview
-```
-
-### Available Skills
-
-| Skill | Description |
-|-------|-------------|
-| `nexus-elements-overview` | Overview of all Nexus UI Elements components |
-| `nexus-elements-common` | Shared patterns and conventions across components |
-| `nexus-elements-nexus-provider` | NexusProvider setup and configuration |
-| `nexus-elements-deposit` | Deposit component integration |
-| `nexus-elements-bridge-deposit` | Bridge deposit component integration |
-| `nexus-elements-fast-bridge` | Fast bridge component integration |
-| `nexus-elements-swaps` | Swaps component integration |
-| `nexus-elements-transfer` | Transfer component integration |
-| `nexus-elements-unified-balance` | Unified balance display component |
-| `nexus-elements-view-history` | Transaction history component |
-
-Browse all available skills at [skills.sh/availproject/nexus-elements](https://skills.sh/availproject/nexus-elements).
-
-<Callout type="info" title="Looking for SDK skills?">
-  The Nexus SDK has its own set of agent skills for bridge flows, swap flows, hooks, and more. See the [SDK Skills Integration](/docs/nexus/nexus-sdk/reference/utility-reference#skills-integration) section.
-</Callout>
