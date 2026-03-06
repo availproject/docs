@@ -335,7 +335,7 @@
 
     /* Code */
     --code: var(--grey-light-100);
-    --code-foreground: var(--grey-light-900);
+    --code-foreground: var(--blue-600);
     --code-highlight: var(--grey-light-200);
     --code-number: var(--grey-light-700);
 
@@ -506,7 +506,7 @@
 
     /* Code */
     --code: var(--grey-dark-200);
-    --code-foreground: var(--grey-dark-900);
+    --code-foreground: var(--blue-300);
     --code-highlight: var(--grey-dark-500);
     --code-number: var(--grey-dark-700);
 
@@ -933,5 +933,9 @@
         padding-block: 0.1rem;
         font-family: var(--font-mono);
         font-size: 0.8rem;
+    }
+
+    .prose {
+        --tw-prose-code: var(--color-code-foreground);
     }
 }
