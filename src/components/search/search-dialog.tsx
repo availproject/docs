@@ -121,11 +121,12 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
   const { trackEvent, pathname } = useAnalytics();
   const lastTrackedQuery = React.useRef<string>("");
 
-  // Use Fumadocs search hook
+  // Use Fumadocs search hook — static mode downloads the index once,
+  // then searches locally in the browser (instant after first load)
   const { search, setSearch, query } = useDocsSearch({
-    type: "fetch",
-    api: "/api/search",
-    delayMs: 200,
+    type: "static",
+    from: "/api/search",
+    delayMs: 80,
   });
 
   // Filter and group results
@@ -152,6 +153,14 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
       lastTrackedQuery.current = "";
     }
   }, [open, setSearch]);
+
+  // Prefetch the search index when the dialog opens, so the static client's
+  // fetch is served from the browser's HTTP cache (max-age=3600 on the response)
+  React.useEffect(() => {
+    if (open) {
+      fetch("/api/search").catch(() => {});
+    }
+  }, [open]);
 
   // Track search query when results are loaded
   React.useEffect(() => {
