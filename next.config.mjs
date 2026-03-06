@@ -32,7 +32,7 @@ const config = {
     return [
       {
         source: "/docs",
-        destination: "/docs/da/get-started",
+        destination: "/",
         permanent: false,
       },
       {
