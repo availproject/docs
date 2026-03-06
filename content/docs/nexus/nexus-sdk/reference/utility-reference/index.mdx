@@ -681,9 +681,7 @@ sdk.analytics.enable();
 
 ## Skills Integration
 
-[skills.sh](https://skills.sh) skills give AI coding agents (Codex, Claude Code, Cursor, etc.) deep context about the Nexus SDK and UI Elements.
-
-### Nexus SDK Skills
+[skills.sh](https://skills.sh) skills give AI coding agents (Codex, Claude Code, Cursor, etc.) deep context about the Nexus SDK.
 
 ```bash
 # Install all SDK skills
@@ -703,28 +701,5 @@ npx skills add https://github.com/availproject/nexus-sdk --skill nexus-sdk-integ
 - `nexus-sdk-swap-flows` — Swap operation flows
 - `nexus-sdk-balances-metadata-utils` — Balances and utilities
 
-### Nexus UI Elements Skills
-
-The [Nexus UI Elements](https://github.com/availproject/nexus-elements) package ships skills that help agents scaffold and integrate pre-built React components.
-
-```bash
-# Install all UI Elements skills
-npx skills add availproject/nexus-elements
-
-# Install single skill
-npx skills add https://github.com/availproject/nexus-elements --skill nexus-elements-overview
-```
-
-- `nexus-elements-overview` — Overview of all Nexus UI Elements components
-- `nexus-elements-common` — Shared patterns and conventions across components
-- `nexus-elements-nexus-provider` — NexusProvider setup and configuration
-- `nexus-elements-deposit` — Deposit component integration
-- `nexus-elements-bridge-deposit` — Bridge deposit component integration
-- `nexus-elements-fast-bridge` — Fast bridge component integration
-- `nexus-elements-swaps` — Swaps component integration
-- `nexus-elements-transfer` — Transfer component integration
-- `nexus-elements-unified-balance` — Unified balance display component
-- `nexus-elements-view-history` — Transaction history component
-
-Browse all skills at [skills.sh/availproject/nexus-elements](https://skills.sh/availproject/nexus-elements) and [skills.sh/availproject/nexus-sdk](https://skills.sh/availproject/nexus-sdk).
+Browse all SDK skills at [skills.sh/availproject/nexus-sdk](https://skills.sh/availproject/nexus-sdk). For UI Elements skills, see [MCP & Agent Skills](/docs/nexus/nexus-ui-elements/mcp-and-agent-skills).
 

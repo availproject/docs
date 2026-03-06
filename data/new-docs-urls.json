@@ -1000,10 +1000,10 @@
     "filePath": "content/docs/nexus/nexus-ui-elements/get-started/your-first-ui-element/index.mdx"
   },
   {
-    "path": "/docs/nexus/nexus-ui-elements/mcp-documentation",
-    "title": "MCP Server",
-    "description": "Use the shadcn MCP server to browse, search, and install components from registries.",
-    "filePath": "content/docs/nexus/nexus-ui-elements/mcp-documentation/index.mdx"
+    "path": "/docs/nexus/nexus-ui-elements/mcp-and-agent-skills",
+    "title": "MCP & Agent Skills",
+    "description": "Use the shadcn MCP server and skills.sh agent skills to browse, install, and integrate Nexus UI Elements.",
+    "filePath": "content/docs/nexus/nexus-ui-elements/mcp-and-agent-skills/index.mdx"
   },
   {
     "path": "/docs/nexus/nexus-ui-elements/quickstart",

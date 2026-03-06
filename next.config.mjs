@@ -40,6 +40,11 @@ const config = {
         destination: "/docs/da/build/networks",
         permanent: true,
       },
+      {
+        source: "/docs/nexus/nexus-ui-elements/mcp-documentation",
+        destination: "/docs/nexus/nexus-ui-elements/mcp-and-agent-skills",
+        permanent: true,
+      },
       // Legacy end-user-guide paths
       {
         source: "/docs/end-user-guide/vectorx",
