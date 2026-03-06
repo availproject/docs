@@ -120,6 +120,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
   const [selectedValue, setSelectedValue] = React.useState("");
   const { trackEvent, pathname } = useAnalytics();
   const lastTrackedQuery = React.useRef<string>("");
+  const listRef = React.useRef<HTMLDivElement>(null);
 
   // Use Fumadocs search hook — static mode downloads the index once,
   // then searches locally in the browser (instant after first load)
@@ -153,6 +154,16 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
       lastTrackedQuery.current = "";
     }
   }, [open, setSearch]);
+
+  // Reset scroll position when results change (runs after cmdk's scroll management)
+  // biome-ignore lint/correctness/useExhaustiveDependencies: intentional trigger on result changes
+  React.useEffect(() => {
+    requestAnimationFrame(() => {
+      if (listRef.current) {
+        listRef.current.scrollTop = 0;
+      }
+    });
+  }, [results]);
 
   // Prefetch the search index when the dialog opens, so the static client's
   // fetch is served from the browser's HTTP cache (max-age=3600 on the response)
@@ -276,7 +287,10 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
       </div>
 
       {/* Content area */}
-      <CommandList className="max-h-80 border-x border-t border-search-border px-3 py-2 bg-search-background overflow-y-auto">
+      <CommandList
+        ref={listRef}
+        className="max-h-80 border-x border-t border-search-border px-3 py-2 bg-search-background overflow-y-auto"
+      >
         {viewMode === "search" ? (
           <>
             {/* Recent searches (empty state — no recently viewed here) */}

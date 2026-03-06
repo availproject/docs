@@ -1,7 +1,17 @@
 "use client";
 
 import { MagnifyingGlass } from "@phosphor-icons/react";
+import { useRef } from "react";
 import { cn } from "@/lib/utils";
+
+let prefetched = false;
+function prefetchSearchIndex() {
+  if (prefetched) return;
+  prefetched = true;
+  fetch("/api/search").catch(() => {
+    prefetched = false;
+  });
+}
 
 interface SearchBarProps {
   className?: string;
@@ -9,6 +19,8 @@ interface SearchBarProps {
 }
 
 export function SearchBar({ className, onClick }: SearchBarProps) {
+  const hoverTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
+
   return (
     <button
       type="button"
@@ -17,6 +29,12 @@ export function SearchBar({ className, onClick }: SearchBarProps) {
         className,
       )}
       onClick={onClick}
+      onPointerEnter={() => {
+        hoverTimeout.current = setTimeout(prefetchSearchIndex, 100);
+      }}
+      onPointerLeave={() => {
+        clearTimeout(hoverTimeout.current);
+      }}
     >
       <MagnifyingGlass size={20} className="shrink-0" />
       <span className="ui-16 flex-1 text-left">Search...</span>
