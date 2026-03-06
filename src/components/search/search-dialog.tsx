@@ -120,21 +120,24 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
   const [selectedValue, setSelectedValue] = React.useState("");
   const { trackEvent, pathname } = useAnalytics();
   const lastTrackedQuery = React.useRef<string>("");
+  const listRef = React.useRef<HTMLDivElement>(null);
 
-  // Use Fumadocs search hook
+  // Use Fumadocs search hook — static mode downloads the index once,
+  // then searches locally in the browser (instant after first load)
   const { search, setSearch, query } = useDocsSearch({
-    type: "fetch",
-    api: "/api/search",
-    delayMs: 200,
+    type: "static",
+    from: "/api/search",
+    delayMs: 80,
   });
 
-  // Filter and group results
-  const rawResults = query.data && query.data !== "empty" ? query.data : [];
-  const filteredResults =
-    filter === "all"
-      ? rawResults
-      : rawResults.filter((r) => r.url.startsWith(filter));
-  const results = rankGroups(groupResultsByPage(filteredResults), search);
+  // Filter and group results (memoized so the scroll-reset effect only
+  // fires when data actually changes, not on every selection change)
+  const results = React.useMemo(() => {
+    const raw = query.data && query.data !== "empty" ? query.data : [];
+    const filtered =
+      filter === "all" ? raw : raw.filter((r) => r.url.startsWith(filter));
+    return rankGroups(groupResultsByPage(filtered), search);
+  }, [query.data, filter, search]);
   const isLoading = query.isLoading;
   const hasQuery = search.trim().length > 0;
 
@@ -153,6 +156,24 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
     }
   }, [open, setSearch]);
 
+  // Reset scroll position when results change
+  // biome-ignore lint/correctness/useExhaustiveDependencies: results is intentionally a dependency — we want to scroll to top when search data changes
+  React.useEffect(() => {
+    requestAnimationFrame(() => {
+      if (listRef.current) {
+        listRef.current.scrollTop = 0;
+      }
+    });
+  }, [results]);
+
+  // Prefetch the search index when the dialog opens, so the static client's
+  // fetch is served from the browser's HTTP cache (max-age=3600 on the response)
+  React.useEffect(() => {
+    if (open) {
+      fetch("/api/search").catch(() => {});
+    }
+  }, [open]);
+
   // Track search query when results are loaded
   React.useEffect(() => {
     if (
@@ -163,7 +184,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
     ) {
       trackEvent("search_query_submitted", {
         query: search,
-        results_count: filteredResults.length,
+        results_count: results.length,
         filter,
         page_path: pathname,
       });
@@ -174,7 +195,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
     search,
     isLoading,
     hasQuery,
-    filteredResults.length,
+    results.length,
     trackEvent,
     pathname,
     filter,
@@ -267,7 +288,10 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
       </div>
 
       {/* Content area */}
-      <CommandList className="max-h-80 border-x border-t border-search-border px-3 py-2 bg-search-background overflow-y-auto">
+      <CommandList
+        ref={listRef}
+        className="max-h-80 border-x border-t border-search-border px-3 py-2 bg-search-background overflow-y-auto"
+      >
         {viewMode === "search" ? (
           <>
             {/* Recent searches (empty state — no recently viewed here) */}

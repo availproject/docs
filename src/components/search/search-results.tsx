@@ -1,7 +1,6 @@
 "use client";
 
-import { CaretRight } from "@phosphor-icons/react";
-import * as React from "react";
+import { SearchBreadcrumbs } from "@/components/search/search-breadcrumbs";
 import { SearchResultItem } from "@/components/search/search-result-item";
 
 interface GroupedResult {
@@ -49,24 +48,7 @@ export function SearchResults({
             value={group.id}
             onSelect={() => onSelect(group.url, group.title, groupIndex)}
           >
-            {/* Breadcrumbs */}
-            {group.breadcrumbs.length > 0 && (
-              <div className="flex items-center gap-1 mb-1">
-                {group.breadcrumbs.map((crumb, index) => (
-                  <React.Fragment key={index}>
-                    {index > 0 && (
-                      <CaretRight
-                        size={16}
-                        className="text-search-foreground"
-                      />
-                    )}
-                    <span className="ui-16 text-search-foreground">
-                      {crumb}
-                    </span>
-                  </React.Fragment>
-                ))}
-              </div>
-            )}
+            <SearchBreadcrumbs breadcrumbs={group.breadcrumbs} />
             {/* Page title */}
             <span className="ui-16 text-search-results-foreground-primary">
               {group.title}

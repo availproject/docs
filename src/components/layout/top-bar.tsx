@@ -12,6 +12,7 @@ import {
   useSearchDialog,
 } from "@/components/search/search-dialog";
 import { useSidebar } from "@/components/ui/sidebar";
+import { useThemeKeyboard } from "@/hooks/use-theme-keyboard";
 import { pixelTransition } from "@/lib/pixel-transition";
 import { ProductSwitcher } from "./product-switcher";
 import { SearchBar } from "./search-bar";
@@ -31,29 +32,7 @@ export default function Topbar() {
   const isProductPage =
     pathname.startsWith("/docs/da") || pathname.startsWith("/docs/nexus");
 
-  // Toggle theme with "T" key + pixel transition from center
-  useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.key === "t" && !e.metaKey && !e.ctrlKey && !e.altKey) {
-        const target = e.target as HTMLElement;
-        if (
-          target.tagName === "INPUT" ||
-          target.tagName === "TEXTAREA" ||
-          target.isContentEditable
-        ) {
-          return;
-        }
-        e.preventDefault();
-        const next = resolvedTheme === "dark" ? "light" : "dark";
-        pixelTransition(() => setTheme(next), {
-          x: window.innerWidth / 2,
-          y: window.innerHeight / 2,
-        });
-      }
-    };
-    document.addEventListener("keydown", down);
-    return () => document.removeEventListener("keydown", down);
-  }, [resolvedTheme, setTheme]);
+  useThemeKeyboard();
 
   useEffect(() => {
     try {
@@ -90,9 +69,9 @@ export default function Topbar() {
       <div
         className={`sticky top-0 z-50 bg-navbar-background border-b border-navbar-border transition-shadow duration-500 ease-in-out${openMobile ? " shadow-[0_4px_12px_rgba(0,0,0,0.08)]" : ""}`}
       >
-        <div className="h-18 px-4 lg:px-10 flex items-center justify-between gap-4">
+        <div className="h-18 px-4 lg:px-10 flex items-center gap-4">
           {/* Left: Sidebar trigger + Logo */}
-          <div className="flex items-center gap-x-3 lg:gap-x-6">
+          <div className="flex flex-1 items-center gap-x-3 lg:gap-x-6">
             {/* Mobile sidebar trigger */}
             <button
               type="button"
@@ -125,7 +104,7 @@ export default function Topbar() {
           </div>
 
           {/* Center: Desktop search + theme toggle */}
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-3 shrink-0">
             <SearchBar onClick={openWithClick} />
             <ThemeToggle
               theme={theme ?? "system"}
@@ -135,7 +114,7 @@ export default function Topbar() {
           </div>
 
           {/* Right */}
-          <div className="flex items-center gap-2 lg:gap-3">
+          <div className="flex flex-1 items-center justify-end gap-2 lg:gap-3">
             {/* Mobile search trigger */}
             <button
               type="button"
