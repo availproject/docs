@@ -321,15 +321,6 @@ export function PageActions({ pageContent }: Readonly<PageActionsProps>) {
         </a>
 
         {/* AI-friendly features */}
-<<<<<<< add-nexus-elements-skills
-        <a
-          href="/docs/ai-features"
-          className="flex items-center gap-2 text-page-nav-foreground hover:text-page-nav-foreground-hover transition-colors cursor-pointer"
-        >
-          <Sparkle size={20} className="shrink-0" />
-          <span className="text-base">AI Friendly Features</span>
-        </a>
-=======
         <Link
           href="/docs/ai-features"
           className="flex items-center gap-2 text-page-nav-foreground hover:text-page-nav-foreground-hover transition-colors cursor-pointer"
@@ -338,7 +329,6 @@ export function PageActions({ pageContent }: Readonly<PageActionsProps>) {
           <Sparkle size={20} className="shrink-0" />
           <span className="text-base">AI Friendly Features</span>
         </Link>
->>>>>>> main
       </div>
     </div>
   );
