@@ -1,3 +1,16 @@
+import {
+  usdcMainnet,
+  usdcTestnet,
+  usdtMainnet,
+  usdtTestnet,
+  vaultMainnet,
+  vaultTestnet,
+} from "@/components/mdx/contract-addresses/data";
+import {
+  mainnetChains,
+  testnetChains,
+  tokenReference,
+} from "@/components/mdx/supported-chains/data";
 import { cleanMarkdownForAgents } from "@/lib/markdown-clean";
 import { products } from "@/lib/products";
 import { source } from "@/lib/source";
@@ -39,19 +52,6 @@ function bulletLink(name: string, url: string, description?: string): string {
   return `- [${name}](${url})`;
 }
 
-/**
- * Filter pages whose URL starts with a given section prefix.
- * e.g. "da/build" matches /docs/da/build, /docs/da/build/networks, etc.
- */
-function filterBySection(pages: DocsPage[], section: string): DocsPage[] {
-  const prefix = `/docs/${section}`.toLowerCase();
-  return pages.filter(
-    (page) =>
-      page.url.toLowerCase() === prefix ||
-      page.url.toLowerCase().startsWith(`${prefix}/`),
-  );
-}
-
 export function generateLlmsTxt(): string {
   const allPages = source.getPages();
 
@@ -60,6 +60,16 @@ export function generateLlmsTxt(): string {
     "",
     "> Avail is a modular blockchain for data availability (Avail DA)",
     "> and cross-chain unification (Avail Nexus).",
+    "",
+    "## Section-Specific Documentation",
+    "",
+    "For faster, focused context, fetch the section you need:",
+    "",
+    "| File | Description |",
+    "|------|-------------|",
+    "| [/llms-da.txt](/llms-da.txt) | Avail DA — data availability layer (build, operate, concepts, user guides, API reference) |",
+    "| [/llms-nexus.txt](/llms-nexus.txt) | Avail Nexus — cross-chain unification (SDK, concepts, contracts, UI elements) |",
+    "| [/llms-full.txt](/llms-full.txt) | Complete documentation dump (all pages) |",
     "",
     "## Quick Reference",
     "",
@@ -140,6 +150,7 @@ export function generateLlmsTxt(): string {
     "- [Contracts](/docs/nexus/contracts): Nexus contract addresses",
     "- [Supported chains & tokens](/docs/nexus/supported-chains-and-tokens): Supported networks and assets",
     "- [Cookbook recipes](/docs/nexus/cookbook-recipes): Common integration patterns",
+    "- [Nexus SDK TypeDoc](https://availproject.github.io/nexus-sdk/): Full API reference (methods, types, events, errors)",
     "",
     "### Nexus concepts",
     "",
@@ -153,10 +164,8 @@ export function generateLlmsTxt(): string {
     "- [Nexus operations](/docs/nexus/concepts/nexus-ops): Bridge, transfer, or bridge & execute in one action",
     "- [Liquidity routing](/docs/nexus/concepts/source-chain-selection): Control which chains tokens are sourced from",
     "",
-    "## Full page index",
+    "## Other endpoints",
     "",
-    "- [Full documentation dump](/llms-full.txt): Complete content for all pages",
-    "- [Section-scoped dump](/llms-full.txt?section=da/build): Add ?section= to filter (e.g. da/build, da/api-reference, nexus)",
     "- [Markdown API](/api/markdown/{slug}): Get any page as markdown (also supports ?format=json)",
     "- [Structured reference data](/api/reference.json): Networks, contracts, SDKs as JSON",
     "",
@@ -187,6 +196,205 @@ export function generateLlmsTxt(): string {
   return lines.join("\n");
 }
 
+const sectionMeta: Record<
+  string,
+  { productSlug: ProductSlug; label: string; description: string }
+> = {
+  da: {
+    productSlug: "da",
+    label: "Avail DA",
+    description:
+      "Data availability layer — build, operate, concepts, user guides, and API reference.",
+  },
+  nexus: {
+    productSlug: "nexus",
+    label: "Avail Nexus",
+    description:
+      "Cross-chain unification — SDK, concepts, contracts, and UI elements.",
+  },
+};
+
+// ---------------------------------------------------------------------------
+// Nexus reference data — rendered as markdown for LLM consumption.
+// The website renders these via React components which get stripped by
+// cleanMarkdownForAgents, so we generate the tables directly from the
+// same data sources.
+// ---------------------------------------------------------------------------
+
+function generateSupportedChainsMarkdown(): string {
+  const lines: string[] = [
+    "## Supported Chains & Tokens",
+    "",
+    "### Mainnet Chains",
+    "",
+    "| Network | Chain ID | Native | Supported Tokens | Swaps |",
+    "|---------|----------|--------|-----------------|-------|",
+  ];
+
+  for (const c of mainnetChains) {
+    lines.push(
+      `| ${c.name} | ${c.chainId} | ${c.native} | ${c.tokens.join(", ")} | ${c.swaps ? "Yes" : "—"} |`,
+    );
+  }
+
+  lines.push("", "### Testnet Chains", "");
+  lines.push(
+    "> Swaps are not supported in testnet environments.",
+    "",
+    "| Network | Chain ID | Native | Supported Tokens |",
+    "|---------|----------|--------|-----------------|",
+  );
+
+  for (const c of testnetChains) {
+    lines.push(
+      `| ${c.name} | ${c.chainId} | ${c.native} | ${c.tokens.join(", ")} |`,
+    );
+  }
+
+  lines.push("", "### Token Reference", "");
+  lines.push("| Token | Name | Decimals |", "|-------|------|----------|");
+  for (const t of tokenReference) {
+    lines.push(`| ${t.symbol} | ${t.name} | ${t.decimals} |`);
+  }
+
+  return lines.join("\n");
+}
+
+function generateContractsMarkdown(): string {
+  const lines: string[] = [
+    "## Contract Addresses",
+    "",
+    "Avail Nexus deploys Vault contracts on each supported chain.",
+    "These contracts escrow user funds during cross-chain operations.",
+    "",
+    "### Vault Contracts — Mainnet",
+    "",
+    "| Chain | Chain ID | Vault Contract Address |",
+    "|-------|----------|----------------------|",
+  ];
+
+  for (const v of vaultMainnet) {
+    lines.push(`| ${v.chain} | ${v.chainId} | ${v.address} |`);
+  }
+
+  lines.push(
+    "",
+    "### Vault Contracts — Testnet",
+    "",
+    "| Chain | Chain ID | Vault Contract Address |",
+    "|-------|----------|----------------------|",
+  );
+  for (const v of vaultTestnet) {
+    lines.push(`| ${v.chain} | ${v.chainId} | ${v.address} |`);
+  }
+
+  lines.push(
+    "",
+    "### USDC Token Addresses — Mainnet",
+    "",
+    "| Chain | Token | Contract Address |",
+    "|-------|-------|-----------------|",
+  );
+  for (const t of usdcMainnet) {
+    lines.push(`| ${t.chain} | ${t.tokenName} | ${t.address} |`);
+  }
+
+  lines.push(
+    "",
+    "### USDC Token Addresses — Testnet",
+    "",
+    "| Chain | Token | Contract Address |",
+    "|-------|-------|-----------------|",
+  );
+  for (const t of usdcTestnet) {
+    lines.push(`| ${t.chain} | ${t.tokenName} | ${t.address} |`);
+  }
+
+  lines.push(
+    "",
+    "### USDT Token Addresses — Mainnet",
+    "",
+    "| Chain | Token | Contract Address |",
+    "|-------|-------|-----------------|",
+  );
+  for (const t of usdtMainnet) {
+    lines.push(`| ${t.chain} | ${t.tokenName} | ${t.address} |`);
+  }
+
+  lines.push(
+    "",
+    "### USDT Token Addresses — Testnet",
+    "",
+    "| Chain | Token | Contract Address |",
+    "|-------|-------|-----------------|",
+  );
+  for (const t of usdtTestnet) {
+    lines.push(`| ${t.chain} | ${t.tokenName} | ${t.address} |`);
+  }
+
+  return lines.join("\n");
+}
+
+/**
+ * Pages whose content is rendered by React components rather than markdown.
+ * We replace their cleaned (empty) output with generated markdown from the
+ * same data sources the components use.
+ */
+const nexusPageOverrides: Record<string, () => string> = {
+  "/docs/nexus/supported-chains-and-tokens": generateSupportedChainsMarkdown,
+  "/docs/nexus/contracts": generateContractsMarkdown,
+};
+
+/** Exported for testing — validates override URLs match real pages. */
+export const NEXUS_PAGE_OVERRIDE_URLS = Object.keys(nexusPageOverrides);
+
+export async function generateLlmsSectionTxt(
+  sectionKey: "da" | "nexus",
+): Promise<string> {
+  const meta = sectionMeta[sectionKey];
+  const allPages = source.getPages();
+  const pages = getProductPages(allPages, meta.productSlug);
+
+  const lines: string[] = [
+    `# ${meta.label} Documentation`,
+    "",
+    `> ${meta.description}`,
+  ];
+
+  if (sectionKey === "nexus") {
+    lines.push(
+      "",
+      "Full SDK API reference (TypeDoc): https://availproject.github.io/nexus-sdk/",
+    );
+  }
+
+  for (const page of pages) {
+    const override = nexusPageOverrides[page.url];
+    if (override) {
+      lines.push("", override());
+    } else {
+      const raw = await page.data.getText("processed");
+      const content = cleanMarkdownForAgents(raw);
+      lines.push("", `## ${page.data.title}`, "", content);
+    }
+  }
+
+  return lines.join("\n");
+}
+
+/**
+ * Filter pages whose URL starts with a given section prefix.
+ * e.g. "da/build" matches /docs/da/build, /docs/da/build/networks, etc.
+ */
+function filterBySection(pages: DocsPage[], section: string): DocsPage[] {
+  const prefix = `/docs/${section}`.toLowerCase();
+  return pages.filter(
+    (page) =>
+      page.url.toLowerCase() === prefix ||
+      page.url.toLowerCase().startsWith(`${prefix}/`),
+  );
+}
+
 export async function generateLlmsFullTxt(section?: string): Promise<string> {
   const allPages = source.getPages();
 
@@ -210,9 +418,14 @@ export async function generateLlmsFullTxt(section?: string): Promise<string> {
     lines.push("", `## ${product.label}`);
 
     for (const page of pages) {
-      const raw = await page.data.getText("processed");
-      const content = cleanMarkdownForAgents(raw);
-      lines.push("", `### ${page.data.title}`, "", content);
+      const override = nexusPageOverrides[page.url];
+      if (override) {
+        lines.push("", override());
+      } else {
+        const raw = await page.data.getText("processed");
+        const content = cleanMarkdownForAgents(raw);
+        lines.push("", `### ${page.data.title}`, "", content);
+      }
     }
   }
 
