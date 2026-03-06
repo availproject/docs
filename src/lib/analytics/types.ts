@@ -91,6 +91,11 @@ export interface AIViewMarkdownClickedEvent {
   };
 }
 
+export interface AIFeaturesLinkClickedEvent {
+  event: "ai_features_link_clicked";
+  properties: Record<string, never>;
+}
+
 export interface AICopyPageClickedEvent {
   event: "ai_copy_page_clicked";
   properties: {
@@ -273,6 +278,7 @@ export type AnalyticsEvent =
   | AICopyForLLMClickedEvent
   | AIServiceOpenedEvent
   | AIViewMarkdownClickedEvent
+  | AIFeaturesLinkClickedEvent
   | AICopyPageClickedEvent
   | NavFooterLinkClickedEvent
   | NavTOCHeadingClickedEvent

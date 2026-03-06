@@ -9,6 +9,7 @@ import {
   Sparkle,
   SpinnerGap,
 } from "@phosphor-icons/react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
@@ -320,13 +321,14 @@ export function PageActions({ pageContent }: Readonly<PageActionsProps>) {
         </a>
 
         {/* AI-friendly features */}
-        <a
+        <Link
           href="/docs/ai-features"
           className="flex items-center gap-2 text-page-nav-foreground hover:text-page-nav-foreground-hover transition-colors cursor-pointer"
+          onClick={() => trackEvent("ai_features_link_clicked", {})}
         >
           <Sparkle size={20} className="shrink-0" />
           <span className="text-base">AI Friendly Features</span>
-        </a>
+        </Link>
       </div>
     </div>
   );
