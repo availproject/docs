@@ -171,9 +171,7 @@ export default async function Page(props: {
       <TrackPageVisit url={page.url} title={doc.title} />
       <script type="application/ld+json">{JSON.stringify(breadcrumbLd)}</script>
       <script type="application/ld+json">{JSON.stringify(articleLd)}</script>
-      <div
-        className={`flex min-w-0 flex-1 flex-col bg-background${hideRightSidebar ? "" : " xl:pl-10 2xl:pl-20"}`}
-      >
+      <div className="flex min-w-0 flex-1 flex-col bg-background xl:pl-10 2xl:pl-20">
         <div className="mx-auto flex w-full max-w-160 min-w-0 flex-1 flex-col gap-20 px-4 py-10 md:px-0 md:py-20">
           {/* Content sections */}
           <div className="flex flex-1 flex-col gap-4">
@@ -275,7 +273,9 @@ export default async function Page(props: {
       </div>
 
       {/* Right sidebar - On This Page */}
-      {!hideRightSidebar && (
+      {hideRightSidebar ? (
+        <div className="hidden xl:block xl:w-70 2xl:w-80 xl:pr-10 2xl:pr-20" />
+      ) : (
         <div className="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--header-height)-1px)] xl:w-70 2xl:w-80 flex-col gap-4 ui-16 xl:flex xl:pr-10 2xl:pr-20">
           <div className="h-20 shrink-0" />
           <OnThisPage toc={doc.toc} className="flex-1 min-h-0" />
