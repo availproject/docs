@@ -30,7 +30,15 @@ export default function Topbar() {
   const { openMobile, setOpenMobile } = useSidebar();
   const pathname = usePathname();
   const isProductPage =
-    pathname.startsWith("/docs/da") || pathname.startsWith("/docs/nexus");
+    pathname.startsWith("/docs/da") ||
+    pathname.startsWith("/docs/nexus") ||
+    (() => {
+      try {
+        return !!sessionStorage.getItem("lastActiveProduct");
+      } catch {
+        return false;
+      }
+    })();
 
   useThemeKeyboard();
 

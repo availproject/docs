@@ -1,82 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { FooterLink } from "@/lib/footer-links";
+import {
+  pagesColumn1,
+  pagesColumn2,
+  pressKitLinks,
+  socialLinks,
+  supportLinks,
+} from "@/lib/footer-links";
 import { TrackedExternalLink } from "./tracked-external-link";
 
-type FooterLink = {
-  label: string;
-  href: string;
-  external?: boolean;
-};
-
-const pagesColumn1: FooterLink[] = [
-  { label: "Home", href: "https://www.availproject.org", external: true },
-  {
-    label: "About us",
-    href: "https://www.availproject.org/aboutus",
-    external: true,
-  },
-  { label: "Nexus", href: "/docs/nexus/get-started" },
-  { label: "DA", href: "/docs/da/get-started" },
-  {
-    label: "Careers",
-    href: "https://www.availproject.org/careers",
-    external: true,
-  },
-];
-
-const pagesColumn2: FooterLink[] = [
-  { label: "Blog", href: "https://blog.availproject.org", external: true },
-  {
-    label: "Ecosystem",
-    href: "https://www.availproject.org/ecosystem",
-    external: true,
-  },
-  {
-    label: "T&C",
-    href: "https://www.availproject.org/termsandconditions",
-    external: true,
-  },
-  {
-    label: "Whitepaper",
-    href: "https://www.availproject.org/whitepaper",
-    external: true,
-  },
-];
-
-const supportLinks: FooterLink[] = [
-  { label: "Docs", href: "/docs/da/get-started" },
-  {
-    label: "Discord",
-    href: "https://discord.com/invite/AvailProject",
-    external: true,
-  },
-  { label: "GitHub", href: "https://github.com/availproject", external: true },
-];
-
-const pressKitLinks: FooterLink[] = [
-  {
-    label: "Brand Assets",
-    href: "https://www.availproject.org/brand",
-    external: true,
-  },
-];
-
-const socialLinks: FooterLink[] = [
-  { label: "X (Twitter)", href: "https://x.com/AvailProject", external: true },
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/company/availproject/",
-    external: true,
-  },
-  { label: "Telegram", href: "https://t.me/AvailCommunity", external: true },
-  {
-    label: "YouTube",
-    href: "https://www.youtube.com/@Availproject",
-    external: true,
-  },
-];
-
-function FooterLink({ link }: { link: FooterLink }) {
+export function FooterLinkItem({ link }: { link: FooterLink }) {
   const className =
     "ui-14 text-muted-foreground transition-[color] hover:text-foreground";
 
@@ -97,7 +31,7 @@ function FooterLink({ link }: { link: FooterLink }) {
   );
 }
 
-function FooterColumn({
+export function FooterColumn({
   heading,
   links,
 }: {
@@ -110,7 +44,7 @@ function FooterColumn({
       <ul className="flex flex-col gap-3">
         {links.map((link) => (
           <li key={link.label}>
-            <FooterLink link={link} />
+            <FooterLinkItem link={link} />
           </li>
         ))}
       </ul>
@@ -147,7 +81,7 @@ export function SiteFooter() {
                 <ul className="flex flex-col gap-3">
                   {pagesColumn2.map((link) => (
                     <li key={link.label}>
-                      <FooterLink link={link} />
+                      <FooterLinkItem link={link} />
                     </li>
                   ))}
                 </ul>

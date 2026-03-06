@@ -79,7 +79,7 @@ export default async function Page(props: {
   const neighbours = findNeighbour(navTree, page.url);
   const raw = await page.data.getText("raw");
   const { attributes } = fm(raw);
-  const { links, hideFooter } = z
+  const { links, hideFooter, hideRightSidebar } = z
     .object({
       links: z
         .object({
@@ -88,6 +88,7 @@ export default async function Page(props: {
         })
         .optional(),
       hideFooter: z.boolean().optional(),
+      hideRightSidebar: z.boolean().optional(),
     })
     .parse(attributes);
 
@@ -173,7 +174,7 @@ export default async function Page(props: {
       <div className="flex min-w-0 flex-1 flex-col bg-background xl:pl-10 2xl:pl-20">
         <div className="mx-auto flex w-full max-w-160 min-w-0 flex-1 flex-col gap-20 px-4 py-10 md:px-0 md:py-20">
           {/* Content sections */}
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-1 flex-col gap-4">
             {/* Header section with breadcrumbs and title */}
             <div className="flex flex-col gap-6">
               {/* Breadcrumbs */}
@@ -242,7 +243,7 @@ export default async function Page(props: {
             </div>
 
             {/* Main content */}
-            <div className="w-full flex-1 text-secondary-foreground *:data-[slot=alert]:first:mt-0">
+            <div className="w-full flex-1 flex flex-col text-secondary-foreground *:data-[slot=alert]:first:mt-0">
               <MDX components={mdxComponents} />
             </div>
           </div>
@@ -272,10 +273,12 @@ export default async function Page(props: {
       </div>
 
       {/* Right sidebar - On This Page */}
-      <div className="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--header-height)-1px)] xl:w-70 2xl:w-80 flex-col gap-4 ui-16 xl:flex xl:pr-10 2xl:pr-20">
-        <div className="h-20 shrink-0" />
-        <OnThisPage toc={doc.toc} className="flex-1 min-h-0" />
-      </div>
+      {!hideRightSidebar && (
+        <div className="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--header-height)-1px)] xl:w-70 2xl:w-80 flex-col gap-4 ui-16 xl:flex xl:pr-10 2xl:pr-20">
+          <div className="h-20 shrink-0" />
+          <OnThisPage toc={doc.toc} className="flex-1 min-h-0" />
+        </div>
+      )}
     </div>
   );
 }

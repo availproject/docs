@@ -1,11 +1,16 @@
 "use client";
-import { CaretDown, CaretUp } from "@phosphor-icons/react";
+import { CaretDown, CaretUp, Envelope, Sparkle } from "@phosphor-icons/react";
 import type { Item, Node, Root } from "fumadocs-core/page-tree";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type React from "react";
 import { useEffect, useRef, useState } from "react";
-import { Sidebar, SidebarContent, useSidebar } from "@/components/ui/sidebar";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  useSidebar,
+} from "@/components/ui/sidebar";
 import { useAnalytics } from "@/hooks/use-analytics";
 import { getProductTree } from "@/lib/page-tree-utils";
 import { getActiveProduct } from "@/lib/products";
@@ -179,9 +184,25 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
   const { setOpenMobile } = useSidebar();
   const { trackEvent } = useAnalytics();
   const activeProduct = getActiveProduct(pathname);
-  const displayTree = activeProduct
-    ? getProductTree(tree, activeProduct.slug)
-    : tree;
+
+  // Persist last active product so cross-cutting pages (e.g. /docs/ai-features)
+  // keep the sidebar in context instead of falling back to the root tree.
+  useEffect(() => {
+    if (activeProduct) {
+      try {
+        sessionStorage.setItem("lastActiveProduct", activeProduct.slug);
+      } catch {}
+    }
+  }, [activeProduct]);
+
+  const displayTree = (() => {
+    if (activeProduct) return getProductTree(tree, activeProduct.slug);
+    try {
+      const last = sessionStorage.getItem("lastActiveProduct");
+      if (last) return getProductTree(tree, last);
+    } catch {}
+    return tree;
+  })();
 
   const handleNavigation = (title: string, path: string) => {
     setOpenMobile(false);
@@ -274,6 +295,14 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
     }
 
     if (node.type === "separator") {
+      if (!node.name) {
+        return (
+          <div
+            key={node.$id ?? "sep-line"}
+            className="mx-4 my-4 h-px bg-border"
+          />
+        );
+      }
       return (
         <div
           key={node.$id ?? `sep-${node.name}`}
@@ -299,6 +328,50 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
           {displayTree.children.map((node) => renderNode(node, 0))}
         </div>
       </SidebarContent>
+      <SidebarFooter className="border-t border-border px-2 py-4">
+        <div className="flex flex-col gap-1">
+          <Link
+            href="/docs/ai-features"
+            onClick={() => {
+              setOpenMobile(false);
+              trackEvent("nav_sidebar_item_clicked", {
+                item_type: "page",
+                item_title: "AI-Friendly Features",
+                destination_path: "/docs/ai-features",
+              });
+            }}
+            className={cn(
+              "flex h-10 w-full min-w-0 items-center gap-2 px-4 py-2.5 text-base transition-colors",
+              pathname === "/docs/ai-features"
+                ? "bg-sidebar-item-background-active text-sidebar-item-foreground-active"
+                : "text-sidebar-item-foreground hover:bg-sidebar-item-background-hover",
+            )}
+          >
+            <Sparkle size={18} className="shrink-0" />
+            AI-Friendly Features
+          </Link>
+          <Link
+            href="/docs/feedback"
+            onClick={() => {
+              setOpenMobile(false);
+              trackEvent("nav_sidebar_item_clicked", {
+                item_type: "page",
+                item_title: "Send us Feedback",
+                destination_path: "/docs/feedback",
+              });
+            }}
+            className={cn(
+              "flex h-10 w-full min-w-0 items-center gap-2 px-4 py-2.5 text-base transition-colors",
+              pathname === "/docs/feedback"
+                ? "bg-sidebar-item-background-active text-sidebar-item-foreground-active"
+                : "text-sidebar-item-foreground hover:bg-sidebar-item-background-hover",
+            )}
+          >
+            <Envelope size={18} className="shrink-0" />
+            Send us Feedback
+          </Link>
+        </div>
+      </SidebarFooter>
     </Sidebar>
   );
 }

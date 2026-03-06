@@ -63,9 +63,11 @@ import {
   VaultContractTable,
 } from "./contract-addresses/contract-addresses-table";
 import { Feedback } from "./feedback";
+import { FeedbackForm } from "./feedback-form";
 import { HeadingAnchor } from "./heading-anchor";
 import { IconCard, IconCardGrid } from "./icon-card";
 import { LinkCard, LinkCardGrid } from "./link-card";
+import { MiniFooter } from "./mini-footer";
 import { PageFooter } from "./page-footer";
 import { SupportedChainsTable } from "./supported-chains/supported-chains-table";
 import { ThemedImage } from "./themed-image";
@@ -495,8 +497,10 @@ export const mdxComponents: MDXComponentsMap = {
   TokenAddressesTable,
   // Theme-aware images (light/dark variants)
   ThemedImage,
-  // Feedback component
+  // Feedback components
   Feedback,
+  FeedbackForm,
+  MiniFooter,
   // Page footer with navigation
   PageFooter,
 };
