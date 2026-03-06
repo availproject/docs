@@ -26,7 +26,20 @@ export function ProductSwitcher() {
   const { trackEvent } = useAnalytics();
   const [open, setOpen] = useState(false);
 
-  const activeProduct = getActiveProduct(pathname);
+  const productFromPath = getActiveProduct(pathname);
+
+  // Fall back to last active product so cross-cutting pages keep context
+  const activeProduct =
+    productFromPath ??
+    (() => {
+      try {
+        const last = sessionStorage.getItem("lastActiveProduct");
+        return last ? products.find((p) => p.slug === last) : undefined;
+      } catch {
+        return undefined;
+      }
+    })();
+
   if (!activeProduct) return null;
 
   const ActiveLogo = productLogos[activeProduct.logoKey];

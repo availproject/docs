@@ -166,6 +166,7 @@ export function generateLlmsTxt(): string {
     "",
     "## Other endpoints",
     "",
+    "- [AI-friendly features](/docs/ai-features): How AI agents and LLMs can interact with Avail documentation",
     "- [Markdown API](/api/markdown/{slug}): Get any page as markdown (also supports ?format=json)",
     "- [Structured reference data](/api/reference.json): Networks, contracts, SDKs as JSON",
     "",

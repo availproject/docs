@@ -54,7 +54,7 @@ export interface FeedbackRatingClickedEvent {
 export interface FeedbackSubmittedEvent {
   event: "feedback_submitted";
   properties: {
-    rating: "positive" | "negative";
+    rating: "positive" | "negative" | "general";
     has_comment: boolean;
     comment_length: number;
     has_image: boolean;
@@ -89,11 +89,6 @@ export interface AIViewMarkdownClickedEvent {
     page_path: string;
     page_title?: string;
   };
-}
-
-export interface AIFeaturesLinkClickedEvent {
-  event: "ai_features_link_clicked";
-  properties: Record<string, never>;
 }
 
 export interface AICopyPageClickedEvent {
@@ -278,7 +273,6 @@ export type AnalyticsEvent =
   | AICopyForLLMClickedEvent
   | AIServiceOpenedEvent
   | AIViewMarkdownClickedEvent
-  | AIFeaturesLinkClickedEvent
   | AICopyPageClickedEvent
   | NavFooterLinkClickedEvent
   | NavTOCHeadingClickedEvent

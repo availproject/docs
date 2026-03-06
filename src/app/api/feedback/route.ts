@@ -4,7 +4,7 @@ import { getClientIp, isRateLimited } from "./rate-limit";
 // --- Validation ---
 
 interface FeedbackPayload {
-  rating: "positive" | "negative";
+  rating: "positive" | "negative" | "general";
   pagePath: string;
   comment?: string;
   contactInfo?: string;
@@ -23,10 +23,10 @@ function validatePayload(
     unknown
   >;
 
-  if (rating !== "positive" && rating !== "negative") {
+  if (rating !== "positive" && rating !== "negative" && rating !== "general") {
     return {
       valid: false,
-      error: 'rating must be "positive" or "negative"',
+      error: 'rating must be "positive", "negative", or "general"',
     };
   }
 
@@ -137,7 +137,8 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const emoji = rating === "positive" ? "👍" : "👎";
+  const emoji =
+    rating === "positive" ? "👍" : rating === "negative" ? "👎" : "💬";
   const title = `Feedback: ${emoji} ${pagePath}`;
   const labels = ["feedback", `feedback:${rating}`];
   const issueBodyParts = [
