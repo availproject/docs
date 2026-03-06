@@ -21,7 +21,7 @@ Avail documentation is built to be consumed by AI agents, LLMs, and developer to
 | [Copy for LLM](#page-actions) | Page sidebar | One-click copy of cleaned markdown for the current page |
 | [Ask AI](#page-actions) | Page sidebar | Open page context in v0, ChatGPT, or Claude |
 | [MCP Server](#mcp-server-for-nexus-ui-elements) | shadcn MCP | Browse and install Nexus UI Elements via natural language |
-| [Agent Skills](#agent-skills-for-nexus-sdk) | skills.sh | Install Nexus SDK skills for Codex and other agents |
+| [Agent Skills](#agent-skills) | skills.sh | Install Nexus SDK and UI Elements skills for AI coding agents |
 
 ---
 
@@ -225,24 +225,21 @@ For full details, see the [MCP Server documentation](/docs/nexus/nexus-ui-elemen
 
 ---
 
-## Agent Skills for Nexus SDK
+## Agent Skills
 
-The [Nexus SDK](https://github.com/availproject/nexus-sdk) ships [skills.sh](https://skills.sh) skills that help AI coding agents (Codex, Claude Code, Cursor, etc.) integrate the SDK end-to-end.
+[skills.sh](https://skills.sh) skills give AI coding agents (Codex, Claude Code, Cursor, etc.) deep context about the Nexus SDK and UI Elements. Two skill packages are available:
 
-### Install Skills
+### Nexus SDK Skills
+
+The [Nexus SDK](https://github.com/availproject/nexus-sdk) package helps agents integrate cross-chain operations end-to-end.
 
 ```bash
-# Install all skills
+# Install all SDK skills
 npx skills add availproject/nexus-sdk
 
-# Install a single skill (recommended)
+# Install a single skill
 npx skills add https://github.com/availproject/nexus-sdk --skill nexus-sdk-integration
-
-# Install from a specific branch
-npx skills add https://github.com/availproject/nexus-sdk --skill nexus-sdk-integration --ref develop
 ```
-
-### Available Skills
 
 | Skill | Description |
 |-------|-------------|
@@ -253,9 +250,34 @@ npx skills add https://github.com/availproject/nexus-sdk --skill nexus-sdk-integ
 | `nexus-sdk-swap-flows` | Swap operation flows |
 | `nexus-sdk-balances-metadata-utils` | Balances, metadata, and utility functions |
 
-Once installed, your AI coding agent can set up the Nexus SDK, configure bridges, handle events, and execute cross-chain operations using these skills as context.
-
 For full details, see the [Skills Integration reference](/docs/nexus/nexus-sdk/reference/utility-reference#skills-integration).
+
+### Nexus UI Elements Skills
+
+The [Nexus UI Elements](https://github.com/availproject/nexus-elements) package helps agents scaffold and integrate pre-built React components for bridging, swaps, deposits, and more.
+
+```bash
+# Install all UI Elements skills
+npx skills add availproject/nexus-elements
+
+# Install a single skill
+npx skills add https://github.com/availproject/nexus-elements --skill nexus-elements-overview
+```
+
+| Skill | Description |
+|-------|-------------|
+| `nexus-elements-overview` | Overview of all Nexus UI Elements components |
+| `nexus-elements-common` | Shared patterns and conventions across components |
+| `nexus-elements-nexus-provider` | NexusProvider setup and configuration |
+| `nexus-elements-deposit` | Deposit component integration |
+| `nexus-elements-bridge-deposit` | Bridge deposit component integration |
+| `nexus-elements-fast-bridge` | Fast bridge component integration |
+| `nexus-elements-swaps` | Swaps component integration |
+| `nexus-elements-transfer` | Transfer component integration |
+| `nexus-elements-unified-balance` | Unified balance display component |
+| `nexus-elements-view-history` | Transaction history component |
+
+Browse all available skills at [skills.sh/availproject/nexus-elements](https://skills.sh/availproject/nexus-elements) and [skills.sh/availproject/nexus-sdk](https://skills.sh/availproject/nexus-sdk).
 
 ---
 

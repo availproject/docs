@@ -681,12 +681,12 @@ sdk.analytics.enable();
 
 ## Skills Integration
 
-This repo ships Codex/skills.sh skills under `skills/` to help agents integrate the SDK end-to-end.
+[skills.sh](https://skills.sh) skills give AI coding agents (Codex, Claude Code, Cursor, etc.) deep context about the Nexus SDK and UI Elements.
 
-### Install Skills
+### Nexus SDK Skills
 
 ```bash
-# Install all skills
+# Install all SDK skills
 npx skills add availproject/nexus-sdk
 
 # Install single skill (recommended)
@@ -696,12 +696,35 @@ npx skills add https://github.com/availproject/nexus-sdk --skill nexus-sdk-integ
 npx skills add https://github.com/availproject/nexus-sdk --skill nexus-sdk-integration --ref develop
 ```
 
-### Available Skills
-
 - `nexus-sdk-integration` — Parent/orchestrator skill
 - `nexus-sdk-setup` — SDK setup and configuration
 - `nexus-sdk-hooks-events` — Hooks and event handling
 - `nexus-sdk-bridge-flows` — Bridge operation flows
 - `nexus-sdk-swap-flows` — Swap operation flows
 - `nexus-sdk-balances-metadata-utils` — Balances and utilities
+
+### Nexus UI Elements Skills
+
+The [Nexus UI Elements](https://github.com/availproject/nexus-elements) package ships skills that help agents scaffold and integrate pre-built React components.
+
+```bash
+# Install all UI Elements skills
+npx skills add availproject/nexus-elements
+
+# Install single skill
+npx skills add https://github.com/availproject/nexus-elements --skill nexus-elements-overview
+```
+
+- `nexus-elements-overview` — Overview of all Nexus UI Elements components
+- `nexus-elements-common` — Shared patterns and conventions across components
+- `nexus-elements-nexus-provider` — NexusProvider setup and configuration
+- `nexus-elements-deposit` — Deposit component integration
+- `nexus-elements-bridge-deposit` — Bridge deposit component integration
+- `nexus-elements-fast-bridge` — Fast bridge component integration
+- `nexus-elements-swaps` — Swaps component integration
+- `nexus-elements-transfer` — Transfer component integration
+- `nexus-elements-unified-balance` — Unified balance display component
+- `nexus-elements-view-history` — Transaction history component
+
+Browse all skills at [skills.sh/availproject/nexus-elements](https://skills.sh/availproject/nexus-elements) and [skills.sh/availproject/nexus-sdk](https://skills.sh/availproject/nexus-sdk).
 
