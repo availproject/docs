@@ -171,7 +171,9 @@ export default async function Page(props: {
       <TrackPageVisit url={page.url} title={doc.title} />
       <script type="application/ld+json">{JSON.stringify(breadcrumbLd)}</script>
       <script type="application/ld+json">{JSON.stringify(articleLd)}</script>
-      <div className="flex min-w-0 flex-1 flex-col bg-background xl:pl-10 2xl:pl-20">
+      <div
+        className={`flex min-w-0 flex-1 flex-col bg-background${hideRightSidebar ? "" : " xl:pl-10 2xl:pl-20"}`}
+      >
         <div className="mx-auto flex w-full max-w-160 min-w-0 flex-1 flex-col gap-20 px-4 py-10 md:px-0 md:py-20">
           {/* Content sections */}
           <div className="flex flex-1 flex-col gap-4">
