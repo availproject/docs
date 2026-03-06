@@ -36,6 +36,22 @@ const mockPages = [
         .mockResolvedValue("# Nexus Get Started\n\nNexus content"),
     },
   },
+  {
+    url: "/docs/nexus/supported-chains-and-tokens",
+    data: {
+      title: "Supported Chains & Tokens",
+      description: "",
+      getText: vi.fn().mockResolvedValue(""),
+    },
+  },
+  {
+    url: "/docs/nexus/contracts",
+    data: {
+      title: "Contracts",
+      description: "",
+      getText: vi.fn().mockResolvedValue(""),
+    },
+  },
 ];
 
 vi.mock("@/lib/source", () => ({
@@ -67,6 +83,7 @@ import {
   generateLlmsFullTxt,
   generateLlmsSectionTxt,
   generateLlmsTxt,
+  NEXUS_PAGE_OVERRIDE_URLS,
 } from "./llms";
 
 describe("generateLlmsTxt", () => {
@@ -210,5 +227,16 @@ describe("generateLlmsFullTxt", () => {
   it("includes filtered-section note", async () => {
     const output = await generateLlmsFullTxt("da/build");
     expect(output).toContain("Filtered to section: da/build");
+  });
+});
+
+describe("nexusPageOverrides", () => {
+  it("every override URL exists in the page tree", () => {
+    const pageUrls = new Set(mockPages.map((p) => p.url));
+    for (const url of NEXUS_PAGE_OVERRIDE_URLS) {
+      expect(pageUrls.has(url), `Override URL not found in pages: ${url}`).toBe(
+        true,
+      );
+    }
   });
 });

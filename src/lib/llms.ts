@@ -168,7 +168,6 @@ export function generateLlmsTxt(): string {
     "",
     "- [Markdown API](/api/markdown/{slug}): Get any page as markdown (also supports ?format=json)",
     "- [Structured reference data](/api/reference.json): Networks, contracts, SDKs as JSON",
-    "- [Nexus SDK TypeDoc](https://availproject.github.io/nexus-sdk/): Full SDK API reference (TypeScript)",
     "",
   ];
 
@@ -345,6 +344,9 @@ const nexusPageOverrides: Record<string, () => string> = {
   "/docs/nexus/supported-chains-and-tokens": generateSupportedChainsMarkdown,
   "/docs/nexus/contracts": generateContractsMarkdown,
 };
+
+/** Exported for testing — validates override URLs match real pages. */
+export const NEXUS_PAGE_OVERRIDE_URLS = Object.keys(nexusPageOverrides);
 
 export async function generateLlmsSectionTxt(
   sectionKey: "da" | "nexus",
