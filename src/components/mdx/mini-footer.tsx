@@ -10,8 +10,8 @@ import {
 
 export function MiniFooter() {
   return (
-    <footer className="mt-auto border-t border-border pt-10 pb-4 not-prose">
-      <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 md:grid-cols-[max-content_1fr_max-content_max-content_1fr_max-content] md:gap-x-4">
+    <footer className="mt-auto pt-10 not-prose">
+      <div className="border-t border-border pt-10 pb-4 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 md:grid-cols-[max-content_1fr_max-content_max-content_1fr_max-content] md:gap-x-4">
         {/* Pages — single list on mobile, two sub-columns on md+ */}
         <div className="col-span-1">
           <div className="md:hidden">
