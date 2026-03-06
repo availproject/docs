@@ -1,7 +1,7 @@
 "use client";
 
-import { CaretRight } from "@phosphor-icons/react";
 import * as React from "react";
+import { SearchBreadcrumbs } from "@/components/search/search-breadcrumbs";
 import { SearchResultItem } from "@/components/search/search-result-item";
 import {
   deriveBreadcrumbs,
@@ -38,23 +38,7 @@ export function RecentsView({ onSelect }: RecentsViewProps) {
             value={`recent-page-${page.url}`}
             onSelect={() => onSelect(page.url, page.title)}
           >
-            {breadcrumbs.length > 0 && (
-              <div className="flex items-center gap-1 mb-1">
-                {breadcrumbs.map((crumb, index) => (
-                  <React.Fragment key={index}>
-                    {index > 0 && (
-                      <CaretRight
-                        size={16}
-                        className="text-search-foreground"
-                      />
-                    )}
-                    <span className="ui-16 text-search-foreground">
-                      {crumb}
-                    </span>
-                  </React.Fragment>
-                ))}
-              </div>
-            )}
+            <SearchBreadcrumbs breadcrumbs={breadcrumbs} />
             <span className="ui-16 text-search-results-foreground-primary">
               {page.title}
             </span>
