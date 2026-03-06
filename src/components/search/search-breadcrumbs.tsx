@@ -20,7 +20,7 @@ export function SearchBreadcrumbs({ breadcrumbs }: SearchBreadcrumbsProps) {
   return (
     <div className="flex items-center gap-1 mb-1">
       {crumbs.map((crumb, index) => (
-        <React.Fragment key={crumb}>
+        <React.Fragment key={`${index}-${crumb}`}>
           {index > 0 && (
             <CaretRight size={16} className="text-search-foreground" />
           )}

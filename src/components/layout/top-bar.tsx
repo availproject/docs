@@ -69,9 +69,9 @@ export default function Topbar() {
       <div
         className={`sticky top-0 z-50 bg-navbar-background border-b border-navbar-border transition-shadow duration-500 ease-in-out${openMobile ? " shadow-[0_4px_12px_rgba(0,0,0,0.08)]" : ""}`}
       >
-        <div className="relative h-18 px-4 lg:px-10 flex items-center justify-between gap-4">
+        <div className="h-18 px-4 lg:px-10 flex items-center gap-4">
           {/* Left: Sidebar trigger + Logo */}
-          <div className="flex items-center gap-x-3 lg:gap-x-6">
+          <div className="flex flex-1 items-center gap-x-3 lg:gap-x-6">
             {/* Mobile sidebar trigger */}
             <button
               type="button"
@@ -104,7 +104,7 @@ export default function Topbar() {
           </div>
 
           {/* Center: Desktop search + theme toggle */}
-          <div className="hidden lg:flex items-center gap-3 absolute left-1/2 -translate-x-1/2">
+          <div className="hidden lg:flex items-center gap-3 shrink-0">
             <SearchBar onClick={openWithClick} />
             <ThemeToggle
               theme={theme ?? "system"}
@@ -114,7 +114,7 @@ export default function Topbar() {
           </div>
 
           {/* Right */}
-          <div className="flex items-center gap-2 lg:gap-3">
+          <div className="flex flex-1 items-center justify-end gap-2 lg:gap-3">
             {/* Mobile search trigger */}
             <button
               type="button"
