@@ -130,13 +130,14 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
     delayMs: 80,
   });
 
-  // Filter and group results
-  const rawResults = query.data && query.data !== "empty" ? query.data : [];
-  const filteredResults =
-    filter === "all"
-      ? rawResults
-      : rawResults.filter((r) => r.url.startsWith(filter));
-  const results = rankGroups(groupResultsByPage(filteredResults), search);
+  // Filter and group results (memoized so the scroll-reset effect only
+  // fires when data actually changes, not on every selection change)
+  const results = React.useMemo(() => {
+    const raw = query.data && query.data !== "empty" ? query.data : [];
+    const filtered =
+      filter === "all" ? raw : raw.filter((r) => r.url.startsWith(filter));
+    return rankGroups(groupResultsByPage(filtered), search);
+  }, [query.data, filter, search]);
   const isLoading = query.isLoading;
   const hasQuery = search.trim().length > 0;
 
@@ -155,8 +156,8 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
     }
   }, [open, setSearch]);
 
-  // Reset scroll position when results change (runs after cmdk's scroll management)
-  // biome-ignore lint/correctness/useExhaustiveDependencies: intentional trigger on result changes
+  // Reset scroll position when results change
+  // biome-ignore lint/correctness/useExhaustiveDependencies: results is intentionally a dependency — we want to scroll to top when search data changes
   React.useEffect(() => {
     requestAnimationFrame(() => {
       if (listRef.current) {
@@ -183,7 +184,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
     ) {
       trackEvent("search_query_submitted", {
         query: search,
-        results_count: filteredResults.length,
+        results_count: results.length,
         filter,
         page_path: pathname,
       });
@@ -194,7 +195,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
     search,
     isLoading,
     hasQuery,
-    filteredResults.length,
+    results.length,
     trackEvent,
     pathname,
     filter,
