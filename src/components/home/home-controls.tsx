@@ -8,10 +8,12 @@ import {
   SearchDialog,
   useSearchDialog,
 } from "@/components/search/search-dialog";
+import { useThemeKeyboard } from "@/hooks/use-theme-keyboard";
 
 export function HomeControls() {
   const { theme, resolvedTheme, setTheme } = useTheme();
   const { open, setOpen, openWithClick } = useSearchDialog();
+  useThemeKeyboard();
 
   const wrapWithShadow = (
     children: React.ReactNode,
