@@ -2,8 +2,8 @@
 import { Check, X } from "@phosphor-icons/react";
 import type React from "react";
 import { useEffect, useState } from "react";
+import { NETWORK_KEY } from "@/lib/constants";
 import { getItem } from "@/lib/local-storage";
-import { NETWORK_KEY } from "@/providers/Web3Provider";
 import NetworkToggle from "../helpers/network-toggle";
 import { PreviewPanel } from "../helpers/preview-panel";
 import { Toggle } from "../ui/toggle";

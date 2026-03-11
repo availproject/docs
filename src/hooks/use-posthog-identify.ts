@@ -11,8 +11,8 @@ import {
   track,
   unsetSuperProperties,
 } from "@/lib/analytics/posthog";
+import { NETWORK_KEY } from "@/lib/constants";
 import { getItem } from "@/lib/local-storage";
-import { NETWORK_KEY } from "@/providers/Web3Provider";
 
 /**
  * Hash a wallet address using SHA-256 for privacy-preserving identification

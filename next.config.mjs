@@ -10,7 +10,7 @@ const withMDX = createMDX();
 const config = {
   reactStrictMode: true,
   experimental: {
-    optimizePackageImports: ["@phosphor-icons/react"],
+    optimizePackageImports: ["@phosphor-icons/react", "lucide-react"],
   },
   turbopack: {
     root: __dirname,

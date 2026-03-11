@@ -30,7 +30,12 @@ interface PostHogProviderProps {
  */
 export function PostHogProvider({ children }: PostHogProviderProps) {
   useEffect(() => {
-    initPostHog();
+    // Defer PostHog init until browser is idle to avoid competing with hydration
+    if ("requestIdleCallback" in window) {
+      requestIdleCallback(() => initPostHog());
+    } else {
+      setTimeout(() => initPostHog(), 2000);
+    }
   }, []);
 
   // Don't wrap with provider if PostHog is not configured

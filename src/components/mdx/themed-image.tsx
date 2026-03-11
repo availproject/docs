@@ -6,10 +6,13 @@ export function ThemedImage({
   light,
   dark,
   alt,
+  priority = false,
 }: {
   light: string;
   dark: string;
   alt: string;
+  /** Set to true for hero/above-fold images to avoid delaying LCP */
+  priority?: boolean;
 }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -26,6 +29,8 @@ export function ThemedImage({
         <img
           src={light}
           alt={alt}
+          loading={priority ? "eager" : "lazy"}
+          decoding={priority ? "sync" : "async"}
           className="w-full border border-border rounded-md"
         />
       </button>
@@ -38,6 +43,8 @@ export function ThemedImage({
         <img
           src={dark}
           alt={alt}
+          loading={priority ? "eager" : "lazy"}
+          decoding={priority ? "sync" : "async"}
           className="w-full border border-border rounded-md"
         />
       </button>
