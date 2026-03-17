@@ -8,22 +8,19 @@ This is the Avail documentation site built with Fumadocs and Next.js. It covers 
 - **Documentation**: Fumadocs
 - **Styling**: Tailwind CSS v4 with CSS custom properties
 - **Components**: shadcn/ui
+- **Linter/Formatter**: Biome (`biome.json`)
+- **Testing**: Vitest (`pnpm test`) + Jest (`__tests__/`) — two runners coexist, consolidation pending
 - **Product config**: `src/lib/products.ts` — single source of truth for product slugs, labels, and paths
 
 ## NON-NEGOTIABLES
 - Never push directly to main — always create a branch and open a PR
 - Never run the dev server unless explicitly asked
 - Keep all components less than 400 lines — split if needed
-- Don't define multiple components in one single file
+- Prefer one component per file. Exceptions: compound components (Tabs/TabsList, etc.) and small private helpers.
 - Create reusable components wherever possible
 - Act autonomously on code changes and bug fixes. Ask before running servers, pushing code, or destructive operations.
 
 ## Working Principles
-
-### Self-Improvement Loop
-- After ANY correction from the user, update `memory/lessons.md` with the pattern
-- Write rules for yourself that prevent the same mistake from recurring
-- Review lessons at session start for the active project
 
 ### Verification Before Done
 - Never mark a task complete without proving it works
@@ -36,22 +33,10 @@ This is the Avail documentation site built with Fumadocs and Next.js. It covers 
 - Point at logs, errors, failing tests — then resolve them
 - Zero context switching required from the user
 
-### Demand Elegance (Balanced)
-- For non-trivial changes: pause and ask "is there a more elegant way?"
-- If a fix feels hacky: "Knowing everything I know now, implement the elegant solution"
-- Skip this for simple, obvious fixes — don't over-engineer
-- Challenge your own work before presenting it
-
-## Session Start
-1. Read `memory/lessons.md`
-2. Ask which project (or if ad-hoc)
-3. If project: read its `plans/<project>/README.md`
-
 ## Versioning & PRs
-- Branch and PR names use version numbers: `v1.1.0`, `v1.2.0`, etc.
-- **Minor bump** (`v1.X.0`) for each PR with features, docs, or refactors
-- **Patch bump** (`v1.X.Y`) for hotfixes
-- Baseline: `main` as of PR #8 = `v1.0.0`
+- Branch and PR names use version numbers: `v2.1.0`, `v2.2.0`, etc.
+- **Minor bump** (`v2.X.0`) for each PR with features, docs, or refactors
+- **Patch bump** (`v2.X.Y`) for hotfixes
 
 ## Code Conventions
 
@@ -61,13 +46,15 @@ This is the Avail documentation site built with Fumadocs and Next.js. It covers 
 - **DRY heading utilities**: Use shared utilities rather than inlining `.replace()` chains.
 - **Content files**: No `.mdx` extensions in links. Spell-check content before committing.
 
-## Design System
+## Linting & Formatting
 
-Two-layer token architecture: Primitives (`--blue-500`) → Semantic tokens (`--primary`, `--sidebar-background`). For full reference on token naming, categories, and usage, see `src/styles/DESIGN_SYSTEM.md`.
+Biome handles both linting and formatting. ESLint is not used.
 
-## Analytics
-
-PostHog for user behavior tracking. For setup, types, hooks, and usage, see `src/lib/analytics/ANALYTICS.md`.
+```bash
+npx biome check .            # lint + format check
+npx biome check --write      # auto-fix
+pnpm validate:precommit      # lint-staged + typecheck
+```
 
 ## Key Files
 
@@ -75,10 +62,12 @@ PostHog for user behavior tracking. For setup, types, hooks, and usage, see `src
 |------|---------|
 | `src/app/global.css` | All token definitions (primitives + semantic) |
 | `src/styles/DESIGN_SYSTEM.md` | Design system documentation |
+| `src/lib/analytics/ANALYTICS.md` | Analytics setup and hooks |
 | `src/components/ui/` | shadcn components |
 | `src/components/layout/` | Layout components (sidebar, navbar) |
 | `src/components/mdx/` | MDX components for docs content |
 | `src/lib/source.ts` | Fumadocs content source configuration |
+| `biome.json` | Linter/formatter configuration |
 
 ## Guardrails
 
