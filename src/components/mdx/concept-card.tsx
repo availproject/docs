@@ -20,7 +20,7 @@ export function ConceptCard({
   className,
   external = false,
 }: ConceptCardProps) {
-  const { trackEvent } = useAnalytics();
+  const { trackEvent, trackNavigation } = useAnalytics();
   const isExternal = external || href.startsWith("http");
   const Wrapper = isExternal ? "a" : Link;
   const wrapperProps = isExternal
@@ -33,6 +33,7 @@ export function ConceptCard({
       card_type: "concept",
       destination_path: href,
     });
+    trackNavigation("card", href);
   };
 
   return (

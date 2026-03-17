@@ -157,19 +157,19 @@ export function trackSessionStart(entryPage: string): void {
   const utmParams = getUTMParams();
   const referrerInfo = getReferrerInfo();
 
-  // Only track if there's attribution data
+  // Always fire session_started — dashboards depend on it for session counting
+  posthog.capture("session_started", {
+    entry_page: entryPage,
+    page_path: entryPage,
+    ...referrerInfo,
+    ...utmParams,
+  });
+
+  // Set super properties only when there's attribution data
   if (
     Object.keys(utmParams).length > 0 ||
     Object.keys(referrerInfo).length > 0
   ) {
-    posthog.capture("session_started", {
-      entry_page: entryPage,
-      page_path: entryPage,
-      ...referrerInfo,
-      ...utmParams,
-    });
-
-    // Also set as super properties for the session
     setSuperProperties({
       ...referrerInfo,
       ...utmParams,

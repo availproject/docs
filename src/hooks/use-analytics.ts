@@ -8,7 +8,11 @@ import {
   trackPageView,
   trackSessionStart,
 } from "@/lib/analytics/posthog";
-import type { EventName, EventProperties } from "@/lib/analytics/types";
+import type {
+  EventName,
+  EventProperties,
+  NavigationType,
+} from "@/lib/analytics/types";
 
 /**
  * Main analytics hook that provides a type-safe trackEvent function
@@ -34,7 +38,19 @@ export function useAnalytics() {
     [pathname],
   );
 
-  return { trackEvent, pathname };
+  const trackNavigation = useCallback(
+    (navigationType: NavigationType, toPath: string) => {
+      track("page_navigation", {
+        from_path: pathname,
+        to_path: toPath,
+        navigation_type: navigationType,
+        page_path: pathname,
+      });
+    },
+    [pathname],
+  );
+
+  return { trackEvent, trackNavigation, pathname };
 }
 
 /**

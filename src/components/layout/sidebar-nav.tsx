@@ -182,7 +182,7 @@ function SidebarFolder({
 export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
   const pathname = usePathname();
   const { setOpenMobile } = useSidebar();
-  const { trackEvent } = useAnalytics();
+  const { trackEvent, trackNavigation } = useAnalytics();
   const activeProduct = getActiveProduct(pathname);
 
   // Persist last active product so cross-cutting pages (e.g. /docs/ai-features)
@@ -211,6 +211,7 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
       item_title: title,
       destination_path: path,
     });
+    trackNavigation("sidebar", path);
   };
 
   const handleFolderToggle = (folderName: string) => {
@@ -339,6 +340,7 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
                 item_title: "AI-Friendly Features",
                 destination_path: "/docs/ai-features",
               });
+              trackNavigation("sidebar", "/docs/ai-features");
             }}
             className={cn(
               "flex h-10 w-full min-w-0 items-center gap-2 px-4 py-2.5 text-base transition-colors",
@@ -359,6 +361,7 @@ export default function SidebarNav({ tree, ...props }: SidebarNavProps) {
                 item_title: "Send us Feedback",
                 destination_path: "/docs/feedback",
               });
+              trackNavigation("sidebar", "/docs/feedback");
             }}
             className={cn(
               "flex h-10 w-full min-w-0 items-center gap-2 px-4 py-2.5 text-base transition-colors",
