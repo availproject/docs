@@ -1,6 +1,8 @@
 # Avail Documentation
 
-The official documentation site for [Avail](https://www.availproject.org/) — a modular data availability layer designed to power the next generation of trust-minimized applications and sovereign rollups.
+**Live at [docs.availproject.org](https://docs.availproject.org)**
+
+The official documentation site for [Avail](https://www.availproject.org/). Built with Fumadocs and Next.js.
 
 The site covers two products:
 
@@ -11,15 +13,15 @@ The site covers two products:
 
 | Technology | Purpose |
 |---|---|
-| [Next.js 16](https://nextjs.org/) | React framework (App Router) |
+| [Next.js](https://nextjs.org/) | React framework (App Router) |
 | [Fumadocs](https://fumadocs.dev/) | Documentation framework |
-| [Tailwind CSS v4](https://tailwindcss.com/) | Styling |
+| [Tailwind CSS](https://tailwindcss.com/) | Styling |
 | [TypeScript](https://www.typescriptlang.org/) | Type safety |
 | [shadcn/ui](https://ui.shadcn.com/) | UI component primitives |
 | [Radix UI](https://www.radix-ui.com/) | Accessible headless components |
 | [Biome](https://biomejs.dev/) | Linting and formatting |
-| [Vitest](https://vitest.dev/) | Unit testing (`pnpm test`) |
-| [Jest](https://jestjs.io/) | Legacy test suite (`__tests__/`) |
+| [Vitest](https://vitest.dev/) | Unit testing — use for all new tests (`pnpm test`) |
+| [Jest](https://jestjs.io/) | Legacy test suite (`__tests__/`) — do not add new tests here |
 | [PostHog](https://posthog.com/) | Analytics |
 
 ## Getting started
@@ -146,7 +148,7 @@ Items listed here appear in this order. Items not listed are excluded from the s
 ### Adding a new page
 
 1. Create a `.mdx` file in the appropriate directory (e.g. `content/docs/da/concepts/my-page.mdx`)
-2. Add frontmatter at the top:
+2. Add frontmatter at the top (`title` and `description` are both **required**):
    ```mdx
    ---
    title: My Page Title
@@ -204,14 +206,15 @@ The site builds and runs without these variables — analytics will simply be di
 
 ### Branch naming
 
-We use **version-based** branch names:
+Use descriptive branch names with a prefix:
 
-- `v1.X.0` — Each PR with features, docs, or refactors gets a minor bump
-- `v1.X.Y` — Hotfixes get a patch bump
+- `feat/` — New features or docs (e.g. `feat/search-dialog-command`)
+- `fix/` — Bug fixes (e.g. `fix/broken-internal-links`)
+- `dev/` — Exploratory or in-progress work
 
 ### Workflow
 
-1. Create a branch from `main` with the next version number
+1. Create a branch from `main` with a descriptive name
 2. Make your changes
 3. Run `pnpm validate:precommit` before committing (or rely on Husky pre-commit)
 4. Run `pnpm build` to verify nothing is broken
@@ -267,3 +270,7 @@ curl https://docs.availproject.org/llms-full.txt?section=nexus
 - [Design system docs](src/styles/DESIGN_SYSTEM.md) — Token architecture and usage
 - [Analytics docs](src/lib/analytics/ANALYTICS.md) — PostHog event tracking implementation
 - [AI agents guide](AGENTS.md) — Design tokens and conventions for AI agents
+
+## License
+
+This project does not yet have a LICENSE file. Contact the Avail team before reusing any content or code.

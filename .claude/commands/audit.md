@@ -20,19 +20,19 @@ Run each check and record exact numbers.
 
 ### 1. Build
 ```bash
-cd docs-fumadocs && pnpm build 2>&1 | tail -30
+cd docs && pnpm build 2>&1 | tail -30
 ```
 Record: pass/fail, exact page count, any warnings.
 
 ### 2. Types
 ```bash
-cd docs-fumadocs && npx tsc --noEmit 2>&1 | tail -20
+cd docs && npx tsc --noEmit 2>&1 | tail -20
 ```
 Record: clean or exact error count.
 
 ### 3. Lint
 ```bash
-cd docs-fumadocs && npx biome check . 2>&1 | tail -40
+cd docs && npx biome check . 2>&1 | tail -40
 ```
 Record: exact errors, warnings, infos. Parse the per-rule breakdown from output. Note which rules are auto-fixable with `biome check --write`.
 
@@ -96,7 +96,7 @@ Identify patterns instead of listing individual files where possible. "All DA AP
 
 ### Generate HEALTH.md
 
-Write `docs-fumadocs/.claude/HEALTH.md` from scratch using this template. This is a **full replacement** — the file represents current state only.
+Write `docs/.claude/HEALTH.md` from scratch using this template. This is a **full replacement** — the file represents current state only.
 
 ```markdown
 # Site Health Report
