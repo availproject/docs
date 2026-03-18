@@ -21,9 +21,10 @@ const SHOWCASE_MAP: Record<
   deposit: () => import("@/components/showcase/deposit-demo-showcase"),
   swaps: () => import("@/components/showcase/swaps-showcase"),
   "unified-balance": () =>
-    import("@/components/showcase/unified-balance-showcase"),
+    import("@/components/showcase/unified-balance-demo-showcase"),
   "fast-transfer": () => import("@/components/showcase/transfer-showcase"),
-  "view-history": () => import("@/components/showcase/view-history-showcase"),
+  "view-history": () =>
+    import("@/components/showcase/view-history-demo-showcase"),
 };
 
 export function ComponentPreview({
