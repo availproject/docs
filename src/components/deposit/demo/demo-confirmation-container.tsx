@@ -1,7 +1,6 @@
 "use client";
 
 import { formatTokenBalance } from "@avail-project/nexus-core";
-import Image from "next/image";
 import { useMemo, useState } from "react";
 import { usdFormatter } from "../../common";
 import { Button } from "../../ui/button";
@@ -127,7 +126,7 @@ const DemoConfirmationContainer = ({
                       >
                         <div className="flex items-center gap-3">
                           {source.chainLogo && (
-                            <Image
+                            <img
                               src={source.chainLogo}
                               alt={source.chainName}
                               width={20}
