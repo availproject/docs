@@ -63,6 +63,7 @@ const STATUS_CONFIGS = [
 ] as const;
 
 function randomFrom<T>(arr: T[]): T {
+  if (arr.length === 0) return undefined as unknown as T;
   return arr[Math.floor(Math.random() * arr.length)];
 }
 

@@ -8,7 +8,7 @@ import {
   type OnSwapIntentHookData,
 } from "@avail-project/nexus-core";
 import type React from "react";
-import { useCallback, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import {
   generateMockSwapBalance,
   generateMockTxHash,
@@ -90,6 +90,14 @@ const MockNexusProvider = ({ children }: MockNexusProviderProps) => {
   const allowance = useRef<OnAllowanceHookData | null>(null);
   const swapIntent = useRef<OnSwapIntentHookData | null>(null);
   const timerIds = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  // Clean up pending timers on unmount
+  useEffect(() => {
+    return () => {
+      for (const id of timerIds.current) clearTimeout(id);
+      timerIds.current = [];
+    };
+  }, []);
 
   // Hook callbacks stored by mock SDK
   const intentHookCb = useRef<((data: OnIntentHookData) => void) | null>(null);
