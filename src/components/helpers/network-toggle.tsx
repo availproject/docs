@@ -3,8 +3,8 @@ import type { NexusNetwork } from "@avail-project/nexus-core";
 import { useEffect, useState } from "react";
 
 import { useAnalytics } from "@/hooks/use-analytics";
+import { NETWORK_KEY } from "@/lib/constants";
 import { getItem, setItem } from "@/lib/local-storage";
-import { NETWORK_KEY } from "@/providers/Web3Provider";
 import { useNexus } from "../nexus/NexusProvider";
 import {
   Select,

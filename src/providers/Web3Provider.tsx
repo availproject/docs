@@ -25,6 +25,7 @@ import {
 import { PostHogIdentify } from "@/components/analytics/PostHogIdentify";
 import NexusProvider from "@/components/nexus/NexusProvider";
 import { Skeleton } from "@/components/ui/skeleton";
+import { NETWORK_KEY } from "@/lib/constants";
 import { getItem, setItem } from "@/lib/local-storage";
 
 const hyperEVM = defineChain({
@@ -128,7 +129,6 @@ const defaultConfig = getDefaultConfig({
 });
 
 const wagmiConfig = createConfig(defaultConfig);
-export const NETWORK_KEY = "nexus-elements-network-key";
 
 function NexusContainer({ children }: Readonly<{ children: React.ReactNode }>) {
   const [network, setNetwork] = useState<NexusNetwork>("mainnet");
