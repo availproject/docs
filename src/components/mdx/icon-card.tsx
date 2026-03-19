@@ -25,7 +25,7 @@ export function IconCard({
   children,
   arrow = false,
 }: IconCardProps) {
-  const { trackEvent } = useAnalytics();
+  const { trackEvent, trackNavigation } = useAnalytics();
   const isExternal = external || href.startsWith("http");
   const Wrapper = isExternal ? "a" : Link;
   const wrapperProps = isExternal
@@ -38,6 +38,7 @@ export function IconCard({
       card_type: "icon",
       destination_path: href,
     });
+    trackNavigation("card", href);
   };
 
   return (

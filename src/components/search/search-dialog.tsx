@@ -118,7 +118,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
   const [filter, setFilter] = React.useState<FilterValue>("all");
   const [viewMode, setViewMode] = React.useState<ViewMode>("search");
   const [selectedValue, setSelectedValue] = React.useState("");
-  const { trackEvent, pathname } = useAnalytics();
+  const { trackEvent, trackNavigation, pathname } = useAnalytics();
   const lastTrackedQuery = React.useRef<string>("");
   const listRef = React.useRef<HTMLDivElement>(null);
 
@@ -209,6 +209,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
       query: search,
       page_path: pathname,
     });
+    trackNavigation("search", url);
     addRecentSearch(search);
     onOpenChange(false);
     router.push(url);

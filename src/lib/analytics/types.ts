@@ -100,6 +100,24 @@ export interface AICopyPageClickedEvent {
   };
 }
 
+// Unified navigation event (for aggregate dashboard analysis)
+export type NavigationType =
+  | "sidebar"
+  | "footer"
+  | "card"
+  | "search"
+  | "internal_link";
+
+export interface PageNavigationEvent {
+  event: "page_navigation";
+  properties: {
+    from_path: string;
+    to_path: string;
+    navigation_type: NavigationType;
+    page_path: string;
+  };
+}
+
 // Navigation events
 export interface NavFooterLinkClickedEvent {
   event: "nav_footer_link_clicked";
@@ -274,6 +292,7 @@ export type AnalyticsEvent =
   | AIServiceOpenedEvent
   | AIViewMarkdownClickedEvent
   | AICopyPageClickedEvent
+  | PageNavigationEvent
   | NavFooterLinkClickedEvent
   | NavTOCHeadingClickedEvent
   | NavSidebarItemClickedEvent

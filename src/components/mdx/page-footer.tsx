@@ -81,7 +81,7 @@ export function PageFooter({
   next,
   className,
 }: PageFooterProps) {
-  const { trackEvent } = useAnalytics();
+  const { trackEvent, trackNavigation } = useAnalytics();
 
   const handleNavClick = (
     direction: "previous" | "next",
@@ -93,6 +93,7 @@ export function PageFooter({
       destination_path: destinationPath,
       destination_title: destinationTitle,
     });
+    trackNavigation("footer", destinationPath);
   };
 
   return (
