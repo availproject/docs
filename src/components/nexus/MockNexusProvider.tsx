@@ -129,7 +129,11 @@ const MockNexusProvider = ({ children }: MockNexusProviderProps) => {
       },
 
       // Mock convertTokenReadableAmountToBigInt
-      convertTokenReadableAmountToBigInt: (amount: string, token: string) => {
+      convertTokenReadableAmountToBigInt: (
+        amount: string,
+        token: string,
+        _chainId?: number,
+      ) => {
         const decimals = token === "ETH" ? 18 : 6;
         const [whole = "0", frac = ""] = amount.split(".");
         const paddedFrac = frac.padEnd(decimals, "0").slice(0, decimals);
