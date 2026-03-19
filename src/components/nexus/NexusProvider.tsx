@@ -229,6 +229,7 @@ const NexusProvider = ({
     },
   });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: pre-existing — functions are intentionally not wrapped in useCallback
   const value = useMemo(
     () => ({
       nexusSDK,
@@ -250,18 +251,7 @@ const NexusProvider = ({
       exchangeRate: exchangeRate.current,
       getFiatValue,
     }),
-    [
-      nexusSDK,
-      initializeNexus,
-      deinitializeNexus,
-      attachEventHooks,
-      handleInit,
-      swapBalance,
-      config,
-      loading,
-      fetchBridgableBalance,
-      fetchSwapBalance,
-    ],
+    [nexusSDK, bridgableBalance, swapBalance, config, loading],
   );
   return (
     <NexusContext.Provider value={value}>{children}</NexusContext.Provider>
@@ -276,4 +266,5 @@ export function useNexus() {
   return context;
 }
 
+export { NexusContext };
 export default NexusProvider;

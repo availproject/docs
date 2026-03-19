@@ -17,13 +17,15 @@ const SHOWCASE_MAP: Record<
   string,
   () => Promise<{ default: React.ComponentType<unknown> }>
 > = {
-  "fast-bridge": () => import("@/components/showcase/fast-bridge-showcase"),
-  deposit: () => import("@/components/showcase/deposit-showcase"),
-  swaps: () => import("@/components/showcase/swaps-showcase"),
+  "fast-bridge": () =>
+    import("@/components/showcase/fast-bridge-demo-showcase"),
+  deposit: () => import("@/components/showcase/deposit-demo-showcase"),
+  swaps: () => import("@/components/showcase/swaps-demo-showcase"),
   "unified-balance": () =>
-    import("@/components/showcase/unified-balance-showcase"),
-  "fast-transfer": () => import("@/components/showcase/transfer-showcase"),
-  "view-history": () => import("@/components/showcase/view-history-showcase"),
+    import("@/components/showcase/unified-balance-demo-showcase"),
+  "fast-transfer": () => import("@/components/showcase/transfer-demo-showcase"),
+  "view-history": () =>
+    import("@/components/showcase/view-history-demo-showcase"),
 };
 
 export function ComponentPreview({
