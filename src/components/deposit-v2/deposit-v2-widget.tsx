@@ -203,7 +203,7 @@ const DepositV2Widget = ({
   const canEdit = hasAmount && !exceedsBalance && !payingWithLoading;
 
   return (
-    <Card className="relative w-full max-w-[340px] gap-0 overflow-hidden rounded-2xl border-0 bg-secondary p-0 shadow-[0_1px_12px_0_rgba(91,91,91,0.05)]">
+    <Card className="relative w-full max-w-[350px] gap-0 overflow-hidden rounded-2xl border-0 bg-secondary p-0 shadow-[0_1px_12px_0_rgba(91,91,91,0.05)]">
       {/* Dot matrix background — fades with deposit content */}
       <div
         className={`pointer-events-none absolute inset-0 transition-opacity ease-spring motion-reduce:transition-none ${
@@ -445,7 +445,7 @@ const DepositV2Widget = ({
                     editSnapshotRef.current = new Set(selectedTokens);
                     setScreen("edit");
                   }}
-                  className="flex w-full cursor-pointer items-center text-left transition-opacity duration-150 hover:opacity-70"
+                  className="flex w-full cursor-pointer items-center text-left"
                 >
                   <div className="flex items-center gap-3">
                     <div className="relative flex shrink-0">

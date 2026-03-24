@@ -1,29 +1,25 @@
 "use client";
 
-import {
-  CHAIN_METADATA,
-  formatTokenBalance,
-  type UserAsset,
-} from "@avail-project/nexus-core";
-import { X } from "lucide-react";
-import {
-  startTransition,
-  useCallback,
-  useDeferredValue,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+/* ─────────────────────────────────────────────────────────
+ * ANIMATION STORYBOARD
+ *
+ * Read top-to-bottom. Each `at` value is ms after mount.
+ *
+ *    0ms   component mounts, everything invisible
+ *  100ms   card container fades in, scale 0.96 → 1.0
+ *  200ms   header fades in + slides down from -8px
+ *  350ms   search bar fades in + slides down from -8px
+ *  500ms   token rows stagger in (120ms each, slide up from 12px)
+ *  980ms   done button fades in + slides up from 8px
+ * ───────────────────────────────────────────────────────── */
+
+import { formatTokenBalance, type UserAsset } from "@avail-project/nexus-core";
+import { MagnifyingGlass, X } from "@phosphor-icons/react";
+import { motion } from "framer-motion";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { usdFormatter } from "../../common";
 import { Button } from "../../ui/button";
 import { CardContent } from "../../ui/card";
-import { Tabs, TabsList, TabsTrigger } from "../../ui/tabs";
-import {
-  PROGRESS_BAR_ANIMATION_DELAY_MS,
-  PROGRESS_BAR_EXIT_DURATION_MS,
-  SCROLL_THRESHOLD_PX,
-} from "../constants/widget";
 import type {
   ChainItem,
   DepositWidgetContextValue,
@@ -35,21 +31,59 @@ import {
   isNative,
   isStablecoin,
 } from "../utils/asset-helpers";
-import { ChevronDownIcon } from "./icons";
+import { CoinIcon } from "./icons";
 import TokenRow from "./token-row";
-import WidgetHeader from "./widget-header";
 
-interface AssetSelectionContainerProps {
-  widget: DepositWidgetContextValue;
-  heading?: string;
-  onClose?: () => void;
-}
+/* ── Timing ─────────────────────────────────────────────── */
+
+const TIMING = {
+  cardAppear: 100, // card fades in and scales up
+  header: 200, // header fades in + slides down
+  searchBar: 350, // search bar appears
+  tokenRows: 500, // first token row starts staggering
+  doneButton: 980, // done button fades in
+};
+
+/* ── Element configs ────────────────────────────────────── */
+
+/* Card container */
+const CARD = {
+  initialScale: 0.96, // scale before appearing
+  finalScale: 1.0, // resting scale
+  spring: { type: "spring" as const, stiffness: 300, damping: 30 },
+};
+
+/* Header section */
+const HEADER = {
+  offsetY: -8, // px header slides from
+  spring: { type: "spring" as const, stiffness: 350, damping: 28 },
+};
+
+/* Search input */
+const SEARCH = {
+  offsetY: -8, // px search slides from
+  spring: { type: "spring" as const, stiffness: 350, damping: 28 },
+};
+
+/* Token row list */
+const ROWS = {
+  stagger: 0.12, // seconds between each row
+  offsetY: 12, // px each row slides up from
+  spring: { type: "spring" as const, stiffness: 300, damping: 30 },
+};
+
+/* Done button */
+const DONE_BUTTON = {
+  offsetY: 8, // px button slides up from
+  spring: { type: "spring" as const, stiffness: 350, damping: 28 },
+};
+
+/* ── Data transform ─────────────────────────────────────── */
 
 function transformSwapBalanceToTokens(
   swapBalance: UserAsset[] | null,
 ): Token[] {
   if (!swapBalance) return [];
-  console.log("SWAP_BALANCE", swapBalance);
   return swapBalance
     .filter((asset) => asset.breakdown && asset.breakdown.length > 0)
     .map((asset) => {
@@ -66,14 +100,9 @@ function transformSwapBalanceToTokens(
             amount: balanceNum,
           };
         })
-        .sort((a, b) => {
-          const aVal = a.usdValue;
-          const bVal = b.usdValue;
-          return bVal - aVal;
-        });
+        .sort((a, b) => b.usdValue - a.usdValue);
 
       const totalUsdValue = chains.reduce((sum, c) => sum + c.usdValue, 0);
-
       const totalAmount = chains.reduce((sum, c) => sum + c.amount, 0);
 
       let category: TokenCategory;
@@ -105,139 +134,76 @@ function transformSwapBalanceToTokens(
     });
 }
 
+/* ── Component ──────────────────────────────────────────── */
+
+interface AssetSelectionContainerProps {
+  widget: DepositWidgetContextValue;
+  heading?: string;
+  onClose?: () => void;
+}
+
 const AssetSelectionContainer = ({
   widget,
-  heading,
   onClose,
 }: AssetSelectionContainerProps) => {
   const { assetSelection, setAssetSelection, swapBalance } = widget;
-
-  const [isProgressBarVisible, setIsProgressBarVisible] = useState(false);
-  const [isProgressBarEntering, setIsProgressBarEntering] = useState(false);
-  const [isProgressBarExiting, setIsProgressBarExiting] = useState(false);
-  const [showStickyPopular, setShowStickyPopular] = useState(false);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const popularSectionRef = useRef<HTMLDivElement>(null);
-
   const selectedChainIds = assetSelection.selectedChainIds;
-  const filter = assetSelection.filter;
   const expandedTokens = assetSelection.expandedTokens;
 
-  // Defer expensive token transformation to avoid blocking UI
-  const deferredSwapBalance = useDeferredValue(swapBalance);
+  /* ── Animation stage ── */
+  const [stage, setStage] = useState(0);
 
+  useEffect(() => {
+    setStage(0);
+    const timers: NodeJS.Timeout[] = [];
+
+    timers.push(setTimeout(() => setStage(1), TIMING.cardAppear));
+    timers.push(setTimeout(() => setStage(2), TIMING.header));
+    timers.push(setTimeout(() => setStage(3), TIMING.searchBar));
+    timers.push(setTimeout(() => setStage(4), TIMING.tokenRows));
+    timers.push(setTimeout(() => setStage(5), TIMING.doneButton));
+
+    return () => timers.forEach(clearTimeout);
+  }, []);
+
+  /* ── Search state ── */
+  const [searchQuery, setSearchQuery] = useState("");
+
+  /* ── Token data ── */
   const tokens = useMemo(
-    () => transformSwapBalanceToTokens(deferredSwapBalance),
-    [deferredSwapBalance],
+    () => transformSwapBalanceToTokens(swapBalance),
+    [swapBalance],
   );
 
-  // Build index Map for O(1) token lookups (js-index-maps)
   const tokensById = useMemo(
     () => new Map(tokens.map((t) => [t.id, t])),
     [tokens],
   );
 
-  const mainTokens = useMemo(
-    () =>
-      tokens.filter(
-        (t) => t.category === "stablecoin" || t.category === "native",
-      ),
-    [tokens],
-  );
+  const filteredTokens = useMemo(() => {
+    if (!searchQuery.trim()) return tokens;
+    const query = searchQuery.toLowerCase();
+    return tokens.filter(
+      (t) =>
+        t.symbol.toLowerCase().includes(query) ||
+        t.chainsLabel.toLowerCase().includes(query),
+    );
+  }, [tokens, searchQuery]);
 
-  const otherTokens = useMemo(
-    () => tokens.filter((t) => t.category === "memecoin"),
-    [tokens],
-  );
-
-  const selectedAmount = useMemo(() => {
-    let total = 0;
+  /* ── Selected count ── */
+  const selectedCount = useMemo(() => {
+    let count = 0;
     tokens.forEach((token) => {
-      token.chains.forEach((chain) => {
-        if (selectedChainIds.has(chain.id)) {
-          total += chain.usdValue;
-        }
-      });
+      const hasSelected = token.chains.some((c) => selectedChainIds.has(c.id));
+      if (hasSelected) count++;
     });
-    return total;
+    return count;
   }, [tokens, selectedChainIds]);
 
-  const requiredAmount = widget.inputs.amount
-    ? parseFloat(widget.inputs.amount.replace(/,/g, ""))
-    : 0;
-
-  const showProgressBar = requiredAmount > 0 && requiredAmount > selectedAmount;
-  const progressPercent =
-    requiredAmount > 0
-      ? Math.min((selectedAmount / requiredAmount) * 100, 100)
-      : 0;
-
-  useEffect(() => {
-    if (showProgressBar) {
-      setIsProgressBarVisible(true);
-      setIsProgressBarExiting(false);
-      setIsProgressBarEntering(true);
-      const timer = setTimeout(() => {
-        setIsProgressBarEntering(false);
-      }, PROGRESS_BAR_ANIMATION_DELAY_MS);
-      return () => clearTimeout(timer);
-    } else if (isProgressBarVisible) {
-      setIsProgressBarExiting(true);
-      const timer = setTimeout(() => {
-        setIsProgressBarVisible(false);
-        setIsProgressBarExiting(false);
-      }, PROGRESS_BAR_EXIT_DURATION_MS);
-      return () => clearTimeout(timer);
-    }
-  }, [showProgressBar, isProgressBarVisible]);
-
-  useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-
-    // Use startTransition for non-urgent scroll updates (rerender-transitions)
-    const handleScroll = () => {
-      const scrollTop = container.scrollTop;
-      startTransition(() => {
-        setShowStickyPopular(scrollTop > SCROLL_THRESHOLD_PX);
-      });
-    };
-
-    container.addEventListener("scroll", handleScroll, { passive: true });
-    return () => container.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const scrollToPopular = useCallback(() => {
-    scrollContainerRef.current?.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  }, []);
-
-  const handlePresetClick = useCallback(
-    (preset: "all" | "stablecoins" | "native") => {
-      const newChainIds = new Set<string>();
-      tokens.forEach((token) => {
-        const shouldInclude =
-          preset === "all" ||
-          (preset === "stablecoins" && token.category === "stablecoin") ||
-          (preset === "native" && token.category === "native");
-
-        if (shouldInclude) {
-          token.chains.forEach((chain) => newChainIds.add(chain.id));
-        }
-      });
-      setAssetSelection({
-        selectedChainIds: newChainIds,
-        filter: preset,
-      });
-    },
-    [tokens, setAssetSelection],
-  );
-
+  /* ── Handlers ── */
   const toggleTokenSelection = useCallback(
     (tokenId: string) => {
-      const token = tokensById.get(tokenId); // O(1) lookup instead of O(n)
+      const token = tokensById.get(tokenId);
       if (!token) return;
 
       const allChainsSelected = token.chains.every((c) =>
@@ -246,9 +212,9 @@ const AssetSelectionContainer = ({
       const newChainIds = new Set(selectedChainIds);
 
       if (allChainsSelected) {
-        token.chains.forEach((chain) => newChainIds.delete(chain.id));
+        for (const chain of token.chains) newChainIds.delete(chain.id);
       } else {
-        token.chains.forEach((chain) => newChainIds.add(chain.id));
+        for (const chain of token.chains) newChainIds.add(chain.id);
       }
 
       const newFilter = checkIfMatchesPreset(tokens, newChainIds);
@@ -280,224 +246,159 @@ const AssetSelectionContainer = ({
 
   const toggleExpanded = useCallback(
     (tokenId: string) => {
-      let newExpanded = new Set(expandedTokens);
-      if (tokenId === "others-section") {
-        if (newExpanded.has("others-section")) {
-          newExpanded.delete("others-section");
-        } else {
-          newExpanded = new Set(newExpanded);
-          newExpanded.add("others-section");
-          setTimeout(() => {
-            if (scrollContainerRef.current) {
-              const currentScrollTop = scrollContainerRef.current.scrollTop;
-              scrollContainerRef.current.scrollTo({
-                top: currentScrollTop + 70,
-                behavior: "smooth",
-              });
-            }
-          }, 100);
-        }
+      const newExpanded = new Set(expandedTokens);
+      if (newExpanded.has(tokenId)) {
+        newExpanded.delete(tokenId);
       } else {
-        const othersExpanded = newExpanded.has("others-section");
-        if (newExpanded.has(tokenId)) {
-          newExpanded = othersExpanded
-            ? new Set(["others-section"])
-            : new Set();
-        } else {
-          newExpanded = othersExpanded
-            ? new Set(["others-section", tokenId])
-            : new Set([tokenId]);
-        }
+        // Collapse other tokens, expand this one
+        const cleaned = new Set<string>();
+        cleaned.add(tokenId);
+        setAssetSelection({ expandedTokens: cleaned });
+        return;
       }
       setAssetSelection({ expandedTokens: newExpanded });
     },
     [expandedTokens, setAssetSelection],
   );
 
-  const handleDeselectAll = useCallback(() => {
-    setAssetSelection({
-      selectedChainIds: new Set(),
-      filter: "custom",
-    });
-  }, [setAssetSelection]);
-
   const handleDone = useCallback(() => {
     widget.goToStep("amount");
   }, [widget]);
 
+  const handleClose = useCallback(() => {
+    if (onClose) {
+      onClose();
+    } else {
+      widget.goToStep("amount");
+    }
+  }, [onClose, widget]);
+
+  /* ── Render ── */
   return (
-    <>
-      <WidgetHeader
-        title={heading ?? ""}
-        onBack={widget.goBack}
-        onClose={onClose}
-        depositTargetLogo={widget?.destination?.depositTargetLogo}
-      />
-      <CardContent>
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between">
-            <Tabs
-              value={filter}
-              onValueChange={(value) => {
-                if (value !== "custom") {
-                  handlePresetClick(value as "all" | "stablecoins" | "native");
-                }
-              }}
-            >
-              <TabsList>
-                <TabsTrigger value="all">Any token</TabsTrigger>
-                <TabsTrigger value="stablecoins">Stablecoins</TabsTrigger>
-                <TabsTrigger value="native">Native</TabsTrigger>
-                {filter === "custom" && (
-                  <TabsTrigger value="custom">Custom</TabsTrigger>
-                )}
-              </TabsList>
-            </Tabs>
-            <button
-              className="text-xs font-medium text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
-              onClick={handleDeselectAll}
-            >
-              {filter === "custom" ? <X className="size-4" /> : "Deselect all"}
-            </button>
-          </div>
-
-          <div className="flex flex-col">
-            <div className="relative">
-              {showStickyPopular && mainTokens.length > 0 && (
-                <button
-                  className="absolute top-2 left-1/2 -translate-x-1/2 z-10 text-xs font-medium text-primary hover:text-primary/80 transition-colors cursor-pointer border border-primary/10 px-2 py-1 bg-background"
-                  onClick={scrollToPopular}
-                >
-                  Popular
-                </button>
-              )}
-              <div
-                ref={scrollContainerRef}
-                className="w-full overflow-y-auto max-h-[300px] scrollbar-hide"
-              >
-                {mainTokens.length > 0 && (
-                  <div
-                    ref={popularSectionRef}
-                    className="w-full rounded-lg border overflow-hidden"
-                  >
-                    <div className="px-5 py-2 bg-muted/30 border-b">
-                      <span className="font-sans text-xs font-medium text-muted-foreground">
-                        Popular
-                      </span>
-                    </div>
-                    {mainTokens.map((token, index) => (
-                      <TokenRow
-                        key={token.id}
-                        token={token}
-                        selectedChainIds={selectedChainIds}
-                        isExpanded={expandedTokens.has(token.id)}
-                        onToggleExpand={() => toggleExpanded(token.id)}
-                        onToggleToken={() => toggleTokenSelection(token.id)}
-                        onToggleChain={toggleChainSelection}
-                        isFirst={false}
-                        isLast={index === mainTokens.length - 1}
-                      />
-                    ))}
-                  </div>
-                )}
-
-                {otherTokens.length > 0 && (
-                  <div className="w-full bg-card rounded-t-lg border overflow-hidden mt-4">
-                    <div
-                      className="p-5 flex justify-between items-center cursor-pointer"
-                      onClick={() => toggleExpanded("others-section")}
-                    >
-                      <span className="font-sans text-sm text-muted-foreground">
-                        Others ({otherTokens.length})
-                      </span>
-                      <ChevronDownIcon
-                        className={`text-muted-foreground transition-transform duration-200 ${
-                          expandedTokens.has("others-section")
-                            ? "rotate-180"
-                            : ""
-                        }`}
-                      />
-                    </div>
-
-                    {expandedTokens.has("others-section") && (
-                      <div className="w-full border-t">
-                        {otherTokens.map((token, index) => (
-                          <TokenRow
-                            key={token.id}
-                            token={token}
-                            selectedChainIds={selectedChainIds}
-                            isExpanded={expandedTokens.has(token.id)}
-                            onToggleExpand={() => toggleExpanded(token.id)}
-                            onToggleToken={() => toggleTokenSelection(token.id)}
-                            onToggleChain={toggleChainSelection}
-                            isFirst={index === 0}
-                            isLast={index === otherTokens.length - 1}
-                          />
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-
-              {!showProgressBar && (
-                <div
-                  className="absolute bottom-0 left-px right-px h-12 pointer-events-none dark:hidden"
-                  style={{
-                    background:
-                      "linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, var(--background) 100%)",
-                  }}
-                />
-              )}
-              {!showProgressBar && (
-                <div
-                  className="absolute bottom-0 left-px right-px h-12 pointer-events-none hidden dark:block"
-                  style={{
-                    background:
-                      "linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, var(--background) 100%)",
-                  }}
-                />
-              )}
-            </div>
-
-            <Button className="w-full rounded-t-none" onClick={handleDone}>
-              Done
-            </Button>
-          </div>
-        </div>
-      </CardContent>
-
-      {isProgressBarVisible && (
-        <div
-          className={`absolute -bottom-6 left-0 right-0 z-20 flex flex-col gap-2 pt-5 pb-8 px-7 bg-card border-t shadow-[0_-11px_12px_0_rgba(91,91,91,0.05)] transform transition-transform duration-300 ease-out ${
-            isProgressBarEntering || isProgressBarExiting
-              ? "translate-y-full"
-              : "translate-y-0"
-          }`}
+    <CardContent className="p-3">
+      <motion.div
+        initial={{ opacity: 0, scale: CARD.initialScale }}
+        animate={{
+          opacity: stage >= 1 ? 1 : 0,
+          scale: stage >= 1 ? CARD.finalScale : CARD.initialScale,
+        }}
+        transition={CARD.spring}
+        className="flex flex-col gap-5"
+      >
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: HEADER.offsetY }}
+          animate={{
+            opacity: stage >= 2 ? 1 : 0,
+            y: stage >= 2 ? 0 : HEADER.offsetY,
+          }}
+          transition={HEADER.spring}
+          className="flex items-center justify-between p-3 rounded-t-lg"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, var(--card) 0%, transparent 100%)",
+          }}
         >
-          <div className="flex justify-between items-center">
-            <span className="text-sm text-muted-foreground">
-              Selected / Required
-            </span>
-            <span className="text-sm">
-              <span className="font-semibold text-card-foreground">
-                ${selectedAmount.toLocaleString()}
+          <div className="flex gap-3 items-center">
+            <CoinIcon className="w-5 h-5 text-muted-foreground" />
+            <div className="flex flex-col gap-1">
+              <span className="text-sm leading-[18px] text-card-foreground">
+                Paying with
               </span>
-              <span className="text-muted-foreground">
-                {" "}
-                / ${requiredAmount.toLocaleString()}
+              <span className="text-[13px] leading-[18px] text-muted-foreground">
+                {selectedCount} asset{selectedCount !== 1 ? "s" : ""} selected
               </span>
-            </span>
+            </div>
           </div>
-          <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
-            <div
-              className="h-full bg-primary transition-all duration-300 rounded-full"
-              style={{ width: `${progressPercent}%` }}
+          <button
+            type="button"
+            onClick={handleClose}
+            className="size-5 flex items-center justify-center group/close"
+          >
+            <X
+              size={12}
+              className="text-muted-foreground group-hover/close:text-foreground transition-colors"
+            />
+          </button>
+        </motion.div>
+
+        {/* Search bar */}
+        <motion.div
+          initial={{ opacity: 0, y: SEARCH.offsetY }}
+          animate={{
+            opacity: stage >= 3 ? 1 : 0,
+            y: stage >= 3 ? 0 : SEARCH.offsetY,
+          }}
+          transition={SEARCH.spring}
+        >
+          <div className="flex gap-2 items-center bg-muted rounded-lg px-4 py-3">
+            <MagnifyingGlass
+              size={20}
+              className="text-muted-foreground shrink-0"
+            />
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="bg-transparent text-sm text-card-foreground placeholder:text-muted-foreground outline-none w-full"
             />
           </div>
+        </motion.div>
+
+        {/* Token list */}
+        <div className="flex flex-col gap-3">
+          <div className="border rounded-lg overflow-hidden">
+            {filteredTokens.map((token, i) => (
+              <motion.div
+                key={token.id}
+                initial={{ opacity: 0, y: ROWS.offsetY }}
+                animate={{
+                  opacity: stage >= 4 ? 1 : 0,
+                  y: stage >= 4 ? 0 : ROWS.offsetY,
+                }}
+                transition={{
+                  ...ROWS.spring,
+                  delay: i * ROWS.stagger,
+                }}
+              >
+                <TokenRow
+                  token={token}
+                  selectedChainIds={selectedChainIds}
+                  isExpanded={expandedTokens.has(token.id)}
+                  onToggleExpand={() => toggleExpanded(token.id)}
+                  onToggleToken={() => toggleTokenSelection(token.id)}
+                  onToggleChain={toggleChainSelection}
+                  isLast={i === filteredTokens.length - 1}
+                />
+              </motion.div>
+            ))}
+            {filteredTokens.length === 0 && (
+              <div className="p-5 text-center text-sm text-muted-foreground">
+                No tokens found
+              </div>
+            )}
+          </div>
+
+          {/* Done button */}
+          <motion.div
+            initial={{ opacity: 0, y: DONE_BUTTON.offsetY }}
+            animate={{
+              opacity: stage >= 5 ? 1 : 0,
+              y: stage >= 5 ? 0 : DONE_BUTTON.offsetY,
+            }}
+            transition={DONE_BUTTON.spring}
+          >
+            <Button
+              className="w-full h-12 rounded-xl text-sm font-medium"
+              onClick={handleDone}
+            >
+              Done
+            </Button>
+          </motion.div>
         </div>
-      )}
-    </>
+      </motion.div>
+    </CardContent>
   );
 };
 

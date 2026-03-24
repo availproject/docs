@@ -314,7 +314,7 @@ export function TokenSelection({
             }`}
           >
             <div className="overflow-hidden">
-              <div className="pt-2 pb-2">
+              <div className="pt-5">
                 <button
                   type="button"
                   onClick={() => onDone(selected)}

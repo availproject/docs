@@ -67,6 +67,9 @@
     --radius-lg: 12px;
     --radius-xl: 16px;
 
+    /* Easing */
+    --ease-spring: linear(0, 0.064, 0.207, 0.378, 0.544, 0.687, 0.802, 0.887, 0.947, 0.987, 1.01, 1.024, 1.026, 1.025, 1.021, 1.017, 1.013, 1.009, 1.006, 1.003, 1.002);
+
     /* Shadows */
     --shadow-xs: var(--shadow-xs);
     --shadow-sm: var(--shadow-sm);
