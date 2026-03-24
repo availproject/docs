@@ -308,7 +308,9 @@ export function TokenSelection({
           {/* Done button — expands when selection changed & sufficient */}
           <div
             className={`grid transition-[grid-template-rows] duration-500 ease-spring motion-reduce:transition-none ${
-              footerStage >= 2 ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+              footerStage >= 2 && hasChanges
+                ? "grid-rows-[1fr]"
+                : "grid-rows-[0fr]"
             }`}
           >
             <div className="overflow-hidden">
@@ -316,7 +318,7 @@ export function TokenSelection({
                 <button
                   type="button"
                   onClick={() => onDone(selected)}
-                  className="h-12 w-full cursor-pointer rounded-lg bg-[#006bf4] font-medium text-sm text-white shadow-[0_1px_4px_0_rgba(85,85,85,0.05)] transition-colors duration-150 hover:bg-[#0059cc]"
+                  className="h-12 w-full cursor-pointer rounded-[8px] bg-[#006bf4] font-medium text-sm text-white shadow-[0_1px_4px_0_rgba(85,85,85,0.05)] transition-colors duration-150 hover:bg-[#0059cc]"
                 >
                   Done
                 </button>

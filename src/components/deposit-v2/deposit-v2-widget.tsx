@@ -19,6 +19,7 @@ import { parseCurrencyInput } from "../deposit/utils";
 import { Card } from "../ui/card";
 import { Skeleton } from "../ui/skeleton";
 import { TokenSelection } from "./components/token-selection";
+import { useEditTransitionDials } from "./hooks/use-edit-transition-dials";
 
 const NUMERIC_INPUT_REGEX = /^\d*\.?\d*$/;
 
@@ -59,6 +60,7 @@ const DepositV2Widget = ({
   const measureRef = useRef<HTMLSpanElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const prevHasAmountRef = useRef(false);
+  const editSnapshotRef = useRef<Set<string>>(new Set());
 
   const displayValue = formatWithCommas(amount);
   const measureText = displayValue || "0";
@@ -173,205 +175,324 @@ const DepositV2Widget = ({
     [],
   );
 
-  if (screen === "edit") {
-    return (
-      <Card className="relative w-full max-w-[340px] gap-0 overflow-hidden rounded-2xl border-0 bg-secondary p-0 shadow-[0_1px_12px_0_rgba(91,91,91,0.05)]">
-        <TokenSelection
-          requiredAmount={numericAmount}
-          onClose={() => setScreen("deposit")}
-          onDone={(tokens) => {
-            setSelectedTokens(tokens);
-            setScreen("deposit");
-          }}
-          selected={selectedTokens}
-          onSelectedChange={setSelectedTokens}
-        />
-      </Card>
-    );
-  }
+  /* ─────────────────────────────────────────────────────────
+   * ANIMATION STORYBOARD — Edit Transition (Forward)
+   *
+   *    0ms   User clicks Edit on Paying With card
+   *    0ms   Zone A (top bar + amount card) fades out + collapses
+   *    0ms   Zone B (Paying With) morphs: bg, border, shadow, content
+   *    0ms   Zone C-deposit (proceed button) collapses
+   *    0ms   Zone C-edit (token list) expands + fades in
+   *
+   * Reverse (Close): all animations play backward
+   * ───────────────────────────────────────────────────────── */
+
+  const toggleScreen = useCallback(() => {
+    setScreen((s) => {
+      if (s === "deposit") {
+        editSnapshotRef.current = new Set(selectedTokens);
+        return "edit";
+      }
+      return "deposit";
+    });
+  }, [selectedTokens]);
+
+  const dials = useEditTransitionDials(toggleScreen);
+
+  const isEditing = screen === "edit";
+  const canEdit = hasAmount && !exceedsBalance && !payingWithLoading;
 
   return (
     <Card className="relative w-full max-w-[340px] gap-0 overflow-hidden rounded-2xl border-0 bg-secondary p-0 shadow-[0_1px_12px_0_rgba(91,91,91,0.05)]">
-      {/* Dot matrix background texture */}
+      {/* Dot matrix background — fades with deposit content */}
       <div
-        className="pointer-events-none absolute inset-0"
+        className={`pointer-events-none absolute inset-0 transition-opacity ease-spring motion-reduce:transition-none ${
+          isEditing ? "opacity-0" : ""
+        }`}
         style={{
           backgroundImage:
             "radial-gradient(circle, var(--muted-foreground) 0.6px, transparent 0.6px)",
           backgroundSize: "14px 14px",
-          opacity: 0.07,
+          opacity: isEditing ? 0 : 0.07,
+          transitionDuration: `${dials.dotMatrix.duration}ms`,
+          transitionDelay: `${dials.dotMatrix.delay}ms`,
         }}
       />
 
-      {/* Top bar */}
-      <div className="relative flex h-[52px] items-center justify-between px-4">
-        <div className="size-5" aria-hidden="true" />
-        <div className="flex items-center gap-1.5">
-          <span className="ui-14 text-foreground">Deposit to</span>
-          <button
-            type="button"
-            className="flex cursor-pointer items-center gap-1 rounded bg-muted px-2 py-1 transition-colors duration-150 hover:bg-muted/70"
-          >
-            <span className="font-mono text-xs font-medium text-muted-foreground">
-              Aave
-            </span>
-            <ChevronDownIcon className="size-3 text-muted-foreground" />
-          </button>
-        </div>
-        <button
-          type="button"
-          className="flex size-5 cursor-pointer items-center justify-center"
-        >
-          <CloseIcon
-            size={20}
-            className="text-muted-foreground transition-colors duration-150 hover:text-foreground"
-          />
-        </button>
-      </div>
-
-      {/* Content */}
-      <div className="relative flex flex-col gap-[13px] px-2 pb-2">
-        {/* Amount card */}
-        {/* biome-ignore lint/a11y/noStaticElementInteractions: click-to-focus wrapper for the input */}
-        {/* biome-ignore lint/a11y/useKeyWithClickEvents: keyboard focus handled by the input itself */}
-        <div
-          className="relative flex min-h-[214px] cursor-text flex-col rounded-lg border bg-card shadow-[0_1px_12px_0_rgba(91,91,91,0.05)]"
-          onClick={() => inputRef.current?.focus()}
-        >
-          {/* Hidden span for measuring input text width */}
-          <span
-            ref={measureRef}
-            className="invisible absolute whitespace-pre font-display text-[40px] font-medium tracking-[0.8px] tabular-nums"
-            aria-hidden="true"
-          >
-            {measureText}
-          </span>
-
-          {/* Token + animated amount input + MAX button */}
-          <div className="flex items-center justify-center gap-3 py-14">
-            <TokenIcon
-              tokenSrc="/usdc.svg"
-              protocolSrc="/aave.svg"
-              tokenAlt="USDC"
-              protocolAlt="Aave"
-              size="md"
-            />
-            <div className="relative">
-              {/* Animated digits layer */}
-              <div
-                className="pointer-events-none flex items-center"
-                aria-hidden="true"
+      {/* Zone A: Deposit content — collapses in edit mode */}
+      <div
+        className={`grid transition-[grid-template-rows,opacity] ease-spring motion-reduce:transition-none ${
+          isEditing
+            ? "grid-rows-[0fr] opacity-0"
+            : "grid-rows-[1fr] opacity-100"
+        }`}
+        style={{
+          transitionDuration: `${dials.zoneA.duration}ms`,
+          transitionDelay: `${dials.zoneA.delay}ms`,
+        }}
+      >
+        <div className="overflow-hidden">
+          {/* Top bar */}
+          <div className="relative flex h-[52px] items-center justify-between px-4">
+            <div className="size-5" aria-hidden="true" />
+            <div className="flex items-center gap-1.5">
+              <span className="ui-14 text-foreground">Deposit to</span>
+              <button
+                type="button"
+                className="flex cursor-pointer items-center gap-1 rounded bg-muted px-2 py-1 transition-colors duration-150 hover:bg-muted/70"
               >
-                {displayChars.map((char, index) => (
-                  <span
-                    key={`${index}-${char}-${animatingIndices.has(index) ? "anim" : "static"}`}
-                    style={{ fontSize: `${fontSize}px` }}
-                    className={`inline-block font-display font-medium tracking-[0.8px] tabular-nums transition-[font-size] duration-150 ease-out ${
-                      animatingIndices.has(index) ? "animate-digit-in" : ""
-                    } ${amount ? "text-foreground" : "text-muted-foreground"}`}
-                  >
-                    {char}
-                  </span>
-                ))}
-                {displayValue.length === 0 && (
-                  <span
-                    style={{ fontSize: `${fontSize}px` }}
-                    className="font-display font-medium tracking-[0.8px] tabular-nums text-muted-foreground"
-                  >
-                    0
-                  </span>
-                )}
-              </div>
-
-              {/* Real input overlaid with transparent text */}
-              <input
-                ref={inputRef}
-                type="text"
-                inputMode="decimal"
-                value={displayValue}
-                onChange={handleInputChange}
-                onDoubleClick={handleDoubleClick}
-                onKeyDown={handleKeyDown}
-                placeholder="0"
-                style={{
-                  fontSize: `${fontSize}px`,
-                  width:
-                    inputWidth > 0
-                      ? Math.min(inputWidth + 4, MAX_INPUT_WIDTH_PX)
-                      : undefined,
-                  maxWidth: "calc(100vw - 160px)",
-                }}
-                className="absolute inset-0 min-w-[22px] border-none bg-transparent font-display font-medium tracking-[0.8px] tabular-nums text-transparent caret-card-foreground outline-none placeholder:text-transparent"
-              />
+                <span className="font-mono text-xs font-medium text-muted-foreground">
+                  Aave
+                </span>
+                <ChevronDownIcon className="size-3 text-muted-foreground" />
+              </button>
             </div>
             <button
               type="button"
-              onClick={handleMaxClick}
-              className="cursor-pointer rounded bg-muted px-2 py-1 font-mono text-sm text-muted-foreground transition-colors duration-150 hover:bg-muted/70 hover:text-card-foreground"
+              className="flex size-5 cursor-pointer items-center justify-center"
             >
-              MAX
+              <CloseIcon
+                size={20}
+                className="text-muted-foreground transition-colors duration-150 hover:text-foreground"
+              />
             </button>
           </div>
 
-          {/* Balance */}
-          <div className="px-4 pb-3 pt-0">
-            <p className="text-center text-[13px] text-muted-foreground">
-              Balance: {usdFormatter.format(balance)}
-            </p>
-          </div>
-
-          {/* Error banner — overlays balance on higher z-index */}
-          <div
-            className={`grid transition-[grid-template-rows] duration-200 ease-out motion-reduce:transition-none ${
-              exceedsBalance ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
-            }`}
-          >
-            <div className="overflow-hidden">
-              <div
-                key={shakeKey}
-                className={`px-3 pb-3 ${shakeKey > 0 ? "animate-shake motion-reduce:animate-none" : ""}`}
+          {/* Amount card */}
+          <div className="relative px-3">
+            {/* biome-ignore lint/a11y/noStaticElementInteractions: click-to-focus wrapper for the input */}
+            {/* biome-ignore lint/a11y/useKeyWithClickEvents: keyboard focus handled by the input itself */}
+            <div
+              className="relative flex min-h-[214px] cursor-text flex-col rounded-lg border bg-card shadow-[0_1px_12px_0_rgba(91,91,91,0.05)]"
+              onClick={() => inputRef.current?.focus()}
+            >
+              {/* Hidden span for measuring input text width */}
+              <span
+                ref={measureRef}
+                className="invisible absolute whitespace-pre font-display text-[40px] font-medium tracking-[0.8px] tabular-nums"
+                aria-hidden="true"
               >
-                <ErrorBanner message="You don't have enough wallet balance" />
+                {measureText}
+              </span>
+
+              {/* Token + animated amount input + MAX button */}
+              <div className="flex items-center justify-center gap-3 py-14">
+                <TokenIcon
+                  tokenSrc="/usdc.svg"
+                  protocolSrc="/aave.svg"
+                  tokenAlt="USDC"
+                  protocolAlt="Aave"
+                  size="md"
+                />
+                <div className="relative">
+                  {/* Animated digits layer */}
+                  <div
+                    className="pointer-events-none flex items-center"
+                    aria-hidden="true"
+                  >
+                    {displayChars.map((char, index) => (
+                      <span
+                        key={`${index}-${char}-${animatingIndices.has(index) ? "anim" : "static"}`}
+                        style={{ fontSize: `${fontSize}px` }}
+                        className={`inline-block font-display font-medium tracking-[0.8px] tabular-nums transition-[font-size] duration-150 ease-out ${
+                          animatingIndices.has(index) ? "animate-digit-in" : ""
+                        } ${amount ? "text-foreground" : "text-muted-foreground"}`}
+                      >
+                        {char}
+                      </span>
+                    ))}
+                    {displayValue.length === 0 && (
+                      <span
+                        style={{ fontSize: `${fontSize}px` }}
+                        className="font-display font-medium tracking-[0.8px] tabular-nums text-muted-foreground"
+                      >
+                        0
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Real input overlaid with transparent text */}
+                  <input
+                    ref={inputRef}
+                    type="text"
+                    inputMode="decimal"
+                    value={displayValue}
+                    onChange={handleInputChange}
+                    onDoubleClick={handleDoubleClick}
+                    onKeyDown={handleKeyDown}
+                    placeholder="0"
+                    style={{
+                      fontSize: `${fontSize}px`,
+                      width:
+                        inputWidth > 0
+                          ? Math.min(inputWidth + 4, MAX_INPUT_WIDTH_PX)
+                          : undefined,
+                      maxWidth: "calc(100vw - 160px)",
+                    }}
+                    className="absolute inset-0 min-w-[22px] border-none bg-transparent font-display font-medium tracking-[0.8px] tabular-nums text-transparent caret-card-foreground outline-none placeholder:text-transparent"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={handleMaxClick}
+                  className="cursor-pointer rounded bg-muted px-2 py-1 font-mono text-sm text-muted-foreground transition-colors duration-150 hover:bg-muted/70 hover:text-card-foreground"
+                >
+                  MAX
+                </button>
+              </div>
+
+              {/* Balance */}
+              <div className="px-4 pb-3 pt-0">
+                <p className="text-center text-[13px] text-muted-foreground">
+                  Balance: {usdFormatter.format(balance)}
+                </p>
+              </div>
+
+              {/* Error banner */}
+              <div
+                className={`grid transition-[grid-template-rows] duration-500 ease-spring motion-reduce:transition-none ${
+                  exceedsBalance ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                }`}
+              >
+                <div className="overflow-hidden">
+                  <div
+                    key={shakeKey}
+                    className={`px-3 pb-3 ${shakeKey > 0 ? "animate-shake motion-reduce:animate-none" : ""}`}
+                  >
+                    <ErrorBanner message="You don't have enough wallet balance" />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Paying with section */}
-        {hasAmount && !exceedsBalance && !payingWithLoading ? (
-          <button
-            type="button"
-            onClick={() => setScreen("edit")}
-            className="flex cursor-pointer items-center rounded-lg border bg-card p-4 text-left shadow-[0_1px_12px_0_rgba(91,91,91,0.05)] transition-all duration-200 ease-out hover:bg-card/80"
+      {/* Zone B: Paying With — always visible, morphs between states */}
+      <div
+        className="px-3 pb-3 transition-[padding] ease-spring motion-reduce:transition-none"
+        style={{
+          paddingTop: isEditing ? "0.5rem" : "0.75rem",
+          transitionDuration: `${dials.zoneA.duration}ms`,
+          transitionDelay: `${dials.zoneA.delay}ms`,
+        }}
+      >
+        {canEdit || isEditing ? (
+          /* Morphing container — border/bg/shadow transition on one persistent element */
+          <div
+            className={`rounded-lg p-4 transition-[background-color,border-color,box-shadow] ease-spring motion-reduce:transition-none ${
+              isEditing
+                ? "border border-transparent bg-transparent shadow-none"
+                : "border bg-card shadow-[0_1px_12px_0_rgba(91,91,91,0.05)]"
+            }`}
+            style={{
+              transitionDuration: `${dials.payingWith.duration}ms`,
+              transitionDelay: `${dials.payingWith.delay}ms`,
+            }}
           >
-            <div className="flex items-center gap-3">
-              <div className="relative flex shrink-0">
-                <Image
-                  src="/ethereum.svg"
-                  alt="ETH"
-                  width={24}
-                  height={24}
-                  className="relative z-10 rounded-full"
-                />
-                <Image
-                  src="/usdc.svg"
-                  alt="USDC"
-                  width={24}
-                  height={24}
-                  className="-ml-2 rounded-full"
-                />
+            <div className="grid [grid-template:1fr/1fr]">
+              {/* Layer 1: Edit header (fades in when editing) */}
+              <div
+                className={`col-start-1 row-start-1 transition-opacity ease-spring motion-reduce:transition-none ${isEditing ? "z-10" : "z-0"}`}
+                style={{
+                  opacity: isEditing ? 1 : 0,
+                  pointerEvents: isEditing ? "auto" : "none",
+                  transitionDuration: `${dials.payingWith.duration}ms`,
+                  transitionDelay: `${dials.payingWith.delay}ms`,
+                }}
+                aria-hidden={!isEditing}
+                {...(!isEditing && { inert: true })}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <CoinIcon className="size-5 shrink-0 text-muted-foreground" />
+                    <div className="flex flex-col gap-1">
+                      <span className="ui-14 text-foreground">Paying with</span>
+                      <span className="text-[13px] leading-[18px] text-muted-foreground">
+                        {selectedTokens.size} asset(s) selected
+                      </span>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setScreen("deposit")}
+                    className="flex size-5 cursor-pointer items-center justify-center"
+                    aria-label="Close token selection"
+                  >
+                    <CloseIcon
+                      size={20}
+                      className="text-muted-foreground transition-colors duration-150 hover:text-foreground"
+                    />
+                  </button>
+                </div>
               </div>
-              <div className="flex flex-col gap-1">
-                <span className="ui-14 text-card-foreground">Paying with</span>
-                <span className="text-[13px] leading-[18px] text-muted-foreground">
-                  {Array.from(selectedTokens).join(", ")}
-                </span>
+
+              {/* Layer 2: Deposit card (fades out when editing) */}
+              <div
+                className={`col-start-1 row-start-1 transition-opacity ease-spring motion-reduce:transition-none ${isEditing ? "z-0" : "z-10"}`}
+                style={{
+                  opacity: isEditing ? 0 : 1,
+                  pointerEvents: isEditing ? "none" : "auto",
+                  transitionDuration: `${dials.payingWith.duration}ms`,
+                  transitionDelay: `${dials.payingWith.delay}ms`,
+                }}
+                aria-hidden={isEditing}
+                {...(isEditing && { inert: true })}
+              >
+                <button
+                  type="button"
+                  onClick={() => {
+                    editSnapshotRef.current = new Set(selectedTokens);
+                    setScreen("edit");
+                  }}
+                  className="flex w-full cursor-pointer items-center text-left transition-opacity duration-150 hover:opacity-70"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="relative flex shrink-0">
+                      <Image
+                        src="/ethereum.svg"
+                        alt="ETH"
+                        width={24}
+                        height={24}
+                        className="relative z-10 rounded-full"
+                      />
+                      <Image
+                        src="/usdc.svg"
+                        alt="USDC"
+                        width={24}
+                        height={24}
+                        className="-ml-2 rounded-full"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <span className="ui-14 text-card-foreground">
+                        Paying with
+                      </span>
+                      <span className="text-[13px] leading-[18px] text-muted-foreground">
+                        {(() => {
+                          const tokens = Array.from(selectedTokens);
+                          if (tokens.length <= 2) return tokens.join(", ");
+                          return `${tokens.slice(0, 2).join(", ")} +${tokens.length - 2} more`;
+                        })()}
+                      </span>
+                    </div>
+                  </div>
+                  <span className="ml-auto ui-14 text-muted-foreground">
+                    Edit
+                  </span>
+                </button>
               </div>
             </div>
-            <span className="ml-auto ui-14 text-muted-foreground">Edit</span>
-          </button>
+          </div>
         ) : (
-          <div className="flex items-center rounded-lg border bg-secondary p-4 transition-all duration-200 ease-out">
+          /* Deposit mode — inactive: no amount or exceeds balance */
+          <div
+            className="flex items-center rounded-lg border bg-secondary p-4 transition-all ease-spring motion-reduce:transition-none"
+            style={{
+              transitionDuration: `${dials.payingWith.duration}ms`,
+              transitionDelay: `${dials.payingWith.delay}ms`,
+            }}
+          >
             <div className="flex items-center gap-3">
               <CoinIcon className="size-5 shrink-0 text-muted-foreground" />
               <div className="flex flex-col gap-1">
@@ -389,23 +510,53 @@ const DepositV2Widget = ({
         )}
       </div>
 
-      {/* Proceed to Deposit button */}
+      {/* Zone C-deposit: Proceed button — collapses in edit mode */}
       <div
-        className={`grid transition-[grid-template-rows] duration-200 ease-out motion-reduce:transition-none ${
-          hasAmount && !exceedsBalance && !payingWithLoading
-            ? "grid-rows-[1fr]"
-            : "grid-rows-[0fr]"
+        className={`grid transition-[grid-template-rows] ease-spring motion-reduce:transition-none ${
+          !isEditing && canEdit ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
         }`}
+        style={{
+          transitionDuration: `${dials.zoneCDeposit.duration}ms`,
+          transitionDelay: `${dials.zoneCDeposit.delay}ms`,
+        }}
       >
         <div className="overflow-hidden">
-          <div className="px-2 pb-2 pt-2">
+          <div className="px-3 pb-3 pt-2">
             <button
               type="button"
-              className="h-12 w-full cursor-pointer rounded-lg bg-[#006bf4] font-medium text-sm text-white shadow-[0_1px_4px_0_rgba(85,85,85,0.05)] transition-colors duration-150 hover:bg-[#0059cc]"
+              className="h-12 w-full cursor-pointer rounded-[8px] bg-[#006bf4] font-medium text-sm text-white shadow-[0_1px_4px_0_rgba(85,85,91,0.05)] transition-colors duration-150 hover:bg-[#0059cc]"
             >
               Proceed to Deposit
             </button>
           </div>
+        </div>
+      </div>
+
+      {/* Zone C-edit: Token selection — expands in edit mode */}
+      <div
+        className={`grid transition-[grid-template-rows,opacity] ease-spring motion-reduce:transition-none ${
+          isEditing
+            ? "grid-rows-[1fr] opacity-100"
+            : "grid-rows-[0fr] opacity-0"
+        }`}
+        style={{
+          transitionDuration: `${dials.zoneCEdit.duration}ms`,
+          transitionDelay: `${dials.zoneCEdit.delay}ms`,
+        }}
+      >
+        <div className="overflow-hidden">
+          <TokenSelection
+            hideHeader
+            requiredAmount={numericAmount}
+            onClose={() => setScreen("deposit")}
+            onDone={(tokens) => {
+              setSelectedTokens(tokens);
+              setScreen("deposit");
+            }}
+            selected={selectedTokens}
+            onSelectedChange={setSelectedTokens}
+            initialSelected={editSnapshotRef.current}
+          />
         </div>
       </div>
     </Card>
