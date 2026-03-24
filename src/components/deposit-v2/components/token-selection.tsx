@@ -2,7 +2,7 @@
 
 import { Search } from "lucide-react";
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { usdFormatter } from "../../common";
 import {
   ChevronDownIcon,
@@ -84,6 +84,22 @@ const MOCK_TOKENS: TokenData[] = [
   },
 ];
 
+/* ─────────────────────────────────────────────────────────
+ * ANIMATION STORYBOARD — Footer Transition
+ *
+ * Trigger: isSufficient becomes true (selectedTotal >= requiredAmount)
+ *
+ *    0ms   progress bar snaps to 100% width
+ *  400ms   progress bar section collapses + Done button expands
+ *  900ms   transition complete
+ *
+ * Reverse (isSufficient → false): immediate reset, no staged sequence
+ * ───────────────────────────────────────────────────────── */
+
+const FOOTER_TIMING = {
+  swap: 400, // ms before collapsing progress bar and expanding Done button
+};
+
 interface TokenSelectionProps {
   requiredAmount: number;
   onClose: () => void;
@@ -92,6 +108,7 @@ interface TokenSelectionProps {
   hideHeader?: boolean;
   selected?: Set<string>;
   onSelectedChange?: (selected: Set<string>) => void;
+  initialSelected?: Set<string>;
 }
 
 export function TokenSelection({
@@ -102,6 +119,7 @@ export function TokenSelection({
   hideHeader = false,
   selected: externalSelected,
   onSelectedChange,
+  initialSelected,
 }: TokenSelectionProps) {
   const [internalSelected, setInternalSelected] = useState<Set<string>>(
     () => new Set(["USDC"]),
@@ -130,7 +148,30 @@ export function TokenSelection({
   );
 
   const isSufficient = selectedTotal >= requiredAmount;
+  const hasChanges = useMemo(() => {
+    if (!initialSelected) return true;
+    if (selected.size !== initialSelected.size) return true;
+    for (const token of selected) {
+      if (!initialSelected.has(token)) return true;
+    }
+    return false;
+  }, [selected, initialSelected]);
   const progressPercent = Math.min((selectedTotal / requiredAmount) * 100, 100);
+
+  // Footer animation stage: 0 = progress bar, 1 = bar filled, 2 = Done button
+  const [footerStage, setFooterStage] = useState(() =>
+    selectedTotal >= requiredAmount ? 2 : 0,
+  );
+
+  useEffect(() => {
+    if (isSufficient) {
+      // If already at stage 2 (e.g. initial mount), stay there
+      setFooterStage((prev) => (prev === 2 ? 2 : 1));
+      const timer = setTimeout(() => setFooterStage(2), FOOTER_TIMING.swap);
+      return () => clearTimeout(timer);
+    }
+    setFooterStage(0);
+  }, [isSufficient]);
 
   const toggleToken = (symbol: string) => {
     const next = new Set(selected);
@@ -244,7 +285,7 @@ export function TokenSelection({
       )}
 
       {/* Search + Token list + Footer */}
-      <div className="flex flex-col gap-3 px-2 pb-3">
+      <div className="flex flex-col px-3 pb-3">
         {/* Search */}
         <div className="flex items-center gap-2 rounded-lg bg-muted px-4 py-3">
           <Search className="size-5 shrink-0 text-muted-foreground" />
@@ -258,45 +299,65 @@ export function TokenSelection({
         </div>
 
         {/* Token list */}
-        <div className="max-h-[316px] overflow-y-auto rounded-lg border">
+        <div className="mt-3 max-h-[316px] overflow-y-auto rounded-lg border">
           {tokenRows}
         </div>
 
-        {/* Footer: Done button or Progress bar */}
-        {isSufficient ? (
-          <div className="pt-2">
-            <button
-              type="button"
-              onClick={() => onDone(selected)}
-              className="h-12 w-full cursor-pointer rounded-lg bg-[#006bf4] font-medium text-sm text-white shadow-[0_1px_4px_0_rgba(85,85,85,0.05)] transition-colors duration-150 hover:bg-[#0059cc]"
-            >
-              Done
-            </button>
-          </div>
-        ) : (
-          <div className="flex flex-col gap-4 px-3">
-            <div className="flex items-center justify-between">
-              <span className="ui-14 text-muted-foreground">
-                Selected / Required
-              </span>
-              <span className="text-sm tabular-nums">
-                <span className="font-display font-medium tracking-[0.56px] text-foreground">
-                  {usdFormatter.format(selectedTotal)}
-                </span>
-                <span className="text-muted-foreground">
-                  {" "}
-                  / {usdFormatter.format(requiredAmount)}
-                </span>
-              </span>
-            </div>
-            <div className="h-2 w-full overflow-hidden rounded-full bg-border">
-              <div
-                className="h-full rounded-full bg-[#006bf4] transition-[width] duration-200 ease-out"
-                style={{ width: `${progressPercent}%` }}
-              />
+        {/* Footer */}
+        <div>
+          {/* Done button — expands when selection changed & sufficient */}
+          <div
+            className={`grid transition-[grid-template-rows] duration-500 ease-spring motion-reduce:transition-none ${
+              footerStage >= 2 ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+            }`}
+          >
+            <div className="overflow-hidden">
+              <div className="pt-2 pb-2">
+                <button
+                  type="button"
+                  onClick={() => onDone(selected)}
+                  className="h-12 w-full cursor-pointer rounded-lg bg-[#006bf4] font-medium text-sm text-white shadow-[0_1px_4px_0_rgba(85,85,85,0.05)] transition-colors duration-150 hover:bg-[#0059cc]"
+                >
+                  Done
+                </button>
+              </div>
             </div>
           </div>
-        )}
+
+          {/* Progress bar — expands when insufficient */}
+          <div
+            className={`grid transition-[grid-template-rows] duration-500 ease-spring motion-reduce:transition-none ${
+              footerStage < 2 ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+            }`}
+          >
+            <div className="overflow-hidden">
+              <div className="flex flex-col gap-4 px-3 pb-3 pt-[20px]">
+                <div className="flex items-center justify-between">
+                  <span className="ui-14 text-muted-foreground">
+                    Selected / Required
+                  </span>
+                  <span className="text-sm tabular-nums">
+                    <span className="font-display font-medium tracking-[0.56px] text-foreground">
+                      {usdFormatter.format(selectedTotal)}
+                    </span>
+                    <span className="text-muted-foreground">
+                      {" "}
+                      / {usdFormatter.format(requiredAmount)}
+                    </span>
+                  </span>
+                </div>
+                <div className="h-2 w-full overflow-hidden rounded-full bg-border">
+                  <div
+                    className="h-full rounded-full bg-[#006bf4] transition-[width] duration-200 ease-out"
+                    style={{
+                      width: `${footerStage >= 1 ? 100 : progressPercent}%`,
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
