@@ -173,7 +173,7 @@ const DemoShowcaseShell = ({
           </p>
         </div>
       ) : (
-        <div className="w-full flex flex-col items-center justify-center min-h-[450px]">
+        <div className="w-full flex flex-col items-center justify-center h-[1000px]">
           {ctx.isConnected && !ctx.nexusSDK ? (
             <div className="flex flex-col items-center gap-3">
               {ctx.loading ? (

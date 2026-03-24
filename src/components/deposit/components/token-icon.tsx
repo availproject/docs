@@ -5,7 +5,7 @@ type TokenIconSize = "sm" | "md" | "lg";
 
 const SIZE_MAP: Record<TokenIconSize, { token: number; protocol: number }> = {
   sm: { token: 24, protocol: 16 },
-  md: { token: 32, protocol: 16 },
+  md: { token: 32, protocol: 20 },
   lg: { token: 40, protocol: 20 },
 };
 
@@ -30,7 +30,7 @@ export function TokenIcon({
 
   return (
     <div className={cn("relative inline-flex", className)}>
-      <img
+      <Image
         src={tokenSrc}
         alt={tokenAlt}
         width={dimensions.token}
@@ -38,12 +38,12 @@ export function TokenIcon({
         className="rounded-full object-cover"
       />
       {protocolSrc && (
-        <img
+        <Image
           src={protocolSrc}
           alt={protocolAlt}
           width={dimensions.protocol}
           height={dimensions.protocol}
-          className="absolute -bottom-0.5 -right-0.5 translate-x-1/5 translate-y-1/5 rounded-full border-2 border-background object-cover"
+          className="absolute -bottom-0.5 -right-0.5 translate-x-1/5 translate-y-1/5 rounded-full object-cover"
         />
       )}
     </div>

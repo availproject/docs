@@ -26,6 +26,7 @@ const SHOWCASE_MAP: Record<
   "fast-transfer": () => import("@/components/showcase/transfer-demo-showcase"),
   "view-history": () =>
     import("@/components/showcase/view-history-demo-showcase"),
+  "deposit-v2": () => import("@/components/showcase/deposit-v2-demo-showcase"),
 };
 
 export function ComponentPreview({

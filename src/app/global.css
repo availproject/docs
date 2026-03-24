@@ -677,6 +677,54 @@
     }
 }
 
+@keyframes slide-up {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@utility animate-slide-up {
+    animation: slide-up 200ms ease-out;
+}
+
+@keyframes slide-in-from-right {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slide-in-from-left {
+    from { transform: translateX(-100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@utility animate-slide-in-from-right {
+    animation: slide-in-from-right 250ms ease-out;
+}
+
+@utility animate-slide-in-from-left {
+    animation: slide-in-from-left 250ms ease-out;
+}
+
+@keyframes slide-in-from-bottom {
+    from { transform: translateY(20%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@utility animate-slide-in-from-bottom {
+    animation: slide-in-from-bottom 250ms ease-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-4px); }
+    40% { transform: translateX(4px); }
+    60% { transform: translateX(-3px); }
+    80% { transform: translateX(2px); }
+}
+
+@utility animate-shake {
+    animation: shake 400ms ease-out;
+}
+
 @layer components {
     /* Steps — timeline-style numbered step indicators */
     .steps {
