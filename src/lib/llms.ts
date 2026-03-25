@@ -349,6 +349,15 @@ const nexusPageOverrides: Record<string, () => string> = {
 /** Exported for testing — validates override URLs match real pages. */
 export const NEXUS_PAGE_OVERRIDE_URLS = Object.keys(nexusPageOverrides);
 
+/**
+ * Returns pre-generated markdown for pages whose content is rendered by React
+ * components (and would otherwise be stripped by cleanMarkdownForAgents).
+ */
+export function getPageMarkdownOverride(url: string): string | null {
+  const override = nexusPageOverrides[url];
+  return override ? override() : null;
+}
+
 export async function generateLlmsSectionTxt(
   sectionKey: "da" | "nexus",
 ): Promise<string> {

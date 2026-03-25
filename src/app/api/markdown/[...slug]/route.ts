@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { AGENT_HEADERS } from "@/lib/agent-headers";
 import { trackAgentRequest } from "@/lib/analytics/agent-tracking";
+import { getPageMarkdownOverride } from "@/lib/llms";
 import { cleanMarkdownForAgents } from "@/lib/markdown-clean";
 import { source } from "@/lib/source";
 
@@ -31,8 +32,10 @@ export async function GET(
   }
 
   try {
-    const raw = await page.data.getText("processed");
-    const content = cleanMarkdownForAgents(raw);
+    const overrideContent = getPageMarkdownOverride(page.url);
+    const content =
+      overrideContent ??
+      cleanMarkdownForAgents(await page.data.getText("processed"));
     const tokenEstimate = Math.ceil(content.length / 4);
 
     const format = request.nextUrl.searchParams.get("format");
