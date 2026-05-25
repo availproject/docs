@@ -253,9 +253,9 @@ function generateSupportedChainsMarkdown(): string {
   }
 
   lines.push("", "### Token Reference", "");
-  lines.push("| Token | Name | Decimals |", "|-------|------|----------|");
+  lines.push("| Token | Name |", "|-------|------|");
   for (const t of tokenReference) {
-    lines.push(`| ${t.symbol} | ${t.name} | ${t.decimals} |`);
+    lines.push(`| ${t.symbol} | ${t.name} |`);
   }
 
   return lines.join("\n");
