@@ -18,7 +18,7 @@ export const mainnetChains: Chain[] = [
     chainId: 1,
     native: "ETH",
     tokens: ["ETH", "USDC", "USDT"],
-    swaps: false,
+    swaps: true,
   },
   {
     name: "Optimism",
@@ -46,7 +46,7 @@ export const mainnetChains: Chain[] = [
     chainId: 43114,
     native: "AVAX",
     tokens: ["AVAX", "USDC", "USDT"],
-    swaps: true,
+    swaps: false,
   },
   {
     name: "Scroll",
@@ -59,7 +59,7 @@ export const mainnetChains: Chain[] = [
     name: "Base",
     chainId: 8453,
     native: "ETH",
-    tokens: ["ETH", "USDC", "USDT"],
+    tokens: ["ETH", "USDC"],
     swaps: true,
   },
   {
@@ -77,38 +77,38 @@ export const mainnetChains: Chain[] = [
     swaps: true,
   },
   {
-    name: "Hyperliquid (HyperEVM)",
+    name: "HyperEVM",
     chainId: 999,
     native: "HYPE",
     tokens: ["HYPE", "USDC", "USDT"],
-    swaps: false,
+    swaps: true,
   },
   {
     name: "Monad",
     chainId: 143,
     native: "MON",
-    tokens: ["MON"],
-    swaps: false,
+    tokens: ["MON", "USDC"],
+    swaps: true,
   },
   {
     name: "Citrea",
     chainId: 4114,
     native: "cBTC",
-    tokens: ["cBTC"],
-    swaps: false,
+    tokens: ["cBTC", "USDC", "USDT"],
+    swaps: true,
   },
   {
     name: "MegaETH",
     chainId: 4326,
     native: "ETH",
-    tokens: ["ETH", "USDm"],
-    swaps: false,
+    tokens: ["ETH", "USDM", "USDT"],
+    swaps: true,
   },
 ];
 
 export const testnetChains: Chain[] = [
   {
-    name: "Sepolia",
+    name: "Ethereum Sepolia",
     chainId: 11155111,
     native: "ETH",
     tokens: ["ETH", "USDC"],
@@ -153,7 +153,7 @@ export const testnetChains: Chain[] = [
     name: "Citrea Testnet",
     chainId: 5115,
     native: "cBTC",
-    tokens: ["cBTC"],
+    tokens: ["cBTC", "USDC"],
     swaps: false,
   },
 ];
@@ -162,7 +162,7 @@ export const tokenReference: TokenInfo[] = [
   { symbol: "ETH", name: "Ethereum", decimals: 18 },
   { symbol: "USDC", name: "USD Coin", decimals: 6 },
   { symbol: "USDT", name: "Tether USD", decimals: 6 },
-  { symbol: "USDm", name: "Mega USD", decimals: 18 },
+  { symbol: "USDM", name: "USDm", decimals: 18 },
   { symbol: "POL", name: "Polygon", decimals: 18 },
   { symbol: "AVAX", name: "Avalanche", decimals: 18 },
   { symbol: "BNB", name: "BNB", decimals: 18 },

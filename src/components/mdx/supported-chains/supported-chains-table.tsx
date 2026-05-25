@@ -210,12 +210,6 @@ function TokenReferenceTable() {
             >
               Name
             </th>
-            <th
-              scope="col"
-              className="px-4 py-2.5 text-right text-xs font-medium tracking-wide text-muted-foreground uppercase"
-            >
-              Decimals
-            </th>
           </tr>
         </thead>
         <tbody>
@@ -233,9 +227,6 @@ function TokenReferenceTable() {
                 </Badge>
               </td>
               <td className="px-4 py-2.5 text-foreground">{token.name}</td>
-              <td className="px-4 py-2.5 text-right font-mono text-muted-foreground tabular-nums">
-                {token.decimals}
-              </td>
             </tr>
           ))}
         </tbody>
