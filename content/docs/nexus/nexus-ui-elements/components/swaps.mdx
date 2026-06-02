@@ -1,89 +1,98 @@
 ---
-title: Swaps
-description: Swap assets with exact-in or exact-out across supported chains. Intent-based with prefill, callbacks, and progress UI.
+title: Swap and Bridge
+description: Swap and bridge assets with the unified Nexus intent flow.
 component: true
 links:
   doc: https://docs.availproject.org/nexus/nexus-sdk/swap-methods
   api: https://docs.availproject.org/nexus/nexus-sdk/api-reference#swap-operations
 ---
 
-## Preview
-
 <ComponentPreview
-  name="swaps"
-  description="Cross-chain asset swaps supporting exact-in and exact-out modes."
+  name="nexus-one-swap"
+  description="Swap mode with USDC on Arbitrum prefilled as source and USDC on Base prefilled as receive."
   align="center"
+  hideCode
 />
+
+> **Network support:** Mainnet only. Testnet is not supported at the moment.
 
 ## Installation
 
-<CodeTabs>
-  <TabsList>
-    <TabsTrigger value="cli">CLI</TabsTrigger>
-    <TabsTrigger value="manual">Manual</TabsTrigger>
-  </TabsList>
-  <TabsContent value="cli">
-
-    ```bash
-    npx shadcn@latest add @nexus-elements/swaps
-    ```
-
-  </TabsContent>
-  <TabsContent value="manual">
-    <Steps>
-      <Step>Install these dependencies</Step>
 ```bash
-npm install @avail-project/nexus-core@1.0.0-beta.64 @radix-ui/react-dialog @radix-ui/react-label @radix-ui/react-select @radix-ui/react-slot class-variance-authority clsx tailwind-merge
+npx shadcn@latest add @nexus-elements/nexus-one
 ```
-      <Step>Copy and paste the following code into your project.</Step>
-
-      <div
-        data-slot="code"
-        className="my-4 overflow-hidden **:data-rehype-pretty-code-figure:m-0! **:data-rehype-pretty-code-figure:rounded-t-none **:data-rehype-pretty-code-figure:border-t [&_pre]:max-h-[400px]"
-      >
-        <ComponentSource name="swaps" showAllFiles />
-      </div>
-      <Step>Update the import paths to match your project setup.</Step>
-    </Steps>
-
-  </TabsContent>
-</CodeTabs>
 
 ## Usage
 
-<Step className="font-serif text-lg">
-  Don't forget to wrap your app with NexusProvider
-</Step>
-<Step className="font-serif text-base">
-  View Detailed instructions{" "}
-  <a href="/docs/nexus/get-started" target="_blank" className="underline">
-    here
-  </a>
-</Step>
+Wrap your app with the Nexus provider first. See [NexusProvider Setup](/docs/nexus/nexus-ui-elements/get-started/nexus-provider-setup) for provider setup.
 
 ```tsx showLineNumbers
-<SwapWidget
-  onComplete={completeCurrent}
-  onError={handleError}
-  onStart={handleStart}
-/>
+import { NexusOne } from "@/components/nexus-one/nexus-one";
+
+const USDC_ARBITRUM = "0xaf88d065e77c8cC2239327C5EDb3A432268e5831";
+const USDC_BASE = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
+
+export function SwapAndBridgeExample({
+  address,
+}: {
+  address?: `0x${string}`;
+}) {
+  return (
+    <NexusOne
+      connectedAddress={address}
+      config={{
+        mode: "swap",
+        prefill: {
+          amount: "1",
+          source: {
+            token: USDC_ARBITRUM,
+            chain: 42161,
+          },
+          destination: {
+            token: USDC_BASE,
+            chain: 8453,
+          },
+        },
+      }}
+    />
+  );
+}
 ```
 
-## API Reference
+## Configuration
 
-### Swaps
+Swap and Bridge uses only `mode: "swap"`. This mode is exact-in: users enter the source amount, the quote determines the receive amount, and the flow submits through `swapWithExactIn`.
 
-The `Swaps` component provides cross-chain swaps in either exact-in or exact-out mode with optional prefill and lifecycle callbacks. Both modes are handled in SwapWidget
+| Prop | Required | Description |
+| --- | --- | --- |
+| `config.mode` | Yes | Must be `"swap"`. |
+| `config.prefill.amount` | Optional | Prefills the source amount. |
+| `config.prefill.source` | Optional | Preselects the source token and chain. |
+| `config.prefill.destination` | Optional | Preselects the receive token and chain. |
+| `config.allowedSourcePairs` | Optional | Restricts source token and chain choices. |
+| `config.allowedDestinationPairs` | Optional | Restricts receive token and chain choices. |
+| `connectedAddress` | Optional | Wallet address to use. If omitted, the connected wagmi account is used. |
+| `embed` | Optional | Defaults to `true`. Set `false` to render as a modal surface. |
+| `onStart`, `onComplete`, `onError`, `onClose` | Optional | Lifecycle callbacks for host apps. |
 
 <CodeCollapsibleWrapper className="mt-4">
 
-```ts title="SwapsProps"
-interface SwapsProps {
-  onComplete?: (amount?: string) => void; // called when the swap completes
-  onStart?: () => void; // called when the swap starts
-  onError?: (message: string) => void; // called when an error occurs
+```ts title="SwapAndBridgeConfig"
+type TokenChainPair = {
+  token: `0x${string}`;
+  chain: number;
+};
+
+interface SwapAndBridgeConfig {
+  mode: "swap";
+  prefill?: {
+    amount?: string;
+    source?: TokenChainPair;
+    destination?: TokenChainPair;
+  };
+  allowedSourcePairs?: TokenChainPair[];
+  allowedDestinationPairs?: TokenChainPair[];
 }
 ```
 
 </CodeCollapsibleWrapper>
-````

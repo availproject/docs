@@ -5,7 +5,7 @@ description: Scaffold a working Nexus UI Elements app in under two minutes with 
 
 The fastest way to start building with Nexus UI Elements is the `create-liquid-apps` starter kit. It scaffolds a complete project with your chosen framework, wallet provider, and pre-configured Nexus UI Elements components, all in a single command.
 <div className="mt-4" />
-By the end of this guide you will have a running app with a cross-chain bridge and unified balance view.
+By the end of this guide you will have a running app with the Nexus Elements component for swaps, sends, and deposits, plus a unified balance view.
 
 ## Prerequisites
 
@@ -78,10 +78,10 @@ Open [http://localhost:3000](http://localhost:3000) in your browser. You should 
 
 1. Click **Connect Wallet** and connect using MetaMask, Coinbase Wallet, or any WalletConnect-compatible wallet
 2. Once connected, the **Unified Balance** component displays your cross-chain token balances
-3. The **Fast Bridge** component below it lets you bridge assets across chains.
+3. The **Nexus Elements** component below it lets you swap, send, and deposit assets across chains.
 
 <Callout type="info" title="What you are seeing">
-The scaffolded app comes pre-wired with two Nexus UI Elements components: `UnifiedBalance` (shows aggregated cross-chain balances) and `FastBridge` (intent-based asset bridging). Both are fully functional out of the box.
+The scaffolded app comes pre-wired with two Nexus UI Elements components: `UnifiedBalance` (shows aggregated cross-chain balances) and the single `NexusOne` element (intent-based swap, send, and deposit). Both are fully functional out of the box.
 </Callout>
 
 ## What's in the project
@@ -98,7 +98,7 @@ my-nexus-app/
 ├── components/
 │   ├── nexus/
 │   │         └── NexusProvider.tsx   # Nexus SDK context provider
-│   ├── fast-bridge/            # FastBridge component + subcomponents
+│   ├── nexus-one/             # Nexus Elements component (swap, send, deposit)
 │   ├── unified-balance/        # UnifiedBalance component
 │   └── ui/                     # shadcn/ui primitives
 ├── providers/
@@ -122,9 +122,9 @@ You have a running app with working Nexus UI Elements components. From here you 
     arrow
   />
   <Card
-    href="/docs/nexus/nexus-ui-elements/components/fast-bridge"
+    href="/docs/nexus/nexus-ui-elements/components/overview"
     title="Component Reference"
-    description="Full API docs, props, and previews for every component."
+    description="Full API docs, props, and previews for the Nexus Elements component."
     arrow
   />
   <Card

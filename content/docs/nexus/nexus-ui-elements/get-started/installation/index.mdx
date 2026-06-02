@@ -49,12 +49,12 @@ If shadcn/ui is already configured in your project, skip this step and proceed d
 
 ## Step 2 — Add a Nexus UI Elements component
 
-With shadcn/ui configured, you can now install any Nexus UI Elements component using the CLI. Each component is a self-contained package that brings in its own dependencies and source files.
+With shadcn/ui configured, you can now install Nexus UI Elements using the CLI. The single `nexus-one` element covers swap, send, and deposit, and brings in its own dependencies and source files.
 
-Run the following command to install a component — here we use `unified-balance` as an example:
+Run the following command to install it:
 
 ```bash
-npx shadcn@latest add @nexus-elements/unified-balance
+npx shadcn@latest add @nexus-elements/nexus-one
 ```
 
 This command will:
@@ -62,18 +62,14 @@ This command will:
 2. Install any required npm dependencies (like `@avail-project/nexus-core`)
 3. Add related UI primitives that the component needs
 
-You can replace `unified-balance` with any available component name. See the full list on the [Components](/docs/nexus/nexus-ui-elements/components/fast-bridge) page.
+See the [Overview](/docs/nexus/nexus-ui-elements/components/overview) page for the full configuration and per-mode usage.
 
 ### Available components
 
 | Component | Install command |
 |---|---|
+| Nexus Elements (swap, send, deposit) | `npx shadcn@latest add @nexus-elements/nexus-one` |
 | Unified Balance | `npx shadcn@latest add @nexus-elements/unified-balance` |
-| Fast Bridge | `npx shadcn@latest add @nexus-elements/fast-bridge` |
-| Deposit | `npx shadcn@latest add @nexus-elements/deposit` |
-| Swaps | `npx shadcn@latest add @nexus-elements/swaps` |
-| Fast Transfer | `npx shadcn@latest add @nexus-elements/fast-transfer` |
-| View History | `npx shadcn@latest add @nexus-elements/view-history` |
 
 ## Step 3 — Verify the installation
 

@@ -1,0 +1,325 @@
+---
+title: Overview
+description: A single Nexus Elements component for swap, send, and deposit flows powered by Nexus intents.
+component: true
+---
+
+Nexus Elements ships as a single configurable element that handles swap, send, and deposit flows. Pick the workflow with `config.mode`; everything else is optional unless the selected mode makes it conditional.
+
+<ComponentPreview
+  name="nexus-one"
+  description="An all-in-one element for swaps, sends, and protocol deposits."
+  align="center"
+/>
+
+> **Network support:** Nexus Elements currently supports mainnet only. Testnet is not supported at the moment.
+
+Switch the mode below the element in this preview to see the active `config` update in real time.
+
+## Mode Previews
+
+### Send
+
+Locks the element to the send flow. This preview prefills USDC on Base, an amount, and a recipient; Nexus resolves the sources to pay with.
+
+<ComponentPreview
+  name="nexus-one-transfer"
+  description="Locked send mode for cross-chain transfers."
+  align="center"
+/>
+
+### Swap
+
+Locks the element to the swap flow. This preview prefills USDC on Arbitrum as the source and USDC on Base as the receive asset.
+
+<ComponentPreview
+  name="nexus-one-swap"
+  description="Locked swap mode for multi-chain swaps."
+  align="center"
+/>
+
+### Deposit
+
+Locks the element to the deposit flow. A non-empty `opportunities` array is required.
+
+<ComponentPreview
+  name="nexus-one-deposit"
+  description="Locked deposit mode for protocol or smart-contract opportunities."
+  align="center"
+/>
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">CLI</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+  <TabsContent value="cli">
+    ```bash
+    npx shadcn@latest add @nexus-elements/nexus-one
+    ```
+  </TabsContent>
+  <TabsContent value="manual">
+    <Steps>
+      <Step>Install dependencies</Step>
+```bash
+npm install @avail-project/nexus-core decimal.js lucide-react viem wagmi class-variance-authority clsx tailwind-merge
+```
+      <Step>Copy and paste the component code into your project.</Step>
+      <div
+        data-slot="code"
+        className="my-4 overflow-hidden **:data-rehype-pretty-code-figure:m-0! **:data-rehype-pretty-code-figure:rounded-t-none **:data-rehype-pretty-code-figure:border-t [&_pre]:max-h-[400px]"
+      >
+        <ComponentSource name="nexus-one" showAllFiles />
+      </div>
+      <Step>Update import paths to match your project setup.</Step>
+    </Steps>
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+<Step className="font-serif text-lg">
+  Wrap your app with `NexusProvider` before rendering the element.
+</Step>
+<Step className="font-serif text-base">
+  View setup instructions{" "}
+  <a href="/docs/nexus/nexus-ui-elements/get-started/nexus-provider-setup" target="_blank" className="underline">
+    here
+  </a>
+  .
+</Step>
+
+```tsx showLineNumbers
+import { NexusOne } from "@/components/nexus-one/nexus-one";
+
+export function App({ address }: { address?: `0x${string}` }) {
+  return <NexusOne config={{ mode: "swap" }} connectedAddress={address} />;
+}
+```
+
+## Configuration
+
+`config.mode` is always required. Every other field is optional unless the selected mode makes it conditional.
+
+```ts title="NexusOneConfig"
+type NexusOneMode = "swap" | "send" | "deposit";
+
+interface NexusOneConfig {
+  mode: NexusOneMode;
+  prefill?: {
+    token?: `0x${string}`;
+    chain?: number;
+    amount?: string;
+    recipient?: `0x${string}`;
+    source?: {
+      token: `0x${string}`;
+      chain: number;
+    };
+    destination?: {
+      token: `0x${string}`;
+      chain: number;
+    };
+  };
+  allowedSourcePairs?: {
+    token: `0x${string}`;
+    chain: number;
+  }[];
+  allowedDestinationPairs?: {
+    token: `0x${string}`;
+    chain: number;
+  }[];
+  opportunities?: DepositOpportunity[];
+}
+```
+
+### Required Props
+
+| Prop | Type | Notes |
+| --- | --- | --- |
+| `config` | `NexusOneConfig` | Selects the workflow and any mode-specific behavior. |
+
+### Optional Props
+
+| Prop | Type | Notes |
+| --- | --- | --- |
+| `connectedAddress` | `` `0x${string}` `` | Wallet address to use. If omitted, the element falls back to the connected wagmi wallet account. |
+| `embed` | `boolean` | Defaults to `true`. Set `false` when rendering the element as a modal surface. |
+| `onComplete` | `(explorerUrl?: string) => void` | Called after a successful swap, send, or deposit. |
+| `onStart` | `() => void` | Called when the user starts execution. |
+| `onError` | `(message: string) => void` | Called when execution fails. |
+| `onClose` | `() => void` | Used by modal mode. The close button is hidden in embedded mode. |
+
+### Optional Config Fields
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `prefill.amount` | `string` | Prefills the amount input. |
+| `prefill.recipient` | `` `0x${string}` `` | Prefills the recipient. Most useful in `send` mode. |
+| `prefill.token` | `` `0x${string}` `` | Prefills the token address where supported by the current selector state. |
+| `prefill.chain` | `number` | Prefills the chain id where supported by the current selector state. |
+| `prefill.source` | `{ token; chain }` | Prefills the swap send/source token and chain. |
+| `prefill.destination` | `{ token; chain }` | Prefills the swap receive/destination token and chain. |
+| `allowedSourcePairs` | `{ token; chain }[]` | Restricts selectable source token/chain pairs where supported by your installed element version. |
+| `allowedDestinationPairs` | `{ token; chain }[]` | Restricts selectable destination token/chain pairs where supported by your installed element version. |
+
+### Conditional Config
+
+| Mode | Required | Optional | Behavior |
+| --- | --- | --- | --- |
+| `swap` | `config.mode = "swap"` | `prefill`, `allowedSourcePairs`, `allowedDestinationPairs` | Users choose source and receive assets. The element switches between exact-in and exact-out quoting based on which amount field the user changes. |
+| `send` | `config.mode = "send"` | `prefill.recipient`, `prefill.amount`, source/destination pair filters | Send is exact-out. Users choose the token and amount to send, then Nexus resolves the pay-with sources. |
+| `deposit` | `config.mode = "deposit"` and `opportunities.length > 0` | `prefill.amount`, source filters | Deposit is exact-out. If one opportunity is provided, the element opens the deposit form directly. If multiple opportunities are provided, users pick from a list first. |
+
+## Deposit Opportunities
+
+`opportunities` is required only when `mode` is `"deposit"`. Every opportunity describes the destination asset and the contract execution Nexus should perform after the swap settles.
+
+```ts title="DepositOpportunity"
+interface DepositOpportunity {
+  id: string;
+  protocol: string;
+  chainId: number;
+  tokenSymbol: string;
+  tokenAddress: `0x${string}`;
+  execute:
+    | ExecuteConfig
+    | ((amount: bigint, connectedAddress: `0x${string}`) => ExecuteConfig);
+
+  label?: string;
+  title?: string;
+  subtitle?: string;
+  logo?: string;
+  tokenLogo?: string;
+  apy?: string;
+  description?: string;
+}
+
+interface ExecuteConfig {
+  to: `0x${string}`;
+  data?: `0x${string}`;
+  value?: bigint;
+  gas: bigint;
+  gasPrice?: "low" | "medium" | "high";
+  tokenApproval?: {
+    token: `0x${string}`;
+    amount: bigint;
+    spender: `0x${string}`;
+  };
+}
+```
+
+## Examples
+
+### Swap
+
+```tsx showLineNumbers
+import { NexusOne } from "@/components/nexus-one/nexus-one";
+
+export function SwapExample({ address }: { address?: `0x${string}` }) {
+  return (
+    <NexusOne
+      config={{
+        mode: "swap",
+        prefill: {
+          source: {
+            token: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+            chain: 42161, // USDC on Arbitrum
+          },
+          destination: {
+            token: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+            chain: 8453, // USDC on Base
+          },
+        },
+      }}
+      connectedAddress={address}
+    />
+  );
+}
+```
+
+### Send
+
+```tsx showLineNumbers
+import { NexusOne } from "@/components/nexus-one/nexus-one";
+
+export function SendExample({ address }: { address?: `0x${string}` }) {
+  return (
+    <NexusOne
+      config={{
+        mode: "send",
+        prefill: {
+          token: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          chain: 8453, // USDC on Base
+          amount: "0.1",
+          recipient: "0xF3a15b38e63dBb1a1b2d7842CcD9B9dD8fB9b2E",
+        },
+      }}
+      connectedAddress={address}
+    />
+  );
+}
+```
+
+### Deposit
+
+```tsx showLineNumbers
+import { NexusOne } from "@/components/nexus-one/nexus-one";
+import { encodeFunctionData } from "viem";
+
+const AAVE_POOL = "0x794a61358D6845594F94dc1DB02A252b5b4814aD";
+const USDT_ARBITRUM = "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9";
+
+const AAVE_ABI = [
+  {
+    inputs: [
+      { name: "asset", type: "address" },
+      { name: "amount", type: "uint256" },
+      { name: "onBehalfOf", type: "address" },
+      { name: "referralCode", type: "uint16" },
+    ],
+    name: "supply",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+] as const;
+
+export function DepositExample({ address }: { address?: `0x${string}` }) {
+  return (
+    <NexusOne
+      config={{
+        mode: "deposit",
+        opportunities: [
+          {
+            id: "aave-usdt-arbitrum",
+            title: "Aave",
+            protocol: "Aave",
+            subtitle: "Deposit USDT on Arbitrum",
+            logo: "https://files.availproject.org/uploads/2026-04-16/aave.svg",
+            chainId: 42161,
+            tokenSymbol: "USDT",
+            tokenAddress: USDT_ARBITRUM,
+            execute: (amount, connectedAddress) => ({
+              to: AAVE_POOL,
+              data: encodeFunctionData({
+                abi: AAVE_ABI,
+                functionName: "supply",
+                args: [USDT_ARBITRUM, amount, connectedAddress, 0],
+              }),
+              gas: BigInt(300000),
+              tokenApproval: {
+                token: USDT_ARBITRUM,
+                amount,
+                spender: AAVE_POOL,
+              },
+            }),
+          },
+        ],
+      }}
+      connectedAddress={address}
+    />
+  );
+}
+```
