@@ -157,6 +157,10 @@ Here is how it will work:
 2. The proxied account in-turn will be controlled by a multisig account that will act as it's proxy.
 3. This multisig will have a threshold of 2 out of 3 members.
 
+<Callout type="warning">
+Pure proxy and multisig-proxy setups cannot be used for Avail-to-Ethereum bridge sends. Submit `vector_sendMessage` directly from an Avail account; wrapped bridge sends are rejected.
+</Callout>
+
 The structure will look like this:
 
 <br/>

@@ -8,6 +8,9 @@ description: "Transfer AVAIL tokens between Avail and Ethereum using the vector 
 - On-chain name of extrinsic: `vector_sendMessage` to send a message from Avail to Ethereum.
 - On-chain name of extrinsic: `vector_execute` to execute a message receieved from Ethereum on Avail.
 
+<Callout type="warning">
+Avail-to-Ethereum token bridge sends use `vector_sendMessage` and must be submitted directly. Wrapped bridge sends, including multisig, proxy, scheduler, and batch calls, are rejected.
+</Callout>
 
 ## Bridge tokens from Avail DA to Ethereum
 
@@ -437,6 +440,5 @@ cargo run
 
   </TabsContent>
 </Tabs>
-
 
 

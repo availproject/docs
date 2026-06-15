@@ -62,6 +62,10 @@ function on the AVAIL ERC-20 contract.<br/>
 Please keep this in mind and have some ETH ready on the EVM wallet address that you connect to the bridge.
 </Callout>
 
+<Callout type="warning">
+Bridge transactions from Avail to Ethereum must be initiated directly from an Avail account. Do not use multisig, proxy, batch, scheduled, or other wrapped calls for bridge sends, because wrapped bridge sends are rejected.
+</Callout>
+
 <Tabs defaultValue="using-an-extension-wallet">
   <TabsList>
     <TabsTrigger value="using-an-extension-wallet">Using an extension wallet</TabsTrigger>
