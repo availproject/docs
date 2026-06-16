@@ -7,6 +7,10 @@ description: "Send arbitrary messages between Avail and Ethereum using the vecto
 - On-chain name of extrinsic: `vector_sendMessage` to send a message from Avail to Ethereum.
 - On-chain name of extrinsic: `vector_execute` to execute a message receieved from Ethereum on Avail.
 
+<Callout type="warning">
+`vector_sendMessage` must be submitted directly. Wrapped bridge sends, including proxy, multisig, scheduler, and batch calls, are rejected and will fail validation.
+</Callout>
+
 ## Send an arbitrary message from Avail DA to Ethereum
 
 

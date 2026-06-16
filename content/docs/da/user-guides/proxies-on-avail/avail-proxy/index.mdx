@@ -160,5 +160,9 @@ are actually staked from the main account, all without ever signing the transact
 4. Use different proxy accounts for different purposes
 
 <Callout type="warning">
+Do not use proxy calls for Avail-to-Ethereum bridge sends. Bridge sends must be submitted directly with `vector_sendMessage`; wrapped bridge sends are rejected.
+</Callout>
+
+<Callout type="warning">
 While proxy accounts add convenience, they also introduce new security considerations. Always verify proxy settings and permissions carefully.
 </Callout> 
