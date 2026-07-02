@@ -1,9 +1,9 @@
 ---
-title: Your First UI Element
-description: Render your first Nexus Elements component and understand how props and callbacks work.
+title: Your First Widget
+description: Render your first Widgets component and understand how props and callbacks work.
 ---
 
-You have installed the package and configured the `NexusProvider`. Now it is time to render a working element. In this guide you will add the **Nexus Elements** element to a page, understand each prop it accepts, and handle its lifecycle callbacks.
+You have installed the package and configured the `NexusProvider`. Now it is time to render a working element. In this guide you will add the **Widgets** element to a page, understand each prop it accepts, and handle its lifecycle callbacks.
 
 ## What you will build
 
@@ -73,7 +73,7 @@ Here is a breakdown of every prop passed to `NexusOne` and what it controls:
 | `onClose` | `() => void` | No | Used by modal mode. The close button is hidden in embedded mode. |
 
 <Callout type="info" title="config.mode is the only required field">
-Beyond `config.mode`, every field is optional unless the selected mode makes it conditional (for example, `deposit` requires a `config.deposit` block). See the [Swap and Bridge](/docs/nexus/nexus-ui-elements/components/swaps), [Send](/docs/nexus/nexus-ui-elements/components/transfer), and [Deposit](/docs/nexus/nexus-ui-elements/components/deposit) pages for each mode's configuration reference.
+Beyond `config.mode`, every field is optional unless the selected mode makes it conditional (for example, `deposit` requires a `config.deposit` block). See the [Swap and Bridge](/docs/nexus/widgets/components/swaps), [Send](/docs/nexus/widgets/components/transfer), and [Deposit](/docs/nexus/widgets/components/deposit) pages for each mode's configuration reference.
 </Callout>
 
 ## Step 4 — Run and test
@@ -90,7 +90,7 @@ npm run dev
 4. Try selecting a different token or chain to verify the form is interactive
 
 <Callout type="warning" title="Mainnet only">
-Nexus Elements currently supports mainnet only. Testnet is not supported at the moment.
+Widgets currently supports mainnet only. Testnet is not supported at the moment.
 </Callout>
 
 ## Switching modes
@@ -114,23 +114,23 @@ The same element powers send and deposit — just change `config.mode`. To rende
 
 ## What's next
 
-You now have a working Nexus Elements integration. From here you can explore each mode:
+You now have a working Widgets integration. From here you can explore each mode:
 
 <Cards>
   <Card
-    href="/docs/nexus/nexus-ui-elements/components/swaps"
+    href="/docs/nexus/widgets/components/swaps"
     title="Swap and Bridge"
     description="Swap and bridge assets with the unified Nexus intent flow."
     arrow
   />
   <Card
-    href="/docs/nexus/nexus-ui-elements/components/transfer"
+    href="/docs/nexus/widgets/components/transfer"
     title="Send"
     description="Route funds to a recipient with Nexus intents."
     arrow
   />
   <Card
-    href="/docs/nexus/nexus-ui-elements/components/deposit"
+    href="/docs/nexus/widgets/components/deposit"
     title="Deposit"
     description="Route funds into a configured protocol or app action with Nexus intents."
     arrow

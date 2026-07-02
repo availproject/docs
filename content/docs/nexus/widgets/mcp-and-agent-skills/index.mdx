@@ -1,20 +1,20 @@
 ---
 title: MCP & Agent Skills
-description: Use the shadcn MCP server and skills.sh agent skills to browse, install, and integrate Nexus Elements.
+description: Use the shadcn MCP server and skills.sh agent skills to browse, install, and integrate Widgets.
 links:
   doc: https://ui.shadcn.com/docs/mcp
 ---
 
-This page covers two ways AI assistants can work with Nexus Elements: the **MCP server** for browsing and installing components via natural language, and **Agent Skills** for giving coding agents deep context about each component.
+This page covers two ways AI assistants can work with Widgets: the **MCP server** for browsing and installing components via natural language, and **Agent Skills** for giving coding agents deep context about each component.
 
 ## Agent Skills
 
-[skills.sh](https://skills.sh) skills give AI coding agents (Codex, Claude Code, Cursor, etc.) deep context about Nexus Elements components, enabling them to scaffold and integrate pre-built React components for bridging, swaps, deposits, and more.
+[skills.sh](https://skills.sh) skills give AI coding agents (Codex, Claude Code, Cursor, etc.) deep context about Widgets components, enabling them to scaffold and integrate pre-built React components for bridging, swaps, deposits, and more.
 
 ### Install Skills
 
 ```bash
-# Install all UI Elements skills
+# Install all Widgets skills
 npx skills add availproject/nexus-elements
 
 # Install a single skill
@@ -25,7 +25,7 @@ npx skills add https://github.com/availproject/nexus-elements --skill nexus-elem
 
 | Skill | Description |
 |-------|-------------|
-| `nexus-elements-overview` | Overview of the Nexus Elements element |
+| `nexus-elements-overview` | Overview of the widget |
 | `nexus-elements-common` | Shared patterns and conventions |
 | `nexus-elements-nexus-provider` | NexusProvider setup and configuration |
 | `nexus-one-swaps` | Swap and Bridge mode integration |
@@ -41,11 +41,11 @@ Browse all available skills at [skills.sh/availproject/nexus-elements](https://s
 
 ## MCP Server
 
-The shadcn MCP Server lets Cursor (and other MCP-compatible IDEs) talk directly to your Nexus Elements registry so you can browse, search, and install UI packages with natural language. Detailed platform-agnostic docs live at [ui.shadcn.com/docs/mcp](https://ui.shadcn.com/docs/mcp), but this page focuses on the Nexus Elements setup.
+The shadcn MCP Server lets Cursor (and other MCP-compatible IDEs) talk directly to your Widgets registry so you can browse, search, and install UI packages with natural language. Detailed platform-agnostic docs live at [ui.shadcn.com/docs/mcp](https://ui.shadcn.com/docs/mcp), but this page focuses on the Widgets setup.
 
 ## Nexus Registry Setup
 
-Add the Nexus Elements registry to your local `components.json`. This gives any MCP client access to the published components.
+Add the Widgets registry to your local `components.json`. This gives any MCP client access to the published components.
 
 ```json title="components.json" showLineNumbers
 {
@@ -59,7 +59,7 @@ Add the Nexus Elements registry to your local `components.json`. This gives any 
 
 ## Quick Start
 
-Select your MCP client and run the matching init command. Once the server is connected, the prompts below will install Nexus Elements components straight from the registry.
+Select your MCP client and run the matching init command. Once the server is connected, the prompts below will install Widgets components straight from the registry.
 
 <Tabs defaultValue="cursor">
   <TabsList>
@@ -155,7 +155,7 @@ args = ["shadcn@latest", "mcp"]
 ## Supported Registries
 
 - **shadcn/ui registry** – ships with every MCP install for the canonical set of components.
-- **Nexus Elements registry** – `@nexus-elements` namespace for the Avail-specific UI kit.
+- **Widgets registry** – `@nexus-elements` namespace for the Avail-specific UI kit.
 - **Third-party registries** – any endpoint that follows the shadcn spec.
 - **Private registries** – internal libraries with optional auth headers or tokens.
 

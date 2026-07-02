@@ -4,11 +4,59 @@
     "destination": "/docs/nexus/concepts"
   },
   {
+    "source": "/docs/nexus/nexus-ui-elements",
+    "destination": "/docs/nexus/widgets"
+  },
+  {
+    "source": "/docs/nexus/nexus-ui-elements/quickstart",
+    "destination": "/docs/nexus/widgets/get-started/installation"
+  },
+  {
+    "source": "/docs/nexus/nexus-ui-elements/get-started/installation",
+    "destination": "/docs/nexus/widgets/get-started/installation"
+  },
+  {
+    "source": "/docs/nexus/nexus-ui-elements/get-started/nexus-provider-setup",
+    "destination": "/docs/nexus/widgets/get-started/nexus-provider-setup"
+  },
+  {
+    "source": "/docs/nexus/nexus-ui-elements/get-started/your-first-ui-element",
+    "destination": "/docs/nexus/widgets/get-started/your-first-widget"
+  },
+  {
+    "source": "/docs/nexus/nexus-ui-elements/components/swaps",
+    "destination": "/docs/nexus/widgets/components/swaps"
+  },
+  {
+    "source": "/docs/nexus/nexus-ui-elements/components/deposit",
+    "destination": "/docs/nexus/widgets/components/deposit"
+  },
+  {
+    "source": "/docs/nexus/nexus-ui-elements/components/transfer",
+    "destination": "/docs/nexus/widgets/components/transfer"
+  },
+  {
+    "source": "/docs/nexus/nexus-ui-elements/components/unified-balance",
+    "destination": "/docs/nexus/widgets/components/unified-balance"
+  },
+  {
     "source": "/docs/nexus/nexus-ui-elements/components/fast-bridge",
-    "destination": "/docs/nexus/nexus-ui-elements/components/swaps"
+    "destination": "/docs/nexus/widgets/components/swaps"
   },
   {
     "source": "/docs/nexus/nexus-ui-elements/components/view-history",
-    "destination": "/docs/nexus/nexus-ui-elements"
+    "destination": "/docs/nexus/widgets"
+  },
+  {
+    "source": "/docs/nexus/nexus-ui-elements/mcp-and-agent-skills",
+    "destination": "/docs/nexus/widgets/mcp-and-agent-skills"
+  },
+  {
+    "source": "/docs/nexus/nexus-sdk/nexus-elements",
+    "destination": "/docs/nexus/nexus-sdk/widgets"
+  },
+  {
+    "source": "/docs/nexus/nexus-sdk/quickstart",
+    "destination": "/docs/nexus/nexus-sdk/get-started/installation"
   }
 ]

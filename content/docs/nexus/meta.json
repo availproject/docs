@@ -2,7 +2,7 @@
   "pages": [
     "get-started",
     "supported-chains-and-tokens",
-    "nexus-ui-elements",
+    "widgets",
     "nexus-sdk",
     "concepts",
     "cookbook-recipes",

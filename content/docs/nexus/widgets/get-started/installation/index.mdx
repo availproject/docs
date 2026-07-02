@@ -1,13 +1,13 @@
 ---
 title: Installation
-description: Install Nexus Elements packages and dependencies in your project.
+description: Install Widgets packages and dependencies in your project.
 ---
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SquareArrowUpRight } from "lucide-react";
 
-In this guide, you will install the required dependencies and add your first Nexus Elements component to an existing React project. By the end, your project will be ready for the provider setup in the next step.
+In this guide, you will install the required dependencies and add your first Widgets component to an existing React project. By the end, your project will be ready for the provider setup in the next step.
 
 ## Prerequisites
 
@@ -19,12 +19,12 @@ Before you begin, make sure your project meets the following requirements:
 - **Node.js 18+** and a package manager (npm, pnpm, or yarn)
 
 <Callout type="info" title="Why wagmi?">
-Nexus Elements needs access to the user's connected wallet provider to sign transactions. The library is designed to work with wagmi's hooks, but any EIP-1193 compatible provider will work.
+Widgets needs access to the user's connected wallet provider to sign transactions. The library is designed to work with wagmi's hooks, but any EIP-1193 compatible provider will work.
 </Callout>
 
 ## Step 1 — Install shadcn/ui
 
-Nexus Elements is built on [shadcn/ui](https://ui.shadcn.com) primitives. If your project doesn't have shadcn/ui set up yet, follow the official installation guide first.
+Widgets are built on [shadcn/ui](https://ui.shadcn.com) primitives. If your project doesn't have shadcn/ui set up yet, follow the official installation guide first.
 
 <Button
   asChild
@@ -47,9 +47,9 @@ Nexus Elements is built on [shadcn/ui](https://ui.shadcn.com) primitives. If you
 If shadcn/ui is already configured in your project, skip this step and proceed directly to installing your first component below.
 </Callout>
 
-## Step 2 — Add a Nexus Elements component
+## Step 2 — Add a widget
 
-With shadcn/ui configured, you can now install Nexus Elements using the CLI. The single `nexus-one` element covers swap, send, and deposit, and brings in its own dependencies and source files.
+With shadcn/ui configured, you can now install Widgets using the CLI. The single `nexus-one` element covers swap, send, and deposit, and brings in its own dependencies and source files.
 
 Run the following command to install it:
 
@@ -62,13 +62,13 @@ This command will:
 2. Install any required npm dependencies (like `@avail-project/nexus-sdk-v2`)
 3. Add related UI primitives that the component needs
 
-See the [Swap and Bridge](/docs/nexus/nexus-ui-elements/components/swaps), [Deposit](/docs/nexus/nexus-ui-elements/components/deposit), and [Send](/docs/nexus/nexus-ui-elements/components/transfer) component pages for configuration and per-mode usage.
+See the [Swap and Bridge](/docs/nexus/widgets/components/swaps), [Deposit](/docs/nexus/widgets/components/deposit), and [Send](/docs/nexus/widgets/components/transfer) component pages for configuration and per-mode usage.
 
 ### Available components
 
 | Component | Install command |
 |---|---|
-| Nexus Elements (swap, send, deposit) | `npx shadcn@latest add @nexus-elements/nexus-one` |
+| Widgets (swap, send, deposit) | `npx shadcn@latest add @nexus-elements/nexus-one` |
 
 ## Step 3 — Verify the installation
 
@@ -78,10 +78,10 @@ After running the install command, confirm that the component files were added t
 ls src/components/nexus-one/
 ```
 
-You should see the Nexus Elements element files. The install also adds a `NexusProvider` (under `src/components/nexus/`) that was scaffolded automatically. This provider is essential — you will configure it in the next step.
+You should see the widget files. The install also adds a `NexusProvider` (under `src/components/nexus/`) that was scaffolded automatically. This provider is essential — you will configure it in the next step.
 
 <Callout type="info" title="What's the NexusProvider?">
-The `NexusProvider` is a React context provider that initializes the Nexus SDK and makes it available to all Nexus Elements components in your app. No component will function without it.
+The `NexusProvider` is a React context provider that initializes the Nexus SDK and makes it available to all Widgets components in your app. No component will function without it.
 </Callout>
 
 ## Next step
@@ -91,7 +91,7 @@ Your dependencies are installed and the component files are in place. Next, you 
 <div className="mt-4"/>
 <Cards>
   <Card
-    href="/docs/nexus/nexus-ui-elements/get-started/nexus-provider-setup"
+    href="/docs/nexus/widgets/get-started/nexus-provider-setup"
     title="NexusProvider Setup"
     description="Go to next step. Setting up NexusProvider."
     className="sm:col-span-2"
