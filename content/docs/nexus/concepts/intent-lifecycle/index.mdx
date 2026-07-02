@@ -31,7 +31,7 @@ Your app presents the intent to the user via the `onIntent` hook (`allow`, `deny
 The signed intent is submitted to the Nexus network and recorded with status `created`.
 
 ### Source Deposits
-The user's funds are deposited into Vault contracts on each source chain. When every source deposit is confirmed, the intent becomes `deposited`.
+The user's funds are deposited into Vault contracts on each source chain — the solver submits token deposits using the user's signed intent and [allowances](/docs/nexus/concepts/allowances), while native-token deposits are sent directly from the user's wallet. When every source deposit is confirmed, the intent becomes `deposited`.
 
 ### Solver Fulfilment
 A solver fronts its own capital and fills the intent on the destination chain — **the user receives their funds here**, in seconds. The intent becomes `fulfilled`.
