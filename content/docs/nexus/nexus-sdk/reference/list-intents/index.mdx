@@ -1,0 +1,126 @@
+---
+title: "List Intents"
+sidebarTitle: "List Intents"
+description: "Fetch a user's historical Nexus intents with pagination and optional status filtering."
+---
+
+<Callout type="info">
+**SET UP THE SDK BEFORE YOU START:**
+
+Install and initialize the client first — see [Installation](/docs/nexus/nexus-sdk/get-started/installation) and [SDK Setup](/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup).
+</Callout>
+
+Use the `listIntents()` function to fetch a user's historical intents, with pagination and an optional status filter.
+
+<Callout type="info">
+`listIntents()` replaces the v1 `getMyIntents(page)` method. It returns a structured `{ intents, total }` result instead of a bare array, and accepts an optional `status` filter.
+</Callout>
+
+## Method signature
+
+```typescript title="TypeScript"
+listIntents(
+  params?: ListIntentsParams,
+): Promise<ListIntentsResult>
+```
+
+## Parameters
+
+```typescript title="TypeScript"
+export type ListIntentsParams = {
+  page?: number;
+  status?: IntentStatus;
+};
+
+export type IntentStatus = 'created' | 'deposited' | 'fulfilled' | 'expired';
+```
+
+- `ListIntentsParams` (optional): Filters for the intent query.
+  - `page` (number, optional): The page number for pagination.
+  - `status` (`IntentStatus`, optional): Restrict results to a single lifecycle status — `'created'`, `'deposited'`, `'fulfilled'`, or `'expired'`.
+
+<Callout type="info">
+`IntentStatus` is exported both as a value map (`IntentStatus.Fulfilled`) and as a type. Use the value map to avoid hardcoding the string literals.
+</Callout>
+
+## Example
+
+```typescript title="TypeScript"
+import { IntentStatus, type ListIntentsResult } from '@avail-project/nexus-sdk-v2';
+
+// First page of all intents
+const { intents, total }: ListIntentsResult = await client.listIntents();
+console.log(`Showing ${intents.length} of ${total} intents`);
+
+// Second page, filtered to fulfilled intents
+const fulfilled = await client.listIntents({
+  page: 2,
+  status: IntentStatus.Fulfilled,
+});
+
+for (const intent of fulfilled.intents) {
+  console.log(intent.requestHash, intent.status, intent.explorerUrl);
+}
+```
+
+## Return Value
+
+The return value is a `ListIntentsResult` object.
+
+```typescript title="TypeScript"
+export type ListIntentsResult = {
+  intents: IntentRecord[];
+  total: number;
+};
+
+export type IntentRecord = {
+  requestHash: Hex;
+  explorerUrl: string;
+  status: IntentStatus;
+  solver: Hex | null;
+  createdAt?: number;
+  updatedAt?: number;
+  expiry: number;
+  recipientAddress: Hex;
+  destinationChain: {
+    id: number;
+    name: string;
+    logo: string;
+    universe: Universe;
+  };
+  destinations: Array<{
+    token: {
+      contractAddress: Hex;
+      symbol: string;
+      name: string;
+      logo: string;
+      decimals: number;
+    };
+    amount: string;
+    amountRaw: bigint;
+  }>;
+  sources: Array<{
+    chain: {
+      id: number;
+      name: string;
+      logo: string;
+      universe: Universe;
+    };
+    amountRaw: bigint;
+    amount: string;
+    feeRaw: bigint;
+    fee: string;
+    token: {
+      contractAddress: Hex;
+      symbol: string;
+      name: string;
+      logo: string;
+      decimals: number;
+    };
+  }>;
+};
+```
+
+<Callout type="info">
+See the [full type definitions](https://github.com/availproject/nexus-sdk-v2/blob/main/src/domain/types/index.ts) on GitHub.
+</Callout>

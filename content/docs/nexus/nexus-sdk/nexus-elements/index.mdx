@@ -1,135 +1,27 @@
 ---
-title: Nexus UI Elements Reference
-description: "A shadcn-based component library for Nexus — drop-in bridge, swap, deposit, and balance UI components."
+title: Nexus Elements Reference
+description: "A shadcn-based component library for Nexus — the Nexus Elements element ships swap, send, and deposit UI in one component."
 ---
 
-A shadcn-based component library built on top of nexus-core that allows devs to integrate working components into their project conveniently.
-Nexus UI Elements currently provides the following components:
+Nexus Elements is a shadcn-based component library built on top of the Nexus SDK that lets you drop working cross-chain UI into your project.
 
-1. Unified Balance
-2. View History
-3. Fast Bridge
-4. Fast Transfer
-5. Deposit
-6. Swaps
-
-Refer to the Nexus UI Elements website for detailed usage docs:
-
-<Cards num={2}>
-    <Card title="Avail Nexus UI Elements" href="https://elements.nexus.availproject.org/" icon={<LinkIcon />}  arrow target="_blank" rel="noopener noreferrer" />
-    <Card title="Nexus UI Elements Github Repo" href="https://github.com/availproject/nexus-elements" icon={<GithubIcon24 />}  arrow target="_blank" rel="noopener noreferrer" />
-</Cards>
+The standalone per-feature widgets (unified balance, fast bridge, fast transfer, deposit, swaps, view history) have been consolidated into a single **Nexus Elements element**. One component covers swap, send, and deposit modes.
 
 ## Install
 
-1. Install `shadcn/ui` into your project. Refer to [shadcn/ui installation guide](https://ui.shadcn.com/docs/installation) for more details.
-
-2. Install the components you need using the shadcn CLI.
-
-<Tabs defaultValue="unified-balance">
-  <TabsList>
-    <TabsTrigger value="unified-balance">Unified Balance</TabsTrigger>
-    <TabsTrigger value="view-history">View History</TabsTrigger>
-    <TabsTrigger value="fast-bridge">Fast Bridge</TabsTrigger>
-    <TabsTrigger value="fast-transfer">Fast Transfer</TabsTrigger>
-    <TabsTrigger value="deposit">Deposit</TabsTrigger>
-    <TabsTrigger value="swaps">Swaps</TabsTrigger>
-  </TabsList>
-  <TabsContent value="unified-balance">
-
-```bash title="pnpm"
-pnpm dlx shadcn@latest add @nexus-elements/unified-balance
-```
+Install the Nexus Elements element with the shadcn CLI:
 
 ```bash title="npm"
-npx shadcn@latest add @nexus-elements/unified-balance
+npx shadcn@latest add @nexus-elements/nexus-one
 ```
 
-```bash title="yarn"
-yarn shadcn@latest add @nexus-elements/unified-balance
-```
+The single element brings in its own dependencies and source files, and exposes `swap`, `send`, and `deposit` modes.
 
-  </TabsContent>
-  <TabsContent value="view-history">
+## Read the full docs
 
-```bash title="pnpm"
-pnpm dlx shadcn@latest add @nexus-elements/view-history
-```
-
-```bash title="npm"
-npx shadcn@latest add @nexus-elements/view-history
-```
-
-```bash title="yarn"
-yarn shadcn@latest add @nexus-elements/view-history
-```
-
-  </TabsContent>
-  <TabsContent value="fast-bridge">
-
-```bash title="pnpm"
-pnpm dlx shadcn@latest add @nexus-elements/fast-bridge
-```
-
-```bash title="npm"
-npx shadcn@latest add @nexus-elements/fast-bridge
-```
-
-```bash title="yarn"
-yarn shadcn@latest add @nexus-elements/fast-bridge
-```
-
-  </TabsContent>
-  <TabsContent value="fast-transfer">
-
-```bash title="pnpm"
-pnpm dlx shadcn@latest add @nexus-elements/fast-transfer
-```
-
-```bash title="npm"
-npx shadcn@latest add @nexus-elements/fast-transfer
-```
-
-```bash title="yarn"
-yarn shadcn@latest add @nexus-elements/fast-transfer
-```
-
-  </TabsContent>
-  <TabsContent value="deposit">
-
-```bash title="pnpm"
-pnpm dlx shadcn@latest add @nexus-elements/deposit
-```
-
-```bash title="npm"
-npx shadcn@latest add @nexus-elements/deposit
-```
-
-```bash title="yarn"
-yarn shadcn@latest add @nexus-elements/deposit
-```
-
-  </TabsContent>
-  <TabsContent value="swaps">
-
-```bash title="pnpm"
-pnpm dlx shadcn@latest add @nexus-elements/swaps
-```
-
-```bash title="npm"
-npx shadcn@latest add @nexus-elements/swaps
-```
-
-```bash title="yarn"
-yarn shadcn@latest add @nexus-elements/swaps
-```
-
-  </TabsContent>
-</Tabs>
-
-### Next Steps
+The Nexus Elements documentation now lives on-site. Head there for installation, configuration, and per-mode usage.
 
 <Cards num={2}>
-    <Card title="Nexus UI Elements Manual Setup" href="/docs/nexus/nexus-ui-elements/get-started/installation" icon={<FileIcon />} />
-    <Card title="Nexus UI Elements template repo" href="https://github.com/availproject/nexus-elements-template" icon={<GithubIcon24 />}  arrow target="_blank" rel="noopener noreferrer" />
+    <Card title="Nexus Elements" href="/docs/nexus/nexus-ui-elements" icon={<FileIcon />} arrow />
+    <Card title="Manual Setup" href="/docs/nexus/nexus-ui-elements/get-started/installation" icon={<FileIcon />} arrow />
 </Cards>

@@ -7,16 +7,18 @@ hideFooter: true
 
 In Nexus, users can do crosschain swaps (aka **Swap Methods**) which allows them to go **from any token on any source chain(s), to any token on any destination chain.**
 
-Canonical assets like ETH, USDC and USDT are used to simplify the routing process for solvers and are used as the "interim" or "express" tokens, to make it cheaper for users. 
+Swaps are routed through DEX aggregators — **LiFi, Bebop, Fibrous, and 0x** — which are quoted in parallel, with the best quote winning. When the swap crosses chains, the aggregator legs are combined with the Nexus bridge leg. Canonical assets like ETH, USDC and USDT are used as the "interim" or "express" tokens to make routing simpler and cheaper for users.
+
+The pipeline is: **optional source swap → bridge leg → optional destination swap**. On supported chains, the SDK may automatically execute swap legs through a short-lived smart account (via EIP-7702) so multiple steps can be batched — no configuration needed.
 
 <ThemedImage light="/img/nexus/swaps-light.png" dark="/img/nexus/swaps-dark.png" alt="Crosschain Swaps" />
 
 *Showing a subset of supported chains. See [Supported Chains & Tokens](/docs/nexus/supported-chains-and-tokens) for the full list.*
 
 ## Routing possibilities
-Avail Nexus SDK automatically manages the entire transaction lifecycle. It analyses and suggests the optimal routing path to fulfill the user’s intent, resulting in an ‘any token in’, ‘any token out’ effect.
+The SDK manages the full transaction lifecycle and selects the route with the best quote. Three routings are possible:
 
-1. **Bridge → Destination Swap:** A user sends a canonical asset like USDT from chain A, and gets a custom Asset like DEGEN on chain B.
+1. **Bridge → Destination Swap:** A user sends a canonical asset like USDT from chain A, and gets a custom asset like DEGEN on chain B.
 2. **Source Swap → Bridge:** A user sends a custom asset like OP from chain A, and gets a canonical asset like USDT on chain B.
 3. **Source Swap → Bridge → Destination Swap:** A user sends a custom asset like OP from chain A, and gets a custom asset like PEPE on chain B.
 
@@ -26,24 +28,31 @@ Avail Nexus SDK automatically manages the entire transaction lifecycle. It analy
 
 ## Exact In & Exact Out Swaps
 
-There are essentially 2 types of Swap actions a user can do with Nexus. An `ExactIn` swap and an `ExactOut` swap. 
+There are essentially 2 types of Swap actions a user can do with Nexus. An `ExactIn` swap and an `ExactOut` swap. In both cases, the destination is addressed by the token's contract address (`toTokenAddress`) and chain ID (`toChainId`) — swaps reach far more tokens than the canonical bridge set, so tokens are identified by address rather than symbol.
 
-Let's dive into each one in detail. 
+Let's dive into each one in detail.
 
 ## `ExactIn` swap
 The `ExactIn` swap method is for performing exact input swaps, which swaps a fixed amount of one or more tokens on N number of source chains for a maximum possible (variable) amount of another token on the destination chain.
 
-User decides exactly which tokens and their amounts that they want to swap. The user decides the exact input amount for the swap. The output amount here may vary based on slippage, fees, etc. 
+User decides exactly which tokens and their amounts that they want to swap. The user decides the exact input amount for the swap. The output amount here may vary based on slippage, fees, etc.
 
-This function uses the `ExactInSwapInput` struct and the `swapWithExactIn` function from the Swap Methods in the SDK.
+This operation uses the `SwapExactInParams` type and the [`swapWithExactIn()`](/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-in) function from the Swap Methods in the SDK.
 
 ## `ExactOut` swap
-The `ExactOut` swap method is for performing exact output swaps, which swap a minimum possible amount of one or more tokens on N source chains for a fixed amount of another token. 
+The `ExactOut` swap method is for performing exact output swaps, which swap a minimum possible amount of one or more tokens on N source chains for a fixed amount of another token.
 
-User decides the exact output amount they would like to receive at the end of the action. Nexus does the hard work of figuring out which tokens and balances it can use and executes the swap for the desired output amount. 
+User decides the exact output amount they would like to receive at the end of the action. Nexus does the hard work of figuring out which tokens and balances it can use and executes the swap for the desired output amount.
 
-This function uses the `ExactOutSwapInput` struct and the `swapWithExactOut` function from the Swap Methods in the SDK.
+This operation uses the `SwapExactOutParams` type and the [`swapWithExactOut()`](/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-out) function from the Swap Methods in the SDK.
 
+## Swap & Execute
+
+There is also [`swapAndExecute()`](/docs/nexus/nexus-sdk/reference/swap-methods/swap-and-execute), which swaps into the destination token and then calls a smart contract on the destination chain in one flow — the swap counterpart of [Bridge & Execute](/docs/nexus/concepts/nexus-ops).
+
+<Callout type="info">
+All swap methods accept a `slippageTolerance` option (default 0.5%) to bound how much the received amount may drift from the quote.
+</Callout>
 
 <Callout type="info">
 - [Learn more about the difference between Bridge and Swap methods.](/docs/nexus/concepts/bridge-v-swap)
@@ -62,4 +71,3 @@ This function uses the `ExactOutSwapInput` struct and the `swapWithExactOut` fun
     href: "/docs/nexus/concepts/source-chain-selection"
   }}
 />
-

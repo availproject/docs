@@ -6,7 +6,7 @@ description: Bridge tokens and immediately deposit them into Aave using a single
 In this guide you will implement a **Bridge & Execute** flow that bridges USDC from any chain and immediately supplies it into Aave V3 on Arbitrum Sepolia in a single user-signed intent. You will also build a step-by-step progress UI that tracks each phase of the transaction.
 
 <Callout type="info" title="Prerequisite">
-This guide builds on the [Bridge Tokens](/docs/nexus/nexus-sdk/get-started/bridge-tokens) tutorial. Complete that first, or scaffold a project with the [Quickstart](/docs/nexus/nexus-sdk/quickstart).
+This guide builds on the [Bridge Tokens](/docs/nexus/nexus-sdk/get-started/bridge-tokens) tutorial. Complete that first.
 </Callout>
 
 ## What you will build
@@ -18,46 +18,42 @@ A deposit button that:
 
 ## How `bridgeAndExecute` works
 
-The `sdk.bridgeAndExecute()` method extends regular bridging by accepting an `execute` object that defines a contract call to run after the bridge completes. The user signs a single intent that covers both operations.
+The `client.bridgeAndExecute()` method extends regular bridging by accepting an `execute` object that defines a contract call to run after the bridge completes. The user signs a single intent that covers both operations.
 
 | Param | Type | Required | Description |
 | --- | --- | --- | --- |
-| `token` | `string` | Yes | Token to bridge (e.g. "USDC"). |
-| `amount` | `bigint` | Yes | Amount in smallest unit (e.g. BigInt(1_000_000) = 1 USDC). |
-| `toChainId` | `number` | Yes | Destination chain ID. |
+| `toTokenSymbol` | `string` | Yes | Token to bridge (e.g. "USDC"). |
+| `toAmountRaw` | `bigint` | Yes | Amount in smallest unit (e.g. BigInt(1_000_000) = 1 USDC). |
+| `toChainId` | `number` | Yes | Destination chain ID. The `execute` object inherits it, so it omits `toChainId`. |
 | `execute.to` | `string` | Yes | Contract address to call on the destination chain. |
 | `execute.data` | `string` | Yes | ABI-encoded function call data. |
-| `execute.tokenApproval` | `{ token: string, amount: bigint, spender: string }` | Yes | Token approval the contract needs before execution. |
+| `execute.tokenApproval` | `{ toTokenSymbol: string, amount: bigint, spender: string }` | Yes | Token approval the contract needs before execution. |
 
 ## Step 1 - Add the bridgeAndExecute helper
 
 Update your SDK helper file with a `bridgeAndExecute` function. This encodes an Aave V3 `supply()` call and passes it to the SDK.
 
 ```tsx title="src/lib/nexus.ts"
-import {
-  NexusSDK,
-  NEXUS_EVENTS,
-  BridgeResult,
-  TOKEN_CONTRACT_ADDRESSES,
-} from "@avail-project/nexus-core";
+import type { BridgeAndExecuteEvent } from "@avail-project/nexus-sdk-v2";
 import { encodeFunctionData } from "viem";
 
-// ... existing code (sdk instance, initialize, deinit, getBalancesForBridge, bridge) ...
+// ... existing code (client instance, initialize, destroy, getBalancesForBridge, bridge) ...
+
+const AAVE_V3_POOL = "0xBfC91D59fdAA134A4ED45f7B584cAf96D7792Eff"; // Aave V3 Pool on Arbitrum Sepolia
 
 export async function bridgeAndExecute(
   userAddress: `0x${string}`,
-  onExpectedSteps: (steps: any[]) => void,
-  onStepComplete: (step: any) => void
+  onEvent: (event: BridgeAndExecuteEvent) => void
 ) {
-  if (!sdk.isInitialized()) {
-    throw new Error("SDK is not initialized. Please initialize it first.");
+  if (!client.hasEvmProvider) {
+    throw new Error("Connect a wallet and initialize the client first.");
   }
   if (!userAddress) {
     throw new Error("User address is required");
   }
 
-  // Get USDC token address on Arbitrum Sepolia
-  const usdcAddress = TOKEN_CONTRACT_ADDRESSES["USDC"][421614];
+  // Look up the USDC contract address on Arbitrum Sepolia from the client's chain list.
+  const usdc = client.chainList.getTokenInfoBySymbol(421614, "USDC");
 
   // Encode the Aave V3 supply() function call
   const data = encodeFunctionData({
@@ -85,40 +81,30 @@ export async function bridgeAndExecute(
     ],
     functionName: "supply",
     args: [
-      usdcAddress, // asset: USDC token address
+      usdc.contractAddress, // asset: USDC token address
       BigInt(1_000_000), // amount: 1 USDC (6 decimals)
       userAddress, // onBehalfOf: user's address
       0, // referralCode: 0
     ],
   });
 
-  const result = await sdk.bridgeAndExecute(
+  const result = await client.bridgeAndExecute(
     {
-      token: "USDC",
-      amount: BigInt(1_000_000), // 1 USDC (6 decimals)
+      toTokenSymbol: "USDC",
+      toAmountRaw: BigInt(1_000_000), // 1 USDC (6 decimals)
       toChainId: 421614, // Arbitrum Sepolia
       execute: {
-        to: "0xBfC91D59fdAA134A4ED45f7B584cAf96D7792Eff", // Aave V3 Pool on Arbitrum Sepolia
+        // toChainId is inherited from the top-level toChainId
+        to: AAVE_V3_POOL,
         data: data,
         tokenApproval: {
-          token: "USDC",
+          toTokenSymbol: "USDC",
           amount: BigInt(1_000_000),
-          spender: "0xBfC91D59fdAA134A4ED45f7B584cAf96D7792Eff",
+          spender: AAVE_V3_POOL,
         },
       },
     },
-    {
-      onEvent: (event) => {
-        if (event.name === NEXUS_EVENTS.STEPS_LIST) {
-          onExpectedSteps(
-            Array.isArray(event.args) ? event.args : [event.args]
-          );
-        }
-        if (event.name === NEXUS_EVENTS.STEP_COMPLETE) {
-          onStepComplete(event.args);
-        }
-      },
-    }
+    { onEvent }
   );
 
   return result;
@@ -129,12 +115,13 @@ export async function bridgeAndExecute(
 
 ```ts
 execute: {
-  to: "0xBfC91D59fdAA134A4ED45f7B584cAf96D7792Eff",  // Aave V3 Pool contract
-  data: data,                                            // Encoded supply() call
+  // toChainId is inherited from the top-level toChainId
+  to: AAVE_V3_POOL,                     // Aave V3 Pool contract
+  data: data,                           // Encoded supply() call
   tokenApproval: {
-    token: "USDC",
+    toTokenSymbol: "USDC",
     amount: BigInt(1_000_000),
-    spender: "0xBfC91D59fdAA134A4ED45f7B584cAf96D7792Eff",
+    spender: AAVE_V3_POOL,
   },
 }
 ```
@@ -152,7 +139,12 @@ This component triggers the transaction and renders a real-time progress checkli
 
 import { useState } from "react";
 import { useAccount } from "wagmi";
-import { bridgeAndExecute, isInitialized } from "../lib/nexus";
+import type {
+  BridgeAndExecutePlanStep,
+} from "@avail-project/nexus-sdk-v2";
+import { bridgeAndExecute, client } from "../lib/nexus";
+
+type CompletedStep = { state: string; explorerUrl?: string };
 
 export default function DepositButton({
   className,
@@ -162,25 +154,39 @@ export default function DepositButton({
   onResult?: (r: any) => void;
 }) {
   const { address } = useAccount();
-  const [expectedSteps, setExpectedSteps] = useState<any[]>([]);
-  const [completedSteps, setCompletedSteps] = useState<any[]>([]);
+  const [steps, setSteps] = useState<BridgeAndExecutePlanStep[]>([]);
+  const [completed, setCompleted] = useState<Record<string, CompletedStep>>({});
   const [error, setError] = useState<string>("");
 
   const onClick = async () => {
-    if (!isInitialized()) return alert("Initialize first");
+    if (!client.hasEvmProvider) return alert("Initialize first");
     if (!address) return alert("Please connect your wallet first");
 
-    setExpectedSteps([]);
-    setCompletedSteps([]);
+    setSteps([]);
+    setCompleted({});
     setError("");
 
     try {
-      const res = await bridgeAndExecute(
-        address,
-        (steps) => setExpectedSteps(steps),
-        (step) =>
-          setCompletedSteps((prev) => [...prev, step])
-      );
+      const res = await bridgeAndExecute(address, (event) => {
+        // plan_preview / plan_confirmed carry the full list of steps
+        if (event.type === "plan_preview" || event.type === "plan_confirmed") {
+          setSteps(event.plan.steps);
+        }
+        // plan_progress reports per-step state transitions
+        if (event.type === "plan_progress") {
+          // Both 'confirmed' and 'completed' are terminal success states
+          if (event.state === "confirmed" || event.state === "completed") {
+            setCompleted((prev) => ({
+              ...prev,
+              [event.step.id]: {
+                state: event.state,
+                explorerUrl:
+                  "explorerUrl" in event ? event.explorerUrl : undefined,
+              },
+            }));
+          }
+        }
+      });
       onResult?.(res);
     } catch (e: any) {
       setError(e.message || "Transaction failed");
@@ -192,26 +198,24 @@ export default function DepositButton({
       <button
         className={className}
         onClick={onClick}
-        disabled={!isInitialized()}
+        disabled={!client.hasEvmProvider}
       >
         Bridge USDC & Deposit into Aave
       </button>
 
-      {expectedSteps.length > 0 && (
+      {steps.length > 0 && (
         <div className="w-full">
           <h3 className="font-bold text-sm mb-2">
             Transaction Progress:
           </h3>
           <div className="flex flex-col gap-2">
-            {expectedSteps.map((step, index) => {
-              const completedData = completedSteps.find(
-                (c) => c.type === step.type
-              );
-              const isDone = !!completedData;
+            {steps.map((step) => {
+              const done = completed[step.id];
+              const isDone = !!done;
 
               return (
                 <div
-                  key={index}
+                  key={step.id}
                   className="flex items-center justify-between text-sm"
                 >
                   <span
@@ -221,15 +225,15 @@ export default function DepositButton({
                         : "text-gray-500"
                     }
                   >
-                    {isDone ? "✅" : "○"} {step.label}
+                    {isDone ? "✅" : "○"}
                     <span className="ml-2 text-xs text-gray-400">
                       ({step.type})
                     </span>
                   </span>
 
-                  {completedData?.data?.explorerURL && (
+                  {done?.explorerUrl && (
                     <a
-                      href={completedData.data.explorerURL}
+                      href={done.explorerUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-xs text-blue-500 underline ml-2"
@@ -256,12 +260,12 @@ export default function DepositButton({
 
 ### How the progress UI works
 
-The component uses two state arrays:
+The component derives the checklist from the typed `onEvent` stream:
 
-- **`expectedSteps`** - populated by `NEXUS_EVENTS.STEPS_LIST` with all the steps the transaction will go through (e.g. "Intent Signed", "Bridge Submitted", "Execution Complete")
-- **`completedSteps`** - populated by `NEXUS_EVENTS.STEP_COMPLETE` as each step finishes
+- **`steps`** - populated from `event.plan.steps` when a `plan_preview` (or `plan_confirmed`) event fires, listing every step the transaction will go through (allowance approval, request signing, vault deposit, bridge fill, execute approval, execute transaction, and so on)
+- **`completed`** - a map keyed by `step.id`, filled in from `plan_progress` events. On-chain steps settle on `confirmed` and off-chain steps on `completed`, so the UI treats both as terminal-success states
 
-The UI renders the expected steps as a checklist and marks each one as done when the matching `STEP_COMPLETE` event fires. If a completed step includes an `explorerURL`, a link is displayed.
+The UI renders the expected steps as a checklist and marks each one done when its `step.id` appears in `completed`. If the progress event carried an `explorerUrl`, a "View on Explorer" link is shown.
 
 ## Step 3 - Add the deposit button to the page
 
@@ -278,11 +282,11 @@ import FetchBalancesButton from "@/components/fetch-balances-button";
 import DeinitButton from "@/components/de-init-button";
 import BridgeButton from "@/components/bridge-button";
 import DepositButton from "@/components/deposit-button";
-import { isInitialized } from "@/lib/nexus";
+import { client } from "@/lib/nexus";
 
 export default function Page() {
   const { isConnected } = useAccount();
-  const [initialized, setInitialized] = useState(isInitialized());
+  const [initialized, setInitialized] = useState(client.hasEvmProvider);
   const [balances, setBalances] = useState<any>(null);
   const [bridgeResult, setBridgeResult] = useState<any>(null);
   const [depositResult, setDepositResult] = useState<any>(null);
@@ -387,11 +391,11 @@ You have completed the full Nexus SDK "Get Started" series. From here you can ex
   <Card
     href="/docs/nexus/nexus-sdk/reference/swap-methods/fetch-swap-balances"
     title="Swap Methods"
-    description="Cross-chain swaps with swapExactIn() and swapExactOut()."
+    description="Cross-chain swaps with swapWithExactIn() and swapWithExactOut()."
     arrow
   />
   <Card
-    href="/docs/nexus/cookbook-recipes"
+    href="/docs/nexus/nexus-sdk/cookbook-recipes"
     title="Cookbook Recipes"
     description="Copy-paste patterns for common developer workflows."
     arrow

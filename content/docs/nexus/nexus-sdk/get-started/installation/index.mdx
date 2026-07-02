@@ -3,11 +3,7 @@ title: Installation
 description: Install the Nexus SDK packages and dependencies in your project.
 ---
 
-In this guide you will install `@avail-project/nexus-core` and its peer dependencies into an existing project. By the end, your project will be ready for SDK initialization in the next step.
-
-<Callout type="info" title="Prefer a ready-made starter?">
-If you want a fully scaffolded project with wallet connection and the SDK pre-configured, use the [Quickstart](/docs/nexus/nexus-sdk/quickstart) instead. This guide is for adding the Nexus SDK to an **existing** project.
-</Callout>
+In this guide you will install `@avail-project/nexus-sdk-v2` and its peer dependencies into an existing project. By the end, your project will be ready for SDK initialization in the next step.
 
 ## Prerequisites
 
@@ -34,45 +30,45 @@ Run one of the following commands to add the Nexus SDK to your project:
   </TabsList>
   <TabsContent value="npm">
 ```bash
-npm install @avail-project/nexus-core
+npm install @avail-project/nexus-sdk-v2
 ```
   </TabsContent>
   <TabsContent value="pnpm">
 ```bash
-pnpm add @avail-project/nexus-core
+pnpm add @avail-project/nexus-sdk-v2
 ```
   </TabsContent>
   <TabsContent value="yarn">
 ```bash
-yarn add @avail-project/nexus-core
+yarn add @avail-project/nexus-sdk-v2
 ```
   </TabsContent>
   <TabsContent value="bun">
 ```bash
-bun add @avail-project/nexus-core
+bun add @avail-project/nexus-sdk-v2
 ```
   </TabsContent>
 </Tabs>
 
 ### What gets installed
 
-The `@avail-project/nexus-core` package provides:
+The `@avail-project/nexus-sdk-v2` package provides:
 
-- **`NexusSDK`** — the main class for initializing the SDK and performing cross-chain operations
+- **`createNexusClient`** — the factory function for creating a Nexus client and performing cross-chain operations
 - **Bridge methods** — `bridge()`, `bridgeAndTransfer()`, `bridgeAndExecute()` for moving tokens across chains
-- **Swap methods** — `swapExactIn()`, `swapExactOut()` for cross-chain token swaps
+- **Swap methods** — `swapWithExactIn()`, `swapWithExactOut()` for cross-chain token swaps
 - **Balance methods** — `getBalancesForBridge()` and `getBalancesForSwap()` for multi-chain token balances
-- **Event constants** — `NEXUS_EVENTS` for tracking transaction progress
-- **Type exports** — `BridgeResult`, `EthereumProvider`, `TOKEN_CONTRACT_ADDRESSES`, and more
+- **Typed progress events** — an `onEvent` callback with a discriminated union (`status`, `plan_preview`, `plan_confirmed`, `plan_progress`) for tracking transaction progress
+- **Type exports** — `NexusClient`, `BridgeResult`, `EthereumProvider`, and more
 
 ## Step 2 — Verify the installation
 
-Confirm the package was installed by importing and instantiating it:
+Confirm the package was installed by importing and creating a client:
 
 ```ts
-import { NexusSDK } from "@avail-project/nexus-core";
+import { createNexusClient } from "@avail-project/nexus-sdk-v2";
 
-const sdk = new NexusSDK();
+const client = createNexusClient();
 console.log("Nexus SDK ready");
 ```
 

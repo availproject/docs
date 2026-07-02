@@ -2,5 +2,13 @@
   {
     "source": "/nexus/concepts",
     "destination": "/docs/nexus/concepts"
+  },
+  {
+    "source": "/docs/nexus/nexus-ui-elements/components/fast-bridge",
+    "destination": "/docs/nexus/nexus-ui-elements/components/swaps"
+  },
+  {
+    "source": "/docs/nexus/nexus-ui-elements/components/view-history",
+    "destination": "/docs/nexus/nexus-ui-elements"
   }
 ]

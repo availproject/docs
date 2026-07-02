@@ -1,9 +1,9 @@
 {
   "title": "Reference",
   "pages": [
-    "build-your-first-liquid-app",
     "bridge-methods",
     "swap-methods",
+    "list-intents",
     "hooks-and-errors",
     "utility-reference"
   ]

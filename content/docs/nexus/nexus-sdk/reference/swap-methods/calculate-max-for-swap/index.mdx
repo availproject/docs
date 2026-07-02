@@ -1,0 +1,111 @@
+---
+title: "Calculate Max for Swap"
+sidebarTitle: "Calculate Max"
+description: "Compute the maximum amount swappable to a destination token across all available sources — ideal for a Max button."
+---
+
+<Callout type="info">
+**SET UP THE SDK BEFORE YOU START:**
+
+Install and initialize the client first — see [Installation](/docs/nexus/nexus-sdk/get-started/installation) and [SDK Setup](/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup).
+</Callout>
+
+Use the `calculateMaxForSwap()` function to compute the maximum amount that can be swapped to a destination token across all available sources. This is useful for populating a "Max" button before calling `swapWithExactIn()` or `swapWithExactOut()`.
+
+<Callout type="info">
+**Note:** Check out the [API reference](/docs/nexus/supported-chains-and-tokens) for a full list of supported tokens and chains.
+</Callout>
+
+## Method signature
+
+```typescript title="TypeScript"
+calculateMaxForSwap(
+  input: SwapMaxParams,
+): Promise<SwapMaxResult>
+```
+
+## Parameters
+
+```typescript title="TypeScript"
+export type SwapMaxParams = {
+  toChainId: number;
+  toTokenAddress: Hex;
+  sources?: Source[];
+};
+
+export type Source = {
+  tokenAddress: Hex;
+  chainId: number;
+};
+```
+
+- `SwapMaxParams`: Parameters for the `calculateMaxForSwap()` function.
+  - `toChainId` (number, required): The chain ID of the destination chain.
+  - `toTokenAddress` (Hex, required): The contract address of the token to receive on the destination chain.
+  - `sources` (Source[], optional): Restrict which source chains and tokens are considered. If omitted, all available holdings are considered.
+    - `tokenAddress` (Hex): The contract address of the source token.
+    - `chainId` (number): The chain ID of the source chain.
+
+## Example
+
+```typescript title="TypeScript"
+import type { SwapMaxParams, SwapMaxResult } from '@avail-project/nexus-sdk-v2';
+
+const max = await client.calculateMaxForSwap({
+  toChainId: 8453,
+  toTokenAddress: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', // USDC on Base
+});
+
+console.log(`Max swappable: ${max.maxAmount} ${max.symbol}`);
+console.log('Sources used:', max.sources);
+```
+
+You can also restrict which source chains and tokens are considered:
+
+```typescript title="TypeScript"
+const max = await client.calculateMaxForSwap({
+  toChainId: 8453,
+  toTokenAddress: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
+  sources: [
+    { chainId: 10, tokenAddress: '0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85' },
+  ],
+});
+
+// Feed the raw amount straight into an exact-out swap:
+await client.swapWithExactOut({
+  toChainId: 8453,
+  toTokenAddress: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
+  toAmountRaw: max.maxAmountRaw,
+});
+```
+
+## Return Value
+
+The return value is a `SwapMaxResult` object.
+
+```typescript title="TypeScript"
+export type SwapMaxResult = {
+  toChainId: number;
+  toTokenAddress: Hex;
+  maxAmount: string;      // Human-readable decimal string
+  maxAmountRaw: bigint;   // Raw amount suitable for toAmountRaw in swapWithExactOut
+  symbol: string;
+  decimals: number;
+  sources: {
+    chainId: number;
+    tokenAddress: Hex;
+    symbol: string;
+    decimals: number;
+    amount: string;       // Human-readable portion sourced from this chain/token
+  }[];
+};
+```
+
+- `maxAmount` (string): The maximum receivable amount as a human-readable decimal string.
+- `maxAmountRaw` (bigint): The same maximum in raw integer units — suitable for `toAmountRaw` in `swapWithExactOut()`.
+- `symbol` / `decimals`: Metadata for the destination token.
+- `sources`: The per-source breakdown of holdings that make up the max.
+
+<Callout type="info">
+On failure the method throws a typed [`NexusError`](/docs/nexus/nexus-sdk/reference/hooks-and-errors) subclass. See the [full type definitions](https://github.com/availproject/nexus-sdk-v2/blob/main/src/swap/types.ts) on GitHub.
+</Callout>

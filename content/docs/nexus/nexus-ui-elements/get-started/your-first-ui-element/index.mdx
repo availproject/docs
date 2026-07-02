@@ -1,56 +1,55 @@
 ---
 title: Your First UI Element
-description: Render your first Nexus UI Elements component and understand how props and callbacks work.
+description: Render your first Nexus Elements component and understand how props and callbacks work.
 ---
 
-You have installed the packages and configured the `NexusProvider`. Now it is time to render a working component. In this guide you will add the **Fast Bridge** component to a page, understand each prop it accepts, and handle its lifecycle callbacks.
+You have installed the package and configured the `NexusProvider`. Now it is time to render a working element. In this guide you will add the **Nexus Elements** element to a page, understand each prop it accepts, and handle its lifecycle callbacks.
 
 ## What you will build
 
-By the end of this page you will have a fully functional cross-chain bridge widget embedded in your app. The user will be able to select a token, choose a source chain, and bridge assets — all with built-in progress UI, fee breakdowns, and error handling.
+By the end of this page you will have a fully functional swap-and-bridge widget embedded in your app. The user will be able to select a source and receive asset across chains and execute the intent — all with built-in progress UI, fee breakdowns, and error handling. Switching to send or deposit is a one-line `config.mode` change.
 
-## Step 1 — Install the Fast Bridge component
+## Step 1 — Install the component
 
-If you have not already installed the Fast Bridge during the installation step, add it now:
+If you have not already installed it during the installation step, add it now:
 
 ```bash
-npx shadcn@latest add @nexus-elements/fast-bridge
+npx shadcn@latest add @nexus-elements/nexus-one
 ```
 
-## Step 2 — Create a page for the bridge
+## Step 2 — Create a page
 
-Create a new page (or add to an existing one) that renders the `FastBridge` component. Here is a complete example:
+Create a new page (or add to an existing one) that renders the `NexusOne` element. Here is a complete example:
 
-```tsx title="app/bridge/page.tsx" showLineNumbers
+```tsx title="app/swap/page.tsx" showLineNumbers
 "use client";
 import { useAccount } from "wagmi";
-import { SUPPORTED_CHAINS } from "@avail-project/nexus-core";
-import FastBridge from "@/components/nexus/fast-bridge";
+import { NexusOne } from "@/components/nexus-one/nexus-one";
 
-export default function BridgePage() {
+const USDC_ARBITRUM = "0xaf88d065e77c8cC2239327C5EDb3A432268e5831";
+const USDC_BASE = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
+
+export default function SwapPage() {
   const { address } = useAccount();
 
   if (!address) {
-    return <p>Connect your wallet to use the bridge.</p>;
+    return <p>Connect your wallet to get started.</p>;
   }
 
   return (
     <div className="mx-auto max-w-md py-12">
-      <FastBridge
+      <NexusOne
         connectedAddress={address}
-        onComplete={() => {
-          console.log("Bridge complete!");
+        config={{
+          mode: "swap",
+          prefill: {
+            source: { token: USDC_ARBITRUM, chain: 42161 },
+            destination: { token: USDC_BASE, chain: 8453 },
+          },
         }}
-        prefill={{
-          token: "USDC",
-          chainId: SUPPORTED_CHAINS.BASE,
-        }}
-        onError={(message) => {
-          console.error("Bridge error:", message);
-        }}
-        onStart={() => {
-          console.log("Bridge started");
-        }}
+        onStart={() => console.log("Intent started")}
+        onComplete={(explorerUrl) => console.log("Complete!", explorerUrl)}
+        onError={(message) => console.error("Error:", message)}
       />
     </div>
   );
@@ -59,27 +58,27 @@ export default function BridgePage() {
 
 ## Step 3 — Understand the props
 
-Here is a breakdown of every prop passed to `FastBridge` and what it controls:
+Here is a breakdown of every prop passed to `NexusOne` and what it controls:
 
 | Prop | Type | Required | Description |
 | --- | --- | --- | --- |
-| `connectedAddress` | `Address` | Yes | The wallet address of the connected user. Required for signing transactions. |
-| `prefill` | `{ token, chainId, amount?, recipient? }` | No | Pre-populate the bridge form with default values so the user can bridge with fewer clicks. |
-| `prefill.token` | `SUPPORTED_TOKENS` | No | The token to bridge (e.g. "USDC", "ETH", "AVAIL"). |
-| `prefill.chainId` | `SUPPORTED_CHAINS_IDS` | No | The source chain to bridge from (e.g. SUPPORTED_CHAINS.BASE). |
-| `prefill.amount` | `string` | No | A default amount to fill in. |
-| `prefill.recipient` | `Address` | No | A recipient address if different from the connected wallet. |
-| `onComplete` | `() => void` | No | Called when the bridge transaction completes successfully. Use this to refresh balances or navigate the user. |
-| `onStart` | `() => void` | No | Called when the user initiates the bridge. Useful for analytics or disabling other UI. |
-| `onError` | `(message: string) => void` | No | Called if the bridge fails. The message string contains a human-readable error description. |
+| `config` | `NexusOneConfig` | Yes | Selects the workflow with `config.mode` (`"swap"`, `"send"`, or `"deposit"`) and any mode-specific behavior. |
+| `config.mode` | `"swap" \| "send" \| "deposit"` | Yes | The flow to render. |
+| `config.prefill` | `object` | No | Pre-populate the form (amount, token/chain, recipient, source/destination) so the user acts with fewer clicks. |
+| `connectedAddress` | `` `0x${string}` `` | No | Wallet address to use. If omitted, the connected wagmi account is used. |
+| `embed` | `boolean` | No | Defaults to `true`. Set `false` to render as a modal surface. |
+| `onComplete` | `(explorerUrl?: string) => void` | No | Called after a successful swap, send, or deposit. Use it to refresh balances or navigate. |
+| `onStart` | `() => void` | No | Called when the user starts execution. Useful for analytics. |
+| `onError` | `(message: string) => void` | No | Called if execution fails, with a human-readable message. |
+| `onClose` | `() => void` | No | Used by modal mode. The close button is hidden in embedded mode. |
 
-<Callout type="info" title="All props are optional except connectedAddress">
-Only `connectedAddress` is required. Everything else has sensible defaults. You can render `<FastBridge connectedAddress={address} />` with zero configuration and it will work.
+<Callout type="info" title="config.mode is the only required field">
+Beyond `config.mode`, every field is optional unless the selected mode makes it conditional (for example, `deposit` requires a `config.deposit` block). See the [Swap and Bridge](/docs/nexus/nexus-ui-elements/components/swaps), [Send](/docs/nexus/nexus-ui-elements/components/transfer), and [Deposit](/docs/nexus/nexus-ui-elements/components/deposit) pages for each mode's configuration reference.
 </Callout>
 
 ## Step 4 — Run and test
 
-Start your development server and navigate to the bridge page:
+Start your development server and navigate to the page:
 
 ```bash
 npm run dev
@@ -87,65 +86,53 @@ npm run dev
 
 1. Open your app in the browser
 2. Connect a wallet using your wallet connection UI
-3. The bridge widget should appear with USDC on Base pre-selected
+3. The widget should appear with USDC on Arbitrum and USDC on Base pre-selected
 4. Try selecting a different token or chain to verify the form is interactive
 
-<Callout type="warning" title="Testnet first">
-When testing bridge transactions, use a testnet configuration to avoid spending real funds. Check the Nexus SDK documentation for supported testnets.
+<Callout type="warning" title="Mainnet only">
+Nexus Elements currently supports mainnet only. Testnet is not supported at the moment.
 </Callout>
 
-## Swapping components
+## Switching modes
 
-Every Nexus UI Elements component follows the same pattern: install it, import it, and pass the relevant props. You can replace `FastBridge` with any other component using the same approach.
-
-For example, to show a unified balance view instead:
+The same element powers send and deposit — just change `config.mode`. To render a send flow instead:
 
 ```tsx
-import UnifiedBalance from "@/components/nexus/unified-balance";
-
-// No props required — it reads from the NexusProvider context
-<UnifiedBalance />
-```
-
-Or to add a swap widget:
-
-```tsx
-import Swaps from "@/components/nexus/swaps";
-
-<Swaps
+<NexusOne
   connectedAddress={address}
-  prefill={{ token: "USDC", chainId: SUPPORTED_CHAINS.BASE }}
-  onComplete={() => console.log("Swap complete")}
+  config={{
+    mode: "send",
+    prefill: {
+      token: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      chain: 8453,
+      amount: "0.1",
+    },
+  }}
+  onComplete={() => console.log("Send complete")}
 />
 ```
 
 ## What's next
 
-You now have a working Nexus UI Elements integration. From here you can check out these other components:
+You now have a working Nexus Elements integration. From here you can explore each mode:
 
 <Cards>
   <Card
-    href="/docs/nexus/nexus-ui-elements/components/fast-bridge"
-    title="Fast Transfer"
-    description="Transfer assets across chains with source breakdown, fee details, progress steps, and allowance flow."
+    href="/docs/nexus/nexus-ui-elements/components/swaps"
+    title="Swap and Bridge"
+    description="Swap and bridge assets with the unified Nexus intent flow."
+    arrow
+  />
+  <Card
+    href="/docs/nexus/nexus-ui-elements/components/transfer"
+    title="Send"
+    description="Route funds to a recipient with Nexus intents."
     arrow
   />
   <Card
     href="/docs/nexus/nexus-ui-elements/components/deposit"
     title="Deposit"
-    description="Aggregate and swap tokens across 10+ chains into a single deposit."
-    arrow
-  />
-  <Card
-    href="/docs/nexus/nexus-ui-elements/components/unified-balance"
-    title="Unified Balance"
-    description="View unified token balances across chains with per-chain breakdown and fiat totals."
-    arrow
-  />
-  <Card
-    href="/docs/nexus/nexus-ui-elements/components/swaps"
-    title="Swaps"
-    description="Swap assets with exact-in or exact-out across supported chains."
+    description="Route funds into a configured protocol or app action with Nexus intents."
     arrow
   />
 </Cards>

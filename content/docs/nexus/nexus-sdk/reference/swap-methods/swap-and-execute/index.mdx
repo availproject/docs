@@ -1,0 +1,158 @@
+---
+title: "Swap and Execute"
+sidebarTitle: "Swap & Execute"
+description: "Swap tokens to a destination chain and execute a contract call in a single flow — skips the swap when funds already exist."
+---
+
+<Callout type="info">
+**SET UP THE SDK BEFORE YOU START:**
+
+Install and initialize the client first — see [Installation](/docs/nexus/nexus-sdk/get-started/installation) and [SDK Setup](/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup).
+</Callout>
+
+Use the `swapAndExecute()` function to swap tokens to a destination chain and then execute a contract call, in a single flow. If sufficient funds already exist on the destination chain, the swap is skipped and only the execution runs.
+
+Swaps are routed through the LiFi, Bebop, Fibrous, and 0x aggregators. Execution runs through a per-chain smart account chosen automatically — an ephemeral key delegated via EIP-7702 on 7702-enabled chains, or a deterministic Safe owned by the ephemeral key elsewhere.
+
+<Callout type="info">
+**Note:** Check out the [API reference](/docs/nexus/supported-chains-and-tokens) for a full list of supported tokens and chains.
+</Callout>
+
+## Method signature
+
+```typescript title="TypeScript"
+swapAndExecute(
+  input: SwapAndExecuteParams,
+  options?: SwapAndExecuteOptions,
+): Promise<SwapAndExecuteResult>
+```
+
+## Parameters
+
+```typescript title="TypeScript"
+export interface SwapAndExecuteParams {
+  toChainId: number;
+  toTokenAddress: Hex;
+  toAmountRaw: bigint;
+  sources?: Source[];
+  execute: SwapExecuteParams;
+}
+
+export interface SwapExecuteParams {
+  to: Hex;
+  value?: bigint;
+  data?: Hex;
+  gas: bigint;
+  gasPrice?: 'low' | 'medium' | 'high';
+  tokenApproval?: { toTokenAddress: Hex; amount: bigint; spender: Hex };
+}
+
+export type Source = {
+  tokenAddress: Hex;
+  chainId: number;
+};
+```
+
+- `SwapAndExecuteParams`: Parameters for the `swapAndExecute()` function.
+  - `toChainId` (number, required): The chain ID of the destination chain.
+  - `toTokenAddress` (Hex, required): The contract address of the token needed on the destination chain.
+  - `toAmountRaw` (bigint, required): The amount of the destination token needed, in raw integer units.
+  - `sources` (Source[], optional): Restrict which chains and tokens can be used as the swap source. If omitted, the SDK selects the best sources from available balances.
+  - `execute` (`SwapExecuteParams`, required): The contract call to run on the destination chain.
+    - `to` (Hex, required): The contract address to call.
+    - `value` (bigint, optional): Native token value to send, in raw integer units (wei).
+    - `data` (Hex, optional): The encoded function call data.
+    - `gas` (bigint, required): The gas limit. Chain-specific adjustments and buffering are applied by the SDK.
+    - `gasPrice` (`'low' | 'medium' | 'high'`, optional): Gas price strategy.
+    - `tokenApproval` (optional): A token approval to submit before the execution call.
+      - `toTokenAddress` (Hex): The token to approve.
+      - `amount` (bigint): The approval amount, in raw integer units.
+      - `spender` (Hex): The spender address.
+
+- `options`: `SwapAndExecuteOptions` (optional): Callbacks to track and gate the operation.
+
+```typescript title="TypeScript"
+export type SwapAndExecuteOptions = {
+  onEvent?: (event: SwapAndExecuteEvent) => void;
+  onIntent?: (data: SwapAndExecuteOnIntentHookData) => void;
+  slippageTolerance?: number;
+};
+```
+
+- `onEvent` (optional): Receives status, plan preview/confirmed, and per-step progress updates. `swapAndExecute()` emits a superset of the [Swap Events](/docs/nexus/nexus-sdk/reference/swap-methods/swap-events) — the swap events plus a `preparing` status and the execute approval/transaction progress events.
+- `onIntent` (optional, top-level): Called with the resolved intent before execution. The intent carries `swapRequired`. Call `allow()` to proceed, `deny()` to cancel, or `refresh(sources?)` to re-quote.
+- `slippageTolerance` (number, optional): Slippage override as a fraction (default `0.005`, i.e. 0.5%).
+
+## Example
+
+```typescript title="TypeScript"
+import type {
+  SwapAndExecuteParams,
+  SwapAndExecuteOptions,
+  SwapAndExecuteResult,
+} from '@avail-project/nexus-sdk-v2';
+
+const result = await client.swapAndExecute(
+  {
+    toChainId: 42161,
+    toTokenAddress: '0xaf88d065e77c8cc2239327c5edb3a432268e5831',
+    toAmountRaw: 100_000_000n,
+    execute: {
+      to: '0x3333333333333333333333333333333333333333',
+      data: '0xdeadbeef',
+      gas: 100_000n,
+      value: 0n,
+      tokenApproval: {
+        toTokenAddress: '0xaf88d065e77c8cc2239327c5edb3a432268e5831',
+        amount: 100_000_000n,
+        spender: '0x3333333333333333333333333333333333333333',
+      },
+    },
+  },
+  {
+    onEvent: (event) => {
+      if (event.type === 'status') {
+        // preparing | route_building | route_ready | awaiting_approval | approved | executing | completed
+        console.log('Status:', event.status);
+      }
+    },
+    onIntent: ({ allow, deny, refresh, intent }) => {
+      console.log('Swap required:', intent.swapRequired);
+      allow();
+    },
+  },
+);
+
+console.log('Swap skipped:', result.swapSkipped);
+console.log('Swap result:', result.swapResult);
+console.log('Execute tx hash:', result.execute.txHash);
+```
+
+## Return Value
+
+The return value is a `SwapAndExecuteResult` object. It always carries the `execute` transaction result (and an optional `approval`), plus a discriminated `swapSkipped` flag that tells you whether a swap ran.
+
+```typescript title="TypeScript"
+export type SwapAndExecuteResult = {
+  approval?: TxResult;
+  execute: TxResult;
+} & (
+  | { swapSkipped: false; swapResult: SwapResult }
+  | { swapSkipped: true; swapResult?: undefined }
+);
+
+export type TxResult = {
+  txHash: Hex;
+  txExplorerUrl: string;
+  receipt?: TransactionReceipt;
+};
+```
+
+- `approval` (`TxResult`, optional): The approval transaction, when one was required.
+- `execute` (`TxResult`): The contract execution transaction on the destination chain.
+- `swapSkipped` (boolean): `true` when destination funds were already sufficient and no swap ran.
+- `swapResult` (`SwapResult`): Present only when `swapSkipped` is `false`. See [Swap Exact In](/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-in#return-value) for the `SwapResult` shape.
+
+<Callout type="info">
+On failure the method throws a typed [`NexusError`](/docs/nexus/nexus-sdk/reference/hooks-and-errors) subclass rather than returning an error result. See the [full type definitions](https://github.com/availproject/nexus-sdk-v2/blob/main/src/swap/types.ts) on GitHub.
+</Callout>
