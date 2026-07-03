@@ -106,7 +106,7 @@ The `onEvent` callback receives a typed discriminated union. In addition to the 
 import type {
   BridgeAndExecuteParams,
   BridgeAndExecuteResult,
-} from '@avail-project/nexus-sdk-v2';
+} from '@avail-project/nexus-core';
 
 // Bridge and execute
 const bridgeAndExecuteResult: BridgeAndExecuteResult = await client.bridgeAndExecute(
@@ -152,7 +152,7 @@ console.log('Bridge and execute simulation:', bridgeAndExecuteSimulation);
 ```
 
 <Callout type="warning">
-`bridgeAndExecute()` throws typed [`NexusError`](https://github.com/availproject/nexus-sdk-v2/blob/main/src/domain/errors.ts) subclasses on failure. Branch on `error.category` / `error.code`.
+`bridgeAndExecute()` throws typed [`NexusError`](https://github.com/availproject/nexus-sdk/blob/main/src/domain/errors.ts) subclasses on failure. Branch on `error.category` / `error.code`.
 </Callout>
 
 ## Return Value
@@ -191,5 +191,5 @@ export type ExecuteSimulation = {
 ```
 
 <Callout type="info">
-Detect a skipped bridge via `result.bridgeSkipped` (there is no `*_SKIPPED` event). See the [full type definitions](https://github.com/availproject/nexus-sdk-v2/blob/main/src/domain/types/index.ts) on GitHub.
+Detect a skipped bridge via `result.bridgeSkipped` (there is no `*_SKIPPED` event). See the [full type definitions](https://github.com/availproject/nexus-sdk/blob/main/src/domain/types/index.ts) on GitHub.
 </Callout>

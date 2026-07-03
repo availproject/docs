@@ -16,62 +16,62 @@ export const vaultMainnet: VaultEntry[] = [
   {
     chain: "Ethereum",
     chainId: 1,
-    address: "0xC0DED5d7F424276c821AF21F68E1e663bC671C3D",
+    address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
   },
   {
     chain: "Optimism",
     chainId: 10,
-    address: "0xC0DED5d7F424276c821AF21F68E1e663bC671C3D",
+    address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
   },
   {
     chain: "BNB Chain",
     chainId: 56,
-    address: "0xC0DED5d7F424276c821AF21F68E1e663bC671C3D",
+    address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
   },
   {
     chain: "Polygon",
     chainId: 137,
-    address: "0xC0DED5d7F424276c821AF21F68E1e663bC671C3D",
+    address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
   },
   {
     chain: "Monad",
     chainId: 143,
-    address: "0xC0DED5d7F424276c821AF21F68E1e663bC671C3D",
+    address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
   },
   {
     chain: "Hyperliquid (HyperEVM)",
     chainId: 999,
-    address: "0xC0DED5d7F424276c821AF21F68E1e663bC671C3D",
-  },
-  {
-    chain: "Kaia",
-    chainId: 8217,
-    address: "0xC0DED5d7F424276c821AF21F68E1e663bC671C3D",
-  },
-  {
-    chain: "Base",
-    chainId: 8453,
-    address: "0xC0DED5d7F424276c821AF21F68E1e663bC671C3D",
-  },
-  {
-    chain: "Arbitrum One",
-    chainId: 42161,
-    address: "0xC0DED5d7F424276c821AF21F68E1e663bC671C3D",
-  },
-  {
-    chain: "Avalanche C-Chain",
-    chainId: 43114,
-    address: "0xC0DED5d7F424276c821AF21F68E1e663bC671C3D",
-  },
-  {
-    chain: "Scroll",
-    chainId: 534352,
-    address: "0xC0DED5d7F424276c821AF21F68E1e663bC671C3D",
+    address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
   },
   {
     chain: "Citrea",
     chainId: 4114,
-    address: "0xAc73E77b4FE9BBAAA35C7147DC3Fd5286929A746",
+    address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
+  },
+  {
+    chain: "MegaETH",
+    chainId: 4326,
+    address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
+  },
+  {
+    chain: "Base",
+    chainId: 8453,
+    address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
+  },
+  {
+    chain: "Arbitrum One",
+    chainId: 42161,
+    address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
+  },
+  {
+    chain: "Avalanche C-Chain",
+    chainId: 43114,
+    address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
+  },
+  {
+    chain: "Scroll",
+    chainId: 534352,
+    address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
   },
 ];
 
@@ -79,42 +79,37 @@ export const vaultTestnet: VaultEntry[] = [
   {
     chain: "Polygon Amoy",
     chainId: 80002,
-    address: "0xEFF0C81eC6D7c2a3B924e98B65303DDaa3030a81",
+    address: "0x86B60E813f9b739516dDbDc443526be5Ef8336aa",
   },
   {
     chain: "Monad Testnet",
     chainId: 10143,
-    address: "0xEFF0C81eC6D7c2a3B924e98B65303DDaa3030a81",
+    address: "0x86B60E813f9b739516dDbDc443526be5Ef8336aa",
   },
   {
     chain: "Base Sepolia",
     chainId: 84532,
-    address: "0xEFF0C81eC6D7c2a3B924e98B65303DDaa3030a81",
+    address: "0x86B60E813f9b739516dDbDc443526be5Ef8336aa",
   },
   {
     chain: "Ethereum Sepolia",
     chainId: 11155111,
-    address: "0xEFF0C81eC6D7c2a3B924e98B65303DDaa3030a81",
+    address: "0x86B60E813f9b739516dDbDc443526be5Ef8336aa",
   },
   {
     chain: "OP Sepolia",
     chainId: 11155420,
-    address: "0xEFF0C81eC6D7c2a3B924e98B65303DDaa3030a81",
+    address: "0x86B60E813f9b739516dDbDc443526be5Ef8336aa",
   },
   {
     chain: "Arbitrum Sepolia",
     chainId: 421614,
-    address: "0xEFF0C81eC6D7c2a3B924e98B65303DDaa3030a81",
-  },
-  {
-    chain: "Flow Testnet",
-    chainId: 567,
-    address: "0xEFF0C81eC6D7c2a3B924e98B65303DDaa3030a81",
+    address: "0x86B60E813f9b739516dDbDc443526be5Ef8336aa",
   },
   {
     chain: "Citrea Testnet",
     chainId: 5115,
-    address: "0x10B69f0E3c21C1187526940A615959E9ee6012F9",
+    address: "0x86B60E813f9b739516dDbDc443526be5Ef8336aa",
   },
 ];
 
@@ -173,7 +168,7 @@ export const usdcMainnet: TokenEntry[] = [
   },
   {
     chain: "Citrea",
-    address: "0xE045e6c36cF77FAA2CfB54466D71A3aEF7bBE839",
+    address: "0xE045e6c36cF77FAA2CfB54466D71A3aEF7bbE839",
     tokenName: "USDC.e",
   },
   {
@@ -211,7 +206,7 @@ export const usdcTestnet: TokenEntry[] = [
   },
   {
     chain: "Monad Testnet",
-    address: "0xf817257fed379853cDe0fa4F97AB987181B1E5Ea",
+    address: "0x534b2f3A21130d7a60830c2Df862319e593943A3",
     tokenName: "USDC",
   },
   {
@@ -240,11 +235,6 @@ export const usdtMainnet: TokenEntry[] = [
     tokenName: "USDT0",
   },
   {
-    chain: "Kaia",
-    address: "0xd077A400968890Eacc75cdc901F0356c943e4fDb",
-    tokenName: "USDT",
-  },
-  {
     chain: "Optimism",
     address: "0x94b008aA00579c1307B0EF2c499aD98a8ce58e58",
     tokenName: "USDT",
@@ -270,6 +260,16 @@ export const usdtMainnet: TokenEntry[] = [
     tokenName: "USDT0",
   },
   {
+    chain: "Monad",
+    address: "0xe7cd86e13AC4309349F30B3435a9d337750fC82D",
+    tokenName: "USDT0",
+  },
+  {
+    chain: "MegaETH",
+    address: "0xB8CE59FC3717ada4C02eaDF9682A9e934F625ebb",
+    tokenName: "USDT0",
+  },
+  {
     chain: "Citrea",
     address: "0x9f3096Bac87e7F03DC09b0B416eB0DF837304dc4",
     tokenName: "USDT.e",
@@ -290,11 +290,6 @@ export const usdtTestnet: TokenEntry[] = [
   {
     chain: "OP Sepolia",
     address: "0x6462693c2F21AC0E517f12641D404895030F7426",
-    tokenName: "USDT",
-  },
-  {
-    chain: "Monad Testnet",
-    address: "0x1c56F176D6735888fbB6f8bD9ADAd8Ad7a023a0b",
     tokenName: "USDT",
   },
 ];

@@ -73,7 +73,7 @@ import type {
   SwapExactOutParams,
   SwapOperationOptions,
   SwapResult,
-} from '@avail-project/nexus-sdk-v2';
+} from '@avail-project/nexus-core';
 
 const result = await client.swapWithExactOut(
   {
@@ -137,5 +137,5 @@ export type Swap = {
 ```
 
 <Callout type="info">
-On failure the method throws a typed [`NexusError`](/docs/nexus/nexus-sdk/reference/hooks-and-errors) subclass rather than returning an error result. See the [full type definitions](https://github.com/availproject/nexus-sdk-v2/blob/main/src/swap/types.ts) on GitHub.
+On failure the method throws a typed [`NexusError`](/docs/nexus/nexus-sdk/reference/hooks-and-errors) subclass rather than returning an error result. See the [full type definitions](https://github.com/availproject/nexus-sdk/blob/main/src/swap/types.ts) on GitHub.
 </Callout>

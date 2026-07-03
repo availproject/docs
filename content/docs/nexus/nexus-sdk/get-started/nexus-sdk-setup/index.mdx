@@ -10,7 +10,7 @@ In this guide you will create a Nexus SDK instance, connect it to a wallet provi
 - [Node.js](https://nodejs.org) version 20 or higher
 - A package manager — this guide uses `pnpm`, but `npm` and `yarn` work too
 - An [EIP-1193](https://eips.ethereum.org/EIPS/eip-1193) compatible wallet (e.g. MetaMask) installed in your browser
-- `@avail-project/nexus-sdk-v2` installed in your project (see [Installation](/docs/nexus/nexus-sdk/get-started/installation))
+- `@avail-project/nexus-core` installed in your project (see [Installation](/docs/nexus/nexus-sdk/get-started/installation))
 
 ## What you will build
 
@@ -37,7 +37,7 @@ cd my-nexus-app
 Install the Nexus SDK:
 
 ```bash
-pnpm add @avail-project/nexus-sdk-v2
+pnpm add @avail-project/nexus-core
 ```
 
 ## Step 2 — Create the SDK instance
@@ -45,7 +45,7 @@ pnpm add @avail-project/nexus-sdk-v2
 Create a single shared SDK instance that the rest of the app will import. This file lives outside of React so it has no component lifecycle concerns.
 
 ```tsx title="src/lib/nexus.ts"
-import { createNexusClient, type NexusClient } from "@avail-project/nexus-sdk-v2";
+import { createNexusClient, type NexusClient } from "@avail-project/nexus-core";
 
 // Create a single client instance.
 // Pass { network: 'testnet' } to use testnet chains.

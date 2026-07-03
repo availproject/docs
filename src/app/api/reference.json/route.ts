@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 const REFERENCE_DATA = {
   _meta: {
-    lastUpdated: "2026-02-27",
+    lastUpdated: "2026-07-03",
     version: "2.0.0",
     description: "Structured reference data for Avail DA and Nexus",
   },
@@ -125,104 +125,99 @@ const REFERENCE_DATA = {
         {
           chain: "Ethereum",
           chainId: 1,
-          address: "0xC0DED5d7F424276c821AF21F68E1e663bC671C3D",
+          address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
         },
         {
           chain: "Optimism",
           chainId: 10,
-          address: "0xC0DED5d7F424276c821AF21F68E1e663bC671C3D",
+          address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
         },
         {
           chain: "BNB Chain",
           chainId: 56,
-          address: "0xC0DED5d7F424276c821AF21F68E1e663bC671C3D",
+          address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
         },
         {
           chain: "Polygon",
           chainId: 137,
-          address: "0xC0DED5d7F424276c821AF21F68E1e663bC671C3D",
+          address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
         },
         {
           chain: "Monad",
           chainId: 143,
-          address: "0xC0DED5d7F424276c821AF21F68E1e663bC671C3D",
+          address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
         },
         {
           chain: "Hyperliquid (HyperEVM)",
           chainId: 999,
-          address: "0xC0DED5d7F424276c821AF21F68E1e663bC671C3D",
-        },
-        {
-          chain: "Kaia",
-          chainId: 8217,
-          address: "0xC0DED5d7F424276c821AF21F68E1e663bC671C3D",
-        },
-        {
-          chain: "Base",
-          chainId: 8453,
-          address: "0xC0DED5d7F424276c821AF21F68E1e663bC671C3D",
-        },
-        {
-          chain: "Arbitrum One",
-          chainId: 42161,
-          address: "0xC0DED5d7F424276c821AF21F68E1e663bC671C3D",
-        },
-        {
-          chain: "Avalanche C-Chain",
-          chainId: 43114,
-          address: "0xC0DED5d7F424276c821AF21F68E1e663bC671C3D",
-        },
-        {
-          chain: "Scroll",
-          chainId: 534352,
-          address: "0xC0DED5d7F424276c821AF21F68E1e663bC671C3D",
+          address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
         },
         {
           chain: "Citrea",
           chainId: 4114,
-          address: "0xAc73E77b4FE9BBAAA35C7147DC3Fd5286929A746",
+          address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
+        },
+        {
+          chain: "MegaETH",
+          chainId: 4326,
+          address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
+        },
+        {
+          chain: "Base",
+          chainId: 8453,
+          address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
+        },
+        {
+          chain: "Arbitrum One",
+          chainId: 42161,
+          address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
+        },
+        {
+          chain: "Avalanche C-Chain",
+          chainId: 43114,
+          address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
+        },
+        {
+          chain: "Scroll",
+          chainId: 534352,
+          address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
         },
       ],
       testnet: [
         {
           chain: "Polygon Amoy",
           chainId: 80002,
-          address: "0xEFF0C81eC6D7c2a3B924e98B65303DDaa3030a81",
+          address: "0x86B60E813f9b739516dDbDc443526be5Ef8336aa",
         },
         {
           chain: "Monad Testnet",
           chainId: 10143,
-          address: "0xEFF0C81eC6D7c2a3B924e98B65303DDaa3030a81",
+          address: "0x86B60E813f9b739516dDbDc443526be5Ef8336aa",
         },
         {
           chain: "Base Sepolia",
           chainId: 84532,
-          address: "0xEFF0C81eC6D7c2a3B924e98B65303DDaa3030a81",
+          address: "0x86B60E813f9b739516dDbDc443526be5Ef8336aa",
         },
         {
           chain: "Ethereum Sepolia",
           chainId: 11155111,
-          address: "0xEFF0C81eC6D7c2a3B924e98B65303DDaa3030a81",
+          address: "0x86B60E813f9b739516dDbDc443526be5Ef8336aa",
         },
         {
           chain: "OP Sepolia",
           chainId: 11155420,
-          address: "0xEFF0C81eC6D7c2a3B924e98B65303DDaa3030a81",
+          address: "0x86B60E813f9b739516dDbDc443526be5Ef8336aa",
         },
         {
           chain: "Arbitrum Sepolia",
           chainId: 421614,
-          address: "0xEFF0C81eC6D7c2a3B924e98B65303DDaa3030a81",
-        },
-        {
-          chain: "Flow Testnet",
-          chainId: 567,
-          address: "0xEFF0C81eC6D7c2a3B924e98B65303DDaa3030a81",
+          address: "0x86B60E813f9b739516dDbDc443526be5Ef8336aa",
         },
         {
           chain: "Citrea Testnet",
           chainId: 5115,
-          address: "0x10B69f0E3c21C1187526940A615959E9ee6012F9",
+          address: "0x86B60E813f9b739516dDbDc443526be5Ef8336aa",
         },
       ],
     },
@@ -271,7 +266,7 @@ const REFERENCE_DATA = {
           },
           {
             chain: "Citrea",
-            address: "0xE045e6c36cF77FAA2CfB54466D71A3aEF7bBE839",
+            address: "0xE045e6c36cF77FAA2CfB54466D71A3aEF7bbE839",
           },
         ],
         testnet: [
@@ -297,7 +292,7 @@ const REFERENCE_DATA = {
           },
           {
             chain: "Monad Testnet",
-            address: "0xf817257fed379853cDe0fa4F97AB987181B1E5Ea",
+            address: "0x534b2f3A21130d7a60830c2Df862319e593943A3",
           },
           {
             chain: "Citrea Testnet",
@@ -320,10 +315,6 @@ const REFERENCE_DATA = {
             address: "0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9",
           },
           {
-            chain: "Kaia",
-            address: "0xd077a400968890eacc75cdc901f0356c943e4fdb",
-          },
-          {
             chain: "Optimism",
             address: "0x94b008aa00579c1307b0ef2c499ad98a8ce58e58",
           },
@@ -344,6 +335,14 @@ const REFERENCE_DATA = {
             address: "0xB8CE59FC3717ada4C02eaDF9682A9e934F625ebb",
           },
           {
+            chain: "Monad",
+            address: "0xe7cd86e13AC4309349F30B3435a9d337750fC82D",
+          },
+          {
+            chain: "MegaETH",
+            address: "0xB8CE59FC3717ada4C02eaDF9682A9e934F625ebb",
+          },
+          {
             chain: "Citrea",
             address: "0x9f3096Bac87e7F03DC09b0B416eB0DF837304dc4",
           },
@@ -356,10 +355,6 @@ const REFERENCE_DATA = {
           {
             chain: "OP Sepolia",
             address: "0x6462693c2F21AC0E517f12641D404895030F7426",
-          },
-          {
-            chain: "Monad Testnet",
-            address: "0x1c56F176D6735888fbB6f8bD9ADAd8Ad7a023a0b",
           },
         ],
       },
@@ -399,7 +394,7 @@ const REFERENCE_DATA = {
           chainId: 43114,
           nativeToken: "AVAX",
           supportedTokens: ["AVAX", "USDC", "USDT"],
-          swapsEnabled: false,
+          swapsEnabled: true,
         },
         {
           name: "Scroll",
@@ -412,21 +407,14 @@ const REFERENCE_DATA = {
           name: "Base",
           chainId: 8453,
           nativeToken: "ETH",
-          supportedTokens: ["ETH", "USDC"],
+          supportedTokens: ["ETH", "USDC", "USDT"],
           swapsEnabled: true,
-        },
-        {
-          name: "Kaia",
-          chainId: 8217,
-          nativeToken: "KAIA",
-          supportedTokens: ["KAIA", "USDT"],
-          swapsEnabled: false,
         },
         {
           name: "BNB",
           chainId: 56,
           nativeToken: "BNB",
-          supportedTokens: ["BNB", "ETH", "USDC", "USDT"],
+          supportedTokens: ["BNB", "USDC", "USDT"],
           swapsEnabled: true,
         },
         {
@@ -440,14 +428,14 @@ const REFERENCE_DATA = {
           name: "Monad",
           chainId: 143,
           nativeToken: "MON",
-          supportedTokens: ["MON", "USDC"],
+          supportedTokens: ["MON", "USDC", "USDT"],
           swapsEnabled: true,
         },
         {
           name: "Citrea",
           chainId: 4114,
           nativeToken: "cBTC",
-          supportedTokens: ["cBTC", "USDC", "USDT"],
+          supportedTokens: ["cBTC", "USDC.e", "USDT.e"],
           swapsEnabled: true,
         },
         {
@@ -498,7 +486,7 @@ const REFERENCE_DATA = {
           name: "Monad Testnet",
           chainId: 10143,
           nativeToken: "MON",
-          supportedTokens: ["MON", "USDC", "USDT"],
+          supportedTokens: ["MON", "USDC"],
           swapsEnabled: false,
         },
         {
@@ -514,12 +502,13 @@ const REFERENCE_DATA = {
       { symbol: "ETH", name: "Ethereum", decimals: 18 },
       { symbol: "USDC", name: "USD Coin", decimals: 6 },
       { symbol: "USDT", name: "Tether USD", decimals: 6 },
+      { symbol: "USDC.e", name: "Bridged USDC (Citrea)", decimals: 6 },
+      { symbol: "USDT.e", name: "Bridged USDT (Citrea)", decimals: 6 },
       { symbol: "USDM", name: "USDm", decimals: 18 },
       { symbol: "POL", name: "Polygon", decimals: 18 },
       { symbol: "AVAX", name: "Avalanche", decimals: 18 },
       { symbol: "BNB", name: "BNB", decimals: 18 },
       { symbol: "HYPE", name: "HyperEVM", decimals: 18 },
-      { symbol: "KAIA", name: "Kaia", decimals: 18 },
       { symbol: "MON", name: "Monad", decimals: 18 },
       { symbol: "cBTC", name: "Citrea BTC", decimals: 18 },
     ],
@@ -528,14 +517,10 @@ const REFERENCE_DATA = {
         package: "@avail-project/nexus-core",
         docs: "/docs/nexus/nexus-sdk",
       },
-      nexus_elements: {
+      nexus_widgets: {
         registry: "https://elements.nexus.availproject.org/r",
-        components: [
-          "nexus-bridge-widget",
-          "nexus-swap-widget",
-          "nexus-transaction-history",
-        ],
-        docs: "/docs/nexus/nexus-ui-elements",
+        components: ["nexus-one"],
+        docs: "/docs/nexus/widgets",
       },
     },
   },

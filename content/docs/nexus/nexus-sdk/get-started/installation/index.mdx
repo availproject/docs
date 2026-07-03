@@ -3,7 +3,7 @@ title: Installation
 description: Install the Nexus SDK packages and dependencies in your project.
 ---
 
-In this guide you will install `@avail-project/nexus-sdk-v2` and its peer dependencies into an existing project. By the end, your project will be ready for SDK initialization in the next step.
+In this guide you will install `@avail-project/nexus-core` and its peer dependencies into an existing project. By the end, your project will be ready for SDK initialization in the next step.
 
 ## Prerequisites
 
@@ -30,29 +30,29 @@ Run one of the following commands to add the Nexus SDK to your project:
   </TabsList>
   <TabsContent value="npm">
 ```bash
-npm install @avail-project/nexus-sdk-v2
+npm install @avail-project/nexus-core
 ```
   </TabsContent>
   <TabsContent value="pnpm">
 ```bash
-pnpm add @avail-project/nexus-sdk-v2
+pnpm add @avail-project/nexus-core
 ```
   </TabsContent>
   <TabsContent value="yarn">
 ```bash
-yarn add @avail-project/nexus-sdk-v2
+yarn add @avail-project/nexus-core
 ```
   </TabsContent>
   <TabsContent value="bun">
 ```bash
-bun add @avail-project/nexus-sdk-v2
+bun add @avail-project/nexus-core
 ```
   </TabsContent>
 </Tabs>
 
 ### What gets installed
 
-The `@avail-project/nexus-sdk-v2` package provides:
+The `@avail-project/nexus-core` package provides:
 
 - **`createNexusClient`** — the factory function for creating a Nexus client and performing cross-chain operations
 - **Bridge methods** — `bridge()`, `bridgeAndTransfer()`, `bridgeAndExecute()` for moving tokens across chains
@@ -66,7 +66,7 @@ The `@avail-project/nexus-sdk-v2` package provides:
 Confirm the package was installed by importing and creating a client:
 
 ```ts
-import { createNexusClient } from "@avail-project/nexus-sdk-v2";
+import { createNexusClient } from "@avail-project/nexus-core";
 
 const client = createNexusClient();
 console.log("Nexus SDK ready");

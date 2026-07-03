@@ -15,7 +15,7 @@ The Cookbook Recipes are written to show developer patterns on how the SDK is ex
 Every recipe assumes an initialized `NexusClient`. Create one with `createNexusClient()`, then run the two-step init: `initialize()` loads deployment data (chains, tokens, vault contracts) and `setEVMProvider()` attaches a wallet. Call `destroy()` when you are done to flush analytics and release resources.
 
 ```typescript
-import { createNexusClient } from '@avail-project/nexus-sdk-v2';
+import { createNexusClient } from '@avail-project/nexus-core';
 
 const client = createNexusClient({ network: 'testnet' });
 
@@ -352,7 +352,7 @@ console.log(fees.totalValue);  // Total fee expressed in USD
 ### How to view a wallet's intent history?
 Call `client.listIntents({ page?, status? })` to fetch the connected wallet's past intents. It returns `{ intents, total }`, where each entry is an `IntentRecord` with sources, destinations, a `status`, and an explorer link. Page size is fixed at 20 records — paginate by incrementing `page`. Filter by `status` using the exported `IntentStatus` enum.
 ``` typescript
-import { IntentStatus } from '@avail-project/nexus-sdk-v2';
+import { IntentStatus } from '@avail-project/nexus-core';
 
 // Fetch the first page of intents
 const { intents, total } = await client.listIntents();
@@ -463,7 +463,7 @@ const swapChains = chains.filter((chain) => chain.swapSupported);
 ```
 
 <Callout type="info">
-Prefer the async standalone helper when you need this before a client exists: `import { getSupportedChains } from '@avail-project/nexus-sdk-v2/utils'` then `await getSupportedChains('mainnet')`. The client method is synchronous and uses cached deployment data.
+Prefer the async standalone helper when you need this before a client exists: `import { getSupportedChains } from '@avail-project/nexus-core/utils'` then `await getSupportedChains('mainnet')`. The client method is synchronous and uses cached deployment data.
 </Callout>
 
 <Accordions type="single">
@@ -831,10 +831,10 @@ This error occurs when code meant for Node.js runs in the browser. Solutions:
 
 ```typescript
 // Bad
-const { createNexusClient } = require('@avail-project/nexus-sdk-v2');
+const { createNexusClient } = require('@avail-project/nexus-core');
 
 // Good
-import { createNexusClient } from '@avail-project/nexus-sdk-v2';
+import { createNexusClient } from '@avail-project/nexus-core';
 ```
 
 **2. Move Node.js-specific code to API routes or Server Components:**

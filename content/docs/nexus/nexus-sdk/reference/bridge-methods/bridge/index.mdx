@@ -78,7 +78,7 @@ The `onEvent` callback receives a typed discriminated union (`status` / `plan_pr
 ## Example
 
 ```typescript title="TypeScript"
-import type { BridgeParams, BridgeResult } from '@avail-project/nexus-sdk-v2';
+import type { BridgeParams, BridgeResult } from '@avail-project/nexus-core';
 
 const bridgeResult: BridgeResult = await client.bridge(
   {
@@ -119,7 +119,7 @@ console.log('Bridge simulation:', bridgeSimulation);
 ```
 
 <Callout type="warning">
-`bridge()` and `simulateBridge()` throw typed [`NexusError`](https://github.com/availproject/nexus-sdk-v2/blob/main/src/domain/errors.ts) subclasses on failure (e.g. `UserActionError` on a wallet rejection, `ValidationError` on bad input). Branch on `error.category` / `error.code`.
+`bridge()` and `simulateBridge()` throw typed [`NexusError`](https://github.com/availproject/nexus-sdk/blob/main/src/domain/errors.ts) subclasses on failure (e.g. `UserActionError` on a wallet rejection, `ValidationError` on bad input). Branch on `error.category` / `error.code`.
 </Callout>
 
 ## Return Value
@@ -208,5 +208,5 @@ type TokenInfo = {
 ```
 
 <Callout type="info">
-`BridgeIntent` replaces the v1 `ReadableIntent` type: `sources` → `selectedSources`, `allSources` → `availableSources`, and chain fields are nested under `chain: { id, name, logo }`. See the [full type definitions](https://github.com/availproject/nexus-sdk-v2/blob/main/src/domain/types/index.ts) on GitHub.
+`BridgeIntent` replaces the [v1](https://github.com/availproject/nexus-sdk/blob/main/MIGRATION.md) `ReadableIntent` type: `sources` → `selectedSources`, `allSources` → `availableSources`, and chain fields are nested under `chain: { id, name, logo }`. See the [full type definitions](https://github.com/availproject/nexus-sdk/blob/main/src/domain/types/index.ts) on GitHub.
 </Callout>

@@ -90,7 +90,7 @@ import type {
   SwapAndExecuteParams,
   SwapAndExecuteOptions,
   SwapAndExecuteResult,
-} from '@avail-project/nexus-sdk-v2';
+} from '@avail-project/nexus-core';
 
 const result = await client.swapAndExecute(
   {
@@ -154,5 +154,5 @@ export type TxResult = {
 - `swapResult` (`SwapResult`): Present only when `swapSkipped` is `false`. See [Swap Exact In](/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-in#return-value) for the `SwapResult` shape.
 
 <Callout type="info">
-On failure the method throws a typed [`NexusError`](/docs/nexus/nexus-sdk/reference/hooks-and-errors) subclass rather than returning an error result. See the [full type definitions](https://github.com/availproject/nexus-sdk-v2/blob/main/src/swap/types.ts) on GitHub.
+On failure the method throws a typed [`NexusError`](/docs/nexus/nexus-sdk/reference/hooks-and-errors) subclass rather than returning an error result. See the [full type definitions](https://github.com/availproject/nexus-sdk/blob/main/src/swap/types.ts) on GitHub.
 </Callout>

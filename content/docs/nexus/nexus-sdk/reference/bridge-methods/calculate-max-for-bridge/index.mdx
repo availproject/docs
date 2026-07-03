@@ -45,7 +45,7 @@ export type BridgeMaxParams = {
 ## Example
 
 ```typescript title="TypeScript"
-import type { BridgeMaxParams, BridgeMaxResult } from '@avail-project/nexus-sdk-v2';
+import type { BridgeMaxParams, BridgeMaxResult } from '@avail-project/nexus-core';
 
 const max: BridgeMaxResult = await client.calculateMaxForBridge({
   toChainId: 8453,
@@ -74,7 +74,7 @@ const max = await client.calculateMaxForBridge({
 ```
 
 <Callout type="warning">
-`calculateMaxForBridge()` throws typed [`NexusError`](https://github.com/availproject/nexus-sdk-v2/blob/main/src/domain/errors.ts) subclasses on failure. Branch on `error.category` / `error.code`.
+`calculateMaxForBridge()` throws typed [`NexusError`](https://github.com/availproject/nexus-sdk/blob/main/src/domain/errors.ts) subclasses on failure. Branch on `error.category` / `error.code`.
 </Callout>
 
 ## Return Value
@@ -102,5 +102,5 @@ export type BridgeMaxResult = {
 ```
 
 <Callout type="info">
-See the [full type definitions](https://github.com/availproject/nexus-sdk-v2/blob/main/src/bridge/types.ts) on GitHub.
+See the [full type definitions](https://github.com/availproject/nexus-sdk/blob/main/src/bridge/types.ts) on GitHub.
 </Callout>

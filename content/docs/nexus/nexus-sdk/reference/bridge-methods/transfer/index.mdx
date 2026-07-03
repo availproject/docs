@@ -71,7 +71,7 @@ The `onEvent` callback receives a typed discriminated union (`status` / `plan_pr
 ## Example
 
 ```typescript title="TypeScript"
-import type { TransferParams, TransferResult } from '@avail-project/nexus-sdk-v2';
+import type { TransferParams, TransferResult } from '@avail-project/nexus-core';
 
 // Smart transfer with automatic optimization
 const bridgeAndTransferResult: TransferResult = await client.bridgeAndTransfer(
@@ -102,7 +102,7 @@ console.log('Bridge and transfer simulation:', bridgeAndTransferSimulation);
 ```
 
 <Callout type="warning">
-`bridgeAndTransfer()` throws typed [`NexusError`](https://github.com/availproject/nexus-sdk-v2/blob/main/src/domain/errors.ts) subclasses on failure. Branch on `error.category` / `error.code`.
+`bridgeAndTransfer()` throws typed [`NexusError`](https://github.com/availproject/nexus-sdk/blob/main/src/domain/errors.ts) subclasses on failure. Branch on `error.category` / `error.code`.
 </Callout>
 
 ## Return Value

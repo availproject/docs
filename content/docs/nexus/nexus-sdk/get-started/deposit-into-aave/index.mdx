@@ -34,7 +34,7 @@ The `client.bridgeAndExecute()` method extends regular bridging by accepting an 
 Update your SDK helper file with a `bridgeAndExecute` function. This encodes an Aave V3 `supply()` call and passes it to the SDK.
 
 ```tsx title="src/lib/nexus.ts"
-import type { BridgeAndExecuteEvent } from "@avail-project/nexus-sdk-v2";
+import type { BridgeAndExecuteEvent } from "@avail-project/nexus-core";
 import { encodeFunctionData } from "viem";
 
 // ... existing code (client instance, initialize, destroy, getBalancesForBridge, bridge) ...
@@ -141,7 +141,7 @@ import { useState } from "react";
 import { useAccount } from "wagmi";
 import type {
   BridgeAndExecutePlanStep,
-} from "@avail-project/nexus-sdk-v2";
+} from "@avail-project/nexus-core";
 import { bridgeAndExecute, client } from "../lib/nexus";
 
 type CompletedStep = { state: string; explorerUrl?: string };

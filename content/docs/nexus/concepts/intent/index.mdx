@@ -23,7 +23,7 @@ The following information is part of an intent:
 - **Sources Total**: The full amount drawn from source chains, combining the transaction amount and all fees.
 - **Provider**: Whether the route is served by the native Nexus flow (`nexus`) or by Mayan (`mayan`), a third-party bridge provider. The SDK selects this automatically.
 
-This is a simplified view of the `BridgeIntent` object the SDK passes to your `onIntent` hook — see the [full type](https://github.com/availproject/nexus-sdk-v2/blob/main/src/domain/types/index.ts) for every field:
+This is a simplified view of the `BridgeIntent` object the SDK passes to your `onIntent` hook — see the [full type](https://github.com/availproject/nexus-sdk/blob/main/src/domain/types/index.ts) for every field:
 
 ```ts
 type BridgeIntent = {

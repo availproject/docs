@@ -8,7 +8,7 @@ The Nexus SDK is created with `createNexusClient` and exposes a headless client 
 ## Creating a client
 
 ```typescript title="TypeScript"
-import { createNexusClient } from '@avail-project/nexus-sdk-v2';
+import { createNexusClient } from '@avail-project/nexus-core';
 
 const client = createNexusClient({
   network: 'mainnet',
@@ -223,7 +223,7 @@ import {
   isValidAddress,
   getCoinbaseRates,
   getSupportedChains,
-} from '@avail-project/nexus-sdk-v2/utils';
+} from '@avail-project/nexus-core/utils';
 ```
 
 ### Formatting
@@ -338,9 +338,9 @@ if (client.analytics.isEnabled()) {
 
 ```bash
 # Install the SDK skill
-npx skills add availproject/nexus-sdk-v2
+npx skills add availproject/nexus-sdk
 ```
 
-- `nexus-sdk-v2` — Full v2 integration guide: client lifecycle, operations, hooks, events, error handling, utils, and v1 → v2 migration
+- `nexus-core` — Full v2 integration guide: client lifecycle, operations, hooks, events, error handling, utils, and v1 → v2 migration
 
-Browse it at [skills.sh/availproject/nexus-sdk-v2](https://skills.sh/availproject/nexus-sdk-v2). For Widgets skills, see [MCP & Agent Skills](/docs/nexus/widgets/mcp-and-agent-skills).
+Browse it at [skills.sh/availproject/nexus-sdk](https://skills.sh/availproject/nexus-sdk). For Widgets skills, see [MCP & Agent Skills](/docs/nexus/widgets/mcp-and-agent-skills).

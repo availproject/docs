@@ -222,7 +222,7 @@ await client.swapWithExactIn(input, {
 });
 ```
 
-See the full `SwapIntent` definition in the [SDK source](https://github.com/availproject/nexus-sdk-v2/blob/main/src/swap/types.ts).
+See the full `SwapIntent` definition in the [SDK source](https://github.com/availproject/nexus-sdk/blob/main/src/swap/types.ts).
 
 ### Composite operations
 
@@ -306,7 +306,7 @@ import {
   UserActionError,
   ValidationError,
   ERROR_CODES,
-} from '@avail-project/nexus-sdk-v2';
+} from '@avail-project/nexus-core';
 
 try {
   await client.bridge({ toTokenSymbol: 'USDC', toAmountRaw: 1_000_000n, toChainId: 137 });
@@ -344,7 +344,7 @@ try {
 
 ### Error codes reference
 
-The full list lives in [`src/domain/errors.ts`](https://github.com/availproject/nexus-sdk-v2/blob/main/src/domain/errors.ts). Representative codes by category:
+The full list lives in [`src/domain/errors.ts`](https://github.com/availproject/nexus-sdk/blob/main/src/domain/errors.ts). Representative codes by category:
 
 | `ERROR_CODES` key | `code` value | Category |
 |-------------------|--------------|----------|
@@ -373,5 +373,5 @@ The full list lives in [`src/domain/errors.ts`](https://github.com/availproject/
 | `INTERNAL_ERROR` | `internal/error` | internal |
 
 <Callout type="info">
-See the [full error definitions](https://github.com/availproject/nexus-sdk-v2/blob/main/src/domain/errors.ts) on GitHub for the exhaustive `ERROR_CODES` map, the named `Errors.*` factories, and every `code`.
+See the [full error definitions](https://github.com/availproject/nexus-sdk/blob/main/src/domain/errors.ts) on GitHub for the exhaustive `ERROR_CODES` map, the named `Errors.*` factories, and every `code`.
 </Callout>

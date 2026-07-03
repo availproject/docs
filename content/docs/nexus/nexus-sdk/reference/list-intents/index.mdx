@@ -46,7 +46,7 @@ export type IntentStatus = 'created' | 'deposited' | 'fulfilled' | 'expired';
 ## Example
 
 ```typescript title="TypeScript"
-import { IntentStatus, type ListIntentsResult } from '@avail-project/nexus-sdk-v2';
+import { IntentStatus, type ListIntentsResult } from '@avail-project/nexus-core';
 
 // First page of all intents
 const { intents, total }: ListIntentsResult = await client.listIntents();
@@ -122,5 +122,5 @@ export type IntentRecord = {
 ```
 
 <Callout type="info">
-See the [full type definitions](https://github.com/availproject/nexus-sdk-v2/blob/main/src/domain/types/index.ts) on GitHub.
+See the [full type definitions](https://github.com/availproject/nexus-sdk/blob/main/src/domain/types/index.ts) on GitHub.
 </Callout>

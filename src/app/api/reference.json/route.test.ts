@@ -78,7 +78,7 @@ describe("GET /api/reference.json", () => {
     expect(data.nexus.vault_contracts.mainnet).toBeInstanceOf(Array);
     expect(data.nexus.vault_contracts.mainnet.length).toBe(12);
     expect(data.nexus.vault_contracts.testnet).toBeInstanceOf(Array);
-    expect(data.nexus.vault_contracts.testnet.length).toBe(8);
+    expect(data.nexus.vault_contracts.testnet.length).toBe(7);
 
     for (const entry of data.nexus.vault_contracts.mainnet) {
       expect(entry.address).toMatch(ethRegex);
@@ -140,8 +140,8 @@ describe("GET /api/reference.json", () => {
 
     expect(data.nexus.sdks.nexus_core.package).toBeDefined();
     expect(data.nexus.sdks.nexus_core.docs).toMatch(/^\/docs\//);
-    expect(data.nexus.sdks.nexus_elements.registry).toBeDefined();
-    expect(data.nexus.sdks.nexus_elements.docs).toMatch(/^\/docs\//);
+    expect(data.nexus.sdks.nexus_widgets.registry).toBeDefined();
+    expect(data.nexus.sdks.nexus_widgets.docs).toMatch(/^\/docs\//);
   });
 
   it("links is present at root level", async () => {

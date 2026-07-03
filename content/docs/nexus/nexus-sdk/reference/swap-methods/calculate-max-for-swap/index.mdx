@@ -49,7 +49,7 @@ export type Source = {
 ## Example
 
 ```typescript title="TypeScript"
-import type { SwapMaxParams, SwapMaxResult } from '@avail-project/nexus-sdk-v2';
+import type { SwapMaxParams, SwapMaxResult } from '@avail-project/nexus-core';
 
 const max = await client.calculateMaxForSwap({
   toChainId: 8453,
@@ -107,5 +107,5 @@ export type SwapMaxResult = {
 - `sources`: The per-source breakdown of holdings that make up the max.
 
 <Callout type="info">
-On failure the method throws a typed [`NexusError`](/docs/nexus/nexus-sdk/reference/hooks-and-errors) subclass. See the [full type definitions](https://github.com/availproject/nexus-sdk-v2/blob/main/src/swap/types.ts) on GitHub.
+On failure the method throws a typed [`NexusError`](/docs/nexus/nexus-sdk/reference/hooks-and-errors) subclass. See the [full type definitions](https://github.com/availproject/nexus-sdk/blob/main/src/swap/types.ts) on GitHub.
 </Callout>
