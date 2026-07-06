@@ -1,0 +1,30 @@
+---
+title: Migration Guides
+description: Version-by-version upgrade guides for the Nexus SDK and Avail Widgets.
+---
+
+Each guide covers one upgrade step — what changed, why, and the exact renames and rewrites to apply. New guides are added here as new major versions ship.
+
+## Current versions
+
+| Surface | Package / registry | Current |
+| --- | --- | --- |
+| Nexus SDK | [`@avail-project/nexus-core`](https://www.npmjs.com/package/@avail-project/nexus-core) | 2.x |
+| Avail Widgets | `availproject/widgets/nexus` (shadcn registry) | Nexus Widget |
+
+## Guides
+
+<Cards>
+  <Card
+    href="/docs/nexus/migration/sdk-v1-to-v2"
+    title="Migrate to Nexus SDK v2"
+    description="nexus-core 1.x to 2.x — factory client, param renames, per-operation hooks, plan-based events."
+    arrow
+  />
+  <Card
+    href="/docs/nexus/migration/widgets-legacy-to-nexus-widget"
+    title="Migrate to Nexus Widget"
+    description="Standalone SwapWidget/FastBridge/FastTransfer/Deposit components to the single unified Nexus Widget."
+    arrow
+  />
+</Cards>

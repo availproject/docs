@@ -1,81 +1,70 @@
 ---
 title: "Hooks and Errors"
-description: "Hooks and Error Codes for the Nexus SDK"
+description: "Per-operation hooks and the typed NexusError hierarchy in the Nexus SDK."
 image: "/img/docs-link-preview.png"
 ---
 
-
-The Nexus SDK comes baked in with some helpful hooks and error codes to make your development experience easier.
+The Nexus SDK ships with per-operation hooks for gating and observing an operation, and a typed `NexusError` hierarchy for handling failures.
 
 ## Hooks
 
-### onEvent
-
-Supported by all main SDK functions, this hook allows you to subscribe to progress events for submitted transactions.
-
-#### Signature
-  
-```typescript title="TypeScript"
-/**
- * EventUnion is a union type of all possible event types.
- */
-type EventUnion =
-  | { name: 'STEPS_LIST'; args: BridgeStepType[] }
-  | { name: 'STEP_COMPLETE'; args: BridgeStepType }
-  | { name: 'SWAP_STEP_COMPLETE'; args: SwapStepType };
-
-type OnEventParam = {
-  onEvent?: (event: EventUnion) => void;
-};
-```
-
-#### Example
-
-Use `onEvent` to log the progress of a transaction to the console:
+In v2 there are **no global hook setters** (`setOnIntentHook`, `setOnAllowanceHook`, `setOnSwapIntentHook` were removed). Hooks are passed **per operation** through the second `options` argument:
 
 ```typescript title="TypeScript"
-const bridgeResult = await sdk.bridge(
-  {
-    token: 'USDC',
-    amount: 1_500_000n,
-    recipient: '0x...' // Optional
-    toChainId: 137, // Polygon
+await client.bridge(params, {
+  hooks: {
+    onIntent: ({ intent, allow }) => allow(),
+    onAllowance: ({ allow }) => allow(['min']),
   },
-  {
-    onEvent: (event) => {
-      if (event.name === NEXUS_EVENTS.STEPS_LIST) console.log('Bridge steps:', event.args);
-      if (event.name === NEXUS_EVENTS.STEP_COMPLETE) console.log('Step completed:', event.args);
-    },
-  },
-);
+});
 ```
 
 <Callout type="info">
-`STEPS_LIST` is emitted with `bridge()`, `bridgeAndTransfer()` and `bridgeAndExecute()`.
-`swapWithExactIn()` and `swapWithExactOut()` however do emit `SWAP_STEP_COMPLETE` instead.
+If you don't provide any hooks, the SDK **auto-approves**: the intent is allowed automatically and allowances default to `'min'` for every source.
 </Callout>
 
-```typescript title="TypeScript"
-const swapResult = await sdk.swapWithExactIn(
-  {
-    from: [{ chainId: 10, amount: 1_000_000n, tokenAddress: '0x...' }],
-    toChainId: 8453,
-    toTokenAddress: '0x...',
-  },
-  {
-    onEvent: (event) => {
-      if (event.name === NEXUS_EVENTS.SWAP_STEP_COMPLETE) {
-        console.log('Swap step:', event.args);
-      }
-    },
-  },
-);
+Where each hook lives per method:
 
+| Method | `onEvent` | `onIntent` | `onAllowance` |
+|--------|-----------|------------|---------------|
+| `bridge()` / `bridgeAndTransfer()` | top-level | `hooks.onIntent` | `hooks.onAllowance` |
+| `swapWithExactIn()` / `swapWithExactOut()` | top-level | `hooks.onIntent` | — |
+| `bridgeAndExecute()` | top-level | top-level `onIntent` | automatic (`min`) |
+| `swapAndExecute()` | top-level | top-level `onIntent` | — |
+
+### onEvent
+
+Supported by every operation, `onEvent` streams progress as the operation runs. The v2 event is a typed union discriminated by `type`:
+
+```typescript title="TypeScript"
+type Event =
+  | { type: 'status'; status: string }
+  | { type: 'plan_preview'; plan: /* plan */ }
+  | { type: 'plan_confirmed'; plan: /* plan */ }
+  | { type: 'plan_progress'; stepType: string; state: string; step: /* step */ };
+
+type OnEventParam<TEvent> = {
+  onEvent?: (event: TEvent) => void;
+};
 ```
 
-### onIntentHook
+```typescript title="TypeScript"
+await client.bridge(params, {
+  onEvent: (event) => {
+    if (event.type === 'plan_progress') {
+      console.log('Step:', event.stepType, event.state);
+    }
+  },
+});
+```
 
-This hook allows you to give your user a way to approve or deny the intent.
+<Callout type="info">
+Each method emits its own typed event union. See the [Bridge Events](/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-events) and [Swap Events](/docs/nexus/nexus-sdk/reference/swap-methods/swap-events) pages for the full step-by-step definitions.
+</Callout>
+
+### onIntent
+
+Gate the intent before execution. Render the plan and fees, then call `allow()` to continue or `deny()` to abort. `refresh(selectedSources?)` re-plans (for example after the user picks different source chains) and resolves to the updated intent.
 
 #### Signature
 
@@ -83,125 +72,86 @@ This hook allows you to give your user a way to approve or deny the intent.
 type OnIntentHookData = {
   allow: () => void;
   deny: () => void;
-  intent: ReadableIntent; // human-readable breakdown of sources, destination, fees
-  refresh: (selectedSources?: number[]) => Promise<ReadableIntent>; // recompute plan
+  intent: BridgeIntent;
+  refresh: (selectedSources?: number[]) => Promise<BridgeIntent>;
 };
 ```
 
-**ReadableIntent Structure:**
+`BridgeIntent` is the human-readable breakdown of `availableSources`, `selectedSources`, `destination`, and `fees`:
 
 ```typescript title="TypeScript"
-type ReadableIntent = {
-  sources: Array<{
+type BridgeIntent = {
+  provider: 'nexus' | 'mayan';
+  availableSources: Array<{
     amount: string;
     amountRaw: bigint;
     chain: { id: number; name: string; logo: string };
     token: { decimals: number; symbol: string; logo: string; contractAddress: Hex };
+    value: string;
   }>;
-  allSources: Array<{ /* same shape as sources */ }>;
+  selectedSources: Array<{
+    amount: string;
+    amountRaw: bigint;
+    chain: { id: number; name: string; logo: string };
+    token: { decimals: number; symbol: string; logo: string; contractAddress: Hex };
+    value: string;
+  }>;
   destination: {
     amount: string;
-    chainID: number;
-    chainName: string;
-    chainLogo: string | undefined;
+    amountRaw: bigint;
+    chain: { id: number; name: string; logo: string };
+    token: { decimals: number; symbol: string; logo: string; contractAddress: Hex };
+    value: string;
+    nativeAmount: string;
+    nativeAmountRaw: bigint;
+    nativeAmountValue: string;
+    nativeAmountInToken: string;
+    nativeToken: { decimals: number; symbol: string; logo: string; contractAddress: Hex };
   };
   fees: {
-    caGas: string;       // Chain abstraction gas fee
-    gasSupplied: string; // Gas supplied to destination
-    protocol: string;    // Protocol fee
-    solver: string;      // Solver fee
-    total: string;       // Total fees
-  };
-  token: {
-    decimals: number;
-    logo: string | undefined;
-    name: string;
-    symbol: string;
+    caGas: string;
+    protocol: string;
+    solver: string;
+    total: string;
+    totalValue: string;
   };
   sourcesTotal: string;
+  sourcesTotalValue: string;
 };
 ```
-
-- Call `allow()` to continue or `deny()` to abort. Model this behaviour behind `allow` and `deny` buttons in your UI.
-- If you need to re-plan (e.g., change source chains), call `refresh(...)` and re-render.
-- On allow, the SDK marks `INTENT_ACCEPTED` and proceeds to the allowance phase (if required).
- 
-#### Example
-
-```typescript title="TypeScript"
-sdk.setOnIntentHook(({ intent, allow, deny, refresh }) => {
-  // Render the plan and fees to the user using `intent`
-  // Optionally let the user change source chains
-  if (userApproves) allow();
-  else deny();
-});
-```
-
-- If you don't set this hook, the SDK defaults to allowing the intent automatically.
-- After acceptance, allowance approvals (if any) are handled via `onAllowance`.
-
-### onSwapIntentHook
-
-Use this hook to prompt the user to approve or deny the swap plan before execution begins.
-
-#### Signature
-
-```typescript title="TypeScript"
-type OnSwapIntentHookData = {
-  allow: () => void;
-  deny: () => void;
-  intent: SwapIntent;
-  refresh: () => Promise<SwapIntent>;
-};
-
-type SwapIntent = {
-  destination: {
-    amount: string;
-    chain: { id: number; logo: string; name: string };
-    token: { contractAddress: Hex; decimals: number; symbol: string };
-    gas: {
-      amount: string;
-      token: { contractAddress: Hex; decimals: number; symbol: string };
-    };
-  };
-  sources: Array<{
-    amount: string;
-    chain: { id: number; logo: string; name: string };
-    token: { contractAddress: Hex; decimals: number; symbol: string };
-  }>;
-};
-```
-
-Lifecycle:
-- Called during `swapWithExactIn()` / `swapWithExactOut()` after a route is computed and before the actual swap is executed.
-- `refresh()` recomputes the route (e.g., after user changes inputs); call `allow()` to proceed or `deny()` to abort.
-- If you don't set this hook, the SDK defaults to allowing the swap automatically.
 
 #### Example
 
 ```typescript title="TypeScript"
-sdk.setOnSwapIntentHook(({ intent, allow, deny, refresh }) => {
-  // Render swap route and destination details from `intent`
-  // Optionally call `refresh()` if the user tweaks inputs
-  if (userApproves) allow();
-  else deny();
+await client.bridge(params, {
+  hooks: {
+    onIntent: async ({ intent, allow, deny, refresh }) => {
+      // Render the plan and fees from `intent`
+      if (userChangedSources) {
+        const updated = await refresh([10, 42161]); // re-plan against Optimism + Arbitrum
+        // re-render with `updated`
+      }
+      if (userApproves) allow();
+      else deny();
+    },
+  },
 });
 ```
 
-### onAllowanceHook
+### onAllowance
 
-Use this hook to allow your users to approve or deny any additional allowances that are required for an intent to go through.
+Fires when one or more sources need an ERC-20 approval before the deposit. Call `allow(values)` with one entry per source, or `deny()` to abort.
 
 #### Signature
 
 ```typescript title="TypeScript"
 type OnAllowanceHookData = {
-  allow: (amounts: Array<'max' | 'min' | bigint | string>) => void;
+  allow: (values: Array<'max' | 'min' | bigint | string>) => void;
   deny: () => void;
-  sources: AllowanceHookSources;
+  sources: AllowanceHookSource[];
 };
 
-type AllowanceHookSources = Array<{
+type AllowanceHookSource = {
   allowance: {
     current: string;     // Current allowance (human-readable)
     currentRaw: bigint;  // Current allowance (raw)
@@ -213,95 +163,177 @@ type AllowanceHookSources = Array<{
     logo: string;
     name: string;
   };
+  holderAddress?: Hex;
   token: {
-    contractAddress: Hex;
+    contractAddress: `0x${string}`;
     decimals: number;
     logo: string;
     name: string;
     symbol: string;
   };
-}>;
+};
 ```
 
-- Call `allow(values)` to approve the allowances. `values` is an array of strings, numbers, or bigints that represent the amount of the allowance.
-- Call `deny()` to abort if the user does not want to approve the allowances.
-- `sources` is an array of objects that represent the sources of the allowances.
+- `allow(values)` — `values.length` must equal `sources.length`. Each entry is one of:
+  - `'min'` — the minimum required allowance for that source.
+  - `'max'` — an unlimited (`maxUint256`) allowance for that source.
+  - a `bigint` or numeric `string` — a custom raw amount for that source.
+- `deny()` — stops the flow.
 
 #### Example
 
 ```typescript title="TypeScript"
-sdk.setOnAllowanceHook(({ allow, deny, sources }) => {
-  // `sources` is an array of objects with minAllowance, chainID, token symbol, etc.
-  // allow(values): continues the transaction flow with the specified allowances; 
-  // `values` is an array with the chosen allowance for each of the requirements (values.length === sources.length), either 'min', 'max', a bigint or a string
-  // deny(): stops the flow
-  if (userApproves) allow(['min']); // or ['max'] or custom per source
-  else deny();
+await client.bridge(params, {
+  hooks: {
+    onAllowance: ({ sources, allow, deny }) => {
+      // `sources` has one entry per approval required
+      if (userApproves) allow(sources.map(() => 'min')); // or 'max' / custom per source
+      else deny();
+    },
+  },
 });
 ```
 
-- Values:
-  - 'min': set minimum required allowance for that source
-  - 'max': set unlimited (maxUint256) for that source`
+<Callout type="info">
+If you don't provide `onAllowance`, the SDK approves `'min'` for every source automatically. Approval progress surfaces through `onEvent`.
+</Callout>
 
-Behavior:
-- Fires after the intent is accepted via `setOnIntentHook`.
-- If not set, the SDK defaults to `min` for each source.
-- Progress events for approvals appear via `onEvent` as allowance steps complete.
+### Swap onIntent
+
+`swapWithExactIn()` and `swapWithExactOut()` take `hooks.onIntent`, but the intent shape is `SwapIntent` (route, destination, and gas), and `refresh` accepts `Source[]`:
+
+```typescript title="TypeScript"
+type OnIntentHookData = {
+  allow: () => void;
+  deny: () => void;
+  intent: SwapIntent;
+  refresh: (sources?: Source[]) => Promise<SwapIntent>;
+};
+```
+
+```typescript title="TypeScript"
+await client.swapWithExactIn(input, {
+  hooks: {
+    onIntent: ({ intent, allow }) => {
+      // Render the route and destination amount from `intent`
+      allow();
+    },
+  },
+});
+```
+
+See the full `SwapIntent` definition in the [SDK source](https://github.com/availproject/nexus-sdk/blob/main/src/swap/types.ts).
+
+### Composite operations
+
+`bridgeAndExecute()` and `swapAndExecute()` take a **top-level** `onIntent` (not nested under `hooks`). Its `intent` describes both the requirement and any bridge/swap needed to satisfy it.
+
+```typescript title="TypeScript"
+type BridgeAndExecuteOnIntentHookData = {
+  allow: () => void;
+  deny: () => void;
+  intent: BridgeAndExecuteIntent;
+  refresh: (selectedSources?: number[]) => Promise<BridgeAndExecuteIntent>;
+};
+
+type SwapAndExecuteOnIntentHookData = {
+  allow: () => void;
+  deny: () => void;
+  intent: SwapAndExecuteIntent;
+  refresh: (sources?: Source[]) => Promise<SwapAndExecuteIntent>;
+};
+```
+
+```typescript title="TypeScript"
+await client.bridgeAndExecute(params, {
+  onIntent: ({ intent, allow, deny }) => {
+    // `intent.bridgeRequired` tells you whether a bridge leg is needed
+    if (userApproves) allow();
+    else deny();
+  },
+});
+```
 
 ## Error Handling
 
-### NexusError Class
+Every SDK operation throws a typed `NexusError` subclass on failure rather than returning an error result.
 
-All SDK errors are thrown as `NexusError` instances, which extend the built-in `Error` class with a `code` property and optional structured data.
+### The NexusError hierarchy
+
+`NexusError` is the abstract base. Each concrete subclass pins a `category`:
 
 ```typescript title="TypeScript"
-class NexusError extends Error {
-  readonly code: keyof typeof ERROR_CODES;
-  readonly data?: {
-    context?: string;              // Where/why it happened
-    cause?: unknown;               // Nested error
-    details?: Record<string, unknown>; // Additional info
-  };
+abstract class NexusError extends Error {
+  readonly category: ErrorCategory; // set by each subclass
+  readonly code: ErrorCode;         // namespaced string, e.g. 'validation/insufficient_balance'
+  readonly context: ErrorContext;   // { operation?, service?, stepId?, stepType?, chainId? }
+  readonly details?: Record<string, unknown>;
 
-  toJSON(): object; // Serializable format
+  toJSON(): object; // serializable { name, message, category, code, context, details }
 }
+
+type ErrorCategory =
+  | 'validation'
+  | 'user_action'
+  | 'simulation'
+  | 'execution'
+  | 'backend'
+  | 'external_service'
+  | 'internal';
 ```
 
-### Recommended Error Handling Pattern
+| Subclass | `category` | Meaning |
+|----------|------------|---------|
+| `ValidationError` | `validation` | Caller input or precondition failure (bad params, unsupported token/chain, insufficient balance, SDK not initialized). |
+| `UserActionError` | `user_action` | User rejected a prompt (intent hook, signature, allowance approval, tx send). |
+| `SimulationError` | `simulation` | A pre-execution `eth_call` / simulation failed. |
+| `ExecutionError` | `execution` | Runtime failure at the wallet/RPC boundary (gas estimate, revert, receipt timeout). |
+| `BackendError` | `backend` | Avail middleware HTTP/WS failure. |
+| `ExternalServiceError` | `external_service` | A third-party dependency failed (LiFi, Bebop, Fibrous, 0x, Mystic, Relay, Coinbase). |
+| `InternalError` | `internal` | A true SDK invariant was violated. |
+
+<Callout type="info">
+`code` holds a namespaced string of the shape `category/specific_noun`. The exported `ERROR_CODES` map gives you friendly aliases — e.g. `ERROR_CODES.INSUFFICIENT_BALANCE === 'validation/insufficient_balance'`. Branch on `error.category` (or `instanceof`) for coarse handling and on `error.code === ERROR_CODES.*` for specific cases.
+</Callout>
+
+There is no `NexusStepError` in v2. Step-scoped failures are thrown as the applicable subclass, carrying `context.stepId`, `context.stepType`, and `context.chainId`.
+
+### Recommended pattern
 
 ```typescript title="TypeScript"
-import { NexusError, ERROR_CODES } from '@avail-project/nexus-core';
+import {
+  NexusError,
+  UserActionError,
+  ValidationError,
+  ERROR_CODES,
+} from '@avail-project/nexus-core';
 
 try {
-  await sdk.bridge({ token: 'USDC', amount: 1_000_000n, toChainId: 137 });
+  await client.bridge({ toTokenSymbol: 'USDC', toAmountRaw: 1_000_000n, toChainId: 137 });
 } catch (error) {
   if (error instanceof NexusError) {
-    console.error(`[${error.code}] ${error.message}`);
+    console.error(`[${error.category}] ${error.code}: ${error.message}`);
 
-    if (error.data?.context) {
-      console.error(`Context: ${error.data.context}`);
+    // Coarse branching on category
+    if (error instanceof UserActionError) {
+      // User cancelled a prompt — usually nothing to show
+      return;
     }
 
-    if (error.data?.details) {
-      console.error('Details:', error.data.details);
+    if (error instanceof ValidationError) {
+      switch (error.code) {
+        case ERROR_CODES.INSUFFICIENT_BALANCE:
+          showInsufficientBalanceUI();
+          break;
+        case ERROR_CODES.TOKEN_NOT_SUPPORTED:
+          showUnsupportedTokenUI();
+          break;
+        default:
+          showGenericError(error.message);
+      }
     }
 
-    switch (error.code) {
-      case ERROR_CODES.INSUFFICIENT_BALANCE:
-        showInsufficientBalanceUI();
-        break;
-      case ERROR_CODES.USER_DENIED_INTENT:
-        // User cancelled - not an error to display
-        break;
-      case ERROR_CODES.TRANSACTION_TIMEOUT:
-        showRetryOption();
-        break;
-      default:
-        showGenericError(error.message);
-    }
-
-    // Optional: log for telemetry
+    // Log the structured form for telemetry
     logErrorToService(error.toJSON());
   } else {
     // Non-Nexus errors (network, library, etc.)
@@ -310,70 +342,36 @@ try {
 }
 ```
 
-### Error Codes Reference
+### Error codes reference
 
-You can view the error code source files in the Nexus SDK GitHub repo:
+The full list lives in [`src/domain/errors.ts`](https://github.com/availproject/nexus-sdk/blob/main/src/domain/errors.ts). Representative codes by category:
 
-<Cards>
-    <Card title="nexusError.ts" href="https://github.com/availproject/nexus-sdk/blob/develop/src/sdk/ca-base/nexusError.ts" external arrow />
-    <Card title="errors.ts" href="https://github.com/availproject/nexus-sdk/blob/develop/src/sdk/ca-base/errors.ts" external arrow />
-</Cards>
+| `ERROR_CODES` key | `code` value | Category |
+|-------------------|--------------|----------|
+| `INVALID_INPUT` | `validation/invalid_input` | validation |
+| `INSUFFICIENT_BALANCE` | `validation/insufficient_balance` | validation |
+| `TOKEN_NOT_SUPPORTED` | `validation/token_not_supported` | validation |
+| `CHAIN_NOT_FOUND` | `validation/chain_not_found` | validation |
+| `SDK_NOT_INITIALIZED` | `validation/sdk_not_initialized` | validation |
+| `WALLET_NOT_CONNECTED` | `validation/wallet_not_connected` | validation |
+| `VAULT_CONTRACT_NOT_FOUND` | `validation/vault_contract_not_found` | validation |
+| `INVALID_VALUES_ALLOWANCE_HOOK` | `validation/invalid_allowance_hook` | validation |
+| `USER_INTENT_HOOK_DENIED` | `user_action/intent_hook_denied` | user_action |
+| `USER_INTENT_SIGNATURE_DENIED` | `user_action/intent_signature_denied` | user_action |
+| `USER_ALLOWANCE_APPROVAL_DENIED` | `user_action/allowance_approval_denied` | user_action |
+| `USER_TX_SEND_DENIED` | `user_action/tx_send_denied` | user_action |
+| `SIMULATION_ETH_CALL_FAILED` | `simulation/eth_call_failed` | simulation |
+| `EXEC_GAS_ESTIMATE_FAILED` | `execution/gas_estimate_failed` | execution |
+| `EXEC_TX_ONCHAIN_REVERTED` | `execution/tx_onchain_reverted` | execution |
+| `EXEC_TX_RECEIPT_WAIT_TIMEOUT` | `execution/tx_receipt_wait_timeout` | execution |
+| `EXEC_SLIPPAGE_EXCEEDED` | `execution/slippage_exceeded` | execution |
+| `BACKEND_RFF_SUBMIT_FAILED` | `backend/rff_submit_failed` | backend |
+| `BACKEND_FULFILMENT_WAIT_TIMEOUT` | `backend/fulfilment_wait_timeout` | backend |
+| `BACKEND_FEE_GRANT_REQUESTED` | `backend/fee_grant_requested` | backend |
+| `EXTERNAL_SOURCE_SWAP_QUOTE_FAILED` | `external_service/source_swap_quote_failed` | external_service |
+| `EXTERNAL_RATES_DRIFT_EXCEEDED` | `external_service/rates_drift_exceeded` | external_service |
+| `INTERNAL_ERROR` | `internal/error` | internal |
 
-<div className="mt-4" />
-
-| Error Code | Description | User Action |
-|------------|-------------|-------------|
-| **User Actions** | | |
-| `USER_DENIED_INTENT` | User rejected the intent in hook | None - user cancelled |
-| `USER_DENIED_ALLOWANCE` | User rejected token approval | None - user cancelled |
-| `USER_DENIED_INTENT_SIGNATURE` | User rejected signature request | None - user cancelled |
-| `USER_DENIED_SIWE_SIGNATURE` | User rejected SIWE signature | None - user cancelled |
-| **Balance & Funds** | | |
-| `INSUFFICIENT_BALANCE` | Not enough tokens for operation | Show balance, suggest deposit |
-| `NO_BALANCE_FOR_ADDRESS` | No balance found for address | Verify address |
-| **Validation** | | |
-| `INVALID_INPUT` | Invalid parameters provided | Check input values |
-| `INVALID_ADDRESS_LENGTH` | Address has wrong length | Verify address format |
-| `INVALID_VALUES_ALLOWANCE_HOOK` | Invalid allowance hook values | Check allow() arguments |
-| `TOKEN_NOT_SUPPORTED` | Token not supported | Use supported token |
-| **Initialization** | | |
-| `SDK_NOT_INITIALIZED` | SDK not initialized | Call initialize() first |
-| `SDK_INIT_STATE_NOT_EXPECTED` | Unexpected init state | Re-initialize SDK |
-| `WALLET_NOT_CONNECTED` | No wallet connected | Connect wallet |
-| `CONNECT_ACCOUNT_FAILED` | Failed to connect account | Retry connection |
-| **Chain & Network** | | |
-| `CHAIN_NOT_FOUND` | Chain ID not found | Use supported chain |
-| `CHAIN_DATA_NOT_FOUND` | Chain data unavailable | Check network connection |
-| `VAULT_CONTRACT_NOT_FOUND` | Vault contract not found | Contact support |
-| `ENVIRONMENT_NOT_SUPPORTED` | Environment not supported | Use mainnet/testnet |
-| `ENVIRONMENT_NOT_KNOWN` | Unknown environment | Check configuration |
-| **Transactions** | | |
-| `TRANSACTION_TIMEOUT` | Transaction timed out | Retry or check explorer |
-| `TRANSACTION_REVERTED` | Transaction reverted | Check contract/params |
-| `TRANSACTION_CHECK_ERROR` | Error checking transaction | Retry |
-| `FETCH_GAS_PRICE_FAILED` | Failed to fetch gas price | Retry |
-| **Operations** | | |
-| `SIMULATION_FAILED` | Simulation failed | Check parameters |
-| `QUOTE_FAILED` | Failed to get quote | Retry |
-| `SWAP_FAILED` | Swap operation failed | Retry or adjust params |
-| `REFUND_FAILED` | Refund request failed | Contact support |
-| `REFUND_CHECK_ERROR` | Error checking refund | Retry |
-| **Intent & Solver** | | |
-| `LIQUIDITY_TIMEOUT` | Solver liquidity timeout | Retry later |
-| `RATES_CHANGED_BEYOND_TOLERANCE` | Price moved too much | Refresh and retry |
-| `RFF_FEE_EXPIRED` | Request for funds expired | Retry operation |
-| `DESTINATION_REQUEST_HASH_NOT_FOUND` | Destination hash not found | Contact support |
-| `DESTINATION_SWEEP_ERROR` | Error sweeping funds | Contact support |
-| **Allowance** | | |
-| `SLIPPAGE_EXCEEDED_ALLOWANCE` | Slippage exceeded | Increase allowance |
-| `ALLOWANCE_SETTING_ERROR` | Error setting allowance | Retry approval |
-| **Other** | | |
-| `TRON_DEPOSIT_FAIL` | Tron deposit failed | Retry |
-| `TRON_APPROVAL_FAIL` | Tron approval failed | Retry approval |
-| `FUEL_DEPOSIT_FAIL` | Fuel deposit failed | Retry |
-| `INTERNAL_ERROR` | Internal SDK error | Contact support |
-| `UNKNOWN_SIGNATURE` | Unknown signature type | Contact support |
-| `ASSET_NOT_FOUND` | Asset not found | Check token address |
-| `COSMOS_ERROR` | Cosmos chain error | Check Cosmos config |
-| `UNIVERSE_NOT_SUPPORTED` | Universe not supported | Use supported chain |
-| `FEE_GRANT_REQUESTED` | Fee grant requested | Contact support |
+<Callout type="info">
+See the [full error definitions](https://github.com/availproject/nexus-sdk/blob/main/src/domain/errors.ts) on GitHub for the exhaustive `ERROR_CODES` map, the named `Errors.*` factories, and every `code`.
+</Callout>

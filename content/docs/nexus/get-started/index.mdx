@@ -5,55 +5,52 @@ sidebarTitle: Get Started
 description: Build cross-chain apps with Avail Nexus — accept payments from any chain, swap tokens across ecosystems, and execute contracts remotely.
 ---
 
-Nexus lets your app move assets and execute transactions across chains without requiring users to bridge manually. Your users get a single-balance experience — your app handles the cross-chain complexity under the hood.
+Nexus lets your app move assets and execute transactions across chains without requiring users to bridge manually. Your users see one unified balance across every connected chain and sign a single message — Nexus turns it into an intent that solvers fill on the destination chain, usually in seconds.
 
 ## Quick Look — How the SDK Works
 
-<Tabs defaultValue="sdk-example">
-  <TabsList>
-    <TabsTrigger value="sdk-example">SDK Example</TabsTrigger>
-    <TabsTrigger value="scaffold">Scaffold an App</TabsTrigger>
-  </TabsList>
-  <TabsContent value="sdk-example">
-
 ```ts
-// 1. Initialize
-const sdk = new NexusSDK({ network: 'mainnet' });
+import { createNexusClient } from '@avail-project/nexus-core';
+
+// 1. Create and initialize the client
+const client = createNexusClient({ network: 'mainnet' });
+await client.initialize();
+await client.setEVMProvider(window.ethereum);
 
 // 2. See balances across all chains
-const bridgeBalances = await sdk.getBalancesForBridge();
-// → Returns tokens available for bridging across chains
+const bridgeBalances = await client.getBalancesForBridge();
+const swapBalances = await client.getBalancesForSwap();
 
-const swapBalances = await sdk.getBalancesForSwap();
-// → Returns tokens available for cross-chain swaps
+// 3. Bridge to any chain — one signature, filled by a solver
+await client.bridge(
+  {
+    toTokenSymbol: 'USDC',
+    toAmountRaw: 100_000_000n, // 100 USDC (6 decimals)
+    toChainId: 42161,          // Arbitrum
+  },
+  {
+    hooks: {
+      // Show the user what they'll pay and receive, then confirm
+      onIntent: ({ intent, allow, deny }) => allow(),
+    },
+  }
+);
 
-// 3. Bridge to any chain — Nexus finds the best route
-await sdk.bridge({ token: 'USDC', amount: 100, toChain: 'arbitrum' });
-
-// 4. Or swap any token → any token, cross-chain
-await sdk.swap({ from: 'USDC', to: 'ETH', amount: 50, toChain: 'base' });
+// 4. Or swap into any token on any chain
+await client.swapWithExactOut({
+  toChainId: 8453, // Base
+  toTokenAddress: '0x4200000000000000000000000000000000000006', // WETH on Base
+  toAmountRaw: 10_000_000_000_000_000n, // 0.01 WETH
+});
 ```
-
-  </TabsContent>
-  <TabsContent value="scaffold">
-
-```bash
-npx create-liquid-apps my-app
-cd my-app && npm run dev
-```
-
-You'll be prompted to choose your framework (Next.js, Vite, etc.) and auth provider. The generated app comes with Nexus SDK pre-configured.
-
-  </TabsContent>
-</Tabs>
 
 ## What Changes for Your Users
 
 | Without Nexus | With Nexus |
 |---|---|
-| User bridges manually, switches chains, manages gas per chain | User signs once — Nexus routes funds across chains |
+| User bridges manually, switches chains, manages gas per chain | User signs one message — Nexus routes funds across chains |
 | Dev writes bridge logic per chain pair | Dev calls a single SDK method with token + destination |
-| Balances scattered across 12 chains | One unified balance |
+| Balances scattered across a dozen chains | One unified balance |
 
 ## Choose Your Path
 
@@ -61,20 +58,14 @@ You'll be prompted to choose your framework (Next.js, Vite, etc.) and auth provi
   <IconCard
     icon={<Gear />}
     title="Add Cross-Chain to My App"
-    description="Use Nexus Core directly — a TypeScript API for bridging, swaps, and intent management. ~15 min."
-    href="/docs/nexus/nexus-sdk/quickstart"
+    description="Use the Nexus SDK directly — a TypeScript API for bridging, swaps, and intent management. ~15 min."
+    href="/docs/nexus/nexus-sdk/get-started/installation"
   />
   <IconCard
     icon={<Puzzle />}
-    title="Drop in UI Components"
-    description="Pre-built React components for bridging, swaps, and balances — shadcn-based. ~10 min."
-    href="/docs/nexus/nexus-ui-elements/get-started/installation"
-  />
-  <IconCard
-    icon={<CodeIcon />}
-    title="Start a New App from Scratch"
-    description="Scaffold a working app with create-liquid-apps — framework and auth pre-configured. ~5 min."
-    href="/docs/nexus/nexus-sdk/quickstart"
+    title="Drop in Widgets"
+    description="A pre-built UI element for bridging, swaps, and balances — shadcn-based. ~10 min."
+    href="/docs/nexus/widgets/get-started/installation"
   />
   <IconCard
     icon={<Brain />}
@@ -94,26 +85,30 @@ When a user initiates a cross-chain action, Nexus handles the entire flow behind
 
 <Steps>
 
-### User Expresses an Intent
-The user says "Move 100 USDC to Arbitrum" — your app creates an [intent](/docs/nexus/concepts/intent), a structured declaration of the desired outcome.
+### The SDK Requests a Quote
+The user says "Move 100 USDC to Arbitrum" — the SDK asks Nexus for a quote: which source chains to draw funds from and what the fees are.
 
-### Protocol Collects Funds
-Using pre-approved [allowances](/docs/nexus/concepts/allowances), Nexus accesses the user's funds across source chains and deposits them into vault contracts.
+### The User Approves and Signs Once
+Your app shows the [intent](/docs/nexus/concepts/intent) — sources, destination, and fees — via the `onIntent` hook. The user approves and signs one message covering the whole operation. No chain switching, no per-chain bridging.
 
-### Solvers Compete
-[Solvers](/docs/nexus/concepts/solvers) — liquidity providers — race to fulfill the intent by providing funds on the destination chain. Competition keeps fees low.
+### Funds Are Locked, a Solver Fills
+The signed intent is submitted to the Nexus network, and the user's funds are deposited into Vault contracts on each source chain. A [solver](/docs/nexus/concepts/solvers) fronts its own capital and delivers the funds on the destination chain — this is why the user receives tokens in seconds.
 
-### Funds Arrive
-The user receives tokens on the destination chain. Settlement with the solver happens asynchronously in the background.
+### Settlement Happens in the Background
+The solver is later reimbursed from the locked source funds through an on-chain settlement authorized by Nexus validators. If no solver fills the intent before it expires, the user is refunded.
 
 </Steps>
+
+<Callout type="info">
+Some routes are served by the native Nexus flow (intents filled by solvers) and others by Mayan, a third-party bridge provider. The SDK selects the provider automatically — your integration code stays the same.
+</Callout>
 
 ## Supported Chains & Tokens
 
 Nexus currently supports bridging and swaps across major EVM chains including Ethereum, Arbitrum, Base, Optimism, and more. Bridge operations support canonical tokens (ETH, USDC, USDT), while swap operations support a broader range of tokens through DEX aggregator partners.
 
 <Callout type="info">
-For the full list of supported chains and tokens, see the [SDK API Reference](/docs/nexus/nexus-sdk/quickstart).
+For the full list, see [Supported Chains & Tokens](/docs/nexus/supported-chains-and-tokens).
 </Callout>
 
 ## Next Steps
@@ -129,7 +124,7 @@ For the full list of supported chains and tokens, see the [SDK API Reference](/d
     icon={<CodeIcon />}
     title="SDK Reference"
     description="Complete API docs for Bridge Methods, Swap Methods, and more."
-    href="/docs/nexus/nexus-sdk/quickstart"
+    href="/docs/nexus/nexus-sdk/reference"
   />
   <IconCard
     icon={<Brain />}

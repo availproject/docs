@@ -103,7 +103,7 @@ const WALLET_CONNECT_ID = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID!;
 const defaultConfig = getDefaultConfig({
   appName: "Avail Docs",
   appDescription: "docs",
-  appIcon: "https://elements.nexus.availproject.org/avail-fav.svg",
+  appIcon: "https://widgets.availproject.org/avail-fav.svg",
   walletConnectProjectId: WALLET_CONNECT_ID,
   chains: [
     mainnet,

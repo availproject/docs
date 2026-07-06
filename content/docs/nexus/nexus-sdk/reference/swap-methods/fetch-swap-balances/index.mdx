@@ -7,8 +7,7 @@ description: "Fetch token balances available for swap operations across all supp
 <Callout type="info">
 **SET UP THE SDK BEFORE YOU START:**
 
-1. You can find the SDK setup instructions in the [Quickstart](/docs/nexus/nexus-sdk/quickstart) page.
-2. We also [created a tutorial](/docs/nexus/nexus-sdk/quickstart) to make it easier to understand how devs need to initialize the Nexus SDK in their project.
+Install and initialize the client first — see [Installation](/docs/nexus/nexus-sdk/get-started/installation) and [SDK Setup](/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup).
 </Callout>
 
 Use the `getBalancesForSwap()` function to fetch token balances that can be used in swap operations across all supported chains in one call.
@@ -20,17 +19,12 @@ Use the `getBalancesForSwap()` function to fetch token balances that can be used
 ## Method signature
 
 ```typescript title="TypeScript"
-getBalancesForSwap(): Promise<Array<{
-    amount: string;
-    chainID: number;
-    decimals: number;
-    symbol: string;
-    tokenAddress: `0x${string}`;
-    universe: Universe;
-    value: number;
-    logo: string;
-}>>
+getBalancesForSwap(): Promise<TokenBalance[]>
 ```
+
+<Callout type="info">
+`getBalancesForSwap()` returns the same `TokenBalance[]` shape as `getBalancesForBridge()`. If you need the tokens that can be used for bridging instead, use [`getBalancesForBridge()`](/docs/nexus/nexus-sdk/reference/bridge-methods/fetch-bridge-balances).
+</Callout>
 
 ## Parameters
 
@@ -42,25 +36,41 @@ Here is a minimal example of how to use the `getBalancesForSwap()` function to f
 
 ```typescript title="TypeScript"
 // Get all balances that are eligible for swap operations
-const swapBalances = await sdk.getBalancesForSwap();
+const swapBalances = await client.getBalancesForSwap();
 console.log('Swap balances:', swapBalances);
 ```
 
 ## Return Value
 
-- `getBalancesForSwap()`: Returns an array of anonymous objects with the following properties:
-
+`getBalancesForSwap()` returns `Promise<TokenBalance[]>` — an array of `TokenBalance` objects. Each `TokenBalance` aggregates a token's holdings across every chain it lives on, with the per-chain split in `chainBalances`.
 
 ```typescript title="TypeScript"
-// Docs-only alias. Not exported by the SDK.
-type SwapBalanceItem = {
-amount: string;
-chainID: number;
-decimals: number;
-symbol: string;
-tokenAddress: `0x${string}`;
-universe: Universe;
-value: number;
-logo: string;
+export type TokenBalance = {
+  balance: string;              // Aggregate balance across all chains (human-readable)
+  value: string;                // Aggregate fiat value (string for precision)
+  chainBalances: ChainBalance[];// Per-chain breakdown
+  currencyId?: number;          // Currency identifier (when applicable)
+  decimals: number;
+  logo: string;
+  name: string;                 // Display label (e.g. "USDC/USDM")
+  symbol: string;               // Majority symbol by chain count
+};
+
+export type ChainBalance = {
+  balance: string;              // Balance on this chain (human-readable)
+  value: string;                // Fiat value on this chain (string for precision)
+  symbol: string;
+  chain: {
+    id: number;
+    logo: string;
+    name: string;
+  };
+  contractAddress: `0x${string}`;
+  decimals: number;
+  universe: Universe;           // VM family of the chain (e.g. 'EVM')
 };
 ```
+
+<Callout type="info">
+Field renames from [v1](https://github.com/availproject/nexus-sdk/blob/main/MIGRATION.md): `balanceInFiat` → `value`, `icon` → `logo`, and `breakdown` → `chainBalances`. See the [full type definitions](https://github.com/availproject/nexus-sdk/blob/main/src/domain/types/index.ts) on GitHub.
+</Callout>

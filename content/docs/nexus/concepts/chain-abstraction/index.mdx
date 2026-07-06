@@ -2,23 +2,23 @@
 image: "/img/docs-link-preview.png"
 title: What is Chain Abstraction?
 sidebarTitle: Chain Abstraction
-description: Eliminate manual bridging, chain switching, and wallet complexity for a seamless cross-chain experience.
+description: Eliminate manual bridging, chain switching, and wallet complexity when transacting across chains.
 hideFooter: true
 ---
 
 Managing multiple chains, tokens, and accounts fragments wallet liquidity for Web3 users. Even with enough assets overall, funds scattered across chains make transacting difficult and require complex, time-consuming conversions.
 
-Chain abstraction lets users access a unified balance across all wallet-linked chains, enabling transactions anywhere. 
+Chain abstraction lets users access a unified balance across all wallet-linked chains, enabling transactions anywhere.
 
-Instead of converting funds first, users specify a [clear intent](/docs/nexus/concepts/intent). The protocol collects funds from source chains, shows intent and fees for confirmation, then publishes the intent to solvers. 
+Instead of bridging manually chain by chain, users express a [clear intent](/docs/nexus/concepts/intent): the SDK requests a quote (which source chains to draw from, and the fees), the user reviews it and signs a single message covering the whole operation.
 
-[Solvers](/docs/nexus/concepts/solvers) compete to provide liquidity on the destination chain, and once available, users confirm the transaction. Settlement with solvers happens asynchronously using the collected funds.
+The signed intent is submitted to the Nexus network, where a [solver](/docs/nexus/concepts/solvers) delivers the funds on the destination chain — usually within seconds — and is reimbursed from the user's deposited funds at settlement. See the [intent lifecycle](/docs/nexus/concepts/intent-lifecycle) for the full flow.
 
 <ThemedImage light="/img/nexus/chain-abstraction-light.png" dark="/img/nexus/chain-abstraction-dark.png" alt="Chain Abstraction" />
 
 *Showing a subset of supported chains. See [Supported Chains & Tokens](/docs/nexus/supported-chains-and-tokens) for the full list.*
 
-As part of setup, devs configure [allowances](/docs/nexus/concepts/allowances) per chain and token. Users approve or reject these allowances. For supported chains and tokens, the protocol uses these allowances to deposit required funds for transactions on the destination chain.
+As part of setup, devs configure [allowances](/docs/nexus/concepts/allowances) per chain and token. Users approve or reject these allowances. For supported chains and tokens, the protocol uses these allowances to deposit the required funds into the source-chain Vault contracts.
 
 
 <Callout>
@@ -26,9 +26,9 @@ As part of setup, devs configure [allowances](/docs/nexus/concepts/allowances) p
 
 Chain abstraction enables unified balance to simplify and streamline Web3 transactions. It offers:
 
-1. **Faster Intent Processing**: Enables quick and seamless transaction execution across chains.
-2. **Unified Liquidity**: Provides a consolidated view of user assets across wallet-linked chains with no asset bridging.
-3. **Simplified UX**: Removes multi-step hurdles for a seamless experience for users.
+1. **Fast Fulfilment**: Solvers front liquidity on the destination chain, so users receive funds in seconds instead of waiting for bridge finality.
+2. **Unified Liquidity**: Provides a consolidated view of user assets across wallet-linked chains with no manual bridging.
+3. **Simplified UX**: One signature replaces multi-step bridging, chain switching, and per-chain gas management.
 4. **Streamlined DX**: Developers can add unified balances to dApps with minimal changes and no smart contract updates for new chains.
 </Callout>
 

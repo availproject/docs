@@ -7,8 +7,7 @@ description: "Fetch token balances available for bridge operations across all su
 <Callout type="info">
 **SET UP THE SDK BEFORE YOU START:**
 
-1. You can find the SDK setup instructions in the [Quickstart](/docs/nexus/nexus-sdk/quickstart) page.
-2. We also [created a tutorial](/docs/nexus/nexus-sdk/quickstart) to make it easier to understand how devs need to initialize the Nexus SDK in their project.
+Install and initialize the client first — see [Installation](/docs/nexus/nexus-sdk/get-started/installation) and [SDK Setup](/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup).
 </Callout>
 
 Use the `getBalancesForBridge()` function to fetch token balances that can be used in bridge operations across all supported chains in one call.
@@ -20,11 +19,11 @@ Use the `getBalancesForBridge()` function to fetch token balances that can be us
 ## Method signature
 
 ```typescript title="TypeScript"
-getBalancesForBridge(): Promise<UserAsset[]>
+getBalancesForBridge(): Promise<TokenBalance[]>
 ```
-<Callout type="warning">
-<strong>Deprecated:</strong> `getUnifiedBalances()` has been replaced by `getBalancesForBridge()`.  
-If you need tokens that can be used for swaps, use `getBalancesForSwap()`.
+
+<Callout type="info">
+If you need the tokens that can be used for swaps instead, use `getBalancesForSwap()`, which returns the same `TokenBalance[]` shape.
 </Callout>
 
 ## Parameters
@@ -36,36 +35,42 @@ If you need tokens that can be used for swaps, use `getBalancesForSwap()`.
 Here is a minimal example of how to use the `getBalancesForBridge()` function to fetch the balances accessible by the bridge operations of a user:
 
 ```typescript title="TypeScript"
-
 // Get all balances accessible by the bridge operations of a user
-const bridgeBalances = await sdk.getBalancesForBridge();
+const bridgeBalances = await client.getBalancesForBridge();
 console.log('Bridge balances:', bridgeBalances);
 ```
 
 ## Return Value
 
-- `getBalancesForBridge()`: Returns `Promise<UserAsset[]>` - Array of `UserAsset` objects.
+`getBalancesForBridge()` returns `Promise<TokenBalance[]>` — an array of `TokenBalance` objects. Each `TokenBalance` aggregates a token's holdings across every chain it lives on, with the per-chain split in `chainBalances`.
 
 ```typescript title="TypeScript"
-export type UserAsset = {
-  abstracted?: boolean;
-  balance: string;
-  balanceInFiat: number;
-  breakdown: {
-    balance: string;
-    balanceInFiat: number;
-    chain: {
-      id: number;
-      logo: string;
-      name: string;
-    };
-    contractAddress: `0x${string}`;
-    decimals: number;
-    isNative?: boolean;
-    universe: Universe;
-  }[];
+export type TokenBalance = {
+  balance: string;              // Aggregate balance across all chains (human-readable)
+  value: string;                // Aggregate fiat value (string for precision)
+  chainBalances: ChainBalance[];// Per-chain breakdown
+  currencyId?: number;          // Bridge currency identifier (present on bridge balances)
   decimals: number;
-  icon?: string;
+  logo: string;
+  name: string;                 // Display label (e.g. "USDC/USDM")
+  symbol: string;               // Majority symbol by chain count
+};
+
+export type ChainBalance = {
+  balance: string;              // Balance on this chain (human-readable)
+  value: string;                // Fiat value on this chain (string for precision)
   symbol: string;
+  chain: {
+    id: number;
+    logo: string;
+    name: string;
+  };
+  contractAddress: `0x${string}`;
+  decimals: number;
+  universe: Universe;           // VM family as a numeric enum (0 = Ethereum/EVM)
 };
 ```
+
+<Callout type="info">
+Field renames from [v1](https://github.com/availproject/nexus-sdk/blob/main/MIGRATION.md): `balanceInFiat` → `value`, `icon` → `logo`, and `breakdown` → `chainBalances`. See the [full type definitions](https://github.com/availproject/nexus-sdk/blob/main/src/domain/types/index.ts) on GitHub.
+</Callout>

@@ -20,8 +20,8 @@ Avail documentation is built to be consumed by AI agents, LLMs, and developer to
 | [Agent detection](#agent-detection) | Automatic | Identifies Claude, ChatGPT, Cursor, Perplexity via User-Agent |
 | [Copy for LLM](#page-actions) | Page sidebar | One-click copy of cleaned markdown for the current page |
 | [Ask AI](#page-actions) | Page sidebar | Open page context in v0, ChatGPT, or Claude |
-| [MCP Server](#mcp-server-for-nexus-ui-elements) | shadcn MCP | Browse and install Nexus UI Elements via natural language |
-| [Agent Skills](#agent-skills) | skills.sh | Install Nexus SDK and UI Elements skills for AI coding agents |
+| [MCP Server](#mcp-server-for-avail-widgets) | shadcn MCP | Browse and install Avail Widgets via natural language |
+| [Agent Skills](#agent-skills) | skills.sh | Install Nexus SDK and Widgets skills for AI coding agents |
 
 ---
 
@@ -151,22 +151,22 @@ Every documentation page includes AI actions in the right sidebar:
 
 ---
 
-## MCP Server for Nexus UI Elements
+## MCP Server for Avail Widgets
 
-The [Nexus UI Elements](/docs/nexus/nexus-ui-elements) registry supports the [Model Context Protocol (MCP)](https://modelcontextprotocol.io), allowing AI assistants to browse, search, and install Nexus UI components with natural language.
+The [Avail Widgets](/docs/nexus/widgets) registry supports the [Model Context Protocol (MCP)](https://modelcontextprotocol.io), allowing AI assistants to browse, search, and install the Nexus Widget with natural language.
 
 ### Quick Setup
 
 <Steps>
 
-### Add the Nexus Elements registry
+### Add the Avail Widgets registry
 
 Add to your project's `components.json`:
 
 ```json title="components.json"
 {
   "registries": {
-    "@nexus-elements": "https://elements.nexus.availproject.org/r/{name}.json"
+    "@avail-widgets": "https://widgets.availproject.org/r/{name}.json"
   }
 }
 ```
@@ -215,56 +215,43 @@ Open `.vscode/mcp.json`, click **Start** next to the shadcn server.
 
 Once connected, try prompts like:
 
-- "Show me all available components in the Nexus Elements registry"
-- "Add the transfer component from @nexus-elements to my project"
-- "Install the unified-balance and fast-bridge components from @nexus-elements"
+- "Show me all available components in the Avail Widgets registry"
+- "Add @avail-widgets/nexus to my project"
+- "Set up the NexusProvider and render the Nexus Widget in swap mode"
 
 </Steps>
 
-For full details, see the [MCP & Agent Skills documentation](/docs/nexus/nexus-ui-elements/mcp-and-agent-skills).
+For full details, see the [MCP & Agent Skills documentation](/docs/nexus/widgets/mcp-and-agent-skills).
 
 ---
 
 ## Agent Skills
 
-[skills.sh](https://skills.sh) skills give AI coding agents (Codex, Claude Code, Cursor, etc.) deep context about the Nexus SDK and UI Elements. Two skill packages are available:
+[skills.sh](https://skills.sh) skills give AI coding agents (Codex, Claude Code, Cursor, etc.) deep context about the Nexus SDK and Widgets. Two skill packages are available:
 
 ### Nexus SDK Skills
 
-The [Nexus SDK](https://github.com/availproject/nexus-sdk) package helps agents integrate cross-chain operations end-to-end.
+The [Nexus SDK](https://github.com/availproject/nexus-sdk) repository ships the `nexus-core` skill, covering client lifecycle, operations, hooks, events, error handling, utils, and v1 → v2 migration.
 
 ```bash
-# Install all SDK skills
 npx skills add availproject/nexus-sdk
-
-# Install a single skill
-npx skills add https://github.com/availproject/nexus-sdk --skill nexus-sdk-integration
 ```
-
-| Skill | Description |
-|-------|-------------|
-| `nexus-sdk-integration` | Parent/orchestrator skill — coordinates all sub-skills |
-| `nexus-sdk-setup` | SDK initialization and configuration |
-| `nexus-sdk-hooks-events` | Hooks and event handling patterns |
-| `nexus-sdk-bridge-flows` | Bridge operation flows |
-| `nexus-sdk-swap-flows` | Swap operation flows |
-| `nexus-sdk-balances-metadata-utils` | Balances, metadata, and utility functions |
 
 For full details, see the [Skills Integration reference](/docs/nexus/nexus-sdk/reference/utility-reference#skills-integration).
 
-### Nexus UI Elements Skills
+### Avail Widgets Skills
 
-The [Nexus UI Elements](https://github.com/availproject/nexus-elements) package ships 10 skills that help agents scaffold and integrate pre-built React components for bridging, swaps, deposits, and more.
+The [Avail Widgets](https://github.com/availproject/nexus-elements) repository ships skills that help agents scaffold and integrate the Nexus Widget for swaps, sends, and deposits.
 
 ```bash
-# Install all UI Elements skills
+# Install all Widgets skills
 npx skills add availproject/nexus-elements
 
 # Install a single skill
-npx skills add https://github.com/availproject/nexus-elements --skill nexus-elements-overview
+npx skills add https://github.com/availproject/nexus-elements --skill nexus-widget-swaps
 ```
 
-For the full list of available skills, see [MCP & Agent Skills](/docs/nexus/nexus-ui-elements/mcp-and-agent-skills#agent-skills).
+For the full list of available skills, see [MCP & Agent Skills](/docs/nexus/widgets/mcp-and-agent-skills#agent-skills).
 
 Browse all available skills at [skills.sh/availproject/nexus-elements](https://skills.sh/availproject/nexus-elements) and [skills.sh/availproject/nexus-sdk](https://skills.sh/availproject/nexus-sdk).
 

@@ -6,7 +6,7 @@ description: Replace window.ethereum with RainbowKit for a polished wallet conne
 In this guide you will add RainbowKit to an existing Nexus SDK project and retrieve the EIP-1193 provider from wagmi's connector instead of `window.ethereum`. By the end you will have a full wallet connection modal, multi-wallet support, and all existing SDK functionality intact.
 
 <Callout type="info" title="Prerequisite">
-This guide builds on the [Nexus SDK Setup](/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup). Complete that first, or scaffold a project with the [Quickstart](/docs/nexus/nexus-sdk/quickstart).
+This guide builds on the [Nexus SDK Setup](/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup). Complete that first.
 </Callout>
 
 ## What changes
@@ -254,7 +254,7 @@ The key change: instead of reading `window.ethereum`, use wagmi's `useAccount` h
 "use client";
 
 import { useAccount } from "wagmi";
-import { initializeWithProvider, isInitialized } from "../lib/nexus";
+import { initializeWithProvider, client } from "../lib/nexus";
 
 export default function InitButton({
   className,
@@ -280,7 +280,7 @@ export default function InitButton({
     <button
       className={className}
       onClick={onClick}
-      disabled={isInitialized()}
+      disabled={client.hasEvmProvider}
     >
       Initialize Nexus
     </button>
@@ -298,7 +298,7 @@ await initializeWithProvider(provider);
 
 - **`useAccount()`** — wagmi hook that returns the current connection state and active connector
 - **`connector.getProvider()`** — returns the EIP-1193 provider for whichever wallet the user connected (MetaMask, WalletConnect, Coinbase, etc.)
-- **`initializeWithProvider(provider)`** — your existing helper function passes the provider to `sdk.initialize()`
+- **`initializeWithProvider(provider)`** — your existing helper function runs `client.initialize()` and then passes the provider to `client.setEVMProvider()`
 
 This means **any wallet RainbowKit supports** will work with the Nexus SDK — no code changes needed per wallet.
 
@@ -313,13 +313,13 @@ import { useState } from "react";
 import { useAccount } from "wagmi";
 import ConnectWalletButton from "@/components/connect-button";
 import InitButton from "@/components/init-button";
-import FetchUnifiedBalanceButton from "@/components/fetch-unified-balance-button";
+import FetchBalancesButton from "@/components/fetch-balances-button";
 import DeinitButton from "@/components/de-init-button";
-import { isInitialized } from "@/lib/nexus";
+import { client } from "@/lib/nexus";
 
 export default function Page() {
   const { isConnected } = useAccount();
-  const [initialized, setInitialized] = useState(isInitialized());
+  const [initialized, setInitialized] = useState(client.hasEvmProvider);
   const [balances, setBalances] = useState<any>(null);
 
   const btn =
@@ -334,7 +334,7 @@ export default function Page() {
           className={btn}
           onReady={() => setInitialized(true)}
         />
-        <FetchUnifiedBalanceButton
+        <FetchBalancesButton
           className={btn}
           onResult={(r) => setBalances(r)}
         />

@@ -1,9 +1,9 @@
 ---
 title: NexusProvider Setup
-description: Wrap your application with the NexusProvider to enable Nexus UI Elements components.
+description: Wrap your application with the NexusProvider to enable the Nexus Widget.
 ---
 
-Every Nexus UI Elements component relies on the **NexusProvider** — a React context provider that initializes the Nexus SDK and shares wallet state across your component tree. Without it, components cannot sign transactions or read on-chain data.
+Nexus Widget relies on the **NexusProvider** — a React context provider that initializes the Nexus SDK and shares wallet state across your component tree. Without it, the widget cannot sign transactions or read on-chain data.
 
 In this step you will:
 1. Wrap your application layout with the provider
@@ -49,8 +49,14 @@ export default function RootLayout({
 <Callout type="info" title="Where to place the provider">
 `NexusProvider` must be rendered **inside** your wallet provider (e.g. wagmi's `WagmiProvider`) because it needs access to the connected wallet. A typical nesting order is:
 
-`WagmiProvider` → `QueryClientProvider` → `RainbowKitProvider` → **`NexusProvider`** → `{children}`
+`WagmiProvider` → `QueryClientProvider` → `ConnectKitProvider` → **`NexusProvider`** → `{children}`
 </Callout>
+
+`NexusProvider` accepts an optional `config` prop. The only setting you typically need is the network, which defaults to `"mainnet"`:
+
+```tsx
+<NexusProvider config={{ network: "mainnet" }}>{children}</NexusProvider>
+```
 
 ## Step 2 — Initialize Nexus on wallet connect
 
@@ -113,14 +119,14 @@ Both `NexusProvider` and `InitNexusOnConnect` must be client components (marked 
 
 ## Without shadcn/ui
 
-If you are not using shadcn/ui, you can still use Nexus UI Elements by manually copying the component source files from each component page. Keep in mind:
+If you are not using shadcn/ui, you can still use Nexus Widget by manually copying the component source files from each component page. Keep in mind:
 
 - You must install all peer dependencies listed on the component page yourself
 - UI primitives (buttons, inputs, dialogs, selects) must be provided by your own component library or built from scratch
 - Styling and theming are your responsibility — the components ship with Tailwind CSS classes by default
 
 <Callout type="info" title="Recommended approach">
-We strongly recommend using shadcn/ui for the smoothest setup. The CLI handles all dependency resolution and file scaffolding automatically.
+We recommend using shadcn/ui. The CLI handles all dependency resolution and file scaffolding automatically.
 </Callout>
 
 ## Next step
@@ -129,9 +135,9 @@ The provider is configured and the SDK will initialize as soon as the user conne
 
 <Cards>
   <Card
-    href="/docs/nexus/nexus-ui-elements/get-started/your-first-ui-element"
-    title="Your First UI Element"
-    description="Go to next step. Setting up your first Nexus UI Elements component"
+    href="/docs/nexus/widgets/get-started/your-first-widget"
+    title="Your First Widget"
+    description="Go to next step. Rendering the Nexus Widget."
     className="sm:col-span-2"
     arrow
   />

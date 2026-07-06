@@ -1,0 +1,27 @@
+---
+title: Widgets Reference
+description: "A shadcn-based component library for Nexus — the widget ships swap, send, and deposit UI in one component."
+---
+
+Widgets are shadcn-based components built on top of the Nexus SDK that let you drop working cross-chain UI into your project.
+
+The standalone per-feature widgets (unified balance, fast bridge, fast transfer, deposit, swaps, view history) have been consolidated into a single **widget**. One component covers swap, send, and deposit modes.
+
+## Install
+
+Install the widget with the shadcn CLI:
+
+```bash title="npm"
+npx shadcn@latest add availproject/widgets/nexus
+```
+
+The single `NexusWidget` component brings in its own dependencies and source files, and exposes `swap`, `send`, and `deposit` modes.
+
+## Read the full docs
+
+The Widgets documentation now lives on-site. Head there for installation, configuration, and per-mode usage.
+
+<Cards num={2}>
+    <Card title="Widgets" href="/docs/nexus/widgets" icon={<FileIcon />} arrow />
+    <Card title="Manual Setup" href="/docs/nexus/widgets/get-started/installation" icon={<FileIcon />} arrow />
+</Cards>

@@ -3,6 +3,8 @@
     "fetch-swap-balances",
     "swap-exact-in",
     "swap-exact-out",
+    "swap-and-execute",
+    "calculate-max-for-swap",
     "swap-events",
     "Methods",
     "Events"

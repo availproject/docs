@@ -28,14 +28,14 @@ const nexusCategories = [
       "Mainnet and testnet chains, token types, decimals, and swap support at a glance.",
   },
   {
-    href: "/docs/nexus/nexus-ui-elements",
+    href: "/docs/nexus/widgets",
     icon: <UiElementsIcon />,
-    title: "UI Elements",
+    title: "Widgets",
     description:
-      "Drop-in widgets for bridging, swaps, deposits, balances, and transaction history.",
+      "Nexus Widget — a drop-in component for cross-chain swap, send, and deposit flows.",
   },
   {
-    href: "/docs/nexus/nexus-sdk/quickstart",
+    href: "/docs/nexus/nexus-sdk/get-started/installation",
     icon: <NexusSdkIcon />,
     title: "Nexus SDK",
     description:

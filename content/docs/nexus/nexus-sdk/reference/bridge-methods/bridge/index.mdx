@@ -7,8 +7,7 @@ description: "Bridge a token from one or many source chains to a single destinat
 <Callout type="info">
 **SET UP THE SDK BEFORE YOU START:**
 
-1. You can find the SDK setup instructions in the [Quickstart](/docs/nexus/nexus-sdk/quickstart) page.
-2. We also [created a tutorial](/docs/nexus/nexus-sdk/quickstart) to make it easier to understand how devs need to initialize the Nexus SDK in their project.
+Install and initialize the client first — see [Installation](/docs/nexus/nexus-sdk/get-started/installation) and [SDK Setup](/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup).
 </Callout>
 
 Use the `bridge()` function to bridge a specific token from one (*or many*) chains to a single chain.
@@ -21,15 +20,14 @@ Use the `simulateBridge()` function to simulate the bridge transaction to previe
 ## Method signature
 
 ```typescript title="TypeScript"
-async bridge(
+bridge(
   params: BridgeParams,
-  options?: OnEventParam,
+  options?: BridgeOperationOptions,
 ): Promise<BridgeResult>
 
-async simulateBridge(
+simulateBridge(
   params: BridgeParams,
-): Promise<SimulationResult>
-
+): Promise<BridgeSimulationResult>
 ```
 
 ## Parameters
@@ -40,74 +38,89 @@ async simulateBridge(
  */
 export interface BridgeParams {
   recipient?: Hex;
-  token: string;
-  amount: bigint;
+  toTokenSymbol: string;
+  toAmountRaw: bigint;
   toChainId: number;
-  gas?: bigint;
-  sourceChains?: number[];
+  toNativeAmountRaw?: bigint;
+  sources?: number[];
 }
 ```
 
 - `BridgeParams`: Parameters for bridging tokens.
-  - `recipient` (Hex, optional): The recipient address. Default's to the address of the user.
-  - `token` (string, required): The token to be bridged.
-  - `amount` (bigint, required): The amount of tokens to be bridged.
+  - `recipient` (Hex, optional): The recipient address. Defaults to the address of the connected user.
+  - `toTokenSymbol` (string, required): The symbol of the token to be bridged (e.g. `'USDC'`).
+  - `toAmountRaw` (bigint, required): The amount of tokens to receive on the destination chain, in raw integer units.
   - `toChainId` (number, required): The chain ID of the destination chain.
-  - `gas` (bigint, optional): The gas limit for the bridge transaction. 
-  - `sourceChains` (number[], optional): The chain IDs of the source chains to be used for the bridge. Useful if you want to maintain your holdings on some chains.
-- `options`: `OnEventParam` (optional): Optional callback function to listen to the events emitted by the bridge operation.
-  - `onEvent`: SDK emits these events as the transaction progresses. This is helpful to add when trying to display transaction progress to the user. With this you receive:
-    - `STEPS_LIST`: An ordered array of `BridgeStepType` objects. This array contains the steps that will be executed to fulfill the intent.
-    - `STEP_COMPLETE`: A single `BridgeStepType` that is emitted for each completed step of the intent's fulfillment.
- 
- <Callout>
-You can check out the type definitions for each step type in the [Bridge Events](/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-events) page.
-</Callout>
+  - `toNativeAmountRaw` (bigint, optional): Amount of destination-chain native gas to also deliver to the recipient, in raw integer units.
+  - `sources` (number[], optional): The chain IDs of the source chains to be used for the bridge. Useful if you want to maintain your holdings on some chains.
+- `options`: `BridgeOperationOptions` (optional): Per-operation hooks, event listener, and fill timeout.
 
-{/* <details className="border p-3 rounded-md bg-[#EFF6FF]">
-<summary> Sample Response:</summary> */}
+```typescript title="TypeScript"
+export type BridgeOperationOptions = {
+  hooks?: {
+    onIntent?: (data: OnIntentHookData) => void;
+    onAllowance?: (data: OnAllowanceHookData) => void;
+  };
+  onEvent?: (event: BridgeEvent) => void;
+  fillTimeoutMinutes?: number;
+};
+```
+
+  - `hooks.onIntent` (optional): Called with the resolved intent before execution. Call `data.allow()` / `data.deny()`, or `data.refresh(sources?)` to re-quote. When omitted, the intent is auto-approved.
+  - `hooks.onAllowance` (optional): Called when ERC-20 allowances are required. Call `data.allow([...])` with a strategy per source. When omitted, allowances default to `'min'`.
+  - `onEvent` (optional): Callback that receives the typed `BridgeEvent` union as the operation progresses. Use it to render progress to the user.
+  - `fillTimeoutMinutes` (optional): How long to wait for the bridge to be filled before timing out. Defaults to `2`.
+
+<Callout>
+The `onEvent` callback receives a typed discriminated union (`status` / `plan_preview` / `plan_confirmed` / `plan_progress`). See the [Bridge Events](/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-events) page for the full event shapes.
+</Callout>
 
 ## Example
 
 ```typescript title="TypeScript"
-import { BridgeParams, BridgeResult, NEXUS_EVENTS } from '@avail-project/nexus-core';
+import type { BridgeParams, BridgeResult } from '@avail-project/nexus-core';
 
-const bridgeResult: BridgeResult = await sdk.bridge(
+const bridgeResult: BridgeResult = await client.bridge(
   {
-    token: 'USDC',
-    amount: 83_500_000n, // 83.5 USDC (6 decimals)
+    toTokenSymbol: 'USDC',
+    toAmountRaw: 83_500_000n, // 83.5 USDC (6 decimals)
     toChainId: 137, // Polygon
   } satisfies BridgeParams,
   {
     onEvent: (event) => {
-      if (event.name === NEXUS_EVENTS.STEPS_LIST) {
-        // render steps if you wish to display them to the user
-      } else if (event.name === NEXUS_EVENTS.STEP_COMPLETE) {
-        // Returned per step of intent fulfillment. You can use this to mark the step as done and show the explorer URL if present.
-        const step = event.args;
-        if (step.type === 'INTENT_SUBMITTED') {
-          const url = (step as any).data?.explorerURL;
-          if (url) console.log('Explorer:', url);
-        }
+      switch (event.type) {
+        case 'plan_preview':
+          // Ordered list of steps about to run — render them if you wish
+          console.log('Steps:', event.plan.steps);
+          break;
+        case 'plan_progress':
+          // Granular per-step progress
+          if (event.stepType === 'request_submission' && event.state === 'completed') {
+            console.log('Explorer:', event.explorerUrl);
+          }
+          break;
       }
     },
-  }
+  },
 );
 
 console.log('Bridge result:', bridgeResult);
 
-
-// Simulate bridge to preview costs
-// Note that you can avoid using optional params
-const amount = sdk.convertTokenReadableAmountToBigInt('83.5', 'USDC', 137); // Alternative way to pass the amount using a helper function from the SDK
-const bridgeSimulation = await sdk.simulateBridge({
-  token: 'USDC',
-  amount,
+// Simulate bridge to preview costs.
+// You can use the convertTokenReadableAmountToBigInt helper to build the raw amount.
+const toAmountRaw = client.convertTokenReadableAmountToBigInt('83.5', 'USDC', 137);
+const bridgeSimulation = await client.simulateBridge({
+  toTokenSymbol: 'USDC',
+  toAmountRaw,
   toChainId: 137,
 });
 
 console.log('Bridge simulation:', bridgeSimulation);
 ```
+
+<Callout type="warning">
+`bridge()` and `simulateBridge()` throw typed [`NexusError`](https://github.com/availproject/nexus-sdk/blob/main/src/domain/errors.ts) subclasses on failure (e.g. `UserActionError` on a wallet rejection, `ValidationError` on bad input). Branch on `error.category` / `error.code`.
+</Callout>
 
 ## Return Value
 
@@ -120,57 +133,70 @@ The return value is a `BridgeResult` object.
  * Result structure for bridge transactions.
  */
 export type BridgeResult = {
-  explorerUrl: string;
+  intentExplorerUrl: string;
+  sourceTxs: SourceTxs; // array of per-source deposit transactions
+  intent: BridgeIntent;
 };
+
+export type TxResult = {
+  txHash: Hex;
+  txExplorerUrl: string;
+  receipt?: TransactionReceipt;
+};
+
+export type SourceTxs = (TxResult & {
+  chain: { id: number; name: string; logo: string };
+})[];
 ```
 
 ### `simulateBridge()`
 
-The return value is a `SimulationResult` object.
+The return value is a `BridgeSimulationResult` object.
 
 ```typescript title="TypeScript"
-export interface SimulationResult {
-  intent: ReadableIntent;
+export interface BridgeSimulationResult {
+  intent: BridgeIntent;
   token: TokenInfo;
 }
 
-export type ReadableIntent = {
-  allSources: {
+export type BridgeIntent = {
+  provider: 'nexus' | 'mayan';
+  availableSources: {
     amount: string;
-    chainID: number;
-    chainLogo: string | undefined;
-    chainName: string;
-    contractAddress: `0x${string}`;
+    amountRaw: bigint;
+    chain: { id: number; name: string; logo: string };
+    token: { decimals: number; symbol: string; logo: string; contractAddress: Hex };
+    value: string;
   }[];
   destination: {
     amount: string;
-    chainID: number;
-    chainLogo: string | undefined;
-    chainName: string;
+    amountRaw: bigint;
+    chain: { id: number; name: string; logo: string };
+    token: { decimals: number; symbol: string; logo: string; contractAddress: Hex };
+    value: string;
+    nativeAmount: string;
+    nativeAmountRaw: bigint;
+    nativeAmountValue: string;
+    nativeAmountInToken: string;
+    nativeToken: { decimals: number; symbol: string; logo: string; contractAddress: Hex };
   };
   fees: {
     caGas: string;
-    gasSupplied: string;
     protocol: string;
     solver: string;
     total: string;
+    totalValue: string;
   };
-  sources: {
+  selectedSources: {
     amount: string;
-    chainID: number;
-    chainLogo: string | undefined;
-    chainName: string;
-    contractAddress: `0x${string}`;
+    amountRaw: bigint;
+    chain: { id: number; name: string; logo: string };
+    token: { decimals: number; symbol: string; logo: string; contractAddress: Hex };
+    value: string;
   }[];
   sourcesTotal: string;
-  token: {
-    decimals: number;
-    logo: string | undefined;
-    name: string;
-    symbol: string;
-  };
+  sourcesTotalValue: string;
 };
-
 
 type TokenInfo = {
   contractAddress: `0x${string}`;
@@ -180,3 +206,7 @@ type TokenInfo = {
   symbol: string;
 };
 ```
+
+<Callout type="info">
+`BridgeIntent` replaces the [v1](https://github.com/availproject/nexus-sdk/blob/main/MIGRATION.md) `ReadableIntent` type: `sources` → `selectedSources`, `allSources` → `availableSources`, and chain fields are nested under `chain: { id, name, logo }`. See the [full type definitions](https://github.com/availproject/nexus-sdk/blob/main/src/domain/types/index.ts) on GitHub.
+</Callout>

@@ -1,0 +1,99 @@
+---
+title: "Migrate to Nexus SDK v2"
+description: Migrate from @avail-project/nexus-core 1.x to 2.x — factory client, param renames, per-operation hooks, and plan-based events.
+---
+
+`@avail-project/nexus-core` 2.0.0 is a full rewrite of the SDK surface. The package name is unchanged — upgrading the dependency is the whole install step — but most call sites need mechanical renames. This page covers the changes you will hit in a typical integration; the [full migration reference](https://github.com/availproject/nexus-sdk/blob/main/MIGRATION.md) documents every breaking change.
+
+## Installation
+
+```bash
+npm install @avail-project/nexus-core@^2
+```
+
+## Client lifecycle
+
+v1 used a class constructor with a single `initialize(provider)`. v2 uses a factory function with a two-step init, so you can fetch deployment data before a wallet connects:
+
+```ts
+// v1
+const sdk = new NexusSDK({ network: "mainnet" });
+await sdk.initialize(provider);
+await sdk.deinit();
+
+// v2
+const client = createNexusClient({ network: "mainnet" });
+await client.initialize(); // fetches deployment info
+await client.setEVMProvider(provider); // connects wallet (can be called later)
+client.destroy(); // synchronous
+```
+
+On account change, create a fresh client and re-run `initialize()` + `setEVMProvider()` — `triggerAccountChange()` is removed.
+
+## Parameter renames
+
+The most common breaking change, applied consistently across `bridge`, `bridgeAndTransfer`, and `bridgeAndExecute`:
+
+| v1 field | v2 field |
+| --- | --- |
+| `token` | `toTokenSymbol` |
+| `amount` | `toAmountRaw` |
+| `sourceChains` | `sources` |
+
+```ts
+// v1
+await sdk.bridge({ token: "USDC", amount: 1000000n, toChainId: 8453, sourceChains: [1, 42161] });
+
+// v2
+await client.bridge({ toTokenSymbol: "USDC", toAmountRaw: 1000000n, toChainId: 8453, sources: [1, 42161] });
+```
+
+In `bridgeAndExecute`, the `execute` block no longer takes its own `toChainId` — it inherits the top-level one. Swap params were renamed too: `ExactInSwapInput` → `SwapExactInParams`, `fromSources` → `sources`, `toAmount` → `toAmountRaw`.
+
+## Hooks: global setters → per-operation options
+
+v1 registered hooks globally on the SDK instance; v2 passes them per operation. When no hooks are provided, v2 auto-approves (intents allowed, allowances set to `'min'`).
+
+```ts
+// v1
+sdk.setOnIntentHook((data) => data.allow());
+sdk.setOnAllowanceHook((data) => data.allow(data.sources.map(() => "min")));
+await sdk.bridge(params);
+
+// v2
+await client.bridge(params, {
+  hooks: {
+    onIntent: (data) => data.allow(),
+    onAllowance: (data) => data.allow(data.sources.map(() => "min")),
+  },
+});
+```
+
+See [Hooks and Errors](/docs/nexus/nexus-sdk/reference/hooks-and-errors) for the v2 hook contract.
+
+## Events: step callbacks → plan-based events
+
+v1's flat `{ name, args }` union (`STEPS_LIST`, `STEP_COMPLETE`, …) is replaced by a typed discriminated union: `status`, `plan_preview`, `plan_confirmed`, and `plan_progress`. Detect a skipped bridge via `result.bridgeSkipped` — there are no `*_SKIPPED` events. See [Bridge Events](/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-events) for the full v2 event reference.
+
+## Results and errors
+
+- Swap operations **throw typed `NexusError` subclasses** on failure instead of returning `{ success: false }` — use try/catch and branch on `error.category` / `error.code`.
+- Operation results nest transactions: `executeResponse` → `execute`, `executeTransactionHash` → `execute.txHash`, `explorerUrl` → `intentExplorerUrl`.
+- User-denial error codes renamed from `USER_DENIED_*` to `USER_*_DENIED`, or match with `error instanceof UserActionError`.
+
+## Type and API renames
+
+| v1 | v2 |
+| --- | --- |
+| `getMyIntents(page)` | `listIntents({ page, status })` → `{ intents, total }` (page size fixed at 20) |
+| `ReadableIntent` | `BridgeIntent` (`sources` → `selectedSources`, `allSources` → `availableSources`) |
+| `UserAsset` / `UserAssetDatum` | `TokenBalance` (`icon` → `logo`, `balanceInFiat` → `value`, `breakdown` → `chainBalances`) |
+| `RFF` / `RequestForFunds` | `IntentRecord` (`id` → `requestHash`, status booleans collapsed into `status`) |
+| `SuccessfulSwapResult` | `SwapResult` |
+| `getSwapSupportedChains()` | removed — `getSupportedChains()` includes per-chain token info |
+| `CHAIN_METADATA` / `TOKEN_METADATA` constants | removed — use `client.chainList` |
+| `sdk.utils.isSupportedChain(...)` | `client.isSupportedChain(chainId)` |
+
+## Full reference
+
+The repository's [MIGRATION.md](https://github.com/availproject/nexus-sdk/blob/main/MIGRATION.md) covers every breaking change — simulation result shapes, swap option additions, event step-type mappings, and a complete migration checklist. The [SDK reference](/docs/nexus/nexus-sdk/reference) documents the v2 surface in full.

@@ -1,0 +1,96 @@
+---
+title: Installation
+description: Install the Nexus Widget and its dependencies in your project.
+---
+
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { SquareArrowUpRight } from "lucide-react";
+
+In this guide, you will install **Nexus Widget** — the single unified component for all swap, send, and deposit flows — into an existing React project. By the end, your project will be ready for the provider setup in the next step.
+
+## Prerequisites
+
+Before you begin, make sure your project meets the following requirements:
+
+- **React 18+** with a framework like [Next.js](https://nextjs.org), [Vite](https://vitejs.dev), or similar
+- **Tailwind CSS v3 or v4** configured in your project
+- **A wallet connection library** such as [wagmi](https://wagmi.sh) + [RainbowKit](https://rainbowkit.com) or [ConnectKit](https://docs.family.co/connectkit)
+- **Node.js 18+** and a package manager (npm, pnpm, or yarn)
+
+<Callout type="info" title="Why wagmi?">
+The widget needs access to the user's connected wallet provider to sign transactions. It is designed to work with wagmi's hooks, but any EIP-1193 compatible provider will work.
+</Callout>
+
+## Step 1 — Install shadcn/ui
+
+Nexus Widget is built on [shadcn/ui](https://ui.shadcn.com) primitives. If your project doesn't have shadcn/ui set up yet, follow the official installation guide first.
+
+<Button
+  asChild
+  variant="secondary"
+  size="sm"
+  className="inline-flex items-center gap-2 my-2"
+>
+  <a
+    href="https://ui.shadcn.com/docs/installation"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="no-underline"
+  >
+    shadcn/ui Installation Guide
+    <SquareArrowUpRight className="size-4" />
+  </a>
+</Button>
+
+<Callout type="warning" title="Already using shadcn/ui?">
+If shadcn/ui is already configured in your project, skip this step and proceed directly to installing the widget below.
+</Callout>
+
+## Step 2 — Install Nexus Widget
+
+With shadcn/ui configured, install Nexus Widget from the Avail Widgets registry. One component covers swap, send, and deposit, and brings in its own dependencies and source files.
+
+```bash
+npx shadcn@latest add availproject/widgets/nexus
+```
+
+This command will:
+1. Download the component source files into your project under `components/nexus/`
+2. Install the required npm dependencies (including `@avail-project/nexus-core`)
+3. Add the shadcn/ui primitives the component needs
+
+See the [Swap and Bridge](/docs/nexus/widgets/components/swaps), [Deposit](/docs/nexus/widgets/components/deposit), and [Send](/docs/nexus/widgets/components/transfer) pages for per-mode configuration and usage.
+
+### Legacy standalone components
+
+Earlier standalone elements (`SwapWidget`, `FastBridge`, `FastTransfer`, `NexusDeposit`, `UnifiedBalance`, `ViewHistory`) have been removed in favor of Nexus Widget. If you are upgrading from them, follow the [Widgets migration guide](/docs/nexus/migration/widgets-legacy-to-nexus-widget).
+
+## Step 3 — Verify the installation
+
+After running the install command, confirm that the component files were added to your project:
+
+```bash
+ls components/nexus/
+```
+
+You should see the widget source files, including `nexus.tsx` (the `NexusWidget` component) and `NexusProvider.tsx`. The provider is essential — you will configure it in the next step.
+
+<Callout type="info" title="What's the NexusProvider?">
+The `NexusProvider` is a React context provider that initializes the Nexus SDK and makes it available to the widget in your app. The widget will not function without it.
+</Callout>
+
+## Next step
+
+Your dependencies are installed and the component files are in place. Next, you need to wire up the `NexusProvider` so the SDK can connect to the user's wallet.
+
+<div className="mt-4"/>
+<Cards>
+  <Card
+    href="/docs/nexus/widgets/get-started/nexus-provider-setup"
+    title="NexusProvider Setup"
+    description="Go to next step. Setting up NexusProvider."
+    className="sm:col-span-2"
+    arrow
+  />
+</Cards>

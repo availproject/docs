@@ -9,28 +9,35 @@ This section contains dedicated pages for the main functions exposed by the Avai
   <IconCard
     icon={<Bridge />}
     title="Bridge Methods"
-    description="bridge(), bridgeAndTransfer(), bridgeAndExecute(), and fetchBridgeBalances()."
+    description="bridge(), bridgeAndTransfer(), bridgeAndExecute(), calculateMaxForBridge(), and getBalancesForBridge()."
     href="/docs/nexus/nexus-sdk/reference/bridge-methods/fetch-bridge-balances"
     arrow
   />
   <IconCard
     icon={<Swap />}
     title="Swap Methods"
-    description="swapExactIn(), swapExactOut(), and fetchSwapBalances()."
+    description="swapWithExactIn(), swapWithExactOut(), swapAndExecute(), calculateMaxForSwap(), and getBalancesForSwap()."
     href="/docs/nexus/nexus-sdk/reference/swap-methods/fetch-swap-balances"
+    arrow
+  />
+  <IconCard
+    icon={<FileIcon />}
+    title="List Intents"
+    description="listIntents() — fetch a user's historical intents with pagination and status filters."
+    href="/docs/nexus/nexus-sdk/reference/list-intents"
     arrow
   />
   <IconCard
     icon={<CodeIcon />}
     title="Hooks and Errors"
-    description="Event hooks, error codes, and NEXUS_EVENTS constants."
+    description="Per-operation hooks and the typed NexusError hierarchy."
     href="/docs/nexus/nexus-sdk/reference/hooks-and-errors"
     arrow
   />
   <IconCard
     icon={<FileIcon />}
-    title="API Reference"
-    description="Complete list of SDK methods, types, and supported chains."
+    title="Utility Reference"
+    description="Client creation, lifecycle, chain/token lookups, and stateless helpers."
     href="/docs/nexus/nexus-sdk/reference/utility-reference"
     arrow
   />
@@ -53,25 +60,32 @@ This section contains dedicated pages for the main functions exposed by the Avai
     href="https://www.npmjs.com/package/@avail-project/nexus-core"
     arrow
   />
+  <IconCard
+    icon={<Github />}
+    title="v1 → v2 Migration Guide"
+    description="Every breaking change between nexus-core v1 and v2."
+    href="/docs/nexus/migration/sdk-v1-to-v2"
+    arrow
+  />
 </IconCardGrid>
 
 ## Agent Skills
 
-Install [skills.sh](https://skills.sh) skills to give AI coding agents deep context about the Nexus SDK and UI Elements.
+Install [skills.sh](https://skills.sh) skills to give AI coding agents deep context about the Nexus SDK and Widgets.
 
 <IconCardGrid>
   <IconCard
     icon={<Cube />}
-    title="Nexus SDK Skills"
-    description="Bridge flows, swap flows, hooks, balances, and SDK setup."
+    title="Nexus SDK Skill"
+    description="Client lifecycle, operations, hooks, events, errors, and v1 → v2 migration."
     href="https://skills.sh/availproject/nexus-sdk"
     arrow
   />
   <IconCard
     icon={<Cube />}
-    title="Nexus Elements Skills"
-    description="Deposit, bridge, swaps, transfer, and balance UI components."
-    href="/docs/nexus/nexus-ui-elements/mcp-and-agent-skills#agent-skills"
+    title="Widgets Skills"
+    description="Provider setup plus swap, send, and deposit mode integration."
+    href="/docs/nexus/widgets/mcp-and-agent-skills#agent-skills"
     arrow
   />
 </IconCardGrid>
@@ -87,14 +101,14 @@ The Nexus SDK exposes a suite of helper functions and constants used throughout 
     icon={<Gear />}
     title="Utils"
     description="Formatting and utility functions on GitHub."
-    href="https://github.com/availproject/nexus-sdk/blob/develop/src/commons/utils/format.ts"
+    href="https://github.com/availproject/nexus-sdk/blob/main/src/core/utils.ts"
     arrow
   />
   <IconCard
     icon={<Link2 />}
-    title="Constants"
-    description="Token addresses, chain IDs, and SDK constants on GitHub."
-    href="https://github.com/availproject/nexus-sdk/blob/develop/src/commons/constants/index.ts"
+    title="Types & Errors"
+    description="Public types and the NexusError hierarchy on GitHub."
+    href="https://github.com/availproject/nexus-sdk/blob/main/src/domain/errors.ts"
     arrow
   />
 </IconCardGrid>

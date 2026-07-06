@@ -7,8 +7,7 @@ description: "Bridge a token and execute a contract call on the destination chai
 <Callout type="info">
 **SET UP THE SDK BEFORE YOU START:**
 
-1. You can find the SDK setup instructions in the [Quickstart](/docs/nexus/nexus-sdk/quickstart) page.
-2. We also [created a tutorial](/docs/nexus/nexus-sdk/quickstart) to make it easier to understand how devs need to initialize the Nexus SDK in their project.
+Install and initialize the client first — see [Installation](/docs/nexus/nexus-sdk/get-started/installation) and [SDK Setup](/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup).
 </Callout>
 
 Use the `bridgeAndExecute()` function to bridge a token and execute a contract function on the recipient chain in a single flow.
@@ -21,15 +20,14 @@ Use the `simulateBridgeAndExecute()` function to simulate `bridgeAndExecute()` b
 ## Method signature
 
 ```typescript title="TypeScript"
-async bridgeAndExecute(
+bridgeAndExecute(
   params: BridgeAndExecuteParams,
-  options?: OnEventParam,
+  options?: BridgeAndExecuteOptions,
 ): Promise<BridgeAndExecuteResult>
 
-
-async simulateBridgeAndExecute(
+simulateBridgeAndExecute(
   params: BridgeAndExecuteParams,
-): Promise<BridgeAndExecuteSimulationResult> 
+): Promise<BridgeAndExecuteSimulationResult>
 ```
 
 ## Parameters
@@ -37,9 +35,9 @@ async simulateBridgeAndExecute(
 ```typescript title="TypeScript"
 export interface BridgeAndExecuteParams {
   toChainId: number;
-  token: string;
-  amount: bigint;
-  sourceChains?: number[];
+  toTokenSymbol: string;
+  toAmountRaw: bigint;
+  sources?: number[];
   execute: Omit<ExecuteParams, 'toChainId'>;
   enableTransactionPolling?: boolean;
   transactionTimeout?: number;
@@ -55,7 +53,7 @@ export interface ExecuteParams {
   value?: bigint;
   data?: Hex;
   gas?: bigint;
-  gasPrice?: bigint;
+  gasPrice?: 'low' | 'medium' | 'high';
   enableTransactionPolling?: boolean;
   transactionTimeout?: number;
   // Transaction receipt confirmation options
@@ -63,7 +61,7 @@ export interface ExecuteParams {
   receiptTimeout?: number;
   requiredConfirmations?: number;
   tokenApproval?: {
-    token: string;
+    toTokenSymbol: string;
     amount: bigint;
     spender: Hex;
   };
@@ -72,68 +70,77 @@ export interface ExecuteParams {
 
 - `BridgeAndExecuteParams`: Parameters for using the `bridgeAndExecute()` function.
   - `toChainId` (number, required): The chain ID of the destination chain.
-  - `token` (string, required): The token to be bridged in this flow.
-  - `amount` (bigint, required): The amount of tokens to be used in this flow.
-  - `sourceChains` (number[], optional): The chain IDs of the source chains to be used for the bridge. Useful if you want to maintain your holdings on some chains.
-  - `execute` (`Omit<ExecuteParams>`, 'toChainId'>, required): Contract call on the destination chain
+  - `toTokenSymbol` (string, required): The symbol of the token to be bridged in this flow (e.g. `'USDC'`).
+  - `toAmountRaw` (bigint, required): The amount of tokens to be used in this flow, in raw integer units.
+  - `sources` (number[], optional): The chain IDs of the source chains to be used for the bridge. Useful if you want to maintain your holdings on some chains.
+  - `execute` (`Omit<ExecuteParams, 'toChainId'>`, required): The contract call on the destination chain. `toChainId` is inherited from the top-level `toChainId`.
   - `enableTransactionPolling` (boolean, optional): Whether to enable transaction polling. Defaults to `false`.
   - `transactionTimeout` (number, optional)
   - `waitForReceipt` (boolean, optional)
   - `receiptTimeout` (number, optional)
   - `requiredConfirmations` (number, optional)
   - `recentApprovalTxHash` (string, optional)
+- `options`: `BridgeAndExecuteOptions` (optional): Top-level intent hook, a `beforeExecute` hook, event listener, and fill timeout.
 
-- `options`: `OnEventParam` (optional): Optional callback function to listen to the events emitted by the transfer operation.
-  - `onEvent`: SDK emits these events as the transaction progresses. This is helpful to add when trying to display transaction progress to the user. With this you receive:
-    - `STEPS_LIST`: An ordered array of `BridgeStepType` objects. This array contains the steps that will be executed to fulfill the intent.
-    - `STEP_COMPLETE`: A single `BridgeStepType` that is emitted for each completed step of the intent's fulfillment.
- 
- <Callout>
-You can check out the type definitions for each step type in the [Bridge Events](/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-events) page.
+```typescript title="TypeScript"
+export type BridgeAndExecuteOptions = {
+  onIntent?: (data: BridgeAndExecuteOnIntentHookData) => void;
+  beforeExecute?: () => Promise<{ value?: bigint; data?: Hex; gas?: bigint }>;
+  onEvent?: (event: BridgeAndExecuteEvent) => void;
+  fillTimeoutMinutes?: number;
+};
+```
+
+  - `onIntent` (optional): Called at the **top level** (not under `hooks`) with the composite intent before execution. Call `data.allow()` / `data.deny()`, or `data.refresh(sources?)` to re-quote. Read `data.intent.bridgeRequired` to detect whether a bridge is needed. When omitted, the intent is auto-approved.
+  - `beforeExecute` (optional): Called just before the execute transaction is sent; return overrides for `value` / `data` / `gas` (for example, to inject freshly quoted calldata).
+  - `onEvent` (optional): Callback that receives the typed `BridgeAndExecuteEvent` union as the operation progresses.
+  - `fillTimeoutMinutes` (optional): How long to wait for the bridge to be filled before timing out. Defaults to `2`.
+
+<Callout>
+The `onEvent` callback receives a typed discriminated union. In addition to the bridge step types, `bridgeAndExecute` emits `execute_approval` and `execute_transaction` progress steps. See the [Bridge Events](/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-events) page for the full event shapes.
 </Callout>
 
 ## Example
 
 ```typescript title="TypeScript"
-import { BridgeAndExecuteParams, BridgeAndExecuteResult, NEXUS_EVENTS } from '@avail-project/nexus-core';
-
-// Direct contract execution
-const result = await sdk.execute({
-  toChainId: 1,
-  to: '0xc3d688B66703497DAA19211EEdff47f25384cdc3',
-  data: '0x...',
-  tokenApproval: { token: 'USDC', amount: 1000000n },
-});
+import type {
+  BridgeAndExecuteParams,
+  BridgeAndExecuteResult,
+} from '@avail-project/nexus-core';
 
 // Bridge and execute
-const bridgeAndExecuteResult = await sdk.bridgeAndExecute(
+const bridgeAndExecuteResult: BridgeAndExecuteResult = await client.bridgeAndExecute(
   {
-    token: 'USDC',
-    amount: 100_000_000n, // 100 USDC (6 decimals)
+    toTokenSymbol: 'USDC',
+    toAmountRaw: 100_000_000n, // 100 USDC (6 decimals)
     toChainId: 1,
-    sourceChains: [8453],
+    sources: [8453],
     execute: {
       to: '0x...',
       data: '0x...',
-      tokenApproval: { token: 'USDC', amount: 100_000_000n }, // 100 USDC (6 decimals)
+      tokenApproval: {
+        toTokenSymbol: 'USDC',
+        amount: 100_000_000n, // 100 USDC (6 decimals)
+        spender: '0x...',
+      },
     },
   },
   {
+    onIntent: (data) => data.allow(),
     onEvent: (event) => {
-      if (event.name === NEXUS_EVENTS.STEPS_LIST) console.log('Bridge+Execute steps:', event.args);
-      if (event.name === NEXUS_EVENTS.STEP_COMPLETE) console.log('Step completed:', event.args);
+      if (event.type === 'plan_preview') console.log('Bridge+Execute steps:', event.plan.steps);
+      if (event.type === 'plan_progress') console.log('Step progress:', event.stepType, event.state);
     },
   },
 );
 
 console.log('Bridge and execute result:', bridgeAndExecuteResult);
 
-
-const bridgeAndExecuteSimulation = await sdk.simulateBridgeAndExecute({
-  token: 'USDC',
-  amount: 100_000_000n, // 100 USDC (6 decimals)
+const bridgeAndExecuteSimulation = await client.simulateBridgeAndExecute({
+  toTokenSymbol: 'USDC',
+  toAmountRaw: 100_000_000n, // 100 USDC (6 decimals)
   toChainId: 1,
-  sourceChains: [8453],
+  sources: [8453],
   execute: {
     to: '0x...',
     data: '0x...',
@@ -144,26 +151,45 @@ const bridgeAndExecuteSimulation = await sdk.simulateBridgeAndExecute({
 console.log('Bridge and execute simulation:', bridgeAndExecuteSimulation);
 ```
 
+<Callout type="warning">
+`bridgeAndExecute()` throws typed [`NexusError`](https://github.com/availproject/nexus-sdk/blob/main/src/domain/errors.ts) subclasses on failure. Branch on `error.category` / `error.code`.
+</Callout>
+
 ## Return Value
 
-The return value is a `BridgeAndExecuteResult` object.
+The return value is a `BridgeAndExecuteResult` object — a discriminated union on `bridgeSkipped`. When the destination already holds enough funds, the bridge is skipped and `bridgeResult` is absent.
 
 ```typescript title="TypeScript"
-export type BridgeAndExecuteResult = {
-  executeTransactionHash: string;
-  executeExplorerUrl: string;
-  approvalTransactionHash?: string;
-  bridgeExplorerUrl?: string; // undefined when bridge is skipped
-  toChainId: number;
-  bridgeSkipped: boolean; // indicates if bridge was skipped due to sufficient funds
+export type TxResult = {
+  txHash: Hex;
+  txExplorerUrl: string;
+  receipt?: TransactionReceipt;
 };
 
+export type BridgeAndExecuteResult = {
+  approval?: TxResult; // present when an ERC-20 approval was needed for execute
+  execute: TxResult;
+} & (
+  | { bridgeSkipped: false; bridgeResult: BridgeResult }
+  | { bridgeSkipped: true; bridgeResult?: undefined }
+);
+
 export type BridgeAndExecuteSimulationResult = {
-  bridgeSimulation: SimulationResult | null; // null if bridging is skipped
-  executeSimulation: {
-    gasUsed: bigint;
-    gasPrice: bigint;
-    gasFee: bigint; // gasUsed * gasPrice
-  };
+  bridgeSimulation: BridgeSimulationResult | null; // null if bridging is skipped
+  executeSimulation: ExecuteSimulation;
+};
+
+export type ExecuteFeeParams =
+  | { type: 'eip1559'; maxFeePerGas: bigint; maxPriorityFeePerGas: bigint }
+  | { type: 'legacy'; gasPrice: bigint };
+
+export type ExecuteSimulation = {
+  feeParams: ExecuteFeeParams;
+  estimatedGasUnits: bigint;   // combined across approval (if any) and execute
+  estimatedTotalCost: bigint;  // combined estimated cost
 };
 ```
+
+<Callout type="info">
+Detect a skipped bridge via `result.bridgeSkipped` (there is no `*_SKIPPED` event). See the [full type definitions](https://github.com/availproject/nexus-sdk/blob/main/src/domain/types/index.ts) on GitHub.
+</Callout>

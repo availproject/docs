@@ -1,0 +1,209 @@
+---
+title: Deposit
+description: Route funds into a configured protocol or app action with Nexus intents.
+component: true
+links:
+  doc: /docs/nexus/nexus-sdk/reference/bridge-methods/bridge-and-execute
+---
+
+<ComponentPreview
+  name="nexus-deposit"
+  description="Deposit mode locked to a configured protocol action."
+  align="center"
+  hideCode
+/>
+
+> **Network support:** Mainnet only. Testnet is not supported at the moment.
+
+## Installation
+
+```bash
+npx shadcn@latest add availproject/widgets/nexus
+```
+
+## Usage
+
+Wrap your app with the Nexus provider first. See [NexusProvider Setup](/docs/nexus/widgets/get-started/nexus-provider-setup) for provider setup.
+
+Deposit requires a fixed destination chain, at least one destination token, a deposit contract address, and an `executeDeposit` builder describing the app call to run after Nexus delivers funds. The user picks the amount and pay-with sources; Nexus routes funds cross-chain and executes your contract call on the destination.
+
+```tsx showLineNumbers
+import { NexusWidget } from "@/components/nexus/nexus";
+import { encodeFunctionData } from "viem";
+
+const AAVE_POOL_ARBITRUM = "0x794a61358D6845594F94dc1DB02A252b5b4814aD";
+const USDT_ARBITRUM = "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9";
+
+const AAVE_ABI = [
+  {
+    inputs: [
+      { internalType: "address", name: "asset", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+      { internalType: "address", name: "onBehalfOf", type: "address" },
+      { internalType: "uint16", name: "referralCode", type: "uint16" },
+    ],
+    name: "supply",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+] as const;
+
+export function DepositExample({ address }: { address?: `0x${string}` }) {
+  return (
+    <NexusWidget
+      connectedAddress={address}
+      config={{
+        mode: "deposit",
+        destination: {
+          chain: 42161,
+          tokens: [{ address: USDT_ARBITRUM, symbol: "USDT", decimals: 6 }],
+        },
+        depositAddress: AAVE_POOL_ARBITRUM,
+        executeDeposit: (tokenSymbol, tokenAddress, amount, chainId, user) => ({
+          to: AAVE_POOL_ARBITRUM,
+          data: encodeFunctionData({
+            abi: AAVE_ABI,
+            functionName: "supply",
+            args: [tokenAddress, amount, user, 0],
+          }),
+          tokenApproval: {
+            toTokenAddress: tokenAddress,
+            amount,
+            spender: AAVE_POOL_ARBITRUM,
+          },
+        }),
+        appearance: {
+          appName: "Aave",
+          heading: "Deposit into Aave",
+          mode: "system",
+        },
+      }}
+    />
+  );
+}
+```
+
+## Configuration
+
+Deposit uses `mode: "deposit"`. Unlike send and swap, the destination is required and locked: the user only chooses the amount and the sources to pay with.
+
+| Prop | Required | Description |
+| --- | --- | --- |
+| `config.mode` | Yes | Must be `"deposit"`. |
+| `config.destination.chain` | Yes | The destination chain the deposit executes on. |
+| `config.destination.tokens` | Yes | At least one destination token: `{ address, symbol, decimals, logo? }`. Multiple entries let the user pick which asset to deposit. |
+| `config.depositAddress` | Yes | The contract address the deposit ultimately targets. Shown in the review UI. |
+| `config.executeDeposit` | Yes | Builder invoked at execution time. Returns the destination call — see below. |
+| `config.prefill.amount` | Optional | Prefills the deposit amount. Must be greater than `0`. |
+| `config.validation.minAmount`, `config.validation.maxAmount` | Optional | Bounds on the deposit amount. |
+| `config.appearance` | Optional | Branding used in the deposit UI: `appName`, `appLogoURL`, `heading`, `primaryColor`, `mode`. |
+| `connectedAddress` | Optional | Wallet address to use. If omitted, the connected wagmi account is used. |
+| `embed` | Optional | Defaults to `true`. Set `false` to render as a modal surface, controlled with `open`, `onOpenChange`, and `defaultOpen`. |
+| `onStart`, `onComplete`, `onError`, `onClose`, `onConnectClick` | Optional | Host app callbacks. `onComplete` receives the destination explorer URL. |
+
+### The `executeDeposit` builder
+
+`executeDeposit` is called when the user confirms, with the resolved token and amount. It returns the destination transaction Nexus executes after funds arrive:
+
+```ts
+executeDeposit: (
+  tokenSymbol: string,
+  tokenAddress: `0x${string}`,
+  amount: bigint,        // raw units of the destination token
+  chainId: number,
+  user: `0x${string}`,   // the depositor
+) => {
+  to: `0x${string}`;     // contract to call
+  data?: `0x${string}`;  // encoded calldata
+  value?: bigint;        // native value to attach
+  gas?: bigint;          // optional gas override
+  tokenApproval?: {      // ERC-20 approval executed before the call
+    toTokenAddress: `0x${string}`;
+    amount: bigint;
+    spender: `0x${string}`;
+  };
+};
+```
+
+Include `tokenApproval` whenever the target contract pulls ERC-20 funds via `transferFrom` — the widget executes the approval before your deposit call.
+
+<CodeCollapsibleWrapper className="mt-4">
+
+```ts title="NexusWidgetDepositConfig"
+type NexusWidgetDepositConfig = {
+  mode: "deposit";
+  destination: {
+    chain: number;
+    tokens: {
+      address: `0x${string}`;
+      symbol: string;
+      decimals: number;
+      logo?: string;
+    }[];
+  };
+  depositAddress: `0x${string}`;
+  executeDeposit: (
+    tokenSymbol: string,
+    tokenAddress: `0x${string}`,
+    amount: bigint,
+    chainId: number,
+    user: `0x${string}`,
+  ) => {
+    to: `0x${string}`;
+    data?: `0x${string}`;
+    value?: bigint;
+    gas?: bigint;
+    tokenApproval?: {
+      toTokenAddress: `0x${string}`;
+      amount: bigint;
+      spender: `0x${string}`;
+    };
+  };
+  prefill?: { amount?: string };
+  validation?: { minAmount?: string; maxAmount?: string };
+  appearance?: {
+    heading?: string;
+    appName?: string;
+    appLogoURL?: string;
+    primaryColor?: string;
+    mode?: "system" | "light" | "dark";
+  };
+};
+```
+
+</CodeCollapsibleWrapper>
+
+## Modal usage
+
+Render the deposit flow as a modal instead of an embedded card:
+
+```tsx showLineNumbers
+import { useState } from "react";
+import { NexusWidget } from "@/components/nexus/nexus";
+
+export function DepositModal({
+  config,
+  address,
+}: {
+  config: NexusWidgetDepositConfig;
+  address?: `0x${string}`;
+}) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <button type="button" onClick={() => setOpen(true)}>
+        Deposit
+      </button>
+      <NexusWidget
+        config={config}
+        connectedAddress={address}
+        embed={false}
+        open={open}
+        onOpenChange={setOpen}
+      />
+    </>
+  );
+}
+```

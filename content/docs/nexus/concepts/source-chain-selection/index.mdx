@@ -5,35 +5,40 @@ description: Control which chains your tokens are sourced from, or let Nexus opt
 hideFooter: true
 ---
 
-When a user does a [Nexus operation](/docs/nexus/concepts/nexus-ops), it involves the sourcing of liquidity by Nexus from wherever they have it. 
+When a user does a [Nexus operation](/docs/nexus/concepts/nexus-ops), it involves the sourcing of liquidity by Nexus from wherever they have it.
 
-Source chain selection determines which chains liquidity is routed through to reach the destination chain.
+Source chain selection determines which chains liquidity is routed through to reach the destination chain. Every operation accepts an optional `sources` parameter for this.
 
 <ThemedImage light="/img/nexus/liquidity-routing-light.png" dark="/img/nexus/liquidity-routing-dark.png" alt="Liquidity Routing" />
 
 *Showing a subset of supported chains. See [Supported Chains & Tokens](/docs/nexus/supported-chains-and-tokens) for the full list.*
 
 ### Bridge Methods
-For [Bridge Methods](/docs/nexus/nexus-sdk/reference/bridge-methods/fetch-bridge-balances), this means you can just specify the chain IDs of the chains you want to limit sourcing liquidity from. 
+For [Bridge Methods](/docs/nexus/nexus-sdk/reference/bridge-methods/fetch-bridge-balances), `sources` is simply an array of chain IDs to limit sourcing liquidity from.
 
-```jsx
-sourceChains?: number[];
+```typescript
+sources?: number[];
 ```
 
-If kept in its default setting, the Nexus protocol handles the source selection using an internal algorithm. But if needed, the developer can enable/disable the selection of source chains and limit liquidity to be sourced from the specified chains **ONLY**. 
+If omitted, the SDK selects sources automatically: it accumulates the user's balances across chains until the requested amount plus fees is covered. If the combined balances can't cover it, the operation fails with an `INSUFFICIENT_BALANCE` error. But if needed, the developer can pass `sources` to limit liquidity to be sourced from the specified chains **ONLY**.
 
 ### Swap Methods
-For [Swap Methods](/docs/nexus/concepts/bridge-v-swap), you can define the source chains when using the `ExactIn` Swap method. In this case you also need to mention the `chainId`, `amount`, and `tokenAddress`.
+For [Swap Methods](/docs/nexus/concepts/xcs-swaps), sources are specific tokens on specific chains, so each entry names the `chainId` and `tokenAddress`. For `ExactIn` swaps, each source can also carry an `amountRaw` to fix how much of it to spend.
 
-```jsx
-interface ExactInSwapInput {
-  from: {
-    chainId: number;
-    amount: bigint;
-    tokenAddress: Hex;
-  }[];
-...
+```typescript
+sources?: {
+  chainId: number;
+  tokenAddress: Hex;
+  amountRaw?: bigint; // ExactIn only
+}[];
 ```
+
+As with bridges, omitting `sources` lets the SDK pick from all available swap balances.
+
+### Re-planning from the intent hook
+
+Before an operation executes, the `onIntent` hook presents the intent. For bridge operations the intent includes both `selectedSources` (what the SDK picked) and `availableSources` (everything it could have picked), and calling `refresh(selectedSources)` from the hook rebuilds the intent with a different source selection — so users can override the route without restarting the operation. Swap intents offer the same via `refresh(sources)`. See [Hooks](/docs/nexus/nexus-sdk/reference/hooks-and-errors) for details.
+
 <Callout>
 [Learn more about the difference between Bridge and Swap methods.](/docs/nexus/concepts/bridge-v-swap)
 </Callout>
@@ -50,4 +55,3 @@ interface ExactInSwapInput {
     href: "/docs/nexus/concepts/bridge-v-swap"
   }}
 />
-

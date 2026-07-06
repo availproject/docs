@@ -2,22 +2,22 @@
 image: "/img/docs-link-preview.png"
 title: What are Solvers?
 sidebarTitle: Solvers
-description: Decentralized agents that compete to fulfill user intents by providing liquidity across chains.
+description: Market makers that front their own capital to fill intents in seconds, and are reimbursed at settlement.
 hideFooter: true
 ---
 
-In the Nexus chain abstraction protocol, solvers are actors that facilitate cross-chain transactions by supplying liquidity on the destination chain. 
+In the Nexus protocol, solvers are professional market makers that supply liquidity on the destination chain to fill user [intents](/docs/nexus/concepts/intent).
 
-When a user signs and authorizes an intent, a solver verifies the deposit into the Nexus contracts and instantly provides the liquidity on the destination chain. 
+Once the user's funds are deposited into the Vault contracts on the source chains, a solver fronts its **own capital** on the destination chain and fills the intent — this is why users receive funds in seconds, without waiting for cross-chain finality.
 
-Currently, Avail runs the solvers for Nexus. But the solver network will be progressively decentralized in time. In an optimal decentralized setup, multiple solvers compete to fulfill published intents, and may or may not charge a fee. 
+The solver takes on the fill and is made whole afterwards: the protocol settles with solvers who have completed intents, releasing the user's locked source-chain funds to them through an on-chain settlement. Settlements are authorized by Nexus validators — the network settles on a sovereign rollup sequenced on Avail DA, where validators independently re-execute and verify state, and sign settlements with threshold signatures.
 
-The protocol periodically settles funds with solvers who have successfully completed user intents, using tokens escrowed from the supported source chains once the "fill" action is verified.
+Currently, Avail runs the solvers for Nexus, but the solver network will be progressively decentralized in time. In a decentralized setup, multiple solvers compete to fill published intents, and competition keeps solver fees low.
 
 <ThemedImage light="/img/nexus/solvers-light.png" dark="/img/nexus/solvers-dark.png" alt="Solvers" />
 
 <Callout>
-To `Fill` here means, the action of the solver providing the liquidity to the user, basically "filling" the intent request for funds.
+To `Fill` here means the action of the solver providing the liquidity to the user, basically "filling" the intent's request for funds.
 </Callout>
 
 <PageFooter

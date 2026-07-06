@@ -6,7 +6,7 @@ import { ComponentSource } from "./component-source";
 
 type ComponentPreviewProps = React.ComponentProps<"div"> & {
   name: string;
-  styleName?: "nexus-elements";
+  styleName?: "avail-widgets";
   align?: "center" | "start" | "end";
   hideCode?: boolean;
   showAllFiles?: boolean;
@@ -30,7 +30,7 @@ const SHOWCASE_MAP: Record<
 
 export function ComponentPreview({
   name,
-  styleName = "nexus-elements",
+  styleName = "avail-widgets",
   className,
   align = "center",
   hideCode = false,

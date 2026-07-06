@@ -2,18 +2,16 @@
 image: "/img/docs-link-preview.png"
 title: How Intents are Processed
 sidebarTitle: Intent Lifecycle
-description: The journey of an intent from creation to fulfillment — submission, validation, and execution.
+description: The journey of an intent from quote to settlement — one signature, source deposits, solver fulfilment.
 hideFooter: true
 ---
 
-The intent processing begins when the user signs an intent and authorizes a transaction. 
+An intent moves through a short, well-defined lifecycle: the user signs it once, funds are locked on the source chains, a [solver](/docs/nexus/concepts/solvers) fills it on the destination chain, and the protocol settles with the solver afterwards.
 
-A [solver](/docs/nexus/concepts/solvers) (a liquidity provider) steps in to supply the necessary funds (`Fill`) on the destination chain. The protocol is responsible for settling the source chain funds with the respective solver. 
-
-The intent details shows which solver provided liquidity once the intent is successfully processed.
+The intent details show which solver provided liquidity once the intent is successfully processed.
 
 <Callout>
-You can check out your Intents on Nexus with the [Nexus Explorer](https://explorer.nexus.availproject.org/)
+You can check out your Intents on Nexus with the [Nexus Explorer](https://nexus-v2.mainnet.avail.so/)
 </Callout>
 
 ## Stages
@@ -22,27 +20,32 @@ You can check out your Intents on Nexus with the [Nexus Explorer](https://explor
 
 *Showing a subset of supported chains. See [Supported Chains & Tokens](/docs/nexus/supported-chains-and-tokens) for the full list.*
 
-Following are some of the key stages of intent processing:
-
 <Steps>
-### Intent Approved & Intent Hash Signed
-- User agrees and approves the Nexus operation (intent).
-- User signs the intent hash.
+### Quote & Intent Construction
+The SDK requests a quote from Nexus: which source chains to draw funds from, and the fees. From this it builds the [intent](/docs/nexus/concepts/intent) — sources, destination, and fees.
 
-### Intent Submission
-Intent is submitted to the Nexus protocol.
+### User Approval & Single Signature
+Your app presents the intent to the user via the `onIntent` hook (`allow`, `deny`, or `refresh` with different sources). On approval, the user signs **one** message covering the whole operation.
 
-### Source Fund Collection
--  Funds associated with the intent are collected on the source chains.
+### Submission to the Nexus Network
+The signed intent is submitted to the Nexus network and recorded with status `created`.
 
-### Intent Validation & Deposit Confirmation
- - The Nexus protocol has validated the intent.
- - Deposits on source chains by the user are confirmed.
+### Source Deposits
+The user's funds are deposited into Vault contracts on each source chain — the solver submits token deposits using the user's signed intent and [allowances](/docs/nexus/concepts/allowances), while native-token deposits are sent directly from the user's wallet. When every source deposit is confirmed, the intent becomes `deposited`.
 
-### Intent Filled by Solver
-- The request for funds (intent) is filled on the destination chain by the solver.
+### Solver Fulfilment
+A solver fronts its own capital and fills the intent on the destination chain — **the user receives their funds here**, in seconds. The intent becomes `fulfilled`.
+
+### Settlement
+The solver is reimbursed from the locked source-chain funds through an on-chain settlement authorized by Nexus validators. This happens asynchronously in the background — the user's transfer is already complete.
 
 </Steps>
+
+<Callout>
+**If the intent isn't filled in time:** every intent carries an expiry. If no solver fills it before then, the intent becomes `expired` and the user's deposited funds are refunded on the source chains.
+</Callout>
+
+These are the same statuses you see as an integrator: intents returned by the SDK's `listIntents()` have a status of `'created' | 'deposited' | 'fulfilled' | 'expired'`.
 
 <Callout>
 You might be interested in:

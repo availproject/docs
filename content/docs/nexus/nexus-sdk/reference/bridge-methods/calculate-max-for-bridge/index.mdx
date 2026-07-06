@@ -1,0 +1,106 @@
+---
+title: "Calculate Max for Bridge"
+sidebarTitle: "Calculate Max for Bridge"
+description: "Compute the maximum amount that can be bridged to a destination token across all same-currency holdings on other chains."
+---
+
+<Callout type="info">
+**SET UP THE SDK BEFORE YOU START:**
+
+Install and initialize the client first — see [Installation](/docs/nexus/nexus-sdk/get-started/installation) and [SDK Setup](/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup).
+</Callout>
+
+Use the `calculateMaxForBridge()` function to compute the maximum amount that can be bridged to a destination token across all same-currency holdings on other chains. This is useful for populating a "Max" button before calling [`bridge()`](/docs/nexus/nexus-sdk/reference/bridge-methods/bridge).
+
+The max is sized against the provider the bridge will actually use: the summed bridge amount is checked against the Mayan threshold (the same decision the real bridge makes), and the receivable max is computed for that provider. A small safety haircut is applied so the suggested amount survives fee drift before execution. The returned `provider` tells you which path was used.
+
+<Callout type="info">
+**Note:** Check out the [API reference](/docs/nexus/supported-chains-and-tokens) for a full list of supported tokens and chains.
+</Callout>
+
+## Method signature
+
+```typescript title="TypeScript"
+calculateMaxForBridge(
+  input: BridgeMaxParams,
+): Promise<BridgeMaxResult>
+```
+
+## Parameters
+
+```typescript title="TypeScript"
+export type BridgeMaxParams = {
+  toChainId: number;
+  toTokenSymbol: string;
+  /** Restrict which source chains are considered (chain IDs). Empty/omitted = all. */
+  sources?: number[];
+};
+```
+
+- `BridgeMaxParams`: Parameters for computing the max bridgeable amount.
+  - `toChainId` (number, required): The chain ID of the destination chain.
+  - `toTokenSymbol` (string, required): The symbol of the destination token (e.g. `'USDC'`).
+  - `sources` (number[], optional): Restrict which source chain IDs are considered. When omitted, all same-currency holdings are used.
+
+## Example
+
+```typescript title="TypeScript"
+import type { BridgeMaxParams, BridgeMaxResult } from '@avail-project/nexus-core';
+
+const max: BridgeMaxResult = await client.calculateMaxForBridge({
+  toChainId: 8453,
+  toTokenSymbol: 'USDC',
+} satisfies BridgeMaxParams);
+
+console.log(`Max bridgeable: ${max.maxAmount} ${max.symbol} via ${max.provider}`);
+console.log('Sources used:', max.sources);
+
+// Feed the raw amount straight into a bridge:
+await client.bridge({
+  toChainId: 8453,
+  toTokenSymbol: 'USDC',
+  toAmountRaw: max.maxAmountRaw,
+});
+```
+
+You can also restrict which source chains are considered:
+
+```typescript title="TypeScript"
+const max = await client.calculateMaxForBridge({
+  toChainId: 8453,
+  toTokenSymbol: 'USDC',
+  sources: [10, 42161], // only Optimism + Arbitrum balances
+});
+```
+
+<Callout type="warning">
+`calculateMaxForBridge()` throws typed [`NexusError`](https://github.com/availproject/nexus-sdk/blob/main/src/domain/errors.ts) subclasses on failure. Branch on `error.category` / `error.code`.
+</Callout>
+
+## Return Value
+
+The return value is a `BridgeMaxResult` object.
+
+```typescript title="TypeScript"
+export type BridgeMaxResult = {
+  toChainId: number;
+  toTokenSymbol: string;
+  /** Provider the max was sized against ('mayan' once the amount clears the threshold). */
+  provider: 'nexus' | 'mayan';
+  maxAmount: string;     // Human-readable decimal string
+  maxAmountRaw: bigint;  // Raw integer units — suitable for toAmountRaw in bridge()
+  symbol: string;
+  decimals: number;
+  sources: {
+    chainId: number;
+    tokenAddress: Hex;
+    symbol: string;
+    decimals: number;
+    amount: string;      // Human-readable portion drawn from this source
+  }[];
+};
+```
+
+<Callout type="info">
+See the [full type definitions](https://github.com/availproject/nexus-sdk/blob/main/src/bridge/types.ts) on GitHub.
+</Callout>

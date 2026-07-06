@@ -1,0 +1,4 @@
+{
+  "title": "Migration Guides",
+  "pages": ["sdk-v1-to-v2", "widgets-legacy-to-nexus-widget"]
+}

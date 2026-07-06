@@ -92,7 +92,7 @@ export function RegistryCodeBrowser({
 
   const current = files[idx];
   const displayPath = (p?: string) =>
-    (p || "").replace(/^registry\/nexus-elements\//, "components/");
+    (p || "").replace(/^registry\/avail-widgets\//, "components/");
 
   return (
     <figure
