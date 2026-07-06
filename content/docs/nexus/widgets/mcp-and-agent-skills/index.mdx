@@ -18,19 +18,20 @@ This page covers two ways AI assistants can work with Widgets: the **MCP server*
 npx skills add availproject/nexus-elements
 
 # Install a single skill
-npx skills add https://github.com/availproject/nexus-elements --skill nexus-elements-overview
+npx skills add https://github.com/availproject/nexus-elements --skill nexus-widget-swaps
 ```
 
 ### Available Skills
 
 | Skill | Description |
 |-------|-------------|
-| `nexus-elements-overview` | Overview of the widget |
-| `nexus-elements-common` | Shared patterns and conventions |
-| `nexus-elements-nexus-provider` | NexusProvider setup and configuration |
-| `nexus-one-swaps` | Swap and Bridge mode integration |
-| `nexus-one-send` | Send mode integration |
-| `nexus-one-deposit` | Deposit mode integration |
+| `avail-widgets-overview` | Overview of Avail Widgets |
+| `avail-widgets-common` | Shared patterns and conventions |
+| `avail-widgets-nexus-provider` | NexusProvider setup and configuration |
+| `nexus-widget-swaps` | Nexus Widget swap mode integration |
+| `nexus-widget-send` | Nexus Widget send mode integration |
+| `nexus-widget-deposit` | Nexus Widget deposit mode integration |
+| `nexus-migration-guide` | Migrating legacy standalone elements to Nexus Widget |
 
 Browse all available skills at [skills.sh/availproject/nexus-elements](https://skills.sh/availproject/nexus-elements).
 
@@ -50,7 +51,7 @@ Add the Widgets registry to your local `components.json`. This gives any MCP cli
 ```json title="components.json" showLineNumbers
 {
   "registries": {
-    "@nexus-elements": "https://elements.nexus.availproject.org/r/{name}.json"
+    "@avail-widgets": "https://widgets.availproject.org/r/{name}.json"
   }
 }
 ```
@@ -155,7 +156,7 @@ args = ["shadcn@latest", "mcp"]
 ## Supported Registries
 
 - **shadcn/ui registry** – ships with every MCP install for the canonical set of components.
-- **Widgets registry** – `@nexus-elements` namespace for the Avail-specific UI kit.
+- **Avail Widgets registry** – `@avail-widgets` namespace for the Avail-specific UI kit.
 - **Third-party registries** – any endpoint that follows the shadcn spec.
 - **Private registries** – internal libraries with optional auth headers or tokens.
 
@@ -229,7 +230,7 @@ You can mix public, third-party, and internal registries by extending `component
 ```json title="components.json" showLineNumbers
 {
   "registries": {
-    "@nexus-elements": "https://elements.nexus.availproject.org/r/{name}.json",
+    "@avail-widgets": "https://widgets.availproject.org/r/{name}.json",
     "@acme": "https://registry.acme.com/{name}.json",
     "@internal": {
       "url": "https://internal.company.com/{name}.json",
@@ -250,9 +251,9 @@ You can mix public, third-party, and internal registries by extending `component
 
 ## Example Prompts
 
-- Show me all components in the @nexus-elements registry
-- Add @nexus-elements/nexus-one to my project
-- Set up the NexusProvider and render the element in swap mode
+- Show me all components in the @avail-widgets registry
+- Add @avail-widgets/nexus to my project
+- Set up the NexusProvider and render the Nexus Widget in swap mode
 
 ---
 

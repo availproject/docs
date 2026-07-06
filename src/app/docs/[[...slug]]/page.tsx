@@ -105,13 +105,13 @@ export default async function Page(props: {
       const pathSoFar = arr.slice(0, index + 1).join("/");
       const segmentLabels: Record<string, string> = {
         da: "DA",
-        "nexus-ui-elements": "Nexus UI Elements",
+        widgets: "Widgets",
         "nexus-sdk": "Nexus SDK",
         "api-reference": "API Reference",
       };
       const pathLabels: Record<string, string> = {
         "docs/nexus/nexus-sdk/get-started": "Manual Setup",
-        "docs/nexus/nexus-ui-elements/get-started": "Manual Setup",
+        "docs/nexus/widgets/get-started": "Manual Setup",
       };
       const label =
         pathLabels[pathSoFar] ??

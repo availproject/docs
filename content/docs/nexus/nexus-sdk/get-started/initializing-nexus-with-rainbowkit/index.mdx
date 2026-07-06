@@ -313,7 +313,7 @@ import { useState } from "react";
 import { useAccount } from "wagmi";
 import ConnectWalletButton from "@/components/connect-button";
 import InitButton from "@/components/init-button";
-import FetchUnifiedBalanceButton from "@/components/fetch-unified-balance-button";
+import FetchBalancesButton from "@/components/fetch-balances-button";
 import DeinitButton from "@/components/de-init-button";
 import { client } from "@/lib/nexus";
 
@@ -334,7 +334,7 @@ export default function Page() {
           className={btn}
           onReady={() => setInitialized(true)}
         />
-        <FetchUnifiedBalanceButton
+        <FetchBalancesButton
           className={btn}
           onResult={(r) => setBalances(r)}
         />

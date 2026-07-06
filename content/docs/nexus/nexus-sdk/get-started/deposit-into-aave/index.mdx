@@ -27,7 +27,7 @@ The `client.bridgeAndExecute()` method extends regular bridging by accepting an 
 | `toChainId` | `number` | Yes | Destination chain ID. The `execute` object inherits it, so it omits `toChainId`. |
 | `execute.to` | `string` | Yes | Contract address to call on the destination chain. |
 | `execute.data` | `string` | Yes | ABI-encoded function call data. |
-| `execute.tokenApproval` | `{ toTokenSymbol: string, amount: bigint, spender: string }` | Yes | Token approval the contract needs before execution. |
+| `execute.tokenApproval` | `{ toTokenSymbol: string, amount: bigint, spender: string }` | For this flow | Optional in general; required whenever the target contract pulls ERC-20 funds via `transferFrom`, as Aave's `supply()` does. |
 
 ## Step 1 - Add the bridgeAndExecute helper
 

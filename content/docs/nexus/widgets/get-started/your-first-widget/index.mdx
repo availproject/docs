@@ -1,9 +1,9 @@
 ---
 title: Your First Widget
-description: Render your first Widgets component and understand how props and callbacks work.
+description: Render the Nexus Widget and understand how props and callbacks work.
 ---
 
-You have installed the package and configured the `NexusProvider`. Now it is time to render a working element. In this guide you will add the **Widgets** element to a page, understand each prop it accepts, and handle its lifecycle callbacks.
+You have installed the component and configured the `NexusProvider`. Now it is time to render a working widget. In this guide you will add **Nexus Widget** to a page, understand each prop it accepts, and handle its lifecycle callbacks.
 
 ## What you will build
 
@@ -14,19 +14,18 @@ By the end of this page you will have a fully functional swap-and-bridge widget 
 If you have not already installed it during the installation step, add it now:
 
 ```bash
-npx shadcn@latest add @nexus-elements/nexus-one
+npx shadcn@latest add availproject/widgets/nexus
 ```
 
 ## Step 2 — Create a page
 
-Create a new page (or add to an existing one) that renders the `NexusOne` element. Here is a complete example:
+Create a new page (or add to an existing one) that renders `NexusWidget`. Here is a complete example:
 
 ```tsx title="app/swap/page.tsx" showLineNumbers
 "use client";
 import { useAccount } from "wagmi";
-import { NexusOne } from "@/components/nexus-one/nexus-one";
+import { NexusWidget } from "@/components/nexus/nexus";
 
-const USDC_ARBITRUM = "0xaf88d065e77c8cC2239327C5EDb3A432268e5831";
 const USDC_BASE = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
 
 export default function SwapPage() {
@@ -38,13 +37,13 @@ export default function SwapPage() {
 
   return (
     <div className="mx-auto max-w-md py-12">
-      <NexusOne
+      <NexusWidget
         connectedAddress={address}
         config={{
           mode: "swap",
-          prefill: {
-            source: { token: USDC_ARBITRUM, chain: 42161 },
-            destination: { token: USDC_BASE, chain: 8453 },
+          destination: {
+            chain: 8453,
+            tokens: [{ address: USDC_BASE, symbol: "USDC", decimals: 6 }],
           },
         }}
         onStart={() => console.log("Intent started")}
@@ -58,22 +57,25 @@ export default function SwapPage() {
 
 ## Step 3 — Understand the props
 
-Here is a breakdown of every prop passed to `NexusOne` and what it controls:
+Here is a breakdown of the props `NexusWidget` accepts and what they control:
 
 | Prop | Type | Required | Description |
 | --- | --- | --- | --- |
-| `config` | `NexusOneConfig` | Yes | Selects the workflow with `config.mode` (`"swap"`, `"send"`, or `"deposit"`) and any mode-specific behavior. |
+| `config` | `NexusWidgetConfig` | Yes | Selects the workflow with `config.mode` (`"swap"`, `"send"`, or `"deposit"`) and any mode-specific behavior. |
 | `config.mode` | `"swap" \| "send" \| "deposit"` | Yes | The flow to render. |
-| `config.prefill` | `object` | No | Pre-populate the form (amount, token/chain, recipient, source/destination) so the user acts with fewer clicks. |
+| `config.destination` | `{ chain?, tokens? }` | Conditional | Required for deposit. Optional for send/swap; when supplied, it restricts the destination chain/token selection. |
+| `config.prefill` | `object` | No | Pre-populate the form (amount for deposit/send, initial token for send/swap) so the user acts with fewer clicks. |
+| `config.appearance` | `object` | No | Branding overrides: `heading`, `appName`, `appLogoURL`, `primaryColor`, and `mode` (`"system"`, `"light"`, `"dark"`). |
 | `connectedAddress` | `` `0x${string}` `` | No | Wallet address to use. If omitted, the connected wagmi account is used. |
-| `embed` | `boolean` | No | Defaults to `true`. Set `false` to render as a modal surface. |
+| `embed` | `boolean` | No | Defaults to `true`. Set `false` to render as a modal surface, controlled with `open`, `onOpenChange`, and `defaultOpen`. |
 | `onComplete` | `(explorerUrl?: string) => void` | No | Called after a successful swap, send, or deposit. Use it to refresh balances or navigate. |
 | `onStart` | `() => void` | No | Called when the user starts execution. Useful for analytics. |
 | `onError` | `(message: string) => void` | No | Called if execution fails, with a human-readable message. |
 | `onClose` | `() => void` | No | Used by modal mode. The close button is hidden in embedded mode. |
+| `onConnectClick` | `() => void \| Promise<void>` | No | Called when the widget's internal Connect Wallet CTA is clicked. Use it to open your app's wallet modal. |
 
-<Callout type="info" title="config.mode is the only required field">
-Beyond `config.mode`, every field is optional unless the selected mode makes it conditional (for example, `deposit` requires a `config.deposit` block). See the [Swap and Bridge](/docs/nexus/widgets/components/swaps), [Send](/docs/nexus/widgets/components/transfer), and [Deposit](/docs/nexus/widgets/components/deposit) pages for each mode's configuration reference.
+<Callout type="info" title="config.mode is the only always-required field">
+Beyond `config.mode`, every field is optional unless the selected mode makes it conditional (deposit requires `destination`, `depositAddress`, and `executeDeposit`). See the [Swap and Bridge](/docs/nexus/widgets/components/swaps), [Send](/docs/nexus/widgets/components/transfer), and [Deposit](/docs/nexus/widgets/components/deposit) pages for each mode's configuration reference.
 </Callout>
 
 ## Step 4 — Run and test
@@ -86,27 +88,33 @@ npm run dev
 
 1. Open your app in the browser
 2. Connect a wallet using your wallet connection UI
-3. The widget should appear with USDC on Arbitrum and USDC on Base pre-selected
+3. The widget should appear with USDC on Base pre-selected as the receive asset
 4. Try selecting a different token or chain to verify the form is interactive
 
 <Callout type="warning" title="Mainnet only">
-Widgets currently supports mainnet only. Testnet is not supported at the moment.
+Nexus Widget currently supports mainnet only. Testnet is not supported at the moment.
 </Callout>
 
 ## Switching modes
 
-The same element powers send and deposit — just change `config.mode`. To render a send flow instead:
+The same component powers send and deposit — just change `config.mode`. To render a send flow instead:
 
 ```tsx
-<NexusOne
+<NexusWidget
   connectedAddress={address}
   config={{
     mode: "send",
-    prefill: {
-      token: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    destination: {
       chain: 8453,
-      amount: "0.1",
+      tokens: [
+        {
+          address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          symbol: "USDC",
+          decimals: 6,
+        },
+      ],
     },
+    prefill: { amount: "0.1" },
   }}
   onComplete={() => console.log("Send complete")}
 />
@@ -114,7 +122,7 @@ The same element powers send and deposit — just change `config.mode`. To rende
 
 ## What's next
 
-You now have a working Widgets integration. From here you can explore each mode:
+You now have a working Nexus Widget integration. From here you can explore each mode:
 
 <Cards>
   <Card

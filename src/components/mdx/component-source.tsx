@@ -11,11 +11,11 @@ import {
   type RegistryProcessedFile,
 } from "./registry-code-browser";
 export const STYLES = [
-  { name: "nexus-elements" as const, title: "Nexus UI Elements" },
+  { name: "avail-widgets" as const, title: "Avail Widgets" },
 ] as const;
 export type Style = (typeof STYLES)[number];
 
-const REGISTRY_BASE_URL = "https://elements.nexus.availproject.org/r";
+const REGISTRY_BASE_URL = "https://widgets.availproject.org/r";
 
 type RegistryFile = {
   path: string;
@@ -57,7 +57,7 @@ export async function ComponentSource({
   language,
   collapsible = true,
   className,
-  styleName = "nexus-elements",
+  styleName = "avail-widgets",
   showAllFiles = false,
 }: React.ComponentProps<"div"> & {
   name?: string;

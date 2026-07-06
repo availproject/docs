@@ -230,10 +230,10 @@ import {
 
 ```typescript title="TypeScript"
 // Format a raw balance for display
-const formatted = formatTokenBalance(1234567890n, 6, { symbol: 'USDC' });
+const formatted = formatTokenBalance(1234567890n, { decimals: 6, symbol: 'USDC' });
 
 // Get the parts separately
-const parts = formatTokenBalanceParts(1234567890n, 6);
+const parts = formatTokenBalanceParts(1234567890n, { decimals: 6 });
 
 // Convert between raw and human units
 const raw = parseUnits('1.5', 18);   // 1500000000000000000n
@@ -245,6 +245,17 @@ const human = formatUnits(raw, 18);  // "1.5"
 ```typescript title="TypeScript"
 const valid = isValidAddress('0x742d35Cc6634C0532925a3b8D4C9db96c4b4Db45'); // boolean
 const short = truncateAddress('0x742d35Cc6634C0532925a3b8D4C9db96c4b4Db45'); // "0x742d...Db45"
+```
+
+### Token logo fallback
+
+`getFallbackTokenLogoDataUri` generates a deterministic gradient SVG logo as a data URI — useful as an `onError` fallback for token images. Note it is exported from the main entry point, not `/utils`:
+
+```typescript title="TypeScript"
+import { getFallbackTokenLogoDataUri } from '@avail-project/nexus-core';
+
+const logo = getFallbackTokenLogoDataUri('USDC'); // "data:image/svg+xml;charset=utf-8,..."
+const large = getFallbackTokenLogoDataUri('USDC', 256); // optional size, defaults to 128
 ```
 
 ### Prices and supported chains
@@ -264,7 +275,7 @@ The same helpers are attached to the client as `NexusUtils`:
 ```typescript title="TypeScript"
 const rates = await client.utils.getCoinbaseRates();
 const supported = await client.utils.getSupportedChains('mainnet');
-const formatted = client.utils.formatTokenBalance(1234567890n, 6, { symbol: 'USDC' });
+const formatted = client.utils.formatTokenBalance(1234567890n, { decimals: 6, symbol: 'USDC' });
 ```
 
 <Callout type="info">

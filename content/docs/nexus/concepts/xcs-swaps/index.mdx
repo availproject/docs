@@ -7,7 +7,7 @@ hideFooter: true
 
 In Nexus, users can do crosschain swaps (aka **Swap Methods**) which allows them to go **from any token on any source chain(s), to any token on any destination chain.**
 
-Swaps are routed through DEX aggregators — **LiFi, Bebop, Fibrous, and 0x** — which are quoted in parallel, with the best quote winning. When the swap crosses chains, the aggregator legs are combined with the Nexus bridge leg. Canonical assets like ETH, USDC and USDT are used as the "interim" or "express" tokens to make routing simpler and cheaper for users.
+Swaps are routed through multiple DEX aggregators (such as LiFi, Bebop, and 0x), which are quoted in parallel, with the best quote winning. When the swap crosses chains, the aggregator legs are combined with the Nexus bridge leg. Canonical assets like ETH, USDC and USDT are used as the "interim" or "express" tokens to make routing simpler and cheaper for users.
 
 The pipeline is: **optional source swap → bridge leg → optional destination swap**. On supported chains, the SDK may automatically execute swap legs through a short-lived smart account (via EIP-7702) so multiple steps can be batched — no configuration needed.
 

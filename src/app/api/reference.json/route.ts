@@ -518,8 +518,8 @@ const REFERENCE_DATA = {
         docs: "/docs/nexus/nexus-sdk",
       },
       nexus_widgets: {
-        registry: "https://elements.nexus.availproject.org/r",
-        components: ["nexus-one"],
+        registry: "https://widgets.availproject.org/r",
+        components: ["nexus"],
         docs: "/docs/nexus/widgets",
       },
     },

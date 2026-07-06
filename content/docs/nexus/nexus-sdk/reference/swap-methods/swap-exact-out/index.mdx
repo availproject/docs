@@ -13,7 +13,7 @@ Install and initialize the client first — see [Installation](/docs/nexus/nexus
 Use the `swapWithExactOut()` function to swap tokens with an exactly defined output amount.
 For example, if you want to get exactly `100 USDC` on the destination but don't care which amount of source funds are used to source the swap. You can however limit your source chains and tokens to a subset of the total supported holdings.
 
-Swaps are routed through the LiFi, Bebop, Fibrous, and 0x aggregators. Execution runs through a per-chain smart account chosen automatically — an ephemeral key delegated via EIP-7702 on 7702-enabled chains, or a deterministic Safe owned by the ephemeral key elsewhere. The connected EOA is never used to dispatch a swap directly.
+Swaps are routed through multiple DEX aggregators (such as LiFi, Bebop, and 0x), quoted in parallel. Execution runs through a per-chain smart account chosen automatically — an ephemeral key delegated via EIP-7702 on 7702-enabled chains, or a deterministic Safe owned by the ephemeral key elsewhere. The connected EOA is never used to dispatch a swap directly.
 
 ## Method signature
 

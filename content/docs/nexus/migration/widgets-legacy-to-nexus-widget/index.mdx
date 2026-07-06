@@ -1,0 +1,126 @@
+---
+title: "Migrate to Nexus Widget"
+description: Migrate from the legacy standalone elements to the unified Nexus Widget component.
+---
+
+Avail Widgets consolidates all standalone cross-chain widgets into a single component: **Nexus Widget**. If your app uses `SwapWidget`, `FastBridge`, `FastTransfer`, `NexusDeposit`, `UnifiedBalance`, or `ViewHistory`, this guide maps each to its replacement.
+
+## What changed
+
+| Legacy component | Status | Replacement |
+| --- | --- | --- |
+| `SwapWidget` | Removed | `NexusWidget` with `config.mode = "swap"` |
+| `FastBridge` | Removed | `NexusWidget` with `config.mode = "swap"` |
+| `FastTransfer` | Removed | `NexusWidget` with `config.mode = "send"` |
+| `NexusDeposit` / `BridgeDeposit` | Removed | `NexusWidget` with `config.mode = "deposit"` |
+| `UnifiedBalance` | Removed | Inline balance views inside Nexus Widget |
+| `ViewHistory` | Removed | For programmatic intent history, use the SDK's [`listIntents`](/docs/nexus/nexus-sdk/reference/list-intents) |
+
+## 1. Install Nexus Widget
+
+```bash
+npx shadcn@latest add availproject/widgets/nexus
+```
+
+The install places the widget under `components/nexus/` and pins `@avail-project/nexus-core` v2. If you are also upgrading direct SDK usage, see the [SDK v1 → v2 guide](/docs/nexus/migration/sdk-v1-to-v2).
+
+## 2. Replace components
+
+### Swaps and bridges
+
+```diff
+-import { SwapWidget } from "@/components/avail-widgets/swaps";
++import { NexusWidget } from "@/components/nexus/nexus";
+
+-<SwapWidget
+-  address={address}
+-  prefillSourceToken="0xaf..."
+-  prefillDestToken="0x83..."
+-/>
++<NexusWidget
++  connectedAddress={address}
++  config={{
++    mode: "swap",
++    destination: {
++      chain: 8453,
++      tokens: [{ address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", symbol: "USDC", decimals: 6 }],
++    },
++  }}
++/>
+```
+
+### Sends and transfers
+
+```diff
+-import { FastTransfer } from "@/components/avail-widgets/transfer";
++import { NexusWidget } from "@/components/nexus/nexus";
+
+-<FastTransfer address={address} recipient="0xRecipient..." amount="10" />
++<NexusWidget
++  connectedAddress={address}
++  config={{
++    mode: "send",
++    destination: {
++      chain: 8453,
++      tokens: [{ address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", symbol: "USDC", decimals: 6 }],
++    },
++    recipientAddress: "0xRecipient...",
++    prefill: { amount: "10" },
++  }}
++/>
+```
+
+### Protocol deposits
+
+```diff
+-import { NexusDeposit } from "@/components/avail-widgets/deposit";
++import { NexusWidget } from "@/components/nexus/nexus";
+
+-<NexusDeposit
+-  address={address}
+-  contractAddress="0xContract..."
+-  tokenAddress="0xToken..."
+-/>
++<NexusWidget
++  connectedAddress={address}
++  config={{
++    mode: "deposit",
++    destination: {
++      chain: 8453,
++      tokens: [{ address: "0xToken...", symbol: "USDC", decimals: 6 }],
++    },
++    depositAddress: "0xContract...",
++    executeDeposit: (symbol, tokenAddress, amount, chainId, user) => ({
++      to: "0xContract...",
++      data: "0xCalldata...",
++      tokenApproval: { toTokenAddress: tokenAddress, amount, spender: "0xContract..." },
++    }),
++  }}
++/>
+```
+
+See the [Deposit page](/docs/nexus/widgets/components/deposit) for the full `executeDeposit` contract.
+
+## 3. Provider updates
+
+`NexusProvider` is still required. Update its import to the new unified location:
+
+```tsx
+import NexusProvider from "@/components/nexus/NexusProvider";
+```
+
+SDK initialization on wallet connect is unchanged in shape — resolve the EIP-1193 provider from your wallet library and pass it to `handleInit` from `useNexus()`. See [NexusProvider Setup](/docs/nexus/widgets/get-started/nexus-provider-setup).
+
+## 4. Custom modifications
+
+<Callout type="warning" title="Local modifications are not carried over">
+The install writes new files under `components/nexus/`. Customizations you made inside the legacy `components/avail-widgets/` folders (theme colors, analytics hooks, transaction overrides) are **not** transferred automatically. Back up the legacy folders before deleting them.
+</Callout>
+
+Recommended workflow:
+
+1. **Back up** your existing legacy component folders outside the git workspace.
+2. **Install** Nexus Widget with the command above.
+3. **Prefer callbacks over forks** — `onStart`, `onComplete(explorerUrl)`, `onError(message)`, and `onConnectClick` cover the common customization points without modifying widget source.
+4. **Port UI styles** into `components/nexus/nexus.tsx` and its child files using your Tailwind theme.
+5. **Delete** the legacy folders once the new widget is verified.

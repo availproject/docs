@@ -1,24 +1,22 @@
 ---
 title: Unified Balance
-description: Deprecated. Unified balance is now built into the widget.
+description: Deprecated. Unified balance is now built into the Nexus Widget.
 ---
 
 <Callout type="warning">
-  **Deprecated.** The standalone Unified Balance component is deprecated in favor of
-  the widget. Use
-  [`@nexus-elements/nexus-one`](/docs/nexus/widgets/components/swaps) — it
-  renders the cross-chain unified balance inline as part of the swap, send, and deposit
-  flows.
+  **Deprecated.** The standalone Unified Balance component has been removed in favor of
+  **Nexus Widget**. The cross-chain unified balance is rendered inline as part of the
+  swap, send, and deposit flows — see [Swap and Bridge](/docs/nexus/widgets/components/swaps).
 </Callout>
 
 ## Migrating
 
-Remove the standalone `<UnifiedBalance />` component and install the widget instead:
+Remove the standalone `<UnifiedBalance />` component and install Nexus Widget instead:
 
 ```bash
-npx shadcn@latest add @nexus-elements/nexus-one
+npx shadcn@latest add availproject/widgets/nexus
 ```
 
-The unified balance view (per-token, per-chain breakdown across connected chains) is shown automatically inside the element. See [NexusProvider Setup](/docs/nexus/widgets/get-started/nexus-provider-setup) to wire it up.
+The unified balance view (per-token, per-chain breakdown across connected chains) is shown automatically inside the widget. See [NexusProvider Setup](/docs/nexus/widgets/get-started/nexus-provider-setup) to wire it up, and the [Widgets migration guide](/docs/nexus/migration/widgets-legacy-to-nexus-widget) for the full legacy-to-widget mapping.
 
 For programmatic access to balances, use the SDK directly — see [Fetch Bridge Balances](/docs/nexus/nexus-sdk/reference/bridge-methods/fetch-bridge-balances).

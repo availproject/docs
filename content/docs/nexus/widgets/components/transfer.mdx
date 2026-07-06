@@ -7,8 +7,8 @@ links:
 ---
 
 <ComponentPreview
-  name="nexus-one-transfer"
-  description="Send mode with USDC on Base prefilled. The recipient is selected by the user."
+  name="nexus-send"
+  description="Send mode with USDC on Base configured, an amount prefilled, and a recipient set."
   align="center"
   hideCode
 />
@@ -18,7 +18,7 @@ links:
 ## Installation
 
 ```bash
-npx shadcn@latest add @nexus-elements/nexus-one
+npx shadcn@latest add availproject/widgets/nexus
 ```
 
 ## Usage
@@ -26,23 +26,23 @@ npx shadcn@latest add @nexus-elements/nexus-one
 Wrap your app with the Nexus provider first. See [NexusProvider Setup](/docs/nexus/widgets/get-started/nexus-provider-setup) for provider setup.
 
 ```tsx showLineNumbers
-import { NexusOne } from "@/components/nexus-one/nexus-one";
+import { NexusWidget } from "@/components/nexus/nexus";
 
 const USDC_BASE = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
 const RECIPIENT = "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045";
 
 export function SendExample({ address }: { address?: `0x${string}` }) {
   return (
-    <NexusOne
+    <NexusWidget
       connectedAddress={address}
       config={{
         mode: "send",
-        prefill: {
-          token: USDC_BASE,
+        destination: {
           chain: 8453,
-          amount: "0.1",
-          recipient: RECIPIENT,
+          tokens: [{ address: USDC_BASE, symbol: "USDC", decimals: 6 }],
         },
+        recipientAddress: RECIPIENT,
+        prefill: { amount: "0.1" },
       }}
     />
   );
@@ -51,41 +51,55 @@ export function SendExample({ address }: { address?: `0x${string}` }) {
 
 ## Configuration
 
-Send uses only `mode: "send"`. This mode is exact-out: users enter the token amount to send, pay-with sources are selected, and the flow submits through the v2 transfer execution path.
+Send uses `mode: "send"`. This mode is exact-out: users enter the token amount to send, pay-with sources are selected, and the flow submits through the Nexus transfer execution path.
 
 | Prop | Required | Description |
 | --- | --- | --- |
 | `config.mode` | Yes | Must be `"send"`. |
-| `config.prefill.token` | Optional | Preselects the token to send. |
-| `config.prefill.chain` | Optional | Preselects the destination chain. |
-| `config.prefill.amount` | Optional | Prefills the exact output send amount. |
-| `config.prefill.recipient` | Optional | Prefills the recipient address. A recipient is required before users can submit. |
-| `config.allowedSourcePairs` | Optional | Restricts the selectable pay-with token/chain pairs. |
-| `config.allowedDestinationPairs` | Optional | Restricts the selectable send token/chain pairs. |
+| `config.destination.chain` | Optional | Restricts the destination chain selection. |
+| `config.destination.tokens` | Optional | Restricts the send-token selector. When supplied with `destination.chain`, users can only pick from this list. |
+| `config.recipientAddress` | Optional | Prefills the recipient. A supplied recipient is locked; otherwise the user enters one before submitting. |
+| `config.prefill.amount` | Optional | Prefills the exact output send amount. Must be greater than `0`. |
+| `config.prefill.token` | Optional | Initial send token: `{ chain, address, symbol, decimals, logo? }`. Unlike `destination.tokens`, it does not restrict later token choices. |
+| `config.validation.minAmount`, `config.validation.maxAmount` | Optional | Bounds on the send amount. |
+| `config.appearance` | Optional | Branding overrides: `heading`, `appName`, `appLogoURL`, `primaryColor`, `mode`. |
 | `connectedAddress` | Optional | Wallet address to use. If omitted, the connected wagmi account is used. |
 | `embed` | Optional | Defaults to `true`. Set `false` to render as a modal surface. |
 | `open`, `onOpenChange`, `defaultOpen` | Optional | Control the modal when `embed={false}`. |
-| `onStart`, `onComplete`, `onError`, `onClose`, `onConnectWallet` | Optional | Host app callbacks. Use `onConnectWallet` to route the element CTA to your app-level wallet flow. |
+| `onStart`, `onComplete`, `onError`, `onClose`, `onConnectClick` | Optional | Host app callbacks. Use `onConnectClick` to route the widget's Connect Wallet CTA to your app-level wallet flow. |
 
 <CodeCollapsibleWrapper className="mt-4">
 
-```ts title="SendConfig"
-// Illustrative narrowing of NexusOneConfig for mode: "send".
-type TokenChainPair = {
-  token: `0x${string}`;
-  chain: number;
-};
+```ts title="NexusWidgetSendConfig"
+interface NexusWidgetDestinationToken {
+  address: `0x${string}`;
+  symbol: string;
+  decimals: number;
+  logo?: string;
+}
 
-interface SendConfig {
+interface NexusWidgetSendConfig {
   mode: "send";
-  prefill?: {
-    token?: `0x${string}`;
+  destination?: {
     chain?: number;
-    amount?: string;
-    recipient?: `0x${string}`;
+    tokens?: NexusWidgetDestinationToken[];
   };
-  allowedSourcePairs?: TokenChainPair[];
-  allowedDestinationPairs?: TokenChainPair[];
+  recipientAddress?: `0x${string}`;
+  prefill?: {
+    amount?: string;
+    token?: NexusWidgetDestinationToken & { chain: number };
+  };
+  validation?: {
+    minAmount?: string;
+    maxAmount?: string;
+  };
+  appearance?: {
+    heading?: string;
+    appName?: string;
+    appLogoURL?: string;
+    primaryColor?: string;
+    mode?: "system" | "light" | "dark";
+  };
 }
 ```
 

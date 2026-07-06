@@ -36,7 +36,7 @@ export type IntentStatus = 'created' | 'deposited' | 'fulfilled' | 'expired';
 ```
 
 - `ListIntentsParams` (optional): Filters for the intent query.
-  - `page` (number, optional): The page number for pagination.
+  - `page` (number, optional): The page number for pagination. Page size is fixed at 20 records — paginate by incrementing `page`.
   - `status` (`IntentStatus`, optional): Restrict results to a single lifecycle status — `'created'`, `'deposited'`, `'fulfilled'`, or `'expired'`.
 
 <Callout type="info">

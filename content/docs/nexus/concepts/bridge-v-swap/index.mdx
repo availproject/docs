@@ -42,7 +42,7 @@ client.getBalancesForSwap(): Promise<TokenBalance[]>
 ## Why two different balances?
 Nexus solvers only manage liquidity for canonical bridge tokens — currently ETH, USDC, and USDT (see [Supported Chains & Tokens](/docs/nexus/supported-chains-and-tokens)). Bridge balances reflect what solvers can move across chains directly. A bridge route may be served natively by Nexus or via Mayan — the SDK selects the provider automatically per route.
 
-For crosschain swaps, Nexus orchestrates the intent but the actual swaps are executed by partner DEX aggregators (LiFi, Bebop, Fibrous, 0x). This means swap operations can access a much wider range of tokens, since they aren't limited by solver liquidity.
+For crosschain swaps, Nexus orchestrates the intent but the actual swaps are executed by partner DEX aggregators (such as LiFi, Bebop, and 0x). This means swap operations can access a much wider range of tokens, since they aren't limited by solver liquidity.
 
 Because the available tokens differ between bridging and swapping, each operation needs its own balance query — your "swappable" balances are not the same as your "bridgeable" assets.
 

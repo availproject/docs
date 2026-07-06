@@ -67,7 +67,7 @@ export type ChainBalance = {
   };
   contractAddress: `0x${string}`;
   decimals: number;
-  universe: Universe;           // VM family of the chain (e.g. 'EVM')
+  universe: Universe;           // VM family as a numeric enum (0 = Ethereum/EVM)
 };
 ```
 

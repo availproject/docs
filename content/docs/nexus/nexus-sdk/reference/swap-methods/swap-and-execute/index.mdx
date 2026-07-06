@@ -12,7 +12,7 @@ Install and initialize the client first — see [Installation](/docs/nexus/nexus
 
 Use the `swapAndExecute()` function to swap tokens to a destination chain and then execute a contract call, in a single flow. If sufficient funds already exist on the destination chain, the swap is skipped and only the execution runs.
 
-Swaps are routed through the LiFi, Bebop, Fibrous, and 0x aggregators. Execution runs through a per-chain smart account chosen automatically — an ephemeral key delegated via EIP-7702 on 7702-enabled chains, or a deterministic Safe owned by the ephemeral key elsewhere.
+Swaps are routed through multiple DEX aggregators (such as LiFi, Bebop, and 0x), quoted in parallel. Execution runs through a per-chain smart account chosen automatically — an ephemeral key delegated via EIP-7702 on 7702-enabled chains, or a deterministic Safe owned by the ephemeral key elsewhere.
 
 <Callout type="info">
 **Note:** Check out the [API reference](/docs/nexus/supported-chains-and-tokens) for a full list of supported tokens and chains.

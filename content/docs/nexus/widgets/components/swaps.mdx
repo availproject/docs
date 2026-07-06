@@ -7,8 +7,8 @@ links:
 ---
 
 <ComponentPreview
-  name="nexus-one-swap"
-  description="Swap mode with USDC on Arbitrum prefilled as source and USDC on Base prefilled as receive."
+  name="nexus-swap"
+  description="Swap mode with USDC on Base configured as the receive asset."
   align="center"
   hideCode
 />
@@ -18,7 +18,7 @@ links:
 ## Installation
 
 ```bash
-npx shadcn@latest add @nexus-elements/nexus-one
+npx shadcn@latest add availproject/widgets/nexus
 ```
 
 ## Usage
@@ -26,9 +26,8 @@ npx shadcn@latest add @nexus-elements/nexus-one
 Wrap your app with the Nexus provider first. See [NexusProvider Setup](/docs/nexus/widgets/get-started/nexus-provider-setup) for provider setup.
 
 ```tsx showLineNumbers
-import { NexusOne } from "@/components/nexus-one/nexus-one";
+import { NexusWidget } from "@/components/nexus/nexus";
 
-const USDC_ARBITRUM = "0xaf88d065e77c8cC2239327C5EDb3A432268e5831";
 const USDC_BASE = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
 
 export function SwapAndBridgeExample({
@@ -37,20 +36,13 @@ export function SwapAndBridgeExample({
   address?: `0x${string}`;
 }) {
   return (
-    <NexusOne
+    <NexusWidget
       connectedAddress={address}
       config={{
         mode: "swap",
-        prefill: {
-          amount: "1",
-          source: {
-            token: USDC_ARBITRUM,
-            chain: 42161,
-          },
-          destination: {
-            token: USDC_BASE,
-            chain: 8453,
-          },
+        destination: {
+          chain: 8453,
+          tokens: [{ address: USDC_BASE, symbol: "USDC", decimals: 6 }],
         },
       }}
     />
@@ -60,39 +52,50 @@ export function SwapAndBridgeExample({
 
 ## Configuration
 
-Swap and Bridge uses only `mode: "swap"`. This mode is exact-in: users enter the source amount, the quote determines the receive amount, and the flow submits through `swapWithExactIn`.
+Swap and Bridge uses `mode: "swap"`. Users pick a source asset, the quote determines the receive amount, and the flow submits through the Nexus swap execution path.
 
 | Prop | Required | Description |
 | --- | --- | --- |
 | `config.mode` | Yes | Must be `"swap"`. |
-| `config.prefill.amount` | Optional | Prefills the source amount. |
-| `config.prefill.source` | Optional | Preselects the source token and chain. |
-| `config.prefill.destination` | Optional | Preselects the receive token and chain. |
-| `config.allowedSourcePairs` | Optional | Restricts the selectable source token/chain pairs. |
-| `config.allowedDestinationPairs` | Optional | Restricts the selectable receive token/chain pairs. |
+| `config.destination.chain` | Optional | Restricts the destination chain selection. |
+| `config.destination.tokens` | Optional | Restricts the receive-token selector. When supplied with `destination.chain`, users can only pick from this list. |
+| `config.prefill.token` | Optional | Initial receive token: `{ chain, address, symbol, decimals, logo? }`. Unlike `destination.tokens`, it does not restrict later token choices. |
+| `config.recipientAddress` | Optional | Prefills the recipient of the swap output. |
+| `config.appearance` | Optional | Branding overrides: `heading`, `appName`, `appLogoURL`, `primaryColor`, `mode`. |
 | `connectedAddress` | Optional | Wallet address to use. If omitted, the connected wagmi account is used. |
 | `embed` | Optional | Defaults to `true`. Set `false` to render as a modal surface. |
 | `open`, `onOpenChange`, `defaultOpen` | Optional | Control the modal when `embed={false}`. |
-| `onStart`, `onComplete`, `onError`, `onClose`, `onConnectWallet` | Optional | Host app callbacks. Use `onConnectWallet` to route the element CTA to your app-level wallet flow. |
+| `onStart`, `onComplete`, `onError`, `onClose`, `onConnectClick` | Optional | Host app callbacks. Use `onConnectClick` to route the widget's Connect Wallet CTA to your app-level wallet flow. |
+
+If both `destination.tokens` and `prefill.token` are supplied, `destination.tokens[0]` is honored and `prefill.token` is ignored. Swap mode does not support amount prefill or min/max validation yet.
 
 <CodeCollapsibleWrapper className="mt-4">
 
-```ts title="SwapAndBridgeConfig"
-// Illustrative narrowing of NexusOneConfig for mode: "swap".
-type TokenChainPair = {
-  token: `0x${string}`;
-  chain: number;
-};
+```ts title="NexusWidgetSwapConfig"
+interface NexusWidgetDestinationToken {
+  address: `0x${string}`;
+  symbol: string;
+  decimals: number;
+  logo?: string;
+}
 
-interface SwapAndBridgeConfig {
+interface NexusWidgetSwapConfig {
   mode: "swap";
-  prefill?: {
-    amount?: string;
-    source?: TokenChainPair;
-    destination?: TokenChainPair;
+  destination?: {
+    chain?: number;
+    tokens?: NexusWidgetDestinationToken[];
   };
-  allowedSourcePairs?: TokenChainPair[];
-  allowedDestinationPairs?: TokenChainPair[];
+  prefill?: {
+    token?: NexusWidgetDestinationToken & { chain: number };
+  };
+  recipientAddress?: `0x${string}`;
+  appearance?: {
+    heading?: string;
+    appName?: string;
+    appLogoURL?: string;
+    primaryColor?: string;
+    mode?: "system" | "light" | "dark";
+  };
 }
 ```
 

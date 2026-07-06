@@ -29,7 +29,7 @@ Where each hook lives per method:
 |--------|-----------|------------|---------------|
 | `bridge()` / `bridgeAndTransfer()` | top-level | `hooks.onIntent` | `hooks.onAllowance` |
 | `swapWithExactIn()` / `swapWithExactOut()` | top-level | `hooks.onIntent` | — |
-| `bridgeAndExecute()` | top-level | top-level `onIntent` | — |
+| `bridgeAndExecute()` | top-level | top-level `onIntent` | automatic (`min`) |
 | `swapAndExecute()` | top-level | top-level `onIntent` | — |
 
 ### onEvent
@@ -289,7 +289,7 @@ type ErrorCategory =
 | `SimulationError` | `simulation` | A pre-execution `eth_call` / simulation failed. |
 | `ExecutionError` | `execution` | Runtime failure at the wallet/RPC boundary (gas estimate, revert, receipt timeout). |
 | `BackendError` | `backend` | Avail middleware HTTP/WS failure. |
-| `ExternalServiceError` | `external_service` | A third-party dependency failed (LiFi, Bebop, Fibrous, 0x, Coinbase). |
+| `ExternalServiceError` | `external_service` | A third-party dependency failed (LiFi, Bebop, Fibrous, 0x, Mystic, Relay, Coinbase). |
 | `InternalError` | `internal` | A true SDK invariant was violated. |
 
 <Callout type="info">

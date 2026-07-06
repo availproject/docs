@@ -1,9 +1,9 @@
 ---
 title: NexusProvider Setup
-description: Wrap your application with the NexusProvider to enable Widgets components.
+description: Wrap your application with the NexusProvider to enable the Nexus Widget.
 ---
 
-Every Widgets component relies on the **NexusProvider** — a React context provider that initializes the Nexus SDK and shares wallet state across your component tree. Without it, components cannot sign transactions or read on-chain data.
+Nexus Widget relies on the **NexusProvider** — a React context provider that initializes the Nexus SDK and shares wallet state across your component tree. Without it, the widget cannot sign transactions or read on-chain data.
 
 In this step you will:
 1. Wrap your application layout with the provider
@@ -51,6 +51,12 @@ export default function RootLayout({
 
 `WagmiProvider` → `QueryClientProvider` → `ConnectKitProvider` → **`NexusProvider`** → `{children}`
 </Callout>
+
+`NexusProvider` accepts an optional `config` prop. The only setting you typically need is the network, which defaults to `"mainnet"`:
+
+```tsx
+<NexusProvider config={{ network: "mainnet" }}>{children}</NexusProvider>
+```
 
 ## Step 2 — Initialize Nexus on wallet connect
 
@@ -113,7 +119,7 @@ Both `NexusProvider` and `InitNexusOnConnect` must be client components (marked 
 
 ## Without shadcn/ui
 
-If you are not using shadcn/ui, you can still use Widgets by manually copying the component source files from each component page. Keep in mind:
+If you are not using shadcn/ui, you can still use Nexus Widget by manually copying the component source files from each component page. Keep in mind:
 
 - You must install all peer dependencies listed on the component page yourself
 - UI primitives (buttons, inputs, dialogs, selects) must be provided by your own component library or built from scratch
@@ -131,7 +137,7 @@ The provider is configured and the SDK will initialize as soon as the user conne
   <Card
     href="/docs/nexus/widgets/get-started/your-first-widget"
     title="Your First Widget"
-    description="Go to next step. Setting up your first Widgets component"
+    description="Go to next step. Rendering the Nexus Widget."
     className="sm:col-span-2"
     arrow
   />
