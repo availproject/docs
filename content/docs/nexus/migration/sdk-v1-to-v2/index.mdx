@@ -3,7 +3,7 @@ title: "Migrate to Nexus SDK v2"
 description: Migrate from @avail-project/nexus-core 1.x to 2.x — factory client, param renames, per-operation hooks, and plan-based events.
 ---
 
-`@avail-project/nexus-core` 2.0.0 is a full rewrite of the SDK surface. The package name is unchanged — upgrading the dependency is the whole install step — but most call sites need mechanical renames. This page covers the changes you will hit in a typical integration; the [full migration reference](https://github.com/availproject/nexus-sdk/blob/main/MIGRATION.md) documents every breaking change.
+`@avail-project/nexus-core` 2.0.0 is a full rewrite of the SDK surface. The package name is unchanged — upgrading the dependency is the whole install step — but most call sites need mechanical renames. This page walks you through the breaking changes and how to update for each. The [full migration reference](https://github.com/availproject/nexus-sdk/blob/main/MIGRATION.md) is the complete, version-pinned list — including simulation and event-level detail, every changed field, and a step-by-step checklist.
 
 ## Installation
 
@@ -48,7 +48,17 @@ await sdk.bridge({ token: "USDC", amount: 1000000n, toChainId: 8453, sourceChain
 await client.bridge({ toTokenSymbol: "USDC", toAmountRaw: 1000000n, toChainId: 8453, sources: [1, 42161] });
 ```
 
-In `bridgeAndExecute`, the `execute` block no longer takes its own `toChainId` — it inherits the top-level one. Swap params were renamed too: `ExactInSwapInput` → `SwapExactInParams`, `fromSources` → `sources`, `toAmount` → `toAmountRaw`.
+`toAmountRaw` is in raw base units as a `bigint`, not a human amount — 1 USDC (6 decimals) is `1000000n`, not `1`. Convert with `client.convertTokenReadableAmountToBigInt(amount, tokenSymbol, chainId)`, whose signature is unchanged from v1.
+
+In `bridgeAndExecute`, the `execute` block no longer takes its own `toChainId` — it inherits the top-level one.
+
+Swap inputs were renamed too, and each variant has its own field changes:
+
+| v1 type | v2 type | field changes |
+| --- | --- | --- |
+| `ExactInSwapInput` | `SwapExactInParams` | `from` → `sources`, `from[].amount` → `sources[].amountRaw` |
+| `ExactOutSwapInput` | `SwapExactOutParams` | `fromSources` → `sources`, `toAmount` → `toAmountRaw`, `toNativeAmount` → `toNativeAmountRaw` |
+| `MaxSwapInput` | `SwapMaxParams` | `fromSources` → `sources` |
 
 ## Hooks: global setters → per-operation options
 
@@ -77,9 +87,26 @@ v1's flat `{ name, args }` union (`STEPS_LIST`, `STEP_COMPLETE`, …) is replace
 
 ## Results and errors
 
-- Swap operations **throw typed `NexusError` subclasses** on failure instead of returning `{ success: false }` — use try/catch and branch on `error.category` / `error.code`.
+- Operations **throw typed `NexusError` subclasses** on failure instead of returning `{ success: false }` — use try/catch and branch on `error.category` / `error.code`.
 - Operation results nest transactions: `executeResponse` → `execute`, `executeTransactionHash` → `execute.txHash`, `explorerUrl` → `intentExplorerUrl`.
-- User-denial error codes renamed from `USER_DENIED_*` to `USER_*_DENIED`, or match with `error instanceof UserActionError`.
+- Bridge `result.sourceTxs` is now an **array** (was a single object): `sourceTxs.hash` → `sourceTxs[].txHash`, `sourceTxs.explorerUrl` → `sourceTxs[].txExplorerUrl`.
+- User-denial error codes were renamed. Match with `error instanceof UserActionError`, or branch on the specific `error.code`:
+
+| v1 code | v2 code |
+| --- | --- |
+| `USER_DENIED_INTENT` | `USER_INTENT_HOOK_DENIED` |
+| `USER_DENIED_ALLOWANCE` | `USER_ALLOWANCE_APPROVAL_DENIED` |
+| `USER_DENIED_INTENT_SIGNATURE` | `USER_INTENT_SIGNATURE_DENIED` |
+| `USER_DENIED_SIWE_SIGNATURE` | `USER_SIWE_SIGNATURE_DENIED` |
+
+## Balance APIs
+
+The balance methods keep their names — what changed is the return type and one dropped parameter.
+
+- `getBalancesForBridge()` — same call shape; elements are now `TokenBalance` instead of `UserAssetDatum`.
+- `getBalancesForSwap()` — the `onlyNativesAndStables` boolean was removed; call it with no arguments.
+
+See the `UserAsset` → `TokenBalance` row below for the field renames (`icon` → `logo`, `balanceInFiat` → `value`, `breakdown` → `chainBalances`).
 
 ## Type and API renames
 
