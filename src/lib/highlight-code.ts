@@ -5,19 +5,11 @@ export const transformers: ShikiTransformer[] = [
     code(node) {
       if (node.tagName === "code") {
         // Original source for copy
-        const context = this as unknown as {
-          source?: string;
-          meta?: { __raw?: string };
-        };
-        const raw = context.source;
-        const copyDisabled = context.meta?.__raw
-          ?.split(/\s+/)
-          .includes("no-copy");
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const raw = (this as any)?.source as string;
         node.properties ??= {};
         if (typeof raw === "string" && raw.length > 0) {
-          if (!copyDisabled) {
-            node.properties["__raw__"] = raw;
-          }
+          node.properties["__raw__"] = raw;
           // Enable line numbers by default
           node.properties["data-line-numbers"] = "";
         }

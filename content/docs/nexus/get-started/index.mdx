@@ -9,15 +9,39 @@ Nexus lets your app move assets and execute transactions across chains without r
 
 ## Quick Look — How the SDK Works
 
-```tsx no-copy
-<NexusWidget
-  connectedAddress={address}
-  config={depositConfiguration}
-  embed
-  onStart={handleStart}
-  onComplete={handleComplete}
-  onError={handleError}
-/>
+```ts
+import { createNexusClient } from '@avail-project/nexus-core';
+
+// 1. Create and initialize the client
+const client = createNexusClient({ network: 'mainnet' });
+await client.initialize();
+await client.setEVMProvider(window.ethereum);
+
+// 2. See balances across all chains
+const bridgeBalances = await client.getBalancesForBridge();
+const swapBalances = await client.getBalancesForSwap();
+
+// 3. Bridge to any chain — one signature, filled by a solver
+await client.bridge(
+  {
+    toTokenSymbol: 'USDC',
+    toAmountRaw: 100_000_000n, // 100 USDC (6 decimals)
+    toChainId: 42161,          // Arbitrum
+  },
+  {
+    hooks: {
+      // Show the user what they'll pay and receive, then confirm
+      onIntent: ({ intent, allow, deny }) => allow(),
+    },
+  }
+);
+
+// 4. Or swap into any token on any chain
+await client.swapWithExactOut({
+  toChainId: 8453, // Base
+  toTokenAddress: '0x4200000000000000000000000000000000000006', // WETH on Base
+  toAmountRaw: 10_000_000_000_000_000n, // 0.01 WETH
+});
 ```
 
 ## What Changes for Your Users
