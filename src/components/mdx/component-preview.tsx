@@ -19,11 +19,11 @@ const SHOWCASE_MAP: Record<
 > = {
   "fast-bridge": () =>
     import("@/components/showcase/fast-bridge-demo-showcase"),
-  deposit: () => import("@/components/showcase/deposit-demo-showcase"),
-  swaps: () => import("@/components/showcase/swaps-demo-showcase"),
+  "nexus-deposit": () => import("@/components/showcase/deposit-demo-showcase"),
+  "nexus-swap": () => import("@/components/showcase/swaps-demo-showcase"),
   "unified-balance": () =>
     import("@/components/showcase/unified-balance-demo-showcase"),
-  "fast-transfer": () => import("@/components/showcase/transfer-demo-showcase"),
+  "nexus-send": () => import("@/components/showcase/transfer-demo-showcase"),
   "view-history": () =>
     import("@/components/showcase/view-history-demo-showcase"),
 };
