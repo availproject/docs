@@ -1,5 +1,5 @@
 "use client";
-import type { NexusNetwork } from "@avail-project/nexus-core";
+import { NexusProvider } from "@avail-project/widgets";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import { Suspense, useEffect, useMemo, useState } from "react";
@@ -23,7 +23,6 @@ import {
   sepolia,
 } from "wagmi/chains";
 import { PostHogIdentify } from "@/components/analytics/PostHogIdentify";
-import NexusProvider from "@/components/nexus/NexusProvider";
 import { Skeleton } from "@/components/ui/skeleton";
 import { NETWORK_KEY } from "@/lib/constants";
 import { getItem, setItem } from "@/lib/local-storage";
@@ -131,12 +130,12 @@ const defaultConfig = getDefaultConfig({
 const wagmiConfig = createConfig(defaultConfig);
 
 function NexusContainer({ children }: Readonly<{ children: React.ReactNode }>) {
-  const [network, setNetwork] = useState<NexusNetwork>("mainnet");
+  const [network, setNetwork] = useState<"mainnet" | "testnet">("mainnet");
   const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     // Initialize network from localStorage on client side
-    const storedNetwork = getItem(NETWORK_KEY) as NexusNetwork | null;
+    const storedNetwork = getItem(NETWORK_KEY) as "mainnet" | "testnet" | null;
 
     if (
       storedNetwork &&

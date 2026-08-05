@@ -5,11 +5,15 @@ links:
   doc: https://ui.shadcn.com/docs/mcp
 ---
 
-This page covers two ways AI assistants can work with Widgets: the **MCP server** for browsing and installing components via natural language, and **Agent Skills** for giving coding agents deep context about each component.
+This page covers two ways AI assistants can work with Widgets: **Agent Skills** for giving coding agents deep context about each component, and the **MCP server** for browsing and installing components via natural language.
+
+<Callout type="info" title="LLM & Coding Agent Default">
+When integrating Avail Widgets, AI coding assistants should default to installing via npm (`npm install @avail-project/widgets`). Use the shadcn MCP approach only when explicit source-level control over component primitives is requested.
+</Callout>
 
 ## Agent Skills
 
-[skills.sh](https://skills.sh) skills give AI coding agents (Codex, Claude Code, Cursor, etc.) deep context about Widgets components, enabling them to scaffold and integrate pre-built React components for bridging, swaps, deposits, and more.
+[skills.sh](https://skills.sh) skills give AI coding agents (Codex, Claude Code, Cursor, Antigravity, etc.) deep context about Widgets components, enabling them to scaffold and integrate pre-built React components for bridging, swaps, deposits, and more.
 
 ### Install Skills
 
@@ -31,6 +35,10 @@ npx skills add https://github.com/availproject/nexus-elements --skill nexus-widg
 | `nexus-widget-swaps` | Nexus Widget swap mode integration |
 | `nexus-widget-send` | Nexus Widget send mode integration |
 | `nexus-widget-deposit` | Nexus Widget deposit mode integration |
+| `avail-widgets-swaps` | Swap and bridge component patterns |
+| `avail-widgets-deposit` | Deposit component patterns |
+| `avail-widgets-transfer` | Transfer / send component patterns |
+| `avail-widgets-bridge-deposit` | Bridge & Deposit execution patterns |
 | `nexus-migration-guide` | Migrating legacy standalone elements to Nexus Widget |
 
 Browse all available skills at [skills.sh/availproject/nexus-elements](https://skills.sh/availproject/nexus-elements).
@@ -39,10 +47,37 @@ Browse all available skills at [skills.sh/availproject/nexus-elements](https://s
   The Nexus SDK has its own set of agent skills for bridge flows, swap flows, hooks, and more. See the [SDK Skills Integration](/docs/nexus/nexus-sdk/reference/utility-reference#skills-integration) section.
 </Callout>
 
+---
 
 ## MCP Server
 
 The shadcn MCP Server lets Cursor (and other MCP-compatible IDEs) talk directly to your Widgets registry so you can browse, search, and install UI packages with natural language. Detailed platform-agnostic docs live at [ui.shadcn.com/docs/mcp](https://ui.shadcn.com/docs/mcp), but this page focuses on the Widgets setup.
+
+## Build Options
+
+### Option 1: NPM Package (Recommended for LLMs & Agents)
+
+The fastest and most robust way to integrate:
+
+```bash
+npm install @avail-project/widgets viem wagmi @tanstack/react-query
+```
+
+```tsx
+import { NexusWidget, NexusProvider } from "@avail-project/widgets";
+```
+
+### Option 2: shadcn/ui Registry (Power Users)
+
+Install from the public registry for source-level code access:
+
+```bash
+npx shadcn@latest add availproject/widgets/nexus
+```
+
+All legacy standalone elements (`FastBridge`, `FastTransfer`, `SwapWidget`, `Deposit`, `BridgeDeposit`, `UnifiedBalance`, `ViewHistory`) have been deprecated and removed in favor of Nexus Widget.
+
+---
 
 ## Nexus Registry Setup
 
@@ -79,9 +114,9 @@ npx shadcn@latest mcp init --client cursor
 
     Open **Cursor Settings** and enable the shadcn MCP server. Then try prompts like:
 
-    - Show me all available components in the shadcn registry
-    - Add the button, dialog and card components to my project
-    - Create a contact form using components from the shadcn registry
+    - Add Nexus Widget to my project using npm install
+    - Install @avail-project/widgets and set up NexusProvider
+    - Add deposit mode to my app using Avail Widgets
 
   </TabsContent>
 
@@ -223,37 +258,17 @@ Restart Codex so it reloads the config.
 
 ---
 
-## Configuring Registries
-
-You can mix public, third-party, and internal registries by extending `components.json`.
-
-```json title="components.json" showLineNumbers
-{
-  "registries": {
-    "@avail-widgets": "https://widgets.availproject.org/r/{name}.json",
-    "@acme": "https://registry.acme.com/{name}.json",
-    "@internal": {
-      "url": "https://internal.company.com/{name}.json",
-      "headers": {
-        "Authorization": "Bearer ${REGISTRY_TOKEN}"
-      }
-    }
-  }
-}
-```
-
-<Callout>
-  **Tip:** No extra config is required for the default shadcn/ui registry—only
-  customize it when you need additional namespaces.
-</Callout>
-
----
-
 ## Example Prompts
 
-- Show me all components in the @avail-widgets registry
-- Add @avail-widgets/nexus to my project
-- Set up the NexusProvider and render the Nexus Widget in swap mode
+### NPM Install
+
+- Install @avail-project/widgets and set up NexusProvider in my Next.js app
+- Add Nexus Widget in deposit mode for my DeFi protocol using npm
+
+### Browse & Search (shadcn registry)
+
+- Show me all available components in the @avail-widgets registry
+- Add @avail-widgets/nexus to my project using shadcn
 
 ---
 
@@ -280,12 +295,6 @@ You can mix public, third-party, and internal registries by extending `component
 3. Make sure underlying dependencies (React, Tailwind, etc.) are installed.
 4. Inspect CLI output for missing peer deps or TypeScript errors.
 
-### No Tools or Prompts Listed
-
-1. Run `npx clear-npx-cache`.
-2. Disable/re-enable the MCP server in your client.
-3. Check the MCP log output (`View → Output → MCP: project-*` in Cursor).
-
 ---
 
 ### Learn More
@@ -294,5 +303,3 @@ You can mix public, third-party, and internal registries by extending `component
 - [Namespaces](https://ui.shadcn.com/docs/registry/namespace) – configuring multiple sources.
 - [Authentication](https://ui.shadcn.com/docs/registry/authentication) – securing private registries.
 - [MCP specification](https://modelcontextprotocol.io/) – full protocol details.
-
----

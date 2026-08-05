@@ -1,11 +1,10 @@
 "use client";
 import type { NexusNetwork } from "@avail-project/nexus-core";
+import { useNexus } from "@avail-project/widgets";
 import { useEffect, useState } from "react";
-
 import { useAnalytics } from "@/hooks/use-analytics";
 import { NETWORK_KEY } from "@/lib/constants";
 import { getItem, setItem } from "@/lib/local-storage";
-import { useNexus } from "../nexus/NexusProvider";
 import {
   Select,
   SelectContent,

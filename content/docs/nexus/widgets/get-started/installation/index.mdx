@@ -16,15 +16,80 @@ Before you begin, make sure your project meets the following requirements:
 - **React 18+** with a framework like [Next.js](https://nextjs.org), [Vite](https://vitejs.dev), or similar
 - **Tailwind CSS v3 or v4** configured in your project
 - **A wallet connection library** such as [wagmi](https://wagmi.sh) + [RainbowKit](https://rainbowkit.com) or [ConnectKit](https://docs.family.co/connectkit)
-- **Node.js 18+** and a package manager (npm, pnpm, or yarn)
+- **Node.js 24+** and a package manager (npm, pnpm, or yarn)
 
 <Callout type="info" title="Why wagmi?">
 The widget needs access to the user's connected wallet provider to sign transactions. It is designed to work with wagmi's hooks, but any EIP-1193 compatible provider will work.
 </Callout>
 
-## Step 1 — Install shadcn/ui
+## Interactive Configurator
 
-Nexus Widget is built on [shadcn/ui](https://ui.shadcn.com) primitives. If your project doesn't have shadcn/ui set up yet, follow the official installation guide first.
+Before installing, you can configure your widget live and copy the exact basic config for your desired widget using the <a href="https://configurator.availproject.org/" target="_blank" rel="noopener noreferrer" className="font-medium underline underline-offset-4">Widget Configurator <SquareArrowUpRight className="inline size-4" /></a>.
+
+## Installation Methods
+
+Choose your preferred installation method below. **NPM** is the recommended method for fast integration without adding extra source files to your repository. **shadcn/ui** is available for power users who require full source code control and customization.
+
+<Tabs defaultValue="npm">
+  <TabsList>
+    <TabsTrigger value="npm">NPM (Recommended)</TabsTrigger>
+    <TabsTrigger value="shadcn">shadcn/ui (Power Users)</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="npm" className="mt-4">
+
+### Install the NPM Package
+
+Install the compiled <a href="https://www.npmjs.com/package/@avail-project/widgets" target="_blank" rel="noopener noreferrer" className="font-medium underline underline-offset-4">@avail-project/widgets <SquareArrowUpRight className="inline size-4" /></a> package directly from npm:
+
+<Tabs defaultValue="npm-cmd">
+  <TabsList>
+    <TabsTrigger value="npm-cmd">npm</TabsTrigger>
+    <TabsTrigger value="pnpm-cmd">pnpm</TabsTrigger>
+    <TabsTrigger value="yarn-cmd">yarn</TabsTrigger>
+    <TabsTrigger value="bun-cmd">bun</TabsTrigger>
+  </TabsList>
+  <TabsContent value="npm-cmd">
+```bash
+npm install @avail-project/widgets
+```
+  </TabsContent>
+  <TabsContent value="pnpm-cmd">
+```bash
+pnpm add @avail-project/widgets
+```
+  </TabsContent>
+  <TabsContent value="yarn-cmd">
+```bash
+yarn add @avail-project/widgets
+```
+  </TabsContent>
+  <TabsContent value="bun-cmd">
+```bash
+bun add @avail-project/widgets
+```
+  </TabsContent>
+</Tabs>
+
+> **Peer dependencies:** `viem` and `wagmi` are required peer dependencies. Ensure they are installed in your project:
+>
+> ```bash
+> npm install @avail-project/widgets viem wagmi @tanstack/react-query
+> ```
+
+The npm package ships pre-compiled styles and components — no manual component file copying required.
+
+  </TabsContent>
+
+  <TabsContent value="shadcn" className="mt-4">
+
+<Callout type="info" title="For Power Users">
+If you want complete source-level control over the component code and shadcn primitives, you can install Nexus Widget directly into your codebase using the shadcn CLI.
+</Callout>
+
+### Step 1 — Install shadcn/ui
+
+If your project doesn't have shadcn/ui set up yet, follow the official installation guide first:
 
 <Button
   asChild
@@ -43,13 +108,9 @@ Nexus Widget is built on [shadcn/ui](https://ui.shadcn.com) primitives. If your 
   </a>
 </Button>
 
-<Callout type="warning" title="Already using shadcn/ui?">
-If shadcn/ui is already configured in your project, skip this step and proceed directly to installing the widget below.
-</Callout>
+### Step 2 — Add Nexus Widget via shadcn CLI
 
-## Step 2 — Install Nexus Widget
-
-With shadcn/ui configured, install Nexus Widget from the Avail Widgets registry. One component covers swap, send, and deposit, and brings in its own dependencies and source files.
+With shadcn/ui configured, install Nexus Widget from the Avail Widgets registry:
 
 ```bash
 npx shadcn@latest add availproject/widgets/nexus
@@ -60,29 +121,16 @@ This command will:
 2. Install the required npm dependencies (including `@avail-project/nexus-core`)
 3. Add the shadcn/ui primitives the component needs
 
-See the [Swap and Bridge](/docs/nexus/widgets/components/swaps), [Deposit](/docs/nexus/widgets/components/deposit), and [Send](/docs/nexus/widgets/components/transfer) pages for per-mode configuration and usage.
+  </TabsContent>
+</Tabs>
 
 ### Legacy standalone components
 
 Earlier standalone elements (`SwapWidget`, `FastBridge`, `FastTransfer`, `NexusDeposit`, `UnifiedBalance`, `ViewHistory`) have been removed in favor of Nexus Widget. If you are upgrading from them, follow the [Widgets migration guide](/docs/nexus/migration/widgets-legacy-to-nexus-widget).
 
-## Step 3 — Verify the installation
-
-After running the install command, confirm that the component files were added to your project:
-
-```bash
-ls components/nexus/
-```
-
-You should see the widget source files, including `nexus.tsx` (the `NexusWidget` component) and `NexusProvider.tsx`. The provider is essential — you will configure it in the next step.
-
-<Callout type="info" title="What's the NexusProvider?">
-The `NexusProvider` is a React context provider that initializes the Nexus SDK and makes it available to the widget in your app. The widget will not function without it.
-</Callout>
-
 ## Next step
 
-Your dependencies are installed and the component files are in place. Next, you need to wire up the `NexusProvider` so the SDK can connect to the user's wallet.
+Your dependencies are installed. Next, you will wire up the `NexusProvider` so the SDK can connect to the user's wallet.
 
 <div className="mt-4"/>
 <Cards>
