@@ -1,0 +1,81 @@
+---
+title: FastBridge
+description: A unified cross-chain bridge by Avail. Move and swap tokens across multiple EVM chains in a single transaction, with no gas tokens required.
+---
+
+FastBridge is a unified cross-chain bridge built by Avail. Send tokens from multiple source chains and receive a single output on any supported destination, all in one transaction. It supports swaps natively, so you can send one token and receive a completely different one at the destination.
+
+Unlike traditional bridges, FastBridge never requires native gas tokens. Fees are paid directly from your stablecoin balance (USDC or USDT), and transactions settle in approximately 10 to 20 seconds through a solver-fronted liquidity model.
+
+<Callout>
+FastBridge is available today as a standalone interface, and is also built into the [FastBridge Widget](/docs/nexus/widgets) and the [Nexus SDK](/docs/nexus/nexus-sdk/get-started/installation) for embedding into any app.
+</Callout>
+
+## How it works
+
+FastBridge uses intent-based bridging. You declare which assets to send from which source chains, and the protocol determines the best route to deliver your chosen output token to the destination chain. Solvers compete to fill the intent using native assets, with no wrapping or synthetic tokens.
+
+- **Multi-source input** — Combine balances across multiple chains and tokens into a single transaction.
+- **Exact-In and Exact-Out** — Specify either the amount you want to send, or the exact amount you want to receive. FastBridge calculates the rest.
+- **Gas abstraction** — Gas is deducted from your stablecoin balance. No ETH, AVAX, or other native gas tokens are needed.
+- **Zero slippage on stablecoins** — Stablecoin-to-stablecoin transfers settle at exactly the quoted amount. Other swaps show price impact up front before confirmation.
+
+## Supported networks, tokens, and wallets
+
+| | |
+|---|---|
+| **Chains** | Monad, MegaETH, Citrea, Arbitrum, Avalanche, Ethereum, Optimism, Base, Scroll, Polygon, BNB, HyperEVM. |
+| **Tokens** | All tokens on all supported chains. |
+| **Amounts** | No minimum. Maximum $10M per transfer. |
+| **Wallets** | Any EVM-compatible wallet (MetaMask, Rabby, Coinbase Wallet, WalletConnect). |
+| **Settlement** | ~10–20 seconds. |
+
+## Security model
+
+FastBridge is fully non-custodial. Funds are never held by a centralised party; the protocol routes and settles trustlessly without taking custody at any point. If a transaction fails to settle at the destination, it reverts and your assets remain on the source chain.
+
+Security is backed by [Avail Nexus](/docs/nexus), which provides unified proof verification and intent settlement across chains via a decentralised coordination layer rather than a multisig or federated validator set.
+
+## What makes FastBridge different
+
+| | |
+|---|---|
+| **Multi-source with swaps** | Send multiple different tokens from multiple chains and receive a single token at the destination in one transaction. |
+| **Unified balance view** | Balances across all connected chains are read simultaneously and shown as a single consolidated total. |
+| **Gas abstraction** | Pay gas in stablecoins. No native gas tokens required on any source chain. |
+| **Exact-In and Exact-Out** | Choose the send or receive amount and FastBridge handles multi-source aggregation automatically. |
+
+## Developer integrations
+
+<IconCardGrid>
+  <IconCard
+    icon={<Cube />}
+    title="FastBridge Widget"
+    description="Pre-built React component for cross-chain bridging and swaps."
+    href="/docs/nexus/widgets/components/swaps"
+  />
+  <IconCard
+    icon={<CodeIcon />}
+    title="Nexus SDK"
+    description="TypeScript SDK for building custom multi-chain experiences."
+    href="/docs/nexus/nexus-sdk/get-started/installation"
+  />
+</IconCardGrid>
+
+## FastBridge at a glance
+
+| | |
+|---|---|
+| **Developer** | Avail Project |
+| **Type** | Unified bridge and swap |
+| **Architecture** | Intent-based, solver-fronted |
+| **Tokens** | All tokens on all supported chains |
+| **Custody** | Non-custodial |
+| **Settlement** | ~10–20 seconds |
+| **Built on** | Avail Nexus Protocol |
+| **Chains** | Ethereum, Optimism, Base, Monad, MegaETH, Citrea, Arbitrum, Avalanche, Scroll, Polygon, BNB, HyperEVM |
+| **Min / Max** | No minimum, $10M max per transfer |
+| **Wallets** | MetaMask, Rabby, Coinbase Wallet, WalletConnect |
+| **Multi-source** | Yes |
+| **Gas fees** | Paid in stablecoins (USDC / USDT) |
+| **Wrapping** | None, native assets only |
