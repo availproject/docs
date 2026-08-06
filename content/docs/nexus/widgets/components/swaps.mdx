@@ -6,6 +6,8 @@ links:
   doc: /docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-in
 ---
 
+import { SquareArrowUpRight } from "lucide-react";
+
 <ComponentPreview
   name="nexus-swap"
   description="Swap mode with USDC on Base configured as the receive asset."
@@ -15,15 +17,71 @@ links:
 
 > **Network support:** Mainnet only. Testnet is not supported at the moment.
 
+## Configurator
+
+Generate the exact basic configuration for Swap mode using the <a href="https://configurator.availproject.org/" target="_blank" rel="noopener noreferrer" className="font-medium underline underline-offset-4">Widget Configurator <SquareArrowUpRight className="inline size-4" /></a>.
+
 ## Installation
 
+<Tabs defaultValue="npm">
+  <TabsList>
+    <TabsTrigger value="npm">NPM (Recommended)</TabsTrigger>
+    <TabsTrigger value="shadcn">shadcn/ui (Power Users)</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="npm" className="mt-4">
+```bash
+npm install @avail-project/widgets
+```
+  </TabsContent>
+
+  <TabsContent value="shadcn" className="mt-4">
 ```bash
 npx shadcn@latest add availproject/widgets/nexus
 ```
+  </TabsContent>
+</Tabs>
 
 ## Usage
 
 Wrap your app with the Nexus provider first. See [NexusProvider Setup](/docs/nexus/widgets/get-started/nexus-provider-setup) for provider setup.
+
+<Tabs defaultValue="npm-usage">
+  <TabsList>
+    <TabsTrigger value="npm-usage">NPM (Recommended)</TabsTrigger>
+    <TabsTrigger value="shadcn-usage">shadcn/ui (Power Users)</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="npm-usage" className="mt-4">
+
+```tsx showLineNumbers
+import { NexusWidget } from "@avail-project/widgets";
+
+const USDC_BASE = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
+
+export function SwapAndBridgeExample({
+  address,
+}: {
+  address?: `0x${string}`;
+}) {
+  return (
+    <NexusWidget
+      connectedAddress={address}
+      config={{
+        mode: "swap",
+        destination: {
+          chain: 8453,
+          tokens: [{ address: USDC_BASE, symbol: "USDC", decimals: 6 }],
+        },
+      }}
+    />
+  );
+}
+```
+
+  </TabsContent>
+
+  <TabsContent value="shadcn-usage" className="mt-4">
 
 ```tsx showLineNumbers
 import { NexusWidget } from "@/components/nexus/nexus";
@@ -49,6 +107,9 @@ export function SwapAndBridgeExample({
   );
 }
 ```
+
+  </TabsContent>
+</Tabs>
 
 ## Configuration
 

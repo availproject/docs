@@ -4,6 +4,7 @@ import {
   type EthereumProvider,
   truncateAddress,
 } from "@avail-project/nexus-core";
+import { useNexus } from "@avail-project/widgets";
 import { Check, SpinnerGap, X } from "@phosphor-icons/react";
 import { ConnectKitButton } from "connectkit";
 import type React from "react";
@@ -13,7 +14,6 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { NETWORK_KEY } from "@/lib/constants";
 import { getItem } from "@/lib/local-storage";
 import NetworkToggle from "../helpers/network-toggle";
-import { useNexus } from "../nexus/NexusProvider";
 import { Toggle } from "../ui/toggle";
 
 // --- Wallet button ---

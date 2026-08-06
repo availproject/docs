@@ -3,13 +3,13 @@ import {
   type EthereumProvider,
   truncateAddress,
 } from "@avail-project/nexus-core";
+import { useNexus } from "@avail-project/widgets";
 import { Spinner, SpinnerGap } from "@phosphor-icons/react";
 import { ConnectKitButton } from "connectkit";
 import { type ReactNode, useEffect } from "react";
 import { toast } from "sonner";
 import { useAccount, useConnectorClient } from "wagmi";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useNexus } from "../nexus/NexusProvider";
 import { Button } from "../ui/button";
 
 interface PreviewPanelProps {

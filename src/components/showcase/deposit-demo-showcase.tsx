@@ -1,98 +1,73 @@
 "use client";
 
-import {
-  CHAIN_METADATA,
-  SUPPORTED_CHAINS,
-  TOKEN_CONTRACT_ADDRESSES,
-  TOKEN_METADATA,
-} from "@avail-project/nexus-core";
+import { NexusWidget } from "@avail-project/widgets";
 import { useState } from "react";
-import { type Abi, type Address, encodeFunctionData } from "viem";
-import NexusDepositDemo from "../deposit/demo/nexus-deposit-demo";
-import NexusDeposit from "../deposit/nexus-deposit";
+import { type Abi, encodeFunctionData } from "viem";
 import DemoShowcaseShell from "./demo-showcase-shell";
 
-// --- Execute deposit builder (Aave supply on Base) ---
+const AAVE_POOL_ARBITRUM = "0x794a61358D6845594F94dc1DB02A252b5b4814aD";
+const USDT_ARBITRUM = "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9";
 
-function buildExecuteDeposit(
-  tokenSymbol: string,
-  tokenAddress: `0x${string}`,
-  amount: bigint,
-  _chainId: number,
-  user: Address,
-) {
-  const contractAddress = "0xA238Dd80C259a72e81d7e4664a9801593F98d1c5" as const;
-  const abi: Abi = [
-    {
-      inputs: [
-        { internalType: "address", name: "asset", type: "address" },
-        { internalType: "uint256", name: "amount", type: "uint256" },
-        { internalType: "address", name: "onBehalfOf", type: "address" },
-        { internalType: "uint16", name: "referralCode", type: "uint16" },
-      ],
-      name: "supply",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-  ];
-  if (tokenSymbol === "ETH") {
-    throw new Error("ETH is native and not supported for this execute builder");
-  }
-  const encoded = encodeFunctionData({
-    abi,
-    functionName: "supply",
-    args: [tokenAddress, amount, user, 0],
-  });
-  if (!encoded) {
-    throw new Error("Failed to encode contract call");
-  }
-  return {
-    to: contractAddress,
-    data: encoded,
-    gasPriceSelector: "medium",
-    tokenApproval: {
-      token: tokenAddress,
-      amount,
-      spender: contractAddress,
-    },
-  };
-}
+const AAVE_ABI: Abi = [
+  {
+    inputs: [
+      { internalType: "address", name: "asset", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+      { internalType: "address", name: "onBehalfOf", type: "address" },
+      { internalType: "uint16", name: "referralCode", type: "uint16" },
+    ],
+    name: "supply",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
 
 const DepositDemoShowcase = () => {
-  const [embed, setEmbed] = useState(false);
+  const [embed, setEmbed] = useState(true);
 
   return (
     <DemoShowcaseShell
       type="deposit"
       toggle={{ label: "Embed", pressed: embed, onChange: setEmbed }}
     >
-      {(ctx) =>
-        ctx.isConnected && ctx.nexusSDK ? (
-          <NexusDeposit
-            embed={embed}
-            heading="Deposit USDC"
-            destination={{
-              chainId: SUPPORTED_CHAINS.BASE,
-              tokenAddress:
-                TOKEN_CONTRACT_ADDRESSES.USDC[SUPPORTED_CHAINS.BASE],
-              tokenSymbol: "USDC",
-              tokenDecimals: TOKEN_METADATA.USDC.decimals,
-              tokenLogo: TOKEN_METADATA.USDC.icon,
-              label: "Deposit USDC on Aave Base",
-              gasTokenSymbol:
-                CHAIN_METADATA[SUPPORTED_CHAINS.BASE].nativeCurrency.symbol,
-              estimatedTime: "≈ 30s",
-              explorerUrl:
-                CHAIN_METADATA[SUPPORTED_CHAINS.BASE].blockExplorerUrls[0],
-              depositTargetLogo: "/aave.svg",
-            }}
-            executeDeposit={buildExecuteDeposit}
-          />
-        ) : (
-          <NexusDepositDemo heading="Deposit USDC" />
-        )
-      }
+      {() => (
+        <NexusWidget
+          embed={embed}
+          config={{
+            mode: "deposit",
+            destination: {
+              chain: 42161,
+              tokens: [{ address: USDT_ARBITRUM, symbol: "USDT", decimals: 6 }],
+            },
+            depositAddress: AAVE_POOL_ARBITRUM,
+            executeDeposit: (
+              tokenSymbol,
+              tokenAddress,
+              amount,
+              chainId,
+              user,
+            ) => ({
+              to: AAVE_POOL_ARBITRUM,
+              data: encodeFunctionData({
+                abi: AAVE_ABI,
+                functionName: "supply",
+                args: [tokenAddress, amount, user, 0],
+              }),
+              gas: 400_000n,
+              tokenApproval: {
+                toTokenAddress: tokenAddress,
+                amount,
+                spender: AAVE_POOL_ARBITRUM,
+              },
+            }),
+            appearance: {
+              appName: "Aave",
+              heading: "Deposit into Aave",
+            },
+          }}
+        />
+      )}
     </DemoShowcaseShell>
   );
 };
