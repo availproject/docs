@@ -19,6 +19,8 @@ import { applyRedirects } from "./redirect-middleware";
 export const config = {
   // Run on docs URLs (for markdown rewrites) and on legacy paths that need redirects.
   matcher: [
+    // The homepage participates in markdown negotiation only (see below).
+    "/",
     "/docs/:path*",
     "/da/:path*",
     "/nexus/:path*",
@@ -43,7 +45,17 @@ function acceptsMarkdown(request: NextRequest): boolean {
 }
 
 export function middleware(request: NextRequest) {
-  // First, try to apply redirect rules for legacy URLs.
+  // Homepage. Agents asking for the site as markdown get the docs index
+  // rather than an HTML shell. Redirect rules deliberately do not run here:
+  // the matcher covers "/" solely for content negotiation, and running them
+  // would change behaviour for a path middleware previously never saw.
+  if (request.nextUrl.pathname === "/") {
+    return acceptsMarkdown(request)
+      ? rewriteToMarkdown(new URL("/api/markdown", request.url))
+      : NextResponse.next();
+  }
+
+  // Then, try to apply redirect rules for legacy URLs.
   const redirectResponse = applyRedirects(request);
   if (redirectResponse) {
     return redirectResponse;

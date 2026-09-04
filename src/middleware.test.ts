@@ -78,6 +78,19 @@ describe("middleware", () => {
     expect(rewrite.pathname).toBe("/api/markdown/da/get-started");
   });
 
+  it("serves the docs index as markdown for the homepage", () => {
+    // The agentic scanner negotiates on the site root, not a docs URL.
+    const res = middleware(makeRequest("/", "text/markdown"));
+    const rewrite = new URL(res.headers.get("x-middleware-rewrite")!);
+    expect(rewrite.pathname).toBe("/api/markdown");
+    expect(res.headers.get("vary")).toBe(MARKDOWN_VARY);
+  });
+
+  it("leaves the homepage untouched for browsers", () => {
+    const res = middleware(makeRequest("/", "text/html"));
+    expect(res.headers.get("x-middleware-rewrite")).toBeNull();
+  });
+
   it("rewrites .md suffix URLs to the markdown API", () => {
     const res = middleware(makeRequest("/docs/da/get-started.md"));
     const rewrite = new URL(res.headers.get("x-middleware-rewrite")!);
