@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { AGENT_HEADERS } from "@/lib/agent-headers";
+import { agentNotFoundResponse } from "@/lib/agent-not-found";
 import { trackAgentRequest } from "@/lib/analytics/agent-tracking";
 import { getPageMarkdownOverride } from "@/lib/llms";
 import { cleanMarkdownForAgents } from "@/lib/markdown-clean";
@@ -11,10 +12,10 @@ function getPageFromSlug(slug: string[]) {
     return directMatch;
   }
 
-  // DA content is canonicalized under /docs/DA/* while many links and
-  // users request /docs/da/*. Support both casings for API consumers.
+  // DA content is canonicalized under /docs/da/* but older links and some
+  // agents request /docs/DA/*. Support both casings for API consumers.
   if (slug.length > 0 && slug[0].toLowerCase() === "da") {
-    return source.getPage(["DA", ...slug.slice(1)]);
+    return source.getPage(["da", ...slug.slice(1)]);
   }
 
   return null;
@@ -28,7 +29,7 @@ export async function GET(
   const page = getPageFromSlug(slug);
 
   if (!page) {
-    return NextResponse.json({ error: "Page not found" }, { status: 404 });
+    return agentNotFoundResponse(`/docs/${slug.join("/")}`);
   }
 
   try {

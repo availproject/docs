@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
+import { MARKDOWN_VARY } from "@/lib/agent-headers";
 import { applyRedirects } from "./redirect-middleware";
 
 /**
@@ -12,7 +13,7 @@ import { applyRedirects } from "./redirect-middleware";
  *  - Content-Type: text/markdown
  *  - x-markdown-tokens: estimated token count (chars / 4)
  *  - Content-Signal: ai-train=yes, search=yes, ai-input=yes
- *  - Vary: accept  (so CDN caches both representations)
+ *  - Vary: Accept  (so CDN caches both representations)
  */
 
 export const config = {
@@ -25,19 +26,13 @@ export const config = {
   ],
 };
 
-function normalizeDocsSlugForMarkdownApi(slug: string): string {
-  if (!slug) {
-    return slug;
-  }
-
-  const [section, ...rest] = slug.split("/");
-  // DA docs are canonicalized as /docs/DA/* in the content source.
-  // Normalize lowercase incoming URLs so markdown API lookups succeed.
-  if (section.toLowerCase() === "da") {
-    return ["DA", ...rest].join("/");
-  }
-
-  return slug;
+function rewriteToMarkdown(markdownUrl: URL) {
+  const response = NextResponse.rewrite(markdownUrl);
+  // Set (not append) so the response carries one merged Vary. A separate
+  // `Vary: accept` line is easy for CDNs and scanners to miss, which lets
+  // an HTML response get served from an agent's markdown cache entry.
+  response.headers.set("Vary", MARKDOWN_VARY);
+  return response;
 }
 
 function acceptsMarkdown(request: NextRequest): boolean {
@@ -62,10 +57,9 @@ export function middleware(request: NextRequest) {
   // .md suffix → rewrite to markdown API
   // e.g. /docs/nexus/get-started.md → /api/markdown/nexus/get-started
   if (request.nextUrl.pathname.endsWith(".md")) {
-    const rawSlug = request.nextUrl.pathname
+    const slug = request.nextUrl.pathname
       .replace(/\.md$/, "")
       .replace(/^\/docs\/?/, "");
-    const slug = normalizeDocsSlugForMarkdownApi(rawSlug);
     const markdownUrl = new URL(
       slug ? `/api/markdown/${slug}` : "/api/markdown",
       request.url,
@@ -73,9 +67,7 @@ export function middleware(request: NextRequest) {
     request.nextUrl.searchParams.forEach((value, key) => {
       markdownUrl.searchParams.set(key, value);
     });
-    return NextResponse.rewrite(markdownUrl, {
-      headers: { Vary: "accept" },
-    });
+    return rewriteToMarkdown(markdownUrl);
   }
 
   if (!acceptsMarkdown(request)) {
@@ -83,9 +75,8 @@ export function middleware(request: NextRequest) {
   }
 
   // Strip the /docs prefix to get the slug for the markdown API.
-  // /docs/da/build/networks → /api/markdown/DA/build/networks
-  const rawSlug = request.nextUrl.pathname.replace(/^\/docs\/?/, "");
-  const slug = normalizeDocsSlugForMarkdownApi(rawSlug);
+  // /docs/da/build/networks → /api/markdown/da/build/networks
+  const slug = request.nextUrl.pathname.replace(/^\/docs\/?/, "");
   const markdownUrl = new URL(
     slug ? `/api/markdown/${slug}` : "/api/markdown",
     request.url,
@@ -96,9 +87,5 @@ export function middleware(request: NextRequest) {
     markdownUrl.searchParams.set(key, value);
   });
 
-  return NextResponse.rewrite(markdownUrl, {
-    headers: {
-      Vary: "accept",
-    },
-  });
+  return rewriteToMarkdown(markdownUrl);
 }

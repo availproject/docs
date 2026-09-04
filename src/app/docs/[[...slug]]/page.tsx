@@ -11,6 +11,7 @@ import { PageFooter } from "@/components/mdx/page-footer";
 import { Badge } from "@/components/ui/badge";
 import { getProductTree } from "@/lib/page-tree-utils";
 import { source } from "@/lib/source";
+import { organizationLd } from "@/lib/structured-data";
 
 export const revalidate = false;
 export const dynamic = "force-static";
@@ -159,11 +160,15 @@ export default async function Page(props: {
     headline: doc.title,
     description: doc.description || "",
     url: pageUrl,
-    publisher: {
-      "@type": "Organization",
-      name: "Avail",
+    mainEntityOfPage: pageUrl,
+    inLanguage: "en",
+    isPartOf: {
+      "@type": "WebSite",
+      "@id": `${baseUrl}/#website`,
+      name: "Avail Documentation",
       url: baseUrl,
     },
+    publisher: organizationLd,
   };
 
   return (

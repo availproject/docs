@@ -22,6 +22,8 @@ export const pagesColumn1: FooterLink[] = [
 
 export const pagesColumn2: FooterLink[] = [
   { label: "Blog", href: "https://blog.availproject.org", external: true },
+  { label: "About these docs", href: "/about" },
+  { label: "Privacy", href: "/privacy" },
   {
     label: "Ecosystem",
     href: "https://www.availproject.org/ecosystem",
@@ -41,6 +43,7 @@ export const pagesColumn2: FooterLink[] = [
 
 export const supportLinks: FooterLink[] = [
   { label: "Docs", href: "/docs/da/get-started" },
+  { label: "Contact", href: "/contact" },
   {
     label: "Discord",
     href: "https://discord.com/invite/AvailProject",

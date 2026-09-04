@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import { describe, expect, it } from "vitest";
+import { MARKDOWN_VARY } from "@/lib/agent-headers";
 import { middleware } from "./middleware";
 
 function makeRequest(
@@ -36,7 +37,7 @@ describe("middleware", () => {
     );
     const rewrite = res.headers.get("x-middleware-rewrite");
     expect(rewrite).not.toBeNull();
-    expect(new URL(rewrite!).pathname).toBe("/api/markdown/DA/build/networks");
+    expect(new URL(rewrite!).pathname).toBe("/api/markdown/da/build/networks");
   });
 
   it("maps root /docs URL to /api/markdown", () => {
@@ -58,13 +59,29 @@ describe("middleware", () => {
       makeRequest("/docs/da/build", "text/markdown", { format: "json" }),
     );
     const rewrite = new URL(res.headers.get("x-middleware-rewrite")!);
-    expect(rewrite.pathname).toBe("/api/markdown/DA/build");
+    expect(rewrite.pathname).toBe("/api/markdown/da/build");
     expect(rewrite.searchParams.get("format")).toBe("json");
   });
 
-  it("sets Vary: accept header", () => {
+  it("sets a single merged Vary header including Accept", () => {
     const res = middleware(makeRequest("/docs/da/build", "text/markdown"));
-    expect(res.headers.get("vary")).toBe("accept");
+    expect(res.headers.get("vary")).toBe(MARKDOWN_VARY);
+  });
+
+  it("preserves DA slug casing rather than uppercasing it", () => {
+    // Regression: the slug used to be rewritten to /api/markdown/DA/*, which
+    // 404'd for every Avail DA page because content is canonicalized as `da`.
+    const res = middleware(
+      makeRequest("/docs/da/get-started", "text/markdown"),
+    );
+    const rewrite = new URL(res.headers.get("x-middleware-rewrite")!);
+    expect(rewrite.pathname).toBe("/api/markdown/da/get-started");
+  });
+
+  it("rewrites .md suffix URLs to the markdown API", () => {
+    const res = middleware(makeRequest("/docs/da/get-started.md"));
+    const rewrite = new URL(res.headers.get("x-middleware-rewrite")!);
+    expect(rewrite.pathname).toBe("/api/markdown/da/get-started");
   });
 
   it("rewrites when text/markdown is among multiple accept types", () => {
@@ -73,6 +90,6 @@ describe("middleware", () => {
     );
     const rewrite = res.headers.get("x-middleware-rewrite");
     expect(rewrite).not.toBeNull();
-    expect(new URL(rewrite!).pathname).toBe("/api/markdown/DA/build");
+    expect(new URL(rewrite!).pathname).toBe("/api/markdown/da/build");
   });
 });
