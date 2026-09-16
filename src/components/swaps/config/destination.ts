@@ -98,32 +98,6 @@ export const DESTINATION_SWAP_TOKENS = new Map<
     ],
   ],
   [
-    SUPPORTED_CHAINS.SCROLL,
-    [
-      {
-        decimals: 18,
-        logo: "https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628",
-        name: "Ether",
-        symbol: "ETH",
-        tokenAddress: "0x0000000000000000000000000000000000000000",
-      },
-      {
-        decimals: 6,
-        logo: "https://coin-images.coingecko.com/coins/images/6319/large/usdc.png?1696506694",
-        name: "USD Coin",
-        symbol: "USDC",
-        tokenAddress: "0x06efdbff2a14a7c8e15944d1f4a48f9f95f663a4",
-      },
-      {
-        decimals: 6,
-        logo: "https://coin-images.coingecko.com/coins/images/35023/large/USDT.png",
-        name: "USDT Coin",
-        symbol: "USDT",
-        tokenAddress: "0xf55bec9cafdbe8730f096aa55dad6d22d44099df",
-      },
-    ],
-  ],
-  [
     SUPPORTED_CHAINS.BASE,
     [
       {

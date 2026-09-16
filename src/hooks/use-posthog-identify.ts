@@ -123,7 +123,6 @@ function getChainName(chainId: number): string {
     42161: "Arbitrum One",
     43114: "Avalanche C-Chain",
     8453: "Base",
-    534352: "Scroll",
     999: "HyperEVM",
     50104: "Sophon",
     143: "Monad",
