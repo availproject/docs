@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 const REFERENCE_DATA = {
   _meta: {
-    lastUpdated: "2026-07-03",
+    lastUpdated: "2026-09-16",
     version: "2.0.0",
     description: "Structured reference data for Avail DA and Nexus",
   },
@@ -123,6 +123,11 @@ const REFERENCE_DATA = {
     vault_contracts: {
       mainnet: [
         {
+          chain: "Arc Mainnet",
+          chainId: 5042,
+          address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
+        },
+        {
           chain: "Ethereum",
           chainId: 1,
           address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
@@ -177,13 +182,13 @@ const REFERENCE_DATA = {
           chainId: 43114,
           address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
         },
-        {
-          chain: "Scroll",
-          chainId: 534352,
-          address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
-        },
       ],
       testnet: [
+        {
+          chain: "Arc Testnet",
+          chainId: 5042002,
+          address: "0x86B60E813f9b739516dDbDc443526be5Ef8336aa",
+        },
         {
           chain: "Polygon Amoy",
           chainId: 80002,
@@ -243,10 +248,6 @@ const REFERENCE_DATA = {
           {
             chain: "Optimism",
             address: "0x0b2c639c533813f4aa9d7837caf62653d097ff85",
-          },
-          {
-            chain: "Scroll",
-            address: "0x06efdbff2a14a7c8e15944d1f4a48f9f95f663a4",
           },
           {
             chain: "Avalanche C-Chain",
@@ -319,10 +320,6 @@ const REFERENCE_DATA = {
             address: "0x94b008aa00579c1307b0ef2c499ad98a8ce58e58",
           },
           {
-            chain: "Scroll",
-            address: "0xf55bec9cafdbe8730f096aa55dad6d22d44099df",
-          },
-          {
             chain: "Avalanche C-Chain",
             address: "0x9702230a8ea53601f5cd2dc00fdbc13d4df4a8c7",
           },
@@ -362,6 +359,13 @@ const REFERENCE_DATA = {
     supported_chains: {
       mainnet: [
         {
+          name: "Arc Mainnet",
+          chainId: 5042,
+          nativeToken: "USDC",
+          supportedTokens: ["USDC"],
+          swapsEnabled: true,
+        },
+        {
           name: "Ethereum",
           chainId: 1,
           nativeToken: "ETH",
@@ -394,13 +398,6 @@ const REFERENCE_DATA = {
           chainId: 43114,
           nativeToken: "AVAX",
           supportedTokens: ["AVAX", "USDC", "USDT"],
-          swapsEnabled: true,
-        },
-        {
-          name: "Scroll",
-          chainId: 534352,
-          nativeToken: "ETH",
-          supportedTokens: ["ETH", "USDC", "USDT"],
           swapsEnabled: true,
         },
         {
@@ -447,6 +444,13 @@ const REFERENCE_DATA = {
         },
       ],
       testnet: [
+        {
+          name: "Arc Testnet",
+          chainId: 5042002,
+          nativeToken: "USDC",
+          supportedTokens: ["USDC"],
+          swapsEnabled: false,
+        },
         {
           name: "Ethereum Sepolia",
           chainId: 11155111,

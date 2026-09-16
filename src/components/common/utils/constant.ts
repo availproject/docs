@@ -7,7 +7,6 @@ export const SHORT_CHAIN_NAME: Record<number, string> = {
   10: "Optimism",
   137: "Polygon",
   43114: "Avalanche",
-  534352: "Scroll",
   50104: "Sophon",
   8217: "Kaia",
   56: "BNB",

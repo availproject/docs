@@ -19,7 +19,6 @@ import {
   optimismSepolia,
   polygon,
   polygonAmoy,
-  scroll,
   sepolia,
 } from "wagmi/chains";
 import { PostHogIdentify } from "@/components/analytics/PostHogIdentify";
@@ -115,7 +114,6 @@ const defaultConfig = getDefaultConfig({
     avalanche,
     optimism,
     polygon,
-    scroll,
     sepolia,
     baseSepolia,
     arbitrumSepolia,

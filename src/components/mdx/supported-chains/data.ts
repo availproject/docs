@@ -14,6 +14,13 @@ export type TokenInfo = {
 
 export const mainnetChains: Chain[] = [
   {
+    name: "Arc Mainnet",
+    chainId: 5042,
+    native: "USDC",
+    tokens: ["USDC"],
+    swaps: true,
+  },
+  {
     name: "Ethereum",
     chainId: 1,
     native: "ETH",
@@ -46,13 +53,6 @@ export const mainnetChains: Chain[] = [
     chainId: 43114,
     native: "AVAX",
     tokens: ["AVAX", "USDC", "USDT"],
-    swaps: true,
-  },
-  {
-    name: "Scroll",
-    chainId: 534352,
-    native: "ETH",
-    tokens: ["ETH", "USDC", "USDT"],
     swaps: true,
   },
   {
@@ -100,6 +100,13 @@ export const mainnetChains: Chain[] = [
 ];
 
 export const testnetChains: Chain[] = [
+  {
+    name: "Arc Testnet",
+    chainId: 5042002,
+    native: "USDC",
+    tokens: ["USDC"],
+    swaps: false,
+  },
   {
     name: "Ethereum Sepolia",
     chainId: 11155111,

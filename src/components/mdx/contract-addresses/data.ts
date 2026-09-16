@@ -14,6 +14,11 @@ export type TokenEntry = {
 
 export const vaultMainnet: VaultEntry[] = [
   {
+    chain: "Arc Mainnet",
+    chainId: 5042,
+    address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
+  },
+  {
     chain: "Ethereum",
     chainId: 1,
     address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
@@ -68,14 +73,14 @@ export const vaultMainnet: VaultEntry[] = [
     chainId: 43114,
     address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
   },
-  {
-    chain: "Scroll",
-    chainId: 534352,
-    address: "0xa009A9Fdc0eF474e7A3938a89f80329139291568",
-  },
 ];
 
 export const vaultTestnet: VaultEntry[] = [
+  {
+    chain: "Arc Testnet",
+    chainId: 5042002,
+    address: "0x86B60E813f9b739516dDbDc443526be5Ef8336aa",
+  },
   {
     chain: "Polygon Amoy",
     chainId: 80002,
@@ -139,11 +144,6 @@ export const usdcMainnet: TokenEntry[] = [
   {
     chain: "Optimism",
     address: "0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85",
-    tokenName: "USDC",
-  },
-  {
-    chain: "Scroll",
-    address: "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4",
     tokenName: "USDC",
   },
   {
@@ -237,11 +237,6 @@ export const usdtMainnet: TokenEntry[] = [
   {
     chain: "Optimism",
     address: "0x94b008aA00579c1307B0EF2c499aD98a8ce58e58",
-    tokenName: "USDT",
-  },
-  {
-    chain: "Scroll",
-    address: "0xf55BEC9cafDbE8730f096Aa55dad6D22d44099Df",
     tokenName: "USDT",
   },
   {
