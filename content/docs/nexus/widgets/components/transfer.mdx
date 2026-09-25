@@ -6,20 +6,7 @@ links:
   doc: /docs/nexus/nexus-sdk/reference/bridge-methods/transfer
 ---
 
-import { SquareArrowUpRight } from "lucide-react";
-
-<ComponentPreview
-  name="nexus-send"
-  description="Send mode with USDC on Base configured, an amount prefilled, and a recipient set."
-  align="center"
-  hideCode
-/>
-
 > **Network support:** Mainnet only. Testnet is not supported at the moment.
-
-## Configurator
-
-Generate the exact basic configuration for Send mode using the <a href="https://configurator.availproject.org/" target="_blank" rel="noopener noreferrer" className="font-medium underline underline-offset-4">Widget Configurator <SquareArrowUpRight className="inline size-4" /></a>.
 
 ## Installation
 
@@ -28,37 +15,38 @@ Generate the exact basic configuration for Send mode using the <a href="https://
     <TabsTrigger value="npm">NPM (Recommended)</TabsTrigger>
     <TabsTrigger value="shadcn">shadcn/ui (Power Users)</TabsTrigger>
   </TabsList>
-
   <TabsContent value="npm" className="mt-4">
-```bash
-npm install @avail-project/widgets
-```
-  </TabsContent>
 
+```bash
+npm install @avail-project/widgets viem wagmi @tanstack/react-query
+```
+
+  </TabsContent>
   <TabsContent value="shadcn" className="mt-4">
+
 ```bash
 npx shadcn@latest add availproject/widgets/nexus
 ```
+
   </TabsContent>
 </Tabs>
 
 ## Usage
 
-Wrap your app with the Nexus provider first. See [NexusProvider Setup](/docs/nexus/widgets/get-started/nexus-provider-setup) for provider setup.
+Wrap your app with the Nexus provider first. See [Setup](/docs/nexus/widgets/setup) for provider setup.
 
-<Tabs defaultValue="npm-usage">
+<Tabs defaultValue="npm">
   <TabsList>
-    <TabsTrigger value="npm-usage">NPM (Recommended)</TabsTrigger>
-    <TabsTrigger value="shadcn-usage">shadcn/ui (Power Users)</TabsTrigger>
+    <TabsTrigger value="npm">NPM</TabsTrigger>
+    <TabsTrigger value="shadcn">shadcn/ui</TabsTrigger>
   </TabsList>
-
-  <TabsContent value="npm-usage" className="mt-4">
+  <TabsContent value="npm" className="mt-4">
 
 ```tsx showLineNumbers
 import { NexusWidget } from "@avail-project/widgets";
 
-const USDC_BASE = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
-const RECIPIENT = "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045";
+const USDC_BASE = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913" as const;
+const RECIPIENT = "0xF3a15b38e63dBb1a1b2d7842CcD9B9dD8fB9b2E" as const;
 
 export function SendExample({ address }: { address?: `0x${string}` }) {
   return (
@@ -68,10 +56,18 @@ export function SendExample({ address }: { address?: `0x${string}` }) {
         mode: "send",
         destination: {
           chain: 8453,
-          tokens: [{ address: USDC_BASE, symbol: "USDC", decimals: 6 }],
+          tokens: [
+            {
+              address: USDC_BASE,
+              symbol: "USDC",
+              decimals: 6,
+            },
+          ],
         },
         recipientAddress: RECIPIENT,
-        prefill: { amount: "0.1" },
+        prefill: {
+          amount: "0.1",
+        },
       }}
     />
   );
@@ -79,14 +75,13 @@ export function SendExample({ address }: { address?: `0x${string}` }) {
 ```
 
   </TabsContent>
-
-  <TabsContent value="shadcn-usage" className="mt-4">
+  <TabsContent value="shadcn" className="mt-4">
 
 ```tsx showLineNumbers
 import { NexusWidget } from "@/components/nexus/nexus";
 
-const USDC_BASE = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
-const RECIPIENT = "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045";
+const USDC_BASE = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913" as const;
+const RECIPIENT = "0xF3a15b38e63dBb1a1b2d7842CcD9B9dD8fB9b2E" as const;
 
 export function SendExample({ address }: { address?: `0x${string}` }) {
   return (
@@ -96,10 +91,18 @@ export function SendExample({ address }: { address?: `0x${string}` }) {
         mode: "send",
         destination: {
           chain: 8453,
-          tokens: [{ address: USDC_BASE, symbol: "USDC", decimals: 6 }],
+          tokens: [
+            {
+              address: USDC_BASE,
+              symbol: "USDC",
+              decimals: 6,
+            },
+          ],
         },
         recipientAddress: RECIPIENT,
-        prefill: { amount: "0.1" },
+        prefill: {
+          amount: "0.1",
+        },
       }}
     />
   );
@@ -111,56 +114,52 @@ export function SendExample({ address }: { address?: `0x${string}` }) {
 
 ## Configuration
 
-Send uses `mode: "send"`. This mode is exact-out: users enter the token amount to send, pay-with sources are selected, and the flow submits through the Nexus transfer execution path.
+Send uses only `mode: "send"`. This mode is exact-out: users enter the token amount to send, pay-with sources are selected, and the flow submits through the v2 transfer execution path.
 
-| Prop | Required | Description |
-| --- | --- | --- |
-| `config.mode` | Yes | Must be `"send"`. |
-| `config.destination.chain` | Optional | Restricts the destination chain selection. |
-| `config.destination.tokens` | Optional | Restricts the send-token selector. When supplied with `destination.chain`, users can only pick from this list. |
-| `config.recipientAddress` | Optional | Prefills the recipient. A supplied recipient is locked; otherwise the user enters one before submitting. |
-| `config.prefill.amount` | Optional | Prefills the exact output send amount. Must be greater than `0`. |
-| `config.prefill.token` | Optional | Initial send token: `{ chain, address, symbol, decimals, logo? }`. Unlike `destination.tokens`, it does not restrict later token choices. |
-| `config.validation.minAmount`, `config.validation.maxAmount` | Optional | Bounds on the send amount. |
-| `config.appearance` | Optional | Branding overrides: `heading`, `appName`, `appLogoURL`, `primaryColor`, `mode`. |
-| `connectedAddress` | Optional | Wallet address to use. If omitted, the connected wagmi account is used. |
-| `embed` | Optional | Defaults to `true`. Set `false` to render as a modal surface. |
-| `open`, `onOpenChange`, `defaultOpen` | Optional | Control the modal when `embed={false}`. |
-| `onStart`, `onComplete`, `onError`, `onClose`, `onConnectClick` | Optional | Host app callbacks. Use `onConnectClick` to route the widget's Connect Wallet CTA to your app-level wallet flow. |
+| Prop                                          | Required | Description                                                                                                                 |
+| --------------------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `config.mode`                                 | Yes      | Must be `"send"`.                                                                                                           |
+| `config.destination.chain`                    | Optional | Restricts the destination chain when supplied. If omitted, users can change chains.                                         |
+| `config.destination.tokens`                   | Optional | Restricts destination tokens when supplied with `destination.chain`. Each token needs `address`, `symbol`, and `decimals`.  |
+| `config.recipientAddress`                     | Optional | Prefills and locks the recipient address. A recipient is required before users can submit.                                  |
+| `config.prefill.amount`                       | Optional | Prefills the exact output send amount. Must be greater than `0`.                                                            |
+| `config.prefill.token`                        | Optional | Sets the initial destination token without restricting later choices. Ignored when `config.destination.tokens` is supplied. |
+| `config.validation.minAmount`                 | Optional | Minimum amount. Must be `0` or greater.                                                                                     |
+| `config.validation.maxAmount`                 | Optional | Maximum amount. Must be greater than `0`.                                                                                   |
+| `config.theme` | Optional | `"dark"`, `"light"`, or `"system"`. Defaults to light; system follows OS changes. Overrides `appearance.mode`. |
+| `config.appearance`                           | Optional | Supports `heading`, `appName`, `appLogoURL`, `mode`, and `primaryColor`.                                                    |
+| `connectedAddress`                            | Optional | Wallet address to use. If omitted, the connected wagmi account is used.                                                     |
+| `embed`                                       | Optional | Defaults to `true`. Set `false` to render as a modal surface.                                                               |
+| `onStart`, `onComplete`, `onError`, `onClose` | Optional | Lifecycle callbacks for host apps.                                                                                          |
 
 <CodeCollapsibleWrapper className="mt-4">
 
-```ts title="NexusWidgetSendConfig"
-interface NexusWidgetDestinationToken {
+```ts title="SendConfig"
+type DestinationToken = {
   address: `0x${string}`;
   symbol: string;
   decimals: number;
   logo?: string;
-}
+};
 
-interface NexusWidgetSendConfig {
+interface SendConfig {
   mode: "send";
   destination?: {
     chain?: number;
-    tokens?: NexusWidgetDestinationToken[];
+    tokens?: DestinationToken[];
   };
   recipientAddress?: `0x${string}`;
   prefill?: {
     amount?: string;
-    token?: NexusWidgetDestinationToken & { chain: number };
+    token?: DestinationToken & { chain: number };
   };
   validation?: {
     minAmount?: string;
     maxAmount?: string;
   };
-  appearance?: {
-    heading?: string;
-    appName?: string;
-    appLogoURL?: string;
-    primaryColor?: string;
-    mode?: "system" | "light" | "dark";
-  };
 }
 ```
 
 </CodeCollapsibleWrapper>
+
+Use `destination.tokens` when you want to restrict the selector. Use `prefill.token` when you only want the initial token selected and still want users to choose from the full supported list. If both are supplied, `destination.tokens[0]` is honored and `prefill.token` is ignored.

@@ -1,4 +1,4 @@
 {
   "title": "Components",
-  "pages": ["swaps", "deposit", "transfer"]
+  "pages": ["index", "swaps", "deposit", "transfer"]
 }

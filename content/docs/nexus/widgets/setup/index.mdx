@@ -1,0 +1,192 @@
+---
+title: Setup
+description: Install and configure Avail Widgets in your React project. Nexus Widget is the single unified component for all swap, send, and deposit flows.
+---
+
+import { Button } from "@/components/ui/button";
+import { SquareArrowUpRight } from "lucide-react";
+
+## Install Nexus Widget
+
+**Nexus Widget** is the single unified component for all swap, send, and deposit flows. Choose your preferred install method:
+
+<Tabs defaultValue="npm">
+  <TabsList>
+    <TabsTrigger value="npm">NPM (Recommended)</TabsTrigger>
+    <TabsTrigger value="shadcn">shadcn/ui (Power Users)</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="npm" className="mt-4">
+
+### Install the package
+
+```bash
+npm install @avail-project/widgets
+```
+
+> **Peer dependencies:** `viem` and `wagmi` are required peer dependencies. Install them if you haven't already:
+>
+> ```bash
+> npm install @avail-project/widgets viem wagmi @tanstack/react-query
+> ```
+
+The package ships pre-compiled — no additional dependency installs or file copying required.
+
+### Wrap your app with the provider
+
+```tsx showLineNumbers
+"use client";
+import { NexusProvider } from "@avail-project/widgets";
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <NexusProvider config={{ network: "mainnet" }}>{children}</NexusProvider>;
+}
+```
+
+### Initialize on wallet connect
+
+```tsx showLineNumbers
+"use client";
+import { useEffect } from "react";
+import { useAccount, useConnectorClient } from "wagmi";
+import type { EthereumProvider } from "@avail-project/nexus-core";
+import { useNexus } from "@avail-project/widgets";
+
+export function InitNexusOnConnect() {
+  const { status, connector } = useAccount();
+  const { data: walletClient } = useConnectorClient();
+  const { handleInit } = useNexus();
+
+  useEffect(() => {
+    if (status !== "connected") return;
+
+    void (async () => {
+      const mobileProvider = walletClient
+        ? ({ request: (args: unknown) => walletClient.request(args as never) } as EthereumProvider)
+        : undefined;
+      const desktopProvider = await connector?.getProvider();
+      const provider = mobileProvider ?? (desktopProvider as EthereumProvider | undefined);
+      if (!provider || typeof provider.request !== "function") return;
+      await handleInit(provider);
+    })();
+  }, [status, connector, walletClient, handleInit]);
+
+  return null;
+}
+```
+
+### Use the widget
+
+```tsx showLineNumbers
+import { NexusWidget } from "@avail-project/widgets";
+
+export function App({ address }: { address?: `0x${string}` }) {
+  return <NexusWidget config={{ mode: "swap" }} connectedAddress={address} />;
+}
+```
+
+  </TabsContent>
+
+  <TabsContent value="shadcn" className="mt-4">
+
+<Callout type="info">
+  **For power users** who want full source control — copy the component files into your project and customize freely.
+</Callout>
+
+### Install shadcn/ui first
+
+<Steps>
+  <p className="mb-3">
+    If you haven't already, set up shadcn/ui in your project first. Follow the
+    official installation guide
+  </p>
+  <Button
+    asChild
+    variant="secondary"
+    size="sm"
+    className="inline-flex items-center gap-2 my-2 w-full"
+  >
+    <a
+      href="https://ui.shadcn.com/docs/installation"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="no-underline"
+    >
+      Install shadcn/ui
+      <SquareArrowUpRight className="size-4" />
+    </a>
+  </Button>
+  <p>Once installed, come back to continue with Avail Widgets.</p>
+</Steps>
+
+### Install Nexus Widget via CLI
+
+```bash
+npx shadcn@latest add availproject/widgets/nexus
+```
+
+This installs from the public GitHub registry and copies all required files and dependencies into your project.
+
+### Wrap your app with the provider
+
+```tsx showLineNumbers
+"use client";
+import NexusProvider from "@/components/nexus/NexusProvider";
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <NexusProvider>{children}</NexusProvider>;
+}
+```
+
+### Initialize on wallet connect
+
+```tsx showLineNumbers
+"use client";
+import { useEffect } from "react";
+import { useAccount, useConnectorClient } from "wagmi";
+import type { EthereumProvider } from "@avail-project/nexus-core";
+import { useNexus } from "@/components/nexus/NexusProvider";
+
+export function InitNexusOnConnect() {
+  const { status, connector } = useAccount();
+  const { data: walletClient } = useConnectorClient();
+  const { handleInit } = useNexus();
+
+  useEffect(() => {
+    if (status !== "connected") return;
+
+    void (async () => {
+      const mobileProvider = walletClient
+        ? ({ request: (args: unknown) => walletClient.request(args as never) } as EthereumProvider)
+        : undefined;
+      const desktopProvider = await connector?.getProvider();
+      const provider = mobileProvider ?? (desktopProvider as EthereumProvider | undefined);
+      if (!provider || typeof provider.request !== "function") return;
+      await handleInit(provider);
+    })();
+  }, [status, connector, walletClient, handleInit]);
+
+  return null;
+}
+```
+
+### Use the widget
+
+```tsx showLineNumbers
+import { NexusWidget } from "@/components/nexus/nexus";
+
+export function App({ address }: { address?: `0x${string}` }) {
+  return <NexusWidget config={{ mode: "swap" }} connectedAddress={address} />;
+}
+```
+
+  </TabsContent>
+</Tabs>
