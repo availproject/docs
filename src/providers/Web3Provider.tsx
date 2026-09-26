@@ -128,8 +128,11 @@ const defaultConfig = getDefaultConfig({
 const wagmiConfig = createConfig(defaultConfig);
 
 function NexusContainer({ children }: Readonly<{ children: React.ReactNode }>) {
+  // Render with the default network on the server and on the first client
+  // render so page content is present in the initial HTML. `NexusProvider`
+  // builds its client inside an effect keyed on `config` (destroying the
+  // previous one), so switching to a stored network below is handled safely.
   const [network, setNetwork] = useState<"mainnet" | "testnet">("mainnet");
-  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     // Initialize network from localStorage on client side
@@ -145,19 +148,12 @@ function NexusContainer({ children }: Readonly<{ children: React.ReactNode }>) {
       setNetwork("mainnet");
       setItem(NETWORK_KEY, "mainnet");
     }
-
-    setIsInitialized(true);
   }, []);
 
   const nexusConfig = useMemo(
     () => ({ network: network, debug: true }),
     [network],
   );
-
-  // Don't render until we've initialized from localStorage
-  if (!isInitialized) {
-    return <Skeleton className="w-full h-full" />;
-  }
 
   return (
     <NexusProvider config={nexusConfig}>

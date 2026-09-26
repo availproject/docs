@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { AGENT_HEADERS } from "@/lib/agent-headers";
+import { agentNotFoundResponse } from "@/lib/agent-not-found";
 import { trackAgentRequest } from "@/lib/analytics/agent-tracking";
 import { cleanMarkdownForAgents } from "@/lib/markdown-clean";
 import { source } from "@/lib/source";
@@ -9,7 +10,7 @@ export async function GET(request: NextRequest) {
   const page = source.getPage([]);
 
   if (!page) {
-    return NextResponse.json({ error: "Page not found" }, { status: 404 });
+    return agentNotFoundResponse("/docs");
   }
 
   try {

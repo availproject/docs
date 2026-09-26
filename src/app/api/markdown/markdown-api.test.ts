@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import { describe, expect, it, vi } from "vitest";
+import { MARKDOWN_VARY } from "@/lib/agent-headers";
 
 const FAKE_CONTENT = "# Test Page\n\nSome markdown content here for testing.";
 // cleanMarkdownForAgents adds a trailing newline to plain markdown
@@ -8,10 +9,10 @@ const CLEANED_CONTENT = `${FAKE_CONTENT}\n`;
 vi.mock("@/lib/source", () => ({
   source: {
     getPage: (slug: string[]) => {
-      if (slug.length === 0 || (slug[0] === "DA" && slug[1] === "build")) {
+      if (slug.length === 0 || (slug[0] === "da" && slug[1] === "build")) {
         return {
           url:
-            slug.length === 0 ? "/docs" : `/docs/DA/${slug.slice(1).join("/")}`,
+            slug.length === 0 ? "/docs" : `/docs/da/${slug.slice(1).join("/")}`,
           data: {
             title: "Test Page",
             description: "A test page",
@@ -62,9 +63,11 @@ describe("markdown API - root route", () => {
     );
   });
 
-  it("has Vary: accept header", async () => {
+  it("has a merged Vary header including Accept", async () => {
     const res = await rootGET(makeRequest("/api/markdown"));
-    expect(res.headers.get("Vary")).toBe("accept");
+    const vary = res.headers.get("Vary") ?? "";
+    expect(vary).toBe(MARKDOWN_VARY);
+    expect(vary).toContain("Accept");
   });
 
   it("returns JSON when format=json", async () => {
