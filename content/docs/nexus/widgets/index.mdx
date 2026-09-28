@@ -10,16 +10,16 @@ Avail Widgets are shadcn-based components built on the Nexus SDK. **Nexus Widget
 
 <IconCardGrid>
   <IconCard
-    icon={<Swap />}
-    title="Swap and Bridge Widget"
-    description="Swap and bridge assets across chains with the unified Nexus intent flow."
-    href="/docs/nexus/widgets/swaps"
-  />
-  <IconCard
     icon={<Wallet />}
     title="Deposit Widget"
     description="Route funds into configured protocol opportunities with Nexus intents."
     href="/docs/nexus/widgets/deposit"
+  />
+  <IconCard
+    icon={<Swap />}
+    title="Swap and Bridge Widget"
+    description="Swap and bridge assets across chains with the unified Nexus intent flow."
+    href="/docs/nexus/widgets/swaps"
   />
   <IconCard
     icon={<Send />}
@@ -31,16 +31,26 @@ Avail Widgets are shadcn-based components built on the Nexus SDK. **Nexus Widget
 
 ## Try It Live
 
-No install needed — the configurator runs the real widget in your browser. Switch modes, set prefills and appearance, then copy the resulting `config` into your app.
+<video
+  className="mt-6 w-full rounded-md border border-border"
+  controls
+  muted
+  playsInline
+  preload="metadata"
+>
+  <source src="/videos/nexus-widgets/deposit-widget-demo.mp4" type="video/mp4" />
+</video>
 
-<IconCardGrid>
-  <IconCard
-    icon={<Gear />}
-    title="Widget Configurator"
-    description="Configure the widget live and copy the resulting config into your app."
+<Button asChild className="mt-4">
+  <a
     href="https://configurator.availproject.org/"
-  />
-</IconCardGrid>
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Try Live Demo
+    <SquareArrowUpRight className="size-4" />
+  </a>
+</Button>
 
 ## Install Nexus Widget
 
@@ -227,6 +237,6 @@ export function App({ address }: { address?: `0x${string}` }) {
   </TabsContent>
 </Tabs>
 
-- [Swap and Bridge](/docs/nexus/widgets/swaps): `config.mode = "swap"` — swap and bridge assets through one unified intent flow.
 - [Deposit](/docs/nexus/widgets/deposit): `config.mode = "deposit"` — route funds into a configured protocol or app action.
+- [Swap and Bridge](/docs/nexus/widgets/swaps): `config.mode = "swap"` — swap and bridge assets through one unified intent flow.
 - [Send](/docs/nexus/widgets/transfer): `config.mode = "send"` — send assets to a recipient.

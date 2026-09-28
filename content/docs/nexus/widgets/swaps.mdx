@@ -4,11 +4,27 @@ description: Swap and bridge assets with the unified Nexus intent flow.
 component: true
 ---
 
-> **Network support:** Mainnet only. Testnet is not supported at the moment.
+import { Button } from "@/components/ui/button";
+import { SquareArrowUpRight } from "lucide-react";
 
-<Callout type="info">
-  **Get the exact config for your bridge setup** using the [Avail Configurator](https://configurator.availproject.org/). It generates the complete config object for deposit and bridge modes based on your token and chain selection.
-</Callout>
+<Image
+  src="/img/nexus-widgets/swap-and-bridge-widget.png"
+  width="930"
+  height="1224"
+  alt="Swap and Bridge widget showing a multi-asset swap"
+  className="mx-auto w-full max-w-sm"
+/>
+
+<Button asChild className="mt-4">
+  <a
+    href="https://configurator.availproject.org/"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Try Live Demo
+    <SquareArrowUpRight className="size-4" />
+  </a>
+</Button>
 
 ## Installation
 
@@ -105,6 +121,28 @@ export function SwapAndBridgeExample({ address }: { address?: `0x${string}` }) {
 </Tabs>
 
 ## Configuration
+
+<Image
+  src="/img/nexus-widgets/swap-and-bridge-configuration.png"
+  width="2790"
+  height="1306"
+  alt="Swap and Bridge widget configuration editor showing appearance and multi-asset options"
+/>
+
+Generate the exact Swap and Bridge configuration needed for your app on the demo app. It generates the complete config object.
+
+Update the widget appearance, multi-asset mode, receive token, and receiving address behavior. See your changes in the live preview and copy the config.
+
+<Button asChild className="mt-4">
+  <a
+    href="https://configurator.availproject.org/"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Configure Swap and Bridge widget
+    <SquareArrowUpRight className="size-4" />
+  </a>
+</Button>
 
 Swap and Bridge uses only `mode: "swap"`. This mode is exact-in: users enter the source amount, the quote determines the receive amount, and the flow submits through `swapWithExactIn`.
 

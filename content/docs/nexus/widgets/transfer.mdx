@@ -4,7 +4,27 @@ description: Route funds to a recipient with Nexus intents.
 component: true
 ---
 
-> **Network support:** Mainnet only. Testnet is not supported at the moment.
+import { Button } from "@/components/ui/button";
+import { SquareArrowUpRight } from "lucide-react";
+
+<Image
+  src="/img/nexus-widgets/send-widget.png"
+  width="880"
+  height="1322"
+  alt="Send widget showing recipient, amount, and payment assets"
+  className="mx-auto w-full max-w-sm"
+/>
+
+<Button asChild className="mt-4">
+  <a
+    href="https://configurator.availproject.org/"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Try Live Demo
+    <SquareArrowUpRight className="size-4" />
+  </a>
+</Button>
 
 ## Installation
 
@@ -111,6 +131,28 @@ export function SendExample({ address }: { address?: `0x${string}` }) {
 </Tabs>
 
 ## Configuration
+
+<Image
+  src="/img/nexus-widgets/send-configuration.png"
+  width="2798"
+  height="1418"
+  alt="Send widget configuration editor showing appearance, token, amount, and recipient options"
+/>
+
+Generate the exact Send configuration needed for your app on the demo app. It generates the complete config object.
+
+Update the widget appearance, default send token, amount defaults, and recipient. See your changes in the live preview and copy the config.
+
+<Button asChild className="mt-4">
+  <a
+    href="https://configurator.availproject.org/"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Configure Send widget
+    <SquareArrowUpRight className="size-4" />
+  </a>
+</Button>
 
 Send uses only `mode: "send"`. This mode is exact-out: users enter the token amount to send, pay-with sources are selected, and the flow submits through the v2 transfer execution path.
 
