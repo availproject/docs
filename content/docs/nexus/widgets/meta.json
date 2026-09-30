@@ -1,4 +1,4 @@
 {
   "title": "Widgets",
-  "pages": ["get-started", "components", "mcp-and-agent-skills"]
+  "pages": ["index", "deposit", "swaps", "transfer", "mcp-and-agent-skills"]
 }
