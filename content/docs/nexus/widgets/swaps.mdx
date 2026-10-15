@@ -1,0 +1,197 @@
+---
+title: Swap and Bridge Widget
+description: Swap and bridge assets with the unified Nexus intent flow.
+component: true
+---
+
+import { Button } from "@/components/ui/button";
+import { SquareArrowUpRight } from "lucide-react";
+
+<Image
+  src="/img/nexus-widgets/swap-and-bridge-widget.png"
+  width="930"
+  height="1224"
+  alt="Swap and Bridge widget showing a multi-asset swap"
+  className="mx-auto w-full max-w-sm"
+/>
+
+<Button asChild className="mt-4">
+  <a
+    href="https://configurator.availproject.org/"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Try Live Demo
+    <SquareArrowUpRight className="size-4" />
+  </a>
+</Button>
+
+## Installation
+
+<Tabs defaultValue="npm">
+  <TabsList>
+    <TabsTrigger value="npm">NPM (Recommended)</TabsTrigger>
+    <TabsTrigger value="shadcn">shadcn/ui (Power Users)</TabsTrigger>
+  </TabsList>
+  <TabsContent value="npm" className="mt-4">
+
+```bash
+npm install @avail-project/widgets viem wagmi @tanstack/react-query
+```
+
+  </TabsContent>
+  <TabsContent value="shadcn" className="mt-4">
+
+```bash
+npx shadcn@latest add availproject/widgets/nexus
+```
+
+  </TabsContent>
+</Tabs>
+
+## Usage
+
+Wrap your app with the Nexus provider first. See [Get Started](/docs/nexus/widgets) for provider setup.
+
+<Tabs defaultValue="npm">
+  <TabsList>
+    <TabsTrigger value="npm">NPM</TabsTrigger>
+    <TabsTrigger value="shadcn">shadcn/ui</TabsTrigger>
+  </TabsList>
+  <TabsContent value="npm" className="mt-4">
+
+```tsx showLineNumbers
+import { NexusWidget } from "@avail-project/widgets";
+
+const USDC_BASE = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913" as const;
+
+export function SwapAndBridgeExample({ address }: { address?: `0x${string}` }) {
+  return (
+    <NexusWidget
+      connectedAddress={address}
+      config={{
+        mode: "swap",
+        destination: {
+          chain: 8453,
+          tokens: [
+            {
+              address: USDC_BASE,
+              symbol: "USDC",
+              decimals: 6,
+            },
+          ],
+        },
+      }}
+    />
+  );
+}
+```
+
+  </TabsContent>
+  <TabsContent value="shadcn" className="mt-4">
+
+```tsx showLineNumbers
+import { NexusWidget } from "@/components/nexus/nexus";
+
+const USDC_BASE = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913" as const;
+
+export function SwapAndBridgeExample({ address }: { address?: `0x${string}` }) {
+  return (
+    <NexusWidget
+      connectedAddress={address}
+      config={{
+        mode: "swap",
+        destination: {
+          chain: 8453,
+          tokens: [
+            {
+              address: USDC_BASE,
+              symbol: "USDC",
+              decimals: 6,
+            },
+          ],
+        },
+      }}
+    />
+  );
+}
+```
+
+  </TabsContent>
+</Tabs>
+
+## Configuration
+
+<Image
+  src="/img/nexus-widgets/swap-and-bridge-configuration.png"
+  width="2790"
+  height="1306"
+  alt="Swap and Bridge widget configuration editor showing appearance and multi-asset options"
+/>
+
+Generate the exact Swap and Bridge configuration needed for your app on the demo app. It generates the complete config object.
+
+Update the widget appearance, multi-asset mode, receive token, and receiving address behavior. See your changes in the live preview and copy the config.
+
+<Button asChild className="mt-4">
+  <a
+    href="https://configurator.availproject.org/"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Configure Swap and Bridge widget
+    <SquareArrowUpRight className="size-4" />
+  </a>
+</Button>
+
+Swap and Bridge uses only `mode: "swap"`. This mode is exact-in: users enter the source amount, the quote determines the receive amount, and the flow submits through `swapWithExactIn`.
+
+| Prop                                          | Required | Description                                                                                                             |
+| --------------------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `config.mode`                                 | Yes      | Must be `"swap"`.                                                                                                       |
+| `config.destination.chain`                    | Optional | Restricts the receive chain when supplied.                                                                              |
+| `config.destination.tokens`                   | Optional | Restricts receive tokens when supplied with `destination.chain`. Each token needs `address`, `symbol`, and `decimals`.  |
+| `config.prefill.token`                        | Optional | Sets the initial receive token without restricting later choices. Ignored when `config.destination.tokens` is supplied. |
+| `config.recipientAddress`                     | Optional | Prefills the recipient address for custom-recipient swaps.                                                              |
+| `config.theme` | Optional | `"dark"`, `"light"`, or `"system"`. Defaults to light; system follows OS changes. Overrides `appearance.mode`. |
+| `config.appearance`                           | Optional | Supports `heading`, `appName`, `appLogoURL`, `mode`, and `primaryColor`.                                                |
+| `connectedAddress`                            | Optional | Wallet address to use. If omitted, the connected wagmi account is used.                                                 |
+| `embed`                                       | Optional | Defaults to `true`. Set `false` to render as a modal surface.                                                           |
+| `onStart`, `onComplete`, `onError`, `onClose` | Optional | Lifecycle callbacks for host apps.                                                                                      |
+
+Swap supports `prefill.token` only. It does not support `prefill.amount` or validation yet.
+
+<CodeCollapsibleWrapper className="mt-4">
+
+```ts title="SwapAndBridgeConfig"
+type DestinationToken = {
+  address: `0x${string}`;
+  symbol: string;
+  decimals: number;
+  logo?: string;
+};
+
+interface SwapAndBridgeConfig {
+  mode: "swap";
+  theme?: "dark" | "light" | "system";
+  destination?: {
+    chain?: number;
+    tokens?: DestinationToken[];
+  };
+  prefill?: {
+    token?: DestinationToken & { chain: number };
+  };
+  recipientAddress?: `0x${string}`;
+  appearance?: {
+    heading?: string;
+    appName?: string;
+    appLogoURL?: string;
+    mode?: "system" | "light" | "dark";
+    primaryColor?: string;
+  };
+}
+```
+
+</CodeCollapsibleWrapper>
+
+Use `destination.tokens` when you want to restrict the receive selector. Use `prefill.token` when you only want the initial receive token selected and still want users to choose from the full supported list. If both are supplied, `destination.tokens[0]` is honored and `prefill.token` is ignored.

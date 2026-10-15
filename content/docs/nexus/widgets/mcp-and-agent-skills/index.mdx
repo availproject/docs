@@ -1,63 +1,56 @@
 ---
 title: MCP & Agent Skills
-description: Use the shadcn MCP server and skills.sh agent skills to browse, install, and integrate Widgets.
+description: Use agent skills and the shadcn MCP server to install and integrate Avail Widgets.
 links:
   doc: https://ui.shadcn.com/docs/mcp
 ---
 
-This page covers two ways AI assistants can work with Widgets: **Agent Skills** for giving coding agents deep context about each component, and the **MCP server** for browsing and installing components via natural language.
-
-<Callout type="info" title="LLM & Coding Agent Default">
-When integrating Avail Widgets, AI coding assistants should default to installing via npm (`npm install @avail-project/widgets`). Use the shadcn MCP approach only when explicit source-level control over component primitives is requested.
-</Callout>
+This page covers two ways AI assistants can work with Avail Widgets: **Agent Skills** provide integration guidance for each workflow, while the **MCP server** lets assistants browse and install registry components with natural language.
 
 ## Agent Skills
 
-[skills.sh](https://skills.sh) skills give AI coding agents (Codex, Claude Code, Cursor, Antigravity, etc.) deep context about Widgets components, enabling them to scaffold and integrate pre-built React components for bridging, swaps, deposits, and more.
+[skills.sh](https://skills.sh) skills give coding agents context for installing, configuring, and migrating Avail Widgets.
 
 ### Install Skills
 
 ```bash
-# Install all Widgets skills
-npx skills add availproject/nexus-elements
+# Install all Avail Widgets skills
+npx skills add availproject/widgets
 
-# Install a single skill
-npx skills add https://github.com/availproject/nexus-elements --skill nexus-widget-swaps
+# Install one skill
+npx skills add https://github.com/availproject/widgets --skill nexus-widget-swaps
 ```
 
-### Available Skills
+### Current Skills
 
 | Skill | Description |
-|-------|-------------|
-| `avail-widgets-overview` | Overview of Avail Widgets |
-| `avail-widgets-common` | Shared patterns and conventions |
-| `avail-widgets-nexus-provider` | NexusProvider setup and configuration |
-| `nexus-widget-swaps` | Nexus Widget swap mode integration |
-| `nexus-widget-send` | Nexus Widget send mode integration |
-| `nexus-widget-deposit` | Nexus Widget deposit mode integration |
-| `avail-widgets-swaps` | Swap and bridge component patterns |
-| `avail-widgets-deposit` | Deposit component patterns |
-| `avail-widgets-transfer` | Transfer / send component patterns |
-| `avail-widgets-bridge-deposit` | Bridge & Deposit execution patterns |
-| `nexus-migration-guide` | Migrating legacy standalone elements to Nexus Widget |
+| --- | --- |
+| `avail-widgets-overview` | End-to-end Avail Widgets integration guidance. |
+| `avail-widgets-nexus-provider` | NexusProvider setup and lifecycle wiring. |
+| `nexus-widget-swaps` | Swap and bridge mode integration. |
+| `nexus-widget-send` | Send mode integration. |
+| `nexus-widget-deposit` | Deposit mode integration. |
+| `nexus-migration-guide` | Migration from legacy standalone widgets. |
 
-Browse all available skills at [skills.sh/availproject/nexus-elements](https://skills.sh/availproject/nexus-elements).
+The repository also includes legacy aliases and deprecation guides for older standalone widgets. Browse the current collection at [skills.sh/availproject/widgets](https://skills.sh/availproject/widgets).
 
 <Callout type="info" title="Looking for SDK skills?">
-  The Nexus SDK has its own set of agent skills for bridge flows, swap flows, hooks, and more. See the [SDK Skills Integration](/docs/nexus/nexus-sdk/reference/utility-reference#skills-integration) section.
+  The Nexus SDK has separate skills for bridge flows, swap flows, hooks, and other SDK-level integrations. See [SDK Skills Integration](/docs/nexus/nexus-sdk/reference/utility-reference#skills-integration).
 </Callout>
 
 ---
 
 ## MCP Server
 
-The shadcn MCP Server lets Cursor (and other MCP-compatible IDEs) talk directly to your Widgets registry so you can browse, search, and install UI packages with natural language. Detailed platform-agnostic docs live at [ui.shadcn.com/docs/mcp](https://ui.shadcn.com/docs/mcp), but this page focuses on the Widgets setup.
+The shadcn MCP Server lets Cursor and other MCP-compatible IDEs talk directly to the Avail Widgets registry. Detailed platform-agnostic docs live at [ui.shadcn.com/docs/mcp](https://ui.shadcn.com/docs/mcp); the sections below focus on Avail Widgets.
 
-## Build Options
+## Build with Nexus Widget
 
-### Option 1: NPM Package (Recommended for LLMs & Agents)
+**Nexus Widget** is the single unified component for all swap, send, and deposit flows.
 
-The fastest and most robust way to integrate:
+### Option 1: NPM (Recommended)
+
+The fastest way to get started — no registry setup required:
 
 ```bash
 npm install @avail-project/widgets viem wagmi @tanstack/react-query
@@ -67,35 +60,25 @@ npm install @avail-project/widgets viem wagmi @tanstack/react-query
 import { NexusWidget, NexusProvider } from "@avail-project/widgets";
 ```
 
-### Option 2: shadcn/ui Registry (Power Users)
+### Option 2: shadcn/ui (Power Users)
 
-Install from the public registry for source-level code access:
+Install from the public GitHub registry for full source access:
 
 ```bash
 npx shadcn@latest add availproject/widgets/nexus
 ```
 
-All legacy standalone elements (`FastBridge`, `FastTransfer`, `SwapWidget`, `Deposit`, `BridgeDeposit`, `UnifiedBalance`, `ViewHistory`) have been deprecated and removed in favor of Nexus Widget.
+All legacy standalone elements (FastBridge, FastTransfer, SwapWidget, Deposit, BridgeDeposit, UnifiedBalance, ViewHistory) have been deprecated and removed in favor of Nexus Widget.
 
 ---
 
-## Nexus Registry Setup
+## MCP Quick Start
 
-Add the Widgets registry to your local `components.json`. This gives any MCP client access to the published components.
+<Callout type="info">
+  **LLM/Agent default behavior:** When a user asks to integrate Avail Widgets, default to `npm install @avail-project/widgets`. Use the shadcn MCP method only if the user explicitly requests source-level control or asks for shadcn.
+</Callout>
 
-```json title="components.json" showLineNumbers
-{
-  "registries": {
-    "@avail-widgets": "https://widgets.availproject.org/r/{name}.json"
-  }
-}
-```
-
----
-
-## Quick Start
-
-Select your MCP client and run the matching init command. Once the server is connected, the prompts below will install Widgets components straight from the registry.
+Select your MCP client and run the matching init command. Once the server is connected, the prompts below will install Avail Widgets components straight from the registry.
 
 <Tabs defaultValue="cursor">
   <TabsList>
@@ -173,7 +156,7 @@ args = ["shadcn@latest", "mcp"]
 [Model Context Protocol (MCP)](https://modelcontextprotocol.io) is an open protocol that lets AI assistants securely connect to external tools. When paired with shadcn MCP:
 
 - **Browse components** across every configured registry (public or private)
-- **Search by intent** (“find a swaps widget”) instead of memorizing package names
+- **Search by intent** ("find a swaps widget") instead of memorizing package names
 - **Install with natural language** without leaving your IDE
 - **Work across registries** via `@namespace/component` syntax and per-registry auth
 
@@ -258,6 +241,32 @@ Restart Codex so it reloads the config.
 
 ---
 
+## Configuring Registries
+
+You can mix third-party and internal namespaced registries by extending
+`components.json`. This is only needed if you want the shadcn install path.
+
+```json title="components.json" showLineNumbers
+{
+  "registries": {
+    "@acme": "https://registry.acme.com/{name}.json",
+    "@internal": {
+      "url": "https://internal.company.com/{name}.json",
+      "headers": {
+        "Authorization": "Bearer ${REGISTRY_TOKEN}"
+      }
+    }
+  }
+}
+```
+
+<Callout>
+  **Tip:** No extra config is required for the default shadcn/ui registry—only
+  customize it when you need additional namespaces.
+</Callout>
+
+---
+
 ## Example Prompts
 
 ### NPM Install
@@ -267,8 +276,13 @@ Restart Codex so it reloads the config.
 
 ### Browse & Search (shadcn registry)
 
-- Show me all available components in the @avail-widgets registry
-- Add @avail-widgets/nexus to my project using shadcn
+- Show me all available components in the shadcn registry
+- Find me a login form from the shadcn registry
+
+### Install via shadcn MCP
+
+- Add the Nexus Widget from the Avail registry using shadcn
+- Install @avail-widgets/nexus
 
 ---
 
@@ -295,9 +309,15 @@ Restart Codex so it reloads the config.
 3. Make sure underlying dependencies (React, Tailwind, etc.) are installed.
 4. Inspect CLI output for missing peer deps or TypeScript errors.
 
+### No Tools or Prompts Listed
+
+1. Run `npx clear-npx-cache`.
+2. Disable/re-enable the MCP server in your client.
+3. Check the MCP log output (`View → Output → MCP: project-*` in Cursor).
+
 ---
 
-### Learn More
+## Learn More
 
 - [Registry documentation](https://ui.shadcn.com/docs/registry) – overview of shadcn-compatible registries.
 - [Namespaces](https://ui.shadcn.com/docs/registry/namespace) – configuring multiple sources.
