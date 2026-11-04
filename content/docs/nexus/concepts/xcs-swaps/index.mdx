@@ -9,7 +9,7 @@ In Nexus, users can do crosschain swaps (aka **Swap Methods**) which allows them
 
 Swaps are routed through multiple DEX aggregators (such as LiFi, Bebop, and 0x), which are quoted in parallel, with the best quote winning. When the swap crosses chains, the aggregator legs are combined with the Nexus bridge leg. Canonical assets like ETH, USDC and USDT are used as the "interim" or "express" tokens to make routing simpler and cheaper for users.
 
-The pipeline is: **optional source swap → bridge leg → optional destination swap**. On supported chains, the SDK may automatically execute swap legs through a short-lived smart account (via EIP-7702) so multiple steps can be batched — no configuration needed.
+The pipeline is: **optional source swap → bridge leg → optional destination swap**. The quote determines the route, the provider (the native Nexus flow, Mayan, or Relay), and the fees, so your integration code stays the same for every route.
 
 <ThemedImage light="/img/nexus/swaps-light.png" dark="/img/nexus/swaps-dark.png" alt="Crosschain Swaps" />
 
@@ -51,12 +51,12 @@ This operation uses the `SwapExactOutParams` type and the [`swapWithExactOut()`]
 There is also [`swapAndExecute()`](/docs/nexus/nexus-sdk/reference/swap-methods/swap-and-execute), which swaps into the destination token and then calls a smart contract on the destination chain in one flow — the swap counterpart of [Bridge & Execute](/docs/nexus/concepts/nexus-ops).
 
 <Callout type="info">
-All swap methods accept a `slippageTolerance` option (default 0.5%) to bound how much the received amount may drift from the quote.
+All swap methods accept a `slippageBps` option (an integer from 0 to 10000 basis points, or `'auto'`; default 50, i.e. 0.5%) to bound how much the received amount may drift from the quote. The quote's `output.minAmountRaw` is the guaranteed minimum.
 </Callout>
 
 <Callout type="info">
-- [Learn more about the difference between Bridge and Swap methods.](/docs/nexus/concepts/bridge-v-swap)
-- [SDK reference](/docs/nexus/nexus-sdk/reference/swap-methods/fetch-swap-balances) (Swap Methods)
+- [Learn more about wallet balances.](/docs/nexus/concepts/bridge-v-swap)
+- [SDK reference](/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-in) (Swap Methods)
 </Callout>
 
 <PageFooter

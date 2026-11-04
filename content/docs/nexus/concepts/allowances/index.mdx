@@ -11,16 +11,18 @@ Through allowances, a user permits the Nexus Vault contracts on the source chain
 to collect their funds. The protocol uses these funds to settle the transaction
 delivered on the destination chain.
 
-- Allowances are chosen **per operation**, via the `onAllowance` hook passed in `options.hooks`.
-- The hook receives `{ sources, allow, deny }` — one entry per source chain, each showing the current and minimum required allowance.
-- Calling `allow([...])` sets the approval per source: `'min'` (exactly what this operation needs), `'max'` (unlimited), or an exact amount.
-- If no hook is provided, the SDK defaults to **minimal (`'min'`) approvals** — it never grants unlimited approvals on its own.
+- The SDK always approves the **minimum** amount the operation needs — it never grants unlimited approvals. There is no allowance hook to configure.
+- Required approvals appear in the quote before anything is signed: `quote.allowances` lists the current, required, and missing allowance per source token, and `quote.plan.steps` includes an `erc20_approval` or `source_approval_signature` step where one is needed.
+- Your app can show these to the user from the `onIntent` hook passed in `options.hooks`.
 
 ```typescript
-await client.bridge(params, {
+await client.swapWithExactOut(params, {
   hooks: {
-    onAllowance: ({ sources, allow, deny }) => {
-      allow(sources.map(() => 'min'));
+    onIntent: ({ quote, allow }) => {
+      for (const a of quote.allowances) {
+        console.log(a.chainId, a.tokenAddress, a.spender, a.deficitRaw);
+      }
+      allow();
     },
   },
 });
@@ -44,13 +46,13 @@ Setting an allowance is normally an on-chain transaction, so users **pay a gas f
 
 Here is how allowances enable chain abstracted transactions:
 
-1. The SDK builds the operation and presents the user with an intent: the amounts to collect per source chain, the destination amount, and fee details. The user approves or rejects it via the `onIntent` hook.
-2. The `onAllowance` hook fires for any source chain where the current allowance is below what the operation needs, and the approval amounts are chosen (`'min'` by default).
-3. Approvals are granted to the Nexus Vault contracts on the source chains — via a regular ERC-20 approval, or a gasless EIP-2612 permit where the token supports it.
+1. The SDK requests a quote and presents it to the user: the amounts to collect per source chain, the destination amount, fee details, and any required allowances. The user approves or rejects it via the `onIntent` hook.
+2. For any source token whose current allowance is below what the operation needs, the SDK requests the minimum required approval.
+3. Approvals are granted to the spender named in the quote (for native Nexus routes, the Nexus Vault contracts on the source chains) — via a regular ERC-20 approval, or a gasless EIP-2612 permit where the token supports it.
 4. The user signs the intent. Solvers then supply liquidity on the destination chain.
 5. The protocol settles with the solvers using the funds collected from the source chains.
 
-See [Hooks](/docs/nexus/nexus-sdk/reference/hooks-and-errors) for the full `onAllowance` and `onIntent` shapes.
+See [Review quotes](/docs/nexus/nexus-sdk/reference/swap-methods/review-quotes) for the full `onIntent` and `IntentQuote` shapes.
 
 <PageFooter
   previous={{

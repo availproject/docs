@@ -1,12 +1,12 @@
 ---
 title: Initializing Nexus with RainbowKit
-description: Replace window.ethereum with RainbowKit for a polished wallet connection experience.
+description: Connect wallets with RainbowKit and manage the Nexus client lifecycle in React.
 ---
 
-In this guide you will add RainbowKit to an existing Nexus SDK project and retrieve the EIP-1193 provider from wagmi's connector instead of `window.ethereum`. By the end you will have a full wallet connection modal, multi-wallet support, and all existing SDK functionality intact.
+In this guide you will add RainbowKit to a Next.js app, take the EIP-1193 provider from the connected wagmi connector, and pass it to `client.setEVMProvider()`. You will wrap the client in a small React provider that recreates it when the account changes and destroys it on cleanup. The later guides in this series build on this provider.
 
 <Callout type="info" title="Prerequisite">
-This guide builds on the [Nexus SDK Setup](/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup). Complete that first.
+This guide builds on [Nexus SDK Setup](/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup). Read that first for what `initialize()`, `setEVMProvider()`, and `destroy()` do.
 </Callout>
 
 ## What changes
@@ -15,11 +15,12 @@ This guide builds on the [Nexus SDK Setup](/docs/nexus/nexus-sdk/get-started/nex
 |---|---|
 | `window.ethereum` for wallet connection | RainbowKit modal with multi-wallet support |
 | Manual `eth_requestAccounts` call | wagmi handles connection state |
+| Manual `accountsChanged` listener | A React effect keyed on the wagmi account recreates the client |
 | Single injected provider only | WalletConnect, Coinbase, and more |
 
-Everything else — the SDK instance, helper functions, balance fetching, and de-initialization — stays **exactly the same**.
+The flow is always the same: **wagmi connector → `connector.getProvider()` → `client.setEVMProvider(provider)`**.
 
-## Step 1 — Install RainbowKit dependencies
+## Step 1: Install RainbowKit dependencies
 
 Add the required packages to your project:
 
@@ -46,7 +47,7 @@ yarn add @rainbow-me/rainbowkit wagmi viem @tanstack/react-query
   </TabsContent>
 </Tabs>
 
-## Step 2 — Create the wagmi configuration
+## Step 2: Create the wagmi configuration
 
 Create a config file that defines the supported chains and your WalletConnect project ID.
 
@@ -69,13 +70,96 @@ export const config = getDefaultConfig({
 });
 ```
 
-<Callout type="warning" title="WalletConnect Project ID required">
+<Callout type="warn" title="WalletConnect Project ID required">
 Get a free Project ID at [cloud.walletconnect.com](https://cloud.walletconnect.com). Add it to your `.env.local` as `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID`.
 </Callout>
 
-## Step 3 — Create the providers component
+## Step 3: Create the Nexus provider
 
-Wrap your app with wagmi, React Query, and RainbowKit providers.
+This component owns the Nexus client. It reads the connection from wagmi's `useAccount` hook and runs one effect per account:
+
+1. Create a client with `createNexusClient` and call `initialize()`.
+2. If a wallet is connected, get its EIP-1193 provider from the connector and call `setEVMProvider()`.
+3. On cleanup (account change, disconnect, or unmount), call `destroy()`.
+
+While no wallet is connected, the client is still initialized, so catalog methods and exact-input quote previews work.
+
+```tsx title="src/components/nexus-provider.tsx"
+"use client";
+
+import { createContext, useContext, useEffect, useState } from "react";
+import { useAccount } from "wagmi";
+import {
+  createNexusClient,
+  type EthereumProvider,
+  type NexusClient,
+} from "@avail-project/nexus-core";
+
+type NexusState = {
+  client: NexusClient | null; // null while (re)initializing
+  error: Error | null;
+};
+
+const NexusContext = createContext<NexusState>({ client: null, error: null });
+
+export function NexusProvider({ children }: { children: React.ReactNode }) {
+  const { address, connector, status } = useAccount();
+  const [state, setState] = useState<NexusState>({ client: null, error: null });
+
+  useEffect(() => {
+    // Wait until wagmi has settled the connection.
+    if (status === "connecting" || status === "reconnecting") return;
+
+    let cancelled = false;
+    const client = createNexusClient({ clientId: "my-nexus-app", network: "mainnet" });
+    setState({ client: null, error: null });
+
+    (async () => {
+      await client.initialize();
+      if (cancelled) return;
+      if (status === "connected" && connector) {
+        const provider = (await connector.getProvider()) as EthereumProvider;
+        if (cancelled) return;
+        await client.setEVMProvider(provider);
+      }
+      if (!cancelled) setState({ client, error: null });
+    })().catch((error: unknown) => {
+      if (!cancelled) {
+        setState({ client: null, error: error instanceof Error ? error : new Error(String(error)) });
+      }
+    });
+
+    // Runs when the account, connector, or status changes, and on unmount.
+    return () => {
+      cancelled = true;
+      client.destroy();
+    };
+  }, [address, connector, status]);
+
+  return <NexusContext.Provider value={state}>{children}</NexusContext.Provider>;
+}
+
+export function useNexus() {
+  return useContext(NexusContext);
+}
+```
+
+### Why the effect depends on `address`
+
+A Nexus client is bound to the account that was connected when `setEVMProvider()` ran. When the user switches accounts in their wallet, the connector and provider object often stay the same, so calling `setEVMProvider()` again would not pick up the new account. Including `address` in the dependency list makes React destroy the old client and build a fresh one for the new account.
+
+| Piece | What it does |
+| --- | --- |
+| `useAccount()` | wagmi hook that returns `address`, the active `connector`, and the connection `status` |
+| `connector.getProvider()` | Returns the EIP-1193 provider for whichever wallet the user connected (MetaMask, WalletConnect, Coinbase Wallet, and so on) |
+| `client.setEVMProvider(provider)` | Attaches that provider to the Nexus client |
+| `client.destroy()` | Tears the client down; called from the effect cleanup |
+
+Any wallet RainbowKit supports works with the Nexus SDK without per-wallet code.
+
+## Step 4: Create the providers component
+
+Wrap your app with wagmi, React Query, RainbowKit, and the new `NexusProvider`. `NexusProvider` must sit inside `WagmiProvider` because it calls `useAccount`.
 
 ```tsx title="src/components/providers.tsx"
 "use client";
@@ -84,6 +168,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider } from "wagmi";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { config } from "@/lib/wagmi";
+import { NexusProvider } from "@/components/nexus-provider";
 import "@rainbow-me/rainbowkit/styles.css";
 
 const queryClient = new QueryClient();
@@ -92,16 +177,18 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider>{children}</RainbowKitProvider>
+        <RainbowKitProvider>
+          <NexusProvider>{children}</NexusProvider>
+        </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );
 }
 ```
 
-## Step 4 — Update the layout
+## Step 5: Update the layout
 
-Wrap your root layout with the new providers component:
+Wrap your root layout with the providers component:
 
 ```tsx title="src/app/layout.tsx"
 import { Providers } from "@/components/providers";
@@ -122,9 +209,9 @@ export default function RootLayout({
 }
 ```
 
-## Step 5 — Update the connect button
+## Step 6: Add the connect button
 
-Replace the manual `window.ethereum` approach with RainbowKit's `ConnectButton`:
+Use RainbowKit's `ConnectButton.Custom` to render your own connect, network, and account buttons:
 
 ```tsx title="src/components/connect-button.tsx"
 "use client";
@@ -246,142 +333,90 @@ export default function ConnectWalletButton({
 }
 ```
 
-## Step 6 — Update the init button
+## Step 7: Build the page
 
-The key change: instead of reading `window.ethereum`, use wagmi's `useAccount` hook to get the provider from the connected wallet's connector.
-
-```tsx title="src/components/init-button.tsx"
-"use client";
-
-import { useAccount } from "wagmi";
-import { initializeWithProvider, client } from "../lib/nexus";
-
-export default function InitButton({
-  className,
-  onReady,
-}: {
-  className?: string;
-  onReady?: () => void;
-}) {
-  const { connector } = useAccount();
-
-  const onClick = async () => {
-    try {
-      const provider = await connector?.getProvider();
-      if (!provider) throw new Error("No provider found");
-      await initializeWithProvider(provider);
-      onReady?.();
-      alert("Nexus initialized");
-    } catch (e: any) {
-      alert(e?.message ?? "Init failed");
-    }
-  };
-  return (
-    <button
-      className={className}
-      onClick={onClick}
-      disabled={client.hasEvmProvider}
-    >
-      Initialize Nexus
-    </button>
-  );
-}
-```
-
-### How the provider retrieval works
-
-```ts
-const { connector } = useAccount();
-const provider = await connector?.getProvider();
-await initializeWithProvider(provider);
-```
-
-- **`useAccount()`** — wagmi hook that returns the current connection state and active connector
-- **`connector.getProvider()`** — returns the EIP-1193 provider for whichever wallet the user connected (MetaMask, WalletConnect, Coinbase, etc.)
-- **`initializeWithProvider(provider)`** — your existing helper function runs `client.initialize()` and then passes the provider to `client.setEVMProvider()`
-
-This means **any wallet RainbowKit supports** will work with the Nexus SDK — no code changes needed per wallet.
-
-## Step 7 — Update the main page
-
-Add wallet status display using wagmi's `useAccount` hook:
+Read the client from `useNexus()` and fetch balances once a wallet is attached.
 
 ```tsx title="src/app/page.tsx"
 "use client";
 
 import { useState } from "react";
-import { useAccount } from "wagmi";
+import type { IntentBalance } from "@avail-project/nexus-core";
+import { formatUnits } from "@avail-project/nexus-core/utils";
 import ConnectWalletButton from "@/components/connect-button";
-import InitButton from "@/components/init-button";
-import FetchBalancesButton from "@/components/fetch-balances-button";
-import DeinitButton from "@/components/de-init-button";
-import { client } from "@/lib/nexus";
+import { useNexus } from "@/components/nexus-provider";
 
 export default function Page() {
-  const { isConnected } = useAccount();
-  const [initialized, setInitialized] = useState(client.hasEvmProvider);
-  const [balances, setBalances] = useState<any>(null);
+  const { client, error } = useNexus();
+  const [balances, setBalances] = useState<IntentBalance[]>([]);
 
   const btn =
     "px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 " +
     "disabled:opacity-50 disabled:cursor-not-allowed";
 
+  const fetchBalances = async () => {
+    if (!client?.hasEvmProvider) return;
+    setBalances(await client.getBalances());
+  };
+
   return (
     <main className="min-h-screen flex items-center justify-center">
       <div className="flex flex-col items-center gap-4">
         <ConnectWalletButton className={btn} />
-        <InitButton
-          className={btn}
-          onReady={() => setInitialized(true)}
-        />
-        <FetchBalancesButton
-          className={btn}
-          onResult={(r) => setBalances(r)}
-        />
-        <DeinitButton
-          className={btn}
-          onDone={() => {
-            setInitialized(false);
-            setBalances(null);
-          }}
-        />
+        <button className={btn} onClick={fetchBalances} disabled={!client?.hasEvmProvider}>
+          Fetch Balances
+        </button>
 
-        <div className="mt-2">
-          <b>Wallet Status:</b>{" "}
-          {isConnected ? "Connected" : "Not connected"}
-        </div>
-        <div className="mt-2">
-          <b>SDK Status:</b>{" "}
-          {initialized ? "Initialized" : "Not initialized"}
+        <div>
+          <b>SDK status:</b>{" "}
+          {error
+            ? `Error: ${error.message}`
+            : !client
+              ? "Initializing..."
+              : client.hasEvmProvider
+                ? "Ready (wallet attached)"
+                : "Ready (no wallet: catalog only)"}
         </div>
 
-        {balances && (
-          <pre className="whitespace-pre-wrap">
-            {JSON.stringify(balances, null, 2)}
-          </pre>
-        )}
+        <ul className="text-sm">
+          {balances.map((b) => (
+            <li key={`${b.chainId}:${b.tokenAddress}`}>
+              {b.symbol} on {b.chainId}: {formatUnits(b.usableBalanceRaw, b.decimals)}
+            </li>
+          ))}
+        </ul>
       </div>
     </main>
   );
 }
 ```
 
-## Summary of changes
+## Step 8: Run and test
 
-| File | What changed |
+```bash
+pnpm dev
+```
+
+1. Open [http://localhost:3000](http://localhost:3000). The status shows **Ready (no wallet: catalog only)**.
+2. Click **Connect Wallet** and pick a wallet. The status changes to **Ready (wallet attached)**.
+3. Click **Fetch Balances** to list your balances across chains.
+4. Switch accounts in your wallet. The client is destroyed and recreated for the new account.
+
+## Summary
+
+| File | Purpose |
 |---|---|
-| `src/lib/wagmi.ts` | **New** — wagmi + RainbowKit config |
-| `src/components/providers.tsx` | **New** — provider wrapper component |
-| `src/app/layout.tsx` | Wrapped with `Providers` |
-| `src/components/connect-button.tsx` | Replaced `window.ethereum` with RainbowKit `ConnectButton.Custom` |
-| `src/components/init-button.tsx` | Replaced `window.ethereum` with `connector.getProvider()` from wagmi |
-| `src/app/page.tsx` | Added `useAccount` for wallet status display |
-| `src/lib/nexus.ts` | **No changes** — SDK setup is the same |
+| `src/lib/wagmi.ts` | wagmi + RainbowKit config |
+| `src/components/nexus-provider.tsx` | Creates, initializes, and destroys the Nexus client per account; exposes `useNexus()` |
+| `src/components/providers.tsx` | wagmi, React Query, RainbowKit, and Nexus providers |
+| `src/app/layout.tsx` | Wraps the app with `Providers` |
+| `src/components/connect-button.tsx` | RainbowKit `ConnectButton.Custom` |
+| `src/app/page.tsx` | Reads the client with `useNexus()` and fetches balances |
 
 ## Next step
 
-Your project now has a production-quality wallet connection experience. Next, add cross-chain bridging functionality.
+Your app now has a wallet connection and a correctly scoped Nexus client. Next, bridge tokens across chains.
 
 <Cards>
-  <Card href="/docs/nexus/nexus-sdk/get-started/bridge-tokens" title="Bridge Tokens" arrow />
+  <Card href="/docs/nexus/nexus-sdk/get-started/bridge-tokens" title="Bridge tokens" arrow />
 </Cards>

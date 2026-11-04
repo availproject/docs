@@ -1,0 +1,430 @@
+---
+title: "Migrate to Nexus SDK v3"
+sidebarTitle: "SDK v2 to v3"
+description: Migrate from @avail-project/nexus-core 2.x to 3.x — address-based swaps replace bridge methods, a unified intent model for hooks, events, and results, chain-level balances, and a token catalog.
+---
+
+`@avail-project/nexus-core` 3.0 replaced client-side routing with the Avail intent middleware. Quotes, routes, providers, and fees now come from the server, and every operation shares one normalized model: `IntentQuote` for review, `IntentEvent` for progress, and `IntentResult` for results.
+
+The package name and the client lifecycle (`createNexusClient` → `initialize()` → `setEVMProvider()` → `destroy()`) are unchanged. Most other call sites need updates. This guide covers 2.x (up to 2.6.0) to 3.1, including `swapAndExecute` exact input and provider destination execution.
+
+## Installation
+
+```bash
+npm install @avail-project/nexus-core@^3
+```
+
+## At a glance
+
+| v2 | v3 |
+| --- | --- |
+| `bridge()` / `bridgeAndTransfer()` | `swapWithExactOut()` / `swapWithExactIn()` with the same asset's address on each chain |
+| `bridgeAndExecute()` | `swapAndExecute()` |
+| `simulateBridge()` / `simulateBridgeAndTransfer()` / `simulateBridgeAndExecute()` | Removed. Review the quote in `hooks.onIntent`; `simulateExecute()` remains |
+| `getBalancesForBridge()` / `getBalancesForSwap()` → `TokenBalance[]` | `getBalances()` → `IntentBalance[]` (`getBalancesForSwap()` is a deprecated alias) |
+| `calculateMaxForBridge()` / `calculateMaxForSwap()` | Removed |
+| `convertTokenReadableAmountToBigInt()` | Removed. Use `parseUnits` with `client.getToken()` decimals |
+| `getSupportedChains()` → chains with `tokens` and `swapSupported` | `getSupportedChains()` → `IntentChainMetadata[]` with `capabilities`; tokens come from catalog methods |
+| `onIntent` top-level on composite methods | `options.hooks.onIntent` on every method |
+| `hooks.onAllowance` | Removed. Approvals use the minimum required amount |
+| `slippageTolerance` (fraction, default `0.005`) | `slippageBps` (integer 0–10000 or `'auto'`, default `50`) |
+| `BridgeEvent` / `SwapEvent` / `SwapAndExecuteEvent` / … | `IntentEvent` |
+| `BridgeResult` / `SwapResult` / `TransferResult` | `IntentResult` |
+| `BridgeAndExecuteResult` / `SwapAndExecuteResult` | `SwapAndExecuteResult` with `executionMode` |
+| `createNexusClient({ network })` | `createNexusClient({ clientId, network })` — `clientId` is required |
+
+## Client setup
+
+`clientId` is now a required, non-empty, stable application identifier. The `domain`, `channel`, and `forceMayan` options and all Safe and ephemeral-key configuration were removed.
+
+```typescript title="TypeScript"
+// v2
+const client = createNexusClient({ network: 'mainnet', channel: 'stable' });
+
+// v3
+const client = createNexusClient({ clientId: 'your-app-name', network: 'mainnet' });
+await client.initialize();
+await client.setEVMProvider(provider);
+```
+
+`mainnet` and `canary` support intent operations against mainnet chains. `testnet` now supports standalone `execute()` and `simulateExecute()` only. Intent operations and async catalog helpers reject there with `ERROR_CODES.ENVIRONMENT_NOT_SUPPORTED`.
+
+The standalone `getSupportedChains` utility from `@avail-project/nexus-core/utils` now takes `{ clientId }` instead of `{ channel }`:
+
+```typescript title="TypeScript"
+// v2
+const chains = await getSupportedChains('mainnet', { channel: 'stable' });
+
+// v3
+const chains = await getSupportedChains('mainnet', { clientId: 'your-app-name' });
+```
+
+## Tokens are identified by address
+
+v2 bridge methods took `toTokenSymbol` and source chain IDs. v3 resolves every token by `{ chainId, tokenAddress }` and reads decimals from token metadata. Never hardcode decimals: the same symbol can have different decimals on different chains.
+
+```typescript title="TypeScript"
+import { parseUnits } from '@avail-project/nexus-core/utils';
+
+// v2
+const toAmountRaw = client.convertTokenReadableAmountToBigInt('10', 'USDC', 8453);
+
+// v3
+const baseUsdc = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913';
+const token = await client.getToken({ chainId: 8453, tokenAddress: baseUsdc });
+const toAmountRaw = parseUnits('10', token.decimals);
+```
+
+New catalog methods replace the token lists that v2 embedded in chain metadata:
+
+| Method | Returns |
+| --- | --- |
+| `getSupportedChains()` | Cached chain metadata, with `capabilities.intent` / `capabilities.execute` |
+| `getTokens(query?)` / `getTokensByChain(chainId, query?)` | Paginated token pages |
+| `getToken({ chainId, tokenAddress })` | Exact token metadata |
+| `getAvailableSourceTokens(destination, selectedSources?, query?)` | Compatible source tokens, grouped by provider |
+| `getAvailableDestinationTokens(sources, query?)` | Compatible destination tokens, grouped by chain |
+| `confirmRouteExists(sources, destination)` | Whether the catalog has a shared provider |
+| `getSupportedChainsForRoute(constraints)` | Chains matching route constraints |
+
+Replace `chain.swapSupported` checks with `chain.capabilities.intent`. Catalog tokens use `address`, not `contractAddress`. See [Token Catalog](/docs/nexus/nexus-sdk/reference/balances-and-tokens/token-catalog).
+
+## Bridge → address-based swaps
+
+`bridge()`, `bridgeAndTransfer()`, and their simulations were removed. To bridge the same asset, call a swap method with that asset's address on each chain. Routes and providers are chosen by the quote.
+
+```typescript title="TypeScript"
+// v2
+await client.bridge({
+  toTokenSymbol: 'USDC',
+  toAmountRaw: 10_000_000n,
+  toChainId: 8453,
+  sources: [1, 42161],
+});
+
+// v3
+const ethereumUsdc = '0xA0b86991c6218b36c1d19d4a2e9eb0cE3606eB48';
+const arbitrumUsdc = '0xaf88d065e77c8cC2239327C5EDb3A432268e5831';
+await client.swapWithExactOut({
+  toChainId: 8453,
+  toTokenAddress: baseUsdc,
+  toAmountRaw: parseUnits('10', token.decimals),
+  sources: [
+    { chainId: 1, tokenAddress: ethereumUsdc },
+    { chainId: 42161, tokenAddress: arbitrumUsdc },
+  ],
+});
+```
+
+| v2 `BridgeParams` field | v3 `SwapExactOutParams` field |
+| --- | --- |
+| `toTokenSymbol` | `toTokenAddress` |
+| `toAmountRaw` | `toAmountRaw` |
+| `toChainId` | `toChainId` |
+| `toNativeAmountRaw` | `toNativeAmountRaw` |
+| `sources: number[]` | `sources?: Array<{ chainId: number; tokenAddress?: Hex }>` |
+| `recipient` | Removed — there is no recipient override |
+
+Omit `sources` (or pass `[]`) for automatic wallet funding. A source without `tokenAddress` allows any token on that chain, so the operation may swap. Pass the token address on each source to keep it a same-asset bridge.
+
+`bridgeAndTransfer()` has no replacement because v3 has no recipient override. Funds always arrive at the connected wallet.
+
+See [Bridge Tokens](/docs/nexus/nexus-sdk/get-started/bridge-tokens) for a full walkthrough.
+
+## Swap parameter changes
+
+**Exact input now requires every source amount.** v2 made `sources` and `amountRaw` optional and inferred sources. v3 has no SDK-side source inference.
+
+```typescript title="TypeScript"
+// v2
+await client.swapWithExactIn({ toChainId: 8453, toTokenAddress: baseUsdc });
+
+// v3
+const sourceToken = await client.getToken({ chainId: 1, tokenAddress: ethereumUsdc });
+await client.swapWithExactIn({
+  sources: [{ chainId: 1, tokenAddress: ethereumUsdc, amountRaw: parseUnits('5', sourceToken.decimals) }],
+  toChainId: 8453,
+  toTokenAddress: baseUsdc,
+});
+```
+
+All exact-input sources and the destination must share one provider. Use `getAvailableSourceTokens(destination, selectedSources)` to build compatible pickers.
+
+**Exact output** keeps its fields. `sources[].tokenAddress` is now optional.
+
+**Swap options** changed:
+
+```typescript title="TypeScript"
+// v2
+await client.swapWithExactIn(input, { slippageTolerance: 0.005 });
+
+// v3
+await client.swapWithExactIn(input, {
+  slippageBps: 50, // integer 0–10000, or 'auto'
+  fillTimeoutMinutes: 2,
+  pollingIntervalMs: 2000,
+});
+```
+
+The values above are the v3 defaults. `fillTimeoutMinutes` and `pollingIntervalMs` are new on swap options.
+
+## Hooks
+
+### onIntent receives a quote
+
+v2 bridge and swap hooks received different locally built intents (`BridgeIntent`, `SwapIntent`). v3 swap hooks receive the same `IntentHookData`, with the server quote as `quote`.
+
+```typescript title="TypeScript"
+// v2
+await client.swapWithExactOut(input, {
+  hooks: {
+    onIntent: ({ intent, allow }) => {
+      render(intent.destination);
+      allow();
+    },
+  },
+});
+
+// v3
+await client.swapWithExactOut(input, {
+  hooks: {
+    onIntent: async ({ quote, execution, allow, deny, refresh }) => {
+      render(quote.output, quote.fees, quote.plan.steps);
+      if (!execution.possible) return deny();
+      allow();
+    },
+  },
+});
+```
+
+- `refresh(sources?)` returns a complete replacement `IntentQuote`. Render the return value and read `execution` again before allowing.
+- `execution` is new. It reports `{ possible: false, cause: 'not-connected' | 'insufficient-balance' }` when the quote can't execute.
+- `swapWithExactIn()` can now preview rates before a wallet is connected. See [Review Quotes](/docs/nexus/nexus-sdk/reference/swap-methods/review-quotes).
+
+### Composite hooks moved under options.hooks
+
+v2 `bridgeAndExecute()` and `swapAndExecute()` took a top-level `onIntent`. In v3, `swapAndExecute()` takes it under `options.hooks`. The hook still receives `intent`, now a `SwapAndExecuteIntent`. It runs even when no swap is required, and `intent.quote` exists only when `intent.swapRequired` is `true`.
+
+```typescript title="TypeScript"
+// v2
+await client.swapAndExecute(params, {
+  onIntent: ({ intent, allow }) => allow(),
+});
+
+// v3
+await client.swapAndExecute(params, {
+  hooks: {
+    onIntent: ({ intent, allow }) => {
+      console.log(intent.executeRequirement, intent.shortfall, intent.quote?.output);
+      allow();
+    },
+  },
+});
+```
+
+### onAllowance removed
+
+`hooks.onAllowance`, `OnAllowanceHookData`, and `AllowanceHookSource` were removed. ERC-20 approvals required by the quote use the minimum required amount. The quote lists them in `quote.allowances` and as `erc20_approval` or `source_approval_signature` plan steps. Show them in your review UI instead.
+
+## Events
+
+Replace `BridgeEvent`, `SwapEvent`, `BridgeAndExecuteEvent`, `SwapAndExecuteEvent`, and the `plan_preview` / `plan_confirmed` / `plan_progress` handling with `IntentEvent`:
+
+```typescript title="TypeScript"
+// v2
+onEvent: (event) => {
+  if (event.type === 'plan_preview') renderPlan(event.plan);
+  if (event.type === 'plan_progress') renderStep(event.stepType, event.state);
+};
+
+// v3
+import type { IntentEvent } from '@avail-project/nexus-core';
+
+onEvent: (event: IntentEvent) => {
+  if (event.type === 'quote') renderPlan(event.quote.plan);
+  if (event.type === 'step') renderStep(event.step.type, event.state, event.committed);
+  if (event.type === 'status') renderStatus(event.status, event.substatus, event.legs);
+};
+```
+
+| v2 event | v3 event |
+| --- | --- |
+| `plan_preview`, `plan_confirmed` | `quote` (emitted again after every refresh) |
+| `plan_progress` | `step` with `state: 'started' \| 'completed' \| 'failed'`, `committed`, and `errorDetails` on failure |
+| `status` | `status` with `intentId`, lifecycle `status`, `substatus`, and per-source `legs` |
+
+v3 plan step types are `erc20_approval`, `source_approval_signature`, `intent_signature`, `native_transaction`, `intent_submission`, and `intent_fulfillment`. The v2 source-swap, destination-swap, vault-deposit, and ephemeral-transfer steps no longer exist. See [Swap Events](/docs/nexus/nexus-sdk/reference/swap-methods/swap-events).
+
+## Results
+
+Swap methods return `IntentResult` (`SwapResult` is an alias). The promise resolves only when the intent is `fulfilled`. Expiry and timeout reject.
+
+```typescript title="TypeScript"
+// v2
+const { intentExplorerUrl, sourceSwaps, destinationSwap, intent } = await client.swapWithExactIn(input);
+
+// v3
+const {
+  intentId,
+  intentExplorerUrl,
+  quote,
+  status,
+  approvals,
+  nativeTransactions,
+  attemptId,
+} = await client.swapWithExactIn(input);
+```
+
+Replace reads of `sourceTxs`, `sourceSwaps`, `destinationSwap`, and `intent` with `quote.input`, `quote.output`, `approvals`, and `nativeTransactions`.
+
+## bridgeAndExecute → swapAndExecute
+
+`bridgeAndExecute()` and `simulateBridgeAndExecute()` were removed. Use `swapAndExecute()`, which identifies the token by address and requires a positive `execute.gas` estimate.
+
+```typescript title="TypeScript"
+// v2
+const result = await client.bridgeAndExecute(
+  {
+    toChainId: 8453,
+    toTokenSymbol: 'USDC',
+    toAmountRaw: 10_000_000n,
+    sources: [1, 42161],
+    execute: {
+      to: contract,
+      data: calldata,
+      tokenApproval: { toTokenSymbol: 'USDC', amount: 10_000_000n, spender: contract },
+    },
+  },
+  { onIntent: ({ allow }) => allow() },
+);
+if (!result.bridgeSkipped) console.log(result.bridgeResult.intentExplorerUrl);
+
+// v3
+const amountRaw = parseUnits('10', token.decimals);
+const result = await client.swapAndExecute(
+  {
+    toChainId: 8453,
+    toTokenAddress: baseUsdc,
+    toAmountRaw: amountRaw,
+    execute: {
+      to: contract,
+      data: calldata,
+      gas: 350_000n,
+      tokenApproval: { toTokenAddress: baseUsdc, amount: amountRaw, spender: contract },
+    },
+  },
+  { hooks: { onIntent: ({ allow }) => allow() } },
+);
+if (!result.swapSkipped) console.log(result.swapResult.intentExplorerUrl);
+if (result.executionMode === 'wallet') console.log(result.execute.txExplorerUrl);
+```
+
+The receipt options that v2 accepted on `BridgeAndExecuteParams` (`waitForReceipt`, `receiptTimeout`, `requiredConfirmations`, `enableTransactionPolling`, `transactionTimeout`, `recentApprovalTxHash`) are not part of `SwapAndExecuteParams`. They remain on standalone `execute()`.
+
+### New in swapAndExecute
+
+- **`tradeType`**: `'exactOutput'` (default) funds `toAmountRaw`. `'exactInput'` spends fixed source amounts (each with `amountRaw`) and omits `toAmountRaw`. Sources that already match the destination chain and token stay in the wallet and are reserved for execution.
+- **`beforeExecute(context)`**: Now available on `swapAndExecute()` (v2 had it only on `bridgeAndExecute()`, with no arguments). It receives `{ receivedAmountRaw, executeAmountRaw }`, so you can build amount-sensitive calldata, and returns `{ data?, value?, gas? }`. Callbacks that ignore the context still work.
+- **`useProviderDestinationExecution: true`**: Requires Relay to approve and execute the destination call as part of fulfillment, with no wallet transaction after the swap. Unsupported routes reject before signing.
+- **`executionMode` and `executeAmountRaw`** on both the review intent and the result.
+
+### Narrow results by executionMode
+
+`SwapAndExecuteResult` is a union. Check `executionMode` before reading wallet transaction fields:
+
+```typescript title="TypeScript"
+const result = await client.swapAndExecute(params, options);
+console.log(result.executeAmountRaw);
+
+if (result.executionMode === 'provider') {
+  // Relay executed the call during fulfillment. No wallet transactions:
+  // result.execute and result.approval are undefined.
+  console.log(result.swapResult.intentExplorerUrl);
+} else {
+  console.log(result.execute.txExplorerUrl, result.approval?.txExplorerUrl);
+  if (!result.swapSkipped) console.log(result.swapResult.intentExplorerUrl);
+}
+```
+
+In provider mode, `swapSkipped` is always `false`. In wallet mode, the v2 `swapSkipped` narrowing still applies. See [Swap and Execute](/docs/nexus/nexus-sdk/reference/swap-methods/swap-and-execute).
+
+## Balances
+
+`getBalancesForBridge()` was removed. `getBalances()` replaces both v2 balance methods. `getBalancesForSwap()` remains as a deprecated alias. Both return chain-level `IntentBalance[]` rows instead of symbol-level `TokenBalance[]` with nested `chainBalances`.
+
+| v2 `TokenBalance` | v3 `IntentBalance` |
+| --- | --- |
+| One entry per symbol, with `chainBalances[]` | One entry per chain and token (`chainId`, `tokenAddress`) |
+| `totalBalance` (string) | `actualBalanceRaw` (`bigint`) |
+| `usableBalance` / `balance` (string) | `usableBalanceRaw` (`bigint`); `balanceRaw` is a deprecated alias |
+| `value` (string) | `valueUsd` (`number \| null`) |
+| — | `usable`, `verified`, `isNative`, `providers`, `priceSource` |
+
+```typescript title="TypeScript"
+import { formatUnits } from '@avail-project/nexus-core/utils';
+
+// v2
+const balances = await client.getBalancesForBridge();
+for (const b of balances) console.log(b.symbol, b.usableBalance);
+
+// v3
+const balances = await client.getBalances();
+for (const b of balances) {
+  console.log(b.chainId, b.symbol, formatUnits(b.usableBalanceRaw, b.decimals), b.usable);
+}
+```
+
+Group rows by symbol in your app if your UI needs a portfolio view. See [Get Balances](/docs/nexus/nexus-sdk/reference/balances-and-tokens/get-balances).
+
+## Execute
+
+`execute()` and `simulateExecute()` keep their signatures. The only parameter change is that `tokenApproval` identifies the token by address:
+
+```typescript title="TypeScript"
+// v2
+tokenApproval: { toTokenSymbol: 'USDC', amount, spender }
+
+// v3
+tokenApproval: { toTokenAddress: baseUsdc, amount, spender }
+```
+
+The same change applies to `execute.tokenApproval` in `swapAndExecute()`. See [Execute](/docs/nexus/nexus-sdk/reference/execute-methods/execute).
+
+## History
+
+`listIntents()` keeps its parameters. `ListIntentsResult` is now an alias of `IntentHistoryResult`, and each record has a smaller shape:
+
+| v2 `IntentRecord` | v3 `IntentRecord` (`IntentHistoryRecord`) |
+| --- | --- |
+| `requestHash` | `id` |
+| `explorerUrl` | `explorerUrl` |
+| `status`, `createdAt`, `updatedAt` | unchanged |
+| `solver`, `expiry`, `recipientAddress`, `destinationChain`, `destinations`, `sources` | Removed |
+| — | `provider` (when known) |
+
+History now includes intents settled by external providers such as Mayan and Relay. See [List Intents](/docs/nexus/nexus-sdk/reference/list-intents).
+
+## Errors
+
+The `NexusError` hierarchy and exported subclasses are unchanged. Error codes changed:
+
+- **Removed**: `AMOUNT_TOO_LOW`, `INVALID_VALUES_ALLOWANCE_HOOK`, `USER_EPHEMERAL_KEY_DENIED`, `INTERNAL_EPHEMERAL_KEY_DERIVE_FAILED`, `BACKEND_GET_BRIDGE_PROVIDER_FAILED`, and the `BACKEND_SAFE_*` codes.
+- **Added**: middleware codes such as `BACKEND_INSUFFICIENT_BALANCE`, `BACKEND_INSUFFICIENT_APPROVAL_GAS`, `BACKEND_NO_ROUTABLE_SOURCE`, `BACKEND_VALUE_ABOVE_CEILING`, `BACKEND_INPUT_BELOW_DEPOSIT_FEE`, `BACKEND_NO_ROUTE_TO_DESTINATION`, `BACKEND_PROVIDER_UNAVAILABLE`, and `BACKEND_RATE_LIMITED`.
+- **New helper**: `getIntentQuoteFailure(error)` returns structured quote diagnostics, including `subcode`, `sourceVerdicts`, and `retryable`.
+
+Approval failures expose `error.details.approvals` with `confirmed`, `reverted`, or `unconfirmed` states. See [Hooks and Errors](/docs/nexus/nexus-sdk/reference/hooks-and-errors).
+
+## Removed APIs checklist
+
+Remove calls and imports for:
+
+- `bridge`, `bridgeAndTransfer`, `bridgeAndExecute`, `simulateBridge`, `simulateBridgeAndTransfer`, `simulateBridgeAndExecute`
+- `calculateMaxForBridge`, `calculateMaxForSwap`, and the `BridgeMax*` / `SwapMax*` types
+- `getBalancesForBridge`, and the `TokenBalance`, `BridgeTokenBalance`, `SwapTokenBalance`, and `ChainBalance` types
+- `convertTokenReadableAmountToBigInt`
+- `hooks.onAllowance`, top-level `onIntent`, and the `OnAllowanceHook*`, `OnIntentHook*`, `OnSwapIntentHookData`, `BridgeIntent`, `SwapIntent`, and `BridgeAndExecuteIntent` types
+- `slippageTolerance`
+- The `domain`, `channel`, and `forceMayan` client options, plus Safe and ephemeral-key configuration
+- All `Bridge*Event`, `Swap*Event`, `*Plan`, and `*PlanStep` progress types
+
+Then adopt `options.hooks`, `IntentQuote`, `IntentEvent`, `IntentResult`, and `IntentBalance`. Utility functions are still available from `@avail-project/nexus-core/utils` and `client.utils`.

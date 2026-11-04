@@ -7,19 +7,23 @@ description: "The cookbook hosts small code snippets in a question-answer format
 import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
 
 
-The Cookbook Recipes are written to show developer patterns on how the SDK is expected to be used by a developer or an LLM agent. 
+The Cookbook Recipes are written to show developer patterns on how the SDK is expected to be used by a developer or an LLM agent.
+
+<Callout type="info">
+These recipes target `@avail-project/nexus-core` v3. Upgrading from v2? The `bridge*`, `simulate*`, `calculateMaxFor*`, and `getBalancesForBridge` methods were removed. See the [v2 to v3 migration guide](/docs/nexus/migration/sdk-v2-to-v3).
+</Callout>
 
 
 ## Getting a client
 
-Every recipe assumes an initialized `NexusClient`. Create one with `createNexusClient()`, then run the two-step init: `initialize()` loads deployment data (chains, tokens, vault contracts) and `setEVMProvider()` attaches a wallet. Call `destroy()` when you are done to flush analytics and release resources.
+Every recipe assumes an initialized `NexusClient`. Create one with `createNexusClient()`, call `initialize()` to load the chain catalog, then attach a wallet with `setEVMProvider()`. Call `destroy()` when you are done.
 
-```typescript
+```typescript title="TypeScript"
 import { createNexusClient } from '@avail-project/nexus-core';
 
-const client = createNexusClient({ network: 'testnet' });
+const client = createNexusClient({ clientId: 'your-app-name', network: 'mainnet' });
 
-await client.initialize();                       // load deployment data
+await client.initialize();                       // load the chain catalog
 await client.setEVMProvider(window.ethereum);    // attach an EIP-1193 wallet
 
 // ... use the client ...
@@ -28,719 +32,592 @@ client.destroy();                                // clean up when finished
 ```
 
 <Callout type="info">
-Create a fresh client on account change. Calling `setEVMProvider()` again with the same provider instance is a no-op, so build a new client and re-run `initialize()` + `setEVMProvider()` when the connected account switches.
+`clientId` is a required, stable identifier for your app. Catalog queries and exact-input quote previews need only `initialize()`; balances and execution also need a wallet. Create a fresh client when the connected account or provider changes. The `testnet` network supports standalone `execute()` only; swaps and intent catalog helpers reject with `ENVIRONMENT_NOT_SUPPORTED`.
 </Callout>
+
+All recipes below use these two token references (USDC on Ethereum and Base):
+
+```typescript title="TypeScript"
+const ethUsdc = { chainId: 1, tokenAddress: '0xA0b86991c6218b36c1d19d4a2e9eb0cE3606eB48' } as const;
+const baseUsdc = { chainId: 8453, tokenAddress: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913' } as const;
+```
 
 
 ## SDK operations
 
-### How to simulate an operation on Nexus?
-Call `client.simulateBridge()`, `client.simulateBridgeAndExecute()`, or `client.simulateBridgeAndTransfer()` to preview an operation _without_ sending a transaction. The result contains an `intent` with `selectedSources`, `availableSources`, `fees`, and `destination` details.
-```typescript
-// 1. Simulate a bridge
-const bridgeSimulation = await client.simulateBridge({
-  toTokenSymbol: 'USDC',
-  toAmountRaw: 100_000_000n, // 100 USDC (6 decimals)
-  toChainId: 421614,
-});
+### How to preview a quote without executing?
+There are no `simulate*` methods in v3. Every swap quotes first and passes the quote to `options.hooks.onIntent`. The operation waits until you call `allow()` or `deny()`, so you can render the quote and let the user decide. Calling `deny()` rejects the operation with a `UserActionError`.
 
-// 2. Simulate a bridgeAndExecute (bridge + contract call)
-const bridgeAndExecuteSimulation = await client.simulateBridgeAndExecute({
-  toTokenSymbol: 'USDC',
-  toAmountRaw: 1_000_000n,
-  toChainId: 421614,
-  execute: {
-    to: '0xContractAddress',
-    data: encodedCalldata,
-    tokenApproval: {
-      toTokenSymbol: 'USDC',
-      amount: 1_000_000n,
-      spender: '0xContractAddress',
-    },
-  },
-});
+```typescript title="TypeScript"
+import { UserActionError, type IntentQuote } from '@avail-project/nexus-core';
+import { parseUnits } from '@avail-project/nexus-core/utils';
 
-// 3. Simulate a bridgeAndTransfer (cross-chain send)
-const bridgeAndTransferSimulation = await client.simulateBridgeAndTransfer({
-  toTokenSymbol: 'USDC',
-  toAmountRaw: 1_000_000n,
-  toChainId: 421614,
-  recipient: '0xRecipientAddress',
-});
+const destinationToken = await client.getToken(baseUsdc);
+let previewed: IntentQuote | undefined;
 
-```
-<br/>
-`simulateBridge()` returns `{ intent, token }`. `simulateBridgeAndExecute()` and `simulateBridgeAndTransfer()` return `{ bridgeSimulation, executeSimulation }`, where `bridgeSimulation` is `null` when no bridge is needed.
-
-
-<Accordions type="single">
-  <Accordion title="Sample response for simulateBridge()">
-  ```json
+try {
+  await client.swapWithExactOut(
     {
-      "intent": {
-        "provider": "nexus",
-        "availableSources": [
-          {
-            "amount": "6245.786635",
-            "amountRaw": "6245786635",
-            "chain": {
-              "id": 11155111,
-              "name": "Ethereum Sepolia",
-              "logo": "https://assets.coingecko.com/asset_platforms/images/279/large/ethereum.png"
-            },
-            "token": {
-              "decimals": 6,
-              "symbol": "USDC",
-              "logo": "https://coin-images.coingecko.com/coins/images/6319/large/usdc.png",
-              "contractAddress": "0x1c7d4b196cb0c7b01d743fbc6116a902379c7238"
-            },
-            "value": "6245.79"
-          },
-          {
-            "amount": "754.958732",
-            "amountRaw": "754958732",
-            "chain": {
-              "id": 84532,
-              "name": "Base Sepolia",
-              "logo": "https://assets.coingecko.com/asset_platforms/images/131/large/base-network.png"
-            },
-            "token": {
-              "decimals": 6,
-              "symbol": "USDC",
-              "logo": "https://coin-images.coingecko.com/coins/images/6319/large/usdc.png",
-              "contractAddress": "0x036cbd53842c5426634e7929541ec2318f3dcf7e"
-            },
-            "value": "754.96"
-          }
-        ],
-        "selectedSources": [
-          {
-            "amount": "100.000102",
-            "amountRaw": "100000102",
-            "chain": {
-              "id": 11155111,
-              "name": "Ethereum Sepolia",
-              "logo": "https://assets.coingecko.com/asset_platforms/images/279/large/ethereum.png"
-            },
-            "token": {
-              "decimals": 6,
-              "symbol": "USDC",
-              "logo": "https://coin-images.coingecko.com/coins/images/6319/large/usdc.png",
-              "contractAddress": "0x1c7d4b196cb0c7b01d743fbc6116a902379c7238"
-            },
-            "value": "100.00"
-          }
-        ],
-        "destination": {
-          "amount": "100",
-          "amountRaw": "100000000",
-          "chain": {
-            "id": 421614,
-            "name": "Arbitrum Sepolia",
-            "logo": "https://assets.coingecko.com/coins/images/16547/large/arb.jpg"
-          },
-          "token": {
-            "decimals": 6,
-            "symbol": "USDC",
-            "logo": "https://coin-images.coingecko.com/coins/images/6319/large/usdc.png",
-            "contractAddress": "0x75faf114eafb1bdbe2f0316df893fd58ce46aa4d"
-          },
-          "value": "100.00",
-          "nativeAmount": "0",
-          "nativeAmountRaw": "0",
-          "nativeAmountValue": "0",
-          "nativeAmountInToken": "0",
-          "nativeToken": {
-            "decimals": 18,
-            "symbol": "ETH",
-            "logo": "https://assets.coingecko.com/coins/images/279/large/ethereum.png",
-            "contractAddress": "0x0000000000000000000000000000000000000000"
-          }
+      toChainId: baseUsdc.chainId,
+      toTokenAddress: baseUsdc.tokenAddress,
+      toAmountRaw: parseUnits('100', destinationToken.decimals),
+    },
+    {
+      hooks: {
+        onIntent: ({ quote, deny }) => {
+          previewed = quote;
+          deny(); // preview only; call allow() to execute instead
         },
-        "fees": {
-          "caGas": "0.000000",
-          "protocol": "0.0000005",
-          "solver": "0.000001",
-          "total": "0.000002",
-          "totalValue": "0.000002"
-        },
-        "sourcesTotal": "100.000102",
-        "sourcesTotalValue": "100.00"
-      },
-      "token": {
-        "contractAddress": "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d",
-        "decimals": 6,
-        "logo": "https://coin-images.coingecko.com/coins/images/6319/large/usdc.png",
-        "name": "USD Coin",
-        "symbol": "USDC"
-      }
-    }
-    ```
-  </Accordion>
-</Accordions>
-
-    
-
-### How do I get source chain and destination chain information from an intent?
-
-After simulating, access `intent.selectedSources` to see which chains the SDK chose to pull funds from. Each source nests its chain and token: `source.chain` has `id`, `name`, and `logo`; `source.token` has `symbol`, `decimals`, `logo`, and `contractAddress`. Use `intent.availableSources` to see every chain that _could_ be used.
-```typescript
-const sim = await client.simulateBridge({
-  toTokenSymbol: 'USDC',
-  toAmountRaw: 100_000_000n,
-  toChainId: 421614,
-});
-
-// Sources chosen by the solver
-sim.intent.selectedSources.forEach((source) => {
-  console.log(source.chain.name);            // "Ethereum Sepolia"
-  console.log(source.chain.id);              // 11155111
-  console.log(source.chain.logo);            // "https://..."
-  console.log(source.amount);                // "100.000102"
-  console.log(source.token.contractAddress); // "0x..."
-});
-
-// All chains that had balance (superset of selectedSources)
-console.log(sim.intent.availableSources);
-
-// Destination chain info
-console.log(sim.intent.destination.chain.name);
-console.log(sim.intent.destination.chain.id);
-
-// Total amount pulled across all sources
-console.log(sim.intent.sourcesTotal);
-
-// ─── Alternative: use the intent hook during execution ───
-await client.bridge(
-  { toTokenSymbol: 'USDC', toAmountRaw: 100_000_000n, toChainId: 421614 },
-  {
-    hooks: {
-      onIntent: ({ intent, allow, deny, refresh }) => {
-        // Same BridgeIntent structure as the simulation
-        console.log(intent.selectedSources);
-        console.log(intent.destination);
-        allow(); // or deny() to cancel
       },
     },
-  }
-);
+  );
+} catch (error) {
+  if (!(error instanceof UserActionError)) throw error;
+}
 
+console.log(previewed?.input, previewed?.output, previewed?.fees);
 ```
 
-<Accordions type="single">
-  <Accordion title="Sample intent source/destination shape">
-  ```json
-  {
-    "selectedSources": [
-      {
-        "amount": "100.000102",
-        "amountRaw": "100000102",
-        "chain": {
-          "id": 11155111,
-          "name": "Ethereum Sepolia",
-          "logo": "https://assets.coingecko.com/asset_platforms/images/279/large/ethereum.png"
-        },
-        "token": {
-          "decimals": 6,
-          "symbol": "USDC",
-          "logo": "https://coin-images.coingecko.com/coins/images/6319/large/usdc.png",
-          "contractAddress": "0x1c7d4b196cb0c7b01d743fbc6116a902379c7238"
-        },
-        "value": "100.00"
-      }
-    ],
-    "availableSources": [
-      {
-        "amount": "6245.786635",
-        "amountRaw": "6245786635",
-        "chain": {
-          "id": 11155111,
-          "name": "Ethereum Sepolia",
-          "logo": "https://assets.coingecko.com/asset_platforms/images/279/large/ethereum.png"
-        },
-        "token": {
-          "decimals": 6,
-          "symbol": "USDC",
-          "logo": "https://coin-images.coingecko.com/coins/images/6319/large/usdc.png",
-          "contractAddress": "0x1c7d4b196cb0c7b01d743fbc6116a902379c7238"
-        },
-        "value": "6245.79"
-      }
-    ],
-    "destination": {
-      "amount": "100",
-      "amountRaw": "100000000",
-      "chain": {
-        "id": 421614,
-        "name": "Arbitrum Sepolia",
-        "logo": "https://assets.coingecko.com/coins/images/16547/large/arb.jpg"
-      },
-      "token": {
-        "decimals": 6,
-        "symbol": "USDC",
-        "logo": "https://coin-images.coingecko.com/coins/images/6319/large/usdc.png",
-        "contractAddress": "0x75faf114eafb1bdbe2f0316df893fd58ce46aa4d"
-      },
-      "value": "100.00"
+`swapWithExactIn` can also preview a rate **before a wallet is connected**. Initialize the client, skip `setEVMProvider()`, and check `execution` in the hook:
+
+```typescript title="TypeScript"
+const sourceToken = await client.getToken(ethUsdc);
+
+await client
+  .swapWithExactIn(
+    {
+      sources: [{ ...ethUsdc, amountRaw: parseUnits('25', sourceToken.decimals) }],
+      toChainId: baseUsdc.chainId,
+      toTokenAddress: baseUsdc.tokenAddress,
     },
-    "sourcesTotal": "100.000102"
-  }
-  ```
-  </Accordion>
-</Accordions>
-
-### How to fetch token logos and names?
-Token metadata (name, symbol, decimals, logo) is available from multiple sources: the simulation result's `token` field, the nested `token` on each intent source/destination, or `client.chainList.getTokenInfoBySymbol()`.
-
-```typescript
-// ─── A: From a simulation result ───
-const sim = await client.simulateBridge({
-  toTokenSymbol: 'USDC',
-  toAmountRaw: 100_000_000n,
-  toChainId: 421614,
-});
-
-sim.token.name;      // "USD Coin"
-sim.token.symbol;    // "USDC"
-sim.token.decimals;  // 6
-sim.token.logo;      // "https://..."
-
-// Source chain logos and token info
-sim.intent.selectedSources[0].chain.logo;            // "https://..."
-sim.intent.selectedSources[0].chain.name;            // "Ethereum Sepolia"
-sim.intent.selectedSources[0].token.symbol;          // "USDC"
-
-/*----------------------------------------*/
-
-// ─── B: From the chain catalogue on the client ───
-const usdc = client.chainList.getTokenInfoBySymbol(421614, 'USDC');
-// { contractAddress: "0x75faf...", decimals: 6, logo: "https://...", name: "USD Coin", symbol: "USDC" }
-
-const native = client.chainList.getNativeToken(421614);
-// native gas token info for the chain
-
-/*----------------------------------------*/
-
-// ─── C: getSupportedChains — chains with their token lists ───
-const chains = client.getSupportedChains();
-// [{ id: 421614, name: "Arbitrum Sepolia", logo: "...", swapSupported: true, tokens: [{ symbol, name, logo, contractAddress, ... }] }]
+    {
+      hooks: {
+        onIntent: ({ quote, execution, deny }) => {
+          if (!execution.possible && execution.cause === 'not-connected') {
+            console.log('You would receive at least', quote.output.minAmountRaw);
+          }
+          deny();
+        },
+      },
+    },
+  )
+  .catch(() => {}); // a disconnected preview never resolves successfully
 ```
 
 <Callout type="info">
-If a logo URL is missing or 404s, `getFallbackTokenLogoDataUri(symbol)` (exported from the main entry) returns a deterministic gradient SVG data-URI as a stable placeholder.
+A disconnected preview stays disconnected for the whole call. After the user connects, start a new swap call to get a fresh, executable quote. See [Review quotes](/docs/nexus/nexus-sdk/reference/swap-methods/review-quotes).
 </Callout>
 
-### How to get the fees incurred from an intent? 
-Every `BridgeIntent` includes a `fees` object with a full breakdown: `total`, `protocol`, `solver`, `caGas`, and `totalValue`. All values are human-readable strings denominated in the intent's token (e.g. USDC), except `totalValue` which is the USD value of the total.
+### How do I get source and destination information from a quote?
+An `IntentQuote` lists the funding legs in `input`, the destination in `output`, and a per-source decision in `sourceVerdicts`. Amounts ending in `Raw` are `bigint`. USD amounts are decimal strings.
 
-```typescript
-const sim = await client.simulateBridge({
-  toTokenSymbol: 'USDC',
-  toAmountRaw: 100_000_000n,
-  toChainId: 421614,
+```typescript title="TypeScript"
+import { formatUnits } from '@avail-project/nexus-core/utils';
+import type { IntentQuote } from '@avail-project/nexus-core';
+
+async function describeQuote(quote: IntentQuote) {
+  for (const leg of quote.input) {
+    const token = await client.getToken({ chainId: leg.chainId, tokenAddress: leg.tokenAddress });
+    console.log(
+      `${formatUnits(leg.totalRequiredRaw, token.decimals)} ${leg.tokenSymbol} from chain ${leg.chainId}`,
+      `(~$${leg.totalRequiredUsd}, deposit fee ${formatUnits(leg.depositFeeRaw, token.decimals)})`,
+    );
+  }
+
+  const out = await client.getToken({ chainId: quote.output.chainId, tokenAddress: quote.output.tokenAddress });
+  console.log('Receive:', formatUnits(quote.output.amountRaw, out.decimals), out.symbol);
+  console.log('Guaranteed minimum:', formatUnits(quote.output.minAmountRaw, out.decimals));
+
+  // Which wallet sources were selected, unused, or unroutable (and why)
+  for (const verdict of quote.sourceVerdicts) {
+    console.log(verdict.chainId, verdict.tokenSymbol, verdict.state, verdict.reason ?? '');
+  }
+
+  console.log('Provider:', quote.provider, 'Expires:', new Date(quote.expiresAt * 1000));
+  console.log('Steps:', quote.plan.steps.map((step) => step.type));
+}
+```
+
+Call `describeQuote(quote)` from your `onIntent` hook or from a `quote` event.
+
+<Accordions type="single">
+  <Accordion title="IntentQuote shape (abridged)">
+  ```typescript title="TypeScript"
+  type IntentQuote = {
+    id: Hex;
+    provider: 'nexus-v2' | 'mayan' | 'relay';
+    tradeType: 'exactInput' | 'exactOutput';
+    supportsDestinationCalls: boolean;
+    isExecutable: boolean;
+    executionWarnings: Array<{ code: 'INSUFFICIENT_BALANCE'; message: string; shortfalls: Array<{ chainId: number; tokenAddress: Hex; requiredRaw: bigint; actualRaw: bigint }> }>;
+    input: Array<{ chainId: number; tokenAddress: Hex; tokenSymbol: string; amountRaw: bigint; amountUsd: string; depositFeeRaw: bigint; depositFeeUsd: string; totalRequiredRaw: bigint; totalRequiredUsd: string }>;
+    output: { chainId: number; tokenAddress: Hex; amountRaw: bigint; amountUsd: string; minAmountRaw: bigint; minAmountUsd: string };
+    fees: IntentFees;
+    expiresAt: number; // Unix seconds
+    allowances: IntentAllowance[];
+    plan: IntentPlan;
+    sourceVerdicts: IntentSourceVerdict[];
+  };
+  ```
+  Source: [src/intent/types.ts](https://github.com/availproject/nexus-sdk/blob/main/src/intent/types.ts)
+  </Accordion>
+</Accordions>
+
+### How to get the fees incurred from a quote?
+Every `IntentQuote` has a `fees` object. Each fee has a raw `bigint` amount and a USD string. Raw fee amounts are in the funding token's units, so format them with that token's decimals.
+
+```typescript title="TypeScript"
+onIntent: ({ quote, allow }) => {
+  const { fees } = quote;
+
+  console.log('Deposit:', fees.depositUsd);
+  console.log('Fulfillment:', fees.fulfillmentUsd);
+  console.log('Protocol:', fees.protocolUsd);
+  console.log('Solver:', fees.solverUsd);
+
+  // Per-source deposit fees, in each source token's raw units
+  quote.input.forEach((leg) => console.log(leg.chainId, leg.depositFeeRaw, leg.depositFeeUsd));
+
+  allow();
+},
+```
+
+### How to bridge the same token across chains?
+There is no `bridge()` method in v3. Use either swap method with the **same asset's address on each chain**. Exact output specifies what to receive; exact input specifies what to spend.
+
+```typescript title="TypeScript"
+const token = await client.getToken(baseUsdc);
+
+// Receive exactly 100 USDC on Base, funded from USDC on Ethereum
+const result = await client.swapWithExactOut({
+  sources: [ethUsdc],
+  toChainId: baseUsdc.chainId,
+  toTokenAddress: baseUsdc.tokenAddress,
+  toAmountRaw: parseUnits('100', token.decimals),
 });
 
-const { fees } = sim.intent;
-
-console.log(fees.total);       // Total fee in token units (e.g. "0.05")
-console.log(fees.protocol);    // Protocol fee
-console.log(fees.solver);      // Solver / fulfillment fee
-console.log(fees.caGas);       // Chain-abstraction gas fee
-console.log(fees.totalValue);  // Total fee expressed in USD
-
+console.log(result.intentId, result.intentExplorerUrl);
 ```
+
+Omit `sources` to let the SDK fund the route from any eligible wallet balance. See [Bridge tokens](/docs/nexus/nexus-sdk/get-started/bridge-tokens).
+
+### How to spend the maximum usable balance?
+`calculateMaxForBridge` and `calculateMaxForSwap` were removed. Read `usableBalanceRaw` from `getBalances()` and pass it as the exact-input amount. `usableBalanceRaw` already excludes the gas reserve, so a native-token source never spends the full wallet balance.
+
+```typescript title="TypeScript"
+const balances = await client.getBalances();
+const source = balances.find(
+  (b) => b.chainId === ethUsdc.chainId && b.tokenAddress.toLowerCase() === ethUsdc.tokenAddress.toLowerCase(),
+);
+
+if (!source?.usable || source.usableBalanceRaw === 0n) {
+  throw new Error('Nothing to spend on this source');
+}
+
+await client.swapWithExactIn({
+  sources: [{ chainId: source.chainId, tokenAddress: source.tokenAddress, amountRaw: source.usableBalanceRaw }],
+  toChainId: baseUsdc.chainId,
+  toTokenAddress: baseUsdc.tokenAddress,
+});
+```
+
+<Callout type="warn">
+With several exact-input sources, all sources and the destination must share one provider. Use [`getAvailableSourceTokens`](/docs/nexus/nexus-sdk/reference/balances-and-tokens/token-catalog) to keep selections compatible. A quote can still fail when a full balance cannot cover deposit fees. See [Handle quote failures](#how-to-handle-quote-failures-with-getintentquotefailure).
+</Callout>
+
+### How to deposit with Relay provider execution?
+Set `useProviderDestinationExecution: true` on `swapAndExecute` and Relay approves and executes the destination call during fulfillment. The wallet sends no destination transaction. In this mode `beforeExecute` runs **before review** (and again on every refresh). Use `executeAmountRaw` there, which is the fixed execution budget, to encode amount-sensitive calldata.
+
+```typescript title="TypeScript"
+declare const vault: `0x${string}`;
+declare function buildDepositData(amountRaw: bigint): `0x${string}`;
+
+const sourceToken = await client.getToken(ethUsdc);
+
+const deposited = await client.swapAndExecute(
+  {
+    tradeType: 'exactInput',
+    sources: [{ ...ethUsdc, amountRaw: parseUnits('50', sourceToken.decimals) }],
+    toChainId: baseUsdc.chainId,
+    toTokenAddress: baseUsdc.tokenAddress,
+    execute: {
+      to: vault,
+      gas: 350_000n,
+      tokenApproval: { toTokenAddress: baseUsdc.tokenAddress, amount: 0n, spender: vault },
+    },
+  },
+  {
+    useProviderDestinationExecution: true,
+    beforeExecute: async ({ executeAmountRaw }) => ({ data: buildDepositData(executeAmountRaw) }),
+    hooks: {
+      onIntent: ({ intent, allow }) => {
+        console.log(intent.executionMode, intent.executeRequirement.token.amountRaw);
+        allow(); // call after the user confirms
+      },
+    },
+  },
+);
+
+if (deposited.executionMode === 'provider') {
+  console.log(deposited.executeAmountRaw, deposited.swapResult.intentExplorerUrl);
+}
+```
+
+<Callout type="warn">
+The destination contract must support depositing on behalf of the recipient, because its caller is Relay's router. Unsupported routes reject before signing and never fall back to wallet execution. See [Provider destination execution](/docs/nexus/nexus-sdk/reference/swap-methods/swap-and-execute#provider-destination-execution) for the limits on execution budget, funding legs, and native value.
+</Callout>
+
+### How to handle quote failures with `getIntentQuoteFailure`?
+When the middleware cannot route a quote, the rejected `NexusError` carries structured diagnostics. `getIntentQuoteFailure(error)` returns them as an `IntentQuoteFailure`, or `null` for any other error. Branch on `subcode` and inspect `sourceVerdicts`. Do not parse message text.
+
+```typescript title="TypeScript"
+import { getIntentQuoteFailure } from '@avail-project/nexus-core';
+
+try {
+  await client.swapWithExactIn(params);
+} catch (error) {
+  const failure = getIntentQuoteFailure(error);
+  if (!failure) throw error;
+
+  switch (failure.subcode) {
+    case 'VALUE_ABOVE_CEILING':
+      console.info(`Reduce the amount. Limit: $${failure.details.maxValueUsd}`);
+      break;
+    case 'INPUT_BELOW_DEPOSIT_FEE':
+      console.info('Increase the source amount to cover the deposit fee.');
+      break;
+    case 'NO_ROUTE_TO_DESTINATION':
+      console.info('Choose a destination supported by the allowed providers.');
+      break;
+    case 'INSUFFICIENT_BALANCE':
+      console.info('Fund the wallet or choose different sources.');
+      break;
+    case 'INSUFFICIENT_APPROVAL_GAS':
+      console.info('Add native gas on the source chain or choose another source.');
+      break;
+    case 'NO_ROUTABLE_SOURCE':
+    default:
+      for (const v of failure.sourceVerdicts.filter((v) => v.state === 'unroutable')) {
+        console.info(`${v.tokenSymbol} on ${v.chainId}: ${v.reason}${v.detail ? ` (${v.detail})` : ''}`);
+      }
+  }
+
+  if (!failure.retryable) {
+    // Change the request (amount, sources, destination) before trying again.
+  }
+}
+```
+
+<Callout type="info">
+For codes that are not quote failures (wallet not connected, user denial, execution errors), branch on `error.code` with `ERROR_CODES`. See [Hooks and errors](/docs/nexus/nexus-sdk/reference/hooks-and-errors).
+</Callout>
+
 ### How to view a wallet's intent history?
-Call `client.listIntents({ page?, status? })` to fetch the connected wallet's past intents. It returns `{ intents, total }`, where each entry is an `IntentRecord` with sources, destinations, a `status`, and an explorer link. Page size is fixed at 20 records — paginate by incrementing `page`. Filter by `status` using the exported `IntentStatus` enum.
-``` typescript
+Call `client.listIntents({ page?, status? })` to fetch the connected wallet's intents. It returns `{ intents, total }`. The page size is fixed at 20, so increment `page` to paginate. Filter with the exported `IntentStatus` constant.
+
+```typescript title="TypeScript"
 import { IntentStatus } from '@avail-project/nexus-core';
 
-// Fetch the first page of intents
 const { intents, total } = await client.listIntents();
-
-// Paginate and/or filter by status
 const page2 = await client.listIntents({ page: 2 });
 const fulfilled = await client.listIntents({ status: IntentStatus.Fulfilled });
 
 console.log(`Total intents: ${total}`);
 
-// Check status ('created' | 'deposited' | 'fulfilled' | 'expired')
-intents.forEach((intent) => {
-  if (intent.status === 'fulfilled') console.log(`${intent.requestHash}: fulfilled`);
-  else if (intent.status === 'expired') console.log(`${intent.requestHash}: expired`);
-  else console.log(`${intent.requestHash}: ${intent.status} (expires ${new Date(intent.expiry * 1000)})`);
-
-  console.log(intent.explorerUrl);
-});
-
-// Each IntentRecord has this shape:
-// {
-//   requestHash: "0x...",
-//   explorerUrl: "https://...",
-//   status: "fulfilled",
-//   solver: "0x..." | null,
-//   expiry: 1706000000,
-//   recipientAddress: "0x...",
-//   destinationChain: { id: 421614, name: "Arbitrum Sepolia", logo: "...", universe: 0 },
-//   destinations: [{
-//     token: { contractAddress: "0x...", symbol: "USDC", name: "USD Coin", logo: "...", decimals: 6 },
-//     amount: "1.0",
-//     amountRaw: 1000000n,
-//   }],
-//   sources: [{
-//     chain: { id: 84532, name: "Base Sepolia", logo: "...", universe: 0 },
-//     token: { contractAddress: "0x...", symbol: "USDC", name: "USD Coin", logo: "...", decimals: 6 },
-//     amount: "1.05",
-//     amountRaw: 1050000n,
-//     fee: "0.05",
-//     feeRaw: 50000n,
-//   }],
-// }
+for (const intent of intents) {
+  // status: 'created' | 'deposited' | 'fulfilled' | 'expired'
+  console.log(intent.id, intent.provider ?? 'unknown', intent.status, intent.explorerUrl);
+  if (intent.createdAt) console.log('  created', new Date(intent.createdAt * 1000));
+}
 ```
+
+<Accordions type="single">
+  <Accordion title="IntentHistoryRecord shape">
+  ```typescript title="TypeScript"
+  type IntentHistoryRecord = {
+    id: Hex;
+    provider?: 'nexus-v2' | 'mayan' | 'relay';
+    status: 'created' | 'deposited' | 'fulfilled' | 'expired';
+    explorerUrl?: string;
+    createdAt?: number;
+    updatedAt?: number;
+  };
+  ```
+  </Accordion>
+</Accordions>
 
 ## Chain & Token Utilities
 
 <Callout type="info">
-The static metadata constants and helpers from v1 (`TOKEN_METADATA`, `CHAIN_METADATA`, `TOKEN_CONTRACT_ADDRESSES`, `getChainMetadata`, `getTokenMetadata`, `chainIdToHex`, `isSupportedToken`, `getSwapSupportedChainsAndTokens`) have been removed. The SDK ships no hard-coded chain or token tables — everything is fetched from the live deployment. Use `client.getSupportedChains()`, `client.isSupportedChain()`, and the `client.chainList.*` lookups instead.
+The SDK ships no hard-coded chain or token tables. Chains come from `client.getSupportedChains()` and tokens from the async catalog methods (`getTokens`, `getTokensByChain`, `getToken`). `client.chainList` remains for execution metadata, but its known-token list is not a full catalog. Use the catalog methods to look up tokens.
 </Callout>
 
-### How to get chain metadata?
-Use `client.chainList.getChainByID()` for a full `Chain` object (name, native currency, block explorers) or `client.getSupportedChains()` for the lighter chain + token list.
+### How to get the list of supported chains?
+`client.getSupportedChains()` returns cached chain metadata without token lists. Filter on `capabilities.intent` for swap chains and `capabilities.execute` for chains that support `execute()`.
 
-```typescript
-// Full Chain object — name, native currency, block explorers
-const chain = client.chainList.getChainByID(421614);
-console.log(chain.name);                          // "Arbitrum Sepolia"
-console.log(chain.custom.icon);                   // chain logo URL
-console.log(chain.nativeCurrency);                // { name: "ETH", symbol: "ETH", decimals: 18, logo: "..." }
-console.log(chain.blockExplorers?.default?.url);  // explorer base URL (guard: optional)
-
-// Lighter list entry from getSupportedChains()
-const entry = client.getSupportedChains().find((c) => c.id === 421614);
-console.log(entry?.name); // "Arbitrum Sepolia"
-console.log(entry?.logo); // "https://..."
-```
-
-<Accordions type="single">
-  <Accordion title="Sample getSupportedChains() entry">
-  ```json
-  {
-    "id": 421614,
-    "name": "Arbitrum Sepolia",
-    "logo": "https://assets.coingecko.com/coins/images/16547/large/arb.jpg",
-    "swapSupported": true,
-    "tokens": [
-      {
-        "symbol": "USDC",
-        "name": "USD Coin",
-        "decimals": 6,
-        "logo": "https://coin-images.coingecko.com/coins/images/6319/large/usdc.png",
-        "contractAddress": "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d"
-      }
-    ]
-  }
-  ```
-  </Accordion>
-</Accordions>
-
-### How to get the list of supported chains and tokens?
-Call `client.getSupportedChains()` to get all chains with their supported tokens. Each entry carries a `swapSupported` boolean — filter on it to show only the chains a swap can use as a source or destination.
-
-```typescript
-// Get all supported chains with their tokens
+```typescript title="TypeScript"
 const chains = client.getSupportedChains();
 
-chains.forEach((chain) => {
-  console.log(`${chain.name} (${chain.id}) — swapSupported: ${chain.swapSupported}`);
-  console.log(`  Logo: ${chain.logo}`);
-  console.log(`  Tokens:`);
-  chain.tokens.forEach((token) => {
-    console.log(`    - ${token.symbol}: ${token.name} @ ${token.contractAddress}`);
-  });
-});
+const swapChains = chains.filter((chain) => chain.capabilities.intent);
+const executeChains = chains.filter((chain) => chain.capabilities.execute);
 
-// Chains a swap can use
-const swapChains = chains.filter((chain) => chain.swapSupported);
+chains.forEach((chain) => {
+  console.log(`${chain.name} (${chain.id})`, chain.logo, chain.nativeCurrency.symbol, chain.providers);
+});
 ```
 
 <Callout type="info">
-Prefer the async standalone helper when you need this before a client exists: `import { getSupportedChains } from '@avail-project/nexus-core/utils'` then `await getSupportedChains('mainnet')`. The client method is synchronous and uses cached deployment data.
+To list chains before you create a client, use the standalone helper: `import { getSupportedChains } from '@avail-project/nexus-core/utils'`, then `await getSupportedChains('mainnet', { clientId: 'your-app-name' })`. It returns a lighter shape: `id`, `name`, `logo`, `swapSupported`, `asSource`, and `asDestination`.
 </Callout>
 
-<Accordions type="single">
-  <Accordion title="Sample getSupportedChains() response">
-  ```json
-  [
-    {
-      "id": 421614,
-      "name": "Arbitrum Sepolia",
-      "logo": "https://assets.coingecko.com/coins/images/16547/large/arb.jpg",
-      "swapSupported": true,
-      "tokens": [
-        {
-          "symbol": "USDC",
-          "name": "USD Coin",
-          "decimals": 6,
-          "logo": "https://coin-images.coingecko.com/coins/images/6319/large/usdc.png",
-          "contractAddress": "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d"
-        }
-      ]
+### How to get the chain ID or explorer of a supported chain?
+
+```typescript title="TypeScript"
+const base = client.getSupportedChains().find((c) => c.name === 'Base');
+console.log(base?.id);           // 8453
+console.log(base?.explorerUrl);  // explorer base URL, when provided
+
+client.isSupportedChain(8453);   // true
+
+// Hex chain ID for wallet_switchEthereumChain
+const hexChainId = `0x${(8453).toString(16)}`; // "0x2105"
+```
+
+### How to get a token's address, decimals, logo, and name?
+Search a chain's tokens with `getTokensByChain()` or resolve an exact token with `getToken()`. Each `IntentToken` has `address`, `symbol`, `name`, `decimals`, `isNative`, `verified`, `logo`, and `providers`.
+
+```typescript title="TypeScript"
+import { getFallbackTokenLogoDataUri } from '@avail-project/nexus-core';
+
+// By symbol on one chain (verified tokens by default)
+const page = await client.getTokensByChain(8453, { symbol: 'USDC', limit: 10 });
+const usdc = page.tokens[0];
+console.log(usdc?.address, usdc?.decimals, usdc?.name);
+
+// Exact lookup by chain + address (also resolves unverified tokens)
+const token = await client.getToken(baseUsdc);
+const logo = token.logo ?? getFallbackTokenLogoDataUri(token.symbol);
+
+// The native gas token comes from catalog metadata, never a hardcoded address
+const base = client.getSupportedChains().find((c) => c.id === 8453);
+const native = (await client.getTokensByChain(8453, { symbol: base?.nativeCurrency.symbol })).tokens.find(
+  (t) => t.isNative,
+);
+```
+
+<Callout type="info">
+If a logo URL is missing or returns 404, `getFallbackTokenLogoDataUri(symbol)` returns a deterministic SVG data URI to use as a placeholder.
+</Callout>
+
+### How to paginate a token picker?
+Catalog pages return `{ offset, limit, total }`. They default to offset 0 and limit 50, and the maximum limit is 1000. Advance by `offset + limit` while it is less than `total`, and reset the offset when the search or filters change.
+
+```typescript title="TypeScript"
+import type { IntentToken } from '@avail-project/nexus-core';
+
+async function loadTokens(chainId: number, search: string, offset = 0) {
+  const page = await client.getTokensByChain(chainId, { symbol: search || undefined, offset, limit: 50 });
+  const hasMore = page.offset + page.limit < page.total;
+  return { tokens: page.tokens, nextOffset: hasMore ? page.offset + page.limit : null };
+}
+
+// First page, then "Load more"
+let { tokens, nextOffset } = await loadTokens(8453, 'US');
+if (nextOffset !== null) {
+  const more = await loadTokens(8453, 'US', nextOffset);
+  tokens = [...tokens, ...more.tokens];
+}
+```
+
+Compatibility pickers work the same way, with one difference. Their pages count candidates **before** filtering, so an empty page does not mean there are no later matches. For exact-input source pickers, pass the current selections so every source shares one provider, and deduplicate by chain ID plus address:
+
+```typescript title="TypeScript"
+const selected = [ethUsdc]; // keep selections outside the displayed page
+const sourcePage = await client.getAvailableSourceTokens(baseUsdc, selected, { offset: 0, limit: 50 });
+
+const seen = new Set<string>();
+const options: IntentToken[] = [];
+for (const group of sourcePage.groups) {
+  for (const chain of group.chains) {
+    for (const t of chain.tokens) {
+      const key = `${t.chainId}:${t.address.toLowerCase()}`;
+      if (!seen.has(key)) {
+        seen.add(key);
+        options.push(t);
+      }
     }
-  ]
-  ```
-  </Accordion>
-</Accordions>
-
-### How to get the chain ID of a supported chain?
-Use `client.getSupportedChains()` to find a chain by name, then access its `id`. You can also validate chain support with `client.isSupportedChain()`.
-
-```typescript
-// Find chain ID by name
-const chains = client.getSupportedChains();
-const baseSepolia = chains.find((c) => c.name === 'Base Sepolia');
-console.log(baseSepolia?.id); // 84532
-
-// Validate if a chain ID is supported
-const isSupported = client.isSupportedChain(84532); // true
-
-// Convert chain ID to hex (useful for wallet_switchEthereumChain)
-const hexChainId = `0x${(84532).toString(16)}`; // "0x14a34"
+  }
+}
+const hasMore = sourcePage.offset + sourcePage.limit < sourcePage.total;
 ```
 
-### How to get the token address of a supported token?
-Use `client.chainList.getTokenInfoBySymbol(chainId, symbol)` for a token on a specific chain, or iterate `getSupportedChains()` to collect a token's address across chains.
-
-```typescript
-// Option A: Token info for a SPECIFIC chain
-const usdcOnArbitrum = client.chainList.getTokenInfoBySymbol(421614, 'USDC');
-console.log(usdcOnArbitrum.contractAddress); // "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d"
-console.log(usdcOnArbitrum.decimals);        // 6
-
-// Option B: Look up a token by its on-chain address
-const byAddress = client.chainList.getTokenByAddress(421614, '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d');
-console.log(byAddress.symbol); // "USDC"
-
-// Option C: Get all addresses for a token across chains
-const chains = client.getSupportedChains();
-const usdcAddresses = chains
-  .map((chain) => {
-    const token = chain.tokens.find((t) => t.symbol === 'USDC');
-    return token ? { chainId: chain.id, chainName: chain.name, address: token.contractAddress } : null;
-  })
-  .filter(Boolean);
-
-console.log(usdcAddresses);
-// [
-//   { chainId: 421614, chainName: "Arbitrum Sepolia", address: "0x75faf..." },
-//   { chainId: 84532, chainName: "Base Sepolia", address: "0x036cb..." },
-//   ...
-// ]
-```
-
-### How to get the vault contract address for a chain?
-Use `client.chainList.getVaultContractAddress(chainId)` to get the Nexus vault contract deployed on a chain.
-
-```typescript
-const vault = client.chainList.getVaultContractAddress(421614);
-console.log(vault); // "0x..."
-```
+<Callout type="info">
+Returned tokens use `address`; selections and `TokenRef` use `tokenAddress`. For exact-output pickers, sources are alternatives, so call `getAvailableSourceTokens(destination, [], query)`. See [Token catalog](/docs/nexus/nexus-sdk/reference/balances-and-tokens/token-catalog).
+</Callout>
 
 ## Balances
 
-### How to fetch a wallet's unified balances?
-Use `client.getBalancesForBridge()` (or `client.getBalancesForSwap()` for the swap balance pipeline). Both return `TokenBalance[]` — each entry aggregates a token across chains with a per-chain breakdown in `chainBalances`.
+### How to fetch a wallet's balances?
+`client.getBalances()` returns one `IntentBalance` per chain and token held by the connected wallet. `actualBalanceRaw` is the full wallet balance. `usableBalanceRaw` is what remains for routing after gas reserves. `valueUsd` values the usable balance and is `null` when no price is available.
 
-```typescript
-const assets = await client.getBalancesForBridge();
+```typescript title="TypeScript"
+import { formatUnits } from '@avail-project/nexus-core/utils';
 
-assets.forEach((asset) => {
-  console.log(`${asset.symbol} (${asset.name})`);
-  console.log(`  Total: ${asset.balance} (~$${asset.value})`);
-  console.log(`  Decimals: ${asset.decimals}, Logo: ${asset.logo}`);
+const balances = await client.getBalances();
 
-  asset.chainBalances.forEach((cb) => {
-    console.log(`    ${cb.chain.name}: ${cb.balance} @ ${cb.contractAddress}`);
-  });
-});
+for (const b of balances) {
+  console.log(
+    `${b.symbol} on ${b.chainId}:`,
+    formatUnits(b.usableBalanceRaw, b.decimals), 'usable of',
+    formatUnits(b.actualBalanceRaw, b.decimals),
+    b.valueUsd === null ? '(no price)' : `~$${b.valueUsd.toFixed(2)}`,
+    b.verified ? '' : '(unverified)',
+    b.usable ? '' : '(not usable)',
+  );
+}
 ```
 
+<Callout type="info">
+`getBalancesForSwap()` is a deprecated alias of `getBalances()`, and `balanceRaw` is a deprecated alias of `usableBalanceRaw`. Results include unverified tokens, so respect `verified` and `usable` in your UI. See [getBalances](/docs/nexus/nexus-sdk/reference/balances-and-tokens/get-balances).
+</Callout>
+
 <Accordions type="single">
-  <Accordion title="Sample TokenBalance entry">
-  ```json
-  {
-    "symbol": "USDC",
-    "name": "USD Coin",
-    "balance": "1250.50",
-    "value": "1250.50",
-    "decimals": 6,
-    "logo": "https://coin-images.coingecko.com/coins/images/6319/large/usdc.png",
-    "currencyId": 1,
-    "chainBalances": [
-      {
-        "balance": "500.00",
-        "value": "500.00",
-        "symbol": "USDC",
-        "chain": { "id": 1, "name": "Ethereum", "logo": "https://..." },
-        "contractAddress": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-        "decimals": 6,
-        "universe": 0
-      }
-    ]
-  }
+  <Accordion title="IntentBalance shape">
+  ```typescript title="TypeScript"
+  type IntentBalance = {
+    chainId: number;
+    tokenAddress: Hex;
+    name: string;
+    symbol: string;
+    decimals: number;
+    isNative: boolean;
+    verified: boolean;
+    logo?: string;
+    coingeckoId?: string;
+    providers: Array<{ id: 'nexus-v2' | 'mayan' | 'relay'; currencyId?: number | string }>;
+    actualBalanceRaw: bigint;
+    usableBalanceRaw: bigint;
+    /** @deprecated Use usableBalanceRaw instead. */
+    balanceRaw: bigint;
+    valueUsd: number | null;
+    priceSource: 'oracle' | 'indexer' | 'coingecko' | 'relay' | null;
+    usable: boolean;
+  };
   ```
   </Accordion>
 </Accordions>
+
+### How to show only Relay-supported balances?
+Each `IntentBalance` lists the providers that support its token in `providers`. Filter on the client side:
+
+```typescript title="TypeScript"
+const balances = await client.getBalances();
+
+const relayBalances = balances.filter(
+  (b) => b.usable && b.usableBalanceRaw > 0n && b.providers.some((p) => p.id === 'relay'),
+);
+```
+
+<Callout type="warn">
+A `relay` entry in `providers` means the catalog lists the token for Relay. It does not guarantee that a particular route can run provider destination execution. That is decided per quote by `quote.supportsDestinationCalls` on the funding legs actually selected, and only one chain and token leg may fund a provider-executed route. Use this filter to narrow a picker, then rely on the quote (or the rejection) for the final answer.
+</Callout>
 
 ## Events
 
 ### How and when to listen to Nexus events?
-Pass an `onEvent` callback in the options of a bridge or swap method. Events are a typed discriminated union keyed on `event.type` (`'status'`, `'plan_preview'`, `'plan_confirmed'`, `'plan_progress'`), emitted at key stages of the transaction lifecycle so you can build progress UIs.
+Pass `onEvent` in the options of any swap method or `swapAndExecute`. Events are an `IntentEvent` union keyed on `event.type`:
 
-**Bridge Events:**
+- `quote`: the current quote and plan. Emitted again after a refresh.
+- `step`: a plan step moved to `started`, `completed`, or `failed`.
+- `status`: intent lifecycle (`created`, `deposited`, `fulfilled`, `expired`) with per-source `legs`.
 
-```typescript
-const result = await client.bridge(
-  {
-    toTokenSymbol: 'USDC',
-    toAmountRaw: 1_000_000n, // 1 USDC (6 decimals)
-    toChainId: 421614,
-  },
-  {
-    onEvent: (event) => {
-      switch (event.type) {
-        case 'status':
-          // Lifecycle phase: intent_building → intent_ready → awaiting_approval → executing → completed
-          console.log('Status:', event.status);
-          break;
+```typescript title="TypeScript"
+import type { IntentEvent } from '@avail-project/nexus-core';
 
-        case 'plan_preview':
-          // Emitted once with the planned steps before execution
-          console.log('Planned steps:', event.plan.steps);
-          // Use this to initialize a progress stepper UI
-          break;
+const onEvent = (event: IntentEvent) => {
+  switch (event.type) {
+    case 'quote':
+      // Initialize a progress stepper from the plan
+      console.log('Steps:', event.quote.plan.steps.map((s) => s.type));
+      break;
 
-        case 'plan_confirmed':
-          // Emitted after user approval with the final steps
-          console.log('Confirmed steps:', event.plan.steps);
-          break;
-
-        case 'plan_progress':
-          // Per-step progress. chain lives on event.step.chain, NOT event.chain
-          console.log(`Step ${event.stepType}: ${event.state}`);
-          if ((event.state === 'submitted' || event.state === 'confirmed') && 'txHash' in event) {
-            console.log(`  Tx: ${event.txHash} (${event.explorerUrl})`);
-          }
-          if (event.state === 'failed' && 'error' in event) {
-            console.error(`  Failed: ${event.error}`);
-          }
-          break;
+    case 'step':
+      console.log(`Step ${event.step.type}: ${event.state}`);
+      if (event.state === 'failed') {
+        console.error(event.errorDetails?.message, event.errorDetails?.code);
+        // A committed attempt may still settle. Check status before retrying.
+        console.log('Committed:', event.committed);
       }
-    },
-    hooks: {
-      onIntent: ({ allow }) => allow(),
-      onAllowance: ({ allow }) => allow(['min']),
-    },
+      break;
+
+    case 'status':
+      console.log('Intent', event.intentId, event.status, event.substatus);
+      for (const leg of event.legs) {
+        console.log('  source', leg.sourceIndex, leg.status, leg.txExplorerUrl ?? '', leg.error ?? '');
+      }
+      break;
   }
-);
+};
+
+const result = await client.swapWithExactIn(params, { onEvent });
 ```
 
 <Callout type="info">
-Both `'confirmed'` and `'completed'` are terminal-success states depending on the step type. On-chain transaction steps settle on `confirmed`; off-chain orchestration steps (and `vault_deposit`) settle on `completed`. For a robust progress UI, treat either as success.
+Event callback failures never interrupt the operation. Events cover funding only. For `swapAndExecute`, the returned promise also covers the destination contract call, so always await and catch it.
 </Callout>
 
 <Accordions type="single">
-  <Accordion title="Bridge step types">
+  <Accordion title="Plan step types">
   ```
-  allowance_approval    Token allowance approval on a source chain
-  request_signing       User signs the intent request
-  request_submission    Intent submitted to the network
-  vault_deposit         Deposit into vault on a source chain
-  bridge_fill           Fill received on destination chain
-  ```
-  </Accordion>
-</Accordions>
-
-**Swap Events:**
-
-Swaps emit the same typed event union. Swap plans carry `hasBridge` / `hasDestinationSwap` flags and swap-specific step types.
-
-```typescript
-const result = await client.swapWithExactIn(
-  {
-    sources: [{ chainId: 10, amountRaw: 100_000_000n, tokenAddress: '0xUSDC...' }],
-    toChainId: 8453,
-    toTokenAddress: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', // USDC on Base
-  },
-  {
-    onEvent: (event) => {
-      if (event.type === 'plan_preview') {
-        console.log('Has bridge:', event.plan.hasBridge);
-        console.log('Has destination swap:', event.plan.hasDestinationSwap);
-      }
-
-      if (event.type === 'plan_progress') {
-        console.log(`Swap step ${event.stepType}: ${event.state}`);
-
-        // Grab explorer URLs from on-chain swap steps
-        if (
-          (event.stepType === 'source_swap' || event.stepType === 'destination_swap') &&
-          'txHash' in event
-        ) {
-          console.log(`  Swap tx: ${event.explorerUrl}`);
-        }
-      }
-    },
-    hooks: {
-      onIntent: ({ allow }) => allow(),
-    },
-  }
-);
-```
-
-<Accordions type="single">
-  <Accordion title="Swap step types">
-  ```
-  source_swap                 Execute a swap on a source chain
-  eoa_to_ephemeral_transfer   Transfer funds from EOA to ephemeral wallet on a source chain
-  bridge_deposit              Deposit into vault for the cross-chain bridge
-  bridge_intent_submission    Submit the bridge intent to the network
-  bridge_fill                 Wait for bridge fill on the destination chain
-  destination_swap            Execute a swap on the destination chain
+  erc20_approval              ERC-20 approval transaction on a source chain
+  source_approval_signature   Permit-style approval signature on a source chain
+  intent_signature            User signs the intent
+  native_transaction          Native-token source deposit transaction
+  intent_submission           Intent submitted to the provider
+  intent_fulfillment          Fill on the destination chain
   ```
   </Accordion>
 </Accordions>
 
-### How to review and approve intents and allowances?
+See [Swap events](/docs/nexus/nexus-sdk/reference/swap-methods/swap-events) for the full event and result types.
 
-Hooks are passed per-operation via `options.hooks` (there are no global `setOnIntentHook` / `setOnAllowanceHook` setters). Use them to review a bridge/transfer intent before execution and to control approval amounts.
+### How to review and approve intents?
+Hooks are passed per operation through `options.hooks`. `onIntent` receives the quote with `allow()`, `deny()`, and `refresh(sources?)`. Without a hook, quotes are accepted automatically. There is no `onAllowance` hook. ERC-20 approvals always use the minimum required amount.
 
-```typescript
-await client.bridge(params, {
+```typescript title="TypeScript"
+await client.swapWithExactOut(params, {
   hooks: {
-    // Intent approval hook — review before execution
-    onIntent: async ({ intent, allow, deny, refresh }) => {
-      console.log('Selected sources:', intent.selectedSources);
-      console.log('Destination:', intent.destination);
-      console.log('Fees:', intent.fees);
+    onIntent: async ({ quote, execution, allow, deny, refresh }) => {
+      if (!execution.possible) {
+        console.warn('Cannot execute:', execution.cause, quote.executionWarnings);
+      }
 
-      // Optionally re-quote against different source chains
-      // const updated = await refresh([8453, 42161]);
+      // Optional: re-quote against different sources. Render the returned quote.
+      // const updated = await refresh([{ chainId: 42161 }]);
 
-      if (userConfirmed) allow();
+      if (await userConfirmed(quote)) allow();
       else deny();
     },
+  },
+  slippageBps: 50, // integer 0–10000, or 'auto'
+});
+```
 
-    // Allowance approval hook — control approval amounts
-    onAllowance: ({ sources, allow, deny }) => {
-      // Options: 'max', 'min', a bigint, or a per-source array
-      allow(['min']);
+For `swapAndExecute`, the hook is also under `options.hooks.onIntent`, but it receives `intent` (a `SwapAndExecuteIntent`) instead of `quote`. It runs even when no swap is needed. `intent.quote` exists only when `intent.swapRequired` is true:
+
+```typescript title="TypeScript"
+await client.swapAndExecute(params, {
+  hooks: {
+    onIntent: ({ intent, allow }) => {
+      console.log(intent.executionMode, intent.executeRequirement, intent.shortfall);
+      if (intent.swapRequired) console.log(intent.quote.output);
+      allow();
     },
   },
 });
 ```
 
-<Callout type="info">
-`bridgeAndExecute()` and `swapAndExecute()` use a top-level `options.onIntent` hook (not nested under `hooks`), and their intent data is a composite type that also reports whether a bridge/swap is actually needed. If no `onAllowance` hook is provided for a bridge operation, the SDK auto-approves with `'min'`.
-</Callout>
+See [Review quotes](/docs/nexus/nexus-sdk/reference/swap-methods/review-quotes) for refresh semantics and quote expiry.
 
 ## Troubleshooting
 

@@ -1,7 +1,7 @@
 ---
 title: "Swap and Execute"
 sidebarTitle: "Swap & Execute"
-description: "Swap tokens to a destination chain and execute a contract call in a single flow — skips the swap when funds already exist."
+description: "Fund a destination contract call with a cross-chain swap and execute it — from your wallet, or through Relay's provider destination execution."
 ---
 
 <Callout type="info">
@@ -10,13 +10,12 @@ description: "Swap tokens to a destination chain and execute a contract call in 
 Install and initialize the client first — see [Installation](/docs/nexus/nexus-sdk/get-started/installation) and [SDK Setup](/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup).
 </Callout>
 
-Use the `swapAndExecute()` function to swap tokens to a destination chain and then execute a contract call, in a single flow. If sufficient funds already exist on the destination chain, the swap is skipped and only the execution runs.
+Use `swapAndExecute()` to fund a contract call on a destination chain and then run it, in a single flow. It supports two trade types and two execution modes:
 
-Swaps are routed through multiple DEX aggregators (such as LiFi, Bebop, and 0x), quoted in parallel. Execution runs through a per-chain smart account chosen automatically — an ephemeral key delegated via EIP-7702 on 7702-enabled chains, or a deterministic Safe owned by the ephemeral key elsewhere.
+- **Trade type.** `exactOutput` (the default) funds a fixed `toAmountRaw` for the call. `exactInput` spends fixed source amounts and executes with whatever they produce.
+- **Execution mode.** By default the call is sent from the user's wallet after the swap is fulfilled (**wallet mode**). With `useProviderDestinationExecution: true`, Relay approves and executes the call as part of fulfilling the intent (**provider mode**) — see [Provider destination execution](#provider-destination-execution).
 
-<Callout type="info">
-**Note:** Check out the [API reference](/docs/nexus/supported-chains-and-tokens) for a full list of supported tokens and chains.
-</Callout>
+A wallet must be connected in both modes. If the funds are already on the destination chain and you only need to call a contract, use [`execute()`](/docs/nexus/nexus-sdk/reference/execute-methods/execute) instead.
 
 ## Method signature
 
@@ -27,118 +26,322 @@ swapAndExecute(
 ): Promise<SwapAndExecuteResult>
 ```
 
+`SwapAndExecuteResult` is an exported alias of `SwapAndExecuteIntentResult`.
+
 ## Parameters
 
+### `input: SwapAndExecuteParams`
+
 ```typescript title="TypeScript"
-export interface SwapAndExecuteParams {
-  toChainId: number;
-  toTokenAddress: Hex;
-  toAmountRaw: bigint;
-  sources?: Source[];
+/** Exact output is the default. Exact input executes received funds plus selected local tokens. */
+export type SwapAndExecuteParams = {
   execute: SwapExecuteParams;
-}
+} & (
+  | {
+      tradeType: 'exactInput';
+      sources: Array<{ chainId: number; tokenAddress: Hex; amountRaw: bigint }>;
+      toChainId: number;
+      toTokenAddress: Hex;
+      toAmountRaw?: never;
+    }
+  | {
+      tradeType?: 'exactOutput';
+      sources?: Array<{ chainId: number; tokenAddress?: Hex }>;
+      toChainId: number;
+      toTokenAddress: Hex;
+      toAmountRaw: bigint;
+    }
+);
 
 export interface SwapExecuteParams {
   to: Hex;
   value?: bigint;
   data?: Hex;
+  /** Required raw gas estimate for the destination call. The SDK adds chain-specific buffers. */
   gas: bigint;
   gasPrice?: 'low' | 'medium' | 'high';
   tokenApproval?: { toTokenAddress: Hex; amount: bigint; spender: Hex };
 }
-
-export type Source = {
-  tokenAddress: Hex;
-  chainId: number;
-};
 ```
 
-- `SwapAndExecuteParams`: Parameters for the `swapAndExecute()` function.
-  - `toChainId` (number, required): The chain ID of the destination chain.
-  - `toTokenAddress` (Hex, required): The contract address of the token needed on the destination chain.
-  - `toAmountRaw` (bigint, required): The amount of the destination token needed, in raw integer units.
-  - `sources` (Source[], optional): Restrict which chains and tokens can be used as the swap source. If omitted, the SDK selects the best sources from available balances.
-  - `execute` (`SwapExecuteParams`, required): The contract call to run on the destination chain.
-    - `to` (Hex, required): The contract address to call.
-    - `value` (bigint, optional): Native token value to send, in raw integer units (wei).
-    - `data` (Hex, optional): The encoded function call data.
-    - `gas` (bigint, required): The gas limit. Chain-specific adjustments and buffering are applied by the SDK.
-    - `gasPrice` (`'low' | 'medium' | 'high'`, optional): Gas price strategy.
-    - `tokenApproval` (optional): A token approval to submit before the execution call.
-      - `toTokenAddress` (Hex): The token to approve.
-      - `amount` (bigint): The approval amount, in raw integer units.
-      - `spender` (Hex): The spender address.
+Expanded from [`src/intent/swap-types.ts`](https://github.com/availproject/nexus-sdk/blob/main/src/intent/swap-types.ts).
 
-- `options`: `SwapAndExecuteOptions` (optional): Callbacks to track and gate the operation.
+- `tradeType` (`'exactOutput' | 'exactInput'`, optional): Defaults to `'exactOutput'`.
+- `toChainId` (number, required): Destination chain ID.
+- `toTokenAddress` (Hex, required): Token the call needs on the destination chain. For native output, use the native-token address from catalog metadata.
+- `toAmountRaw` (bigint): **Exact output only, required.** Positive raw amount the call needs. Must be omitted for exact input.
+- `sources`:
+  - **Exact output** (optional): Restricts which chains and tokens may fund the shortfall. Omit it, or pass `[]`, to let the SDK choose from wallet balances. `tokenAddress` is optional per entry, so `{ chainId }` allows any token on that chain.
+  - **Exact input** (required, non-empty): Every entry needs `chainId`, `tokenAddress`, and a positive `amountRaw`. All swapped sources must share one provider with the destination.
+- `execute` (`SwapExecuteParams`, required): The destination call.
+  - `to` (Hex, required): Contract to call.
+  - `data` (Hex, optional): Encoded calldata. You can also supply or replace it from [`beforeExecute`](#options-swapandexecuteoptions), which is how you encode amount-sensitive calls for exact input.
+  - `value` (bigint, optional): Native value to send with the call, in wei.
+  - `gas` (bigint, required): A positive raw gas estimate for the call. The SDK does not estimate the call through RPC before funding; it applies chain-specific buffers and L1 fees to your number.
+  - `gasPrice` (`'low' | 'medium' | 'high'`, optional): Fee tier used to price destination gas. Defaults to `'medium'`.
+  - `tokenApproval` (optional): An ERC-20 approval to send before the call. The SDK checks the current allowance and only approves when it is insufficient. For exact input, when `toTokenAddress` matches the destination token, the SDK replaces `amount` with the final execution amount — pass `0n` as a placeholder.
+
+Amounts are raw `bigint` values. Resolve decimals from token metadata (for example `await client.getToken({ chainId, tokenAddress })`) — never hardcode them.
+
+### `options: SwapAndExecuteOptions`
 
 ```typescript title="TypeScript"
 export type SwapAndExecuteOptions = {
-  onEvent?: (event: SwapAndExecuteEvent) => void;
-  onIntent?: (data: SwapAndExecuteOnIntentHookData) => void;
-  slippageTolerance?: number;
+  onEvent?: (event: IntentEvent) => void;
+  slippageBps?: number | 'auto';
+  fillTimeoutMinutes?: number;
+  pollingIntervalMs?: number;
+  beforeExecute?: (
+    context: BeforeExecuteContext,
+  ) => Promise<{ value?: bigint; data?: Hex; gas?: bigint }>;
+  /** Require provider execution of the destination call; unsupported routes reject. Defaults to false. */
+  useProviderDestinationExecution?: boolean;
+  hooks?: { onIntent?: (data: SwapAndExecuteHookData) => void | Promise<void> };
+};
+
+export type BeforeExecuteContext = {
+  /** Wallet: measured proceeds. Provider: the preview's guaranteed output before execution. */
+  receivedAmountRaw: bigint;
+  /** Wallet: actual allocation including local tokens. Provider: fixed budget encoded before review. */
+  executeAmountRaw: bigint;
 };
 ```
 
-- `onEvent` (optional): Receives status, plan preview/confirmed, and per-step progress updates. `swapAndExecute()` emits a superset of the [Swap Events](/docs/nexus/nexus-sdk/reference/swap-methods/swap-events) — the swap events plus a `preparing` status and the execute approval/transaction progress events.
-- `onIntent` (optional, top-level): Called with the resolved intent before execution. The intent carries `swapRequired`. Call `allow()` to proceed, `deny()` to cancel, or `refresh(sources?)` to re-quote.
-- `slippageTolerance` (number, optional): Slippage override as a fraction (default `0.005`, i.e. 0.5%).
+Flattened from [`src/client/types.ts`](https://github.com/availproject/nexus-sdk/blob/main/src/client/types.ts) and [`src/domain/types.ts`](https://github.com/availproject/nexus-sdk/blob/main/src/domain/types.ts).
+
+- `hooks.onIntent` (optional): Review hook. It receives `SwapAndExecuteHookData` — an `intent`, **not** a `quote` — and the operation waits until you call `allow()` or `deny()`. Returning from the callback does not accept it. Without a hook, the intent is accepted automatically. In wallet mode the hook runs even when no swap is needed.
+- `beforeExecute` (optional): Returns `{ data?, value?, gas? }` overrides for the destination call. When it runs, and what its context means, differs by mode — see [Wallet mode flow](#wallet-mode-flow) and [provider mode](#beforeexecute-in-provider-mode).
+- `useProviderDestinationExecution` (boolean, optional): `true` requires Relay to execute the call. Defaults to `false` (wallet mode).
+- `slippageBps` (`number | 'auto'`, optional): Swap slippage as an integer from 0 to 10000 basis points, or `'auto'`.
+- `fillTimeoutMinutes` (number, optional): How long to wait for the swap to be fulfilled. Defaults to `2`.
+- `pollingIntervalMs` (number, optional): Intent status polling interval.
+- `onEvent` (optional): Receives [`IntentEvent`](/docs/nexus/nexus-sdk/reference/swap-methods/swap-events) updates (`quote`, `step`, `status`) for the funding swap. Events cover funding only; the returned promise also covers the wallet-mode contract call. Callback failures never interrupt the flow.
+
+```typescript title="TypeScript"
+export type SwapAndExecuteHookData = {
+  attemptId?: string;
+  intent: SwapAndExecuteIntent;
+  allow: () => void;
+  deny: () => void;
+  refresh: (sources?: IntentSource[]) => Promise<SwapAndExecuteIntent>;
+};
+
+export type SwapAndExecuteIntent = {
+  executionMode: 'wallet' | 'provider';
+  executeRequirement: {
+    chain: { id: number; name: string; logo?: string };
+    to: Hex;
+    token: FundingAmount & { address: Hex; symbol: string; decimals: number };
+    gas: FundingAmount & {
+      address: Hex;
+      symbol: string;
+      decimals: number;
+      estimatedGasUnits: bigint;
+      approvalGasUnits: bigint;
+      feeParams: ExecuteFeeParams;
+      l1FeeRaw: bigint;
+      priceTier: 'low' | 'medium' | 'high';
+    };
+    nativeValue: FundingAmount | null;
+    tokenApproval:
+      | (FundingAmount & {
+          token: { address: Hex; symbol: string; decimals: number };
+          spender: Hex;
+        })
+      | null;
+  };
+  available: { token: FundingAmount; gas: FundingAmount };
+  shortfall: { token: FundingAmount; gas: FundingAmount };
+} & ({ swapRequired: true; quote: IntentQuote } | { swapRequired: false; quote?: undefined });
+
+export type FundingAmount = { amountRaw: bigint; amount: string; valueUsd?: string };
+```
+
+See [`src/intent/types.ts`](https://github.com/availproject/nexus-sdk/blob/main/src/intent/types.ts). `intent.quote` exists only when `intent.swapRequired` is `true`; its fields are described in [Review Quotes](/docs/nexus/nexus-sdk/reference/swap-methods/review-quotes).
+
+## Wallet mode flow
+
+Wallet mode is the default (`useProviderDestinationExecution` omitted or `false`).
+
+1. **Prepare.** The SDK prices your `execute.gas` (plus approval gas when the allowance is insufficient) and fetches a fresh balance snapshot.
+2. **Calculate the shortfall.**
+   - *Exact output:* compares `toAmountRaw`, `execute.value`, and destination gas with the selected balances, then quotes only the missing token and native amounts. For non-native output, missing gas is requested as a native gas drop. When balances already cover everything, **no swap runs** (`swapSkipped: true`).
+   - *Exact input:* sources on the destination chain and token **stay in the wallet** and are reserved for execution. The other sources enter one exact-input quote with their fixed amounts. If every source is already the destination token, the swap is skipped; ERC-20 execution then needs native gas already on that chain, or the call rejects with `INSUFFICIENT_BALANCE`.
+3. **Review.** `hooks.onIntent` receives the intent. For exact input, `executeRequirement.token` is an estimate: the quote's minimum output plus the selected local tokens.
+4. **Fund.** The SDK reads the destination balance on-chain, submits the accepted quote, waits for fulfillment, and reads the balance again.
+5. **`beforeExecute`.** Runs after funding (or straight after review when the swap was skipped) with:
+   - `receivedAmountRaw`: the on-chain balance difference across funding, or `0n` when the swap was skipped.
+   - `executeAmountRaw`: for exact input, actual proceeds plus selected local tokens, minus any native execution reserve. For exact output, `toAmountRaw`.
+6. **Execute.** The SDK applies your overrides, rebuilds the exact-input approval for `executeAmountRaw` (rechecking allowance), and sends the approval and call from the wallet.
+
+**Worked example (exact input).** The wallet holds 10 USDT on the destination chain. You select 5 of it plus a source on another chain. The selected 5 USDT stays local and the unselected 5 is never touched. Funding raises the destination balance to 140 USDT, so `beforeExecute` receives `receivedAmountRaw` = 130 USDT and `executeAmountRaw` = 135 USDT (130 of proceeds plus the 5 selected), expressed in raw units.
+
+<Callout type="info">
+**Approvals stay in the SDK.** When `tokenApproval.toTokenAddress` matches the exact-input destination token, the SDK reserves approval gas up front, then approves exactly `executeAmountRaw` after `beforeExecute` returns, skipping the approval if the current allowance already suffices. You only return updated calldata; do not build an approval yourself. When every selected input is local, the amount is known during review, so a sufficient allowance avoids reserving approval gas.
+</Callout>
+
+<Callout type="warn">
+Balance differences include unrelated transfers that land during funding. Execution stops — with no destination transaction — if selected local funds are no longer available, a balance read fails, exact-input proceeds are not positive, or the funds cannot cover native execution value and gas. `beforeExecute` overrides (including `gas`) are applied as-is and do not recalculate funding.
+</Callout>
+
+## Refresh semantics
+
+`refresh(sources?)` in the review hook returns a complete replacement `SwapAndExecuteIntent`. Render the returned intent and `await` it before calling `allow()`. Refreshes run one at a time, and `allow()` waits for any pending refresh.
+
+- Omitting `sources` keeps the current selection. For exact output, `[]` clears it. Exact-input replacements must be non-empty and carry token addresses and positive raw amounts. The trade type never changes.
+- **Wallet mode** reprices fees and replaces the funding quote, but reuses the original balance snapshot. Start a new `swapAndExecute()` call to reread balances.
+- **Provider mode** re-runs `beforeExecute`, re-encodes the calls, and requotes; the new calls, execution budget, and quote are committed together.
+- A failed refresh rejects its promise and keeps the previous intent.
+
+## Provider destination execution
+
+Set `useProviderDestinationExecution: true` to have Relay approve and execute the destination call as part of fulfilling the intent. The user still signs the intent (and any source approvals) but sends no destination transaction. `swapWithExactIn` and `swapWithExactOut` are unaffected by this option.
+
+<Callout type="warn">
+**The destination contract's caller is Relay's router, not the user.** Only use provider mode with contracts that credit an explicit recipient or `onBehalfOf` address encoded in your calldata — for example, a lending pool's `supply(asset, amount, onBehalfOf, referralCode)`. A contract that credits `msg.sender` would credit the router.
+</Callout>
+
+### Requirements
+
+- **Relay only, single funding leg.** The SDK requests a Relay route and requires `quote.supportsDestinationCalls`. The flag reflects the funding legs actually selected: you may pass several candidate sources, but only one chain/token leg may fund the route. Multiple selected legs, or older middleware without the flag, reject with `INVALID_INPUT` before anything is signed. To offer users only eligible tokens, filter balances by provider — see [Get Balances](/docs/nexus/nexus-sdk/reference/balances-and-tokens/get-balances).
+- **No fallback.** An unsupported route rejects; the SDK never falls back to wallet execution.
+- **Fully funded through the quote.** Existing destination balances are neither subtracted from the funding nor added to the deposit. Exact-input sources on the destination chain and token enter the quote as explicit inputs too. The SDK never spends extra wallet tokens after fulfillment.
+- **Approvals.** Only the quoted output token can be approved (`tokenApproval.toTokenAddress` must equal `toTokenAddress`); the SDK encodes that approval before the call. Approving another token, or any approval with native output, rejects.
+- **Native value.** Nonzero `value` requires native output and must not exceed the execution budget. ERC-20 output with native call value is unsupported.
+- **Gas.** `execute.gas` is still required by validation, but no wallet gas is reserved or priced; provider execution costs are included in the quote.
+
+### Execution budget
+
+- **Exact output:** the budget is `toAmountRaw`. The SDK quotes it with the encoded calls, without wallet execution gas.
+- **Exact input:** the SDK first previews a Relay quote, then fixes the budget below its guaranteed minimum output. The reserve is **1% of the minimum** (rounded up to raw units), **capped at $1** at the quote's USD valuation (rounded down to raw units). Unpriced output, or output too small for a positive reserve and budget, rejects. The reserve is separate from swap slippage.
+
+The SDK then requotes with the encoded calls and rejects before signing if the final minimum output is below the budget. Remaining output goes to the recipient on fulfillment.
+
+### `beforeExecute` in provider mode
+
+The calls must be fixed before the order is signed, so `beforeExecute` runs **before review** and **again on every refresh** — never after fulfillment.
+
+- `receivedAmountRaw`: the preview's guaranteed minimum output (the requested amount for exact output), not measured proceeds.
+- `executeAmountRaw`: the fixed execution budget. Use it for amount-sensitive calldata or native `value`.
+
+<Callout type="warn">
+Your callback must only prepare the call and be safe to run repeatedly — no side effects or user prompts. Only the `data` and `value` overrides affect the encoded call; `gas` has no effect in provider mode.
+</Callout>
+
+### Review in provider mode
+
+The intent has `executionMode: 'provider'`, `swapRequired: true`, and the final quote. `executeRequirement.token` is the fixed budget, `nativeValue` and `tokenApproval` show the encoded amounts, gas requirements are zero, `available` is zero, and `shortfall.token` is the full budget.
+
+### Wallet vs provider mode
+
+| | Wallet mode (default) | Provider mode |
+| --- | --- | --- |
+| Who sends the call | User's wallet, after fulfillment | Relay, during fulfillment |
+| Destination `msg.sender` | User | Relay's router |
+| Routes | Any supported provider | Relay, single funding leg, `supportsDestinationCalls` |
+| Existing destination balance | Used; swap may be skipped | Ignored; always swaps |
+| Exact-input local sources | Stay in the wallet, reserved | Enter the quote as inputs |
+| Destination gas | Priced and funded for the wallet | None; included in the quote |
+| Exact-input execution amount | Measured on-chain after funding | Fixed budget (minimum less 1%, capped at $1) |
+| `beforeExecute` runs | Once, after funding | Before review and on every refresh |
+| Approvals | Any token, allowance-checked | Output token only |
+| Result | `execute` and optional `approval` | No wallet transactions |
 
 ## Example
 
+Exact input into a lending pool, encoding the amount once it is known. The same code works in both modes; `useProviderDestinationExecution` chooses between them.
+
 ```typescript title="TypeScript"
+import { encodeFunctionData, parseUnits, type Abi, type Hex } from 'viem';
 import type {
-  SwapAndExecuteParams,
-  SwapAndExecuteOptions,
+  SwapAndExecuteIntent,
   SwapAndExecuteResult,
 } from '@avail-project/nexus-core';
 
-const result = await client.swapAndExecute(
+declare const poolAddress: Hex;
+declare const poolAbi: Abi;
+declare const user: Hex; // the connected wallet address
+declare function showConfirmDialog(intent: SwapAndExecuteIntent): Promise<boolean>;
+
+const source = { chainId: 1, tokenAddress: '0xA0b86991c6218b36c1d19d4a2e9eb0cE3606eB48' } as const;
+const destination = {
+  chainId: 42161,
+  tokenAddress: '0xaf88d065e77c8cc2239327c5edb3a432268e5831',
+} as const;
+const sourceToken = await client.getToken(source);
+
+const result: SwapAndExecuteResult = await client.swapAndExecute(
   {
-    toChainId: 42161,
-    toTokenAddress: '0xaf88d065e77c8cc2239327c5edb3a432268e5831',
-    toAmountRaw: 100_000_000n,
+    tradeType: 'exactInput',
+    sources: [{ ...source, amountRaw: parseUnits('25', sourceToken.decimals) }],
+    toChainId: destination.chainId,
+    toTokenAddress: destination.tokenAddress,
     execute: {
-      to: '0x3333333333333333333333333333333333333333',
-      data: '0xdeadbeef',
-      gas: 100_000n,
-      value: 0n,
+      to: poolAddress,
+      gas: 350_000n,
       tokenApproval: {
-        toTokenAddress: '0xaf88d065e77c8cc2239327c5edb3a432268e5831',
-        amount: 100_000_000n,
-        spender: '0x3333333333333333333333333333333333333333',
+        toTokenAddress: destination.tokenAddress,
+        amount: 0n, // The SDK sets the final approval amount.
+        spender: poolAddress,
       },
     },
   },
   {
-    onEvent: (event) => {
-      if (event.type === 'status') {
-        // preparing | route_building | route_ready | awaiting_approval | approved | executing | completed
-        console.log('Status:', event.status);
-      }
+    useProviderDestinationExecution: false, // `true` to have Relay execute the call
+    slippageBps: 50,
+    beforeExecute: async ({ executeAmountRaw }) => ({
+      // Credit the user explicitly so the call is also correct when Relay is msg.sender.
+      data: encodeFunctionData({
+        abi: poolAbi,
+        functionName: 'supply',
+        args: [destination.tokenAddress, executeAmountRaw, user, 0],
+      }),
+    }),
+    hooks: {
+      onIntent: async ({ intent, allow, deny }) => {
+        console.log(intent.executionMode, intent.executeRequirement.token.amount);
+        if (intent.swapRequired) console.log('Min output', intent.quote.output.minAmountRaw);
+        if (await showConfirmDialog(intent)) allow();
+        else deny();
+      },
     },
-    onIntent: ({ allow, deny, refresh, intent }) => {
-      console.log('Swap required:', intent.swapRequired);
-      allow();
+    onEvent: (event) => {
+      if (event.type === 'status') console.log('Intent', event.intentId, event.status);
     },
   },
 );
 
-console.log('Swap skipped:', result.swapSkipped);
-console.log('Swap result:', result.swapResult);
-console.log('Execute tx hash:', result.execute.txHash);
+console.log('Executed amount:', result.executeAmountRaw);
+if (!result.swapSkipped) console.log('Swap:', result.swapResult.intentExplorerUrl);
+
+if (result.executionMode === 'wallet') {
+  console.log('Execute tx:', result.execute.txExplorerUrl);
+  if (result.approval) console.log('Approval tx:', result.approval.txExplorerUrl);
+} else {
+  // Provider mode: Relay executed the call during fulfillment; there is no wallet tx.
+  console.log('Executed by provider in intent', result.swapResult.intentId);
+}
 ```
+
+For exact output, omit `tradeType`, pass `toAmountRaw` (and optionally amount-free `sources`), and encode `data` directly in `execute` — or in `beforeExecute`, where `executeAmountRaw` equals `toAmountRaw`.
 
 ## Return Value
 
-The return value is a `SwapAndExecuteResult` object. It always carries the `execute` transaction result (and an optional `approval`), plus a discriminated `swapSkipped` flag that tells you whether a swap ran.
+`SwapAndExecuteResult` is a discriminated union on `executionMode`, and in wallet mode on `swapSkipped`:
 
 ```typescript title="TypeScript"
-export type SwapAndExecuteResult = {
-  approval?: TxResult;
-  execute: TxResult;
-} & (
-  | { swapSkipped: false; swapResult: SwapResult }
-  | { swapSkipped: true; swapResult?: undefined }
+export type SwapAndExecuteIntentResult = { executeAmountRaw: bigint } & (
+  | {
+      executionMode: 'provider';
+      swapSkipped: false;
+      swapResult: IntentResult;
+      approval?: undefined;
+      execute?: undefined;
+    }
+  | ({ approval?: TxResult; execute: TxResult; executionMode: 'wallet' } & (
+      | { swapSkipped: true; swapResult?: undefined }
+      | { swapSkipped: false; swapResult: IntentResult }
+    ))
 );
 
 export type TxResult = {
@@ -148,11 +351,17 @@ export type TxResult = {
 };
 ```
 
-- `approval` (`TxResult`, optional): The approval transaction, when one was required.
-- `execute` (`TxResult`): The contract execution transaction on the destination chain.
-- `swapSkipped` (boolean): `true` when destination funds were already sufficient and no swap ran.
-- `swapResult` (`SwapResult`): Present only when `swapSkipped` is `false`. See [Swap Exact In](/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-in#return-value) for the `SwapResult` shape.
+- `executionMode` (`'wallet' | 'provider'`): Which mode executed the call. Narrow on it before reading `execute` or `approval`.
+- `executeAmountRaw` (bigint): The amount the call was executed with. Wallet mode: the actual allocation (measured proceeds plus local tokens, after native reserves, for exact input; `toAmountRaw` for exact output). Provider mode: the fixed budget encoded before review.
+- `swapSkipped` (boolean): `true` only in wallet mode, when balances already covered the call. Always `false` in provider mode.
+- `swapResult` ([`IntentResult`](/docs/nexus/nexus-sdk/reference/swap-methods/swap-events)): The fulfilled funding intent, present whenever `swapSkipped` is `false`.
+- `execute` (`TxResult`): **Wallet mode only.** The destination call transaction.
+- `approval` (`TxResult`, optional): **Wallet mode only.** The approval transaction, when one was sent.
+
+<Callout type="warn">
+`result.execute` is `undefined` in provider mode. Check `result.executionMode === 'wallet'` before reading `execute` or `approval`; TypeScript enforces this narrowing.
+</Callout>
 
 <Callout type="info">
-On failure the method throws a typed [`NexusError`](/docs/nexus/nexus-sdk/reference/hooks-and-errors) subclass rather than returning an error result. See the [full type definitions](https://github.com/availproject/nexus-sdk/blob/main/src/swap/types.ts) on GitHub.
+On failure the method throws a typed [`NexusError`](/docs/nexus/nexus-sdk/reference/hooks-and-errors) subclass — for example, `deny()` rejects with a user-denied error, and the checks above reject with `INVALID_INPUT` or `INSUFFICIENT_BALANCE`. In wallet mode a rejection can follow an already-fulfilled funding swap, so check your `onEvent` status updates before retrying. See the [full type definitions](https://github.com/availproject/nexus-sdk/blob/main/src/intent/types.ts) on GitHub.
 </Callout>

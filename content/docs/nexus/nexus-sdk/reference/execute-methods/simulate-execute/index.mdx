@@ -1,0 +1,86 @@
+---
+title: "Simulate Execute"
+sidebarTitle: "Simulate Execute"
+description: "Estimate gas units and the maximum native cost of a contract call, including any required ERC-20 approval, before sending it."
+---
+
+<Callout type="info">
+**SET UP THE SDK BEFORE YOU START:**
+
+Install and initialize the client first — see [Installation](/docs/nexus/nexus-sdk/get-started/installation) and [SDK Setup](/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup).
+</Callout>
+
+Use `simulateExecute()` to estimate what an [`execute()`](/docs/nexus/nexus-sdk/reference/execute-methods/execute) call will cost before sending it. Nothing is signed or broadcast.
+
+A wallet must be connected: the estimate runs from the connected address against the destination chain's RPC. When `tokenApproval` is set and the current allowance is below `amount`, the approval's gas is estimated and included.
+
+## Method signature
+
+```typescript title="TypeScript"
+simulateExecute(params: ExecuteParams): Promise<ExecuteSimulation>
+```
+
+## Parameters
+
+`simulateExecute()` takes the same [`ExecuteParams`](/docs/nexus/nexus-sdk/reference/execute-methods/execute#parameters) as `execute()`. Only `toChainId`, `to`, `data`, `value`, and `tokenApproval` affect the estimate; `gas`, `gasPrice`, and the receipt options are validated but ignored, because gas is always estimated through RPC.
+
+```typescript title="TypeScript"
+export interface ExecuteParams {
+  toChainId: number;
+  to: Hex;
+  value?: bigint;
+  data?: Hex;
+  tokenApproval?: { toTokenAddress: Hex; amount: bigint; spender: Hex };
+  // ...plus gas, gasPrice, and receipt options (ignored here)
+}
+```
+
+Abridged from [`src/domain/types.ts`](https://github.com/availproject/nexus-sdk/blob/main/src/domain/types.ts).
+
+## Example
+
+```typescript title="TypeScript"
+import { formatUnits } from 'viem';
+import type { ExecuteParams } from '@avail-project/nexus-core';
+
+declare const params: ExecuteParams;
+
+const simulation = await client.simulateExecute(params);
+const chain = client.chainList.getChainByID(params.toChainId);
+
+console.log('Gas units (call + approval):', simulation.estimatedGasUnits);
+console.log(
+  'Max cost:',
+  formatUnits(simulation.estimatedTotalCost, chain.nativeCurrency.decimals),
+  chain.nativeCurrency.symbol,
+);
+if (simulation.feeParams.type === 'eip1559') {
+  console.log('Max fee per gas:', simulation.feeParams.maxFeePerGas);
+}
+```
+
+## Return Value
+
+```typescript title="TypeScript"
+export type ExecuteSimulation = {
+  feeParams: ExecuteFeeParams;
+  estimatedGasUnits: bigint;
+  estimatedTotalCost: bigint;
+};
+
+export type ExecuteFeeParams =
+  | { type: 'eip1559'; maxFeePerGas: bigint; maxPriorityFeePerGas: bigint }
+  | { type: 'legacy'; gasPrice: bigint };
+```
+
+- `estimatedGasUnits` (bigint): Estimated gas for the call plus the approval, when one is needed.
+- `feeParams` (`ExecuteFeeParams`): The chain's current fee estimate — EIP-1559 when the chain reports `maxFeePerGas`, otherwise legacy `gasPrice`.
+- `estimatedTotalCost` (bigint): `estimatedGasUnits` multiplied by `maxFeePerGas` (or `gasPrice`), in the native token's raw units. This is an upper bound, not the expected spend. It excludes `value` and any L1 data fee on rollups.
+
+<Callout type="warn">
+The call and the approval are estimated independently against current chain state. If your call only succeeds after the approval is mined (for example, a `transferFrom` inside a deposit), its estimate can revert and `simulateExecute()` throws until the allowance is in place.
+</Callout>
+
+<Callout type="info">
+Estimation failures throw an `ExecutionError` (see [Hooks and Errors](/docs/nexus/nexus-sdk/reference/hooks-and-errors)) with `context.chainId`; a zero fee estimate throws a gas price error.
+</Callout>

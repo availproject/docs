@@ -1,9 +1,11 @@
 ---
 title: "Utility Reference"
-description: "Reference for creating the Nexus client, its lifecycle, chain/token lookups, and stateless helpers."
+description: "Reference for creating the Nexus client, its lifecycle, chain lookups, analytics, and stateless helpers."
 ---
 
-The Nexus SDK is created with `createNexusClient` and exposes a headless client plus a set of stateless helpers. This page covers client configuration, lifecycle, chain/token lookups, and the utility exports.
+The Nexus SDK is created with `createNexusClient`, which returns a headless client. The SDK also ships a set of stateless helpers. This page covers client configuration, lifecycle, chain lookups, analytics, and the utility exports.
+
+For chain and token discovery (`getSupportedChains`, `getTokens`, `getToken`, and the route-compatibility helpers), see [Token Catalog](/docs/nexus/nexus-sdk/reference/balances-and-tokens/token-catalog). For wallet balances, see [Get Balances](/docs/nexus/nexus-sdk/reference/balances-and-tokens/get-balances).
 
 ## Creating a client
 
@@ -11,6 +13,7 @@ The Nexus SDK is created with `createNexusClient` and exposes a headless client 
 import { createNexusClient } from '@avail-project/nexus-core';
 
 const client = createNexusClient({
+  clientId: 'your-app-name',
   network: 'mainnet',
 });
 
@@ -20,50 +23,59 @@ await client.initialize();
 ### Configuration
 
 ```typescript title="TypeScript"
-createNexusClient(config?: {
-  network?: 'mainnet' | 'testnet' | NetworkConfig;
+createNexusClient(config: {
+  clientId: string;
+  network?: NexusNetwork;
   debug?: boolean;
   analytics?: AnalyticsConfig;
   devTiming?: DevTimingConfig;
-  domain?: string;
-  forceMayan?: boolean;
 }): NexusClient
 ```
 
 | Option | Type | Description |
 |--------|------|-------------|
-| `network` | `'mainnet' \| 'testnet' \| NetworkConfig` | Target network. Defaults to `'mainnet'`. Pass a `NetworkConfig` object for a fully custom deployment. |
-| `debug` | `boolean` | Enable verbose debug logging. |
-| `analytics` | `AnalyticsConfig` | Analytics configuration (see [Analytics](#analytics)). |
-| `devTiming` | `DevTimingConfig` | Developer timing instrumentation for spans. |
-| `domain` | `string` | Override the auto-detected domain used in the ephemeral-key sign message. |
-| `forceMayan` | `boolean` | Force routing through Mayan where available. |
+| `clientId` | `string` | **Required.** A stable, non-empty identifier for your application. It is sent with every middleware request and attached to telemetry. An empty or missing value throws a `ValidationError` synchronously. |
+| `network` | `'mainnet' \| 'canary' \| 'testnet' \| NetworkConfig` | Target deployment. Defaults to `'mainnet'`. |
+| `debug` | `boolean` | Enable debug-level SDK logging. |
+| `analytics` | `AnalyticsConfig` | Product analytics settings. See [Analytics](#analytics). |
+| `devTiming` | `DevTimingConfig` | Developer timing spans for profiling. Also enabled when the `NEXUS_DEV_TIMING=true` environment variable is set and `devTiming.enabled` is not specified. |
+
+### Networks
+
+| Network | Chains | Supported operations |
+|---------|--------|----------------------|
+| `'mainnet'` | Mainnet | All operations |
+| `'canary'` | Mainnet | All operations, against a pre-release deployment |
+| `'testnet'` | Testnets | Standalone [`execute`](/docs/nexus/nexus-sdk/reference/execute-methods/execute) and [`simulateExecute`](/docs/nexus/nexus-sdk/reference/execute-methods/simulate-execute) only. Intent operations and async catalog helpers reject with `ENVIRONMENT_NOT_SUPPORTED`. |
 
 ### Custom network config
+
+Pass a `NetworkConfig` object to point the client at a custom deployment:
 
 ```typescript title="TypeScript"
 type NetworkConfig = {
   MIDDLEWARE_HTTP_URL: string;
-  MIDDLEWARE_WS_URL: string;
   INTENT_EXPLORER_URL: string;
-  NETWORK_HINT: 'mainnet' | 'testnet';
+  NETWORK_HINT: 'mainnet' | 'canary' | 'testnet';
 };
 
 const client = createNexusClient({
+  clientId: 'your-app-name',
   network: {
     MIDDLEWARE_HTTP_URL: 'https://your-deployment.example.com/middleware/',
-    MIDDLEWARE_WS_URL: 'wss://your-deployment.example.com/middleware/',
     INTENT_EXPLORER_URL: 'https://your-deployment.example.com/',
     NETWORK_HINT: 'mainnet',
   },
 });
 ```
 
+`NETWORK_HINT` decides which features are enabled. Intent operations need `'mainnet'` or `'canary'`.
+
 ## Lifecycle
 
 #### `initialize()`
 
-Initialize the client. Call once before invoking any operation; it can run before or after `setEVMProvider()`.
+Fetches the deployment's chain catalog. Call it once before you run any operation. It does not need a wallet, so you can call it before or after `setEVMProvider()`. Synchronous lookups such as `getSupportedChains()` and `chainList` throw `SDK_NOT_INITIALIZED` until it resolves.
 
 ```typescript title="TypeScript"
 await client.initialize();
@@ -71,147 +83,84 @@ await client.initialize();
 
 #### `setEVMProvider(provider)`
 
-Attach or replace the EIP-1193 EVM provider used to sign and send transactions.
+Attaches the EIP-1193 provider that the SDK uses to sign and send transactions. The SDK reads the wallet's first account and its current chain ID. If the provider fails to return an account, the call rejects with an `ExecutionError`. Passing the provider that is already attached is a no-op.
 
 ```typescript title="TypeScript"
-await client.setEVMProvider(window.ethereum);
+import type { EthereumProvider } from '@avail-project/nexus-core';
+
+declare const provider: EthereumProvider; // from your wallet connector
+await client.setEVMProvider(provider);
 ```
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `provider` | `EthereumProvider` | EIP-1193 compatible provider (MetaMask, WalletConnect, etc.). |
+| `provider` | `EthereumProvider` | EIP-1193 compatible provider (`request`, `on`, `removeListener`). |
+
+The account is read once, when you attach the provider. If the user switches accounts or providers, destroy the client and create a new one.
 
 #### `hasEvmProvider`
 
-Boolean getter — `true` once an EVM provider has been attached.
+A boolean getter that is `true` once a provider has been attached.
 
 ```typescript title="TypeScript"
 if (client.hasEvmProvider) {
-  // Safe to run operations that need a wallet
+  // Safe to run wallet operations
 }
+```
+
+Exact-output swaps, `swapAndExecute`, `execute`, `simulateExecute`, `getBalances`, and `listIntents` all need a provider. They reject with `WALLET_NOT_CONNECTED` without one. Catalog queries and exact-input quote previews work without a provider.
+
+#### `isSupportedChain(chainId)`
+
+Returns `true` when `chainId` is in [`getSupportedChains()`](/docs/nexus/nexus-sdk/reference/balances-and-tokens/token-catalog#getsupportedchains). Requires initialization.
+
+```typescript title="TypeScript"
+const ok = client.isSupportedChain(8453); // boolean
 ```
 
 #### `destroy()`
 
-Tear down the client and release resources (analytics, sockets). Call when unmounting your app.
+Ends the analytics session and releases the middleware client. Call it when you unmount your app or replace the client.
 
 ```typescript title="TypeScript"
 client.destroy();
 ```
 
-## Chain and token helpers
+## `client.chainList`
 
-#### `getSupportedChains()`
-
-Return the chains and tokens supported by the connected deployment.
+`client.chainList` provides synchronous lookups over the chains loaded by `initialize()`. Accessing it before initialization throws `SDK_NOT_INITIALIZED`. For new code, prefer the [Token Catalog](/docs/nexus/nexus-sdk/reference/balances-and-tokens/token-catalog) methods. They identify tokens by address and include provider support.
 
 ```typescript title="TypeScript"
-const supported = client.getSupportedChains();
-// SupportedChainsAndTokensResult: Array<{ id, name, logo, swapSupported, tokens }>
-```
-
-#### `isSupportedChain(chainId)`
-
-```typescript title="TypeScript"
-const ok = client.isSupportedChain(137); // boolean
-```
-
-#### `convertTokenReadableAmountToBigInt(amount, tokenSymbol, chainId)`
-
-Convert a human-readable amount into raw integer units using the token's on-chain decimals.
-
-```typescript title="TypeScript"
-const amountRaw = client.convertTokenReadableAmountToBigInt('83.5', 'USDC', 137);
-// 83_500_000n
-```
-
-### `client.chainList`
-
-`client.chainList` exposes synchronous lookups over the resolved deployment.
-
-```typescript title="TypeScript"
-client.chainList.getChainByID(chainID: number): Chain;
-client.chainList.getTokenInfoBySymbol(chainID: number, symbol: string): TokenInfo;
-client.chainList.getNativeToken(chainID: number): TokenInfo;
-client.chainList.getVaultContractAddress(chainID: number): `0x${string}`;
-client.chainList.getTokenByAddress(chainID: number, address: `0x${string}`): TokenInfo;
-client.chainList.getTokenByCurrencyId(chainID: number, currencyId: number): TokenInfo;
-client.chainList.getChainAndTokenFromSymbol(
-  chainID: number,
-  tokenSymbol: string,
-): { chain: Chain; token: TokenInfo; isNativeToken: boolean };
-client.chainList.getChainAndTokenByAddress(
-  chainID: number,
-  address: `0x${string}`,
-): { chain: Chain; token: TokenInfo; isNativeToken: boolean };
-```
-
-```typescript title="TypeScript"
-const polygon = client.chainList.getChainByID(137);
-const usdc = client.chainList.getTokenInfoBySymbol(137, 'USDC');
-const vault = client.chainList.getVaultContractAddress(137);
-```
-
-## Max-amount helpers
-
-#### `calculateMaxForBridge(params)`
-
-Compute the maximum amount that can be bridged for a token to a destination chain. `maxAmountRaw` can be passed straight into `bridge()` as `toAmountRaw`.
-
-```typescript title="TypeScript"
-const max = await client.calculateMaxForBridge({
-  toChainId: 137,
-  toTokenSymbol: 'USDC',
-});
-
-type BridgeMaxResult = {
-  toChainId: number;
-  toTokenSymbol: string;
-  provider: BridgeProvider;
-  maxAmount: string;     // human decimal string
-  maxAmountRaw: bigint;  // raw integer units
-  symbol: string;
-  decimals: number;
-  sources: Array<{
-    chainId: number;
-    tokenAddress: Hex;
-    symbol: string;
-    decimals: number;
-    amount: string;      // human decimal drawn from this source
-  }>;
+type ChainListType = {
+  chains: Chain[];
+  getChainByID(id: number): Chain;
+  getTokenInfoBySymbol(chainID: number, symbol: string): TokenInfo;
+  getTokenByAddress(chainID: number, address: `0x${string}`): TokenInfo;
+  getTokenByCurrencyId(chainID: number, currencyId: number): TokenInfo;
+  getNativeToken(chainID: number): TokenInfo;
+  getVaultContractAddress(chainID: number): `0x${string}`;
+  getChainAndTokenFromSymbol(
+    chainID: number,
+    tokenSymbol: string,
+  ): { chain: Chain; token: TokenInfo; isNativeToken: boolean };
+  getChainAndTokenByAddress(
+    chainID: number,
+    address: `0x${string}`,
+  ): { chain: Chain; token: TokenInfo; isNativeToken: boolean };
 };
 ```
 
-#### `calculateMaxForSwap(params)`
-
-Compute the maximum input available for a swap into a destination token. See the [Swap Methods](/docs/nexus/nexus-sdk/reference/swap-methods/fetch-swap-balances) pages for the swap surface.
-
 ```typescript title="TypeScript"
-const max = await client.calculateMaxForSwap({
-  toChainId: 8453,
-  toTokenAddress: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
-});
-
-type SwapMaxResult = {
-  toChainId: number;
-  toTokenAddress: Hex;
-  maxAmount: string;     // human decimal string
-  maxAmountRaw: bigint;  // raw integer units
-  symbol: string;
-  decimals: number;
-  sources: Array<{
-    chainId: number;
-    tokenAddress: Hex;
-    symbol: string;
-    decimals: number;
-    amount: string;
-  }>;
-};
+const base = client.chainList.getChainByID(8453);
+const native = client.chainList.getNativeToken(8453);
+console.log(base.name, native.symbol, native.decimals);
 ```
+
+`Chain`, `ChainListType`, and `TokenInfo` are exported as types. See [`src/domain/types.ts`](https://github.com/availproject/nexus-sdk/blob/main/src/domain/types.ts).
 
 ## Stateless utilities
 
-Formatting and address helpers are importable directly from the `/utils` subpath, and are also available on `client.utils`.
+You can import the formatting, address, and price helpers from the `/utils` subpath. The client also exposes them as `client.utils`.
 
 ```typescript title="TypeScript"
 import {
@@ -226,132 +175,163 @@ import {
 } from '@avail-project/nexus-core/utils';
 ```
 
+These functions are also re-exported from the package root (`@avail-project/nexus-core`). Source: [`src/client/utils.ts`](https://github.com/availproject/nexus-sdk/blob/main/src/client/utils.ts).
+
+| Helper | Signature | Description |
+|--------|-----------|-------------|
+| `parseUnits` | `(value: string, decimals: number) => bigint` | Human amount to raw units (viem). |
+| `formatUnits` | `(value: bigint, decimals: number) => string` | Raw units to a human amount (viem). |
+| `formatTokenBalance` | `(value: string \| number \| bigint, options?: FormatTokenBalanceOptions) => string` | Display string, with zero compression for tiny values (for example, `~0.0₄8509`). |
+| `formatTokenBalanceParts` | `(value, options?) => FormattedParts` | The same formatting, split into parts for custom rendering. |
+| `isValidAddress` | `(address: string) => boolean` | EVM address check (viem `isAddress`). |
+| `truncateAddress` | `(address: string, startLength = 6, endLength = 4) => string` | `0x742d...Db45`. Invalid addresses are returned unchanged. |
+| `getCoinbaseRates` | `() => Promise<Record<string, string>>` | Coinbase USD exchange rates, keyed by currency symbol. Cached for one minute. |
+| `getSupportedChains` | `(env: 'mainnet' \| 'canary' \| 'testnet', options: { clientId: string }) => Promise<SupportedChainsResult>` | Fetches a network's chain list without creating a client. |
+
 ### Formatting
 
+Always use the token's own `decimals` from the catalog or the balance entry. Never hardcode decimals.
+
 ```typescript title="TypeScript"
-// Format a raw balance for display
-const formatted = formatTokenBalance(1234567890n, { decimals: 6, symbol: 'USDC' });
+const token = await client.getToken({
+  chainId: 8453,
+  tokenAddress: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
+});
 
-// Get the parts separately
-const parts = formatTokenBalanceParts(1234567890n, { decimals: 6 });
-
-// Convert between raw and human units
-const raw = parseUnits('1.5', 18);   // 1500000000000000000n
-const human = formatUnits(raw, 18);  // "1.5"
+const raw = parseUnits('1.5', token.decimals);     // 1500000n for 6 decimals
+const human = formatUnits(raw, token.decimals);    // "1.5"
+const label = formatTokenBalance(raw, { decimals: token.decimals, symbol: token.symbol });
 ```
 
-### Addresses
+`FormatTokenBalanceOptions` accepts `decimals`, `symbol`, `significantDigits`, `maxFractionDigits`, `tinyThresholdPower`, `zeroCompress`, `thousandSeparator`, `trimTrailingZeros`, and `approxTilde`.
+
+### Standalone `getSupportedChains`
+
+The standalone helper fetches a network's chain list without a client. It **requires** a `clientId`:
 
 ```typescript title="TypeScript"
-const valid = isValidAddress('0x742d35Cc6634C0532925a3b8D4C9db96c4b4Db45'); // boolean
-const short = truncateAddress('0x742d35Cc6634C0532925a3b8D4C9db96c4b4Db45'); // "0x742d...Db45"
-```
+const chains = await getSupportedChains('mainnet', { clientId: 'your-app-name' });
 
-### Token logo fallback
-
-`getFallbackTokenLogoDataUri` generates a deterministic gradient SVG logo as a data URI — useful as an `onError` fallback for token images. Note it is exported from the main entry point, not `/utils`:
-
-```typescript title="TypeScript"
-import { getFallbackTokenLogoDataUri } from '@avail-project/nexus-core';
-
-const logo = getFallbackTokenLogoDataUri('USDC'); // "data:image/svg+xml;charset=utf-8,..."
-const large = getFallbackTokenLogoDataUri('USDC', 256); // optional size, defaults to 128
-```
-
-### Prices and supported chains
-
-```typescript title="TypeScript"
-// Current token prices from Coinbase
-const rates = await getCoinbaseRates();
-
-// Supported chains and tokens for a network (async, standalone helper)
-const supported = await getSupportedChains('mainnet');
+type SupportedChainsResult = Array<{
+  id: number;
+  logo: string;
+  name: string;
+  swapSupported: boolean;
+  asSource: IntentProvider[];
+  asDestination: IntentProvider[];
+}>;
 ```
 
 ### Via `client.utils`
 
-The same helpers are attached to the client as `NexusUtils`:
+`client.utils` (`NexusUtils`) exposes the same helpers. Its `getSupportedChains(env)` reuses the client's `clientId`, so it takes no options:
 
 ```typescript title="TypeScript"
 const rates = await client.utils.getCoinbaseRates();
-const supported = await client.utils.getSupportedChains('mainnet');
-const formatted = client.utils.formatTokenBalance(1234567890n, { decimals: 6, symbol: 'USDC' });
+const chains = await client.utils.getSupportedChains('mainnet');
+const short = client.utils.truncateAddress('0x742d35Cc6634C0532925a3b8D4C9db96c4b4Db45');
 ```
 
 <Callout type="info">
-`client.getSupportedChains()` (the client method) is synchronous and returns the currently connected deployment's chains. The standalone `getSupportedChains(network)` helper is asynchronous and fetches the deployment for the given network hint.
+`client.getSupportedChains()`, the client method, is synchronous. It returns the connected deployment's `IntentChainMetadata[]`, including `capabilities`. The standalone `getSupportedChains(env, { clientId })` and `client.utils.getSupportedChains(env)` helpers are asynchronous and return the smaller `SupportedChainsResult` shape.
 </Callout>
+
+### Token logo fallback
+
+`getFallbackTokenLogoDataUri(symbol, size = 128)` generates a deterministic gradient SVG logo as a data URI. Use it as a fallback when a token's `logo` is missing or fails to load. It is exported from the package root, not from `/utils`:
+
+```typescript title="TypeScript"
+import { getFallbackTokenLogoDataUri } from '@avail-project/nexus-core';
+
+const logo = token.logo ?? getFallbackTokenLogoDataUri(token.symbol);
+const large = getFallbackTokenLogoDataUri('USDC', 256);
+```
+
+## `IntentStatus`
+
+`IntentStatus` is exported as both a constant and a type. Use it to compare intent lifecycle states in status events, results, and [`listIntents`](/docs/nexus/nexus-sdk/reference/list-intents) filters.
+
+```typescript title="TypeScript"
+import { IntentStatus } from '@avail-project/nexus-core';
+
+IntentStatus.Created;   // 'created'
+IntentStatus.Deposited; // 'deposited'
+IntentStatus.Fulfilled; // 'fulfilled'
+IntentStatus.Expired;   // 'expired'
+
+const history = await client.listIntents({ status: IntentStatus.Fulfilled });
+```
+
+The type `IntentStatus` is `'created' | 'deposited' | 'fulfilled' | 'expired'`. The full status response object used in events and results is exported as `IntentStatusResponse`.
 
 ## Analytics
 
-The Nexus SDK includes built-in analytics powered by PostHog. Analytics are **enabled by default** and send anonymous telemetry to Avail's PostHog instance; they can be customized or disabled through the `analytics` config.
-
-### Disabling analytics
+The SDK sends product analytics to Avail's PostHog instance through `client.analytics`, an `AnalyticsManager`. Analytics are enabled by default. With the default `mode: 'auto'`, analytics are disabled outside the browser, when `NODE_ENV` is `test`, `ci`, or `development`, and on localhost.
 
 ```typescript title="TypeScript"
-const client = createNexusClient({
-  network: 'mainnet',
-  analytics: { enabled: false },
-});
-```
-
-### Privacy controls
-
-```typescript title="TypeScript"
-const client = createNexusClient({
-  network: 'mainnet',
-  analytics: {
-    enabled: true,
-    privacy: {
-      anonymizeWallets: true, // Hash wallet addresses
-      anonymizeAmounts: true, // Exclude transaction amounts
-    },
-  },
-});
-```
-
-### Custom analytics (BYO PostHog)
-
-```typescript title="TypeScript"
-const client = createNexusClient({
-  network: 'mainnet',
-  analytics: {
-    enabled: true,
-    posthogApiKey: 'your-posthog-key',
-    posthogApiHost: 'https://your-posthog-instance.com',
-    appMetadata: {
-      appName: 'My DApp',
-      appVersion: '1.0.0',
-      appUrl: 'https://mydapp.com',
-    },
-  },
-});
-```
-
-### Accessing analytics programmatically
-
-```typescript title="TypeScript"
-if (client.analytics.isEnabled()) {
-  client.analytics.track('custom_event', { foo: 'bar' });
+interface AnalyticsConfig {
+  enabled?: boolean;                 // master switch, default true
+  mode?: 'auto' | 'on' | 'off';      // environment guard, default 'auto'
+  posthogApiKey?: string;            // bring your own PostHog project
+  posthogApiHost?: string;
+  appMetadata?: { appName?: string; appVersion?: string; appUrl?: string };
+  privacy?: {
+    anonymizeWallets?: boolean;      // hash wallet addresses
+    anonymizeAmounts?: boolean;      // exclude transaction amounts
+  };
+  sessionRecording?: boolean;        // default false
+  debug?: boolean;                   // default false
 }
 ```
 
+`enabled: false` always disables analytics, even with `mode: 'on'`.
+
+```typescript title="TypeScript"
+// Disable analytics
+createNexusClient({ clientId: 'your-app-name', analytics: { enabled: false } });
+
+// Send to your own PostHog with privacy controls
+createNexusClient({
+  clientId: 'your-app-name',
+  analytics: {
+    posthogApiKey: 'your-posthog-key',
+    posthogApiHost: 'https://your-posthog-instance.com',
+    appMetadata: { appName: 'My DApp', appVersion: '1.0.0' },
+    privacy: { anonymizeWallets: true, anonymizeAmounts: true },
+  },
+});
+```
+
+At runtime, `client.analytics` exposes `isEnabled()`, `enable()`, `disable()`, `track(event, properties?)`, and `getSessionId()`. `NexusAnalyticsEvents` is the exported map of SDK event names, such as `NexusAnalyticsEvents.INTENT_OUTCOME`. Use it to filter the SDK's events in your own PostHog project.
+
+```typescript title="TypeScript"
+import { NexusAnalyticsEvents } from '@avail-project/nexus-core';
+
+if (client.analytics.isEnabled()) {
+  client.analytics.track('checkout_opened', { page: 'deposit' });
+}
+console.log(NexusAnalyticsEvents.INTENT_OUTCOME); // 'nexus_v2_intent_outcome'
+```
+
+Analytics are separate from diagnostic logging. To profile, `devTiming` (`DevTimingConfig`) accepts `enabled`, `emitAnalytics`, `emitLogs`, `captureNetworkTiming`, `verbose`, `sampleRate`, and `onSpanComplete(span: SpanProperties)`.
+
 ## Common pitfalls
 
-- Operation amounts are raw integer units (`bigint`), not human-readable decimal strings. Use `convertTokenReadableAmountToBigInt()` or `parseUnits()` to convert.
-- Bridge methods (`bridge`, `bridgeAndTransfer`, `bridgeAndExecute`) identify tokens by **symbol**; swap methods identify tokens by **contract address**.
-- Call `initialize()` once before running operations. It fetches deployment data and does not require a provider, so it can run before or after `setEVMProvider()`.
-- Call `destroy()` on teardown to flush analytics and close sockets.
+- `clientId` is required. `createNexusClient({})` throws.
+- Operation amounts are raw `bigint` values, not decimal strings. Convert with `parseUnits(value, token.decimals)` after you resolve the token through `client.getToken`.
+- Tokens are identified by chain ID and contract address, never by symbol alone.
+- Call `initialize()` once before you run operations. Call `destroy()` on teardown, and recreate the client after account or provider changes.
+- On `testnet`, only standalone execute and simulate work.
 
 ## Skills Integration
 
-[skills.sh](https://skills.sh) skills give AI coding agents (Codex, Claude Code, Cursor, etc.) deep context about the Nexus SDK.
+[skills.sh](https://skills.sh) skills give AI coding agents (Codex, Claude Code, Cursor, and others) deep context about the Nexus SDK.
 
 ```bash
 # Install the SDK skill
 npx skills add availproject/nexus-sdk
 ```
 
-- `nexus-core` — Full v2 integration guide: client lifecycle, operations, hooks, events, error handling, utils, and v1 → v2 migration
+- `nexus-core`: v3 integration guide covering client setup and lifecycle, asset pickers, balances, cross-chain swaps and same-asset bridging, exact-input quote previews, quote review, progress events, contract execution, `swapAndExecute` funding, history, error recovery, and migration.
 
 Browse it at [skills.sh/availproject/nexus-sdk](https://skills.sh/availproject/nexus-sdk). For Widgets skills, see [MCP & Agent Skills](/docs/nexus/widgets/mcp-and-agent-skills).

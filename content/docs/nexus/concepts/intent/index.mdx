@@ -16,41 +16,52 @@ The user signs this message **once** (an EIP-191 signature) — no per-chain bri
 
 The following information is part of an intent:
 
-- **Selected Sources**: The chains and tokens the funds will be drawn from, and how much from each.
-- **Available Sources**: Everywhere the user *could* source funds from, so your UI can offer alternatives.
-- **Destination**: The chain, token, and amount the user will receive.
-- **Fees**: The CA gas fee (for cross-chain operations), protocol fee, solver fee, and the total.
-- **Sources Total**: The full amount drawn from source chains, combining the transaction amount and all fees.
-- **Provider**: Whether the route is served by the native Nexus flow (`nexus`) or by Mayan (`mayan`), a third-party bridge provider. The SDK selects this automatically.
+- **Inputs**: The chains and tokens the funds will be drawn from, how much from each, and the deposit fee per source.
+- **Source Verdicts**: Every source the SDK considered, marked `selected`, `unused`, or `unroutable` (with a reason), so your UI can explain or offer alternatives.
+- **Output**: The chain, token, and amount the user will receive, plus the guaranteed minimum after slippage.
+- **Fees**: The deposit, fulfillment, protocol, and solver fees, each as a raw amount and a USD value.
+- **Plan**: The approvals, signatures, and transactions the user's wallet will be asked for.
+- **Provider**: Whether the route is served by the native Nexus flow (`nexus-v2`) or by a third-party provider (`mayan` or `relay`). The quote selects this automatically.
 
-This is a simplified view of the `BridgeIntent` object the SDK passes to your `onIntent` hook — see the [full type](https://github.com/availproject/nexus-sdk/blob/main/src/domain/types/index.ts) for every field:
+This is a simplified view of the `IntentQuote` object the SDK passes to your `onIntent` hook — see the [full type](https://github.com/availproject/nexus-sdk/blob/main/src/intent/types.ts) for every field:
 
 ```ts
-type BridgeIntent = {
-  provider: 'nexus' | 'mayan';
-  selectedSources: {
-    amount: string;
+type IntentQuote = {
+  id: `0x${string}`;
+  provider: 'nexus-v2' | 'mayan' | 'relay';
+  tradeType: 'exactInput' | 'exactOutput';
+  input: {
+    chainId: number;
+    tokenAddress: `0x${string}`;
+    tokenSymbol: string;
     amountRaw: bigint;
-    chain: { id: number; name: string; logo: string };
-    token: { decimals: number; symbol: string; logo: string; contractAddress: `0x${string}` };
-    value: string; // USD value
+    depositFeeRaw: bigint;
+    totalRequiredRaw: bigint;
+    totalRequiredUsd: string;
   }[];
-  availableSources: { /* same shape as selectedSources */ }[];
-  destination: {
-    amount: string;
+  output: {
+    chainId: number;
+    tokenAddress: `0x${string}`;
     amountRaw: bigint;
-    chain: { id: number; name: string; logo: string };
-    token: { decimals: number; symbol: string; logo: string; contractAddress: `0x${string}` };
-    value: string; // USD value
+    amountUsd: string;
+    minAmountRaw: bigint;
+    minAmountUsd: string;
   };
   fees: {
-    caGas: string;
-    protocol: string;
-    solver: string;
-    total: string;
-    totalValue: string; // USD value
+    depositRaw: bigint; depositUsd: string;
+    fulfillmentRaw: bigint; fulfillmentUsd: string;
+    protocolRaw: bigint; protocolUsd: string;
+    solverRaw: bigint; solverUsd: string;
   };
-  sourcesTotal: string;
+  sourceVerdicts: {
+    chainId: number;
+    tokenAddress: `0x${string}`;
+    tokenSymbol: string;
+    state: 'selected' | 'unused' | 'unroutable';
+    reason?: string;
+  }[];
+  expiresAt: number; // Unix seconds
+  // ...abridged: allowances, plan, isExecutable, executionWarnings, supportsDestinationCalls
 };
 ```
 

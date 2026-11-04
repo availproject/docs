@@ -1,0 +1,381 @@
+---
+title: "Token Catalog"
+sidebarTitle: "Token Catalog"
+description: "Discover supported chains and tokens, resolve token metadata, and check which source and destination tokens can be routed together."
+---
+
+<Callout type="info">
+**SET UP THE SDK BEFORE YOU START:**
+
+Install and initialize the client first. See [Installation](/docs/nexus/nexus-sdk/get-started/installation) and [SDK Setup](/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup).
+</Callout>
+
+The catalog methods tell you which chains and tokens the SDK supports, and which tokens can be combined in a route. Use them to build chain and token pickers and to resolve token decimals before you construct raw amounts.
+
+Catalog methods need `client.initialize()` but **no wallet**. They throw `SDK_NOT_INITIALIZED` if you call them before initialization.
+
+| Method | Returns |
+|--------|---------|
+| [`getSupportedChains()`](#getsupportedchains) | Cached chain metadata, without token lists (synchronous) |
+| [`getTokens(query?)`](#gettokens) | Token page across chains |
+| [`getTokensByChain(chainId, query?)`](#gettokensbychain) | Token page on one chain |
+| [`getToken(ref)`](#gettoken) | Exact token metadata |
+| [`getAvailableSourceTokens(destination, selectedSources?, query?)`](#getavailablesourcetokens) | Page of provider groups that contain chains and tokens |
+| [`getAvailableDestinationTokens(sources, query?)`](#getavailabledestinationtokens) | Page of chains that contain destination tokens |
+| [`confirmRouteExists(sources, destination)`](#confirmrouteexists) | Catalog compatibility as a boolean |
+| [`getSupportedChainsForRoute(constraints)`](#getsupportedchainsforroute) | Chain metadata that matches route constraints |
+
+<Callout type="warn">
+**Testnet:** `network: 'testnet'` supports standalone [`execute`](/docs/nexus/nexus-sdk/reference/execute-methods/execute) only. On testnet, every async catalog method on this page rejects with `ENVIRONMENT_NOT_SUPPORTED`. `getSupportedChains()` still works, but it returns only execute-capable chains (`capabilities.intent: false`). On `mainnet` and `canary`, all methods work.
+</Callout>
+
+## Token identity
+
+Tokens are always identified by chain ID plus contract address, never by symbol alone. Inputs use `TokenRef`. Results use `IntentToken`:
+
+```typescript title="TypeScript"
+type TokenRef = {
+  chainId: number;
+  tokenAddress: `0x${string}`;
+};
+
+type IntentProvider = 'nexus-v2' | 'mayan' | 'relay';
+
+type IntentProviderSupport = {
+  id: IntentProvider;
+  currencyId?: number | string;
+};
+
+type IntentToken = {
+  chainId: number;
+  address: `0x${string}`; // note: `address`, not `tokenAddress`
+  symbol: string;
+  name: string;
+  decimals: number;
+  isNative: boolean;
+  /** Whether at least one selected provider marks this token as verified. */
+  verified: boolean;
+  logo?: string;
+  coingeckoId?: string;
+  providers: IntentProviderSupport[];
+  asSource?: IntentProviderSupport[];      // providers that accept it as a source
+  asDestination?: IntentProviderSupport[]; // providers that deliver it as a destination
+  permit?: { variant: 'eip2612' | 'emt'; version?: string };
+  sponsoredApproval?: boolean;
+};
+```
+
+To turn a picked token into a selection, map `{ chainId: token.chainId, tokenAddress: token.address }`. Always read `decimals` from the token itself. The same symbol can use different decimals on different chains.
+
+## getSupportedChains()
+
+Returns the chains of the connected deployment from the cache that `initialize()` fills. It is synchronous and does not include token lists.
+
+### Method signature
+
+```typescript title="TypeScript"
+getSupportedChains(): IntentChainMetadata[]
+
+isSupportedChain(chainId: number): boolean
+```
+
+### Return Value
+
+```typescript title="TypeScript"
+type IntentChainMetadata = {
+  id: number;
+  name: string;
+  logo?: string;
+  explorerUrl?: string;
+  rpcUrl?: string;
+  vaultAddress?: `0x${string}`;
+  multicallAddress?: `0x${string}`;
+  sponsored?: boolean;
+  eip7702Enabled?: boolean;
+  swapSupported?: boolean;
+  nativeCurrency: {
+    name: string;
+    symbol: string;
+    decimals: number;
+    logo?: string;
+    coingeckoId?: string;
+  };
+  providers: IntentProvider[];
+  asSource?: IntentProvider[];
+  asDestination?: IntentProvider[];
+  capabilities: {
+    intent: boolean;  // swaps / swapAndExecute funding can target or source this chain
+    execute: boolean; // standalone execute() is available on this chain
+  };
+};
+```
+
+Use `capabilities` to split chains by feature:
+
+```typescript title="TypeScript"
+const chains = client.getSupportedChains();
+const swapChains = chains.filter((chain) => chain.capabilities.intent);
+const executeChains = chains.filter((chain) => chain.capabilities.execute);
+```
+
+A chain that only supports execution reports `capabilities.intent: false` and empty provider lists. `isSupportedChain(chainId)` returns `true` for any chain in this list.
+
+## getTokens()
+
+Returns one page of tokens across all chains.
+
+### Method signature
+
+```typescript title="TypeScript"
+getTokens(query?: IntentTokenQuery): Promise<IntentTokenPage>
+```
+
+### Parameters
+
+```typescript title="TypeScript"
+type IntentTokenQuery = {
+  chainId?: number;
+  providers?: IntentProvider[];
+  /** Include unverified tokens alongside verified tokens. Defaults to false. */
+  includeUnverified?: boolean;
+  name?: string;
+  symbol?: string;
+  contract?: string;
+  offset?: number; // default 0
+  limit?: number;  // default 50, integer from 1 to 1000
+};
+```
+
+- Filters combine with AND.
+- Pages contain verified tokens only by default. Pass `includeUnverified: true` to opt in to unverified tokens.
+- An unknown `chainId` rejects with `CHAIN_NOT_FOUND`. An out-of-range `offset` or `limit` rejects with a validation error.
+- The client caches identical queries in memory, so repeating a query does not refetch it.
+
+### Return Value
+
+```typescript title="TypeScript"
+type IntentTokenPage = {
+  tokens: IntentToken[];
+  offset: number;
+  limit: number;
+  total: number;
+};
+```
+
+## getTokensByChain()
+
+Same as `getTokens`, scoped to one chain.
+
+```typescript title="TypeScript"
+getTokensByChain(
+  chainId: number,
+  query?: Omit<IntentTokenQuery, 'chainId'>,
+): Promise<IntentTokenPage>
+```
+
+```typescript title="TypeScript"
+const page = await client.getTokensByChain(8453, { symbol: 'USDC', limit: 25 });
+```
+
+## getToken()
+
+Resolves exact metadata for one token. Unlike token pages, exact lookup can also resolve unverified tokens.
+
+```typescript title="TypeScript"
+getToken(token: TokenRef): Promise<IntentToken>
+```
+
+```typescript title="TypeScript"
+import { parseUnits } from '@avail-project/nexus-core/utils';
+
+const usdcOnBase = {
+  chainId: 8453,
+  tokenAddress: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
+} as const;
+
+const token = await client.getToken(usdcOnBase);
+const amountRaw = parseUnits('10', token.decimals);
+```
+
+The call rejects with `CHAIN_NOT_FOUND` for an unknown chain and with `TOKEN_NOT_SUPPORTED` when the address is not in the catalog.
+
+## getAvailableSourceTokens()
+
+Returns source tokens that can fund `destination`, grouped by provider. Pass `selectedSources` so that the candidates share a provider with the sources the user already picked.
+
+### Method signature
+
+```typescript title="TypeScript"
+getAvailableSourceTokens(
+  destination: TokenRef,
+  selectedSources?: TokenRef[], // default []
+  query?: IntentTokenQuery,
+): Promise<IntentSourceTokenPage>
+```
+
+### Return Value
+
+```typescript title="TypeScript"
+type IntentChain = IntentChainMetadata & { tokens: IntentToken[] };
+
+type ProviderTokenGroup = {
+  provider: IntentProvider;
+  chains: IntentChain[]; // only chains with at least one matching token
+};
+
+/** Pagination describes the API candidate page, before directional filtering. */
+type IntentSourceTokenPage = {
+  groups: ProviderTokenGroup[];
+  offset: number;
+  limit: number;
+  total: number;
+};
+```
+
+A token supported by several providers appears in each provider's group. When you flatten groups into one list, deduplicate by chain ID plus address.
+
+## getAvailableDestinationTokens()
+
+Returns destination tokens that every one of `sources` can reach through a shared provider, grouped by chain.
+
+### Method signature
+
+```typescript title="TypeScript"
+getAvailableDestinationTokens(
+  sources: TokenRef[],
+  query?: IntentTokenQuery,
+): Promise<IntentDestinationTokenPage>
+```
+
+### Return Value
+
+```typescript title="TypeScript"
+/** Pagination describes the API candidate page, before directional filtering. */
+type IntentDestinationTokenPage = {
+  chains: IntentChain[];
+  offset: number;
+  limit: number;
+  total: number;
+};
+```
+
+## confirmRouteExists()
+
+Checks catalog compatibility: it resolves the tokens and confirms that at least one provider supports **all** `sources` and the `destination`.
+
+```typescript title="TypeScript"
+confirmRouteExists(sources: TokenRef[], destination: TokenRef): Promise<boolean>
+```
+
+It returns `false` for an empty `sources` array, an unknown chain, or an unsupported token. Other failures, such as network errors, reject.
+
+<Callout type="info">
+`confirmRouteExists` does not request a quote. A `true` result does not guarantee that a quote will succeed. Amounts, balances, fees, and provider limits are checked only when quoting.
+</Callout>
+
+## getSupportedChainsForRoute()
+
+Asks the middleware which chains match a set of route constraints.
+
+### Method signature
+
+```typescript title="TypeScript"
+getSupportedChainsForRoute(constraints: IntentRouteConstraints): Promise<IntentChainMetadata[]>
+```
+
+### Parameters
+
+```typescript title="TypeScript"
+type IntentRouteConstraintLeg = {
+  chainId?: number;
+  tokenAddress?: `0x${string}`;
+  amountRaw?: bigint;
+};
+
+type IntentRouteConstraints = {
+  sources?: IntentRouteConstraintLeg[];
+  destinations?: IntentRouteConstraintLeg[];
+  valueUsd?: number;
+  providers?: IntentProvider[];
+};
+```
+
+- A leg's `amountRaw` requires both `chainId` and `tokenAddress`.
+- Use the same fields on every leg of one side.
+- Use at most one sizing mode: source amounts, destination amounts, or `valueUsd`.
+- Amounts and `valueUsd` must be non-negative.
+- Token queries do not inherit route constraints.
+
+```typescript title="TypeScript"
+const chains = await client.getSupportedChainsForRoute({
+  destinations: [{ chainId: 8453, tokenAddress: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913' }],
+  providers: ['relay'],
+});
+```
+
+## Pagination
+
+All token pages use offset pagination:
+
+- Defaults: `offset: 0`, `limit: 50`. The maximum `limit` is `1000`.
+- Advance by `page.offset + page.limit` while that value is less than `page.total`.
+- `getAvailableSourceTokens` and `getAvailableDestinationTokens` count candidates **before** directional filtering. A page can be empty, or shorter than `limit`, while later pages still contain matches. Keep paging until you reach `total`.
+- Reset `offset` to `0` whenever filters or selections change.
+- Keep the user's selections in your own state, outside the displayed page. Returned tokens use `address`, while `TokenRef` selections use `tokenAddress`.
+- A lookup failure, such as an unknown chain or token, rejects. It is distinct from an empty page.
+
+```typescript title="TypeScript"
+import type { IntentToken } from '@avail-project/nexus-core';
+
+const all: IntentToken[] = [];
+let offset = 0;
+for (;;) {
+  const page = await client.getTokensByChain(8453, { offset, limit: 200 });
+  all.push(...page.tokens);
+  offset = page.offset + page.limit;
+  if (offset >= page.total) break;
+}
+```
+
+## Building pickers: exact-in vs exact-out
+
+How you call `getAvailableSourceTokens` depends on the trade type:
+
+- **Exact input** ([`swapWithExactIn`](/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-in), or `swapAndExecute` with `tradeType: 'exactInput'`): every source is spent, so all sources and the destination must share **one** provider. Pass the sources the user has already picked as `selectedSources`. Each call then narrows the candidates to tokens compatible with all of them.
+- **Exact output** ([`swapWithExactOut`](/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-out), or the `swapAndExecute` default): sources are alternatives the quote may draw from. Use `getAvailableSourceTokens(destination, [], query)` and do not narrow by prior selections.
+
+```typescript title="TypeScript"
+import type { TokenRef } from '@avail-project/nexus-core';
+
+const destination: TokenRef = {
+  chainId: 8453,
+  tokenAddress: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
+};
+const selected: TokenRef[] = []; // exact-input selections so far
+
+const page = await client.getAvailableSourceTokens(destination, selected, { limit: 100 });
+
+// Flatten and dedupe provider groups by chain ID + address.
+const seen = new Set<string>();
+const options = page.groups.flatMap((group) =>
+  group.chains.flatMap((chain) =>
+    chain.tokens.filter((token) => {
+      const key = `${token.chainId}:${token.address.toLowerCase()}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    }),
+  ),
+);
+
+// When the user picks one, store it as a TokenRef.
+const pick = options[0];
+if (pick) selected.push({ chainId: pick.chainId, tokenAddress: pick.address });
+
+// Optional final check before quoting (catalog only, not a quote).
+const compatible = await client.confirmRouteExists(selected, destination);
+```
+
+To combine the catalog with wallet holdings, see [Filter balances by provider](/docs/nexus/nexus-sdk/reference/balances-and-tokens/get-balances#filter-balances-by-provider).
+
+See the [full type definitions](https://github.com/availproject/nexus-sdk/blob/main/src/intent/types.ts) on GitHub.

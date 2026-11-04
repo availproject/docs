@@ -1,319 +1,182 @@
 ---
 title: Nexus SDK Setup
-description: Initialize the Nexus SDK with a connected wallet and fetch your first unified balance.
+description: Create a Nexus client, attach a wallet provider, and fetch your first unified balances.
 ---
 
-In this guide you will create a Nexus SDK instance, connect it to a wallet provider, and fetch unified balances across all supported chains. By the end you will have a minimal Next.js app with four buttons that demonstrate the full SDK lifecycle.
+In this guide you will create a Nexus client, initialize it, attach an EIP-1193 wallet provider, and fetch the user's balances across every supported chain. You will also learn which methods need a wallet, which networks are available, and how to handle account changes and cleanup.
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org) version 18 or higher, with npm 9 or higher
-- A package manager — this guide uses `pnpm`, but `npm` and `yarn` work too
-- An [EIP-1193](https://eips.ethereum.org/EIPS/eip-1193) compatible wallet (e.g. MetaMask) installed in your browser
 - `@avail-project/nexus-core` installed in your project (see [Installation](/docs/nexus/nexus-sdk/get-started/installation))
+- An [EIP-1193](https://eips.ethereum.org/EIPS/eip-1193) wallet (for example MetaMask) if you want to fetch balances or execute operations
 
-## What you will build
+## Step 1: Create the client
 
-A minimal Next.js page with four buttons:
+Create a client with `createNexusClient`. The only required field is `clientId`.
 
-1. **Connect Wallet** — connects an EIP-1193 wallet
-2. **Initialize Nexus** — passes the wallet provider to the SDK
-3. **Fetch Balances** — retrieves token balances across all supported chains
-4. **De-initialize** — tears down the SDK instance
+```typescript title="TypeScript"
+import { createNexusClient } from "@avail-project/nexus-core";
 
-<Callout type="info" title="Balance methods">
-The SDK provides two balance methods: `getBalancesForBridge()` returns tokens available for bridging, while `getBalancesForSwap()` returns tokens available for cross-chain swaps. Learn more in the [Bridge vs Swap concept page](/docs/nexus/concepts/bridge-v-swap).
-</Callout>
-
-## Step 1 — Create a Next.js project
-
-If you don't have an existing project, scaffold one:
-
-```bash
-pnpm create next-app@latest my-nexus-app --ts --eslint --app --src-dir
-cd my-nexus-app
+const client = createNexusClient({
+  clientId: "my-nexus-app", // required: stable, non-empty app identifier
+  network: "mainnet",       // optional: 'mainnet' (default) | 'canary' | 'testnet'
+});
 ```
 
-Install the Nexus SDK:
+| Option | Type | Required | Description |
+| --- | --- | --- | --- |
+| `clientId` | `string` | Yes | Stable, non-empty identifier for your application. `createNexusClient` throws a `ValidationError` if it is missing or blank. |
+| `network` | `'mainnet' \| 'canary' \| 'testnet'` | No | Which Nexus deployment to use. Defaults to `'mainnet'`. |
+| `debug` | `boolean` | No | Enables debug-level SDK logging. Defaults to `false`. |
+| `analytics` | `AnalyticsConfig` | No | Product analytics settings. Pass `{ enabled: false }` to opt out. See [Analytics](#analytics). |
 
-```bash
-pnpm add @avail-project/nexus-core
-```
+### Networks
 
-## Step 2 — Create the SDK instance
-
-Create a single shared SDK instance that the rest of the app will import. This file lives outside of React so it has no component lifecycle concerns.
-
-```tsx title="src/lib/nexus.ts"
-import { createNexusClient, type NexusClient } from "@avail-project/nexus-core";
-
-// Create a single client instance.
-// Pass { network: 'testnet' } to use testnet chains.
-// Defaults to 'mainnet' if omitted.
-export const client: NexusClient = createNexusClient({ network: "testnet" });
-
-export async function initializeWithProvider(provider: any) {
-  if (!provider)
-    throw new Error("No EIP-1193 provider (e.g. MetaMask) found");
-  if (client.hasEvmProvider) return;
-  await client.initialize();             // loads deployment info from the middleware
-  await client.setEVMProvider(provider); // attaches the connected wallet
-}
-
-export function destroy() {
-  client.destroy();
-}
-
-export async function getBalancesForBridge() {
-  return await client.getBalancesForBridge();
-}
-
-export async function getBalancesForSwap() {
-  return await client.getBalancesForSwap();
-}
-```
-
-### What each part does
-
-| Export | Type | Description |
+| Value | Chains | What works |
 | --- | --- | --- |
-| `client` | `NexusClient` | The shared Nexus client, created once with `createNexusClient()`. |
-| `client.hasEvmProvider` | `boolean` | Getter that returns `true` once `setEVMProvider()` has attached a wallet. |
-| `initializeWithProvider(provider)` | `(provider: any) => Promise<void>` | Runs `client.initialize()` then `client.setEVMProvider(provider)`. Must be called after a wallet is connected. |
-| `destroy()` | `() => void` | Tears down the client (synchronous). |
-| `getBalancesForBridge()` | `() => Promise<TokenBalance[]>` | Returns bridgeable token balances across all supported chains. |
-| `getBalancesForSwap()` | `() => Promise<TokenBalance[]>` | Returns swappable token balances across all supported chains. |
+| `mainnet` | Mainnet chains | Everything: swaps, same-asset bridging, `swapAndExecute`, catalog, balances, and standalone `execute` |
+| `canary` | Mainnet chains | Same as `mainnet`, against Avail's canary deployment. Use it only if the Avail team asks you to. |
+| `testnet` | Testnet chains | Standalone `execute()` and `simulateExecute()` only |
 
-<Callout type="info" title="Two-step initialization">
-v2 splits startup into two calls: `client.initialize()` loads deployment data from the middleware, and `client.setEVMProvider(provider)` attaches the connected wallet. You can call them in either order, but wallet-dependent methods only work once `setEVMProvider()` has resolved.
+<Callout type="warn" title="Testnet limitations">
+On `testnet`, intent operations (`swapWithExactIn`, `swapWithExactOut`, `swapAndExecute`) and the async catalog helpers (`getTokens`, `getTokensByChain`, `getToken`, `getAvailableSourceTokens`, `getAvailableDestinationTokens`, `confirmRouteExists`, `getSupportedChainsForRoute`) reject with `ERROR_CODES.ENVIRONMENT_NOT_SUPPORTED`. Build and test swap and bridge flows on `mainnet` with small amounts.
 </Callout>
 
-## Step 3 — Create the UI components
+## Step 2: Initialize
 
-Create four button components in the `src/components` directory.
+`initialize()` loads the supported chains and token catalog from the Nexus middleware. Call it once per client, before any other method.
 
-<Steps>
+```typescript title="TypeScript"
+await client.initialize();
 
-### connect-button.tsx
-
-Connects an EIP-1193 wallet using the browser's injected provider (`window.ethereum`).
-
-```tsx title="src/components/connect-button.tsx"
-"use client";
-
-export default function ConnectButton({
-  className,
-}: {
-  className?: string;
-}) {
-  const onClick = async () => {
-    const eth = (window as any)?.ethereum;
-    if (!eth)
-      return alert("Install an EIP-1193 wallet (e.g. MetaMask)");
-    await eth.request?.({ method: "eth_requestAccounts" });
-    alert("Wallet connected");
-  };
-  return (
-    <button className={className} onClick={onClick}>
-      Connect Wallet
-    </button>
-  );
-}
+// Catalog methods work now, without a wallet.
+const chains = client.getSupportedChains();
+const swapChains = chains.filter((chain) => chain.capabilities.intent);
+console.log(swapChains.map((chain) => `${chain.name} (${chain.id})`));
 ```
 
-### init-button.tsx
+## Step 3: Attach a wallet provider
 
-Initializes the Nexus SDK with the connected wallet's provider.
+`setEVMProvider()` attaches an EIP-1193 provider and reads the connected account. Call it after the user has connected their wallet.
 
-```tsx title="src/components/init-button.tsx"
-"use client";
+```typescript title="TypeScript"
+import type { EthereumProvider } from "@avail-project/nexus-core";
 
-import { initializeWithProvider, client } from "../lib/nexus";
+const provider = (window as any).ethereum as EthereumProvider | undefined;
+if (!provider) throw new Error("Install an EIP-1193 wallet such as MetaMask");
 
-export default function InitButton({
-  className,
-  onReady,
-}: {
-  className?: string;
-  onReady?: () => void;
-}) {
-  const onClick = async () => {
-    const eth = (window as any)?.ethereum;
-    try {
-      await initializeWithProvider(eth);
-      onReady?.();
-      alert("Nexus initialized");
-    } catch (e: any) {
-      alert(e?.message ?? "Init failed");
-    }
-  };
-  return (
-    <button
-      className={className}
-      onClick={onClick}
-      disabled={client.hasEvmProvider}
-    >
-      Initialize Nexus
-    </button>
-  );
-}
+await provider.request({ method: "eth_requestAccounts" });
+await client.setEVMProvider(provider);
+
+console.log(client.hasEvmProvider); // true
 ```
+
+`client.hasEvmProvider` is `true` once a provider is attached.
 
 <Callout type="info" title="Using a wallet library?">
-This tutorial uses `window.ethereum` directly for simplicity. If you use wagmi, RainbowKit, or another wallet library, see [Initializing Nexus with RainbowKit](/docs/nexus/nexus-sdk/get-started/initializing-nexus-with-rainbowkit) for how to retrieve the provider from a connector.
+This guide uses `window.ethereum` for simplicity. With wagmi or RainbowKit, get the provider from the active connector with `connector.getProvider()`. See [Initializing Nexus with RainbowKit](/docs/nexus/nexus-sdk/get-started/initializing-nexus-with-rainbowkit).
 </Callout>
 
-### fetch-balances-button.tsx
+### What needs a wallet
 
-Fetches the user's balances across all supported chains.
+| Works after `initialize()`, no wallet | Needs `setEVMProvider()` |
+| --- | --- |
+| `getSupportedChains()`, `isSupportedChain()` | `getBalances()` |
+| `getTokens()`, `getTokensByChain()`, `getToken()` | `swapWithExactOut()` and `swapAndExecute()` |
+| `getAvailableSourceTokens()`, `getAvailableDestinationTokens()` | Executing `swapWithExactIn()` |
+| `confirmRouteExists()`, `getSupportedChainsForRoute()` | `execute()` and `simulateExecute()` |
+| Exact-input quote previews with `swapWithExactIn()` and `hooks.onIntent` | |
 
-```tsx title="src/components/fetch-balances-button.tsx"
-"use client";
+A `swapWithExactIn()` call started without a wallet can show a quote in your review UI, but it cannot complete. After the user connects, start a new call. See [Review quotes](/docs/nexus/nexus-sdk/reference/swap-methods/review-quotes).
 
-import { getBalancesForBridge, getBalancesForSwap, client } from "../lib/nexus";
+## Step 4: Fetch balances
 
-export default function FetchBalancesButton({
-  className,
-  onResult,
-}: {
-  className?: string;
-  onResult?: (r: any) => void;
-}) {
-  const onClick = async () => {
-    if (!client.hasEvmProvider) return alert("Initialize first");
-    // Use getBalancesForBridge() for bridgeable tokens
-    // Use getBalancesForSwap() for swappable tokens
-    const bridgeBalances = await getBalancesForBridge();
-    const swapBalances = await getBalancesForSwap();
-    const res = { bridgeBalances, swapBalances };
-    onResult?.(res);
-    console.log(res);
+`getBalances()` returns the connected wallet's token balances across all supported chains. Amounts are raw `bigint` values; format them with each token's own `decimals`.
+
+```typescript title="TypeScript"
+import { formatUnits } from "@avail-project/nexus-core/utils";
+
+const balances = await client.getBalances();
+for (const balance of balances) {
+  console.log(
+    balance.chainId,
+    balance.symbol,
+    formatUnits(balance.usableBalanceRaw, balance.decimals), // available for routing
+    formatUnits(balance.actualBalanceRaw, balance.decimals), // full wallet balance
+    balance.valueUsd, // USD value of the usable balance, or null
+  );
+}
+```
+
+`usableBalanceRaw` is what the SDK can route after gas reserves; `actualBalanceRaw` is the full wallet balance. See [Get balances](/docs/nexus/nexus-sdk/reference/balances-and-tokens/get-balances) for every field.
+
+## Lifecycle: account changes and cleanup
+
+A client is bound to the account that was connected when you called `setEVMProvider()`. Follow these rules:
+
+- **Recreate the client when the account or provider changes.** Call `destroy()` on the old client, then create, initialize, and attach the provider to a new one. Calling `setEVMProvider()` again with the same provider object does not pick up a new account.
+- **Call `client.destroy()` on cleanup**, for example when the user disconnects or your component unmounts.
+
+Here is a small module that puts this together using `window.ethereum`:
+
+```typescript title="src/lib/nexus.ts"
+import {
+  createNexusClient,
+  type EthereumProvider,
+  type NexusClient,
+} from "@avail-project/nexus-core";
+
+let client: NexusClient | null = null;
+
+export async function connectNexus(provider: EthereumProvider): Promise<NexusClient> {
+  client?.destroy();
+  const next = createNexusClient({ clientId: "my-nexus-app", network: "mainnet" });
+  await next.initialize();
+  await next.setEVMProvider(provider);
+  client = next;
+  return next;
+}
+
+export function disconnectNexus(): void {
+  client?.destroy();
+  client = null;
+}
+
+export function getNexusClient(): NexusClient {
+  if (!client) throw new Error("Connect a wallet first");
+  return client;
+}
+
+// Recreate the client whenever the wallet switches accounts.
+export function watchAccounts(provider: EthereumProvider): () => void {
+  const onAccountsChanged = (...args: unknown[]) => {
+    const accounts = args[0] as string[];
+    if (accounts.length === 0) disconnectNexus();
+    else void connectNexus(provider);
   };
-  return (
-    <button
-      className={className}
-      onClick={onClick}
-      disabled={!client.hasEvmProvider}
-    >
-      Fetch Balances
-    </button>
-  );
+  provider.on("accountsChanged", onAccountsChanged);
+  return () => provider.removeListener("accountsChanged", onAccountsChanged);
 }
 ```
 
-### de-init-button.tsx
+In a React app, put the same logic in an effect keyed on the connected account and return `destroy()` from its cleanup. The [RainbowKit guide](/docs/nexus/nexus-sdk/get-started/initializing-nexus-with-rainbowkit) shows a complete hook.
 
-Destroys the client and resets state.
+## Analytics
 
-```tsx title="src/components/de-init-button.tsx"
-"use client";
+The SDK sends product analytics by default. In the default `mode: 'auto'`, analytics are also skipped outside the browser, on localhost, and when `NODE_ENV` is `test`, `ci`, or `development`. To opt out entirely:
 
-import { destroy, client } from "../lib/nexus";
-
-export default function DeinitButton({
-  className,
-  onDone,
-}: {
-  className?: string;
-  onDone?: () => void;
-}) {
-  const onClick = async () => {
-    destroy();
-    onDone?.();
-    alert("Nexus de-initialized");
-  };
-  return (
-    <button
-      className={className}
-      onClick={onClick}
-      disabled={!client.hasEvmProvider}
-    >
-      De-initialize
-    </button>
-  );
-}
+```typescript title="TypeScript"
+const client = createNexusClient({
+  clientId: "my-nexus-app",
+  analytics: { enabled: false },
+});
 ```
 
-</Steps>
-
-## Step 4 — Assemble the page
-
-Wire all four components together in a single page:
-
-```tsx title="src/app/page.tsx"
-"use client";
-
-import { useState } from "react";
-import ConnectButton from "@/components/connect-button";
-import InitButton from "@/components/init-button";
-import FetchBalancesButton from "@/components/fetch-balances-button";
-import DeinitButton from "@/components/de-init-button";
-import { client } from "@/lib/nexus";
-
-export default function Page() {
-  const [initialized, setInitialized] = useState(client.hasEvmProvider);
-  const [balances, setBalances] = useState<any>(null);
-
-  const btn =
-    "px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 " +
-    "disabled:opacity-50 disabled:cursor-not-allowed";
-
-  return (
-    <main className="min-h-screen flex items-center justify-center">
-      <div className="flex flex-col items-center gap-4">
-        <ConnectButton className={btn} />
-        <InitButton
-          className={btn}
-          onReady={() => setInitialized(true)}
-        />
-        <FetchBalancesButton
-          className={btn}
-          onResult={(r) => setBalances(r)}
-        />
-        <DeinitButton
-          className={btn}
-          onDone={() => {
-            setInitialized(false);
-            setBalances(null);
-          }}
-        />
-
-        <div className="mt-2">
-          <b>SDK Status:</b>{" "}
-          {initialized ? "Initialized" : "Not initialized"}
-        </div>
-
-        {balances && (
-          <pre className="whitespace-pre-wrap">
-            {JSON.stringify(balances, null, 2)}
-          </pre>
-        )}
-      </div>
-    </main>
-  );
-}
-```
-
-## Step 5 — Run and test
-
-```bash
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) and click through the buttons in order:
-
-1. **Connect Wallet** — approve the wallet prompt in MetaMask
-2. **Initialize Nexus** — the SDK connects to the wallet provider
-3. **Fetch Balances** — a JSON object appears showing your tokens across chains
-4. **De-initialize** — the SDK resets
-
-<Callout type="info" title="What you just built">
-In a few lines of code you connected to a wallet, initialized the Nexus SDK, and fetched a cross-chain view of every token the user holds. From here you can bridge tokens, execute swaps, or build any custom UI on top of the headless SDK.
-</Callout>
+Diagnostic logging is configured separately. See the [utility reference](/docs/nexus/nexus-sdk/reference/utility-reference) for the full client configuration.
 
 ## Next step
 
-Upgrade your wallet connection experience by replacing `window.ethereum` with RainbowKit.
+Replace `window.ethereum` with RainbowKit and manage the client lifecycle in React.
 
 <Cards>
   <Card href="/docs/nexus/nexus-sdk/get-started/initializing-nexus-with-rainbowkit" title="Initializing Nexus with RainbowKit" arrow />

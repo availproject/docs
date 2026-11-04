@@ -95,16 +95,75 @@ const config = {
       },
       // Skip-to-first-child: reference sections land directly on first method
       {
-        source: "/docs/nexus/nexus-sdk/reference/bridge-methods",
+        source: "/docs/nexus/nexus-sdk/reference/balances-and-tokens",
         destination:
-          "/docs/nexus/nexus-sdk/reference/bridge-methods/fetch-bridge-balances",
+          "/docs/nexus/nexus-sdk/reference/balances-and-tokens/get-balances",
         permanent: false,
       },
       {
         source: "/docs/nexus/nexus-sdk/reference/swap-methods",
         destination:
-          "/docs/nexus/nexus-sdk/reference/swap-methods/fetch-swap-balances",
+          "/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-in",
         permanent: false,
+      },
+      {
+        source: "/docs/nexus/nexus-sdk/reference/execute-methods",
+        destination: "/docs/nexus/nexus-sdk/reference/execute-methods/execute",
+        permanent: false,
+      },
+      // SDK v3: bridge methods and max/balance helpers were removed
+      {
+        source: "/docs/nexus/nexus-sdk/reference/bridge-methods",
+        destination: "/docs/nexus/nexus-sdk/get-started/bridge-tokens",
+        permanent: true,
+      },
+      {
+        source: "/docs/nexus/nexus-sdk/reference/bridge-methods/bridge",
+        destination: "/docs/nexus/nexus-sdk/get-started/bridge-tokens",
+        permanent: true,
+      },
+      {
+        source: "/docs/nexus/nexus-sdk/reference/bridge-methods/transfer",
+        destination: "/docs/nexus/nexus-sdk/get-started/bridge-tokens",
+        permanent: true,
+      },
+      {
+        source:
+          "/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-and-execute",
+        destination:
+          "/docs/nexus/nexus-sdk/reference/swap-methods/swap-and-execute",
+        permanent: true,
+      },
+      {
+        source: "/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-events",
+        destination: "/docs/nexus/nexus-sdk/reference/swap-methods/swap-events",
+        permanent: true,
+      },
+      {
+        source:
+          "/docs/nexus/nexus-sdk/reference/bridge-methods/fetch-bridge-balances",
+        destination:
+          "/docs/nexus/nexus-sdk/reference/balances-and-tokens/get-balances",
+        permanent: true,
+      },
+      {
+        source:
+          "/docs/nexus/nexus-sdk/reference/swap-methods/fetch-swap-balances",
+        destination:
+          "/docs/nexus/nexus-sdk/reference/balances-and-tokens/get-balances",
+        permanent: true,
+      },
+      {
+        source:
+          "/docs/nexus/nexus-sdk/reference/bridge-methods/calculate-max-for-bridge",
+        destination: "/docs/nexus/migration/sdk-v2-to-v3",
+        permanent: true,
+      },
+      {
+        source:
+          "/docs/nexus/nexus-sdk/reference/swap-methods/calculate-max-for-swap",
+        destination: "/docs/nexus/migration/sdk-v2-to-v3",
+        permanent: true,
       },
     ];
   },

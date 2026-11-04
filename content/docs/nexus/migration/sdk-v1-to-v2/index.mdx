@@ -83,7 +83,7 @@ See [Hooks and Errors](/docs/nexus/nexus-sdk/reference/hooks-and-errors) for the
 
 ## Events: step callbacks → plan-based events
 
-v1's flat `{ name, args }` union (`STEPS_LIST`, `STEP_COMPLETE`, …) is replaced by a typed discriminated union: `status`, `plan_preview`, `plan_confirmed`, and `plan_progress`. Detect a skipped bridge via `result.bridgeSkipped` — there are no `*_SKIPPED` events. See [Bridge Events](/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-events) for the full v2 event reference.
+v1's flat `{ name, args }` union (`STEPS_LIST`, `STEP_COMPLETE`, …) is replaced by a typed discriminated union: `status`, `plan_preview`, `plan_confirmed`, and `plan_progress`. Detect a skipped bridge via `result.bridgeSkipped` — there are no `*_SKIPPED` events. See [Bridge Events](/docs/nexus/nexus-sdk/reference/swap-methods/swap-events) for the full v2 event reference.
 
 ## Results and errors
 

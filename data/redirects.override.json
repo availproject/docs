@@ -58,5 +58,45 @@
   {
     "source": "/docs/nexus/nexus-sdk/quickstart",
     "destination": "/docs/nexus/nexus-sdk/get-started/installation"
+  },
+  {
+    "source": "/nexus/avail-nexus-sdk/bridge-methods",
+    "destination": "/docs/nexus/nexus-sdk/get-started/bridge-tokens"
+  },
+  {
+    "source": "/nexus/avail-nexus-sdk/bridge-methods/bridge",
+    "destination": "/docs/nexus/nexus-sdk/get-started/bridge-tokens"
+  },
+  {
+    "source": "/nexus/avail-nexus-sdk/bridge-methods/transfer",
+    "destination": "/docs/nexus/nexus-sdk/get-started/bridge-tokens"
+  },
+  {
+    "source": "/nexus/avail-nexus-sdk/bridge-methods/bridge-and-execute",
+    "destination": "/docs/nexus/nexus-sdk/reference/swap-methods/swap-and-execute"
+  },
+  {
+    "source": "/nexus/avail-nexus-sdk/bridge-methods/bridge-events",
+    "destination": "/docs/nexus/nexus-sdk/reference/swap-methods/swap-events"
+  },
+  {
+    "source": "/nexus/avail-nexus-sdk/bridge-methods/fetch-bridge-balances",
+    "destination": "/docs/nexus/nexus-sdk/reference/balances-and-tokens/get-balances"
+  },
+  {
+    "source": "/nexus/avail-nexus-sdk/swap-methods/fetch-swap-balances",
+    "destination": "/docs/nexus/nexus-sdk/reference/balances-and-tokens/get-balances"
+  },
+  {
+    "source": "/nexus/nexus-examples/nexus-bridge",
+    "destination": "/docs/nexus/nexus-sdk/get-started/bridge-tokens"
+  },
+  {
+    "source": "/nexus/nexus-examples/bridge-and-transfer",
+    "destination": "/docs/nexus/nexus-sdk/get-started/bridge-tokens"
+  },
+  {
+    "source": "/nexus/nexus-examples/bridge-execute",
+    "destination": "/docs/nexus/nexus-sdk/reference/swap-methods/swap-and-execute"
   }
 ]

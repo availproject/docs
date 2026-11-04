@@ -1,25 +1,25 @@
 ---
 title: Installation
-description: Install the Nexus SDK packages and dependencies in your project.
+description: Install the Nexus SDK package in your project.
 ---
 
-In this guide you will install `@avail-project/nexus-core` and its peer dependencies into an existing project. By the end, your project will be ready for SDK initialization in the next step.
+In this guide you will install `@avail-project/nexus-core` into an existing project. By the end, your project will be ready to create a Nexus client in the next step.
 
 ## Prerequisites
 
 Before you begin, make sure you have:
 
-- **A JavaScript or TypeScript project** — the SDK works with any framework or runtime (React, Node.js, vanilla JS, etc.)
-- **Node.js 18+** or **Bun** with a package manager (npm 9+, pnpm, yarn, or bun)
-- **An [EIP-1193](https://eips.ethereum.org/EIPS/eip-1193) compatible wallet provider** to sign transactions (e.g. MetaMask via `window.ethereum`, or a library like [wagmi](https://wagmi.sh))
+- **A JavaScript or TypeScript project.** The SDK is headless, so it works with any framework (React, Next.js, Vue, vanilla JS, and so on).
+- **Node.js 18 or later** with a package manager (npm, pnpm, yarn, or bun).
+- **An [EIP-1193](https://eips.ethereum.org/EIPS/eip-1193) wallet provider** for anything that signs or reads the user's wallet, for example `window.ethereum` or the provider from a wagmi connector.
 
 <Callout type="info" title="Wallet provider">
-The SDK needs an EIP-1193 provider to send transactions. In a browser you can use `window.ethereum` directly. Wallet libraries like wagmi or RainbowKit are optional — they just make it easier to manage wallet connections in React apps.
+The SDK does not include a wallet connection UI. Bring your own EIP-1193 provider. In a browser you can use `window.ethereum` directly. Wallet libraries like wagmi or RainbowKit are optional; they make it easier to manage connections in React apps.
 </Callout>
 
-## Step 1 — Install the core package
+## Step 1: Install the package
 
-Run one of the following commands to add the Nexus SDK to your project:
+Run one of the following commands:
 
 <Tabs defaultValue="npm">
   <TabsList>
@@ -50,33 +50,41 @@ bun add @avail-project/nexus-core
   </TabsContent>
 </Tabs>
 
+The package has no peer dependencies. Its runtime dependencies, including `viem`, install automatically. You only need to add `viem` to your own project if your app code imports it directly, for example to encode contract calldata with `encodeFunctionData` as the [Deposit into Aave](/docs/nexus/nexus-sdk/get-started/deposit-into-aave) guide does.
+
 ### What gets installed
 
-The `@avail-project/nexus-core` package provides:
+The package ships ESM and CommonJS builds with TypeScript declarations, and exposes two entry points:
 
-- **`createNexusClient`** — the factory function for creating a Nexus client and performing cross-chain operations
-- **Bridge methods** — `bridge()`, `bridgeAndTransfer()`, `bridgeAndExecute()` for moving tokens across chains
-- **Swap methods** — `swapWithExactIn()`, `swapWithExactOut()` for cross-chain token swaps
-- **Balance methods** — `getBalancesForBridge()` and `getBalancesForSwap()` for multi-chain token balances
-- **Typed progress events** — an `onEvent` callback with a discriminated union (`status`, `plan_preview`, `plan_confirmed`, `plan_progress`) for tracking transaction progress
-- **Type exports** — `NexusClient`, `BridgeResult`, `EthereumProvider`, and more
+| Import path | Contents |
+| --- | --- |
+| `@avail-project/nexus-core` | `createNexusClient`, error classes (`NexusError`, `UserActionError`, and so on), `ERROR_CODES`, `getIntentQuoteFailure`, and all public types such as `NexusClient`, `IntentQuote`, `IntentEvent`, and `IntentResult` |
+| `@avail-project/nexus-core/utils` | Formatting and unit helpers: `parseUnits`, `formatUnits`, `formatTokenBalance`, `formatTokenBalanceParts`, `truncateAddress`, `isValidAddress`, `getCoinbaseRates`, `getSupportedChains` |
 
-## Step 2 — Verify the installation
+The client you create with `createNexusClient` provides:
 
-Confirm the package was installed by importing and creating a client:
+- **Swaps and same-asset bridging:** `swapWithExactIn()` and `swapWithExactOut()`
+- **Fund and execute:** `swapAndExecute()` funds a destination contract call, then runs it
+- **Standalone execution:** `execute()` and `simulateExecute()`
+- **Balances and token catalog:** `getBalances()`, `getSupportedChains()`, `getTokens()`, `getTokensByChain()`, `getToken()`, and route discovery helpers
+- **History:** `listIntents()`
 
-```ts
+## Step 2: Verify the installation
+
+Confirm the package resolves by importing it and creating a client:
+
+```typescript title="TypeScript"
 import { createNexusClient } from "@avail-project/nexus-core";
 
-const client = createNexusClient();
-console.log("Nexus SDK ready");
+const client = createNexusClient({ clientId: "my-nexus-app" });
+console.log("Nexus SDK ready", client.hasEvmProvider); // false until a wallet is attached
 ```
 
-If this compiles without errors, the installation is complete.
+`clientId` is required. Use a stable, non-empty identifier for your app. If this compiles and runs without errors, the installation is complete.
 
 ## Next step
 
-The package is installed. Next, you will create an SDK instance, connect it to a wallet, and fetch your first token balances.
+Next, you will initialize the client, attach a wallet provider, and fetch your first balances.
 
 <Cards>
   <Card href="/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup" title="Nexus SDK Setup" arrow />

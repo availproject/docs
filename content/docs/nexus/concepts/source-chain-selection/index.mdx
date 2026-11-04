@@ -13,34 +13,35 @@ Source chain selection determines which chains liquidity is routed through to re
 
 *Showing a subset of supported chains. See [Supported Chains & Tokens](/docs/nexus/supported-chains-and-tokens) for the full list.*
 
-### Bridge Methods
-For [Bridge Methods](/docs/nexus/nexus-sdk/reference/bridge-methods/fetch-bridge-balances), `sources` is simply an array of chain IDs to limit sourcing liquidity from.
-
-```typescript
-sources?: number[];
-```
-
-If omitted, the SDK selects sources automatically: it accumulates the user's balances across chains until the requested amount plus fees is covered. If the combined balances can't cover it, the operation fails with an `INSUFFICIENT_BALANCE` error. But if needed, the developer can pass `sources` to limit liquidity to be sourced from the specified chains **ONLY**.
-
-### Swap Methods
-For [Swap Methods](/docs/nexus/concepts/xcs-swaps), sources are specific tokens on specific chains, so each entry names the `chainId` and `tokenAddress`. For `ExactIn` swaps, each source can also carry an `amountRaw` to fix how much of it to spend.
+### Exact output
+For exact-output operations (`swapWithExactOut` and the default `swapAndExecute`), `sources` restricts which chains, and optionally which tokens, liquidity may come from. Each entry is an alternative, not a required input.
 
 ```typescript
 sources?: {
   chainId: number;
-  tokenAddress: Hex;
-  amountRaw?: bigint; // ExactIn only
+  tokenAddress?: Hex; // omit to allow any eligible token on that chain
 }[];
 ```
 
-As with bridges, omitting `sources` lets the SDK pick from all available swap balances.
+If `sources` is omitted (or `[]`), the SDK funds the operation automatically from the wallet's eligible balances. If they can't cover the requested amount plus fees, the quote fails with an `INSUFFICIENT_BALANCE` error. When `sources` is passed, liquidity is sourced from the specified chains and tokens **ONLY**.
+
+### Exact input
+For exact-input operations (`swapWithExactIn` and `swapAndExecute` with `tradeType: 'exactInput'`), every source names a specific token on a specific chain and the exact `amountRaw` to spend. All sources and the destination must share one provider.
+
+```typescript
+sources: {
+  chainId: number;
+  tokenAddress: Hex;
+  amountRaw: bigint;
+}[];
+```
 
 ### Re-planning from the intent hook
 
-Before an operation executes, the `onIntent` hook presents the intent. For bridge operations the intent includes both `selectedSources` (what the SDK picked) and `availableSources` (everything it could have picked), and calling `refresh(selectedSources)` from the hook rebuilds the intent with a different source selection — so users can override the route without restarting the operation. Swap intents offer the same via `refresh(sources)`. See [Hooks](/docs/nexus/nexus-sdk/reference/hooks-and-errors) for details.
+Before an operation executes, the `onIntent` hook presents the quote. Its `sourceVerdicts` mark every considered source as `selected`, `unused`, or `unroutable`. Calling `refresh(sources)` from the hook returns a replacement quote for a different source selection, so users can override the route without restarting the operation. See [Review quotes](/docs/nexus/nexus-sdk/reference/swap-methods/review-quotes) for details.
 
 <Callout>
-[Learn more about the difference between Bridge and Swap methods.](/docs/nexus/concepts/bridge-v-swap)
+[Learn more about wallet balances.](/docs/nexus/concepts/bridge-v-swap)
 </Callout>
 
 <PageFooter
@@ -51,7 +52,7 @@ Before an operation executes, the `onIntent` hook presents the intent. For bridg
   }}
   next={{
     title: "Understanding Balance Types",
-    description: "Why bridge and swap use different balances.",
+    description: "Actual and usable wallet balances.",
     href: "/docs/nexus/concepts/bridge-v-swap"
   }}
 />

@@ -1,0 +1,290 @@
+---
+title: "Review Quotes"
+sidebarTitle: "Review Quotes"
+description: "Show a confirmation UI with hooks.onIntent, refresh quotes, read IntentQuote fields, and tune slippage and fill timing for swapWithExactIn() and swapWithExactOut()."
+---
+
+<Callout type="info">
+**SET UP THE SDK BEFORE YOU START:**
+
+Install and initialize the client first — see [Installation](/docs/nexus/nexus-sdk/get-started/installation) and [SDK Setup](/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup).
+</Callout>
+
+Both [`swapWithExactIn`](/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-in) and [`swapWithExactOut`](/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-out) take `SwapOperationOptions` as their second argument. This page covers the review hook (`options.hooks.onIntent`), the quote it receives, and the slippage and timing options. For progress events, see [Swap Events](/docs/nexus/nexus-sdk/reference/swap-methods/swap-events).
+
+<Callout type="info">
+`swapAndExecute` uses a different composite hook. Its `onIntent` receives `intent` (a `SwapAndExecuteIntent` with execute requirements, available funds, and shortfall), not `quote`. See [Swap and Execute](/docs/nexus/nexus-sdk/reference/swap-methods/swap-and-execute).
+</Callout>
+
+## Method signature
+
+```typescript title="TypeScript"
+export type SwapOperationOptions = {
+  onEvent?: (event: IntentEvent) => void;
+  hooks?: {
+    onIntent?: (data: IntentHookData) => void | Promise<void>;
+  };
+  slippageBps?: number | 'auto';
+  fillTimeoutMinutes?: number;
+  pollingIntervalMs?: number;
+};
+
+export type IntentHookData = {
+  /** SDK payment attempt correlation ID, available before commitment. */
+  attemptId?: string;
+  /** Latest quote eligibility. Not-connected takes priority and requires a new swap call. */
+  readonly execution:
+    | { possible: true }
+    | { possible: false; cause: 'not-connected' | 'insufficient-balance' };
+  quote: IntentQuote;
+  allow: () => void;
+  deny: () => void;
+  refresh: (sources?: IntentSource[]) => Promise<IntentQuote>;
+};
+
+export type IntentSource = {
+  chainId: number;
+  tokenAddress?: Hex;
+  amountRaw?: bigint;
+};
+```
+
+`SwapOperationOptions` is also exported as `IntentOperationOptions`.
+
+## Parameters
+
+### The review hook
+
+When you pass `hooks.onIntent`, the SDK fetches a quote, emits it as a `quote` event, and then calls your hook. The operation waits until you call `allow()` or `deny()`.
+
+- `quote`: the quote as first fetched. After a refresh, use the quote that `refresh()` returns. `hook.quote` keeps the original.
+- `execution`: whether the **latest** quote can execute. It is a getter, so read it again after each refresh.
+  - `{ possible: true }`: you can call `allow()`.
+  - `{ possible: false, cause: 'not-connected' }`: a disconnected `swapWithExactIn` preview. See [below](#disconnected-previews-and-quoteexecution).
+  - `{ possible: false, cause: 'insufficient-balance' }`: the wallet can't cover the quote (`quote.isExecutable` is `false`). Fund the wallet or change sources, then refresh. Calling `allow()` anyway rejects with `BACKEND_INSUFFICIENT_BALANCE`.
+- `allow()`: accept the latest quote and continue. After this, the quote is fixed.
+- `deny()`: cancel. The operation rejects with a `UserActionError` (`USER_INTENT_HOOK_DENIED`).
+- `refresh(sources?)`: fetch a replacement quote. See [Refresh](#refresh).
+- `attemptId`: a correlation ID for the attempt. It stays the same across refreshes and also appears on `IntentResult`.
+
+Returning from the hook does not accept the quote; only `allow()` does. If the hook throws, or its returned promise rejects, the operation rejects with that error. Keep the `allow` / `deny` / `refresh` functions and call them from your UI.
+
+**Without a hook**, the SDK accepts the quote automatically. The `quote` event is still emitted, so you can render it, but the user does not get a chance to confirm. On a disconnected `swapWithExactIn` preview, the call then rejects with `WALLET_NOT_CONNECTED`.
+
+ERC-20 approvals use the minimum required amount (`allowances[].requiredRaw`). After you allow, the wallet may prompt for approvals, approval signatures (permits), the intent signature, and native source transactions.
+
+### Refresh
+
+`await refresh(sources?)` requests a complete replacement quote, emits it as a new `quote` event, and returns it.
+
+- Render the returned quote and read `execution` again.
+- Await refresh before calling `allow()`. `allow()` accepts whichever quote is current when you call it.
+- `sources` omitted: re-quote with the original request.
+- `sources` passed: re-quote with the new sources in place of the original ones.
+  - Exact input: each entry must include `tokenAddress` and a positive `amountRaw`, and all of them must still share one provider with the destination. An empty array is invalid.
+  - Exact output: entries are `{ chainId, tokenAddress? }` alternatives. `[]` removes the restriction and returns to automatic wallet funding.
+- If refresh fails (validation, quoting, or an already-expired quote), the returned promise rejects. The previous quote stays current and the operation keeps waiting, so you can show an error and try again or deny.
+- After `allow()`, `refresh()` does nothing and resolves with the accepted quote.
+
+### Operation options
+
+| Option | Default | Notes |
+| --- | --- | --- |
+| `slippageBps` | `50` (0.5%) | An integer from `0` to `10000`, or `'auto'` to let the provider choose. Other values reject with a `ValidationError`. |
+| `fillTimeoutMinutes` | `2` | How long to wait for fulfillment after submission. On timeout the call rejects with `BACKEND_FULFILMENT_WAIT_TIMEOUT`, but the intent may still fulfill. |
+| `pollingIntervalMs` | `2000` | Interval between fulfillment status checks. Each check emits a `status` event. |
+
+### Disconnected previews and `QuoteExecution`
+
+`swapWithExactIn` can quote before a wallet is connected. `swapWithExactOut` and `swapAndExecute` require a wallet and reject with `WALLET_NOT_CONNECTED`.
+
+```typescript title="TypeScript"
+type QuoteExecution =
+  | { possible: true }
+  | { possible: false; cause: 'not-connected' | 'insufficient-balance' };
+```
+
+`QuoteExecution` is the shape of `IntentHookData['execution']`; it is not a separate export.
+
+- Whether the call is connected is fixed when it starts. If the wallet connects later, the preview still reports `'not-connected'`, which takes priority over `'insufficient-balance'`.
+- After connecting, start a new swap call and review its fresh quote.
+- `allow()` on a preview rejects with `WALLET_NOT_CONNECTED`. `deny()` rejects with a `UserActionError`. A preview never resolves successfully.
+- Without a hook, the `quote` event is emitted and the call rejects with `WALLET_NOT_CONNECTED`.
+- A preview can also fail before your hook runs, for example with `BACKEND_INSUFFICIENT_APPROVAL_GAS` when the source chain lacks native gas for approvals.
+
+### `IntentQuote`
+
+```typescript title="TypeScript"
+export type IntentQuote = {
+  id: Hex;
+  provider: IntentProvider; // 'nexus-v2' | 'mayan' | 'relay'
+  tradeType: IntentTradeType; // 'exactInput' | 'exactOutput'
+  /** Whether the selected route supports destination calls; false means requested calls were omitted. */
+  supportsDestinationCalls: boolean;
+  /** Middleware's source-balance check; does not imply a connected wallet or completed approvals. */
+  isExecutable: boolean;
+  executionWarnings: Array<{
+    code: 'INSUFFICIENT_BALANCE';
+    message: string;
+    shortfalls: Array<{
+      chainId: number;
+      tokenAddress: Hex;
+      requiredRaw: bigint;
+      actualRaw: bigint;
+    }>;
+  }>;
+  input: IntentQuoteInput[];
+  output: {
+    chainId: number;
+    tokenAddress: Hex;
+    amountRaw: bigint;
+    amountUsd: string;
+    minAmountRaw: bigint;
+    minAmountUsd: string;
+  };
+  fees: IntentFees;
+  expiresAt: number;
+  allowances: IntentAllowance[];
+  plan: IntentPlan;
+  sourceVerdicts: IntentSourceVerdict[];
+};
+
+export type IntentQuoteInput = {
+  chainId: number;
+  tokenAddress: Hex;
+  tokenSymbol: string;
+  amountRaw: bigint;
+  amountUsd: string;
+  depositFeeRaw: bigint;
+  depositFeeUsd: string;
+  totalRequiredRaw: bigint;
+  totalRequiredUsd: string;
+};
+
+export type IntentFees = {
+  depositRaw: bigint;
+  depositUsd: string;
+  fulfillmentRaw: bigint;
+  fulfillmentUsd: string;
+  protocolRaw: bigint;
+  protocolUsd: string;
+  solverRaw: bigint;
+  solverUsd: string;
+};
+
+export type IntentAllowance = {
+  chainId: number;
+  tokenAddress: Hex;
+  spender: Hex;
+  owner: Hex;
+  currentRaw: bigint;
+  requiredRaw: bigint;
+  deficitRaw: bigint;
+  authorizationType?: 'approve' | 'permit';
+};
+
+export type IntentSourceVerdict = {
+  chainId: number;
+  tokenAddress: Hex;
+  tokenSymbol: string;
+  state: 'selected' | 'unused' | 'unroutable';
+  reason?: IntentSourceUnroutableReason;
+  detail?: string;
+};
+```
+
+Fields ending in `Raw` are `bigint` raw units; fields ending in `Usd` are decimal strings priced by the middleware. Format raw amounts with each token's own decimals.
+
+- `input`: one entry per source the quote spends. `totalRequiredRaw` is `amountRaw` plus `depositFeeRaw`.
+- `output.amountRaw` / `output.minAmountRaw`: the expected amount and the guaranteed minimum after slippage. Show the minimum in your confirmation UI.
+- `fees`: deposit, fulfillment, protocol, and solver fees.
+- `allowances`: approvals the quote needs. A positive `deficitRaw` means the wallet will be asked to approve, or to sign a permit when `authorizationType` is `'permit'`.
+- `plan.steps`: the steps that will run after you allow. Step types are listed on [Swap Events](/docs/nexus/nexus-sdk/reference/swap-methods/swap-events#plan-steps).
+- `sourceVerdicts`: per-source routing outcome (`selected`, `unused`, or `unroutable` with a `reason`). Use it to explain why a source wasn't used.
+- `expiresAt`: expiry in Unix **seconds**. An expired quote cannot be submitted, so refresh it before the user allows.
+- `isExecutable` / `executionWarnings`: the middleware's source-balance check, plus any shortfalls per token. `isExecutable` doesn't mean the wallet is connected or approvals are done.
+- `supportsDestinationCalls`: whether the route can run destination calls. It matters for `swapAndExecute` provider execution.
+
+The full quote types are in [`src/intent/types.ts`](https://github.com/availproject/nexus-sdk/blob/main/src/intent/types.ts).
+
+## Example
+
+```typescript title="TypeScript"
+import type { IntentHookData, IntentQuote, SwapOperationOptions } from '@avail-project/nexus-core';
+import { formatUnits, parseUnits } from '@avail-project/nexus-core/utils';
+
+declare function renderReview(view: {
+  receive: string;
+  minimum: string;
+  feesUsd: string;
+  expiresAt: Date;
+  canConfirm: boolean;
+  reason?: string;
+}): void;
+declare function onConfirmClicked(handler: () => void): void;
+declare function onCancelClicked(handler: () => void): void;
+declare function onRefreshClicked(handler: () => void): void;
+
+const destinationToken = await client.getToken({
+  chainId: 8453,
+  tokenAddress: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
+});
+
+const show = (hook: IntentHookData, quote: IntentQuote) => {
+  const { execution } = hook; // re-read after every refresh
+  const fees = quote.fees;
+  renderReview({
+    receive: formatUnits(quote.output.amountRaw, destinationToken.decimals),
+    minimum: formatUnits(quote.output.minAmountRaw, destinationToken.decimals),
+    feesUsd: [fees.depositUsd, fees.fulfillmentUsd, fees.protocolUsd, fees.solverUsd].join(' / '),
+    expiresAt: new Date(quote.expiresAt * 1000),
+    canConfirm: execution.possible,
+    reason: execution.possible ? undefined : execution.cause,
+  });
+};
+
+const options: SwapOperationOptions = {
+  slippageBps: 50,
+  fillTimeoutMinutes: 2,
+  pollingIntervalMs: 2000,
+  hooks: {
+    onIntent: (hook) => {
+      show(hook, hook.quote);
+      onConfirmClicked(() => hook.allow());
+      onCancelClicked(() => hook.deny());
+      onRefreshClicked(async () => {
+        try {
+          show(hook, await hook.refresh());
+        } catch (error) {
+          console.error('Refresh failed; the previous quote is still current', error);
+        }
+      });
+    },
+  },
+};
+
+const result = await client.swapWithExactOut(
+  {
+    toChainId: 8453,
+    toTokenAddress: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
+    toAmountRaw: parseUnits('10', destinationToken.decimals),
+  },
+  options,
+);
+console.log('Fulfilled', result.intentExplorerUrl);
+```
+
+## Return Value
+
+The hook returns nothing to the SDK. The swap call resolves with an `IntentResult` after fulfillment, or rejects with a typed [`NexusError`](/docs/nexus/nexus-sdk/reference/hooks-and-errors):
+
+| Situation | Error |
+| --- | --- |
+| `deny()` called | `UserActionError` (`USER_INTENT_HOOK_DENIED`) |
+| `allow()` on a disconnected preview | `ValidationError` (`WALLET_NOT_CONNECTED`) |
+| `allow()` when the quote isn't executable | `BackendError` (`BACKEND_INSUFFICIENT_BALANCE`) |
+| Quote expired before submission | `BackendError` (`BACKEND_ERROR`) |
+| Invalid `slippageBps` | `ValidationError` (`INVALID_INPUT`) |
+| No fulfillment within `fillTimeoutMinutes` | `BackendError` (`BACKEND_FULFILMENT_WAIT_TIMEOUT`) |
+
+`IntentResult` fields are described on [Swap Events](/docs/nexus/nexus-sdk/reference/swap-methods/swap-events#return-value-intentresult).

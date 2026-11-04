@@ -1,0 +1,130 @@
+---
+title: "Execute"
+sidebarTitle: "Execute"
+description: "Send a contract call from the connected wallet using funds already on the destination chain, with an optional ERC-20 approval."
+---
+
+<Callout type="info">
+**SET UP THE SDK BEFORE YOU START:**
+
+Install and initialize the client first — see [Installation](/docs/nexus/nexus-sdk/get-started/installation) and [SDK Setup](/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup).
+</Callout>
+
+Use `execute()` to call a contract on a supported chain with funds the wallet already holds there. No swap or bridge runs. To fund the call from other chains first, use [`swapAndExecute()`](/docs/nexus/nexus-sdk/reference/swap-methods/swap-and-execute); to estimate the cost without sending, use [`simulateExecute()`](/docs/nexus/nexus-sdk/reference/execute-methods/simulate-execute).
+
+A wallet must be connected. The SDK switches the wallet to `toChainId` before sending.
+
+## Method signature
+
+```typescript title="TypeScript"
+execute(
+  params: ExecuteParams,
+  options?: OnEventParam,
+): Promise<ExecuteResult>
+```
+
+`options` is accepted for signature compatibility but currently emits no events.
+
+## Parameters
+
+```typescript title="TypeScript"
+export interface ExecuteParams {
+  toChainId: number;
+  to: Hex;
+  value?: bigint;
+  data?: Hex;
+  gas?: bigint;
+  gasPrice?: 'low' | 'medium' | 'high';
+  waitForReceipt?: boolean;
+  receiptTimeout?: number;
+  requiredConfirmations?: number;
+  tokenApproval?: { toTokenAddress: Hex; amount: bigint; spender: Hex };
+}
+```
+
+Abridged from [`src/domain/types.ts`](https://github.com/availproject/nexus-sdk/blob/main/src/domain/types.ts) (`enableTransactionPolling` and `transactionTimeout` are accepted but currently have no effect).
+
+- `toChainId` (number, required): Chain to execute on.
+- `to` (Hex, required): Contract (or recipient) address.
+- `data` (Hex, optional): Encoded calldata. Defaults to `0x`.
+- `value` (bigint, optional): Native value in wei. Use it for native-token transfers. Defaults to `0n`.
+- `gas` (bigint, optional): Gas limit for the call. When omitted, the wallet estimates it.
+- `gasPrice` (`'low' | 'medium' | 'high'`, optional): Fee tier used by `swapAndExecute()` pricing. Standalone `execute()` leaves fee selection to the wallet, so it has no effect here.
+- `tokenApproval` (optional): An ERC-20 approval to send before the call. Omit it when none is needed.
+  - `toTokenAddress` (Hex): Token to approve. Tokens outside the chain's built-in list are resolved from the token catalog.
+  - `amount` (bigint): Required allowance, in raw units. The SDK reads the current allowance and only sends an approval when it is lower.
+  - `spender` (Hex): Address to approve, usually `to`.
+- `waitForReceipt` (boolean, optional): Defaults to `true`. Set `false` to return as soon as the transaction is broadcast.
+- `receiptTimeout` (number, optional): Milliseconds to wait for the receipt. Defaults to `300000` (5 minutes).
+- `requiredConfirmations` (number, optional): Confirmations to wait for. Defaults to `1`.
+
+When an approval is needed and the wallet supports atomic batched calls (EIP-5792), the SDK sends the approval and the call as one atomic batch; otherwise it sends the approval, waits for one confirmation, then sends the call.
+
+Amounts are raw `bigint` values. Resolve token decimals with `client.getToken({ chainId, tokenAddress })` and `parseUnits` — never hardcode them.
+
+## Example
+
+```typescript title="TypeScript"
+import { encodeFunctionData, parseUnits, type Abi, type Hex } from 'viem';
+import type { ExecuteParams } from '@avail-project/nexus-core';
+
+declare const vault: Hex;
+declare const vaultAbi: Abi;
+declare const user: Hex; // the connected wallet address
+
+const usdc = {
+  chainId: 42161,
+  tokenAddress: '0xaf88d065e77c8cc2239327c5edb3a432268e5831',
+} as const;
+const token = await client.getToken(usdc);
+const amountRaw = parseUnits('100', token.decimals);
+
+const params: ExecuteParams = {
+  toChainId: usdc.chainId,
+  to: vault,
+  data: encodeFunctionData({ abi: vaultAbi, functionName: 'deposit', args: [amountRaw, user] }),
+  tokenApproval: { toTokenAddress: usdc.tokenAddress, amount: amountRaw, spender: vault },
+  requiredConfirmations: 2,
+};
+
+const estimate = await client.simulateExecute(params);
+console.log('Estimated gas units:', estimate.estimatedGasUnits);
+
+const result = await client.execute(params);
+console.log('Execute tx:', result.execute.txExplorerUrl);
+if (result.approval) console.log('Approval tx:', result.approval.txExplorerUrl);
+console.log('Gas used:', result.gasUsed);
+```
+
+## Return Value
+
+```typescript title="TypeScript"
+export interface ExecuteResult {
+  approval?: TxResult;
+  execute: TxResult;
+  chainId: number;
+  confirmations?: number;
+  gasUsed?: string;
+  effectiveGasPrice?: string;
+}
+
+export type TxResult = {
+  txHash: Hex;
+  txExplorerUrl: string;
+  receipt?: TransactionReceipt;
+};
+```
+
+- `execute` (`TxResult`): The contract call. `receipt` is set when the SDK waited for it.
+- `approval` (`TxResult`, optional): Present only when an approval was sent. It carries no `receipt`.
+- `chainId` (number): The chain the call ran on.
+- `confirmations` (number, optional): Echoes the `requiredConfirmations` you passed; `undefined` when you relied on the default.
+- `gasUsed` / `effectiveGasPrice` (string, optional): Decimal strings from the receipt; `"0"` when no receipt was awaited.
+
+<Callout type="warn">
+With `waitForReceipt: false`, the promise resolves after broadcast. The transaction can still revert afterwards, so track `execute.txHash` yourself.
+</Callout>
+
+<Callout type="info">
+On failure the method throws a typed [`NexusError`](/docs/nexus/nexus-sdk/reference/hooks-and-errors) subclass — for example, a user rejecting the wallet prompt, a failed send, or an on-chain revert. Errors carry `context.stepType` (`execute_approval` or `execute_transaction`) and `context.chainId`.
+</Callout>

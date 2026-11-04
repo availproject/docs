@@ -1,256 +1,203 @@
 ---
 title: Deposit into Aave
-description: Bridge tokens and immediately deposit them into Aave using a single SDK call.
+description: Swap into USDC on Base and supply it to Aave V3 in one flow with swapAndExecute.
 ---
 
-In this guide you will implement a **Bridge & Execute** flow that bridges USDC from any chain and immediately supplies it into Aave V3 on Arbitrum Sepolia in a single user-signed intent. You will also build a step-by-step progress UI that tracks each phase of the transaction.
+In this guide you will use `swapAndExecute` to spend an exact amount of a source token, swap it into USDC on Base, and supply the proceeds to Aave V3. You will build the `supply()` calldata from the amount actually received, review the operation before anything is signed, and then let Relay execute the deposit for you instead of the user's wallet.
 
 <Callout type="info" title="Prerequisite">
-This guide builds on the [Bridge Tokens](/docs/nexus/nexus-sdk/get-started/bridge-tokens) tutorial. Complete that first.
+This guide builds on [Bridge tokens](/docs/nexus/nexus-sdk/get-started/bridge-tokens) and reuses its `useNexus()` hook and `findToken()` helper. It runs on `mainnet` (or `canary`) only.
 </Callout>
 
 ## What you will build
 
 A deposit button that:
-1. Bridges USDC from one or more source chains to Arbitrum Sepolia
-2. Automatically calls Aave V3's `supply()` function on the destination chain
-3. Displays a real-time progress checklist with explorer links
 
-## How `bridgeAndExecute` works
+1. Spends exactly 5 USDC from Arbitrum (`tradeType: 'exactInput'`).
+2. Funds USDC on Base, then calls Aave V3 `Pool.supply(asset, amount, onBehalfOf, referralCode)` with the funded amount.
+3. Shows a review step and the deposit transaction or intent link when done.
 
-The `client.bridgeAndExecute()` method extends regular bridging by accepting an `execute` object that defines a contract call to run after the bridge completes. The user signs a single intent that covers both operations.
+## How `swapAndExecute` with exact input works
 
-| Param | Type | Required | Description |
-| --- | --- | --- | --- |
-| `toTokenSymbol` | `string` | Yes | Token to bridge (e.g. "USDC"). |
-| `toAmountRaw` | `bigint` | Yes | Amount in smallest unit (e.g. BigInt(1_000_000) = 1 USDC). |
-| `toChainId` | `number` | Yes | Destination chain ID. The `execute` object inherits it, so it omits `toChainId`. |
-| `execute.to` | `string` | Yes | Contract address to call on the destination chain. |
-| `execute.data` | `string` | Yes | ABI-encoded function call data. |
-| `execute.tokenApproval` | `{ toTokenSymbol: string, amount: bigint, spender: string }` | For this flow | Optional in general; required whenever the target contract pulls ERC-20 funds via `transferFrom`, as Aave's `supply()` does. |
+With `tradeType: 'exactInput'` you fix what the user spends, so the deposit amount is only known after funding. The SDK handles this in three places:
 
-## Step 1 - Add the bridgeAndExecute helper
+| Piece | What you pass | Why |
+| --- | --- | --- |
+| `execute.tokenApproval.amount` | `0n` placeholder | When `tokenApproval.toTokenAddress` is the destination token, the SDK replaces the amount with the final `executeAmountRaw`. |
+| `execute.data` | Omit it | You do not know the amount yet. |
+| `options.beforeExecute` | A function that returns `{ data }` | Called with `executeAmountRaw` once the amount is known. Encode `supply()` with it. |
 
-Update your SDK helper file with a `bridgeAndExecute` function. This encodes an Aave V3 `supply()` call and passes it to the SDK.
+`execute.gas` is required: a positive raw gas estimate for the destination call. The SDK adds chain-specific buffers and accounts for approval gas separately.
 
-```tsx title="src/lib/nexus.ts"
-import type { BridgeAndExecuteEvent } from "@avail-project/nexus-core";
-import { encodeFunctionData } from "viem";
+## Step 1: Add the Aave helper
 
-// ... existing code (client instance, initialize, destroy, getBalancesForBridge, bridge) ...
+Install `viem` if your app does not already depend on it (`pnpm add viem`), then add a helper that encodes `supply()`.
 
-const AAVE_V3_POOL = "0xBfC91D59fdAA134A4ED45f7B584cAf96D7792Eff"; // Aave V3 Pool on Arbitrum Sepolia
+```typescript title="src/lib/aave.ts"
+import { encodeFunctionData, type Hex } from "viem";
 
-export async function bridgeAndExecute(
-  userAddress: `0x${string}`,
-  onEvent: (event: BridgeAndExecuteEvent) => void
-) {
-  if (!client.hasEvmProvider) {
-    throw new Error("Connect a wallet and initialize the client first.");
-  }
-  if (!userAddress) {
-    throw new Error("User address is required");
-  }
+// Aave V3 Pool on Base (chain ID 8453).
+// Confirm this address in Aave's address book before you ship:
+// https://github.com/bgd-labs/aave-address-book (AaveV3Base.POOL)
+export const AAVE_V3_POOL_BASE: Hex = "0xA238Dd80C259a72e81d7e4664a9801593F98d1c5";
 
-  // Look up the USDC contract address on Arbitrum Sepolia from the client's chain list.
-  const usdc = client.chainList.getTokenInfoBySymbol(421614, "USDC");
-
-  // Encode the Aave V3 supply() function call
-  const data = encodeFunctionData({
-    abi: [
-      {
-        inputs: [
-          { internalType: "address", name: "asset", type: "address" },
-          { internalType: "uint256", name: "amount", type: "uint256" },
-          {
-            internalType: "address",
-            name: "onBehalfOf",
-            type: "address",
-          },
-          {
-            internalType: "uint16",
-            name: "referralCode",
-            type: "uint16",
-          },
-        ],
-        name: "supply",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-      },
+const poolAbi = [
+  {
+    type: "function",
+    name: "supply",
+    stateMutability: "nonpayable",
+    inputs: [
+      { name: "asset", type: "address" },
+      { name: "amount", type: "uint256" },
+      { name: "onBehalfOf", type: "address" },
+      { name: "referralCode", type: "uint16" },
     ],
-    functionName: "supply",
-    args: [
-      usdc.contractAddress, // asset: USDC token address
-      BigInt(1_000_000), // amount: 1 USDC (6 decimals)
-      userAddress, // onBehalfOf: user's address
-      0, // referralCode: 0
-    ],
-  });
-
-  const result = await client.bridgeAndExecute(
-    {
-      toTokenSymbol: "USDC",
-      toAmountRaw: BigInt(1_000_000), // 1 USDC (6 decimals)
-      toChainId: 421614, // Arbitrum Sepolia
-      execute: {
-        // toChainId is inherited from the top-level toChainId
-        to: AAVE_V3_POOL,
-        data: data,
-        tokenApproval: {
-          toTokenSymbol: "USDC",
-          amount: BigInt(1_000_000),
-          spender: AAVE_V3_POOL,
-        },
-      },
-    },
-    { onEvent }
-  );
-
-  return result;
-}
-```
-
-### Breaking down the `execute` object
-
-```ts
-execute: {
-  // toChainId is inherited from the top-level toChainId
-  to: AAVE_V3_POOL,                     // Aave V3 Pool contract
-  data: data,                           // Encoded supply() call
-  tokenApproval: {
-    toTokenSymbol: "USDC",
-    amount: BigInt(1_000_000),
-    spender: AAVE_V3_POOL,
+    outputs: [],
   },
+] as const;
+
+export function encodeSupply(asset: Hex, amountRaw: bigint, onBehalfOf: Hex): Hex {
+  return encodeFunctionData({
+    abi: poolAbi,
+    functionName: "supply",
+    args: [asset, amountRaw, onBehalfOf, 0],
+  });
 }
 ```
 
-- **`to`** - the contract address to call after bridging completes
-- **`data`** - ABI-encoded function call, built with viem's `encodeFunctionData`
-- **`tokenApproval`** - Aave needs approval to pull USDC from the user, so the SDK handles the approval step automatically
+## Step 2: Create the deposit component (wallet execution)
 
-## Step 2 - Create the deposit button component
-
-This component triggers the transaction and renders a real-time progress checklist.
+By default, the user's wallet sends the `supply()` transaction on Base after funding completes.
 
 ```tsx title="src/components/deposit-button.tsx"
 "use client";
 
 import { useState } from "react";
 import { useAccount } from "wagmi";
-import type {
-  BridgeAndExecutePlanStep,
+import {
+  UserActionError,
+  type SwapAndExecuteHookData,
+  type SwapAndExecuteResult,
 } from "@avail-project/nexus-core";
-import { bridgeAndExecute, client } from "../lib/nexus";
+import { formatUnits, parseUnits } from "@avail-project/nexus-core/utils";
+import { useNexus } from "@/components/nexus-provider";
+import { findToken } from "@/lib/tokens";
+import { AAVE_V3_POOL_BASE, encodeSupply } from "@/lib/aave";
 
-type CompletedStep = { state: string; explorerUrl?: string };
+const BASE = 8453;
+const ARBITRUM = 42161;
 
-export default function DepositButton({
-  className,
-  onResult,
-}: {
-  className?: string;
-  onResult?: (r: any) => void;
-}) {
+export default function DepositButton({ className }: { className?: string }) {
+  const { client } = useNexus();
   const { address } = useAccount();
-  const [steps, setSteps] = useState<BridgeAndExecutePlanStep[]>([]);
-  const [completed, setCompleted] = useState<Record<string, CompletedStep>>({});
-  const [error, setError] = useState<string>("");
+  const [review, setReview] = useState<SwapAndExecuteHookData | null>(null);
+  const [result, setResult] = useState<SwapAndExecuteResult | null>(null);
+  const [decimals, setDecimals] = useState(0);
+  const [status, setStatus] = useState("");
 
-  const onClick = async () => {
-    if (!client.hasEvmProvider) return alert("Initialize first");
-    if (!address) return alert("Please connect your wallet first");
-
-    setSteps([]);
-    setCompleted({});
-    setError("");
+  const deposit = async () => {
+    if (!client?.hasEvmProvider || !address) return;
+    setResult(null);
+    setStatus("");
 
     try {
-      const res = await bridgeAndExecute(address, (event) => {
-        // plan_preview / plan_confirmed carry the full list of steps
-        if (event.type === "plan_preview" || event.type === "plan_confirmed") {
-          setSteps(event.plan.steps);
-        }
-        // plan_progress reports per-step state transitions
-        if (event.type === "plan_progress") {
-          // Both 'confirmed' and 'completed' are terminal success states
-          if (event.state === "confirmed" || event.state === "completed") {
-            setCompleted((prev) => ({
-              ...prev,
-              [event.step.id]: {
-                state: event.state,
-                explorerUrl:
-                  "explorerUrl" in event ? event.explorerUrl : undefined,
-              },
-            }));
-          }
-        }
-      });
-      onResult?.(res);
-    } catch (e: any) {
-      setError(e.message || "Transaction failed");
+      const usdcBase = await findToken(client, BASE, "USDC");
+      const usdcArbitrum = await findToken(client, ARBITRUM, "USDC");
+      setDecimals(usdcBase.decimals);
+
+      const res = await client.swapAndExecute(
+        {
+          tradeType: "exactInput",
+          sources: [
+            {
+              chainId: usdcArbitrum.chainId,
+              tokenAddress: usdcArbitrum.address,
+              amountRaw: parseUnits("5", usdcArbitrum.decimals), // spend exactly 5 USDC
+            },
+          ],
+          toChainId: BASE,
+          toTokenAddress: usdcBase.address,
+          execute: {
+            to: AAVE_V3_POOL_BASE,
+            gas: 350_000n, // raw estimate for supply(); the SDK adds buffers
+            tokenApproval: {
+              toTokenAddress: usdcBase.address,
+              amount: 0n, // placeholder: the SDK approves the final executeAmountRaw
+              spender: AAVE_V3_POOL_BASE,
+            },
+          },
+        },
+        {
+          hooks: {
+            // The operation waits for allow() or deny().
+            onIntent: (data) => setReview(data),
+          },
+          onEvent: (event) => {
+            if (event.type === "step") setStatus(`${event.step.type}: ${event.state}`);
+            if (event.type === "status") setStatus(`Funding ${event.status}`);
+          },
+          // Called after funding with the final amount. Build calldata from executeAmountRaw.
+          beforeExecute: async ({ executeAmountRaw }) => ({
+            data: encodeSupply(usdcBase.address, executeAmountRaw, address),
+          }),
+        },
+      );
+      setResult(res);
+      setStatus("Deposited");
+    } catch (e) {
+      setStatus(e instanceof UserActionError ? "Cancelled" : e instanceof Error ? e.message : String(e));
+    } finally {
+      setReview(null);
     }
   };
 
+  const intent = review?.intent;
+
   return (
-    <div className="flex flex-col items-center gap-4 w-full max-w-md">
-      <button
-        className={className}
-        onClick={onClick}
-        disabled={!client.hasEvmProvider}
-      >
-        Bridge USDC & Deposit into Aave
+    <div className="flex flex-col gap-3 w-full max-w-md">
+      <button className={className} onClick={deposit} disabled={!client?.hasEvmProvider || !!review}>
+        Swap 5 USDC from Arbitrum and supply on Aave (Base)
       </button>
 
-      {steps.length > 0 && (
-        <div className="w-full">
-          <h3 className="font-bold text-sm mb-2">
-            Transaction Progress:
-          </h3>
-          <div className="flex flex-col gap-2">
-            {steps.map((step) => {
-              const done = completed[step.id];
-              const isDone = !!done;
-
-              return (
-                <div
-                  key={step.id}
-                  className="flex items-center justify-between text-sm"
-                >
-                  <span
-                    className={
-                      isDone
-                        ? "text-green-600 font-medium"
-                        : "text-gray-500"
-                    }
-                  >
-                    {isDone ? "✅" : "○"}
-                    <span className="ml-2 text-xs text-gray-400">
-                      ({step.type})
-                    </span>
-                  </span>
-
-                  {done?.explorerUrl && (
-                    <a
-                      href={done.explorerUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-blue-500 underline ml-2"
-                    >
-                      View on Explorer
-                    </a>
-                  )}
-                </div>
-              );
-            })}
+      {review && intent && (
+        <div className="rounded border p-3 text-sm">
+          <b>Review</b>
+          <div>
+            Estimated deposit: {intent.executeRequirement.token.amount} {intent.executeRequirement.token.symbol}
+          </div>
+          {intent.quote && (
+            <div>
+              Guaranteed swap output: at least {formatUnits(intent.quote.output.minAmountRaw, decimals)} USDC
+            </div>
+          )}
+          <div>
+            Destination gas: {intent.executeRequirement.gas.amount} {intent.executeRequirement.gas.symbol}
+          </div>
+          <div className="flex gap-2 mt-2">
+            <button className={className} onClick={review.allow}>Confirm</button>
+            <button className={className} onClick={review.deny}>Cancel</button>
           </div>
         </div>
       )}
 
-      {error && (
-        <div className="text-red-500 text-sm font-bold">
-          Error: {error}
+      {status && <div className="text-sm">{status}</div>}
+
+      {result && (
+        <div className="text-sm">
+          Supplied {formatUnits(result.executeAmountRaw, decimals)} USDC.{" "}
+          {result.executionMode === "wallet" && (
+            <a href={result.execute.txExplorerUrl} target="_blank" rel="noopener noreferrer" className="underline">
+              View deposit transaction
+            </a>
+          )}
+          {!result.swapSkipped && (
+            <>
+              {" "}
+              <a href={result.swapResult.intentExplorerUrl} target="_blank" rel="noopener noreferrer" className="underline">
+                View funding intent
+              </a>
+            </>
+          )}
         </div>
       )}
     </div>
@@ -258,146 +205,150 @@ export default function DepositButton({
 }
 ```
 
-### How the progress UI works
+### What happens at each stage
 
-The component derives the checklist from the typed `onEvent` stream:
+- **Review (`hooks.onIntent`).** The composite hook receives `intent`, not `quote`. `intent.executeRequirement` describes the call: the token amount (an estimate from the quote's minimum output plus any selected local tokens), destination gas, and the approval. `intent.quote` exists only when `intent.swapRequired` is `true`.
+- **Funding.** After `allow()`, the SDK reads the destination balance, runs the swap, and reads the balance again after fulfillment. `onEvent` reports funding progress with the same `IntentEvent` stream as plain swaps.
+- **`beforeExecute`.** Receives `receivedAmountRaw` (the measured proceeds) and `executeAmountRaw` (proceeds plus selected local tokens, after native execution reserves). Always encode amount-sensitive calldata from `executeAmountRaw`. The SDK then approves exactly that amount to the pool and sends `supply()` from the user's wallet.
+- **Result.** In wallet mode the result has `executionMode: 'wallet'`, the `execute` transaction, an optional `approval` transaction, `executeAmountRaw`, and `swapResult` unless the swap was skipped.
 
-- **`steps`** - populated from `event.plan.steps` when a `plan_preview` (or `plan_confirmed`) event fires, listing every step the transaction will go through (allowance approval, request signing, vault deposit, bridge fill, execute approval, execute transaction, and so on)
-- **`completed`** - a map keyed by `step.id`, filled in from `plan_progress` events. On-chain steps settle on `confirmed` and off-chain steps on `completed`, so the UI treats both as terminal-success states
+<Callout type="info" title="Destination gas">
+In wallet mode the user's wallet sends the deposit, so it needs native gas on Base. When the output is an ERC-20 token, the SDK requests a gas drop with the funding when needed. If every source is already USDC on Base, the swap is skipped and the wallet must already hold gas there.
+</Callout>
 
-The UI renders the expected steps as a checklist and marks each one done when its `step.id` appears in `completed`. If the progress event carried an `explorerUrl`, a "View on Explorer" link is shown.
+## Step 3: Let Relay execute the deposit
 
-## Step 3 - Add the deposit button to the page
+Set `useProviderDestinationExecution: true` to have Relay approve and call the pool as part of fulfillment. The user signs the funding intent; there is no separate wallet transaction on Base and no destination gas requirement.
 
-Import `DepositButton` into your main page:
+This works for Aave because `supply()` credits `onBehalfOf`, not `msg.sender`. When Relay executes, the caller is Relay's router, so **set `onBehalfOf` to the user's address**. The `encodeSupply(..., address)` call already does this. Only use provider execution with contracts that can act on behalf of a recipient.
 
-```tsx title="src/app/page.tsx"
-"use client";
+Replace the `swapAndExecute` call in `deposit()` with:
 
-import { useState } from "react";
-import { useAccount } from "wagmi";
-import ConnectWalletButton from "@/components/connect-button";
-import InitButton from "@/components/init-button";
-import FetchBalancesButton from "@/components/fetch-balances-button";
-import DeinitButton from "@/components/de-init-button";
-import BridgeButton from "@/components/bridge-button";
-import DepositButton from "@/components/deposit-button";
-import { client } from "@/lib/nexus";
+```typescript title="src/components/deposit-button.tsx"
+const res = await client.swapAndExecute(
+  {
+    tradeType: "exactInput",
+    sources: [source], // exactly one funding leg (see below)
+    toChainId: BASE,
+    toTokenAddress: usdcBase.address,
+    execute: {
+      to: AAVE_V3_POOL_BASE,
+      gas: 350_000n,
+      tokenApproval: {
+        toTokenAddress: usdcBase.address,
+        amount: 0n, // the SDK encodes approve(pool, executeAmountRaw) before supply()
+        spender: AAVE_V3_POOL_BASE,
+      },
+    },
+  },
+  {
+    useProviderDestinationExecution: true,
+    hooks: { onIntent: (data) => setReview(data) },
+    onEvent: (event) => {
+      if (event.type === "step") setStatus(`${event.step.type}: ${event.state}`);
+      if (event.type === "status") setStatus(`Intent ${event.status}`);
+    },
+    // In provider mode this runs BEFORE review, and again on every refresh.
+    // Keep it pure: only build calldata.
+    beforeExecute: async ({ executeAmountRaw }) => ({
+      data: encodeSupply(usdcBase.address, executeAmountRaw, address), // onBehalfOf = user
+    }),
+  },
+);
 
-export default function Page() {
-  const { isConnected } = useAccount();
-  const [initialized, setInitialized] = useState(client.hasEvmProvider);
-  const [balances, setBalances] = useState<any>(null);
-  const [bridgeResult, setBridgeResult] = useState<any>(null);
-  const [depositResult, setDepositResult] = useState<any>(null);
-
-  const btn =
-    "px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 " +
-    "disabled:opacity-50 disabled:cursor-not-allowed";
-
-  return (
-    <main className="min-h-screen flex items-center justify-center">
-      <div className="flex flex-col items-center gap-4">
-        <ConnectWalletButton className={btn} />
-        <InitButton
-          className={btn}
-          onReady={() => setInitialized(true)}
-        />
-        <FetchBalancesButton
-          className={btn}
-          onResult={(r) => setBalances(r)}
-        />
-        <BridgeButton
-          className={btn}
-          onResult={(r) => setBridgeResult(r)}
-        />
-        <DepositButton
-          className={btn}
-          onResult={(r) => setDepositResult(r)}
-        />
-        <DeinitButton
-          className={btn}
-          onDone={() => {
-            setInitialized(false);
-            setBalances(null);
-          }}
-        />
-
-        <div className="mt-2">
-          <b>Wallet Status:</b>{" "}
-          {isConnected ? "Connected" : "Not connected"}
-        </div>
-        <div className="mt-2">
-          <b>SDK Status:</b>{" "}
-          {initialized ? "Initialized" : "Not initialized"}
-        </div>
-
-        {balances && (
-          <pre className="whitespace-pre-wrap">
-            {JSON.stringify(balances, null, 2)}
-          </pre>
-        )}
-
-        {bridgeResult && (
-          <pre className="whitespace-pre-wrap">
-            {JSON.stringify(bridgeResult, null, 2)}
-          </pre>
-        )}
-
-        {depositResult && (
-          <pre className="whitespace-pre-wrap">
-            {JSON.stringify(depositResult, null, 2)}
-          </pre>
-        )}
-      </div>
-    </main>
-  );
+if (res.executionMode === "provider") {
+  // Relay supplied executeAmountRaw to Aave during fulfillment.
+  // There is no wallet transaction: res.execute and res.approval are undefined.
+  console.log(res.executeAmountRaw, res.swapResult.intentExplorerUrl);
 }
 ```
 
-## Step 4 - Run and test
+### How provider mode differs
+
+| | Wallet mode (default) | Provider mode (`useProviderDestinationExecution: true`) |
+| --- | --- | --- |
+| Who calls `supply()` | The user's wallet | Relay's router, during fulfillment |
+| `beforeExecute` runs | After funding, with measured proceeds | Before review and on every refresh, with a fixed budget |
+| `executeAmountRaw` | Actual proceeds plus selected local tokens | Fixed budget below the quote's guaranteed minimum |
+| Destination gas | Paid by the user's wallet | Included in the quote; zero wallet gas requirement |
+| Existing USDC on Base | Selected local tokens are added to the deposit | Not used; everything is funded through the quote |
+| Result | `execute` and optional `approval` transactions | `swapResult` only; `execute` and `approval` are `undefined` |
+
+For exact input, the SDK previews a Relay quote and fixes the execution budget below its guaranteed minimum. The reserve is 1% of that minimum, capped at $1, and is separate from swap slippage. Any output above the budget goes to the user. In the review hook, `intent.executionMode` is `'provider'` and `intent.executeRequirement.token.amountRaw` is the fixed deposit.
+
+### Choose a Relay-supported source
+
+Provider execution requires a Relay route, and only one chain and token leg may fund it. If the route is unsupported, or the quote selects more than one funding leg, the call rejects before anything is signed. It never falls back to wallet execution.
+
+Pick one source the user can afford and Relay supports. Filter balances by provider:
+
+```typescript title="TypeScript"
+const balances = await client.getBalances();
+const relaySources = balances.filter(
+  (b) => b.usable && b.usableBalanceRaw > 0n && b.providers.some((p) => p.id === "relay"),
+);
+
+const pick = relaySources[0]; // in a real app, let the user choose
+if (!pick) throw new Error("No Relay-supported source balance");
+
+const source = {
+  chainId: pick.chainId,
+  tokenAddress: pick.tokenAddress,
+  amountRaw: parseUnits("5", pick.decimals), // must not exceed pick.usableBalanceRaw
+};
+```
+
+USDC on Base must also be Relay-supported as a destination. See [Get balances](/docs/nexus/nexus-sdk/reference/balances-and-tokens/get-balances) for filtering balances by provider, and [Swap and execute](/docs/nexus/nexus-sdk/reference/swap-methods/swap-and-execute) for the full provider execution rules.
+
+## Step 4: Add the button and test
+
+Render `DepositButton` in `src/app/page.tsx`:
+
+```tsx title="src/app/page.tsx"
+import DepositButton from "@/components/deposit-button";
+
+// ...inside the page's JSX:
+<DepositButton className={btn} />
+```
 
 ```bash
 pnpm dev
 ```
 
-1. Connect your wallet and initialize Nexus
-2. Click **Bridge USDC & Deposit into Aave**
-3. Approve the transaction in your wallet
-4. Watch the progress checklist update in real-time as each step completes
-5. Click the explorer links to verify on-chain
+1. Connect a wallet that holds at least 5 USDC on Arbitrum and a little ETH for gas there.
+2. Click the deposit button and check the review panel.
+3. Click **Confirm**, then approve and sign in your wallet.
+4. When the deposit completes, follow the links, or open the [Aave Base market](https://app.aave.com/?marketName=proto_base_v3) to see your supplied USDC.
 
 <Callout type="info" title="What you just built">
-With a single SDK call you bridged tokens across chains **and** executed a DeFi deposit on the destination chain. The `bridgeAndExecute` pattern works with any contract call. You could swap on a DEX, stake in a protocol, mint an NFT, anything you can encode as calldata.
+One `swapAndExecute` call funded a destination and ran a contract call with the exact amount received. The same pattern works for any contract call whose calldata depends on the funded amount: staking, vault deposits, or mints.
 </Callout>
 
 ## What's next
 
-You have completed the full Nexus SDK "Get Started" series. From here you can explore:
-
 <Cards>
   <Card
-    href="/docs/nexus/nexus-sdk/reference"
-    title="SDK Reference"
-    description="Full API docs for bridge, swap, and balance methods."
+    href="/docs/nexus/nexus-sdk/reference/swap-methods/swap-and-execute"
+    title="Swap and execute"
+    description="Exact output vs exact input, beforeExecute, refresh, and provider execution."
     arrow
   />
   <Card
-    href="/docs/nexus/nexus-sdk/reference/bridge-methods/fetch-bridge-balances"
-    title="Bridge Methods"
-    description="Deep dive into bridge(), bridgeAndTransfer(), and bridgeAndExecute()."
+    href="/docs/nexus/nexus-sdk/reference/swap-methods/review-quotes"
+    title="Review quotes"
+    description="Build a confirmation UI with hooks.onIntent."
     arrow
   />
   <Card
-    href="/docs/nexus/nexus-sdk/reference/swap-methods/fetch-swap-balances"
-    title="Swap Methods"
-    description="Cross-chain swaps with swapWithExactIn() and swapWithExactOut()."
+    href="/docs/nexus/nexus-sdk/reference/execute-methods/execute"
+    title="Execute"
+    description="Run a contract call with funds already on the destination chain."
     arrow
   />
   <Card
-    href="/docs/nexus/nexus-sdk/cookbook-recipes"
-    title="Cookbook Recipes"
-    description="Copy-paste patterns for common developer workflows."
+    href="/docs/nexus/nexus-sdk/reference/hooks-and-errors"
+    title="Hooks and errors"
+    description="Handle NexusError codes and recover from failures."
     arrow
   />
 </Cards>

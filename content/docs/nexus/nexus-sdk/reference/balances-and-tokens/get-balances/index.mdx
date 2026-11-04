@@ -1,0 +1,176 @@
+---
+title: "Get Balances"
+sidebarTitle: "Get Balances"
+description: "Fetch the connected wallet's token balances across every supported chain, with full and routable amounts in raw units."
+---
+
+<Callout type="info">
+**SET UP THE SDK BEFORE YOU START:**
+
+Install and initialize the client first. See [Installation](/docs/nexus/nexus-sdk/get-started/installation) and [SDK Setup](/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup).
+</Callout>
+
+Use `getBalances()` to fetch the connected wallet's token balances across all supported chains in one call. Each entry covers one token on one chain. It reports two amounts: the full wallet balance, and the part the SDK can route after it holds back gas reserves.
+
+<Callout type="info">
+`getBalances()` needs a connected wallet. Call `client.setEVMProvider(provider)` first, or the call rejects with `WALLET_NOT_CONNECTED`. Balances belong to the address the provider returned when you attached it. Recreate the client after the user switches accounts.
+</Callout>
+
+## Method signature
+
+```typescript title="TypeScript"
+getBalances(): Promise<IntentBalance[]>
+
+/** @deprecated Use getBalances instead. */
+getBalancesForSwap(): Promise<IntentBalance[]>
+```
+
+`getBalancesForSwap()` is a deprecated alias. It returns exactly what `getBalances()` returns. New code should call `getBalances()`.
+
+## Parameters
+
+- None. `getBalances()` takes no arguments. To narrow the list, filter the returned array (see [Filter balances by provider](#filter-balances-by-provider)).
+
+## Example
+
+```typescript title="TypeScript"
+import { formatUnits } from '@avail-project/nexus-core/utils';
+
+const balances = await client.getBalances();
+
+for (const balance of balances) {
+  if (!balance.usable) continue;
+
+  console.log(
+    balance.chainId,
+    balance.symbol,
+    // Full wallet balance
+    formatUnits(balance.actualBalanceRaw, balance.decimals),
+    // Amount available for routing after gas reserves
+    formatUnits(balance.usableBalanceRaw, balance.decimals),
+    balance.valueUsd ?? 'no price',
+  );
+}
+```
+
+Always format with the entry's own `decimals`. The same symbol can use different decimals on different chains.
+
+## Return Value
+
+`getBalances()` resolves to `IntentBalance[]`, one entry per chain and token pair.
+
+```typescript title="TypeScript"
+type IntentProvider = 'nexus-v2' | 'mayan' | 'relay';
+
+type IntentProviderSupport = {
+  id: IntentProvider;
+  currencyId?: number | string;
+};
+
+type IntentBalance = {
+  chainId: number;
+  tokenAddress: `0x${string}`;
+  name: string;
+  symbol: string;
+  decimals: number;
+  isNative: boolean;
+  verified: boolean;
+  logo?: string;
+  coingeckoId?: string;
+  providers: IntentProviderSupport[];
+  /** Full wallet balance before reserves, in base units. */
+  actualBalanceRaw: bigint;
+  /** Balance available for routing after reserves, in base units. */
+  usableBalanceRaw: bigint;
+  /** @deprecated Use usableBalanceRaw instead. */
+  balanceRaw: bigint;
+  /** USD value of usableBalanceRaw, or null when the price is unavailable. */
+  valueUsd: number | null;
+  priceSource: 'oracle' | 'indexer' | 'coingecko' | 'relay' | null;
+  usable: boolean;
+};
+```
+
+See the [full type definitions](https://github.com/availproject/nexus-sdk/blob/main/src/intent/types.ts) on GitHub.
+
+| Field | Description |
+|-------|-------------|
+| `chainId`, `tokenAddress` | Identify the token. `tokenAddress` uses the same `TokenRef` shape that swap sources and catalog lookups take. Native tokens use the address from catalog metadata. |
+| `decimals` | Token decimals on this chain. Use it with `formatUnits` / `parseUnits`. Never hardcode decimals. |
+| `isNative` | `true` for the chain's native gas token. |
+| `verified` | Whether the token is verified in the catalog. Balances include unverified tokens, so check this before you show or auto-select a token. |
+| `providers` | Providers that list this token. See [Filter balances by provider](#filter-balances-by-provider). |
+| `actualBalanceRaw` | Full on-chain wallet balance, in raw units. |
+| `usableBalanceRaw` | Balance available for routing after reserves, in raw units. For native tokens, this holds back gas so the wallet is never fully drained. Use it to size swap sources and "max" buttons. |
+| `balanceRaw` | **Deprecated.** Same value as `usableBalanceRaw`. Migrate reads to `usableBalanceRaw`. |
+| `valueUsd` | USD value of `usableBalanceRaw` (not `actualBalanceRaw`). `null` when no price is available. Do not treat `null` as zero value. |
+| `priceSource` | Where the USD price came from: `'oracle'`, `'indexer'`, `'coingecko'`, `'relay'`, or `null` when unpriced. |
+| `usable` | Whether the middleware considers this balance usable for routing. |
+
+<Callout type="warn">
+Amounts are raw `bigint` values. Size swap sources from `usableBalanceRaw`. If you size a native-token source from `actualBalanceRaw`, the swap may leave no gas for later steps.
+</Callout>
+
+## Filter balances by provider
+
+`getBalances()` takes no arguments, so it has no provider filter. Each entry's `providers` array lists the providers that support the token. To keep only tokens a given provider lists, filter client-side:
+
+```typescript title="TypeScript"
+const balances = await client.getBalances();
+
+const relayBalances = balances.filter(
+  (b) => b.usable && b.providers.some((p) => p.id === 'relay'),
+);
+```
+
+Provider IDs are `IntentProvider` values: `'nexus-v2'`, `'mayan'`, and `'relay'`. The SDK defines them in `INTENT_PROVIDERS` in [`src/intent/types.ts`](https://github.com/availproject/nexus-sdk/blob/main/src/intent/types.ts).
+
+A balance's `providers` array does not say whether the provider supports the token as a **source** or as a **destination**. It also does not account for chain-level provider support. For a list of tokens that can actually fund a specific destination through one provider, intersect your balances with [`getAvailableSourceTokens`](/docs/nexus/nexus-sdk/reference/balances-and-tokens/token-catalog#getavailablesourcetokens):
+
+```typescript title="TypeScript"
+import type { TokenRef } from '@avail-project/nexus-core';
+
+const destination: TokenRef = {
+  chainId: 8453,
+  tokenAddress: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', // USDC on Base
+};
+
+const key = (chainId: number, address: string) => `${chainId}:${address.toLowerCase()}`;
+
+// Collect every Relay-compatible source token for this destination.
+const relaySources = new Set<string>();
+let offset = 0;
+for (;;) {
+  const page = await client.getAvailableSourceTokens(destination, [], {
+    providers: ['relay'],
+    includeUnverified: true, // balances include unverified tokens too
+    offset,
+    limit: 200,
+  });
+  for (const group of page.groups) {
+    for (const chain of group.chains) {
+      // Returned catalog tokens use `address`, not `tokenAddress`.
+      for (const token of chain.tokens) relaySources.add(key(token.chainId, token.address));
+    }
+  }
+  offset = page.offset + page.limit;
+  // Pagination counts candidates before filtering. An empty page is not the end.
+  if (offset >= page.total) break;
+}
+
+const balances = await client.getBalances();
+const fundable = balances.filter(
+  (b) => b.usable && relaySources.has(key(b.chainId, b.tokenAddress)),
+);
+```
+
+Match on chain ID plus the lowercased address. Catalog tokens expose `address`, while balances and `TokenRef` selections use `tokenAddress`. The `total`, `offset`, and `limit` on compatibility pages describe the unfiltered candidate page, so keep paging until `offset + limit` reaches `total`.
+
+<Callout type="warn">
+Token-level provider support does not guarantee that a route supports **destination calls**. When you run `swapAndExecute` with `useProviderDestinationExecution: true`, support is decided per quote by `quote.supportsDestinationCalls`. A token that passes the filter above can still be rejected there. See [Provider destination execution](/docs/nexus/nexus-sdk/reference/swap-methods/swap-and-execute#provider-destination-execution).
+</Callout>
+
+## Related
+
+- [Token Catalog](/docs/nexus/nexus-sdk/reference/balances-and-tokens/token-catalog): chains, token lookups, and route compatibility
+- [Swap Exact In](/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-in): spend specific source amounts sized from `usableBalanceRaw`

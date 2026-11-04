@@ -9,24 +9,26 @@ export const generatedRedirectRules: RedirectRule[] = [
     source: "/nexus/nexus-examples/nexus-initialization-basic",
     destination: "/docs/nexus/get-started",
   },
+  {
+    source: "/nexus/nexus-quickstart/nexus-core",
+    destination: "/docs/nexus/get-started",
+  },
+  {
+    source: "/nexus/nexus-quickstart/nexus-elements",
+    destination: "/docs/nexus/get-started",
+  },
   { source: "/da/archived-content", destination: "/docs/da/build" },
   { source: "/da/clash-of-nodes", destination: "/docs/da/build" },
   {
     source: "/da/learn-about-avail/avail-apps-explorer",
     destination: "/docs/da/concepts/explorer",
   },
+  { source: "/nexus/introduction-to-nexus", destination: "/docs/nexus" },
+  { source: "/nexus/nexus-examples", destination: "/docs/nexus" },
+  { source: "/nexus/nexus-quickstart", destination: "/docs/nexus" },
   {
     source: "/da/learn-about-avail",
     destination: "/docs/da/concepts/how-avail-da-works",
-  },
-  {
-    source: "/nexus/introduction-to-nexus",
-    destination: "/docs/nexus/nexus-sdk",
-  },
-  { source: "/nexus/nexus-examples", destination: "/docs/nexus/nexus-sdk" },
-  {
-    source: "/nexus/nexus-examples/nexus-bridge",
-    destination: "/docs/nexus/nexus-sdk/reference/bridge-methods",
   },
   {
     source: "/nexus/nexus-examples/nexus-initialization-rainbowkit",
@@ -38,26 +40,26 @@ export const generatedRedirectRules: RedirectRule[] = [
     destination: "/docs/da/build",
   },
   {
+    source: "/nexus/avail-nexus-sdk/nexus-elements",
+    destination: "/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup",
+  },
+  {
     source: "/da/introduction-to-avail-da",
     destination: "/docs/da/concepts/how-avail-da-works",
   },
   {
-    source: "/nexus/nexus-quickstart/nexus-core",
-    destination: "/docs/nexus/nexus-sdk/quickstart",
+    source: "/nexus/avail-nexus-sdk",
+    destination: "/docs/nexus/nexus-sdk/reference",
+  },
+  {
+    source: "/nexus/avail-nexus-sdk/swap-methods",
+    destination:
+      "/docs/nexus/nexus-sdk/reference/swap-methods/swap-and-execute",
   },
   { source: "/nexus/nexus-overview", destination: "/docs/nexus" },
   {
     source: "/da/build-with-avail/deploy-rollup-on-avail/cosmos-avail-module",
     destination: "/docs/da/build/rollups/cosmos",
-  },
-  {
-    source: "/nexus/nexus-examples/bridge-and-transfer",
-    destination: "/docs/nexus/nexus-sdk/reference/bridge-methods/transfer",
-  },
-  {
-    source: "/nexus/nexus-examples/bridge-execute",
-    destination:
-      "/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-and-execute",
   },
   {
     source:
@@ -75,10 +77,6 @@ export const generatedRedirectRules: RedirectRule[] = [
     destination: "/docs/da/operate/become-a-validator/deployment",
   },
   { source: "/da/operate-a-node", destination: "/docs/da/operate/node-types" },
-  {
-    source: "/nexus/nexus-quickstart",
-    destination: "/docs/nexus/nexus-sdk/quickstart",
-  },
   {
     source: "/da/operate-a-node/become-a-validator/0010-basics",
     destination: "/docs/da/operate/become-a-validator/basics",
@@ -99,7 +97,6 @@ export const generatedRedirectRules: RedirectRule[] = [
     source: "/da/learn-about-avail/tx-pricing",
     destination: "/docs/da/concepts/tx-pricing",
   },
-  { source: "/nexus/avail-nexus-sdk", destination: "/docs/nexus/nexus-sdk" },
   {
     source: "/da/build-with-avail/deploy-rollup-on-avail/cdk",
     destination: "/docs/da/build/rollups/cdk",
@@ -161,33 +158,17 @@ export const generatedRedirectRules: RedirectRule[] = [
     destination: "/docs/da/build/rollups/op-stack/overview",
   },
   {
-    source: "/nexus/nexus-quickstart/nexus-elements",
-    destination: "/docs/nexus/nexus-sdk/nexus-elements",
-  },
-  {
     source:
       "/da/build-with-avail/deploy-rollup-on-avail/arbitrum-nitro/overview",
     destination: "/docs/da/build/rollups/arbitrum-nitro/overview",
-  },
-  {
-    source: "/nexus/avail-nexus-sdk/bridge-methods/bridge",
-    destination: "/docs/nexus/nexus-sdk/reference/bridge-methods/bridge",
   },
   {
     source: "/da/build-with-avail/interact-with-avail-da/faucet",
     destination: "/docs/da/build/interact/faucet",
   },
   {
-    source: "/nexus/avail-nexus-sdk/bridge-methods",
-    destination: "/docs/nexus/nexus-sdk/reference/bridge-methods",
-  },
-  {
     source: "/nexus/avail-nexus-sdk/hooks-and-errors",
     destination: "/docs/nexus/nexus-sdk/reference/hooks-and-errors",
-  },
-  {
-    source: "/nexus/avail-nexus-sdk/swap-methods",
-    destination: "/docs/nexus/nexus-sdk/reference/swap-methods",
   },
   {
     source: "/nexus/avail-nexus-sdk/swap-methods/swap-exact-in",
@@ -198,19 +179,6 @@ export const generatedRedirectRules: RedirectRule[] = [
     destination: "/docs/da/operate/run-a-light-client/overview",
   },
   {
-    source: "/nexus/avail-nexus-sdk/bridge-methods/bridge-and-execute",
-    destination:
-      "/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-and-execute",
-  },
-  {
-    source: "/nexus/avail-nexus-sdk/bridge-methods/bridge-events",
-    destination: "/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-events",
-  },
-  {
-    source: "/nexus/avail-nexus-sdk/bridge-methods/transfer",
-    destination: "/docs/nexus/nexus-sdk/reference/bridge-methods/transfer",
-  },
-  {
     source: "/nexus/avail-nexus-sdk/swap-methods/swap-events",
     destination: "/docs/nexus/nexus-sdk/reference/swap-methods/swap-events",
   },
@@ -219,8 +187,8 @@ export const generatedRedirectRules: RedirectRule[] = [
     destination: "/docs/da/build/vectorx",
   },
   {
-    source: "/nexus/avail-nexus-sdk/nexus-elements",
-    destination: "/docs/nexus/nexus-sdk/nexus-elements",
+    source: "/nexus/avail-nexus-sdk/swap-methods/swap-exact-out",
+    destination: "/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-out",
   },
   {
     source: "/da/build-with-avail/turbo-da",
@@ -241,20 +209,6 @@ export const generatedRedirectRules: RedirectRule[] = [
   {
     source: "/da/operate-a-node/deployment-options",
     destination: "/docs/da/operate/deployment-options",
-  },
-  {
-    source: "/nexus/avail-nexus-sdk/bridge-methods/fetch-bridge-balances",
-    destination:
-      "/docs/nexus/nexus-sdk/reference/bridge-methods/fetch-bridge-balances",
-  },
-  {
-    source: "/nexus/avail-nexus-sdk/swap-methods/fetch-swap-balances",
-    destination:
-      "/docs/nexus/nexus-sdk/reference/swap-methods/fetch-swap-balances",
-  },
-  {
-    source: "/nexus/avail-nexus-sdk/swap-methods/swap-exact-out",
-    destination: "/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-out",
   },
   {
     source: "/da/build-with-avail/interact-with-avail-da/query-balances",
@@ -307,27 +261,5 @@ export const generatedRedirectRules: RedirectRule[] = [
   {
     source: "/da/operate-a-node/run-a-full-node/full-node",
     destination: "/docs/da/operate/run-a-full-node/full-node",
-  },
-  // Off-sitemap legacy paths (not in old-docs-urls.json)
-  {
-    source: "/da/api-reference/avail-nexus-sdk/api-reference",
-    destination: "/docs/nexus/nexus-sdk/reference",
-  },
-  {
-    source: "/da/build-with-avail/Optimium/arbitrum-nitro/nitro-stack",
-    destination: "/docs/da/build/rollups/arbitrum-nitro",
-  },
-  {
-    source: "/da/operate-a-node/run-a-full-node/requirements",
-    destination: "/docs/da/operate/run-a-full-node",
-  },
-  {
-    source:
-      "/da/operate-a-node/run-a-light-client/Reference/embedding-the-light-client",
-    destination: "/docs/da/operate/run-a-light-client",
-  },
-  {
-    source: "/nexus/avail-nexus-sdk/examples/nexus-core/api-reference",
-    destination: "/docs/nexus/nexus-sdk/reference",
   },
 ];

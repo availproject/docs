@@ -1,7 +1,7 @@
 ---
 title: "List Intents"
 sidebarTitle: "List Intents"
-description: "Fetch a user's historical Nexus intents with pagination and optional status filtering."
+description: "Fetch the connected wallet's intent history with pagination and optional status filtering."
 ---
 
 <Callout type="info">
@@ -10,11 +10,7 @@ description: "Fetch a user's historical Nexus intents with pagination and option
 Install and initialize the client first — see [Installation](/docs/nexus/nexus-sdk/get-started/installation) and [SDK Setup](/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup).
 </Callout>
 
-Use the `listIntents()` function to fetch a user's historical intents, with pagination and an optional status filter.
-
-<Callout type="info">
-`listIntents()` replaces the v1 `getMyIntents(page)` method. It returns a structured `{ intents, total }` result instead of a bare array, and accepts an optional `status` filter.
-</Callout>
+Use the `listIntents()` function to fetch the connected wallet's intent history, with pagination and an optional status filter. History includes intents settled by Nexus and by external providers such as Mayan and Relay.
 
 ## Method signature
 
@@ -23,6 +19,8 @@ listIntents(
   params?: ListIntentsParams,
 ): Promise<ListIntentsResult>
 ```
+
+`ListIntentsResult` is an exported alias of `IntentHistoryResult`.
 
 ## Parameters
 
@@ -35,13 +33,15 @@ export type ListIntentsParams = {
 export type IntentStatus = 'created' | 'deposited' | 'fulfilled' | 'expired';
 ```
 
-- `ListIntentsParams` (optional): Filters for the intent query.
-  - `page` (number, optional): The page number for pagination. Page size is fixed at 20 records — paginate by incrementing `page`.
-  - `status` (`IntentStatus`, optional): Restrict results to a single lifecycle status — `'created'`, `'deposited'`, `'fulfilled'`, or `'expired'`.
+- `ListIntentsParams` (optional): Filters for the history query.
+  - `page` (number, optional): A 1-based page number. Defaults to `1`. Must be an integer of at least `1`, or the call rejects with `ERROR_CODES.INVALID_INPUT`.
+  - `status` (`IntentStatus`, optional): Restrict results to one lifecycle status: `'created'`, `'deposited'`, `'fulfilled'`, or `'expired'`.
 
 <Callout type="info">
-`IntentStatus` is exported both as a value map (`IntentStatus.Fulfilled`) and as a type. Use the value map to avoid hardcoding the string literals.
+`listIntents()` reads history for the connected wallet's address, so it needs a provider set with `setEVMProvider()`. Without one it rejects with `ERROR_CODES.WALLET_NOT_CONNECTED`.
 </Callout>
+
+`IntentStatus` is exported both as a value map (`IntentStatus.Fulfilled`) and as a type. Use the value map to avoid hardcoding string literals.
 
 ## Example
 
@@ -59,68 +59,43 @@ const fulfilled = await client.listIntents({
 });
 
 for (const intent of fulfilled.intents) {
-  console.log(intent.requestHash, intent.status, intent.explorerUrl);
+  console.log(intent.id, intent.provider ?? 'unknown provider', intent.status, intent.explorerUrl);
 }
 ```
 
 ## Return Value
 
-The return value is a `ListIntentsResult` object.
+The return value is a `ListIntentsResult` (`IntentHistoryResult`) object.
 
 ```typescript title="TypeScript"
-export type ListIntentsResult = {
-  intents: IntentRecord[];
+export type IntentHistoryResult = {
+  intents: IntentHistoryRecord[];
   total: number;
 };
 
-export type IntentRecord = {
-  requestHash: Hex;
-  explorerUrl: string;
+export type IntentHistoryRecord = {
+  id: Hex;
+  /** Present only when middleware identifies the provider for this record. */
+  provider?: 'nexus-v2' | 'mayan' | 'relay';
   status: IntentStatus;
-  solver: Hex | null;
+  explorerUrl?: string;
   createdAt?: number;
   updatedAt?: number;
-  expiry: number;
-  recipientAddress: Hex;
-  destinationChain: {
-    id: number;
-    name: string;
-    logo: string;
-    universe: Universe;
-  };
-  destinations: Array<{
-    token: {
-      contractAddress: Hex;
-      symbol: string;
-      name: string;
-      logo: string;
-      decimals: number;
-    };
-    amount: string;
-    amountRaw: bigint;
-  }>;
-  sources: Array<{
-    chain: {
-      id: number;
-      name: string;
-      logo: string;
-      universe: Universe;
-    };
-    amountRaw: bigint;
-    amount: string;
-    feeRaw: bigint;
-    fee: string;
-    token: {
-      contractAddress: Hex;
-      symbol: string;
-      name: string;
-      logo: string;
-      decimals: number;
-    };
-  }>;
 };
 ```
 
+- `intents`: History records, newest first (sorted by `createdAt`).
+  - `id`: The intent ID. This is the same value as `intentId` on an `IntentResult`.
+  - `provider`: The settling provider. Nexus records are always attributed to `'nexus-v2'`; external records carry a provider only when the middleware returns one.
+  - `status`: The intent's lifecycle status.
+  - `explorerUrl`: The intent explorer link. `listIntents()` sets it for every record.
+  - `createdAt` / `updatedAt`: Timestamps reported by the middleware, when available.
+- `total`: The total number of matching records across Nexus and external-provider history.
+
 <Callout type="info">
-See the [full type definitions](https://github.com/availproject/nexus-sdk/blob/main/src/domain/types/index.ts) on GitHub.
+The SDK queries Nexus history and external-provider history in parallel, 20 records per page from each, and merges them. A single page can therefore contain up to 40 records. Keep incrementing `page` while the number of records you have loaded is less than `total`.
 </Callout>
+
+`IntentRecord` is also exported as an alias of `IntentHistoryRecord`. See the [full type definitions](https://github.com/availproject/nexus-sdk/blob/main/src/intent/types.ts) on GitHub.
+
+To track a single operation live, use the `status` events on [`onEvent`](/docs/nexus/nexus-sdk/reference/swap-methods/swap-events). Use `listIntents()` to recover after a timeout or connection failure. See [Failures after commitment](/docs/nexus/nexus-sdk/reference/hooks-and-errors#failures-after-commitment).
