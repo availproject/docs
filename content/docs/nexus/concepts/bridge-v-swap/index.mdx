@@ -35,7 +35,7 @@ type IntentBalance = {
 ```
 
 ## Which tokens can be routed?
-Which tokens a route can use depends on the providers that serve it. Nexus solvers manage liquidity for canonical bridge tokens (see [Supported Chains & Tokens](/docs/nexus/supported-chains-and-tokens)), and third-party providers such as Mayan and Relay serve other routes. Each balance lists its supporting providers in `providers`, and the quote selects the provider for each route automatically.
+Which tokens a route can use depends on the providers that serve it: the native Nexus flow, Mayan, and Relay each support their own set of chains and tokens (see [Supported Chains & Tokens](/docs/nexus/supported-chains-and-tokens)). Each balance lists its supporting providers in `providers`, and the quote selects the provider for each route automatically.
 
 Results include unverified tokens, so check `verified` and `usable` before you offer a balance as a source.
 
