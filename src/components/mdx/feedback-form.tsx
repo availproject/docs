@@ -1,21 +1,11 @@
 "use client";
 
-import { X } from "@phosphor-icons/react";
-import { upload } from "@vercel/blob/client";
 import type { Options as ConfettiOptions } from "canvas-confetti";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useAnalytics } from "@/hooks/use-analytics";
 import { cn } from "@/lib/utils";
 
 type FormState = "ready" | "submitted" | "error";
-
-const ALLOWED_IMAGE_TYPES = [
-  "image/png",
-  "image/jpeg",
-  "image/gif",
-  "image/webp",
-];
-const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5 MB
 
 export function FeedbackForm() {
   const [state, setState] = useState<FormState>("ready");
@@ -23,77 +13,13 @@ export function FeedbackForm() {
   const [contactInfo, setContactInfo] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [issueUrl, setIssueUrl] = useState<string | null>(null);
-  const [pastedImage, setPastedImage] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [imageError, setImageError] = useState<string | null>(null);
   const { trackEvent, pathname } = useAnalytics();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  useEffect(() => {
-    return () => {
-      if (previewUrl) URL.revokeObjectURL(previewUrl);
-    };
-  }, [previewUrl]);
-
-  const addImage = useCallback(
-    (file: File) => {
-      setImageError(null);
-
-      if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
-        setImageError("Only PNG, JPEG, GIF, and WebP images are supported.");
-        return;
-      }
-      if (file.size > MAX_IMAGE_SIZE) {
-        setImageError("Image must be under 5 MB.");
-        return;
-      }
-
-      if (previewUrl) URL.revokeObjectURL(previewUrl);
-      setPastedImage(file);
-      setPreviewUrl(URL.createObjectURL(file));
-    },
-    [previewUrl],
-  );
-
-  const removeImage = useCallback(() => {
-    if (previewUrl) URL.revokeObjectURL(previewUrl);
-    setPastedImage(null);
-    setPreviewUrl(null);
-    setImageError(null);
-  }, [previewUrl]);
-
-  const handlePaste = useCallback(
-    (e: React.ClipboardEvent) => {
-      const items = e.clipboardData?.items;
-      if (!items) return;
-
-      for (const item of items) {
-        if (item.type.startsWith("image/")) {
-          e.preventDefault();
-          const file = item.getAsFile();
-          if (file) addImage(file);
-          return;
-        }
-      }
-    },
-    [addImage],
-  );
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
 
     try {
-      let imageUrl: string | undefined;
-
-      if (pastedImage) {
-        const blob = await upload(
-          `feedback/${Date.now()}-${pastedImage.name}`,
-          pastedImage,
-          { access: "public", handleUploadUrl: "/api/feedback/upload" },
-        );
-        imageUrl = blob.url;
-      }
-
       const res = await fetch("/api/feedback", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -102,7 +28,6 @@ export function FeedbackForm() {
           comment: feedbackText || undefined,
           contactInfo: contactInfo || undefined,
           pagePath: pathname,
-          imageUrl,
         }),
       });
 
@@ -151,7 +76,6 @@ export function FeedbackForm() {
         rating: "general",
         has_comment: feedbackText.length > 0,
         comment_length: feedbackText.length,
-        has_image: !!pastedImage,
         has_contact: contactInfo.length > 0,
       });
     } catch (error) {
@@ -173,19 +97,21 @@ export function FeedbackForm() {
     return (
       <div className="flex items-center gap-8 mt-8">
         <p className="body-16 text-card-foreground">
-          Thanks for your feedback!
-          {issueUrl && (
+          {issueUrl ? (
             <>
-              {" "}
+              Thanks! To add a screenshot,{" "}
               <a
                 href={issueUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-brand underline underline-offset-2 hover:text-brand/80"
               >
-                View issue
+                comment on the issue
               </a>
+              .
             </>
+          ) : (
+            "Thanks for your feedback!"
           )}
         </p>
       </div>
@@ -202,7 +128,6 @@ export function FeedbackForm() {
             setState("ready");
             setFeedbackText("");
             setContactInfo("");
-            removeImage();
           }}
           className={cn(
             "flex items-center justify-center gap-2 h-10 px-4",
@@ -231,9 +156,8 @@ export function FeedbackForm() {
           aria-label="Feedback"
           value={feedbackText}
           onChange={(e) => setFeedbackText(e.target.value)}
-          onPaste={handlePaste}
           onKeyDown={handleKeyDown}
-          placeholder="Tell us what's on your mind (paste a screenshot)"
+          placeholder="Tell us what's on your mind"
           className={cn(
             "w-full h-48 p-4 resize-none",
             "bg-surface border border-card-border",
@@ -259,28 +183,10 @@ export function FeedbackForm() {
             "focus:outline-none focus:ring-1 focus:ring-brand",
           )}
         />
+        <p className="text-sm text-muted-foreground">
+          Contact details are posted publicly on the GitHub issue.
+        </p>
       </div>
-
-      {imageError && <p className="text-sm text-red-500">{imageError}</p>}
-
-      {previewUrl && (
-        <div className="relative inline-block">
-          {/* biome-ignore lint/performance/noImgElement: blob URL preview incompatible with next/image */}
-          <img
-            src={previewUrl}
-            alt="Screenshot preview"
-            className="h-16 w-auto max-w-full border border-card-border object-cover"
-          />
-          <button
-            type="button"
-            onClick={removeImage}
-            aria-label="Remove screenshot"
-            className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center bg-foreground text-background rounded-full"
-          >
-            <X size={12} weight="bold" />
-          </button>
-        </div>
-      )}
 
       <button
         type="submit"

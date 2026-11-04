@@ -8,7 +8,6 @@ interface FeedbackPayload {
   pagePath: string;
   comment?: string;
   contactInfo?: string;
-  imageUrl?: string;
 }
 
 function validatePayload(
@@ -18,7 +17,7 @@ function validatePayload(
     return { valid: false, error: "Request body must be a JSON object" };
   }
 
-  const { rating, pagePath, comment, contactInfo, imageUrl } = body as Record<
+  const { rating, pagePath, comment, contactInfo } = body as Record<
     string,
     unknown
   >;
@@ -30,10 +29,16 @@ function validatePayload(
     };
   }
 
-  if (typeof pagePath !== "string" || !pagePath.startsWith("/docs/")) {
+  // pagePath goes into the public issue title and body, so accept path
+  // characters only. GitHub rejects titles over 256 characters.
+  if (
+    typeof pagePath !== "string" ||
+    pagePath.length > 200 ||
+    !/^\/docs\/[A-Za-z0-9._~%/-]*$/.test(pagePath)
+  ) {
     return {
       valid: false,
-      error: 'pagePath must be a string starting with "/docs/"',
+      error: 'pagePath must be a docs path starting with "/docs/"',
     };
   }
 
@@ -61,23 +66,6 @@ function validatePayload(
     }
   }
 
-  if (imageUrl !== undefined && imageUrl !== null) {
-    if (typeof imageUrl !== "string") {
-      return { valid: false, error: "imageUrl must be a valid blob URL" };
-    }
-    try {
-      const parsed = new URL(imageUrl);
-      if (
-        parsed.protocol !== "https:" ||
-        !parsed.hostname.endsWith(".public.blob.vercel-storage.com")
-      ) {
-        return { valid: false, error: "imageUrl must be a valid blob URL" };
-      }
-    } catch {
-      return { valid: false, error: "imageUrl must be a valid blob URL" };
-    }
-  }
-
   return {
     valid: true,
     data: {
@@ -88,10 +76,6 @@ function validatePayload(
       contactInfo:
         typeof contactInfo === "string" && contactInfo.length > 0
           ? contactInfo
-          : undefined,
-      imageUrl:
-        typeof imageUrl === "string" && imageUrl.length > 0
-          ? imageUrl
           : undefined,
     },
   };
@@ -126,7 +110,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: result.error }, { status: 400 });
   }
 
-  const { rating, pagePath, comment, contactInfo, imageUrl } = result.data;
+  const { rating, pagePath, comment, contactInfo } = result.data;
   const token = process.env.GITHUB_FEEDBACK_TOKEN;
 
   if (!token) {
@@ -152,10 +136,6 @@ export async function POST(request: NextRequest) {
   if (contactInfo) {
     const safeContact = contactInfo.replace(/[`\n\r]/g, "");
     issueBodyParts.push("", `**Contact:** \`${safeContact}\``);
-  }
-
-  if (imageUrl) {
-    issueBodyParts.push("", `**Screenshot:**\n\n![Screenshot](${imageUrl})`);
   }
 
   const issueBody = issueBodyParts.join("\n");

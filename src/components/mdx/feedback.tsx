@@ -1,9 +1,8 @@
 "use client";
 
-import { ThumbsDown, ThumbsUp, X } from "@phosphor-icons/react";
-import { upload } from "@vercel/blob/client";
+import { ThumbsDown, ThumbsUp } from "@phosphor-icons/react";
 import type { Options as ConfettiOptions } from "canvas-confetti";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useAnalytics } from "@/hooks/use-analytics";
 import { cn } from "@/lib/utils";
 
@@ -14,14 +13,6 @@ interface FeedbackProps {
 type FeedbackState = "idle" | "expanded" | "submitted" | "error";
 type FeedbackType = "good" | "bad" | null;
 
-const ALLOWED_IMAGE_TYPES = [
-  "image/png",
-  "image/jpeg",
-  "image/gif",
-  "image/webp",
-];
-const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5 MB
-
 export function Feedback({ className }: FeedbackProps) {
   const [state, setState] = useState<FeedbackState>("idle");
   const [feedbackType, setFeedbackType] = useState<FeedbackType>(null);
@@ -29,18 +20,8 @@ export function Feedback({ className }: FeedbackProps) {
   const [contactInfo, setContactInfo] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [issueUrl, setIssueUrl] = useState<string | null>(null);
-  const [pastedImage, setPastedImage] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [imageError, setImageError] = useState<string | null>(null);
   const { trackEvent, pathname } = useAnalytics();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  // Cleanup object URL on unmount or when image is removed
-  useEffect(() => {
-    return () => {
-      if (previewUrl) URL.revokeObjectURL(previewUrl);
-    };
-  }, [previewUrl]);
 
   const handleFeedbackClick = (type: "good" | "bad") => {
     setFeedbackType(type);
@@ -51,66 +32,11 @@ export function Feedback({ className }: FeedbackProps) {
     });
   };
 
-  const addImage = useCallback(
-    (file: File) => {
-      setImageError(null);
-
-      if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
-        setImageError("Only PNG, JPEG, GIF, and WebP images are supported.");
-        return;
-      }
-      if (file.size > MAX_IMAGE_SIZE) {
-        setImageError("Image must be under 5 MB.");
-        return;
-      }
-
-      if (previewUrl) URL.revokeObjectURL(previewUrl);
-      setPastedImage(file);
-      setPreviewUrl(URL.createObjectURL(file));
-    },
-    [previewUrl],
-  );
-
-  const removeImage = useCallback(() => {
-    if (previewUrl) URL.revokeObjectURL(previewUrl);
-    setPastedImage(null);
-    setPreviewUrl(null);
-    setImageError(null);
-  }, [previewUrl]);
-
-  const handlePaste = useCallback(
-    (e: React.ClipboardEvent) => {
-      const items = e.clipboardData?.items;
-      if (!items) return;
-
-      for (const item of items) {
-        if (item.type.startsWith("image/")) {
-          e.preventDefault();
-          const file = item.getAsFile();
-          if (file) addImage(file);
-          return;
-        }
-      }
-    },
-    [addImage],
-  );
-
   const handleSubmit = async () => {
     setIsSubmitting(true);
     const rating = feedbackType === "good" ? "positive" : "negative";
 
     try {
-      let imageUrl: string | undefined;
-
-      if (pastedImage) {
-        const blob = await upload(
-          `feedback/${Date.now()}-${pastedImage.name}`,
-          pastedImage,
-          { access: "public", handleUploadUrl: "/api/feedback/upload" },
-        );
-        imageUrl = blob.url;
-      }
-
       const res = await fetch("/api/feedback", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -119,7 +45,6 @@ export function Feedback({ className }: FeedbackProps) {
           comment: feedbackText || undefined,
           contactInfo: contactInfo || undefined,
           pagePath: pathname,
-          imageUrl,
         }),
       });
 
@@ -169,7 +94,6 @@ export function Feedback({ className }: FeedbackProps) {
         rating,
         has_comment: feedbackText.length > 0,
         comment_length: feedbackText.length,
-        has_image: !!pastedImage,
         has_contact: contactInfo.length > 0,
       });
     } catch (error) {
@@ -191,19 +115,21 @@ export function Feedback({ className }: FeedbackProps) {
     return (
       <div className={cn("flex items-center gap-8", className)}>
         <p className="body-16 text-card-foreground">
-          Thanks for your feedback!
-          {issueUrl && (
+          {issueUrl ? (
             <>
-              {" "}
+              Thanks! To add a screenshot,{" "}
               <a
                 href={issueUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-brand underline underline-offset-2 hover:text-brand/80"
               >
-                View issue
+                comment on the issue
               </a>
+              .
             </>
+          ) : (
+            "Thanks for your feedback!"
           )}
         </p>
       </div>
@@ -221,7 +147,6 @@ export function Feedback({ className }: FeedbackProps) {
             setFeedbackText("");
             setContactInfo("");
             setFeedbackType(null);
-            removeImage();
           }}
           className={cn(
             "flex items-center justify-center gap-2 h-10 px-4",
@@ -308,12 +233,11 @@ export function Feedback({ className }: FeedbackProps) {
               aria-label="Feedback comment"
               value={feedbackText}
               onChange={(e) => setFeedbackText(e.target.value)}
-              onPaste={handlePaste}
               onKeyDown={handleKeyDown}
               placeholder={
                 feedbackType === "good"
-                  ? "What did you like? (paste a screenshot)"
-                  : "What could be improved? (paste a screenshot)"
+                  ? "What did you like?"
+                  : "What could be improved?"
               }
               className={cn(
                 "w-full h-20 p-4 resize-none",
@@ -340,31 +264,10 @@ export function Feedback({ className }: FeedbackProps) {
                 "focus:outline-none focus:ring-1 focus:ring-brand",
               )}
             />
+            <p className="text-sm text-muted-foreground">
+              Contact details are posted publicly on the GitHub issue.
+            </p>
           </div>
-
-          {/* Image error */}
-          {imageError && <p className="text-sm text-red-500">{imageError}</p>}
-
-          {/* Bottom row: image preview (left) + submit (right) */}
-          {/* Image preview */}
-          {previewUrl && (
-            <div className="relative inline-block">
-              {/* biome-ignore lint/performance/noImgElement: blob URL preview incompatible with next/image */}
-              <img
-                src={previewUrl}
-                alt="Screenshot preview"
-                className="h-16 w-auto max-w-full border border-card-border object-cover"
-              />
-              <button
-                type="button"
-                onClick={removeImage}
-                aria-label="Remove screenshot"
-                className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center bg-foreground text-background rounded-full"
-              >
-                <X size={12} weight="bold" />
-              </button>
-            </div>
-          )}
 
           <button
             type="submit"
