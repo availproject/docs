@@ -2,71 +2,48 @@
 image: "/img/docs-link-preview.png"
 title: What is an Intent?
 sidebarTitle: Intents
-description: A signed Request For Funds describing sources, destination, and fees — filled by solvers on the destination chain.
+description: A quoted request describing source inputs, destination output, fees, and the provider that fills it.
 hideFooter: true
 ---
 
-An intent is a user's request to receive funds on a destination chain, paid for with tokens they hold on one or more source chains. In Nexus, an intent is a **Request For Funds (RFF)**: a single structured message describing the sources, the destination, and the fees.
+An intent is a request to receive a token on a destination chain, paid for with tokens the user holds on one or more source chains. The user signs it once, and a provider fills it.
 
-The user signs this message **once** (an EIP-191 signature) — no per-chain bridging, no chain switching. The signed RFF is submitted to the Nexus network, the user's funds are deposited into Vault contracts on each source chain, and a [solver](/docs/nexus/concepts/solvers) fills the request by delivering funds on the destination chain.
+Every intent starts as a quote from the Nexus middleware. The SDK passes the quote to your `onIntent` hook so the user can review it before anything is signed.
 
-<ThemedImage light="/img/nexus/intent-structure-light.png" dark="/img/nexus/intent-structure-dark.png" alt="Intent Structure" />
+## What a quote contains
 
-## What does an Intent look like?
+| Field | Meaning |
+|---|---|
+| `provider` | The provider that fills this quote: `nexus-v2`, `mayan`, or `relay` |
+| `tradeType` | `exactInput` or `exactOutput` |
+| `input` | One entry per source chain and token: amount, deposit fee, and total required |
+| `output` | Destination chain, token, quoted `amountRaw`, and guaranteed `minAmountRaw` |
+| `fees` | Deposit, fulfillment, protocol, and solver fees, in raw units and USD |
+| `allowances` | Approvals the user still needs on source chains |
+| `plan` | The ordered steps the SDK will run |
+| `sourceVerdicts` | Whether each candidate source was selected, unused, or unroutable, and why |
+| `expiresAt` | Quote expiry, in Unix seconds |
 
-The following information is part of an intent:
+Amounts ending in `Raw` are `bigint` values in the token's smallest unit. USD amounts are decimal strings.
 
-- **Selected Sources**: The chains and tokens the funds will be drawn from, and how much from each.
-- **Available Sources**: Everywhere the user *could* source funds from, so your UI can offer alternatives.
-- **Destination**: The chain, token, and amount the user will receive.
-- **Fees**: The CA gas fee (for cross-chain operations), protocol fee, solver fee, and the total.
-- **Sources Total**: The full amount drawn from source chains, combining the transaction amount and all fees.
-- **Provider**: Whether the route is served by the native Nexus flow (`nexus`) or by Mayan (`mayan`), a third-party bridge provider. The SDK selects this automatically.
-
-This is a simplified view of the `BridgeIntent` object the SDK passes to your `onIntent` hook — see the [full type](https://github.com/availproject/nexus-sdk/blob/main/src/domain/types/index.ts) for every field:
-
-```ts
-type BridgeIntent = {
-  provider: 'nexus' | 'mayan';
-  selectedSources: {
-    amount: string;
-    amountRaw: bigint;
-    chain: { id: number; name: string; logo: string };
-    token: { decimals: number; symbol: string; logo: string; contractAddress: `0x${string}` };
-    value: string; // USD value
-  }[];
-  availableSources: { /* same shape as selectedSources */ }[];
-  destination: {
-    amount: string;
-    amountRaw: bigint;
-    chain: { id: number; name: string; logo: string };
-    token: { decimals: number; symbol: string; logo: string; contractAddress: `0x${string}` };
-    value: string; // USD value
-  };
-  fees: {
-    caGas: string;
-    protocol: string;
-    solver: string;
-    total: string;
-    totalValue: string; // USD value
-  };
-  sourcesTotal: string;
+```typescript title="TypeScript"
+onIntent: ({ quote, allow }) => {
+  console.log(quote.provider, quote.output.minAmountRaw, quote.fees.solverUsd);
+  allow();
 };
 ```
 
-<Callout>
-- Learn about the [complete lifecycle of an intent](/docs/nexus/concepts/intent-lifecycle).
-</Callout>
+The user can ask for a new quote with `refresh()` before approving. After approval, the quote is fixed. See [review quotes](/docs/nexus/nexus-sdk/reference/swap-methods/review-quotes) for the full hook.
 
 <PageFooter
   previous={{
     title: "What is Chain Abstraction?",
-    description: "Eliminate manual bridging and wallet complexity.",
+    description: "One review instead of a bridge per chain.",
     href: "/docs/nexus/concepts/chain-abstraction"
   }}
   next={{
-    title: "What are Solvers?",
-    description: "Agents that compete to fulfill user intents.",
+    title: "Solvers and Providers",
+    description: "Who fills intents on the destination chain.",
     href: "/docs/nexus/concepts/solvers"
   }}
 />

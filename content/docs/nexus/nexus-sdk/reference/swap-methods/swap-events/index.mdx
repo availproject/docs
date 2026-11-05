@@ -1,222 +1,95 @@
 ---
 title: "Swap Events"
 sidebarTitle: "Events"
-description: "The typed event union emitted by swapWithExactIn() and swapWithExactOut() — status, plan preview, and per-step progress."
+description: "Track swap progress with onEvent and read the IntentResult a swap resolves with."
 ---
 
-Both `swapWithExactIn()` and `swapWithExactOut()` accept an `onEvent` callback (via `SwapOperationOptions`) that receives a typed `SwapEvent`. Every event carries a `type` discriminant, so you can narrow on `event.type` and then, for progress events, on `event.stepType` and `event.state`.
+Pass `options.onEvent` to `swapWithExactIn()` or `swapWithExactOut()` to receive `IntentEvent` updates. The SDK catches errors thrown by your callback, so a failing handler never interrupts the swap.
 
-## Event union
+## Events
 
-```typescript title="TypeScript"
-export type SwapEvent =
-  | SwapStatusEvent        // type: 'status'
-  | SwapPlanPreviewEvent   // type: 'plan_preview'
-  | SwapPlanConfirmedEvent // type: 'plan_confirmed'
-  | SwapPlanProgressEvent; // type: 'plan_progress'
-```
+`IntentEvent` is a union discriminated on `type`.
 
-### Status events
+| `type` | Fields | When |
+| --- | --- | --- |
+| `quote` | `quote: IntentQuote` | For the first quote and after every refresh. |
+| `step` | `step: IntentPlanStep`, `state`, `committed`, `errorDetails?` | When a plan step starts, completes, or fails. `state` is `'started'`, `'completed'`, or `'failed'`. |
+| `status` | `intentId`, `status`, `substatus`, `legs` | On each fill status poll. `status` is `'created'`, `'deposited'`, `'fulfilled'`, or `'expired'`. |
 
-Emitted as the operation moves through its lifecycle.
+Each entry in `legs` describes one source: `sourceIndex`, `status`, and optional `txHash`, `txExplorerUrl`, `protocolExplorerUrl`, and `error`.
 
-```typescript title="TypeScript"
-export type SwapStatus =
-  | 'route_building'
-  | 'route_ready'
-  | 'awaiting_approval'
-  | 'approved'
-  | 'executing'
-  | 'completed';
-
-export type SwapStatusEvent = {
-  type: 'status';
-  status: SwapStatus;
-};
-```
-
-### Plan preview & confirmed events
-
-`plan_preview` is emitted once the route is planned; `plan_confirmed` is emitted after the intent is approved. Both carry the same `SwapPlan`.
+## Example
 
 ```typescript title="TypeScript"
-export type SwapPlanPreviewEvent = {
-  type: 'plan_preview';
-  plan: SwapPlan;
+import type { IntentEvent, IntentQuote, SwapExactInParams } from '@avail-project/nexus-core';
+
+declare const params: SwapExactInParams;
+declare function showQuote(quote: IntentQuote): void;
+declare function setStep(type: string, state: string): void;
+declare function showError(message?: string, code?: string, committed?: boolean): void;
+declare function setFillStatus(intentId: string, status: string): void;
+declare function setLegLink(sourceIndex: number, url?: string): void;
+
+const onEvent = (event: IntentEvent) => {
+  switch (event.type) {
+    case 'quote':
+      showQuote(event.quote);
+      break;
+    case 'step':
+      setStep(event.step.type, event.state);
+      if (event.state === 'failed') {
+        showError(event.errorDetails?.message, event.errorDetails?.code, event.committed);
+      }
+      break;
+    case 'status':
+      setFillStatus(event.intentId, event.status);
+      for (const leg of event.legs) setLegLink(leg.sourceIndex, leg.txExplorerUrl);
+      break;
+  }
 };
 
-export type SwapPlanConfirmedEvent = {
-  type: 'plan_confirmed';
-  plan: SwapPlan;
-};
-
-export type SwapPlan = {
-  hasBridge: boolean;
-  hasDestinationSwap: boolean;
-  steps: SwapPlanStep[];
-};
-
-export type SwapPlanStep =
-  | SwapSourceSwapStep              // type: 'source_swap'
-  | SwapEoaToEphemeralTransferStep  // type: 'eoa_to_ephemeral_transfer'
-  | SwapBridgeDepositStep           // type: 'bridge_deposit'
-  | SwapBridgeIntentSubmissionStep  // type: 'bridge_intent_submission'
-  | BridgeFillStep                  // type: 'bridge_fill'
-  | SwapDestinationSwapStep;        // type: 'destination_swap'
+await client.swapWithExactIn(params, { onEvent });
 ```
 
-## Progress events
+Events report progress only. Catch the promise to handle the final outcome.
 
-`plan_progress` events are emitted as each step advances. Narrow first on `stepType`, then on `state`. Every progress event carries its `step` object.
+## Plan steps
 
-```typescript title="TypeScript"
-export type SwapPlanProgressEvent =
-  | SwapSourceSwapProgressEvent
-  | SwapEoaToEphemeralTransferProgressEvent
-  | SwapBridgeDepositProgressEvent
-  | SwapBridgeIntentSubmissionProgressEvent
-  | SwapBridgeFillProgressEvent
-  | SwapDestinationSwapProgressEvent;
-```
+`quote.plan.steps` lists the steps for that quote, and `step` events reference them.
 
-The table below lists the `state` values each `stepType` can emit:
+| `step.type` | Extra fields | Wallet action |
+| --- | --- | --- |
+| `erc20_approval` | `chainId`, `tokenAddress`, `spender`, `amountRaw` | Approval transaction for the minimum required amount |
+| `source_approval_signature` | `chainId`, `tokenAddress`, `spender`, `amountRaw` | Typed-data signature that authorizes the source token |
+| `intent_signature` | none | Signature over the intent |
+| `native_transaction` | `chainId`, `sourceIndex`, `to`, `valueRaw` | Native-token deposit transaction |
+| `intent_submission` | none | None. The SDK submits the intent. |
+| `intent_fulfillment` | none | None. The SDK waits for the fill. |
 
-| `stepType` | States |
-|------------|--------|
-| `source_swap` | `wallet_prompted` · `started` · `submitted` · `confirmed` · `failed` |
-| `eoa_to_ephemeral_transfer` | `wallet_prompted` · `submitted` · `confirmed` · `failed` |
-| `bridge_deposit` | `started` · `submitted` · `confirmed` · `failed` |
-| `bridge_intent_submission` | `started` · `completed` · `failed` |
-| `bridge_fill` | `waiting` · `completed` · `failed` |
-| `destination_swap` | `wallet_prompted` · `started` · `submitted` · `confirmed` · `failed` |
+## Committed attempts
 
-### Field shapes
+`committed` becomes `true` once the attempt can settle even if a later step fails: after the intent signature when an ERC-20 source is used, or after a native deposit is broadcast.
 
-`submitted` and `confirmed` states carry `txHash` and `explorerUrl`. `failed` states carry an `error` string (and, for tx-based steps, optional `txHash`/`explorerUrl`). The bridge steps carry an `intentRequestHash` instead.
-
-```typescript title="TypeScript"
-export type SwapSourceSwapProgressEvent =
-  | { type: 'plan_progress'; stepType: 'source_swap'; state: 'wallet_prompted'; step: SwapSourceSwapStep }
-  | { type: 'plan_progress'; stepType: 'source_swap'; state: 'started'; step: SwapSourceSwapStep }
-  | { type: 'plan_progress'; stepType: 'source_swap'; state: 'submitted'; step: SwapSourceSwapStep; txHash: Hex; explorerUrl: string }
-  | { type: 'plan_progress'; stepType: 'source_swap'; state: 'confirmed'; step: SwapSourceSwapStep; txHash: Hex; explorerUrl: string }
-  | { type: 'plan_progress'; stepType: 'source_swap'; state: 'failed'; step: SwapSourceSwapStep; txHash?: Hex; explorerUrl?: string; error: string };
-
-export type SwapEoaToEphemeralTransferProgressEvent =
-  | { type: 'plan_progress'; stepType: 'eoa_to_ephemeral_transfer'; state: 'wallet_prompted'; step: SwapEoaToEphemeralTransferStep }
-  | { type: 'plan_progress'; stepType: 'eoa_to_ephemeral_transfer'; state: 'submitted'; step: SwapEoaToEphemeralTransferStep; txHash: Hex; explorerUrl: string }
-  | { type: 'plan_progress'; stepType: 'eoa_to_ephemeral_transfer'; state: 'confirmed'; step: SwapEoaToEphemeralTransferStep; txHash: Hex; explorerUrl: string }
-  | { type: 'plan_progress'; stepType: 'eoa_to_ephemeral_transfer'; state: 'failed'; step: SwapEoaToEphemeralTransferStep; txHash?: Hex; explorerUrl?: string; error: string };
-
-export type SwapBridgeDepositProgressEvent =
-  | { type: 'plan_progress'; stepType: 'bridge_deposit'; state: 'started'; step: SwapBridgeDepositStep }
-  | { type: 'plan_progress'; stepType: 'bridge_deposit'; state: 'submitted'; step: SwapBridgeDepositStep; txHash: Hex; explorerUrl: string }
-  | { type: 'plan_progress'; stepType: 'bridge_deposit'; state: 'confirmed'; step: SwapBridgeDepositStep; txHash: Hex; explorerUrl: string }
-  | { type: 'plan_progress'; stepType: 'bridge_deposit'; state: 'failed'; step: SwapBridgeDepositStep; txHash?: Hex; explorerUrl?: string; error: string };
-
-export type SwapBridgeIntentSubmissionProgressEvent =
-  | { type: 'plan_progress'; stepType: 'bridge_intent_submission'; state: 'started'; step: SwapBridgeIntentSubmissionStep }
-  | { type: 'plan_progress'; stepType: 'bridge_intent_submission'; state: 'completed'; step: SwapBridgeIntentSubmissionStep; intentRequestHash: Hex }
-  | { type: 'plan_progress'; stepType: 'bridge_intent_submission'; state: 'failed'; step: SwapBridgeIntentSubmissionStep; intentRequestHash?: Hex; error: string };
-
-export type SwapBridgeFillProgressEvent =
-  | { type: 'plan_progress'; stepType: 'bridge_fill'; state: 'waiting'; step: BridgeFillStep; intentRequestHash: Hex }
-  | { type: 'plan_progress'; stepType: 'bridge_fill'; state: 'completed'; step: BridgeFillStep; intentRequestHash: Hex }
-  | { type: 'plan_progress'; stepType: 'bridge_fill'; state: 'failed'; step: BridgeFillStep; intentRequestHash: Hex; error: string };
-
-export type SwapDestinationSwapProgressEvent =
-  | { type: 'plan_progress'; stepType: 'destination_swap'; state: 'wallet_prompted'; step: SwapDestinationSwapStep }
-  | { type: 'plan_progress'; stepType: 'destination_swap'; state: 'started'; step: SwapDestinationSwapStep }
-  | { type: 'plan_progress'; stepType: 'destination_swap'; state: 'submitted'; step: SwapDestinationSwapStep; txHash: Hex; explorerUrl: string }
-  | { type: 'plan_progress'; stepType: 'destination_swap'; state: 'confirmed'; step: SwapDestinationSwapStep; txHash: Hex; explorerUrl: string }
-  | { type: 'plan_progress'; stepType: 'destination_swap'; state: 'failed'; step: SwapDestinationSwapStep; txHash?: Hex; explorerUrl?: string; error: string };
-```
-
-### Step shapes
-
-```typescript title="TypeScript"
-export type PlanTokenAmount = {
-  symbol: string;
-  contractAddress: Hex;
-  decimals: number;
-  logo?: string;
-  amount: string;     // human-readable
-  amountRaw: bigint;  // raw integer units
-};
-
-export type SwapSourceSwapStep = {
-  type: 'source_swap';
-  id: string;
-  chain: { id: number; name: string; logo: string };
-  walletPath: 'ephemeral' | 'safe';
-  swaps: { input: PlanTokenAmount; output: PlanTokenAmount }[];
-};
-
-export type SwapEoaToEphemeralTransferStep = {
-  type: 'eoa_to_ephemeral_transfer';
-  id: string;
-  chain: { id: number; name: string; logo: string };
-  asset: PlanTokenAmount;
-};
-
-export type SwapBridgeDepositStep = {
-  type: 'bridge_deposit';
-  id: string;
-  chain: { id: number; name: string; logo: string };
-  asset: PlanTokenAmount;
-};
-
-export type SwapBridgeIntentSubmissionStep = {
-  type: 'bridge_intent_submission';
-  id: string;
-};
-
-export type BridgeFillStep = {
-  type: 'bridge_fill';
-  id: string;
-  chain: { id: number; name: string; logo: string };
-  asset: PlanTokenAmount;
-};
-
-export type SwapDestinationSwapStep = {
-  type: 'destination_swap';
-  id: string;
-  chain: { id: number; name: string; logo: string };
-  walletPath: 'ephemeral' | 'safe';
-  swaps: { input: PlanTokenAmount; output: PlanTokenAmount }[];
-};
-```
-
-## Usage example
-
-```typescript title="TypeScript"
-const result = await client.swapWithExactIn(swapInput, {
-  onEvent: (event) => {
-    switch (event.type) {
-      case 'status':
-        console.log('Status:', event.status);
-        break;
-      case 'plan_preview':
-        console.log('Planned steps:', event.plan.steps);
-        console.log('Has bridge:', event.plan.hasBridge);
-        break;
-      case 'plan_progress':
-        if (event.stepType === 'source_swap' && event.state === 'confirmed') {
-          console.log('Source swap confirmed:', event.txHash, event.explorerUrl);
-        }
-        if (event.stepType === 'destination_swap' && event.state === 'confirmed') {
-          console.log('Destination swap confirmed:', event.txHash, event.explorerUrl);
-        }
-        break;
-    }
-  },
-});
-```
-
-<Cards num={1}>
-    <Card icon={<GithubIcon24 className="svg-inherit" />} title="Swap event types" href="https://github.com/availproject/nexus-sdk/blob/main/src/domain/types/swap-events.ts" target="_blank" rel="noopener noreferrer" arrow />
-</Cards>
-
-<Callout type="info">
-`swapAndExecute()` emits a superset of these events (`SwapAndExecuteEvent`), adding a `preparing` status plus the execute approval and transaction progress events. See the [Swap and Execute](/docs/nexus/nexus-sdk/reference/swap-methods/swap-and-execute) page.
+<Callout type="warn">
+If a step fails with `committed: true`, the intent may still fill. Check `listIntents()` or the explorer before retrying, or the user may pay twice.
 </Callout>
+
+## Step errors
+
+A failed `step` event carries `errorDetails` (`IntentStepError`): `name`, `message`, and optional `code`, `category`, `service`, `stepId`, `stepType`, `chainId`, and `details`. Match on `code`, not `message`.
+
+## Result
+
+Both swap methods resolve with `IntentResult` after the fill.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `intentId` | `Hex` | Intent ID, also the quote ID. |
+| `intentExplorerUrl` | `string` | Explorer link for the intent. |
+| `quote` | `IntentQuote` | The accepted quote. |
+| `status` | `IntentStatusResponse` | Final `id`, `provider`, `status`, `substatus`, and `legs`. |
+| `approvals` | `IntentTransaction[]` | Approval transactions: `chainId`, `txHash`, `txExplorerUrl`, optional `receipt`. |
+| `nativeTransactions` | `IntentTransaction[]` | Native deposit transactions, same shape. |
+| `attemptId` | `string` | Optional. Store it with `intentId` for support requests. |
+
+A rejected promise can follow transactions that already landed. See [hooks and errors](/docs/nexus/nexus-sdk/reference/hooks-and-errors).

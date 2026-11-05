@@ -1,0 +1,5 @@
+{
+  "title": "SDK v2 (Legacy)",
+  "defaultOpen": false,
+  "pages": ["get-started", "reference", "cookbook-recipes", "bridge-v-swap"]
+}

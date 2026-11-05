@@ -1,114 +1,89 @@
 ---
 title: SDK Reference
-description: API reference for the Avail Nexus SDK bridge, swap, and balance methods.
+description: Every method on the Nexus SDK client.
 ---
 
-This section contains dedicated pages for the main functions exposed by the Avail Nexus SDK (`@avail-project/nexus-core`).
+Create a client with `createNexusClient` from `@avail-project/nexus-core`, then pick the method for your task.
+
+| Task | Method |
+| --- | --- |
+| Receive an exact amount on the destination | [`swapWithExactOut`](/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-out) |
+| Spend exact source amounts | [`swapWithExactIn`](/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-in) |
+| Move the same asset between chains | Either swap method — see [Bridge tokens](/docs/nexus/nexus-sdk/get-started/bridge-tokens) |
+| Fund and run a destination contract call | [`swapAndExecute`](/docs/nexus/nexus-sdk/reference/swap-methods/swap-and-execute) |
+| Call a contract with funds already on the destination | [`execute`](/docs/nexus/nexus-sdk/reference/execute-methods/execute) |
+| Estimate a contract call | [`simulateExecute`](/docs/nexus/nexus-sdk/reference/execute-methods/simulate-execute) |
+| Show wallet balances | [`getBalances`](/docs/nexus/nexus-sdk/reference/balances-and-tokens/get-balances) |
+| Find chains and tokens | [Token catalog](/docs/nexus/nexus-sdk/reference/balances-and-tokens/token-catalog) |
+| Show past intents | [`listIntents`](/docs/nexus/nexus-sdk/reference/list-intents) |
 
 <IconCardGrid>
   <IconCard
-    icon={<Bridge />}
-    title="Bridge Methods"
-    description="bridge(), bridgeAndTransfer(), bridgeAndExecute(), calculateMaxForBridge(), and getBalancesForBridge()."
-    href="/docs/nexus/nexus-sdk/reference/bridge-methods/fetch-bridge-balances"
+    icon={<Cube />}
+    title="Balances & Tokens"
+    description="Wallet balances, the token catalog, and route compatibility."
+    href="/docs/nexus/nexus-sdk/reference/balances-and-tokens/get-balances"
     arrow
   />
   <IconCard
     icon={<Swap />}
     title="Swap Methods"
-    description="swapWithExactIn(), swapWithExactOut(), swapAndExecute(), calculateMaxForSwap(), and getBalancesForSwap()."
-    href="/docs/nexus/nexus-sdk/reference/swap-methods/fetch-swap-balances"
+    description="Exact-in, exact-out, swap and execute, quote review, and events."
+    href="/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-in"
+    arrow
+  />
+  <IconCard
+    icon={<CodeIcon />}
+    title="Execute Methods"
+    description="Standalone contract calls and gas estimates."
+    href="/docs/nexus/nexus-sdk/reference/execute-methods/execute"
     arrow
   />
   <IconCard
     icon={<FileIcon />}
     title="List Intents"
-    description="listIntents() — fetch a user's historical intents with pagination and status filters."
+    description="A wallet's intent history."
     href="/docs/nexus/nexus-sdk/reference/list-intents"
     arrow
   />
   <IconCard
     icon={<CodeIcon />}
     title="Hooks and Errors"
-    description="Per-operation hooks and the typed NexusError hierarchy."
+    description="Review hooks and the NexusError types."
     href="/docs/nexus/nexus-sdk/reference/hooks-and-errors"
     arrow
   />
   <IconCard
-    icon={<FileIcon />}
+    icon={<Gear />}
     title="Utility Reference"
-    description="Client creation, lifecycle, chain/token lookups, and stateless helpers."
+    description="Client config, lifecycle, and helper functions."
     href="/docs/nexus/nexus-sdk/reference/utility-reference"
     arrow
   />
 </IconCardGrid>
 
-## External links
+## Links
 
 <IconCardGrid>
   <IconCard
     icon={<Github />}
-    title="GitHub Repository"
-    description="View the Nexus SDK source code and contribute."
+    title="GitHub"
+    description="Source code for @avail-project/nexus-core."
     href="https://github.com/availproject/nexus-sdk/"
     arrow
   />
   <IconCard
     icon={<Cube />}
-    title="npm Package"
+    title="npm"
     description="@avail-project/nexus-core on npm."
     href="https://www.npmjs.com/package/@avail-project/nexus-core"
     arrow
   />
   <IconCard
-    icon={<Github />}
-    title="v1 → v2 Migration Guide"
-    description="Every breaking change between nexus-core v1 and v2."
-    href="/docs/nexus/migration/sdk-v1-to-v2"
-    arrow
-  />
-</IconCardGrid>
-
-## Agent Skills
-
-Install [skills.sh](https://skills.sh) skills to give AI coding agents deep context about the Nexus SDK and Widgets.
-
-<IconCardGrid>
-  <IconCard
-    icon={<Cube />}
-    title="Nexus SDK Skill"
-    description="Client lifecycle, operations, hooks, events, errors, and v1 → v2 migration."
-    href="https://skills.sh/availproject/nexus-sdk"
-    arrow
-  />
-  <IconCard
-    icon={<Cube />}
-    title="Widgets Skills"
-    description="Provider setup plus swap, send, and deposit mode integration."
-    href="/docs/nexus/widgets/mcp-and-agent-skills#agent-skills"
-    arrow
-  />
-</IconCardGrid>
-
-See the [Skills Integration section](/docs/nexus/nexus-sdk/reference/utility-reference#skills-integration) for install commands and the full list of available skills.
-
-## SDK helper functions and constants
-
-The Nexus SDK exposes a suite of helper functions and constants used throughout the SDK.
-
-<IconCardGrid>
-  <IconCard
-    icon={<Gear />}
-    title="Utils"
-    description="Formatting and utility functions on GitHub."
-    href="https://github.com/availproject/nexus-sdk/blob/main/src/core/utils.ts"
-    arrow
-  />
-  <IconCard
     icon={<Link2 />}
-    title="Types & Errors"
-    description="Public types and the NexusError hierarchy on GitHub."
-    href="https://github.com/availproject/nexus-sdk/blob/main/src/domain/errors.ts"
+    title="Migrate from v2"
+    description="Map v2 calls to their v3 equivalents."
+    href="/docs/nexus/migration/sdk-v2-to-v3"
     arrow
   />
 </IconCardGrid>

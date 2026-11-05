@@ -1,25 +1,7 @@
 ---
 title: Installation
-description: Install the Nexus SDK packages and dependencies in your project.
+description: Install the Nexus SDK package.
 ---
-
-In this guide you will install `@avail-project/nexus-core` and its peer dependencies into an existing project. By the end, your project will be ready for SDK initialization in the next step.
-
-## Prerequisites
-
-Before you begin, make sure you have:
-
-- **A JavaScript or TypeScript project** — the SDK works with any framework or runtime (React, Node.js, vanilla JS, etc.)
-- **Node.js 18+** or **Bun** with a package manager (npm 9+, pnpm, yarn, or bun)
-- **An [EIP-1193](https://eips.ethereum.org/EIPS/eip-1193) compatible wallet provider** to sign transactions (e.g. MetaMask via `window.ethereum`, or a library like [wagmi](https://wagmi.sh))
-
-<Callout type="info" title="Wallet provider">
-The SDK needs an EIP-1193 provider to send transactions. In a browser you can use `window.ethereum` directly. Wallet libraries like wagmi or RainbowKit are optional — they just make it easier to manage wallet connections in React apps.
-</Callout>
-
-## Step 1 — Install the core package
-
-Run one of the following commands to add the Nexus SDK to your project:
 
 <Tabs defaultValue="npm">
   <TabsList>
@@ -50,34 +32,16 @@ bun add @avail-project/nexus-core
   </TabsContent>
 </Tabs>
 
-### What gets installed
+## Requirements
 
-The `@avail-project/nexus-core` package provides:
+- Node.js 18 or later.
+- An [EIP-1193 provider](https://eips.ethereum.org/EIPS/eip-1193) from your wallet connector, such as wagmi, RainbowKit, or `window.ethereum`, for any operation that signs or reads the wallet.
 
-- **`createNexusClient`** — the factory function for creating a Nexus client and performing cross-chain operations
-- **Bridge methods** — `bridge()`, `bridgeAndTransfer()`, `bridgeAndExecute()` for moving tokens across chains
-- **Swap methods** — `swapWithExactIn()`, `swapWithExactOut()` for cross-chain token swaps
-- **Balance methods** — `getBalancesForBridge()` and `getBalancesForSwap()` for multi-chain token balances
-- **Typed progress events** — an `onEvent` callback with a discriminated union (`status`, `plan_preview`, `plan_confirmed`, `plan_progress`) for tracking transaction progress
-- **Type exports** — `NexusClient`, `BridgeResult`, `EthereumProvider`, and more
+## Entry points
 
-## Step 2 — Verify the installation
+| Import | Contents |
+| --- | --- |
+| `@avail-project/nexus-core` | `createNexusClient`, errors, `ERROR_CODES`, and all types |
+| `@avail-project/nexus-core/utils` | Formatting and address helpers: `parseUnits`, `formatUnits`, `formatTokenBalance`, `isValidAddress`, `truncateAddress`, and more |
 
-Confirm the package was installed by importing and creating a client:
-
-```ts
-import { createNexusClient } from "@avail-project/nexus-core";
-
-const client = createNexusClient();
-console.log("Nexus SDK ready");
-```
-
-If this compiles without errors, the installation is complete.
-
-## Next step
-
-The package is installed. Next, you will create an SDK instance, connect it to a wallet, and fetch your first token balances.
-
-<Cards>
-  <Card href="/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup" title="Nexus SDK Setup" arrow />
-</Cards>
+Next, [set up the client](/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup).

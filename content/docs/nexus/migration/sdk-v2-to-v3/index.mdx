@@ -1,0 +1,167 @@
+---
+title: "Migrate to Nexus SDK v3"
+sidebarTitle: "SDK v2 to v3"
+description: Upgrade @avail-project/nexus-core from 2.x to 3.x.
+---
+
+In v3, quotes and routing come from the Avail intent service. Bridging is a swap where the source and destination use the same asset. Tokens are identified by chain ID and contract address, not by symbol. To stay on v2, see the [v2 docs](/docs/nexus/nexus-sdk/v2/get-started/installation).
+
+```bash
+npm install @avail-project/nexus-core@^3
+```
+
+## API mapping
+
+| v2 | v3 |
+| --- | --- |
+| `createNexusClient({ network })` | `createNexusClient({ clientId, network })`; `clientId` is required |
+| `channel`, `domain`, `forceMayan` config | Removed |
+| `getBalancesForBridge()`, `getBalancesForSwap()` | `getBalances()`; `getBalancesForSwap()` remains as a deprecated alias |
+| `TokenBalance` grouped by symbol, decimal strings | `IntentBalance`, one per chain and token, raw `bigint` (`actualBalanceRaw`, `usableBalanceRaw`); `balanceRaw` is a deprecated alias of `usableBalanceRaw` |
+| `bridge(params)` | `swapWithExactOut` with the same asset's address on each chain |
+| `toTokenSymbol`, `sources: number[]` | `toTokenAddress`, `sources: [{ chainId, tokenAddress }]` |
+| `bridgeAndTransfer`, `recipient` | No equivalent; output goes to the connected wallet |
+| `bridgeAndExecute` | `swapAndExecute` |
+| `simulateBridge`, `simulateBridgeAndTransfer`, `simulateBridgeAndExecute` | Review the quote in `hooks.onIntent` |
+| `calculateMaxForBridge`, `calculateMaxForSwap` | `usableBalanceRaw` from `getBalances()` |
+| `swapWithExactIn` optional `sources` and `amountRaw` | `sources` required, each with a positive `amountRaw` |
+| `hooks.onAllowance` | Removed; the SDK approves the minimum required amount |
+| `onIntent` receives `intent` (swap methods) | Receives `quote` and `execution` |
+| Top-level `options.onIntent` on composites | `options.hooks.onIntent` |
+| `slippageTolerance: 0.005` | `slippageBps: 50` (0–10000 or `'auto'`) |
+| `plan_preview`, `plan_confirmed`, `plan_progress`, `status` events | `quote`, `step`, `status` events (`IntentEvent`) |
+| `BridgeResult` / `SwapResult` with `sourceTxs` | `IntentResult`: `intentId`, `intentExplorerUrl`, `quote`, `status`, `approvals`, `nativeTransactions` |
+| `bridgeSkipped`, `bridgeResult` | `swapSkipped`, `swapResult` |
+| `result.execute` always present | Narrow on `result.executionMode === 'wallet'` first |
+| `execute.gas` optional on composites | Required on `swapAndExecute` |
+| `tokenApproval.toTokenSymbol` | `tokenApproval.toTokenAddress` |
+| `convertTokenReadableAmountToBigInt(amount, symbol, chainId)` | `parseUnits(amount, token.decimals)` from `@avail-project/nexus-core/utils` |
+| `getSupportedChains()` with tokens | `getSupportedChains()` returns chains only; use `getTokens` or `getTokensByChain` |
+| `IntentRecord` with `requestHash`, `sources`, `destinations` | `IntentRecord` with `id`, `provider`, `status`, `explorerUrl`, `createdAt`, `updatedAt` |
+
+## Client creation
+
+```typescript title="TypeScript"
+// v2
+const client = createNexusClient({ network: 'mainnet' });
+
+// v3
+const client = createNexusClient({ clientId: 'your-app-name', network: 'mainnet' });
+```
+
+`initialize()`, `setEVMProvider()`, and `destroy()` are unchanged.
+
+## Balances
+
+```typescript title="TypeScript"
+// v2
+const assets = await client.getBalancesForBridge();
+for (const asset of assets) console.log(asset.symbol, asset.usableBalance);
+
+// v3
+import { formatUnits } from '@avail-project/nexus-core/utils';
+
+const balances = await client.getBalances();
+for (const b of balances) {
+  console.log(b.chainId, b.symbol, formatUnits(b.usableBalanceRaw, b.decimals));
+}
+```
+
+## Bridge to swap
+
+```typescript title="TypeScript"
+// v2
+await client.bridge(
+  { toTokenSymbol: 'USDC', toAmountRaw: 100_000_000n, toChainId: 8453, sources: [1] },
+  {
+    hooks: {
+      onIntent: ({ intent, allow }) => allow(),
+      onAllowance: ({ allow }) => allow(['min']),
+    },
+  },
+);
+
+// v3
+import { parseUnits } from '@avail-project/nexus-core/utils';
+
+const baseUsdc = { chainId: 8453, tokenAddress: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913' } as const;
+const token = await client.getToken(baseUsdc);
+
+await client.swapWithExactOut(
+  {
+    toChainId: baseUsdc.chainId,
+    toTokenAddress: baseUsdc.tokenAddress,
+    toAmountRaw: parseUnits('100', token.decimals),
+    sources: [{ chainId: 1, tokenAddress: '0xA0b86991c6218b36c1d19d4a2e9eb0cE3606eB48' }],
+  },
+  {
+    hooks: { onIntent: ({ quote, allow }) => allow() },
+    slippageBps: 50,
+  },
+);
+```
+
+## bridgeAndExecute to swapAndExecute
+
+```typescript title="TypeScript"
+// v2
+const result = await client.bridgeAndExecute(
+  {
+    toTokenSymbol: 'USDC',
+    toAmountRaw: amountRaw,
+    toChainId: 8453,
+    execute: {
+      to: vault,
+      data,
+      tokenApproval: { toTokenSymbol: 'USDC', amount: amountRaw, spender: vault },
+    },
+  },
+  { onIntent: ({ allow }) => allow() },
+);
+if (!result.bridgeSkipped) console.log(result.bridgeResult.intentExplorerUrl);
+console.log(result.execute.txHash);
+
+// v3
+const result = await client.swapAndExecute(
+  {
+    toChainId: baseUsdc.chainId,
+    toTokenAddress: baseUsdc.tokenAddress,
+    toAmountRaw: amountRaw,
+    execute: {
+      to: vault,
+      data,
+      gas: 350_000n,
+      tokenApproval: { toTokenAddress: baseUsdc.tokenAddress, amount: amountRaw, spender: vault },
+    },
+  },
+  { hooks: { onIntent: ({ intent, allow }) => allow() } },
+);
+if (!result.swapSkipped) console.log(result.swapResult.intentExplorerUrl);
+if (result.executionMode === 'wallet') console.log(result.execute.txHash);
+```
+
+`swapAndExecute` defaults to `tradeType: 'exactOutput'`. With `useProviderDestinationExecution: true`, the result has `executionMode: 'provider'` and no `execute` or `approval`. See [Swap and execute](/docs/nexus/nexus-sdk/reference/swap-methods/swap-and-execute).
+
+## Events
+
+```typescript title="TypeScript"
+// v2
+onEvent: (event) => {
+  if (event.type === 'plan_preview') renderPlan(event.plan.steps);
+  if (event.type === 'plan_progress') renderStep(event.step.type, event.state);
+  if (event.type === 'status') renderStatus(event.status);
+},
+
+// v3
+onEvent: (event) => {
+  if (event.type === 'quote') renderPlan(event.quote.plan.steps);
+  if (event.type === 'step') renderStep(event.step.type, event.state);
+  if (event.type === 'status') renderStatus(event.status, event.substatus);
+},
+```
+
+`status` events carry the intent lifecycle (`created`, `deposited`, `fulfilled`, `expired`) and per-source `legs`. See [Swap events](/docs/nexus/nexus-sdk/reference/swap-methods/swap-events).
+
+## Errors
+
+`NexusError`, its subclasses, and `ERROR_CODES` keep the same shape. Quote failures carry new `BACKEND_*` codes; read diagnostics with `getIntentQuoteFailure(error)`. See [Hooks and Errors](/docs/nexus/nexus-sdk/reference/hooks-and-errors).

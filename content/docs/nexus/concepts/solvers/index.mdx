@@ -1,34 +1,40 @@
 ---
 image: "/img/docs-link-preview.png"
-title: What are Solvers?
+title: Solvers and Providers
 sidebarTitle: Solvers
-description: Market makers that front their own capital to fill intents in seconds, and are reimbursed at settlement.
+description: Who delivers funds on the destination chain, and how they are repaid.
 hideFooter: true
 ---
 
-In the Nexus protocol, solvers are professional market makers that supply liquidity on the destination chain to fill user [intents](/docs/nexus/concepts/intent).
+Each quote names one provider in `quote.provider`. The provider is responsible for delivering the destination output. The middleware chooses it per quote; your integration code does not change.
 
-Once the user's funds are deposited into the Vault contracts on the source chains, a solver fronts its **own capital** on the destination chain and fills the intent — this is why users receive funds in seconds, without waiting for cross-chain finality.
+| Provider | Who fills the intent |
+|---|---|
+| `nexus-v2` | Nexus solvers |
+| `mayan` | Mayan's network |
+| `relay` | Relay's network |
 
-The solver takes on the fill and is made whole afterwards: the protocol settles with solvers who have completed intents, releasing the user's locked source-chain funds to them through an on-chain settlement. Settlements are authorized by Nexus validators — the network settles on a sovereign rollup sequenced on Avail DA, where validators independently re-execute and verify state, and sign settlements with threshold signatures.
+## Nexus solvers
 
-Currently, Avail runs the solvers for Nexus, but the solver network will be progressively decentralized in time. In a decentralized setup, multiple solvers compete to fill published intents, and competition keeps solver fees low.
+Solvers are market makers. Once the user's funds are deposited on the source chains, a solver fronts its own capital on the destination chain to fill the intent. Users receive funds in seconds instead of waiting for cross-chain finality.
+
+The protocol then repays the solver from the deposited source funds through an on-chain settlement authorized by Nexus validators. Settlement runs in the background; the user's transfer is already complete.
+
+Avail runs the Nexus solvers today. As the solver network decentralizes, multiple solvers will compete to fill each intent.
 
 <ThemedImage light="/img/nexus/solvers-light.png" dark="/img/nexus/solvers-dark.png" alt="Solvers" />
 
-<Callout>
-To `Fill` here means the action of the solver providing the liquidity to the user, basically "filling" the intent's request for funds.
-</Callout>
+To fill an intent means to deliver the funds it requests on the destination chain.
 
 <PageFooter
   previous={{
     title: "What is an Intent?",
-    description: "How users express what they want in Nexus.",
+    description: "What a quoted intent contains.",
     href: "/docs/nexus/concepts/intent"
   }}
   next={{
     title: "How Intents are Processed",
-    description: "From creation to fulfillment.",
+    description: "From quote to fulfillment.",
     href: "/docs/nexus/concepts/intent-lifecycle"
   }}
 />

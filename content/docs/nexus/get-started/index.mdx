@@ -5,51 +5,47 @@ sidebarTitle: Get Started
 description: Build cross-chain apps with Avail Nexus — accept payments from any chain, swap tokens across ecosystems, and execute contracts remotely.
 ---
 
-Nexus lets your app move assets and execute transactions across chains without requiring users to bridge manually. Your users see one unified balance across every connected chain and sign a single message — Nexus turns it into an intent that solvers fill on the destination chain, usually in seconds.
+Nexus lets your app move assets and execute transactions across chains without requiring users to bridge manually. Your users see their balances across every supported chain, review one quote, and sign once. Nexus turns that into an intent that a provider fills on the destination chain, usually in seconds.
 
 ## Quick Look — How the SDK Works
 
-```ts
+```typescript title="TypeScript"
 import { createNexusClient } from '@avail-project/nexus-core';
+import { parseUnits } from '@avail-project/nexus-core/utils';
 
-// 1. Create and initialize the client
-const client = createNexusClient({ network: 'mainnet' });
+// 1. Create the client and connect a wallet
+const client = createNexusClient({ clientId: 'your-app-name', network: 'mainnet' });
 await client.initialize();
-await client.setEVMProvider(window.ethereum);
+await client.setEVMProvider(provider); // EIP-1193 provider from your wallet connector
 
-// 2. See balances across all chains
-const bridgeBalances = await client.getBalancesForBridge();
-const swapBalances = await client.getBalancesForSwap();
+// 2. See balances across all supported chains
+const balances = await client.getBalances();
 
-// 3. Bridge to any chain — one signature, filled by a solver
-await client.bridge(
+// 3. Get 100 USDC on Arbitrum, funded from any chain
+const usdc = { chainId: 42161, tokenAddress: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831' } as const;
+const token = await client.getToken(usdc);
+
+await client.swapWithExactOut(
   {
-    toTokenSymbol: 'USDC',
-    toAmountRaw: 100_000_000n, // 100 USDC (6 decimals)
-    toChainId: 42161,          // Arbitrum
+    toChainId: usdc.chainId,
+    toTokenAddress: usdc.tokenAddress,
+    toAmountRaw: parseUnits('100', token.decimals),
   },
   {
     hooks: {
-      // Show the user what they'll pay and receive, then confirm
-      onIntent: ({ intent, allow, deny }) => allow(),
+      // Show the quote, then call allow() when the user confirms
+      onIntent: ({ quote, allow, deny }) => allow(),
     },
-  }
+  },
 );
-
-// 4. Or swap into any token on any chain
-await client.swapWithExactOut({
-  toChainId: 8453, // Base
-  toTokenAddress: '0x4200000000000000000000000000000000000006', // WETH on Base
-  toAmountRaw: 10_000_000_000_000_000n, // 0.01 WETH
-});
 ```
 
 ## What Changes for Your Users
 
 | Without Nexus | With Nexus |
 |---|---|
-| User bridges manually, switches chains, manages gas per chain | User signs one message — Nexus routes funds across chains |
-| Dev writes bridge logic per chain pair | Dev calls a single SDK method with token + destination |
+| User bridges manually, switches chains, manages gas per chain | User reviews one quote and signs once — Nexus routes funds across chains |
+| Dev writes bridge logic per chain pair | Dev calls one SDK method with a destination token and amount |
 | Balances scattered across a dozen chains | One unified balance |
 
 ## Choose Your Path
@@ -58,7 +54,7 @@ await client.swapWithExactOut({
   <IconCard
     icon={<Gear />}
     title="Add Cross-Chain to My App"
-    description="Use the Nexus SDK directly — a TypeScript API for bridging, swaps, and intent management. ~15 min."
+    description="Use the Nexus SDK directly: a TypeScript API for swaps, bridging, and contract calls. ~15 min."
     href="/docs/nexus/nexus-sdk/get-started/installation"
   />
   <IconCard
@@ -81,31 +77,31 @@ Node.js 18+, a package manager (npm/pnpm/yarn), and an EVM wallet (MetaMask, Wal
 
 ## How Nexus Works
 
-When a user initiates a cross-chain action, Nexus handles the entire flow behind a single signature:
+When a user starts a cross-chain action, Nexus handles the flow behind one review and one signature:
 
 <Steps>
 
 ### The SDK Requests a Quote
-The user says "Move 100 USDC to Arbitrum" — the SDK asks Nexus for a quote: which source chains to draw funds from and what the fees are.
+The user asks for "100 USDC on Arbitrum". The Nexus middleware picks the source balances, the fees, and one provider to fill the intent.
 
 ### The User Approves and Signs Once
-Your app shows the [intent](/docs/nexus/concepts/intent) — sources, destination, and fees — via the `onIntent` hook. The user approves and signs one message covering the whole operation. No chain switching, no per-chain bridging.
+Your app shows the [intent](/docs/nexus/concepts/intent) through the `onIntent` hook. The user approves and signs one message. Token approvals and native-token deposits may add wallet prompts on source chains.
 
-### Funds Are Locked, a Solver Fills
-The signed intent is submitted to the Nexus network, and the user's funds are deposited into Vault contracts on each source chain. A [solver](/docs/nexus/concepts/solvers) fronts its own capital and delivers the funds on the destination chain — this is why the user receives tokens in seconds.
+### The Provider Fills on the Destination Chain
+The signed intent is submitted and the source funds are deposited. The provider delivers the output on the destination chain, usually within seconds. For Nexus routes, a [solver](/docs/nexus/concepts/solvers) fronts its own capital.
 
 ### Settlement Happens in the Background
-The solver is later reimbursed from the locked source funds through an on-chain settlement authorized by Nexus validators. If no solver fills the intent before it expires, the user is refunded.
+For Nexus routes, the solver is repaid from the deposited source funds through an on-chain settlement authorized by Nexus validators. The user's transfer is already complete.
 
 </Steps>
 
 <Callout type="info">
-Some routes are served by the native Nexus flow (intents filled by solvers) and others by Mayan, a third-party bridge provider. The SDK selects the provider automatically — your integration code stays the same.
+Each quote is filled by one provider: Nexus solvers (`nexus-v2`), Mayan (`mayan`), or Relay (`relay`). The middleware picks it per quote, and your integration code stays the same.
 </Callout>
 
 ## Supported Chains & Tokens
 
-Nexus currently supports bridging and swaps across major EVM chains including Ethereum, Arbitrum, Base, Optimism, Arc Mainnet, and more. Bridge operations support canonical tokens (ETH, USDC, USDT), while swap operations support a broader range of tokens through DEX aggregator partners.
+Nexus supports swaps, same-asset bridging, and contract execution across major EVM chains, including Ethereum, Arbitrum, Base, Optimism, and Arc. Call `client.getSupportedChains()` and `client.getTokens()` for the live list.
 
 <Callout type="info">
 For the full list, see [Supported Chains & Tokens](/docs/nexus/supported-chains-and-tokens).
@@ -123,7 +119,7 @@ For the full list, see [Supported Chains & Tokens](/docs/nexus/supported-chains-
   <IconCard
     icon={<CodeIcon />}
     title="SDK Reference"
-    description="Complete API docs for Bridge Methods, Swap Methods, and more."
+    description="API docs for balances, tokens, swaps, execution, and errors."
     href="/docs/nexus/nexus-sdk/reference"
   />
   <IconCard

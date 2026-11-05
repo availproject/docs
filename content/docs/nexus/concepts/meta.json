@@ -7,7 +7,6 @@
     "nexus-ops",
     "xcs-swaps",
     "source-chain-selection",
-    "allowances",
-    "bridge-v-swap"
+    "allowances"
   ]
 }

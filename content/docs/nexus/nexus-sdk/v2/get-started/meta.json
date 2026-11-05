@@ -1,0 +1,10 @@
+{
+  "title": "Manual Setup",
+  "pages": [
+    "installation",
+    "nexus-sdk-setup",
+    "initializing-nexus-with-rainbowkit",
+    "bridge-tokens",
+    "deposit-into-aave"
+  ]
+}

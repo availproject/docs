@@ -6,6 +6,12 @@
     "filePath": "content/docs/index.mdx"
   },
   {
+    "path": "/docs/ai-features",
+    "title": "AI-Friendly Features",
+    "description": "How AI agents and LLMs can interact with Avail documentation — llms.txt, markdown access, MCP servers, agent skills, and more.",
+    "filePath": "content/docs/ai-features/index.mdx"
+  },
+  {
     "path": "/docs/da",
     "title": "Avail DA",
     "description": "Documentation for Avail DA - the data availability layer",
@@ -14,51 +20,61 @@
   {
     "path": "/docs/da/api-reference",
     "title": "API Reference",
+    "description": "Explore Avail DA's APIs and SDKs for node operations, light client, bridge, and Turbo DA.",
     "filePath": "content/docs/da/api-reference/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-bridge-api",
     "title": "Bridge API",
+    "description": "Explore Avail DA's Bridge API endpoints for cross-chain message and token transfers between Avail and Ethereum.",
     "filePath": "content/docs/da/api-reference/avail-bridge-api/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-bridge-api/avail-head",
     "title": "Get current Avail head",
+    "description": "Retrieve the current Avail block range tracked by the bridge using the /avl/head endpoint.",
     "filePath": "content/docs/da/api-reference/avail-bridge-api/avail-head/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-bridge-api/eth-head",
     "title": "Get current Ethereum head",
+    "description": "Retrieve the current Ethereum slot and timestamp tracked by the bridge using the /eth/head endpoint.",
     "filePath": "content/docs/da/api-reference/avail-bridge-api/eth-head/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-bridge-api/info",
     "title": "Get bridge deployment details",
+    "description": "Retrieve bridge contract addresses and chain configuration using the /info endpoint.",
     "filePath": "content/docs/da/api-reference/avail-bridge-api/info/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-bridge-api/liveness",
     "title": "Check liveness of server",
+    "description": "Check whether the Avail Bridge API server is running using the liveness endpoint.",
     "filePath": "content/docs/da/api-reference/avail-bridge-api/liveness/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-bridge-api/merkle-proof",
     "title": "Get Merkle proof for a particular extrinsic",
+    "description": "Retrieve a Merkle proof for a specific extrinsic using the /eth/proof endpoint.",
     "filePath": "content/docs/da/api-reference/avail-bridge-api/merkle-proof/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-bridge-api/storage-proof",
     "title": "Get storage proof for a block",
+    "description": "Retrieve account and storage proofs for a bridge message using the /avl/proof endpoint.",
     "filePath": "content/docs/da/api-reference/avail-bridge-api/storage-proof/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-bridge-api/vector-send-message",
     "title": "Bridge a message from origin to destination chain",
+    "description": "Send arbitrary messages between Avail and Ethereum using the vector_sendMessage extrinsic.",
     "filePath": "content/docs/da/api-reference/avail-bridge-api/vector-send-message/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-bridge-api/vector-send-tokens",
     "title": "Bridge tokens from origin to destination chain",
+    "description": "Transfer AVAIL tokens between Avail and Ethereum using the vector bridge extrinsics.",
     "filePath": "content/docs/da/api-reference/avail-bridge-api/vector-send-tokens/index.mdx"
   },
   {
@@ -70,61 +86,73 @@
   {
     "path": "/docs/da/api-reference/avail-lc-api/v1-deprecated",
     "title": "V1 Deprecated",
+    "description": "Deprecated: The V1 Light Client API has been replaced by V2 with WebSocket support and selective field queries.",
     "filePath": "content/docs/da/api-reference/avail-lc-api/v1-deprecated/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-lc-api/v2-blocks",
     "title": "Fetch specified block status and confidence if applicable",
+    "description": "Query block processing status and data availability confidence using the v2/blocks endpoint.",
     "filePath": "content/docs/da/api-reference/avail-lc-api/v2-blocks/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-lc-api/v2-blocks-header",
     "title": "Fetch the header for a specific block if available",
+    "description": "Retrieve the header and DA extension for a specific block using the v2/blocks header endpoint.",
     "filePath": "content/docs/da/api-reference/avail-lc-api/v2-blocks-header/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-lc-api/v2-blocks-header-datafields",
     "title": "Fetch block data if available",
+    "description": "Retrieve block data and extrinsics for a configured app ID using the v2/blocks data endpoint.",
     "filePath": "content/docs/da/api-reference/avail-lc-api/v2-blocks-header-datafields/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-lc-api/v2-status",
     "title": "Fetch current status and active modes of the light client",
+    "description": "Retrieve light client status, active modes, and block sync progress using the v2/status endpoint.",
     "filePath": "content/docs/da/api-reference/avail-lc-api/v2-status/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-lc-api/v2-submit",
     "title": "Submit data to Avail DA",
+    "description": "Submit base64-encoded application data to Avail DA using the v2/submit HTTP endpoint.",
     "filePath": "content/docs/da/api-reference/avail-lc-api/v2-submit/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-lc-api/v2-subscriptions",
     "title": "WebSocket API",
+    "description": "Subscribe to real-time block and data availability events using the light client WebSocket API.",
     "filePath": "content/docs/da/api-reference/avail-lc-api/v2-subscriptions/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-lc-api/v2-version",
     "title": "Fetch the latest block",
+    "description": "Retrieve the light client and connected network version using the v2/version endpoint.",
     "filePath": "content/docs/da/api-reference/avail-lc-api/v2-version/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-lc-api/v2-ws-status",
     "title": "Request current Avail light client status data",
+    "description": "Request light client status, modes, and block sync data over the WebSocket connection.",
     "filePath": "content/docs/da/api-reference/avail-lc-api/v2-ws-status/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-lc-api/v2-ws-submit",
     "title": "Submit data to Avail DA",
+    "description": "Submit base64-encoded application data to Avail DA over the WebSocket connection.",
     "filePath": "content/docs/da/api-reference/avail-lc-api/v2-ws-submit/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-lc-api/v2-ws-version",
     "title": "Request Avail light client version data",
+    "description": "Request light client and network version information over the WebSocket connection.",
     "filePath": "content/docs/da/api-reference/avail-lc-api/v2-ws-version/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-node-api",
     "title": "Node API",
+    "description": "Explore Avail DA's Node API endpoints for balances, staking, data availability, and nomination pools.",
     "filePath": "content/docs/da/api-reference/avail-node-api/index.mdx"
   },
   {
@@ -142,91 +170,109 @@
   {
     "path": "/docs/da/api-reference/avail-node-api/balances-transfer-all",
     "title": "Transfer all funds from one account to another",
+    "description": "Transfer the entire balance from one account to another using the balances_transferAll extrinsic.",
     "filePath": "content/docs/da/api-reference/avail-node-api/balances-transfer-all/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-node-api/balances-transfer-allow-death",
     "title": "Transfer funds without ensuring min balance for sender",
+    "description": "Transfer funds allowing the sender account to be reaped using the balances_transferAllowDeath extrinsic.",
     "filePath": "content/docs/da/api-reference/avail-node-api/balances-transfer-allow-death/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-node-api/balances-transfer-keep-alive",
     "title": "Transfer funds while ensuring min balance for sender",
+    "description": "Transfer funds while preserving the sender's minimum balance using the balances_transferKeepAlive extrinsic.",
     "filePath": "content/docs/da/api-reference/avail-node-api/balances-transfer-keep-alive/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-node-api/chain-get-block",
     "title": "Fetch block data from Avail DA using RPC calls",
+    "description": "Fetch block hashes, headers, and full block data from an Avail node using RPC calls.",
     "filePath": "content/docs/da/api-reference/avail-node-api/chain-get-block/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-node-api/da-app-keys",
     "title": "Fetch an AppID from Avail DA",
+    "description": "Look up a registered application key and its App ID using the dataAvailability_appKeys method.",
     "filePath": "content/docs/da/api-reference/avail-node-api/da-app-keys/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-node-api/da-create-application-key",
     "title": "Create a new App ID on Avail DA",
+    "description": "Register a new application key on Avail DA using the dataAvailability_createApplicationKey extrinsic.",
     "filePath": "content/docs/da/api-reference/avail-node-api/da-create-application-key/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-node-api/da-next-app-id",
     "title": "Fetch the next available App ID on Avail DA",
+    "description": "Query the next unregistered App ID available for claim using the dataAvailability_nextAppId method.",
     "filePath": "content/docs/da/api-reference/avail-node-api/da-next-app-id/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-node-api/da-submit-data",
     "title": "Submit new data to Avail DA",
+    "description": "Submit application data to the Avail network using the dataAvailability_submitData extrinsic.",
     "filePath": "content/docs/da/api-reference/avail-node-api/da-submit-data/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-node-api/nomination-pools-create",
     "title": "Create a new nomination pool",
+    "description": "Create a new nomination pool on Avail DA using the nominationPools_create method.",
     "filePath": "content/docs/da/api-reference/avail-node-api/nomination-pools-create/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-node-api/nomination-pools-create-with-pool-id",
     "title": "Create a new nomination pool with a specific pool ID",
+    "description": "Create a nomination pool with a chosen pool ID using the nominationPools_createWithPoolId method.",
     "filePath": "content/docs/da/api-reference/avail-node-api/nomination-pools-create-with-pool-id/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-node-api/nomination-pools-join",
     "title": "Join a nomination pool",
+    "description": "Join an existing nomination pool on Avail DA using the nominationPools_join method.",
     "filePath": "content/docs/da/api-reference/avail-node-api/nomination-pools-join/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-node-api/nomination-pools-nominate",
     "title": "Nominate validator(s) for your nomination pool",
+    "description": "Nominate validators for a nomination pool using the nominationPools_nominate method.",
     "filePath": "content/docs/da/api-reference/avail-node-api/nomination-pools-nominate/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-node-api/staking-active-era",
     "title": "Fetch information on the active era",
+    "description": "Query the current active staking era on Avail DA using the staking_activeEra method.",
     "filePath": "content/docs/da/api-reference/avail-node-api/staking-active-era/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-node-api/staking-bond",
     "title": "Bond AVAIL tokens on Avail DA",
+    "description": "Bond AVAIL tokens for staking on Avail DA using the staking_bond extrinsic.",
     "filePath": "content/docs/da/api-reference/avail-node-api/staking-bond/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-node-api/staking-chill",
     "title": "Stop validating on Avail DA",
+    "description": "Stop validating or nominating on Avail DA using the staking_chill extrinsic.",
     "filePath": "content/docs/da/api-reference/avail-node-api/staking-chill/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-node-api/staking-nominate",
     "title": "Nominate staked AVAIL tokens to one or more validators",
+    "description": "Nominate one or more validators with staked AVAIL tokens using the staking_nominate extrinsic.",
     "filePath": "content/docs/da/api-reference/avail-node-api/staking-nominate/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-node-api/staking-unbond",
     "title": "Unbond AVAIL tokens from Avail DA",
+    "description": "Unbond previously staked AVAIL tokens on Avail DA using the staking_unbond extrinsic.",
     "filePath": "content/docs/da/api-reference/avail-node-api/staking-unbond/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-node-api/staking-validate",
     "title": "Become a validator on Avail DA",
+    "description": "Register as a validator on Avail DA using the staking_validate extrinsic.",
     "filePath": "content/docs/da/api-reference/avail-node-api/staking-validate/index.mdx"
   },
   {
@@ -238,36 +284,43 @@
   {
     "path": "/docs/da/api-reference/avail-turbo-da-api",
     "title": "Turbo DA API",
+    "description": "Explore Avail DA's Turbo DA API endpoints for fast, gasless data submission with sub-250ms pre-confirmations.",
     "filePath": "content/docs/da/api-reference/avail-turbo-da-api/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-turbo-da-api/get-pre-image",
     "title": "Retrieve Pre-Image Data",
+    "description": "Retrieve previously submitted data from Turbo DA using the get_pre_image endpoint.",
     "filePath": "content/docs/da/api-reference/avail-turbo-da-api/get-pre-image/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-turbo-da-api/get-submission-info",
     "title": "Get Submission Information",
+    "description": "Retrieve metadata and status for a Turbo DA submission using the get_submission_info endpoint.",
     "filePath": "content/docs/da/api-reference/avail-turbo-da-api/get-submission-info/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-turbo-da-api/submit-data",
     "title": "Submit JSON Data to Turbo DA",
+    "description": "Submit structured JSON data to Avail DA using the Turbo DA submit_data endpoint.",
     "filePath": "content/docs/da/api-reference/avail-turbo-da-api/submit-data/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/avail-turbo-da-api/submit-raw-data",
     "title": "Submit Raw Data to Turbo DA",
+    "description": "Submit raw binary data to Avail DA using the Turbo DA submit_raw_data endpoint.",
     "filePath": "content/docs/da/api-reference/avail-turbo-da-api/submit-raw-data/index.mdx"
   },
   {
     "path": "/docs/da/api-reference/gas-relay-deprecated",
     "title": "Gas Relay Deprecated",
+    "description": "Deprecated: Gas Relay has been replaced by Turbo DA for gasless data submission.",
     "filePath": "content/docs/da/api-reference/gas-relay-deprecated/index.mdx"
   },
   {
     "path": "/docs/da/bug-bounty",
     "title": "Bug Bounty",
+    "description": "Report security vulnerabilities in the Avail ecosystem — rewards up to $500,000 via Immunefi.",
     "filePath": "content/docs/da/bug-bounty/index.mdx"
   },
   {
@@ -297,16 +350,19 @@
   {
     "path": "/docs/da/build/interact/query-balances",
     "title": "Query Balances",
+    "description": "Query account balances on Avail DA using the TypeScript, Rust, or Go SDK.",
     "filePath": "content/docs/da/build/interact/query-balances/index.mdx"
   },
   {
     "path": "/docs/da/build/interact/read-write-on-avail",
     "title": "Read & Write Data",
+    "description": "Submit data to Avail DA and read it back using the TypeScript, Rust, or Go SDK.",
     "filePath": "content/docs/da/build/interact/read-write-on-avail/index.mdx"
   },
   {
     "path": "/docs/da/build/interact/transfer-balances",
     "title": "Transfer Balances",
+    "description": "Transfer AVAIL tokens between accounts using transferKeepAlive, transferAllowDeath, or transferAll.",
     "filePath": "content/docs/da/build/interact/transfer-balances/index.mdx"
   },
   {
@@ -318,21 +374,25 @@
   {
     "path": "/docs/da/build/rollups/arbitrum-nitro",
     "title": "Arbitrum Nitro stack",
+    "description": "Deploy an Arbitrum Orbit chain using Avail DA for data availability.",
     "filePath": "content/docs/da/build/rollups/arbitrum-nitro/index.mdx"
   },
   {
     "path": "/docs/da/build/rollups/arbitrum-nitro/guide",
     "title": "Deploy Arbitrum Orbit with Avail DA",
+    "description": "Step-by-step guide to deploy an Arbitrum Orbit L3 chain with Avail DA using Docker.",
     "filePath": "content/docs/da/build/rollups/arbitrum-nitro/guide/index.mdx"
   },
   {
     "path": "/docs/da/build/rollups/arbitrum-nitro/overview",
     "title": "Building on the Arbitrum Nitro stack with Avail DA",
+    "description": "How Arbitrum Orbit chains integrate with Avail DA — architecture, transaction lifecycle, and supported configurations.",
     "filePath": "content/docs/da/build/rollups/arbitrum-nitro/overview/index.mdx"
   },
   {
     "path": "/docs/da/build/rollups/cdk",
     "title": "Polygon CDK",
+    "description": "Deploy a Polygon CDK Validium using Avail DA for data availability.",
     "filePath": "content/docs/da/build/rollups/cdk/index.mdx"
   },
   {
@@ -344,11 +404,13 @@
   {
     "path": "/docs/da/build/rollups/cosmos",
     "title": "Cosmos Avail DA module",
+    "description": "Integrate Cosmos SDK chains with Avail DA using the CADA module for scalable data availability.",
     "filePath": "content/docs/da/build/rollups/cosmos/index.mdx"
   },
   {
     "path": "/docs/da/build/rollups/madara",
     "title": "Madara Starknet",
+    "description": "Deploy a Madara Starknet Validium using Avail DA for data availability.",
     "filePath": "content/docs/da/build/rollups/madara/index.mdx"
   },
   {
@@ -366,6 +428,7 @@
   {
     "path": "/docs/da/build/rollups/op-stack",
     "title": "OP Stack",
+    "description": "Build an OP Stack rollup with Avail DA — lower fees by up to 90% compared to Ethereum DA.",
     "filePath": "content/docs/da/build/rollups/op-stack/index.mdx"
   },
   {
@@ -383,6 +446,7 @@
   {
     "path": "/docs/da/build/rollups/zkevm",
     "title": "Polygon zkEVM",
+    "description": "Deploy a Polygon zkEVM Validium using Avail DA for data availability.",
     "filePath": "content/docs/da/build/rollups/zkevm/index.mdx"
   },
   {
@@ -400,6 +464,7 @@
   {
     "path": "/docs/da/build/rollups/zksync",
     "title": "ZKsync's ZK Stack",
+    "description": "Deploy a ZKsync ZK Stack Validium using Avail DA for data availability.",
     "filePath": "content/docs/da/build/rollups/zksync/index.mdx"
   },
   {
@@ -411,11 +476,13 @@
   {
     "path": "/docs/da/build/turbo-da",
     "title": "Turbo DA",
+    "description": "Get sub-250ms pre-confirmations for data submissions using Avail's Turbo DA service.",
     "filePath": "content/docs/da/build/turbo-da/index.mdx"
   },
   {
     "path": "/docs/da/build/vectorx",
     "title": "VectorX DA verification",
+    "description": "Verify Avail DA data availability on Ethereum using VectorX zero-knowledge proof bridge.",
     "filePath": "content/docs/da/build/vectorx/index.mdx"
   },
   {
@@ -559,6 +626,7 @@
   {
     "path": "/docs/da/operate/run-a-full-node/full-node",
     "title": "How to Run an Avail node",
+    "description": "Run an Avail full node using a pre-built binary, from source, with Docker, or via an infrastructure provider.",
     "filePath": "content/docs/da/operate/run-a-full-node/full-node/index.mdx"
   },
   {
@@ -582,6 +650,7 @@
   {
     "path": "/docs/da/operate/run-a-light-client/light-client-challenge",
     "title": "The Light Client Lift-off challenge",
+    "description": "Deprecated: The Avail Light Client Lift-off challenge has ended and is no longer active.",
     "filePath": "content/docs/da/operate/run-a-light-client/light-client-challenge/index.mdx"
   },
   {
@@ -605,16 +674,19 @@
   {
     "path": "/docs/da/user-guides/avail-funds-recovery",
     "title": "Ledger Fund Recovery",
+    "description": "Recover funds on Avail DA using the Avail recovery app for Ledger devices.",
     "filePath": "content/docs/da/user-guides/avail-funds-recovery/index.mdx"
   },
   {
     "path": "/docs/da/user-guides/avail-multisig",
     "title": "Multisigs",
+    "description": "Set up and manage multisig wallets on Avail DA through the AvailApps explorer.",
     "filePath": "content/docs/da/user-guides/avail-multisig/index.mdx"
   },
   {
     "path": "/docs/da/user-guides/avail-snap",
     "title": "MetaMask Snap",
+    "description": "Install and use the Avail MetaMask Snap to interact with Avail DA from within MetaMask.",
     "filePath": "content/docs/da/user-guides/avail-snap/index.mdx"
   },
   {
@@ -626,16 +698,19 @@
   {
     "path": "/docs/da/user-guides/bridge-avail/avail-base",
     "title": "Bridge between Avail & Base",
+    "description": "Bridge AVAIL tokens between the Avail and Base networks using the official bridge UI.",
     "filePath": "content/docs/da/user-guides/bridge-avail/avail-base/index.mdx"
   },
   {
     "path": "/docs/da/user-guides/bridge-avail/avail-ethereum",
     "title": "Bridge AVAIL to Ethereum using the VectorX bridge",
+    "description": "Transfer AVAIL tokens between Avail DA and Ethereum using the trust-minimized VectorX zkSNARK bridge.",
     "filePath": "content/docs/da/user-guides/bridge-avail/avail-ethereum/index.mdx"
   },
   {
     "path": "/docs/da/user-guides/bridge-avail/ethereum-base",
     "title": "Bridge between Ethereum & Base",
+    "description": "Bridge AVAIL tokens between Ethereum and Base using the official bridge UI.",
     "filePath": "content/docs/da/user-guides/bridge-avail/ethereum-base/index.mdx"
   },
   {
@@ -653,6 +728,7 @@
   {
     "path": "/docs/da/user-guides/ledger-avail",
     "title": "Ledger",
+    "description": "Verify, reject, and approve transactions on Avail DA using a Ledger hardware wallet.",
     "filePath": "content/docs/da/user-guides/ledger-avail/index.mdx"
   },
   {
@@ -664,6 +740,7 @@
   {
     "path": "/docs/da/user-guides/proxies-on-avail/avail-proxy",
     "title": "Proxy Accounts on Avail DA",
+    "description": "Delegate specific account permissions to proxy accounts for secure and efficient management on Avail DA.",
     "filePath": "content/docs/da/user-guides/proxies-on-avail/avail-proxy/index.mdx"
   },
   {
@@ -681,36 +758,43 @@
   {
     "path": "/docs/da/user-guides/staking-governance/governance-on-avail",
     "title": "Avail Governance V1",
+    "description": "Avail's governance framework — proposals, transparency reports, and the technical committee.",
     "filePath": "content/docs/da/user-guides/staking-governance/governance-on-avail/index.mdx"
   },
   {
     "path": "/docs/da/user-guides/staking-governance/governance-on-avail/avail-improvement-proposal",
     "title": "Avail Improvement Proposal (AIP)",
+    "description": "The standard format and process for proposing changes to the Avail network via the community forum.",
     "filePath": "content/docs/da/user-guides/staking-governance/governance-on-avail/avail-improvement-proposal/index.mdx"
   },
   {
     "path": "/docs/da/user-guides/staking-governance/governance-on-avail/avail-transparency-report",
     "title": "Avail Transparency Report",
+    "description": "How Avail Transparency Reports document proposed or executed changes to the network.",
     "filePath": "content/docs/da/user-guides/staking-governance/governance-on-avail/avail-transparency-report/index.mdx"
   },
   {
     "path": "/docs/da/user-guides/staking-governance/governance-on-avail/overview",
     "title": "Governance Phase 1 Overview",
+    "description": "Overview of Avail's initial governance phase — the framework for proposing and discussing network upgrades.",
     "filePath": "content/docs/da/user-guides/staking-governance/governance-on-avail/overview/index.mdx"
   },
   {
     "path": "/docs/da/user-guides/staking-governance/governance-on-avail/technical-committee",
     "title": "Technical Committee",
+    "description": "The 7-member Technical Committee responsible for executing governance actions on Avail.",
     "filePath": "content/docs/da/user-guides/staking-governance/governance-on-avail/technical-committee/index.mdx"
   },
   {
     "path": "/docs/da/user-guides/staking-governance/overview",
     "title": "AVAIL",
+    "description": "AVAIL token overview — total supply, decimals, circulating supply, and 5% annual inflation rate.",
     "filePath": "content/docs/da/user-guides/staking-governance/overview/index.mdx"
   },
   {
     "path": "/docs/da/user-guides/staking-governance/stake-on-avail",
     "title": "Stake on Avail",
+    "description": "Stake AVAIL tokens — choose between direct nomination and nomination pools.",
     "filePath": "content/docs/da/user-guides/staking-governance/stake-on-avail/index.mdx"
   },
   {
@@ -728,84 +812,92 @@
   {
     "path": "/docs/da/user-guides/staking-governance/stake-on-avail/overview",
     "title": "Stake on Avail",
+    "description": "How AVAIL staking works — delegate to validators, secure the network, and earn rewards.",
     "filePath": "content/docs/da/user-guides/staking-governance/stake-on-avail/overview/index.mdx"
+  },
+  {
+    "path": "/docs/feedback",
+    "title": "Send us Feedback",
+    "description": "Help us improve Avail documentation by sharing your experience, reporting issues, or suggesting improvements.",
+    "filePath": "content/docs/feedback/index.mdx"
   },
   {
     "path": "/docs/nexus",
     "title": "Avail Nexus",
-    "description": "Documentation for Avail Nexus - cross-chain interoperability",
+    "description": "Build cross-chain applications with intent-based bridging, swaps, and chain abstraction.",
     "filePath": "content/docs/nexus/index.mdx"
   },
   {
     "path": "/docs/nexus/concepts",
     "title": "Concepts",
+    "description": "Core concepts behind Avail Nexus: chain abstraction, intents, providers, and cross-chain operations.",
     "filePath": "content/docs/nexus/concepts/index.mdx"
   },
   {
     "path": "/docs/nexus/concepts/allowances",
     "title": "Token Allowances",
-    "description": "Approve tokens for Nexus smart contracts to enable cross-chain operations on your behalf.",
+    "description": "Which approvals and permits a quote needs, and how the SDK sizes them.",
     "filePath": "content/docs/nexus/concepts/allowances/index.mdx"
-  },
-  {
-    "path": "/docs/nexus/concepts/bridge-v-swap",
-    "title": "Understanding Balance Types",
-    "description": "Why bridge and swap operations use different token balances, and when to use each.",
-    "filePath": "content/docs/nexus/concepts/bridge-v-swap/index.mdx"
   },
   {
     "path": "/docs/nexus/concepts/chain-abstraction",
     "title": "What is Chain Abstraction?",
-    "description": "Eliminate manual bridging, chain switching, and wallet complexity for a seamless cross-chain experience.",
+    "description": "Spend balances from many chains with one review and one intent signature.",
     "filePath": "content/docs/nexus/concepts/chain-abstraction/index.mdx"
   },
   {
     "path": "/docs/nexus/concepts/intent",
     "title": "What is an Intent?",
-    "description": "A user's desired outcome expressed as a transaction request that solvers compete to fulfill.",
+    "description": "A quoted request describing source inputs, destination output, fees, and the provider that fills it.",
     "filePath": "content/docs/nexus/concepts/intent/index.mdx"
   },
   {
     "path": "/docs/nexus/concepts/intent-lifecycle",
     "title": "How Intents are Processed",
-    "description": "The journey of an intent from creation to fulfillment — submission, validation, and execution.",
+    "description": "From quote to fulfillment, with approvals, one signature, source deposits, and status updates.",
     "filePath": "content/docs/nexus/concepts/intent-lifecycle/index.mdx"
   },
   {
     "path": "/docs/nexus/concepts/nexus-ops",
     "title": "Bridge, Transfer & Execute",
-    "description": "Move tokens to yourself, send to another address, or bridge and call any smart contract in one action.",
+    "description": "How bridging, transfers, and contract calls map to SDK methods.",
     "filePath": "content/docs/nexus/concepts/nexus-ops/index.mdx"
   },
   {
     "path": "/docs/nexus/concepts/solvers",
-    "title": "What are Solvers?",
-    "description": "Decentralized agents that compete to fulfill user intents by providing liquidity across chains.",
+    "title": "Solvers and Providers",
+    "description": "Who delivers funds on the destination chain, and how they are repaid.",
     "filePath": "content/docs/nexus/concepts/solvers/index.mdx"
   },
   {
     "path": "/docs/nexus/concepts/source-chain-selection",
     "title": "Liquidity Routing",
-    "description": "Control which chains your tokens are sourced from, or let Nexus optimize the route automatically.",
+    "description": "Let the quote choose source balances, or restrict which chains and tokens it may use.",
     "filePath": "content/docs/nexus/concepts/source-chain-selection/index.mdx"
   },
   {
     "path": "/docs/nexus/concepts/xcs-swaps",
     "title": "Crosschain Swaps",
-    "description": "Swap any token on any chain to any other token on any chain using ExactIn or ExactOut methods.",
+    "description": "Swap supported tokens on one or more chains into a token on another chain, by exact input or exact output.",
     "filePath": "content/docs/nexus/concepts/xcs-swaps/index.mdx"
   },
   {
     "path": "/docs/nexus/contracts",
     "title": "Contract Addresses",
-    "description": "Avail Nexus smart contract addresses across supported chains.",
+    "description": "Vault and token contract addresses for Avail Nexus across all supported mainnet and testnet chains.",
     "filePath": "content/docs/nexus/contracts/index.mdx"
   },
   {
     "path": "/docs/nexus/cookbook-recipes",
     "title": "Cookbook Recipes",
-    "description": "Practical examples and recipes for building with Nexus.",
+    "description": "Short, copy-pasteable patterns for common Nexus SDK tasks.",
     "filePath": "content/docs/nexus/cookbook-recipes/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/fastbridge",
+    "title": "FastBridge",
+    "description": "A unified cross-chain bridge by Avail. Move and swap tokens across multiple EVM chains in a single transaction, with no gas tokens required.",
+    "filePath": "content/docs/nexus/fastbridge/index.mdx"
   },
   {
     "path": "/docs/nexus/get-started",
@@ -814,207 +906,327 @@
     "filePath": "content/docs/nexus/get-started/index.mdx"
   },
   {
-    "path": "/docs/nexus/nexus-sdk",
-    "title": "Nexus SDK",
-    "description": "Full SDK control for building cross-chain applications with Avail Nexus.",
-    "filePath": "content/docs/nexus/nexus-sdk/index.mdx"
+    "path": "/docs/nexus/migration",
+    "title": "Migration Guides",
+    "description": "Version-by-version upgrade guides for the Nexus SDK and Avail Widgets.",
+    "filePath": "content/docs/nexus/migration/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/migration/sdk-v1-to-v2",
+    "title": "Migrate to Nexus SDK v2",
+    "description": "Migrate from @avail-project/nexus-core 1.x to 2.x — factory client, param renames, per-operation hooks, and plan-based events.",
+    "filePath": "content/docs/nexus/migration/sdk-v1-to-v2/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/migration/sdk-v2-to-v3",
+    "title": "Migrate to Nexus SDK v3",
+    "description": "Upgrade @avail-project/nexus-core from 2.x to 3.x.",
+    "filePath": "content/docs/nexus/migration/sdk-v2-to-v3/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/migration/widgets-legacy-to-nexus-widget",
+    "title": "Migrate to Nexus Widget",
+    "description": "Migrate from the legacy standalone elements to the unified Nexus Widget component.",
+    "filePath": "content/docs/nexus/migration/widgets-legacy-to-nexus-widget/index.mdx"
   },
   {
     "path": "/docs/nexus/nexus-sdk/cookbook-recipes",
     "title": "Cookbook Recipes",
-    "description": "The cookbook hosts small code snippets in a question-answer format. It does not walk you through the whole setup, it rather aims to answer some questions around specific uses.",
+    "description": "Short, copy-pasteable patterns for common Nexus SDK tasks.",
     "filePath": "content/docs/nexus/nexus-sdk/cookbook-recipes/index.mdx"
   },
   {
     "path": "/docs/nexus/nexus-sdk/get-started/bridge-tokens",
     "title": "Bridge Tokens",
-    "description": "Add cross-chain token bridging to your Nexus SDK project.",
+    "description": "Move USDC between chains with swapWithExactOut, review the quote, and track progress.",
     "filePath": "content/docs/nexus/nexus-sdk/get-started/bridge-tokens/index.mdx"
   },
   {
     "path": "/docs/nexus/nexus-sdk/get-started/deposit-into-aave",
     "title": "Deposit into Aave",
-    "description": "Bridge tokens and immediately deposit them into Aave using a single SDK call.",
+    "description": "Swap tokens from any chain and supply the proceeds to Aave V3 in one operation with swapAndExecute.",
     "filePath": "content/docs/nexus/nexus-sdk/get-started/deposit-into-aave/index.mdx"
   },
   {
     "path": "/docs/nexus/nexus-sdk/get-started/initializing-nexus-with-rainbowkit",
     "title": "Initializing Nexus with RainbowKit",
-    "description": "Replace window.ethereum with RainbowKit for a polished wallet connection experience.",
+    "description": "Connect the Nexus client to a wagmi and RainbowKit wallet in a React app.",
     "filePath": "content/docs/nexus/nexus-sdk/get-started/initializing-nexus-with-rainbowkit/index.mdx"
   },
   {
     "path": "/docs/nexus/nexus-sdk/get-started/installation",
     "title": "Installation",
-    "description": "Install the Nexus SDK packages and dependencies in your project.",
+    "description": "Install the Nexus SDK package.",
     "filePath": "content/docs/nexus/nexus-sdk/get-started/installation/index.mdx"
   },
   {
     "path": "/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup",
     "title": "Nexus SDK Setup",
-    "description": "Initialize the Nexus SDK with a connected wallet and fetch your first unified balance.",
+    "description": "Create a Nexus client, initialize it, and connect a wallet.",
     "filePath": "content/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup/index.mdx"
-  },
-  {
-    "path": "/docs/nexus/nexus-sdk/nexus-elements",
-    "title": "Nexus UI Elements Reference",
-    "filePath": "content/docs/nexus/nexus-sdk/nexus-elements/index.mdx"
-  },
-  {
-    "path": "/docs/nexus/nexus-sdk/quickstart",
-    "title": "Quickstart",
-    "description": "Scaffold a working Nexus SDK app in under two minutes with create-liquid-apps.",
-    "filePath": "content/docs/nexus/nexus-sdk/quickstart/index.mdx"
   },
   {
     "path": "/docs/nexus/nexus-sdk/reference",
     "title": "SDK Reference",
-    "description": "API reference for the Avail Nexus SDK bridge, swap, and balance methods.",
+    "description": "Every method on the Nexus SDK client.",
     "filePath": "content/docs/nexus/nexus-sdk/reference/index.mdx"
   },
   {
-    "path": "/docs/nexus/nexus-sdk/reference/bridge-methods",
-    "title": "Bridge Methods",
-    "filePath": "content/docs/nexus/nexus-sdk/reference/bridge-methods/index.mdx"
+    "path": "/docs/nexus/nexus-sdk/reference/balances-and-tokens/get-balances",
+    "title": "Get Balances",
+    "description": "Fetch the connected wallet's token balances on every supported chain.",
+    "filePath": "content/docs/nexus/nexus-sdk/reference/balances-and-tokens/get-balances/index.mdx"
   },
   {
-    "path": "/docs/nexus/nexus-sdk/reference/bridge-methods/bridge",
-    "title": "Bridge Tokens",
-    "filePath": "content/docs/nexus/nexus-sdk/reference/bridge-methods/bridge/index.mdx"
+    "path": "/docs/nexus/nexus-sdk/reference/balances-and-tokens/token-catalog",
+    "title": "Token Catalog",
+    "description": "Look up supported chains and tokens, and build source and destination pickers.",
+    "filePath": "content/docs/nexus/nexus-sdk/reference/balances-and-tokens/token-catalog/index.mdx"
   },
   {
-    "path": "/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-and-execute",
-    "title": "Bridge and Execute",
-    "filePath": "content/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-and-execute/index.mdx"
+    "path": "/docs/nexus/nexus-sdk/reference/execute-methods/execute",
+    "title": "Execute",
+    "description": "Send a contract call from the connected wallet, with an ERC-20 approval when needed.",
+    "filePath": "content/docs/nexus/nexus-sdk/reference/execute-methods/execute/index.mdx"
   },
   {
-    "path": "/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-events",
-    "title": "Bridge Events",
-    "filePath": "content/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-events/index.mdx"
-  },
-  {
-    "path": "/docs/nexus/nexus-sdk/reference/bridge-methods/fetch-bridge-balances",
-    "title": "Fetch Bridge Balances",
-    "filePath": "content/docs/nexus/nexus-sdk/reference/bridge-methods/fetch-bridge-balances/index.mdx"
-  },
-  {
-    "path": "/docs/nexus/nexus-sdk/reference/bridge-methods/transfer",
-    "title": "Bridge and Transfer",
-    "filePath": "content/docs/nexus/nexus-sdk/reference/bridge-methods/transfer/index.mdx"
+    "path": "/docs/nexus/nexus-sdk/reference/execute-methods/simulate-execute",
+    "title": "Simulate Execute",
+    "description": "Estimate gas and cost for a contract call before sending it.",
+    "filePath": "content/docs/nexus/nexus-sdk/reference/execute-methods/simulate-execute/index.mdx"
   },
   {
     "path": "/docs/nexus/nexus-sdk/reference/hooks-and-errors",
     "title": "Hooks and Errors",
-    "description": "Hooks and Error Codes for the Nexus SDK",
+    "description": "Where each hook goes, and how to handle the errors the SDK throws.",
     "filePath": "content/docs/nexus/nexus-sdk/reference/hooks-and-errors/index.mdx"
   },
   {
-    "path": "/docs/nexus/nexus-sdk/reference/swap-methods",
-    "title": "Swap Methods",
-    "filePath": "content/docs/nexus/nexus-sdk/reference/swap-methods/index.mdx"
+    "path": "/docs/nexus/nexus-sdk/reference/list-intents",
+    "title": "List Intents",
+    "description": "Fetch the connected wallet's intent history.",
+    "filePath": "content/docs/nexus/nexus-sdk/reference/list-intents/index.mdx"
   },
   {
-    "path": "/docs/nexus/nexus-sdk/reference/swap-methods/fetch-swap-balances",
-    "title": "Fetch Swap Balances",
-    "filePath": "content/docs/nexus/nexus-sdk/reference/swap-methods/fetch-swap-balances/index.mdx"
+    "path": "/docs/nexus/nexus-sdk/reference/swap-methods/review-quotes",
+    "title": "Review Quotes",
+    "description": "Show a swap quote for confirmation, refresh it, and set slippage, timeout, and polling options.",
+    "filePath": "content/docs/nexus/nexus-sdk/reference/swap-methods/review-quotes/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/reference/swap-methods/swap-and-execute",
+    "title": "Swap and Execute",
+    "description": "Fund a destination chain and call a contract there in one operation.",
+    "filePath": "content/docs/nexus/nexus-sdk/reference/swap-methods/swap-and-execute/index.mdx"
   },
   {
     "path": "/docs/nexus/nexus-sdk/reference/swap-methods/swap-events",
     "title": "Swap Events",
+    "description": "Track swap progress with onEvent and read the IntentResult a swap resolves with.",
     "filePath": "content/docs/nexus/nexus-sdk/reference/swap-methods/swap-events/index.mdx"
   },
   {
     "path": "/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-in",
     "title": "Swap Exact Input",
+    "description": "Spend fixed source amounts and receive whatever the quote delivers on the destination chain.",
     "filePath": "content/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-in/index.mdx"
   },
   {
     "path": "/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-out",
-    "title": "Swap Exact Out",
+    "title": "Swap Exact Output",
+    "description": "Receive an exact destination amount, funded from the wallet's balances on any supported chain.",
     "filePath": "content/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-out/index.mdx"
   },
   {
     "path": "/docs/nexus/nexus-sdk/reference/utility-reference",
     "title": "Utility Reference",
-    "description": "Complete reference for Nexus SDK utilities, helpers, and types.",
+    "description": "Client configuration, lifecycle methods, chain lookups, and stateless helpers.",
     "filePath": "content/docs/nexus/nexus-sdk/reference/utility-reference/index.mdx"
   },
   {
-    "path": "/docs/nexus/nexus-ui-elements",
-    "title": "Nexus UI Elements",
-    "description": "Install and configure Nexus UI Elements in your React project. Prebuilt components with full Nexus SDK integration, perfect for plug-and-play.",
-    "filePath": "content/docs/nexus/nexus-ui-elements/index.mdx"
+    "path": "/docs/nexus/nexus-sdk/v2/bridge-v-swap",
+    "title": "Understanding Balance Types",
+    "description": "Why bridge and swap operations use different token balances, and when to use each.",
+    "filePath": "content/docs/nexus/nexus-sdk/v2/bridge-v-swap/index.mdx"
   },
   {
-    "path": "/docs/nexus/nexus-ui-elements/components/deposit",
-    "title": "Deposit",
-    "description": "A Plug and Play Deposit Widget with Unified Balances. Aggregate and swap multiple tokens across 10+ chains to deposit as any desired token on any chain and address.",
-    "filePath": "content/docs/nexus/nexus-ui-elements/components/deposit.mdx"
+    "path": "/docs/nexus/nexus-sdk/v2/cookbook-recipes",
+    "title": "Cookbook Recipes",
+    "description": "The cookbook hosts small code snippets in a question-answer format. It does not walk you through the whole setup, it rather aims to answer some questions around specific uses.",
+    "filePath": "content/docs/nexus/nexus-sdk/v2/cookbook-recipes/index.mdx"
   },
   {
-    "path": "/docs/nexus/nexus-ui-elements/components/fast-bridge",
-    "title": "Fast Bridge",
-    "description": "Bridge assets across chains with source breakdown, fee details, progress steps, and allowance flow. Intent-based and optimized for UX.",
-    "filePath": "content/docs/nexus/nexus-ui-elements/components/fast-bridge.mdx"
+    "path": "/docs/nexus/nexus-sdk/v2/get-started/bridge-tokens",
+    "title": "Bridge Tokens",
+    "description": "Add cross-chain token bridging to your Nexus SDK project.",
+    "filePath": "content/docs/nexus/nexus-sdk/v2/get-started/bridge-tokens/index.mdx"
   },
   {
-    "path": "/docs/nexus/nexus-ui-elements/components/swaps",
-    "title": "Swaps",
-    "description": "Swap assets with exact-in or exact-out across supported chains. Intent-based with prefill, callbacks, and progress UI.",
-    "filePath": "content/docs/nexus/nexus-ui-elements/components/swaps.mdx"
+    "path": "/docs/nexus/nexus-sdk/v2/get-started/deposit-into-aave",
+    "title": "Deposit into Aave",
+    "description": "Bridge tokens and immediately deposit them into Aave using a single SDK call.",
+    "filePath": "content/docs/nexus/nexus-sdk/v2/get-started/deposit-into-aave/index.mdx"
   },
   {
-    "path": "/docs/nexus/nexus-ui-elements/components/transfer",
-    "title": "Fast Transfer",
-    "description": "Transfer assets across chains with source breakdown, fee details, progress steps, and allowance flow. Intent-based and optimized for UX.",
-    "filePath": "content/docs/nexus/nexus-ui-elements/components/transfer.mdx"
+    "path": "/docs/nexus/nexus-sdk/v2/get-started/initializing-nexus-with-rainbowkit",
+    "title": "Initializing Nexus with RainbowKit",
+    "description": "Replace window.ethereum with RainbowKit for a polished wallet connection experience.",
+    "filePath": "content/docs/nexus/nexus-sdk/v2/get-started/initializing-nexus-with-rainbowkit/index.mdx"
   },
   {
-    "path": "/docs/nexus/nexus-ui-elements/components/unified-balance",
-    "title": "Unified Balance",
-    "description": "View unified token balances across chains with per-chain breakdown and fiat totals.",
-    "filePath": "content/docs/nexus/nexus-ui-elements/components/unified-balance.mdx"
-  },
-  {
-    "path": "/docs/nexus/nexus-ui-elements/components/view-history",
-    "title": "View History",
-    "description": "View your transaction history with Nexus.",
-    "filePath": "content/docs/nexus/nexus-ui-elements/components/view-history.mdx"
-  },
-  {
-    "path": "/docs/nexus/nexus-ui-elements/get-started/installation",
+    "path": "/docs/nexus/nexus-sdk/v2/get-started/installation",
     "title": "Installation",
-    "description": "Install Nexus UI Elements packages and dependencies in your project.",
-    "filePath": "content/docs/nexus/nexus-ui-elements/get-started/installation/index.mdx"
+    "description": "Install the Nexus SDK packages and dependencies in your project.",
+    "filePath": "content/docs/nexus/nexus-sdk/v2/get-started/installation/index.mdx"
   },
   {
-    "path": "/docs/nexus/nexus-ui-elements/get-started/nexus-provider-setup",
-    "title": "NexusProvider Setup",
-    "description": "Wrap your application with the NexusProvider to enable Nexus UI Elements components.",
-    "filePath": "content/docs/nexus/nexus-ui-elements/get-started/nexus-provider-setup/index.mdx"
+    "path": "/docs/nexus/nexus-sdk/v2/get-started/nexus-sdk-setup",
+    "title": "Nexus SDK Setup",
+    "description": "Initialize the Nexus SDK with a connected wallet and fetch your first unified balance.",
+    "filePath": "content/docs/nexus/nexus-sdk/v2/get-started/nexus-sdk-setup/index.mdx"
   },
   {
-    "path": "/docs/nexus/nexus-ui-elements/get-started/your-first-ui-element",
-    "title": "Your First UI Element",
-    "description": "Render your first Nexus UI Elements component and understand how props and callbacks work.",
-    "filePath": "content/docs/nexus/nexus-ui-elements/get-started/your-first-ui-element/index.mdx"
+    "path": "/docs/nexus/nexus-sdk/v2/reference",
+    "title": "SDK Reference",
+    "description": "API reference for the Avail Nexus SDK bridge, swap, and balance methods.",
+    "filePath": "content/docs/nexus/nexus-sdk/v2/reference/index.mdx"
   },
   {
-    "path": "/docs/nexus/nexus-ui-elements/mcp-and-agent-skills",
-    "title": "MCP & Agent Skills",
-    "description": "Use the shadcn MCP server and skills.sh agent skills to browse, install, and integrate Nexus UI Elements.",
-    "filePath": "content/docs/nexus/nexus-ui-elements/mcp-and-agent-skills/index.mdx"
+    "path": "/docs/nexus/nexus-sdk/v2/reference/bridge-methods/bridge",
+    "title": "Bridge Tokens",
+    "description": "Bridge a token from one or many source chains to a single destination chain using the Nexus SDK.",
+    "filePath": "content/docs/nexus/nexus-sdk/v2/reference/bridge-methods/bridge/index.mdx"
   },
   {
-    "path": "/docs/nexus/nexus-ui-elements/quickstart",
-    "title": "Quickstart",
-    "description": "Scaffold a working Nexus UI Elements app in under two minutes with create-liquid-apps.",
-    "filePath": "content/docs/nexus/nexus-ui-elements/quickstart/index.mdx"
+    "path": "/docs/nexus/nexus-sdk/v2/reference/bridge-methods/bridge-and-execute",
+    "title": "Bridge and Execute",
+    "description": "Bridge a token and execute a contract call on the destination chain in a single transaction.",
+    "filePath": "content/docs/nexus/nexus-sdk/v2/reference/bridge-methods/bridge-and-execute/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/v2/reference/bridge-methods/bridge-events",
+    "title": "Bridge Events",
+    "description": "Typed event union emitted by bridge(), bridgeAndTransfer(), and bridgeAndExecute() — track status, plan preview, and per-step progress.",
+    "filePath": "content/docs/nexus/nexus-sdk/v2/reference/bridge-methods/bridge-events/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/v2/reference/bridge-methods/calculate-max-for-bridge",
+    "title": "Calculate Max for Bridge",
+    "description": "Compute the maximum amount that can be bridged to a destination token across all same-currency holdings on other chains.",
+    "filePath": "content/docs/nexus/nexus-sdk/v2/reference/bridge-methods/calculate-max-for-bridge/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/v2/reference/bridge-methods/fetch-bridge-balances",
+    "title": "Fetch Bridge Balances",
+    "description": "Fetch token balances available for bridge operations across all supported chains in one call.",
+    "filePath": "content/docs/nexus/nexus-sdk/v2/reference/bridge-methods/fetch-bridge-balances/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/v2/reference/bridge-methods/transfer",
+    "title": "Bridge and Transfer",
+    "description": "Source a token from multiple chains and transfer it to a single destination chain using bridgeAndTransfer().",
+    "filePath": "content/docs/nexus/nexus-sdk/v2/reference/bridge-methods/transfer/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/v2/reference/hooks-and-errors",
+    "title": "Hooks and Errors",
+    "description": "Per-operation hooks and the typed NexusError hierarchy in the Nexus SDK.",
+    "filePath": "content/docs/nexus/nexus-sdk/v2/reference/hooks-and-errors/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/v2/reference/list-intents",
+    "title": "List Intents",
+    "description": "Fetch a user's historical Nexus intents with pagination and optional status filtering.",
+    "filePath": "content/docs/nexus/nexus-sdk/v2/reference/list-intents/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/v2/reference/swap-methods/calculate-max-for-swap",
+    "title": "Calculate Max for Swap",
+    "description": "Compute the maximum amount swappable to a destination token across all available sources — ideal for a Max button.",
+    "filePath": "content/docs/nexus/nexus-sdk/v2/reference/swap-methods/calculate-max-for-swap/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/v2/reference/swap-methods/fetch-swap-balances",
+    "title": "Fetch Swap Balances",
+    "description": "Fetch token balances available for swap operations across all supported chains in one call.",
+    "filePath": "content/docs/nexus/nexus-sdk/v2/reference/swap-methods/fetch-swap-balances/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/v2/reference/swap-methods/swap-and-execute",
+    "title": "Swap and Execute",
+    "description": "Swap tokens to a destination chain and execute a contract call in a single flow — skips the swap when funds already exist.",
+    "filePath": "content/docs/nexus/nexus-sdk/v2/reference/swap-methods/swap-and-execute/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/v2/reference/swap-methods/swap-events",
+    "title": "Swap Events",
+    "description": "The typed event union emitted by swapWithExactIn() and swapWithExactOut() — status, plan preview, and per-step progress.",
+    "filePath": "content/docs/nexus/nexus-sdk/v2/reference/swap-methods/swap-events/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/v2/reference/swap-methods/swap-exact-in",
+    "title": "Swap Exact Input",
+    "description": "Swap tokens with an exact input amount across chains — e.g. swap 1 USDC for whatever you can get on the destination.",
+    "filePath": "content/docs/nexus/nexus-sdk/v2/reference/swap-methods/swap-exact-in/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/v2/reference/swap-methods/swap-exact-out",
+    "title": "Swap Exact Out",
+    "description": "Swap tokens with an exact output amount across chains — e.g. get exactly 100 USDC on the destination.",
+    "filePath": "content/docs/nexus/nexus-sdk/v2/reference/swap-methods/swap-exact-out/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/v2/reference/utility-reference",
+    "title": "Utility Reference",
+    "description": "Reference for creating the Nexus client, its lifecycle, chain/token lookups, and stateless helpers.",
+    "filePath": "content/docs/nexus/nexus-sdk/v2/reference/utility-reference/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/nexus-sdk/widgets",
+    "title": "Widgets Reference",
+    "description": "A shadcn-based component library for Nexus — the widget ships swap, send, and deposit UI in one component.",
+    "filePath": "content/docs/nexus/nexus-sdk/widgets/index.mdx"
   },
   {
     "path": "/docs/nexus/supported-chains-and-tokens",
     "title": "Supported Chains & Tokens",
     "description": "List of chains and tokens supported by Avail Nexus.",
     "filePath": "content/docs/nexus/supported-chains-and-tokens/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/widgets",
+    "title": "Get Started",
+    "description": "Install and configure Avail Widgets in your React project. Nexus Widget is the single unified component for all swap, send, and deposit flows.",
+    "filePath": "content/docs/nexus/widgets/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/widgets/deposit",
+    "title": "Deposit Widget",
+    "description": "Route funds into a configured protocol or app action with Nexus intents.",
+    "filePath": "content/docs/nexus/widgets/deposit.mdx"
+  },
+  {
+    "path": "/docs/nexus/widgets/mcp-and-agent-skills",
+    "title": "MCP & Agent Skills",
+    "description": "Use agent skills and the shadcn MCP server to install and integrate Avail Widgets.",
+    "filePath": "content/docs/nexus/widgets/mcp-and-agent-skills/index.mdx"
+  },
+  {
+    "path": "/docs/nexus/widgets/swaps",
+    "title": "Swap and Bridge Widget",
+    "description": "Swap and bridge assets with the unified Nexus intent flow.",
+    "filePath": "content/docs/nexus/widgets/swaps.mdx"
+  },
+  {
+    "path": "/docs/nexus/widgets/transfer",
+    "title": "Send Widget",
+    "description": "Route funds to a recipient with Nexus intents.",
+    "filePath": "content/docs/nexus/widgets/transfer.mdx"
+  },
+  {
+    "path": "/docs/nexus/widgets/unified-balance",
+    "title": "Unified Balance",
+    "description": "Deprecated. Unified balance is now built into the Nexus Widget.",
+    "filePath": "content/docs/nexus/widgets/unified-balance.mdx"
   }
 ]

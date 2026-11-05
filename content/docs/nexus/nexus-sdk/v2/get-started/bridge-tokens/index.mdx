@@ -1,0 +1,230 @@
+---
+title: Bridge Tokens
+sidebarTitle: Bridge Tokens
+description: Add cross-chain token bridging to your Nexus SDK project.
+---
+
+<Callout type="warn">
+**You are viewing the Nexus SDK v2 docs.** For the current SDK, see the [v3 docs](/docs/nexus/nexus-sdk/get-started/installation) and the [v2 → v3 migration guide](/docs/nexus/migration/sdk-v2-to-v3).
+</Callout>
+
+In this guide you will add a bridge function to your Nexus SDK project that moves tokens from any supported source chain to a destination chain. By the end you will have a working bridge button that transfers USDC to Arbitrum Sepolia with real-time step tracking.
+
+<Callout type="info" title="Prerequisite">
+This guide builds on the [Initializing Nexus with RainbowKit](/docs/nexus/nexus-sdk/v2/get-started/initializing-nexus-with-rainbowkit) tutorial. Complete that first.
+</Callout>
+
+## What you will build
+
+A bridge button that:
+- Calls `client.bridge()` to move USDC from any chain to Arbitrum Sepolia
+- Uses the typed `onEvent` callback for step-by-step progress updates
+- Displays the Nexus explorer URL on completion
+
+## Step 1 — Add the bridge helper function
+
+Add a `bridge()` function to your existing SDK helper file. This example bridges 0.0001 USDC to Arbitrum Sepolia (chain ID `421614`).
+
+```tsx title="src/lib/nexus.ts"
+import type { BridgeResult } from "@avail-project/nexus-core";
+
+// ... existing code (client instance, initialize, destroy, getBalancesForBridge) ...
+
+export async function bridge() {
+  const bridgeResult: BridgeResult = await client.bridge(
+    {
+      toTokenSymbol: "USDC",
+      toAmountRaw: BigInt(100),
+      toChainId: 421614, // Arbitrum Sepolia
+    },
+    {
+      onEvent: (event) => {
+        switch (event.type) {
+          case "status":
+            // Lifecycle phase: intent_building → intent_ready → ... → completed
+            console.log("Status:", event.status);
+            break;
+          case "plan_preview":
+            // Full list of steps that will execute
+            console.log("Expected steps:", event.plan.steps);
+            break;
+          case "plan_progress":
+            // Fires as each step transitions state
+            console.log(`Step ${event.step.type}: ${event.state}`);
+            if (
+              (event.state === "submitted" || event.state === "confirmed") &&
+              "txHash" in event
+            ) {
+              console.log("View tx:", event.explorerUrl);
+            }
+            break;
+        }
+      },
+    }
+  );
+  return bridgeResult;
+}
+```
+
+### How `client.bridge()` works
+
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+| `toTokenSymbol` | `string` | Yes | Token symbol to bridge (e.g. "USDC", "ETH"). |
+| `toAmountRaw` | `bigint` | Yes | Amount in the token's smallest unit (e.g. BigInt(100) = 0.0001 USDC with 6 decimals). |
+| `toChainId` | `number` | Yes | Destination chain ID (e.g. 421614 for Arbitrum Sepolia). |
+| `sources` | `number[]` | No | Restrict the source chains funds may be pulled from. Defaults to all supported chains. |
+
+The second argument is an options object with an `onEvent` callback. Progress arrives as a typed discriminated union on `event.type`:
+
+- **`status`** — lifecycle phase updates on `event.status` (e.g. `intent_building` → `completed`)
+- **`plan_preview`** — fired once with the full list of steps on `event.plan.steps`
+- **`plan_progress`** — fired as each step advances, carrying `event.stepType`, `event.state`, and `event.step`. On-chain steps expose `txHash` / `explorerUrl` in the `submitted` and `confirmed` states
+
+## Step 2 — Create the bridge button component
+
+Create a button component that calls the bridge function and displays the result.
+
+```tsx title="src/components/bridge-button.tsx"
+"use client";
+
+import { bridge, client } from "../lib/nexus";
+
+export default function BridgeButton({
+  className,
+  onResult,
+}: {
+  className?: string;
+  onResult?: (r: any) => void;
+}) {
+  const onClick = async () => {
+    if (!client.hasEvmProvider) return alert("Initialize first");
+    const res = await bridge();
+    onResult?.(res);
+    console.log(res);
+  };
+  return (
+    <button
+      className={className}
+      onClick={onClick}
+      disabled={!client.hasEvmProvider}
+    >
+      Bridge 0.0001 USDC to Arbitrum Sepolia
+    </button>
+  );
+}
+```
+
+## Step 3 — Add the button to the page
+
+Import `BridgeButton` into your main page alongside the existing components:
+
+```tsx title="src/app/page.tsx"
+"use client";
+
+import { useState } from "react";
+import { useAccount } from "wagmi";
+import ConnectWalletButton from "@/components/connect-button";
+import InitButton from "@/components/init-button";
+import FetchBalancesButton from "@/components/fetch-balances-button";
+import DeinitButton from "@/components/de-init-button";
+import BridgeButton from "@/components/bridge-button";
+import { client } from "@/lib/nexus";
+
+export default function Page() {
+  const { isConnected } = useAccount();
+  const [initialized, setInitialized] = useState(client.hasEvmProvider);
+  const [balances, setBalances] = useState<any>(null);
+  const [bridgeResult, setBridgeResult] = useState<any>(null);
+
+  const btn =
+    "px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 " +
+    "disabled:opacity-50 disabled:cursor-not-allowed";
+
+  return (
+    <main className="min-h-screen flex items-center justify-center">
+      <div className="flex flex-col items-center gap-4">
+        <ConnectWalletButton className={btn} />
+        <InitButton
+          className={btn}
+          onReady={() => setInitialized(true)}
+        />
+        <FetchBalancesButton
+          className={btn}
+          onResult={(r) => setBalances(r)}
+        />
+        <BridgeButton
+          className={btn}
+          onResult={(r) => setBridgeResult(r)}
+        />
+        <DeinitButton
+          className={btn}
+          onDone={() => {
+            setInitialized(false);
+            setBalances(null);
+          }}
+        />
+
+        <div className="mt-2">
+          <b>Wallet Status:</b>{" "}
+          {isConnected ? "Connected" : "Not connected"}
+        </div>
+        <div className="mt-2">
+          <b>SDK Status:</b>{" "}
+          {initialized ? "Initialized" : "Not initialized"}
+        </div>
+
+        {balances && (
+          <pre className="whitespace-pre-wrap">
+            {JSON.stringify(balances, null, 2)}
+          </pre>
+        )}
+
+        {bridgeResult && (
+          <pre className="whitespace-pre-wrap">
+            {JSON.stringify(bridgeResult, null, 2)}
+          </pre>
+        )}
+      </div>
+    </main>
+  );
+}
+```
+
+## Step 4 — Run and test
+
+```bash
+pnpm dev
+```
+
+1. Connect your wallet and initialize Nexus
+2. Click **Bridge 0.0001 USDC to Arbitrum Sepolia**
+3. Approve the transaction in your wallet
+4. Watch the console for step progress events
+5. On success, you will see a `BridgeResult` with the intent explorer URL, the source transactions, and the resolved intent:
+
+```json
+{
+  "intentExplorerUrl": "https://nexus-v2.testnet.avail.so/intent/0x37b1...84fe",
+  "sourceTxs": [
+    {
+      "txHash": "0x…",
+      "txExplorerUrl": "https://…",
+      "chain": { "id": 84532, "name": "Base Sepolia", "logo": "…" }
+    }
+  ],
+  "intent": { "…": "…" }
+}
+```
+
+<Callout type="info" title="Customize the bridge">
+Replace the hardcoded values in `bridge()` with user inputs to build a dynamic bridge UI. You can change the `toTokenSymbol`, `toAmountRaw`, and `toChainId` parameters to bridge any supported token to any supported chain.
+</Callout>
+
+## Next step
+
+Take bridging further by combining it with an on-chain execution — bridge tokens and immediately deposit them into a DeFi protocol in a single transaction.
+
+<Cards>
+  <Card href="/docs/nexus/nexus-sdk/v2/get-started/deposit-into-aave" title="Deposit into Aave" arrow />
+</Cards>
