@@ -23,8 +23,8 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@avail-project/nexus-core": "github:availproject/nexus-sdk#fix/bigint-issue-fix",
-    "@avail-project/widgets": "^2.0.4",
+    "@avail-project/nexus-core": "3.2.0",
+    "@avail-project/widgets": "^2.3.1",
     "@phosphor-icons/react": "2.1.10",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-checkbox": "^1.3.3",

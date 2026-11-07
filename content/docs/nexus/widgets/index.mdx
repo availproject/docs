@@ -11,9 +11,15 @@ Avail Widgets are shadcn-based components built on the Nexus SDK. **Nexus Widget
 <IconCardGrid>
   <IconCard
     icon={<Wallet />}
-    title="Deposit Widget"
-    description="Route funds into configured protocol opportunities with Nexus intents."
+    title="Deposit (exact-output-mode)"
+    description="Enter the exact amount to deposit; widget suggests and quotes tokens to spend."
     href="/docs/nexus/widgets/deposit"
+  />
+  <IconCard
+    icon={<Wallet />}
+    title="Deposit (exact-input-mode)"
+    description="Choose tokens and amounts to spend; widget quotes and deposits the received amount."
+    href="/docs/nexus/widgets/deposit-exact-input"
   />
   <IconCard
     icon={<Swap />}
@@ -239,6 +245,7 @@ export function App({ address }: { address?: `0x${string}` }) {
   </TabsContent>
 </Tabs>
 
-- [Deposit](/docs/nexus/widgets/deposit): `config.mode = "deposit"` — route funds into a configured protocol or app action.
+- [Deposit (exact-output-mode)](/docs/nexus/widgets/deposit): `config.mode = "deposit"` (`route: "exactOutput"`, default) — enter the exact amount you want to deposit.
+- [Deposit (exact-input-mode)](/docs/nexus/widgets/deposit-exact-input): `config.mode = "deposit"` (`route: "exactInput"`) — choose one or more tokens to fund your deposit and review quoted returns.
 - [Swap and Bridge](/docs/nexus/widgets/swaps): `config.mode = "swap"` — swap and bridge assets through one unified intent flow.
 - [Send](/docs/nexus/widgets/transfer): `config.mode = "send"` — send assets to a recipient.
