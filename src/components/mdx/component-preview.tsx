@@ -17,15 +17,9 @@ const SHOWCASE_MAP: Record<
   string,
   () => Promise<{ default: React.ComponentType<unknown> }>
 > = {
-  "fast-bridge": () =>
-    import("@/components/showcase/fast-bridge-demo-showcase"),
   "nexus-deposit": () => import("@/components/showcase/deposit-demo-showcase"),
   "nexus-swap": () => import("@/components/showcase/swaps-demo-showcase"),
-  "unified-balance": () =>
-    import("@/components/showcase/unified-balance-demo-showcase"),
   "nexus-send": () => import("@/components/showcase/transfer-demo-showcase"),
-  "view-history": () =>
-    import("@/components/showcase/view-history-demo-showcase"),
 };
 
 export function ComponentPreview({

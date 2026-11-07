@@ -32,5 +32,17 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "src/components/deposit",
+    "src/components/fast-bridge",
+    "src/components/swaps",
+    "src/components/transfer",
+    "src/components/unified-balance",
+    "src/components/view-history",
+    "src/components/nexus",
+    "src/components/showcase/fast-bridge-demo-showcase.tsx",
+    "src/components/showcase/unified-balance-demo-showcase.tsx",
+    "src/components/showcase/view-history-demo-showcase.tsx"
+  ]
 }
