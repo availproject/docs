@@ -1,4 +1,11 @@
 {
   "title": "Widgets",
-  "pages": ["index", "deposit", "swaps", "transfer", "mcp-and-agent-skills"]
+  "pages": [
+    "index",
+    "deposit",
+    "deposit-exact-input",
+    "swaps",
+    "transfer",
+    "mcp-and-agent-skills"
+  ]
 }

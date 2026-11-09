@@ -3,10 +3,12 @@ import { NexusError } from "@avail-project/nexus-core";
 function handler(err: unknown) {
   if (err instanceof NexusError) {
     return {
-      code: err?.code,
-      message: err?.message,
-      context: err?.data?.context,
-      details: err?.data?.details,
+      code: err.code,
+      message: err.message,
+      context:
+        err.context ?? (err as { data?: { context?: unknown } })?.data?.context,
+      details:
+        err.details ?? (err as { data?: { details?: unknown } })?.data?.details,
     };
   } else {
     console.error("Unexpected error:", err);

@@ -1,11 +1,20 @@
 ---
-title: Deposit Widget
-description: Route funds into a configured protocol or app action with Nexus intents.
+title: Deposit (exact-output-mode)
+description: Route funds into a configured protocol or app action with Nexus intents using exact output mode.
 component: true
 ---
 
 import { Button } from "@/components/ui/button";
 import { SquareArrowUpRight } from "lucide-react";
+
+## How exact-output mode works
+
+Enter and receive the exact amount you want to deposit. The widget suggests tokens to spend and quotes how much of each you’ll spend.
+You can change which tokens you pay with and get a new quote for the same deposit amount.
+
+<Callout type="info">
+  Looking for exact-input mode? See [Deposit (exact-input-mode)](/docs/nexus/widgets/deposit-exact-input) to fund deposits by specifying input tokens and amounts to spend.
+</Callout>
 
 <video
   className="mt-6 w-full rounded-md border border-border"
@@ -55,7 +64,7 @@ npx shadcn@latest add availproject/widgets/nexus
 
 ## Usage
 
-Wrap your app with the Nexus provider first. See [Get Started](/docs/nexus/widgets) for provider setup.
+`NexusWidget` must be rendered inside `NexusProvider` (mandatory — it initializes the SDK), and the provider should receive your `identity.clientId`. See [Get Started](/docs/nexus/widgets) for provider setup and [Client ID](/docs/nexus/widgets#client-id) for details.
 
 <Tabs defaultValue="npm">
   <TabsList>
@@ -65,7 +74,7 @@ Wrap your app with the Nexus provider first. See [Get Started](/docs/nexus/widge
   <TabsContent value="npm" className="mt-4">
 
 ```tsx showLineNumbers
-import { NexusWidget } from "@avail-project/widgets";
+import { NexusProvider, NexusWidget } from "@avail-project/widgets";
 import { encodeFunctionData } from "viem";
 
 const APP_DEPOSIT_CONTRACT = "0x...";
@@ -88,6 +97,7 @@ const APP_DEPOSIT_ABI = [
 
 const depositConfig = {
   mode: "deposit",
+  route: "exactOutput", // Optional; defaults to "exactOutput"
   destination: {
     chain: DESTINATION_CHAIN_ID,
     tokens: [
@@ -130,13 +140,16 @@ const depositConfig = {
   },
 } as const;
 
-<NexusWidget config={depositConfig} connectedAddress={address} />;
+<NexusProvider config={{ identity: { clientId: "YOUR_NEXUS_CLIENT_ID" } }}>
+  <NexusWidget config={depositConfig} connectedAddress={address} />
+</NexusProvider>;
 ```
 
   </TabsContent>
   <TabsContent value="shadcn" className="mt-4">
 
 ```tsx showLineNumbers
+import NexusProvider from "@/components/nexus/NexusProvider";
 import { NexusWidget } from "@/components/nexus/nexus";
 import { encodeFunctionData } from "viem";
 
@@ -160,6 +173,7 @@ const APP_DEPOSIT_ABI = [
 
 const depositConfig = {
   mode: "deposit",
+  route: "exactOutput", // Optional; defaults to "exactOutput"
   enableOnRamp: true, // Optional; defaults to false (wallet funding only).
   destination: {
     chain: DESTINATION_CHAIN_ID,
@@ -203,7 +217,9 @@ const depositConfig = {
   },
 } as const;
 
-<NexusWidget config={depositConfig} connectedAddress={address} />;
+<NexusProvider config={{ identity: { clientId: "YOUR_NEXUS_CLIENT_ID" } }}>
+  <NexusWidget config={depositConfig} connectedAddress={address} />
+</NexusProvider>;
 ```
 
   </TabsContent>
@@ -233,27 +249,34 @@ Update your app&rsquo;s branding, enabled funding options, and deposit destinati
   </a>
 </Button>
 
-Deposit uses only `mode: "deposit"`. This mode is exact-out: users enter the destination deposit amount, pay-with sources are selected, and the flow submits through `swapAndExecute`.
+Deposit uses `mode: "deposit"`. In exact-output mode (`route: "exactOutput"`, default), users enter the destination deposit amount, paying tokens and spend amounts are suggested and quoted, and the transaction submits through `swapAndExecute`.
 
 | Prop                                                                               | Required | Description                                                                                                                                 |
 | ---------------------------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
 | `config.mode`                                                                      | Yes      | Must be `"deposit"`.                                                                                                                        |
+| `config.route`                                                                     | Optional | `"exactOutput"` (default) or `"exactInput"`. Exact-output mode lets users enter the target deposit amount to receive.                        |
 | `config.destination.chain`                                                         | Yes      | Chain ID of the fixed destination network. Deposit destination chain cannot be changed by the user.                                         |
 | `config.destination.tokens`                                                        | Yes      | One or more accepted destination tokens. The token dropdown is limited to this list and is editable only when multiple tokens are supplied. |
 | `config.depositAddress`                                                            | Yes      | Smart contract address for the deposit target.                                                                                              |
 | `config.executeDeposit`                                                            | Yes      | Callback builder returning `{ to, gas, data?, value?, tokenApproval? }` for the final app transaction. `gas` must be a positive `bigint`.   |
-| `config.enableOnRamp` | Optional | Defaults to `false`. Set `true` to display "Deposit with Cash" alongside wallet funding. |
+| `config.enableOnRamp`                                                               | Optional | Defaults to `false`. Set `true` to display "Deposit with Cash" alongside wallet funding.                                                    |
 | `config.prefill.amount`                                                            | Optional | Prefills the exact output deposit amount. Must be greater than `0`.                                                                         |
 | `config.validation.minAmount`                                                      | Optional | Minimum deposit amount. Must be `0` or greater.                                                                                             |
 | `config.validation.maxAmount`                                                      | Optional | Maximum deposit amount. Must be greater than `0`.                                                                                           |
-| `config.theme` | Optional | `"dark"`, `"light"`, or `"system"`. Defaults to light; system follows OS changes. Overrides `appearance.mode`. |
+| `config.theme`                                                                     | Optional | `"dark"`, `"light"`, or `"system"`. Defaults to light; system follows OS changes. Overrides `appearance.mode`.                               |
 | `config.appearance`                                                                | Optional | Supports `heading`, `appName`, `appLogoURL`, `mode`, and `primaryColor`.                                                                    |
 | `connectedAddress`                                                                 | Optional | Wallet address to use. If omitted, the connected wagmi account is used.                                                                     |
 | `embed`                                                                            | Optional | Defaults to `true`. Set `false` to render as a modal surface.                                                                               |
 | `open`, `onOpenChange`, `defaultOpen`                                              | Optional | Control the modal when `embed={false}`.                                                                                                     |
 | `onStart`, `onComplete`, `onError`, `onClose`, `onConnectClick`, `onConnectWallet` | Optional | Host app callbacks. Use `onConnectClick` to open your app/header wallet modal from the element CTA.                                         |
 
-Set `enableOnRamp: true` to offer wallet and local currency funding. Set it to `false` or omit it to open directly in the wallet deposit flow. The showcase Onramp toggle demonstrates both settings.
+### Onramp & Diagnostics
+
+- **Local Currency Onramp**: Set `enableOnRamp: true` to offer local currency funding alongside wallet funding. Defaults to `false`, opening directly in the wallet deposit flow.
+- **Provider Verification**: Onramp checks the active wallet provider instead of trusting a persisted address. Disconnected users see "Connect Wallet" after quotes arrive; reconnecting refreshes the quote for the verified account before Pay is enabled.
+- **Wallet Disconnect Recovery**: If the wallet disconnects during checkout, reconnect the funded wallet from the settled purchase screen to finish the deposit.
+- **Modal Dismissal**: Popup widgets (`embed={false}`) dismiss through the header close button, not outside clicks or Escape.
+- **Console Tracing**: Filter the browser console by `[Nexus Onramp]` to trace payment status, SDK gas-swap events, wallet approval, and the final deposit receipt.
 
 ### `executeDeposit`
 
@@ -279,7 +302,7 @@ type ExecuteDeposit = (
 
 ## Modal Usage
 
-Render `embed={false}` to invoke Deposit from a button and show the element as a modal.
+Render `embed={false}` to invoke Deposit from a button and show the element as a modal. The widget still needs to sit under `NexusProvider`.
 
 ```tsx showLineNumbers
 <NexusWidget
@@ -310,7 +333,7 @@ Since `NexusWidget` executes a single targeted deposit flow at a time, build any
 
 ```tsx showLineNumbers
 import { useState } from "react";
-import { NexusWidget } from "@avail-project/widgets";
+import { NexusProvider, NexusWidget } from "@avail-project/widgets";
 import { encodeFunctionData } from "viem";
 
 // Define the Aave & Compound pools/ABIs...
@@ -384,23 +407,25 @@ export function MultiDepositShowcase({ address }) {
         </select>
       </div>
 
-      <NexusWidget
-        config={{
-          mode: "deposit",
-          enableOnRamp: true, // Optional; defaults to false (wallet funding only).
-          destination: {
-            chain: OPPORTUNITIES[selectedOpt].chain,
-            tokens: [OPPORTUNITIES[selectedOpt].token],
-          },
-          depositAddress: OPPORTUNITIES[selectedOpt].depositAddress,
-          executeDeposit: OPPORTUNITIES[selectedOpt].executeDeposit,
-          appearance: {
-            appName: OPPORTUNITIES[selectedOpt].appName,
-            mode: "system",
-          },
-        }}
-        connectedAddress={address}
-      />
+      <NexusProvider config={{ identity: { clientId: "YOUR_NEXUS_CLIENT_ID" } }}>
+        <NexusWidget
+          config={{
+            mode: "deposit",
+            enableOnRamp: true, // Optional; defaults to false (wallet funding only).
+            destination: {
+              chain: OPPORTUNITIES[selectedOpt].chain,
+              tokens: [OPPORTUNITIES[selectedOpt].token],
+            },
+            depositAddress: OPPORTUNITIES[selectedOpt].depositAddress,
+            executeDeposit: OPPORTUNITIES[selectedOpt].executeDeposit,
+            appearance: {
+              appName: OPPORTUNITIES[selectedOpt].appName,
+              mode: "system",
+            },
+          }}
+          connectedAddress={address}
+        />
+      </NexusProvider>
     </div>
   );
 }

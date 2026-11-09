@@ -1,8 +1,11 @@
 "use client";
-import {
-  type EthereumProvider,
-  truncateAddress,
-} from "@avail-project/nexus-core";
+import type { EthereumProvider } from "@avail-project/nexus-core";
+
+function truncateAddress(address: string, start = 4, end = 4) {
+  if (!address) return "";
+  return `${address.slice(0, start + 2)}...${address.slice(-end)}`;
+}
+
 import { useNexus } from "@avail-project/widgets";
 import { Spinner, SpinnerGap } from "@phosphor-icons/react";
 import { ConnectKitButton } from "connectkit";

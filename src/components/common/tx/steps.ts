@@ -1,4 +1,9 @@
-import type { SwapStepType } from "@avail-project/nexus-core";
+export type SwapStepType = {
+  type: string;
+  typeID?: string;
+  [key: string]: unknown;
+};
+
 import type { GenericStep } from "./types";
 import { getStepKey } from "./types";
 

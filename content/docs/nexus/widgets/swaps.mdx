@@ -51,7 +51,7 @@ npx shadcn@latest add availproject/widgets/nexus
 
 ## Usage
 
-Wrap your app with the Nexus provider first. See [Get Started](/docs/nexus/widgets) for provider setup.
+`NexusWidget` must be rendered inside `NexusProvider` (mandatory — it initializes the SDK), and the provider should receive your `identity.clientId`. See [Get Started](/docs/nexus/widgets) for provider setup and [Client ID](/docs/nexus/widgets#client-id) for details.
 
 <Tabs defaultValue="npm">
   <TabsList>
@@ -61,28 +61,30 @@ Wrap your app with the Nexus provider first. See [Get Started](/docs/nexus/widge
   <TabsContent value="npm" className="mt-4">
 
 ```tsx showLineNumbers
-import { NexusWidget } from "@avail-project/widgets";
+import { NexusProvider, NexusWidget } from "@avail-project/widgets";
 
 const USDC_BASE = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913" as const;
 
 export function SwapAndBridgeExample({ address }: { address?: `0x${string}` }) {
   return (
-    <NexusWidget
-      connectedAddress={address}
-      config={{
-        mode: "swap",
-        destination: {
-          chain: 8453,
-          tokens: [
-            {
-              address: USDC_BASE,
-              symbol: "USDC",
-              decimals: 6,
-            },
-          ],
-        },
-      }}
-    />
+    <NexusProvider config={{ identity: { clientId: "YOUR_NEXUS_CLIENT_ID" } }}>
+      <NexusWidget
+        connectedAddress={address}
+        config={{
+          mode: "swap",
+          destination: {
+            chain: 8453,
+            tokens: [
+              {
+                address: USDC_BASE,
+                symbol: "USDC",
+                decimals: 6,
+              },
+            ],
+          },
+        }}
+      />
+    </NexusProvider>
   );
 }
 ```
@@ -91,28 +93,31 @@ export function SwapAndBridgeExample({ address }: { address?: `0x${string}` }) {
   <TabsContent value="shadcn" className="mt-4">
 
 ```tsx showLineNumbers
+import NexusProvider from "@/components/nexus/NexusProvider";
 import { NexusWidget } from "@/components/nexus/nexus";
 
 const USDC_BASE = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913" as const;
 
 export function SwapAndBridgeExample({ address }: { address?: `0x${string}` }) {
   return (
-    <NexusWidget
-      connectedAddress={address}
-      config={{
-        mode: "swap",
-        destination: {
-          chain: 8453,
-          tokens: [
-            {
-              address: USDC_BASE,
-              symbol: "USDC",
-              decimals: 6,
-            },
-          ],
-        },
-      }}
-    />
+    <NexusProvider config={{ identity: { clientId: "YOUR_NEXUS_CLIENT_ID" } }}>
+      <NexusWidget
+        connectedAddress={address}
+        config={{
+          mode: "swap",
+          destination: {
+            chain: 8453,
+            tokens: [
+              {
+                address: USDC_BASE,
+                symbol: "USDC",
+                decimals: 6,
+              },
+            ],
+          },
+        }}
+      />
+    </NexusProvider>
   );
 }
 ```
