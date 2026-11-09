@@ -58,6 +58,13 @@ npm install @avail-project/widgets viem wagmi @tanstack/react-query
 
 ```tsx
 import { NexusWidget, NexusProvider } from "@avail-project/widgets";
+
+// NexusProvider is mandatory; set your app's clientId via config.identity.
+<NexusProvider
+  config={{ network: "mainnet", identity: { clientId: "YOUR_NEXUS_CLIENT_ID" } }}
+>
+  <NexusWidget config={{ mode: "swap" }} />
+</NexusProvider>;
 ```
 
 ### Option 2: shadcn/ui (Power Users)

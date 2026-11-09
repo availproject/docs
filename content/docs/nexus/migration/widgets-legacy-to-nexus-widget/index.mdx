@@ -103,11 +103,22 @@ See the [Deposit Widget page](/docs/nexus/widgets/deposit) for the full `execute
 
 ## 3. Provider updates
 
-`NexusProvider` is still required. Update its import to the new unified location:
+`NexusProvider` is still required — `NexusWidget` must be rendered inside it. Update its import to the new unified location and pass your `clientId` through `config.identity`:
 
 ```tsx
 import NexusProvider from "@/components/nexus/NexusProvider";
+
+<NexusProvider
+  config={{
+    network: "mainnet",
+    identity: { clientId: "YOUR_NEXUS_CLIENT_ID" },
+  }}
+>
+  {children}
+</NexusProvider>;
 ```
+
+If you don't pass a `clientId`, the provider falls back to your site's hostname, which is not a stable app identity and doesn't enable widget telemetry. See [Client ID](/docs/nexus/widgets#client-id).
 
 SDK initialization on wallet connect is unchanged in shape — resolve the EIP-1193 provider from your wallet library and pass it to `handleInit` from `useNexus()`. See [Get Started](/docs/nexus/widgets).
 

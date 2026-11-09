@@ -64,7 +64,7 @@ npx shadcn@latest add availproject/widgets/nexus
 
 ## Usage
 
-Wrap your app with the Nexus provider first. See [Get Started](/docs/nexus/widgets) for provider setup.
+`NexusWidget` must be rendered inside `NexusProvider` (mandatory — it initializes the SDK), and the provider should receive your `identity.clientId`. See [Get Started](/docs/nexus/widgets) for provider setup and [Client ID](/docs/nexus/widgets#client-id) for details.
 
 <Tabs defaultValue="npm">
   <TabsList>
@@ -74,7 +74,7 @@ Wrap your app with the Nexus provider first. See [Get Started](/docs/nexus/widge
   <TabsContent value="npm" className="mt-4">
 
 ```tsx showLineNumbers
-import { NexusWidget } from "@avail-project/widgets";
+import { NexusProvider, NexusWidget } from "@avail-project/widgets";
 import { encodeFunctionData } from "viem";
 
 const APP_DEPOSIT_CONTRACT = "0x...";
@@ -140,13 +140,16 @@ const depositConfig = {
   },
 } as const;
 
-<NexusWidget config={depositConfig} connectedAddress={address} />;
+<NexusProvider config={{ identity: { clientId: "YOUR_NEXUS_CLIENT_ID" } }}>
+  <NexusWidget config={depositConfig} connectedAddress={address} />
+</NexusProvider>;
 ```
 
   </TabsContent>
   <TabsContent value="shadcn" className="mt-4">
 
 ```tsx showLineNumbers
+import NexusProvider from "@/components/nexus/NexusProvider";
 import { NexusWidget } from "@/components/nexus/nexus";
 import { encodeFunctionData } from "viem";
 
@@ -214,7 +217,9 @@ const depositConfig = {
   },
 } as const;
 
-<NexusWidget config={depositConfig} connectedAddress={address} />;
+<NexusProvider config={{ identity: { clientId: "YOUR_NEXUS_CLIENT_ID" } }}>
+  <NexusWidget config={depositConfig} connectedAddress={address} />
+</NexusProvider>;
 ```
 
   </TabsContent>
@@ -297,7 +302,7 @@ type ExecuteDeposit = (
 
 ## Modal Usage
 
-Render `embed={false}` to invoke Deposit from a button and show the element as a modal.
+Render `embed={false}` to invoke Deposit from a button and show the element as a modal. The widget still needs to sit under `NexusProvider`.
 
 ```tsx showLineNumbers
 <NexusWidget
@@ -328,7 +333,7 @@ Since `NexusWidget` executes a single targeted deposit flow at a time, build any
 
 ```tsx showLineNumbers
 import { useState } from "react";
-import { NexusWidget } from "@avail-project/widgets";
+import { NexusProvider, NexusWidget } from "@avail-project/widgets";
 import { encodeFunctionData } from "viem";
 
 // Define the Aave & Compound pools/ABIs...
@@ -402,23 +407,25 @@ export function MultiDepositShowcase({ address }) {
         </select>
       </div>
 
-      <NexusWidget
-        config={{
-          mode: "deposit",
-          enableOnRamp: true, // Optional; defaults to false (wallet funding only).
-          destination: {
-            chain: OPPORTUNITIES[selectedOpt].chain,
-            tokens: [OPPORTUNITIES[selectedOpt].token],
-          },
-          depositAddress: OPPORTUNITIES[selectedOpt].depositAddress,
-          executeDeposit: OPPORTUNITIES[selectedOpt].executeDeposit,
-          appearance: {
-            appName: OPPORTUNITIES[selectedOpt].appName,
-            mode: "system",
-          },
-        }}
-        connectedAddress={address}
-      />
+      <NexusProvider config={{ identity: { clientId: "YOUR_NEXUS_CLIENT_ID" } }}>
+        <NexusWidget
+          config={{
+            mode: "deposit",
+            enableOnRamp: true, // Optional; defaults to false (wallet funding only).
+            destination: {
+              chain: OPPORTUNITIES[selectedOpt].chain,
+              tokens: [OPPORTUNITIES[selectedOpt].token],
+            },
+            depositAddress: OPPORTUNITIES[selectedOpt].depositAddress,
+            executeDeposit: OPPORTUNITIES[selectedOpt].executeDeposit,
+            appearance: {
+              appName: OPPORTUNITIES[selectedOpt].appName,
+              mode: "system",
+            },
+          }}
+          connectedAddress={address}
+        />
+      </NexusProvider>
     </div>
   );
 }

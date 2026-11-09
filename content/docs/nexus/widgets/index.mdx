@@ -97,9 +97,20 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <NexusProvider config={{ network: "mainnet" }}>{children}</NexusProvider>;
+  return (
+    <NexusProvider
+      config={{
+        network: "mainnet",
+        identity: { clientId: "YOUR_NEXUS_CLIENT_ID" },
+      }}
+    >
+      {children}
+    </NexusProvider>
+  );
 }
 ```
+
+`NexusProvider` is mandatory — it creates the Nexus SDK client, exposes `useNexus()`, and every `NexusWidget` must be rendered inside it. See [Client ID](#client-id) for what `clientId` is and how to get one.
 
 ### Initialize on wallet connect
 
@@ -136,12 +147,23 @@ export function InitNexusOnConnect() {
 ### Use the widget
 
 ```tsx showLineNumbers
-import { NexusWidget } from "@avail-project/widgets";
+import { NexusProvider, NexusWidget } from "@avail-project/widgets";
 
 export function App({ address }: { address?: `0x${string}` }) {
-  return <NexusWidget config={{ mode: "swap" }} connectedAddress={address} />;
+  return (
+    <NexusProvider
+      config={{
+        network: "mainnet",
+        identity: { clientId: "YOUR_NEXUS_CLIENT_ID" },
+      }}
+    >
+      <NexusWidget config={{ mode: "swap" }} connectedAddress={address} />
+    </NexusProvider>
+  );
 }
 ```
+
+If `NexusProvider` already wraps your app (as in the layout above), render `NexusWidget` anywhere beneath it and omit the extra provider.
 
   </TabsContent>
 
@@ -196,9 +218,20 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <NexusProvider>{children}</NexusProvider>;
+  return (
+    <NexusProvider
+      config={{
+        network: "mainnet",
+        identity: { clientId: "YOUR_NEXUS_CLIENT_ID" },
+      }}
+    >
+      {children}
+    </NexusProvider>
+  );
 }
 ```
+
+`NexusProvider` is mandatory — it creates the Nexus SDK client, exposes `useNexus()`, and every `NexusWidget` must be rendered inside it. See [Client ID](#client-id) for what `clientId` is and how to get one.
 
 ### Initialize on wallet connect
 
@@ -235,12 +268,24 @@ export function InitNexusOnConnect() {
 ### Use the widget
 
 ```tsx showLineNumbers
+import NexusProvider from "@/components/nexus/NexusProvider";
 import { NexusWidget } from "@/components/nexus/nexus";
 
 export function App({ address }: { address?: `0x${string}` }) {
-  return <NexusWidget config={{ mode: "swap" }} connectedAddress={address} />;
+  return (
+    <NexusProvider
+      config={{
+        network: "mainnet",
+        identity: { clientId: "YOUR_NEXUS_CLIENT_ID" },
+      }}
+    >
+      <NexusWidget config={{ mode: "swap" }} connectedAddress={address} />
+    </NexusProvider>
+  );
 }
 ```
+
+If `NexusProvider` already wraps your app (as in the layout above), render `NexusWidget` anywhere beneath it and omit the extra provider.
 
   </TabsContent>
 </Tabs>
@@ -249,3 +294,27 @@ export function App({ address }: { address?: `0x${string}` }) {
 - [Deposit (exact-input-mode)](/docs/nexus/widgets/deposit-exact-input): `config.mode = "deposit"` (`route: "exactInput"`) — choose one or more tokens to fund your deposit and review quoted returns.
 - [Swap and Bridge](/docs/nexus/widgets/swaps): `config.mode = "swap"` — swap and bridge assets through one unified intent flow.
 - [Send](/docs/nexus/widgets/transfer): `config.mode = "send"` — send assets to a recipient.
+
+## Client ID
+
+`clientId` identifies **your app** (not an end user or wallet) to Nexus. Set it once on `NexusProvider`:
+
+```tsx showLineNumbers
+<NexusProvider
+  config={{
+    network: "mainnet",
+    identity: { clientId: "YOUR_NEXUS_CLIENT_ID" },
+  }}
+>
+  {children}
+</NexusProvider>
+```
+
+<Callout type="warning" title="Treat clientId as required">
+  If you omit it, `NexusProvider` falls back to your site's hostname (for example `example.com`, or `localhost` for local and non-browser environments). Widgets still work, but the fallback is not a stable identity, and widget telemetry is only recorded when you pass an explicit `identity.clientId`. Always set it in production.
+</Callout>
+
+- **One stable ID per integrating app.** Reuse the same value across environments and deployments of that app.
+- **Getting an ID.** Client IDs are currently allocated by the Nexus team — reach out to Avail to get one for your app. Don't ship the `YOUR_NEXUS_CLIENT_ID` placeholder.
+- **Both install methods.** The npm package and the shadcn component accept the same `config.identity` shape.
+- **Opting out.** To disable widget telemetry, set `observability: { disableLogging: true }` in the provider config.
