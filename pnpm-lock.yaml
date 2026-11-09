@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@avail-project/nexus-core':
-        specifier: 3.2.0
-        version: 3.2.0(@opentelemetry/api@1.9.0)(bufferutil@4.1.0)(typescript@5.9.3)
+        specifier: 3.2.1
+        version: 3.2.1(@opentelemetry/api@1.9.0)(bufferutil@4.1.0)(typescript@5.9.3)
       '@avail-project/widgets':
-        specifier: ^2.3.1
-        version: 2.3.1(@opentelemetry/api@1.9.0)(@types/react-dom@19.2.3(@types/react@19.2.10))(@types/react@19.2.10)(bufferutil@4.1.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3)(viem@2.45.0(bufferutil@4.1.0)(typescript@5.9.3)(zod@4.3.6))(wagmi@3.4.1(@tanstack/query-core@5.90.20)(@tanstack/react-query@5.90.20(react@19.2.4))(@types/react@19.2.10)(ox@0.11.3(typescript@5.9.3)(zod@4.3.6))(react@19.2.4)(typescript@5.9.3)(viem@2.45.0(bufferutil@4.1.0)(typescript@5.9.3)(zod@4.3.6)))
+        specifier: 2.3.3
+        version: 2.3.3(@opentelemetry/api@1.9.0)(@types/react-dom@19.2.3(@types/react@19.2.10))(@types/react@19.2.10)(bufferutil@4.1.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3)(viem@2.45.0(bufferutil@4.1.0)(typescript@5.9.3)(zod@4.3.6))(wagmi@3.4.1(@tanstack/query-core@5.90.20)(@tanstack/react-query@5.90.20(react@19.2.4))(@types/react@19.2.10)(ox@0.11.3(typescript@5.9.3)(zod@4.3.6))(react@19.2.4)(typescript@5.9.3)(viem@2.45.0(bufferutil@4.1.0)(typescript@5.9.3)(zod@4.3.6)))
       '@phosphor-icons/react':
         specifier: 2.1.10
         version: 2.1.10(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -202,12 +202,12 @@ packages:
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
     engines: {node: '>=10'}
 
-  '@avail-project/nexus-core@3.2.0':
-    resolution: {integrity: sha512-UqoWc2/MKDxJfz9Wc2d5pZB57dT8i6Rsw6lpWEj5y4Raz9Il3yu6Mjcgc8DUKRm4tzeOfCa9pbkNrnih+weeIQ==}
+  '@avail-project/nexus-core@3.2.1':
+    resolution: {integrity: sha512-BeCtvYP0sl4GC+Hp3lZqmyZM5qLcQ4BNXjltUp0dVdUexQThZZWp6PRKFZaSHSHVNOiTMfhMv0xdOXp8xKcAdQ==}
     engines: {node: '>=18.0.0'}
 
-  '@avail-project/widgets@2.3.1':
-    resolution: {integrity: sha512-zMiUmuzT4s671F6nHbJHrEjvNe4byTGKG0gU2Q1tnzqX/Xuc703smzu+IqEcyoW6jzRMG5DAy0OFBL+e8fhkpg==}
+  '@avail-project/widgets@2.3.3':
+    resolution: {integrity: sha512-UEEvPa6RoVA9osGXR9j30r0qxFt92caElsDd90WlmlnD1JdMVNPnvP62heJflwKuY9cmwPY4Ha0ojHzXS8HuHg==}
     peerDependencies:
       react: '>=18.3.0 || >=19.0.0'
       react-dom: '>=18.3.0 || >=19.0.0'
@@ -4896,7 +4896,7 @@ snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
 
-  '@avail-project/nexus-core@3.2.0(@opentelemetry/api@1.9.0)(bufferutil@4.1.0)(typescript@5.9.3)':
+  '@avail-project/nexus-core@3.2.1(@opentelemetry/api@1.9.0)(bufferutil@4.1.0)(typescript@5.9.3)':
     dependencies:
       '@opentelemetry/api-logs': 0.219.0
       '@opentelemetry/exporter-logs-otlp-http': 0.219.0(@opentelemetry/api@1.9.0)
@@ -4916,9 +4916,9 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  '@avail-project/widgets@2.3.1(@opentelemetry/api@1.9.0)(@types/react-dom@19.2.3(@types/react@19.2.10))(@types/react@19.2.10)(bufferutil@4.1.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3)(viem@2.45.0(bufferutil@4.1.0)(typescript@5.9.3)(zod@4.3.6))(wagmi@3.4.1(@tanstack/query-core@5.90.20)(@tanstack/react-query@5.90.20(react@19.2.4))(@types/react@19.2.10)(ox@0.11.3(typescript@5.9.3)(zod@4.3.6))(react@19.2.4)(typescript@5.9.3)(viem@2.45.0(bufferutil@4.1.0)(typescript@5.9.3)(zod@4.3.6)))':
+  '@avail-project/widgets@2.3.3(@opentelemetry/api@1.9.0)(@types/react-dom@19.2.3(@types/react@19.2.10))(@types/react@19.2.10)(bufferutil@4.1.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3)(viem@2.45.0(bufferutil@4.1.0)(typescript@5.9.3)(zod@4.3.6))(wagmi@3.4.1(@tanstack/query-core@5.90.20)(@tanstack/react-query@5.90.20(react@19.2.4))(@types/react@19.2.10)(ox@0.11.3(typescript@5.9.3)(zod@4.3.6))(react@19.2.4)(typescript@5.9.3)(viem@2.45.0(bufferutil@4.1.0)(typescript@5.9.3)(zod@4.3.6)))':
     dependencies:
-      '@avail-project/nexus-core': 3.2.0(@opentelemetry/api@1.9.0)(bufferutil@4.1.0)(typescript@5.9.3)
+      '@avail-project/nexus-core': 3.2.1(@opentelemetry/api@1.9.0)(bufferutil@4.1.0)(typescript@5.9.3)
       '@radix-ui/react-dialog': 1.1.15(@types/react-dom@19.2.3(@types/react@19.2.10))(@types/react@19.2.10)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@radix-ui/react-slot': 1.2.4(@types/react@19.2.10)(react@19.2.4)
       class-variance-authority: 0.7.1
