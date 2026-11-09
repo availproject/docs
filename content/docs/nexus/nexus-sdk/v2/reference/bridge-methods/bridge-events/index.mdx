@@ -1,0 +1,195 @@
+---
+title: "Bridge Events"
+sidebarTitle: "Bridge Events"
+description: "Typed event union emitted by bridge(), bridgeAndTransfer(), and bridgeAndExecute() — track status, plan preview, and per-step progress."
+---
+
+<Callout type="warn">
+**You are viewing the Nexus SDK v2 docs.** For the current SDK, see the [v3 docs](/docs/nexus/nexus-sdk/get-started/installation) and the [v2 → v3 migration guide](/docs/nexus/migration/sdk-v2-to-v3).
+</Callout>
+
+This page documents the events emitted through the `onEvent` callback by the following methods:
+
+- `bridge()`
+- `bridgeAndTransfer()`
+- `bridgeAndExecute()`
+
+In v2 the flat `{ name, args }` event union is replaced by a typed discriminated union keyed on `type`. Every event is one of four kinds:
+
+| `type` | Meaning |
+|--------|---------|
+| `status` | High-level lifecycle status of the operation. |
+| `plan_preview` | The ordered list of steps about to run, emitted once the intent is resolved. |
+| `plan_confirmed` | The same plan after the user approves it. |
+| `plan_progress` | Granular per-step progress, keyed on `stepType` + `state`. |
+
+<Callout type="info">
+- `bridgeAndTransfer()` and `bridgeAndExecute()` emit the bridge steps plus the steps for the destination-chain operation.
+- `bridge()` emits only the bridge steps.
+- When `bridgeAndTransfer()` or `bridgeAndExecute()` do not need to bridge (the destination already holds enough funds), only the destination-side steps are emitted. Detect a skipped bridge via `result.bridgeSkipped`, not via an event.
+</Callout>
+
+## Event union
+
+```typescript title="TypeScript"
+export type BridgeEvent =
+  | BridgeStatusEvent
+  | BridgePlanPreviewEvent
+  | BridgePlanConfirmedEvent
+  | BridgePlanProgressEvent;
+
+export type OnEventParam<TEvent> = {
+  onEvent?: (event: TEvent) => void;
+};
+```
+
+## Status events
+
+```typescript title="TypeScript"
+export type BridgeStatus =
+  | 'intent_building'
+  | 'intent_ready'
+  | 'awaiting_approval'
+  | 'awaiting_allowance_selection'
+  | 'approved'
+  | 'executing'
+  | 'completed';
+
+export type BridgeStatusEvent = {
+  type: 'status';
+  status: BridgeStatus;
+};
+```
+
+<Callout type="info">
+`bridgeAndExecute()` (and `bridgeAndTransfer()`) additionally emit a `'preparing'` status at the start — its status type is `BridgeAndExecuteStatus`, which is `BridgeStatus` plus `'preparing'`.
+</Callout>
+
+## Plan preview / confirmed events
+
+Both carry the `BridgePlan` — an ordered list of the steps that will run.
+
+```typescript title="TypeScript"
+export type BridgePlanPreviewEvent = { type: 'plan_preview'; plan: BridgePlan };
+export type BridgePlanConfirmedEvent = { type: 'plan_confirmed'; plan: BridgePlan };
+
+export type BridgePlan = {
+  steps: BridgePlanStep[];
+};
+
+export type BridgePlanStep =
+  | BridgeAllowanceApprovalStep
+  | BridgeRequestSigningStep
+  | BridgeRequestSubmissionStep
+  | BridgeVaultDepositStep
+  | BridgeFillStep;
+```
+
+For `bridgeAndExecute()`, the plan is a `BridgeAndExecutePlan`, which adds a `bridgeRequired` flag and the execute step types:
+
+```typescript title="TypeScript"
+export type BridgeAndExecutePlan = {
+  bridgeRequired: boolean;
+  steps: BridgeAndExecutePlanStep[]; // BridgePlanStep | ExecutePlanStep
+};
+
+export type ExecutePlanStep = ExecuteApprovalStep | ExecuteTransactionStep;
+```
+
+## Progress events
+
+Each `plan_progress` event carries a `stepType` discriminant and a `state`. The tables below list the states per step type, and the extra fields each progress event carries.
+
+### Bridge step types
+
+| `stepType` | `state` values | Extra fields |
+|------------|----------------|--------------|
+| `allowance_approval` | `wallet_prompted`, `submitted`, `confirmed`, `failed` | `step`, `approvedAmount`, `approvedAmountRaw`; `txHash` + `explorerUrl` on `submitted`/`confirmed`; `error` on `failed` |
+| `request_signing` | `wallet_prompted`, `completed`, `failed` | `step`; `intentRequestHash` on `completed`; `error` on `failed` |
+| `request_submission` | `started`, `completed`, `failed` | `step`, `intentRequestHash`; `explorerUrl` on `completed`; `error` on `failed` |
+| `vault_deposit` | `started`, `wallet_prompted`, `submitted`, `confirmed`, `completed`, `failed` | `step`; `txHash` + `explorerUrl` on `submitted`/`confirmed` (optional on `failed`); `error` on `failed` |
+| `bridge_fill` | `waiting`, `completed`, `failed` | `step`, `intentRequestHash`; `error` on `failed` |
+
+### Execute step types
+
+Emitted by `bridgeAndExecute()` (and `bridgeAndTransfer()`) for the destination-chain call.
+
+| `stepType` | `state` values | Extra fields |
+|------------|----------------|--------------|
+| `execute_approval` | `wallet_prompted`, `submitted`, `confirmed`, `failed` | `step`; `txHash` + `explorerUrl` on `submitted`/`confirmed` (optional on `failed`); `error` on `failed` |
+| `execute_transaction` | `wallet_prompted`, `submitted`, `confirmed`, `failed` | `step`, `value`, `hasData`; `txHash` + `explorerUrl` on `submitted`/`confirmed` (optional on `failed`); `error` on `failed` |
+
+### Progress event shapes
+
+```typescript title="TypeScript"
+export type BridgePlanProgressEvent =
+  | BridgeAllowanceApprovalProgressEvent
+  | BridgeRequestSigningProgressEvent
+  | BridgeRequestSubmissionProgressEvent
+  | BridgeVaultDepositProgressEvent
+  | BridgeFillProgressEvent;
+
+// Example: allowance_approval progress
+export type BridgeAllowanceApprovalProgressEvent =
+  | {
+      type: 'plan_progress';
+      stepType: 'allowance_approval';
+      state: 'wallet_prompted';
+      step: BridgeAllowanceApprovalStep;
+      approvedAmount: string;
+      approvedAmountRaw: string;
+    }
+  | {
+      type: 'plan_progress';
+      stepType: 'allowance_approval';
+      state: 'submitted' | 'confirmed';
+      step: BridgeAllowanceApprovalStep;
+      approvedAmount: string;
+      approvedAmountRaw: string;
+      txHash: Hex;
+      explorerUrl: string;
+    }
+  | {
+      type: 'plan_progress';
+      stepType: 'allowance_approval';
+      state: 'failed';
+      step: BridgeAllowanceApprovalStep;
+      approvedAmount: string;
+      approvedAmountRaw: string;
+      error: string;
+    };
+```
+
+<Callout>
+You can find the full type definitions for every step and progress event on GitHub:
+</Callout>
+
+<Cards num={1}>
+    <Card icon={<GithubIcon24 className="svg-inherit" />} title="Bridge event types" href="https://github.com/availproject/nexus-sdk/blob/main/src/domain/types/bridge-events.ts" target="_blank" rel="noopener noreferrer" arrow />
+</Cards>
+
+## Usage Example
+
+```typescript title="TypeScript"
+client.bridge(params, {
+  onEvent: (event) => {
+    switch (event.type) {
+      case 'status':
+        // event.status — 'intent_building' | 'intent_ready' | ... | 'completed'
+        break;
+      case 'plan_preview':
+        // event.plan.steps — ordered list of steps about to run
+        break;
+      case 'plan_confirmed':
+        // event.plan.steps — after approval
+        break;
+      case 'plan_progress':
+        // event.stepType + event.state — granular progress
+        if (event.stepType === 'bridge_fill' && event.state === 'completed') {
+          // bridge filled on the destination chain
+        }
+        break;
+    }
+  },
+});
+```

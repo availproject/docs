@@ -1,8 +1,9 @@
 {
   "title": "Reference",
   "pages": [
-    "bridge-methods",
+    "balances-and-tokens",
     "swap-methods",
+    "execute-methods",
     "list-intents",
     "hooks-and-errors",
     "utility-reference"

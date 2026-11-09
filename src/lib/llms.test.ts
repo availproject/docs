@@ -144,7 +144,7 @@ describe("generateLlmsTxt", () => {
     expect(output).not.toContain("- [Faucet](/docs/da/build/interact/faucet):");
   });
 
-  it("includes all 9 Nexus concept URLs", () => {
+  it("includes all 8 Nexus concept URLs", () => {
     const conceptUrls = [
       "/docs/nexus/concepts/chain-abstraction",
       "/docs/nexus/concepts/intent",
@@ -152,7 +152,6 @@ describe("generateLlmsTxt", () => {
       "/docs/nexus/concepts/solvers",
       "/docs/nexus/concepts/xcs-swaps",
       "/docs/nexus/concepts/allowances",
-      "/docs/nexus/concepts/bridge-v-swap",
       "/docs/nexus/concepts/nexus-ops",
       "/docs/nexus/concepts/source-chain-selection",
     ];

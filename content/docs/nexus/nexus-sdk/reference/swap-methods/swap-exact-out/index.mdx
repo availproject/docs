@@ -1,141 +1,77 @@
 ---
-title: "Swap Exact Out"
+title: "Swap Exact Output"
 sidebarTitle: "Exact Out"
-description: "Swap tokens with an exact output amount across chains — e.g. get exactly 100 USDC on the destination."
+description: "Receive an exact destination amount, funded from the wallet's balances on any supported chain."
 ---
 
-<Callout type="info">
-**SET UP THE SDK BEFORE YOU START:**
+`swapWithExactOut()` delivers the exact raw amount you request and lets the quote decide which balances fund it. It needs an [initialized client](/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup) with a connected wallet.
 
-Install and initialize the client first — see [Installation](/docs/nexus/nexus-sdk/get-started/installation) and [SDK Setup](/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup).
-</Callout>
-
-Use the `swapWithExactOut()` function to swap tokens with an exactly defined output amount.
-For example, if you want to get exactly `100 USDC` on the destination but don't care which amount of source funds are used to source the swap. You can however limit your source chains and tokens to a subset of the total supported holdings.
-
-Swaps are routed through multiple DEX aggregators (such as LiFi, Bebop, and 0x), quoted in parallel. Execution runs through a per-chain smart account chosen automatically — an ephemeral key delegated via EIP-7702 on 7702-enabled chains, or a deterministic Safe owned by the ephemeral key elsewhere. The connected EOA is never used to dispatch a swap directly.
-
-## Method signature
+## Signature
 
 ```typescript title="TypeScript"
 swapWithExactOut(
   input: SwapExactOutParams,
   options?: SwapOperationOptions,
-): Promise<SwapResult>
+): Promise<IntentResult>
 ```
 
 ## Parameters
 
-```typescript title="TypeScript"
-export interface SwapExactOutParams {
-  sources?: Source[];
-  toChainId: number;
-  toTokenAddress: Hex;
-  toAmountRaw: bigint;
-  toNativeAmountRaw?: bigint;
-}
+| Name | Type | Description |
+| --- | --- | --- |
+| `toChainId` | `number` | Required. Destination chain ID. |
+| `toTokenAddress` | `Hex` | Required. Destination token address. |
+| `toAmountRaw` | `bigint` | Required, greater than `0n`. Amount to receive, in the destination token's base units. |
+| `sources` | `Array<{ chainId: number; tokenAddress?: Hex }>` | Optional. Omit or pass `[]` to fund from any wallet balance. Otherwise, only the listed chains and tokens are used. |
+| `toNativeAmountRaw` | `bigint` | Optional, default `0n`. Extra destination native token for gas, in native base units. |
+| `options` | `SwapOperationOptions` | Optional. Slippage, timeouts, quote review, and events. See [review quotes](/docs/nexus/nexus-sdk/reference/swap-methods/review-quotes). |
 
-export type Source = {
-  tokenAddress: Hex;
-  chainId: number;
-};
-```
+A source with only `chainId` allows any token on that chain. Sources are alternatives, not a required mix: the quote may use some or all of them. To list compatible sources, call `getAvailableSourceTokens(destination, [], query)`.
 
-- `SwapExactOutParams`: Parameters for the `swapWithExactOut()` function.
-  - `sources` (Source[], optional): Restrict which chains and tokens can be used as the swap source. If omitted, the SDK automatically selects the best sources from available balances.
-    - `tokenAddress` (Hex): The contract address of the source token.
-    - `chainId` (number): The chain ID of the source chain.
-  - `toChainId` (number, required): The chain ID of the destination chain where you want to receive tokens.
-  - `toTokenAddress` (Hex, required): The contract address of the token you want to receive.
-  - `toAmountRaw` (bigint, required): The exact amount of tokens you want to receive on the destination chain, in raw integer units (e.g. `1_000_000n` for 1 USDC).
-  - `toNativeAmountRaw` (bigint, optional): Amount of native gas tokens to receive on the destination chain alongside the swap, in raw integer units (wei). Useful for ensuring the user has gas for subsequent transactions.
-
-- `options`: `SwapOperationOptions` (optional): Callbacks to track and gate the swap operation.
-
-```typescript title="TypeScript"
-export type SwapOperationOptions = {
-  onEvent?: (event: SwapEvent) => void;
-  hooks?: {
-    onIntent?: (data: OnIntentHookData) => void;
-  };
-  slippageTolerance?: number;
-};
-```
-
-- `onEvent` (optional): Receives `status`, `plan_preview`, `plan_confirmed`, and `plan_progress` updates as the swap progresses. See the [Swap Events](/docs/nexus/nexus-sdk/reference/swap-methods/swap-events) page for the full typed union.
-- `hooks.onIntent` (optional): Called with the resolved swap intent before execution. Call `allow()` to proceed, `deny()` to cancel, or `refresh(sources?)` to re-quote.
-- `slippageTolerance` (number, optional): Slippage override as a fraction (default `0.005`, i.e. 0.5%).
+Resolve `toAmountRaw` with the destination token's `decimals` and `toNativeAmountRaw` with the chain's `nativeCurrency.decimals`.
 
 ## Example
 
 ```typescript title="TypeScript"
-import type {
-  SwapExactOutParams,
-  SwapOperationOptions,
-  SwapResult,
-} from '@avail-project/nexus-core';
+import { parseUnits } from '@avail-project/nexus-core/utils';
 
-const result = await client.swapWithExactOut(
-  {
-    toChainId: 42161,
-    toTokenAddress: '0xaf88d065e77c8cc2239327c5edb3a432268e5831', // USDC on Arbitrum
-    toAmountRaw: 100_000_000n, // 100 USDC (6 decimals)
-    // Optional: also fund destination native gas
-    toNativeAmountRaw: 100_000_000_000_000n,
-    // Optional: restrict route planning to specific source tokens/chains
-    sources: [{ chainId: 8453, tokenAddress: '0x...' }],
-  },
-  {
-    onEvent: (event) => {
-      if (event.type === 'status') {
-        console.log('Swap status:', event.status);
-      }
-      if (event.type === 'plan_preview') {
-        console.log('Swap plan:', event.plan.steps);
-        console.log('Has bridge:', event.plan.hasBridge);
-        console.log('Has destination swap:', event.plan.hasDestinationSwap);
-      }
-    },
-    hooks: {
-      onIntent: ({ allow, deny, refresh, intent }) => {
-        console.log('Swap intent:', intent);
-        allow();
-      },
-    },
-  },
-);
+const destination = {
+  chainId: 8453,
+  tokenAddress: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', // USDC on Base
+} as const;
+const token = await client.getToken(destination);
+const base = client.getSupportedChains().find((chain) => chain.id === destination.chainId)!;
 
-console.log('Swap with exact out result:', result);
+const result = await client.swapWithExactOut({
+  toChainId: destination.chainId,
+  toTokenAddress: destination.tokenAddress,
+  toAmountRaw: parseUnits('100', token.decimals),
+  toNativeAmountRaw: parseUnits('0.0005', base.nativeCurrency.decimals),
+  sources: [
+    { chainId: 42161 }, // any token on Arbitrum
+    { chainId: 1, tokenAddress: '0xA0b86991c6218b36c1d19d4a2e9eb0cE3606eB48' }, // USDC on Ethereum
+  ],
+});
+
+console.log(result.intentId, result.intentExplorerUrl);
 ```
 
-## Return Value
+Without an `onIntent` hook, the SDK accepts the first quote automatically.
 
-The return value is a `SwapResult` object.
+## Returns
 
-```typescript title="TypeScript"
-export type SwapResult = {
-  sourceSwaps: ChainSwap[];
-  intentExplorerUrl: string;
-  destinationSwap: ChainSwap | null;
-  intent: SwapIntent;
-};
+A promise that resolves with an [`IntentResult`](/docs/nexus/nexus-sdk/reference/swap-methods/swap-events#result) after the destination fill.
 
-export type ChainSwap = {
-  chainId: number;
-  swaps: Swap[];
-  txHash: Hex;
-};
+## Errors
 
-export type Swap = {
-  inputAmount: bigint;
-  inputContract: Hex;
-  inputDecimals: number;
-  outputAmount: bigint;
-  outputContract: Hex;
-  outputDecimals: number;
-};
-```
+| Code (`ERROR_CODES.*`) | Cause |
+| --- | --- |
+| `WALLET_NOT_CONNECTED` | No wallet is connected. |
+| `INVALID_INPUT` | `toAmountRaw` is not positive, `toNativeAmountRaw` is negative, no provider serves the destination, no listed source shares a provider with it, or `slippageBps` is out of range. |
+| `USER_INTENT_HOOK_DENIED` | Your hook called `deny()`. |
+| `BACKEND_INSUFFICIENT_BALANCE` | The eligible balances cannot cover the quote. |
+| `BACKEND_SAME_CHAIN_GAS_DROP_UNSUPPORTED` | `toNativeAmountRaw` is set on a same-chain route. |
+| `BACKEND_FULFILMENT_WAIT_TIMEOUT` | No fill within `fillTimeoutMinutes`. The intent can still fill. |
+| `ENVIRONMENT_NOT_SUPPORTED` | The client uses `network: 'testnet'`. |
 
-<Callout type="info">
-On failure the method throws a typed [`NexusError`](/docs/nexus/nexus-sdk/reference/hooks-and-errors) subclass rather than returning an error result. See the [full type definitions](https://github.com/availproject/nexus-sdk/blob/main/src/swap/types.ts) on GitHub.
-</Callout>
+For quote diagnostics and recovery, see [hooks and errors](/docs/nexus/nexus-sdk/reference/hooks-and-errors).

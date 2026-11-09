@@ -1,0 +1,106 @@
+---
+title: "Review Quotes"
+sidebarTitle: "Review Quotes"
+description: "Show a swap quote for confirmation, refresh it, and set slippage, timeout, and polling options."
+---
+
+Pass `options.hooks.onIntent` as the second argument to `swapWithExactIn()` or `swapWithExactOut()` to show the quote before any wallet prompt.
+
+## Operation options
+
+`SwapOperationOptions` fields, all optional:
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `slippageBps` | `number \| 'auto'` | Default `50`. Integer from `0` to `10000`, or `'auto'`. |
+| `fillTimeoutMinutes` | `number` | Default `2`. How long to wait for the destination fill. |
+| `pollingIntervalMs` | `number` | Default `2000`. Interval between fill status checks. |
+| `onEvent` | `(event: IntentEvent) => void` | Progress events. See [swap events](/docs/nexus/nexus-sdk/reference/swap-methods/swap-events). |
+| `hooks.onIntent` | `(hook: IntentHookData) => void \| Promise<void>` | Quote review. See below. |
+
+## The onIntent hook
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `quote` | `IntentQuote` | The first quote. |
+| `execution` | `{ possible: true } \| { possible: false; cause: 'not-connected' \| 'insufficient-balance' }` | Whether the latest quote can execute. Read it again after each refresh. On `'insufficient-balance'`, fund the wallet and refresh. |
+| `allow()` | `() => void` | Accepts the latest quote and starts execution. |
+| `deny()` | `() => void` | Rejects the operation with `UserActionError` code `USER_INTENT_HOOK_DENIED`. |
+| `refresh(sources?)` | `(sources?: IntentSource[]) => Promise<IntentQuote>` | Requests a replacement quote, optionally for new sources, and emits a `quote` event. |
+| `attemptId` | `string` | Optional. Correlation ID shared across refreshes. |
+
+The operation waits until you call `allow()` or `deny()`. Returning from the hook does not accept the quote. If the hook throws, or an awaited `refresh()` rejects inside it, the operation rejects.
+
+Render the quote that `refresh()` returns, and await it before calling `allow()`. For `swapWithExactIn()`, replacement sources need `tokenAddress` and a positive `amountRaw`. Once accepted, the quote is fixed.
+
+A quote past `expiresAt` (Unix seconds) rejects when accepted, so refresh stale quotes before calling `allow()`.
+
+Without a hook, the SDK accepts the first quote automatically.
+
+## Example
+
+```typescript title="TypeScript"
+import type { IntentHookData, SwapExactOutParams } from '@avail-project/nexus-core';
+import { formatUnits } from '@avail-project/nexus-core/utils';
+
+declare const params: SwapExactOutParams;
+declare function reviewDialog(view: {
+  receive: string;
+  minimum: string;
+  provider: string;
+  canExecute: boolean;
+}): Promise<'confirm' | 'refresh' | 'cancel'>;
+
+const onIntent = async (hook: IntentHookData) => {
+  let quote = hook.quote;
+  for (;;) {
+    const token = await client.getToken({
+      chainId: quote.output.chainId,
+      tokenAddress: quote.output.tokenAddress,
+    });
+    const choice = await reviewDialog({
+      receive: formatUnits(quote.output.amountRaw, token.decimals),
+      minimum: formatUnits(quote.output.minAmountRaw, token.decimals),
+      provider: quote.provider,
+      canExecute: hook.execution.possible,
+    });
+    if (choice === 'refresh') {
+      quote = await hook.refresh();
+      continue;
+    }
+    if (choice === 'confirm' && hook.execution.possible) hook.allow();
+    else hook.deny();
+    return;
+  }
+};
+
+await client.swapWithExactOut(params, { hooks: { onIntent }, slippageBps: 100 });
+```
+
+## Key quote fields
+
+| Field | Description |
+| --- | --- |
+| `provider` | Provider that fills this quote: `'nexus-v2'`, `'mayan'`, or `'relay'`. |
+| `input` | Per-source `amountRaw`, `depositFeeRaw`, and `totalRequiredRaw`, with USD strings. |
+| `output` | `amountRaw` (expected) and `minAmountRaw` (after slippage), with USD strings. |
+| `fees` | `depositRaw`, `fulfillmentRaw`, `protocolRaw`, and `solverRaw`, each with a `*Usd` string. |
+| `allowances` | ERC-20 approvals the wallet still needs. `deficitRaw > 0n` means a prompt. |
+| `plan.steps` | Steps the SDK will run. See [plan steps](/docs/nexus/nexus-sdk/reference/swap-methods/swap-events#plan-steps). |
+| `sourceVerdicts` | Each candidate source's `state`: `'selected'`, `'unused'`, or `'unroutable'` with a `reason`. |
+| `isExecutable` | Source-balance check only. It does not mean a wallet is connected. |
+| `executionWarnings` | Balance shortfalls per source, as `requiredRaw` and `actualRaw`. |
+| `expiresAt` | Expiry in Unix seconds. |
+
+`Raw` fields are `bigint` in the token's base units. USD fields are decimal strings.
+
+## Disconnected previews
+
+`swapWithExactIn()` runs before a wallet connects, so you can show rates early. `swapWithExactOut()` requires a wallet.
+
+- `hook.execution` stays `{ possible: false, cause: 'not-connected' }` for that call, even after the user connects.
+- `allow()` rejects with `WALLET_NOT_CONNECTED`. `deny()` rejects with `USER_INTENT_HOOK_DENIED`.
+- Without a hook, the SDK emits the `quote` event, then rejects with `WALLET_NOT_CONNECTED`.
+- The preview can fail with `BACKEND_INSUFFICIENT_APPROVAL_GAS` if a source chain lacks gas for approvals.
+
+A preview never resolves successfully. After the wallet connects, start a new swap call and review its quote.

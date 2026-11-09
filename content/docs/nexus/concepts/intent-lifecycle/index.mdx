@@ -2,67 +2,53 @@
 image: "/img/docs-link-preview.png"
 title: How Intents are Processed
 sidebarTitle: Intent Lifecycle
-description: The journey of an intent from quote to settlement — one signature, source deposits, solver fulfilment.
+description: From quote to fulfillment, with approvals, one signature, source deposits, and status updates.
 hideFooter: true
 ---
 
-An intent moves through a short, well-defined lifecycle: the user signs it once, funds are locked on the source chains, a [solver](/docs/nexus/concepts/solvers) fills it on the destination chain, and the protocol settles with the solver afterwards.
-
-The intent details show which solver provided liquidity once the intent is successfully processed.
-
-<Callout>
-You can check out your Intents on Nexus with the [Nexus Explorer](https://nexus-v2.mainnet.avail.so/)
-</Callout>
-
-## Stages
+Every swap, bridge, and funded contract call runs the same lifecycle. The SDK reports each step through `onEvent`, and the operation's promise resolves only after the intent is fulfilled.
 
 <ThemedImage light="/img/nexus/intent-lifecycle-light.png" dark="/img/nexus/intent-lifecycle-dark.png" alt="Intent Lifecycle" />
 
-*Showing a subset of supported chains. See [Supported Chains & Tokens](/docs/nexus/supported-chains-and-tokens) for the full list.*
+## Stages
 
 <Steps>
-### Quote & Intent Construction
-The SDK requests a quote from Nexus: which source chains to draw funds from, and the fees. From this it builds the [intent](/docs/nexus/concepts/intent) — sources, destination, and fees.
+### Quote
+The SDK requests a quote. The middleware selects source balances and a [provider](/docs/nexus/concepts/solvers), and returns the [intent](/docs/nexus/concepts/intent) with its fees and plan.
 
-### User Approval & Single Signature
-Your app presents the intent to the user via the `onIntent` hook (`allow`, `deny`, or `refresh` with different sources). On approval, the user signs **one** message covering the whole operation.
+### Review
+Your `onIntent` hook shows the quote. The user approves with `allow()`, cancels with `deny()`, or requests a new quote with `refresh()`. Without a hook, the SDK accepts the quote.
 
-### Submission to the Nexus Network
-The signed intent is submitted to the Nexus network and recorded with status `created`.
+### Approvals
+For each source token without enough allowance, the wallet sends an ERC-20 approval or signs a permit. See [allowances](/docs/nexus/concepts/allowances).
 
-### Source Deposits
-The user's funds are deposited into Vault contracts on each source chain — the solver submits token deposits using the user's signed intent and [allowances](/docs/nexus/concepts/allowances), while native-token deposits are sent directly from the user's wallet. When every source deposit is confirmed, the intent becomes `deposited`.
+### Signature
+The user signs the intent once with `personal_sign`.
 
-### Solver Fulfilment
-A solver fronts its own capital and fills the intent on the destination chain — **the user receives their funds here**, in seconds. The intent becomes `fulfilled`.
+### Native deposits
+Native-token sources are sent from the wallet as source-chain transactions.
 
-### Settlement
-The solver is reimbursed from the locked source-chain funds through an on-chain settlement authorized by Nexus validators. This happens asynchronously in the background — the user's transfer is already complete.
-
+### Submission and fulfillment
+The SDK submits the signed intent and polls its status: `created`, then `deposited` once source funds arrive, then `fulfilled` when the provider delivers on the destination chain.
 </Steps>
 
-<Callout>
-**If the intent isn't filled in time:** every intent carries an expiry. If no solver fills it before then, the intent becomes `expired` and the user's deposited funds are refunded on the source chains.
+The SDK polls every 2 seconds (`pollingIntervalMs`) and waits up to 2 minutes (`fillTimeoutMinutes`). An intent that is not filled before its expiry becomes `expired`.
+
+<Callout type="warning">
+A timeout or rejected promise after submission does not mean the intent failed. It may still fulfill. Check `listIntents()` or the [Nexus Explorer](https://nexus-v2.mainnet.avail.so/) before retrying.
 </Callout>
 
-These are the same statuses you see as an integrator: intents returned by the SDK's `listIntents()` have a status of `'created' | 'deposited' | 'fulfilled' | 'expired'`.
-
-<Callout>
-You might be interested in:
-
-- [Intents on Nexus](/docs/nexus/concepts/intent)
-- [Solvers on Nexus](/docs/nexus/concepts/solvers)
-</Callout>
+`listIntents()` returns the same statuses: `created`, `deposited`, `fulfilled`, or `expired`.
 
 <PageFooter
   previous={{
-    title: "What are Solvers?",
-    description: "Agents that compete to fulfill user intents.",
+    title: "Solvers and Providers",
+    description: "Who fills intents on the destination chain.",
     href: "/docs/nexus/concepts/solvers"
   }}
   next={{
-    title: "Token Allowances",
-    description: "Approve tokens for cross-chain operations.",
-    href: "/docs/nexus/concepts/allowances"
+    title: "Bridge, Transfer & Execute",
+    description: "Map operations to SDK methods.",
+    href: "/docs/nexus/concepts/nexus-ops"
   }}
 />

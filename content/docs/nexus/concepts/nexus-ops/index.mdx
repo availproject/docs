@@ -2,104 +2,74 @@
 image: "/img/docs-link-preview.png"
 title: Bridge, Transfer & Execute
 sidebarTitle: Nexus Operations
-description: Move tokens to yourself, send to another address, or bridge and call any smart contract in one action.
+description: How bridging, transfers, and contract calls map to SDK methods.
 hideFooter: true
 ---
 
-In Nexus, apart from [crosschain swaps](/docs/nexus/concepts/xcs-swaps), users can do **Bridge**, **Transfer**, **Execute**, and **Bridge & Execute** which use Nexus chain abstraction (aka **Bridge Methods**).
+Every cross-chain operation in the SDK is an [intent](/docs/nexus/concepts/intent). Bridging, transfers, and contract calls are different ways to use one.
 
-All of these operations share the same core parameters: `toTokenSymbol` (the token to receive), `toAmountRaw` (the amount as a `bigint` in the token's smallest units), `toChainId` (the destination chain), and an optional `sources` array to [limit which chains liquidity comes from](/docs/nexus/concepts/source-chain-selection).
-
-Let's understand what each Nexus operation is and what it does.
+| Operation | Method |
+|---|---|
+| Bridge | `swapWithExactOut` or `swapWithExactIn`, with the same asset on each chain |
+| Transfer | `swapAndExecute`, with a token transfer as the destination call |
+| Execute | `execute`, using funds already on the destination chain |
+| Fund and execute | `swapAndExecute` |
 
 ## Bridge
 
-During the `Bridge` operation, the funds are bridged from N source chains to the user's preferred destination chain.
+A bridge is a same-asset swap. Pass the asset's address on each source chain and on the destination chain. Funds always arrive at the connected wallet.
 
-    `Sender` = `Recipient`
+```typescript title="TypeScript"
+const BASE_USDC = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913';
+const usdc = await client.getToken({ chainId: 8453, tokenAddress: BASE_USDC });
 
-<ThemedImage light="/img/nexus/bridge-op-light.png" dark="/img/nexus/bridge-op-dark.png" alt="Bridge Operation" />
-
-*Showing a subset of supported chains. See [Supported Chains & Tokens](/docs/nexus/supported-chains-and-tokens) for the full list.*
-
-```typescript
-await client.bridge({
-  toTokenSymbol: 'USDC',
-  toAmountRaw: 1000000n, // 1 USDC
+await client.swapWithExactOut({
   toChainId: 8453,
+  toTokenAddress: BASE_USDC,
+  toAmountRaw: parseUnits('100', usdc.decimals),
 });
 ```
-
-This operation uses the `BridgeParams` type and the [`bridge()`](/docs/nexus/nexus-sdk/reference/bridge-methods/bridge) function from the Bridge Methods in the SDK.
-
 
 ## Transfer
-During the `Transfer` operation, the funds are bridged from N source chains from the `Sender` to the user's preferred destination chain at a different `Recipient` address. This is a compound operation: funds are bridged from multiple source chains to a destination chain, then transferred to the `Recipient` address.
 
-    `Sender` != `Recipient`
-<ThemedImage light="/img/nexus/transfer-op-light.png" dark="/img/nexus/transfer-op-dark.png" alt="Transfer Operation" />
+Swaps have no recipient field. To deliver funds to another address, use `swapAndExecute` and make the destination call a transfer. Your wallet funds itself on the destination chain, then sends the call.
 
-*Showing a subset of supported chains. See [Supported Chains & Tokens](/docs/nexus/supported-chains-and-tokens) for the full list.*
+```typescript title="TypeScript"
+import { encodeFunctionData, erc20Abi } from 'viem';
 
-```typescript
-await client.bridgeAndTransfer({
-  toTokenSymbol: 'USDC',
-  toAmountRaw: 1000000n,
+await client.swapAndExecute({
   toChainId: 8453,
-  recipient: '0x...',
+  toTokenAddress: BASE_USDC,
+  toAmountRaw: amount,
+  execute: {
+    to: BASE_USDC,
+    data: encodeFunctionData({ abi: erc20Abi, functionName: 'transfer', args: [recipient, amount] }),
+    gas: 100_000n,
+  },
 });
 ```
 
-This operation uses the `TransferParams` type and the [`bridgeAndTransfer()`](/docs/nexus/nexus-sdk/reference/bridge-methods/transfer) function from the Bridge Methods in the SDK.
-
+For a native-token transfer, set `execute.to` to the recipient and `execute.value` to the amount.
 
 ## Execute
 
-The `Execute` operation calls any smart contract function on a destination chain using funds the user already holds there. All the developer needs is the contract address and calldata. It is the building block that `Bridge & Execute` composes with a bridge.
+`execute()` calls any contract on a supported chain with funds the wallet already holds there. You supply the contract address, calldata, and an optional token approval.
 
-This operation uses the `ExecuteParams` type and the `execute()` function in the SDK.
+## Fund and execute
 
+`swapAndExecute()` funds a destination contract call, then runs it. With exact output, it funds only the shortfall and skips the swap when the wallet already holds enough (`result.swapSkipped`).
 
-## Bridge & Execute
-
-The `Bridge & Execute` operation is a more complex compound operation in Nexus. In this operation, the user bridges liquidity from N source chains if there is a lack of enough liquidity on the destination chain, and then executes any arbitrary smart contract function.
-
-Note that the smart contract can be any onchain contract on the destination chain. All the developer needs is the contract address and calldata.
-
-If the user already holds enough funds on the destination chain, the SDK skips the bridge entirely and only runs the contract call — the result reports this via `bridgeSkipped: true`. Either way, the operation's intent hook still lets the user review and approve before anything executes.
-
-For users, this means they don't have to do a separate bridge action to use a `Liquid App` (Nexus powered application), and just use the app as they would if they had liquidity onchain.
-
-<ThemedImage light="/img/nexus/bne-op-light.png" dark="/img/nexus/bne-op-dark.png" alt="Bridge and Execute Operation" />
-
-*Showing a subset of supported chains. See [Supported Chains & Tokens](/docs/nexus/supported-chains-and-tokens) for the full list.*
-
-```typescript
-await client.bridgeAndExecute({
-  toTokenSymbol: 'USDC',
-  toAmountRaw: 1000000n,
-  toChainId: 8453,
-  execute: { to: '0x...', data: '0x...' },
-});
-```
-
-This operation uses the `BridgeAndExecuteParams` type and the [`bridgeAndExecute()`](/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-and-execute) function from the Bridge Methods in the SDK.
-
-
-<Callout type="info">
-- [Learn more about the difference between Bridge and Swap methods.](/docs/nexus/concepts/bridge-v-swap)
-- [SDK reference](/docs/nexus/nexus-sdk/reference/bridge-methods/fetch-bridge-balances) (Bridge Methods)
-</Callout>
+By default the connected wallet sends the call after fulfillment (`executionMode: 'wallet'`). With `useProviderDestinationExecution: true`, Relay executes the call as part of fulfillment instead (`executionMode: 'provider'`). See [swap and execute](/docs/nexus/nexus-sdk/reference/swap-methods/swap-and-execute).
 
 <PageFooter
   previous={{
-    title: "Token Allowances",
-    description: "Approve tokens for cross-chain operations.",
-    href: "/docs/nexus/concepts/allowances"
+    title: "How Intents are Processed",
+    description: "From quote to fulfillment.",
+    href: "/docs/nexus/concepts/intent-lifecycle"
   }}
   next={{
     title: "Crosschain Swaps",
-    description: "Swap any token on any chain.",
+    description: "Exact-input and exact-output swaps.",
     href: "/docs/nexus/concepts/xcs-swaps"
   }}
 />

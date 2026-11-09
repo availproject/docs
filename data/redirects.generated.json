@@ -1,8 +1,20 @@
 [
   {
     "source": "/nexus/nexus-examples/nexus-initialization-basic",
-    "destination": "/docs/nexus/cheat-sheet",
-    "confidence": 0.2766666666666666,
+    "destination": "/docs/nexus/get-started",
+    "confidence": 0.24285714285714285,
+    "reason": "fuzzy:path+title"
+  },
+  {
+    "source": "/nexus/nexus-quickstart/nexus-core",
+    "destination": "/docs/nexus/get-started",
+    "confidence": 0.26666666666666666,
+    "reason": "fuzzy:path+title"
+  },
+  {
+    "source": "/nexus/nexus-quickstart/nexus-elements",
+    "destination": "/docs/nexus/get-started",
+    "confidence": 0.26666666666666666,
     "reason": "fuzzy:path+title"
   },
   {
@@ -24,26 +36,26 @@
     "reason": "fuzzy:path+title"
   },
   {
-    "source": "/da/learn-about-avail",
-    "destination": "/docs/da/concepts/how-avail-da-works",
-    "confidence": 0.375,
-    "reason": "fuzzy:path+title"
-  },
-  {
     "source": "/nexus/introduction-to-nexus",
-    "destination": "/docs/nexus/nexus-sdk",
-    "confidence": 0.375,
+    "destination": "/docs/nexus",
+    "confidence": 0.3333333333333333,
     "reason": "fuzzy:path+title"
   },
   {
     "source": "/nexus/nexus-examples",
-    "destination": "/docs/nexus/nexus-sdk",
-    "confidence": 0.375,
+    "destination": "/docs/nexus",
+    "confidence": 0.3333333333333333,
     "reason": "fuzzy:path+title"
   },
   {
-    "source": "/nexus/nexus-examples/nexus-bridge",
-    "destination": "/docs/nexus/nexus-sdk/reference/bridge-methods",
+    "source": "/nexus/nexus-quickstart",
+    "destination": "/docs/nexus",
+    "confidence": 0.3333333333333333,
+    "reason": "fuzzy:path+title"
+  },
+  {
+    "source": "/da/learn-about-avail",
+    "destination": "/docs/da/concepts/how-avail-da-works",
     "confidence": 0.375,
     "reason": "fuzzy:path+title"
   },
@@ -60,15 +72,27 @@
     "reason": "fuzzy:path+title"
   },
   {
+    "source": "/nexus/avail-nexus-sdk/nexus-elements",
+    "destination": "/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup",
+    "confidence": 0.395,
+    "reason": "fuzzy:path+title"
+  },
+  {
     "source": "/da/introduction-to-avail-da",
     "destination": "/docs/da/concepts/how-avail-da-works",
     "confidence": 0.41999999999999993,
     "reason": "fuzzy:path+title"
   },
   {
-    "source": "/nexus/nexus-quickstart/nexus-core",
-    "destination": "/docs/nexus/nexus-sdk/quickstart",
-    "confidence": 0.48,
+    "source": "/nexus/avail-nexus-sdk",
+    "destination": "/docs/nexus/nexus-sdk/reference",
+    "confidence": 0.45499999999999996,
+    "reason": "fuzzy:path+title"
+  },
+  {
+    "source": "/nexus/avail-nexus-sdk/swap-methods",
+    "destination": "/docs/nexus/nexus-sdk/reference/swap-methods/swap-and-execute",
+    "confidence": 0.5,
     "reason": "fuzzy:path+title"
   },
   {
@@ -81,18 +105,6 @@
     "source": "/da/build-with-avail/deploy-rollup-on-avail/cosmos-avail-module",
     "destination": "/docs/da/build/rollups/cosmos",
     "confidence": 0.5047619047619047,
-    "reason": "fuzzy:path+title"
-  },
-  {
-    "source": "/nexus/nexus-examples/bridge-and-transfer",
-    "destination": "/docs/nexus/nexus-sdk/reference/bridge-methods/transfer",
-    "confidence": 0.5125,
-    "reason": "fuzzy:path+title"
-  },
-  {
-    "source": "/nexus/nexus-examples/bridge-execute",
-    "destination": "/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-and-execute",
-    "confidence": 0.5125,
     "reason": "fuzzy:path+title"
   },
   {
@@ -132,12 +144,6 @@
     "reason": "fuzzy:path+title"
   },
   {
-    "source": "/nexus/nexus-quickstart",
-    "destination": "/docs/nexus/nexus-sdk/quickstart",
-    "confidence": 0.6,
-    "reason": "fuzzy:path+title"
-  },
-  {
     "source": "/da/operate-a-node/become-a-validator/0010-basics",
     "destination": "/docs/da/operate/become-a-validator/basics",
     "confidence": 0.6124999999999999,
@@ -165,12 +171,6 @@
     "source": "/da/learn-about-avail/tx-pricing",
     "destination": "/docs/da/concepts/tx-pricing",
     "confidence": 0.6458333333333333,
-    "reason": "fuzzy:path+title"
-  },
-  {
-    "source": "/nexus/avail-nexus-sdk",
-    "destination": "/docs/nexus/nexus-sdk",
-    "confidence": 0.6499999999999999,
     "reason": "fuzzy:path+title"
   },
   {
@@ -240,6 +240,12 @@
     "reason": "fuzzy:path+title"
   },
   {
+    "source": "/nexus/concepts/bridge-v-swap",
+    "destination": "/docs/nexus/nexus-sdk/v2/bridge-v-swap",
+    "confidence": 0.7,
+    "reason": "fuzzy:path+title"
+  },
+  {
     "source": "/da/build-with-avail/deploy-rollup-on-avail/arbitrum-nitro",
     "destination": "/docs/da/build/rollups/arbitrum-nitro",
     "confidence": 0.736111111111111,
@@ -264,21 +270,9 @@
     "reason": "fuzzy:path+title"
   },
   {
-    "source": "/nexus/nexus-quickstart/nexus-elements",
-    "destination": "/docs/nexus/nexus-sdk/nexus-elements",
-    "confidence": 0.7799999999999999,
-    "reason": "fuzzy:path+title"
-  },
-  {
     "source": "/da/build-with-avail/deploy-rollup-on-avail/arbitrum-nitro/overview",
     "destination": "/docs/da/build/rollups/arbitrum-nitro/overview",
     "confidence": 0.7944444444444444,
-    "reason": "fuzzy:path+title"
-  },
-  {
-    "source": "/nexus/avail-nexus-sdk/bridge-methods/bridge",
-    "destination": "/docs/nexus/nexus-sdk/reference/bridge-methods/bridge",
-    "confidence": 0.7999999999999999,
     "reason": "fuzzy:path+title"
   },
   {
@@ -288,20 +282,8 @@
     "reason": "fuzzy:path+title"
   },
   {
-    "source": "/nexus/avail-nexus-sdk/bridge-methods",
-    "destination": "/docs/nexus/nexus-sdk/reference/bridge-methods",
-    "confidence": 0.87,
-    "reason": "fuzzy:path+title"
-  },
-  {
     "source": "/nexus/avail-nexus-sdk/hooks-and-errors",
     "destination": "/docs/nexus/nexus-sdk/reference/hooks-and-errors",
-    "confidence": 0.87,
-    "reason": "fuzzy:path+title"
-  },
-  {
-    "source": "/nexus/avail-nexus-sdk/swap-methods",
-    "destination": "/docs/nexus/nexus-sdk/reference/swap-methods",
     "confidence": 0.87,
     "reason": "fuzzy:path+title"
   },
@@ -318,24 +300,6 @@
     "reason": "fuzzy:path+title"
   },
   {
-    "source": "/nexus/avail-nexus-sdk/bridge-methods/bridge-and-execute",
-    "destination": "/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-and-execute",
-    "confidence": 0.8875,
-    "reason": "fuzzy:path+title"
-  },
-  {
-    "source": "/nexus/avail-nexus-sdk/bridge-methods/bridge-events",
-    "destination": "/docs/nexus/nexus-sdk/reference/bridge-methods/bridge-events",
-    "confidence": 0.8875,
-    "reason": "fuzzy:path+title"
-  },
-  {
-    "source": "/nexus/avail-nexus-sdk/bridge-methods/transfer",
-    "destination": "/docs/nexus/nexus-sdk/reference/bridge-methods/transfer",
-    "confidence": 0.8875,
-    "reason": "fuzzy:path+title"
-  },
-  {
     "source": "/nexus/avail-nexus-sdk/swap-methods/swap-events",
     "destination": "/docs/nexus/nexus-sdk/reference/swap-methods/swap-events",
     "confidence": 0.8875,
@@ -348,9 +312,9 @@
     "reason": "fuzzy:path+title"
   },
   {
-    "source": "/nexus/avail-nexus-sdk/nexus-elements",
-    "destination": "/docs/nexus/nexus-sdk/nexus-elements",
-    "confidence": 0.89,
+    "source": "/nexus/avail-nexus-sdk/swap-methods/swap-exact-out",
+    "destination": "/docs/nexus/nexus-sdk/v2/reference/swap-methods/swap-exact-out",
+    "confidence": 0.8985714285714285,
     "reason": "fuzzy:path+title"
   },
   {
@@ -381,24 +345,6 @@
     "source": "/da/operate-a-node/deployment-options",
     "destination": "/docs/da/operate/deployment-options",
     "confidence": 0.9366666666666666,
-    "reason": "fuzzy:path+title"
-  },
-  {
-    "source": "/nexus/avail-nexus-sdk/bridge-methods/fetch-bridge-balances",
-    "destination": "/docs/nexus/nexus-sdk/reference/bridge-methods/fetch-bridge-balances",
-    "confidence": 0.9452380952380951,
-    "reason": "fuzzy:path+title"
-  },
-  {
-    "source": "/nexus/avail-nexus-sdk/swap-methods/fetch-swap-balances",
-    "destination": "/docs/nexus/nexus-sdk/reference/swap-methods/fetch-swap-balances",
-    "confidence": 0.9452380952380951,
-    "reason": "fuzzy:path+title"
-  },
-  {
-    "source": "/nexus/avail-nexus-sdk/swap-methods/swap-exact-out",
-    "destination": "/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-out",
-    "confidence": 0.9452380952380951,
     "reason": "fuzzy:path+title"
   },
   {

@@ -95,16 +95,55 @@ const config = {
       },
       // Skip-to-first-child: reference sections land directly on first method
       {
-        source: "/docs/nexus/nexus-sdk/reference/bridge-methods",
+        source: "/docs/nexus/nexus-sdk/reference/balances-and-tokens",
         destination:
-          "/docs/nexus/nexus-sdk/reference/bridge-methods/fetch-bridge-balances",
+          "/docs/nexus/nexus-sdk/reference/balances-and-tokens/get-balances",
         permanent: false,
       },
       {
         source: "/docs/nexus/nexus-sdk/reference/swap-methods",
         destination:
-          "/docs/nexus/nexus-sdk/reference/swap-methods/fetch-swap-balances",
+          "/docs/nexus/nexus-sdk/reference/swap-methods/swap-exact-in",
         permanent: false,
+      },
+      {
+        source: "/docs/nexus/nexus-sdk/reference/execute-methods",
+        destination: "/docs/nexus/nexus-sdk/reference/execute-methods/execute",
+        permanent: false,
+      },
+      {
+        source: "/docs/nexus/nexus-sdk/v2",
+        destination: "/docs/nexus/nexus-sdk/v2/get-started/installation",
+        permanent: false,
+      },
+      {
+        source: "/docs/nexus/nexus-sdk/v2/reference/bridge-methods",
+        destination:
+          "/docs/nexus/nexus-sdk/v2/reference/bridge-methods/fetch-bridge-balances",
+        permanent: false,
+      },
+      {
+        source: "/docs/nexus/nexus-sdk/v2/reference/swap-methods",
+        destination:
+          "/docs/nexus/nexus-sdk/v2/reference/swap-methods/fetch-swap-balances",
+        permanent: false,
+      },
+      // SDK v2-only pages now live in the v2 archive
+      {
+        source: "/docs/nexus/nexus-sdk/reference/bridge-methods/:slug*",
+        destination: "/docs/nexus/nexus-sdk/v2/reference/bridge-methods/:slug*",
+        permanent: true,
+      },
+      {
+        source:
+          "/docs/nexus/nexus-sdk/reference/swap-methods/:slug(fetch-swap-balances|calculate-max-for-swap)",
+        destination: "/docs/nexus/nexus-sdk/v2/reference/swap-methods/:slug",
+        permanent: true,
+      },
+      {
+        source: "/docs/nexus/concepts/bridge-v-swap",
+        destination: "/docs/nexus/nexus-sdk/v2/bridge-v-swap",
+        permanent: true,
       },
     ];
   },

@@ -1,0 +1,69 @@
+---
+title: "Get Balances"
+description: "Fetch the connected wallet's token balances on every supported chain."
+---
+
+`getBalances()` returns the connected wallet's balances on every supported chain. Connect a wallet with `setEVMProvider()` first; see [SDK setup](/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup).
+
+## Signature
+
+```typescript title="TypeScript"
+getBalances(): Promise<IntentBalance[]>
+```
+
+## Parameters
+
+None.
+
+## Example
+
+```typescript title="TypeScript"
+import { formatUnits } from '@avail-project/nexus-core/utils';
+
+const balances = await client.getBalances();
+
+const spendable = balances.filter((b) => b.usable && b.verified && b.usableBalanceRaw > 0n);
+for (const b of spendable) {
+  const amount = formatUnits(b.usableBalanceRaw, b.decimals);
+  const usd = b.valueUsd === null ? 'no price' : `$${b.valueUsd.toFixed(2)}`;
+  console.log(`${amount} ${b.symbol} on chain ${b.chainId} (${usd})`);
+}
+```
+
+## Returns
+
+An array of `IntentBalance`. It includes verified and unverified tokens.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `chainId` | `number` | Chain the balance is on. |
+| `tokenAddress` | `Hex` | Token contract address. Use it with `chainId` as a `TokenRef`. |
+| `symbol`, `name` | `string` | Token metadata. Do not use `symbol` as an identifier. |
+| `decimals` | `number` | Token decimals on this chain. |
+| `isNative` | `boolean` | `true` for the chain's native gas token. |
+| `actualBalanceRaw` | `bigint` | Full wallet balance in base units. |
+| `usableBalanceRaw` | `bigint` | Balance available for routing after gas reserves, in base units. |
+| `valueUsd` | `number \| null` | USD value of `usableBalanceRaw`. `null` when no price is available. |
+| `priceSource` | `'oracle' \| 'indexer' \| 'coingecko' \| 'relay' \| null` | Where `valueUsd` came from. |
+| `verified` | `boolean` | `true` when at least one provider marks the token as verified. |
+| `usable` | `boolean` | Whether the balance can fund an intent. |
+| `providers` | `IntentProviderSupport[]` | Providers that support the token, each `{ id, currencyId? }`. `id` is `'nexus-v2'`, `'mayan'`, or `'relay'`. |
+| `logo`, `coingeckoId` | `string` (optional) | Display and pricing metadata. |
+
+Show `usableBalanceRaw` as the spendable amount and `actualBalanceRaw` as the wallet total. They differ when part of the balance is reserved for gas.
+
+## Filter by provider
+
+`getBalances()` takes no filter. Filter the array on `providers[].id`:
+
+```typescript title="TypeScript"
+const relayBalances = balances.filter((b) => b.providers.some((p) => p.id === 'relay'));
+```
+
+Provider support for a token does not guarantee that a route can execute a destination call through that provider. Each quote's `supportsDestinationCalls` flag decides that; see [provider destination execution](/docs/nexus/nexus-sdk/reference/swap-methods/swap-and-execute#provider-destination-execution).
+
+## Errors
+
+| Code | Cause |
+|------|-------|
+| `ERROR_CODES.WALLET_NOT_CONNECTED` | No wallet is connected. Call `setEVMProvider()` first. |

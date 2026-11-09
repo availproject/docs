@@ -1,0 +1,10 @@
+{
+  "title": "Reference",
+  "pages": [
+    "bridge-methods",
+    "swap-methods",
+    "list-intents",
+    "hooks-and-errors",
+    "utility-reference"
+  ]
+}

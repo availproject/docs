@@ -1,0 +1,86 @@
+---
+title: "Token Catalog"
+description: "Look up supported chains and tokens, and build source and destination pickers."
+---
+
+The catalog methods list supported chains and tokens and check which tokens can route together. They need `initialize()` but no wallet; see [SDK setup](/docs/nexus/nexus-sdk/get-started/nexus-sdk-setup).
+
+## Methods
+
+| Method | Returns |
+|--------|---------|
+| `getSupportedChains()` | `IntentChainMetadata[]`, synchronously. No token lists. Filter by `capabilities.intent` or `capabilities.execute`. |
+| `getTokens(query?)` | `IntentTokenPage`: `{ tokens, offset, limit, total }` across chains. |
+| `getTokensByChain(chainId, query?)` | `IntentTokenPage` for one chain. `query` omits `chainId`. |
+| `getToken({ chainId, tokenAddress })` | One `IntentToken`, verified or not. Rejects with `TOKEN_NOT_SUPPORTED` or `CHAIN_NOT_FOUND` if unknown. |
+| `getAvailableSourceTokens(destination, selectedSources?, query?)` | `{ groups, offset, limit, total }`. Each group has `provider` and `chains[].tokens`. |
+| `getAvailableDestinationTokens(sources, query?)` | `{ chains, offset, limit, total }`. Each chain has `tokens`. |
+| `confirmRouteExists(sources, destination)` | `boolean`. `true` when one provider supports every source and the destination. |
+| `getSupportedChainsForRoute(constraints)` | `IntentChainMetadata[]` matching `IntentRouteConstraints`. |
+
+`IntentToken` exposes `chainId`, `address`, `symbol`, `name`, `decimals`, `isNative`, `verified`, `providers`, and optional `logo`. Selections use `TokenRef` (`{ chainId, tokenAddress }`), so map `address` to `tokenAddress`.
+
+## IntentTokenQuery
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `chainId` | `number` | Restrict to one chain. |
+| `providers` | `IntentProvider[]` | Restrict to tokens supported by these providers. |
+| `name`, `symbol`, `contract` | `string` | Case-insensitive substring match. |
+| `includeUnverified` | `boolean` | Include unverified tokens. Default `false`. |
+| `offset` | `number` | Default `0`. |
+| `limit` | `number` | 1–1000. Default `50`. |
+
+Filters combine with AND.
+
+## Pagination
+
+- **Next page:** request `offset + limit` while it is less than `total`.
+- **Empty pages:** source and destination pages count candidates before filtering, so an empty page can precede more matches. Keep paging.
+- **Reset:** set `offset` to `0` when filters or selections change.
+- **Duplicates:** deduplicate tokens by `chainId` plus `address` across provider groups.
+
+## Example
+
+A source picker for an exact-input swap into USDC on Base:
+
+```typescript title="TypeScript"
+import type { IntentToken, TokenRef } from '@avail-project/nexus-core';
+
+const destination: TokenRef = {
+  chainId: 8453,
+  tokenAddress: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
+};
+const selected: TokenRef[] = []; // sources the user already picked
+
+async function loadSources(symbol: string): Promise<IntentToken[]> {
+  const seen = new Map<string, IntentToken>();
+  let offset = 0;
+  let total = Infinity;
+  while (offset < total) {
+    const page = await client.getAvailableSourceTokens(destination, selected, {
+      symbol,
+      offset,
+      limit: 100,
+    });
+    for (const group of page.groups)
+      for (const chain of group.chains)
+        for (const t of chain.tokens) seen.set(`${t.chainId}:${t.address.toLowerCase()}`, t);
+    total = page.total;
+    offset = page.offset + page.limit;
+  }
+  return [...seen.values()];
+}
+
+const options = await loadSources('USDC');
+const pick = options[0];
+if (pick) selected.push({ chainId: pick.chainId, tokenAddress: pick.address });
+```
+
+## Notes
+
+- **Exact input:** pass the selected sources so every source shares one provider with the destination.
+- **Exact output:** sources are alternatives. Call `getAvailableSourceTokens(destination, [], query)`, and do not reject a set because `confirmRouteExists` returns `false`.
+- **Route checks:** `confirmRouteExists` checks catalog compatibility, not quote availability. It returns `false` for empty or unknown sources and rejects on network failure.
+- **Route constraints:** `sources` and `destinations` legs take `chainId`, `tokenAddress`, and `amountRaw`. `amountRaw` needs both identity fields. Size by source amounts, destination amounts, or `valueUsd`, not more than one. Token queries do not inherit constraints.
+- **Testnet:** the async catalog methods reject with `ENVIRONMENT_NOT_SUPPORTED`.

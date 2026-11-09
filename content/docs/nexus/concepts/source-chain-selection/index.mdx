@@ -1,57 +1,48 @@
 ---
 image: "/img/docs-link-preview.png"
 title: Liquidity Routing
-description: Control which chains your tokens are sourced from, or let Nexus optimize the route automatically.
+description: Let the quote choose source balances, or restrict which chains and tokens it may use.
 hideFooter: true
 ---
 
-When a user does a [Nexus operation](/docs/nexus/concepts/nexus-ops), it involves the sourcing of liquidity by Nexus from wherever they have it.
+Every intent draws funds from one or more source balances. By default the Nexus middleware chooses them from the wallet's balances. Pass `sources` to limit its choice.
 
-Source chain selection determines which chains liquidity is routed through to reach the destination chain. Every operation accepts an optional `sources` parameter for this.
+## Exact output: optional sources
 
-<ThemedImage light="/img/nexus/liquidity-routing-light.png" dark="/img/nexus/liquidity-routing-dark.png" alt="Liquidity Routing" />
+For `swapWithExactOut` and exact-output `swapAndExecute`, `sources` is optional. Each entry needs a `chainId` and can add a `tokenAddress`.
 
-*Showing a subset of supported chains. See [Supported Chains & Tokens](/docs/nexus/supported-chains-and-tokens) for the full list.*
-
-### Bridge Methods
-For [Bridge Methods](/docs/nexus/nexus-sdk/reference/bridge-methods/fetch-bridge-balances), `sources` is simply an array of chain IDs to limit sourcing liquidity from.
-
-```typescript
-sources?: number[];
+```typescript title="TypeScript"
+sources?: { chainId: number; tokenAddress?: Hex }[];
 ```
 
-If omitted, the SDK selects sources automatically: it accumulates the user's balances across chains until the requested amount plus fees is covered. If the combined balances can't cover it, the operation fails with an `INSUFFICIENT_BALANCE` error. But if needed, the developer can pass `sources` to limit liquidity to be sourced from the specified chains **ONLY**.
+- Omit `sources`, or pass `[]`, to let the quote use any wallet balance.
+- Pass entries to restrict the quote to those chains or tokens. They are candidates; the quote decides how much to take from each.
 
-### Swap Methods
-For [Swap Methods](/docs/nexus/concepts/xcs-swaps), sources are specific tokens on specific chains, so each entry names the `chainId` and `tokenAddress`. For `ExactIn` swaps, each source can also carry an `amountRaw` to fix how much of it to spend.
+## Exact input: required sources
 
-```typescript
-sources?: {
-  chainId: number;
-  tokenAddress: Hex;
-  amountRaw?: bigint; // ExactIn only
-}[];
+For `swapWithExactIn` and exact-input `swapAndExecute`, you choose every source and its amount.
+
+```typescript title="TypeScript"
+sources: { chainId: number; tokenAddress: Hex; amountRaw: bigint }[];
 ```
 
-As with bridges, omitting `sources` lets the SDK pick from all available swap balances.
+All sources must share one provider with the destination. In a picker, pass the sources already selected to `getAvailableSourceTokens(destination, selected)` so it only offers compatible tokens.
 
-### Re-planning from the intent hook
+## Changing sources during review
 
-Before an operation executes, the `onIntent` hook presents the intent. For bridge operations the intent includes both `selectedSources` (what the SDK picked) and `availableSources` (everything it could have picked), and calling `refresh(selectedSources)` from the hook rebuilds the intent with a different source selection — so users can override the route without restarting the operation. Swap intents offer the same via `refresh(sources)`. See [Hooks](/docs/nexus/nexus-sdk/reference/hooks-and-errors) for details.
+The `onIntent` hook's `refresh(sources)` returns a new quote for a different selection, so users can change sources without restarting the operation. Render the quote it returns. For exact input, every replacement source still needs `tokenAddress` and `amountRaw`.
 
-<Callout>
-[Learn more about the difference between Bridge and Swap methods.](/docs/nexus/concepts/bridge-v-swap)
-</Callout>
+`quote.sourceVerdicts` explains each candidate: `selected`, `unused`, or `unroutable` with a `reason` such as `BELOW_DEPOSIT_FEE` or `INSUFFICIENT_APPROVAL_GAS`. Use it to show why a balance was skipped.
 
 <PageFooter
   previous={{
     title: "Crosschain Swaps",
-    description: "Swap any token on any chain.",
+    description: "Exact-input and exact-output swaps.",
     href: "/docs/nexus/concepts/xcs-swaps"
   }}
   next={{
-    title: "Understanding Balance Types",
-    description: "Why bridge and swap use different balances.",
-    href: "/docs/nexus/concepts/bridge-v-swap"
+    title: "Token Allowances",
+    description: "Approvals and permits for source tokens.",
+    href: "/docs/nexus/concepts/allowances"
   }}
 />

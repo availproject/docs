@@ -1,0 +1,10 @@
+{
+  "pages": [
+    "fetch-bridge-balances",
+    "bridge",
+    "transfer",
+    "bridge-and-execute",
+    "calculate-max-for-bridge",
+    "bridge-events"
+  ]
+}

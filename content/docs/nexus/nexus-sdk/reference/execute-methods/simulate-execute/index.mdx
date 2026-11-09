@@ -1,0 +1,67 @@
+---
+title: "Simulate Execute"
+description: "Estimate gas and cost for a contract call before sending it."
+---
+
+`simulateExecute()` estimates the gas and maximum native cost of an [`execute()`](/docs/nexus/nexus-sdk/reference/execute-methods/execute) call without sending anything. It requires a connected wallet, because the estimate runs from the user's address.
+
+## Signature
+
+```typescript title="TypeScript"
+simulateExecute(params: ExecuteParams): Promise<ExecuteSimulation>
+```
+
+## Parameters
+
+Takes the same `ExecuteParams` as `execute()`. These fields affect the estimate:
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `toChainId` | `number` | Required. Chain to estimate on. |
+| `to` | `Hex` | Required. Contract to call. |
+| `data` | `Hex` | Calldata. |
+| `value` | `bigint` | Native value in raw units. |
+| `tokenApproval` | `{ toTokenAddress, amount, spender }` | When the current allowance is below `amount`, the approval's gas is included. |
+
+## Example
+
+```typescript title="TypeScript"
+import { formatUnits, type Hex } from 'viem';
+import type { ExecuteParams } from '@avail-project/nexus-core';
+
+declare const VAULT: Hex;
+declare const USDC_BASE: Hex;
+declare const depositData: Hex;
+declare const amountRaw: bigint;
+
+const params: ExecuteParams = {
+  toChainId: 8453,
+  to: VAULT,
+  data: depositData,
+  tokenApproval: { toTokenAddress: USDC_BASE, amount: amountRaw, spender: VAULT },
+};
+
+const sim = await client.simulateExecute(params);
+const native = client.chainList.getChainByID(8453).nativeCurrency;
+console.log(`Up to ${formatUnits(sim.estimatedTotalCost, native.decimals)} ${native.symbol}`);
+
+await client.execute(params);
+```
+
+## Returns
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `estimatedGasUnits` | `bigint` | Gas for the call plus the approval, when one is needed. |
+| `estimatedTotalCost` | `bigint` | `estimatedGasUnits` times the max fee per gas, in raw native units. An upper bound. |
+| `feeParams` | `ExecuteFeeParams` | `{ type: 'eip1559', maxFeePerGas, maxPriorityFeePerGas }` or `{ type: 'legacy', gasPrice }`. |
+
+The estimate excludes `value` and any L1 data fee on rollups. Each transaction is estimated against current chain state, so a call that only succeeds after its approval can fail to estimate.
+
+## Errors
+
+| Code (`ERROR_CODES.*`) | Cause |
+| --- | --- |
+| `WALLET_NOT_CONNECTED` | No wallet is connected. |
+| `EXECUTION_ERROR` | Gas or fee estimation failed. The call would likely revert, for example from a missing balance. |
+| `EXEC_GAS_PRICE_FETCH_FAILED` | The chain returned a zero gas price. |

@@ -1,0 +1,82 @@
+---
+title: "Execute"
+description: "Send a contract call from the connected wallet, with an ERC-20 approval when needed."
+---
+
+`execute()` sends a contract call from the connected wallet on the chain you choose. It does not move funds across chains; use [`swapAndExecute()`](/docs/nexus/nexus-sdk/reference/swap-methods/swap-and-execute) for that.
+
+## Signature
+
+```typescript title="TypeScript"
+execute(params: ExecuteParams): Promise<ExecuteResult>
+```
+
+## Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `toChainId` | `number` | Required. Chain to send the call on. The SDK switches the wallet to it. |
+| `to` | `Hex` | Required. Contract to call. |
+| `data` | `Hex` | Calldata. Default `'0x'`. |
+| `value` | `bigint` | Native value in raw units. Default `0n`. |
+| `gas` | `bigint` | Gas limit. The wallet estimates it when omitted. |
+| `tokenApproval` | `{ toTokenAddress, amount, spender }` | ERC-20 approval. The SDK reads the allowance and sends `approve(spender, amount)` first only when it is below `amount`. |
+| `waitForReceipt` | `boolean` | Default `true`. `false` returns after broadcast. |
+| `receiptTimeout` | `number` | Milliseconds to wait for the receipt. Default `300000`. |
+| `requiredConfirmations` | `number` | Confirmations to wait for. Default `1`. |
+
+Omit `tokenApproval` for native-token calls. When the wallet supports atomic batches (EIP-5792), the approval and call are sent as one batch.
+
+## Example
+
+Deposit 100 USDC into an ERC-4626 vault on Base.
+
+```typescript title="TypeScript"
+import { encodeFunctionData, parseAbi, parseUnits, type Hex } from 'viem';
+
+const USDC_BASE: Hex = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913';
+const VAULT: Hex = '0xYourVault';
+const user: Hex = '0xUserAddress';
+const vaultAbi = parseAbi([
+  'function deposit(uint256 assets, address receiver) returns (uint256)',
+]);
+
+const usdc = await client.getToken({ chainId: 8453, tokenAddress: USDC_BASE });
+const amountRaw = parseUnits('100', usdc.decimals);
+
+const result = await client.execute({
+  toChainId: 8453,
+  to: VAULT,
+  data: encodeFunctionData({ abi: vaultAbi, functionName: 'deposit', args: [amountRaw, user] }),
+  tokenApproval: { toTokenAddress: USDC_BASE, amount: amountRaw, spender: VAULT },
+});
+
+console.log(result.approval?.txExplorerUrl, result.execute.txExplorerUrl);
+```
+
+## Returns
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `execute` | `TxResult` | `txHash`, `txExplorerUrl`, and `receipt` (absent when `waitForReceipt` is `false`). |
+| `approval` | `TxResult \| undefined` | Present only when an approval was sent. |
+| `chainId` | `number` | Chain the call ran on. |
+| `gasUsed` | `string` | From the receipt; `'0'` without one. |
+| `effectiveGasPrice` | `string` | From the receipt; `'0'` without one. |
+
+<Callout type="warn">
+With `waitForReceipt: false`, a returned result means only that the transaction was broadcast. It can still revert.
+</Callout>
+
+## Errors
+
+| Code (`ERROR_CODES.*`) | Cause |
+| --- | --- |
+| `WALLET_NOT_CONNECTED` | No wallet is connected. |
+| `USER_TX_SEND_DENIED` | The user rejected the call. |
+| `USER_ALLOWANCE_APPROVAL_DENIED` | The user rejected the approval. |
+| `EXEC_TX_SEND_FAILED` | The wallet failed to send the call. |
+| `EXEC_TX_CONFIRM_FAILED` | The receipt wait failed, timed out, or found a revert. |
+| `EXEC_TX_ONCHAIN_REVERTED` | The atomic approval-and-call batch failed. |
+
+See [hooks and errors](/docs/nexus/nexus-sdk/reference/hooks-and-errors) for the full list.
