@@ -57,7 +57,7 @@ PostHogProvider (outermost in layout.tsx)
 | Event | Description | Properties |
 |-------|-------------|------------|
 | `feedback_rating_clicked` | Thumbs up/down click | `rating` (positive/negative), `page_path` |
-| `feedback_submitted` | Feedback form submitted | `rating`, `has_comment`, `comment_length`, `page_path` |
+| `feedback_github_opened` | Feedback link to a new GitHub issue clicked | `source` (page_rating/feedback_page), `rating`, `page_path` |
 
 ### 4. AI/LLM Integration Events
 

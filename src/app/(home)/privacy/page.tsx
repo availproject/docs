@@ -10,7 +10,7 @@ export const metadata = {
 
 export default function PrivacyPage() {
   return (
-    <InfoPage title="Privacy Notice" lede="Last updated: 25 Sep 2026">
+    <InfoPage title="Privacy Notice" lede="Last updated: 13 Nov 2026">
       <p className="body-16 text-secondary-foreground">
         This notice explains what personal data docs.availproject.org (the
         &ldquo;Site&rdquo;) collects when you use it, why, and what rights you
@@ -62,19 +62,18 @@ export default function PrivacyPage() {
 
       <InfoSection heading="Page feedback">
         <p>
-          Each page has a feedback control. When you submit it, we receive your
-          rating, the path of the page you were on, and anything you chose to
-          add — a comment, contact details, or a screenshot.
+          Each page asks whether it was helpful. When you click Good or Bad, we
+          record your rating and the path of the page in our analytics.
         </p>
         <p>
-          Please note that feedback is filed as an issue in a{" "}
+          To tell us more, the page links to a new issue in a{" "}
           <a href="https://github.com/availproject/docs">
             public GitHub repository
           </a>
-          . Anything you include, including contact details and screenshots,
-          will be publicly visible. Leave out anything you would not want
-          published, and use the channels on the <a href="/contact">Contact</a>{" "}
-          page for private matters.
+          . You write and post the issue on GitHub yourself, under your GitHub
+          account, and anything you include will be publicly visible. Leave out
+          anything you would not want published, and use the channels on the{" "}
+          <a href="/contact">Contact</a> page for private matters.
         </p>
       </InfoSection>
 
@@ -82,8 +81,7 @@ export default function PrivacyPage() {
         <p>
           The site is hosted on 3rd party services such as Vercel, which
           processes standard request data such as IP address and user agent in
-          order to serve pages and protect the service. Uploaded feedback
-          screenshots are stored in 3rd party Blob storage.
+          order to serve pages and protect the service.
         </p>
       </InfoSection>
 

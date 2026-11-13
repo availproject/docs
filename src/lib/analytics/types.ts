@@ -51,14 +51,11 @@ export interface FeedbackRatingClickedEvent {
   };
 }
 
-export interface FeedbackSubmittedEvent {
-  event: "feedback_submitted";
+export interface FeedbackGithubOpenedEvent {
+  event: "feedback_github_opened";
   properties: {
-    rating: "positive" | "negative" | "general";
-    has_comment: boolean;
-    comment_length: number;
-    has_image: boolean;
-    has_contact: boolean;
+    source: "page_rating" | "feedback_page";
+    rating?: "positive" | "negative";
     page_path: string;
     page_title?: string;
   };
@@ -287,7 +284,7 @@ export type AnalyticsEvent =
   | CodeCollapsibleToggledEvent
   | CodeFileSelectedEvent
   | FeedbackRatingClickedEvent
-  | FeedbackSubmittedEvent
+  | FeedbackGithubOpenedEvent
   | AICopyForLLMClickedEvent
   | AIServiceOpenedEvent
   | AIViewMarkdownClickedEvent
