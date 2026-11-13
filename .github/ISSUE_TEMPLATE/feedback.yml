@@ -1,0 +1,18 @@
+name: Docs feedback
+description: Something on a docs page is wrong, unclear, or missing.
+title: "Feedback: "
+labels: ["feedback"]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Page
+      description: The docs page this is about, if any.
+      placeholder: /docs/...
+  - type: textarea
+    id: feedback
+    attributes:
+      label: Feedback
+      description: What could be better? You can paste or drag screenshots in here.
+    validations:
+      required: true

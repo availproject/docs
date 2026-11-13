@@ -27,8 +27,11 @@ export default function ContactPage() {
       <InfoSection heading="Documentation issues">
         <p>
           If a page is wrong, out of date, or missing, use the feedback control
-          at the bottom of that page — it goes straight to the docs backlog. You
-          can also open an issue in the{" "}
+          at the bottom of that page — it opens an issue in the{" "}
+          <a href="https://github.com/availproject/docs/issues">
+            docs repository
+          </a>
+          . For other projects, open an issue in the{" "}
           <a href="https://github.com/availproject">
             Avail GitHub organisation
           </a>{" "}
