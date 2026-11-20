@@ -4,7 +4,7 @@ import { SITE_URL } from "@/lib/structured-data";
 export const metadata = {
   title: "About",
   description:
-    "About the Avail documentation site — what Avail DA and Avail Nexus are, who maintains these docs, and how the content is organised.",
+    "About the AVAIL documentation site — what AVAIL DA and AVAIL Nexus are, who maintains these docs, and how the content is organised.",
   alternates: { canonical: `${SITE_URL}/about` },
 };
 
@@ -12,23 +12,23 @@ export default function AboutPage() {
   return (
     <InfoPage
       title="About these docs"
-      lede="docs.availproject.org is the official documentation for Avail, published and maintained by the Avail Project."
+      lede="docs.availproject.org is the official documentation for AVAIL, published and maintained by the AVAIL Project."
     >
-      <InfoSection heading="What Avail is">
+      <InfoSection heading="What AVAIL is">
         <p>
-          Avail is a modular blockchain stack. It is split into two products,
+          AVAIL is a modular blockchain stack. It is split into two products,
           and this site documents both of them.
         </p>
         <p>
-          <strong>Avail DA</strong> is a data availability layer. Rollups and
-          other chains post their transaction data to Avail DA and can prove
+          <strong>AVAIL DA</strong> is a data availability layer. Rollups and
+          other chains post their transaction data to AVAIL DA and can prove
           that the data was published, without every participant having to
           download all of it. The docs cover submitting and reading data,
           running full nodes and validators, light clients, network endpoints
           and chain specs, and the node API across TypeScript, Rust and Go.
         </p>
         <p>
-          <strong>Avail Nexus</strong> is a cross-chain unification layer. It
+          <strong>AVAIL Nexus</strong> is a cross-chain unification layer. It
           gives applications a single balance and a single transaction flow
           across many chains, through an SDK or through drop-in UI widgets. The
           docs cover the SDK reference, bridging, swaps, supported chains and
@@ -39,7 +39,7 @@ export default function AboutPage() {
       <InfoSection heading="How this site is organised">
         <p>
           Content is split by product: everything under <code>/docs/da</code> is
-          Avail DA, and everything under <code>/docs/nexus</code> is Avail
+          AVAIL DA, and everything under <code>/docs/nexus</code> is AVAIL
           Nexus. Each product has its own Get Started path, conceptual material,
           and API reference.
         </p>

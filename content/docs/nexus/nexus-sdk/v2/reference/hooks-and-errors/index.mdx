@@ -292,7 +292,7 @@ type ErrorCategory =
 | `UserActionError` | `user_action` | User rejected a prompt (intent hook, signature, allowance approval, tx send). |
 | `SimulationError` | `simulation` | A pre-execution `eth_call` / simulation failed. |
 | `ExecutionError` | `execution` | Runtime failure at the wallet/RPC boundary (gas estimate, revert, receipt timeout). |
-| `BackendError` | `backend` | Avail middleware HTTP/WS failure. |
+| `BackendError` | `backend` | AVAIL middleware HTTP/WS failure. |
 | `ExternalServiceError` | `external_service` | A third-party dependency failed (LiFi, Bebop, Fibrous, 0x, Mystic, Relay, Coinbase). |
 | `InternalError` | `internal` | A true SDK invariant was violated. |
 

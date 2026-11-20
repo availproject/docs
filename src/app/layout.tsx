@@ -12,35 +12,35 @@ export const metadata: Metadata = {
     process.env.NEXT_PUBLIC_SITE_URL || "https://docs.availproject.org",
   ),
   title: {
-    default: "Avail Documentation",
-    template: "%s | Avail Docs",
+    default: "AVAIL Documentation",
+    template: "%s | AVAIL Docs",
   },
   description:
-    "Documentation for Avail - the Web3 infrastructure layer for data availability",
+    "Documentation for AVAIL - the Web3 infrastructure layer for data availability",
   openGraph: {
     type: "website",
-    siteName: "Avail Docs",
+    siteName: "AVAIL Docs",
     title: {
-      default: "Avail Documentation",
-      template: "%s | Avail Docs",
+      default: "AVAIL Documentation",
+      template: "%s | AVAIL Docs",
     },
-    description: "Documentation for Avail - Build with Avail",
+    description: "Documentation for AVAIL - Build with AVAIL",
     images: [
       {
         url: "/opengraph-preview.png",
         width: 1200,
         height: 630,
-        alt: "Avail Docs",
+        alt: "AVAIL Docs",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     title: {
-      default: "Avail Documentation",
-      template: "%s | Avail Docs",
+      default: "AVAIL Documentation",
+      template: "%s | AVAIL Docs",
     },
-    description: "Documentation for Avail - Build with Avail",
+    description: "Documentation for AVAIL - Build with AVAIL",
     images: ["/opengraph-preview.png"],
   },
 };

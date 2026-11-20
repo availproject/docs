@@ -6,7 +6,7 @@ const mockPages = [
     url: "/docs/da/get-started",
     data: {
       title: "Get Started",
-      description: "Welcome to Avail DA",
+      description: "Welcome to AVAIL DA",
       getText: vi.fn().mockResolvedValue("# Get Started\n\nWelcome content"),
     },
   },
@@ -64,14 +64,14 @@ vi.mock("@/lib/products", () => ({
   products: [
     {
       slug: "da",
-      label: "Avail DA",
+      label: "AVAIL DA",
       basePath: "/docs/da",
       startUrl: "/docs/da/get-started",
       logoKey: "avail-da",
     },
     {
       slug: "nexus",
-      label: "Avail Nexus",
+      label: "AVAIL Nexus",
       basePath: "/docs/nexus",
       startUrl: "/docs/nexus/get-started",
       logoKey: "avail-nexus",
@@ -94,7 +94,7 @@ describe("generateLlmsTxt", () => {
   });
 
   it("starts with heading", () => {
-    expect(output.startsWith("# Avail Documentation")).toBe(true);
+    expect(output.startsWith("# AVAIL Documentation")).toBe(true);
   });
 
   it("has spoke file references", () => {
@@ -121,8 +121,8 @@ describe("generateLlmsTxt", () => {
 
   it("has All pages section listing pages per product", () => {
     expect(output).toContain("## All pages");
-    expect(output).toContain("### Avail DA");
-    expect(output).toContain("### Avail Nexus");
+    expect(output).toContain("### AVAIL DA");
+    expect(output).toContain("### AVAIL Nexus");
   });
 
   it("links use correct /docs/ prefix", () => {
@@ -135,7 +135,7 @@ describe("generateLlmsTxt", () => {
 
   it("pages with descriptions use title: description format", () => {
     expect(output).toContain(
-      "- [Get Started](/docs/da/get-started): Welcome to Avail DA",
+      "- [Get Started](/docs/da/get-started): Welcome to AVAIL DA",
     );
   });
 
@@ -169,7 +169,7 @@ describe("generateLlmsTxt", () => {
 describe("generateLlmsSectionTxt", () => {
   it("da section includes DA pages", async () => {
     const output = await generateLlmsSectionTxt("da");
-    expect(output).toContain("# Avail DA Documentation");
+    expect(output).toContain("# AVAIL DA Documentation");
     expect(output).toContain("## Get Started");
     expect(output).toContain("## Networks");
     expect(output).toContain("## Faucet");
@@ -182,7 +182,7 @@ describe("generateLlmsSectionTxt", () => {
 
   it("nexus section includes Nexus pages", async () => {
     const output = await generateLlmsSectionTxt("nexus");
-    expect(output).toContain("# Avail Nexus Documentation");
+    expect(output).toContain("# AVAIL Nexus Documentation");
     expect(output).toContain("## Nexus Get Started");
   });
 
@@ -196,8 +196,8 @@ describe("generateLlmsSectionTxt", () => {
 describe("generateLlmsFullTxt", () => {
   it("without section, includes pages from all products", async () => {
     const output = await generateLlmsFullTxt();
-    expect(output).toContain("## Avail DA");
-    expect(output).toContain("## Avail Nexus");
+    expect(output).toContain("## AVAIL DA");
+    expect(output).toContain("## AVAIL Nexus");
     expect(output).toContain("### Get Started");
     expect(output).toContain("### Nexus Get Started");
   });
@@ -212,9 +212,9 @@ describe("generateLlmsFullTxt", () => {
 
   it("with nonexistent section, returns header only", async () => {
     const output = await generateLlmsFullTxt("nonexistent/section");
-    expect(output).toContain("# Avail Documentation");
-    expect(output).not.toContain("## Avail DA");
-    expect(output).not.toContain("## Avail Nexus");
+    expect(output).toContain("# AVAIL Documentation");
+    expect(output).not.toContain("## AVAIL DA");
+    expect(output).not.toContain("## AVAIL Nexus");
   });
 
   it("section filtering is case-insensitive", async () => {

@@ -1,9 +1,9 @@
 ---
 title: AI-Friendly Features
-description: How AI agents and LLMs can interact with Avail documentation — llms.txt, markdown access, MCP servers, agent skills, and more.
+description: How AI agents and LLMs can interact with AVAIL documentation — llms.txt, markdown access, MCP servers, agent skills, and more.
 ---
 
-Avail documentation is built to be consumed by AI agents, LLMs, and developer tools alongside human readers. This page describes every AI-friendly feature available.
+AVAIL documentation is built to be consumed by AI agents, LLMs, and developer tools alongside human readers. This page describes every AI-friendly feature available.
 
 ## Feature Overview
 
@@ -20,7 +20,7 @@ Avail documentation is built to be consumed by AI agents, LLMs, and developer to
 | [Agent detection](#agent-detection) | Automatic | Identifies Claude, ChatGPT, Cursor, Perplexity via User-Agent |
 | [Copy for LLM](#page-actions) | Page sidebar | One-click copy of cleaned markdown for the current page |
 | [Ask AI](#page-actions) | Page sidebar | Open page context in v0, ChatGPT, or Claude |
-| [MCP Server](#mcp-server-for-avail-widgets) | shadcn MCP | Browse and install Avail Widgets via natural language |
+| [MCP Server](#mcp-server-for-avail-widgets) | shadcn MCP | Browse and install AVAIL Widgets via natural language |
 | [Agent Skills](#agent-skills) | skills.sh | Install Nexus SDK and Widgets skills for AI coding agents |
 
 ---
@@ -30,8 +30,8 @@ Avail documentation is built to be consumed by AI agents, LLMs, and developer to
 The documentation follows a hub-and-spoke pattern so agents can fetch only what they need:
 
 - **Hub** — [`/llms.txt`](/llms.txt): Quick reference links, network endpoints, and a full page index. Start here.
-- **Spoke: DA** — [`/llms-da.txt`](/llms-da.txt): Full content dump for Avail DA (data availability layer, build guides, operations, user guides, API reference).
-- **Spoke: Nexus** — [`/llms-nexus.txt`](/llms-nexus.txt): Full content dump for Avail Nexus (SDK, concepts, contracts, UI elements, supported chains and tokens).
+- **Spoke: DA** — [`/llms-da.txt`](/llms-da.txt): Full content dump for AVAIL DA (data availability layer, build guides, operations, user guides, API reference).
+- **Spoke: Nexus** — [`/llms-nexus.txt`](/llms-nexus.txt): Full content dump for AVAIL Nexus (SDK, concepts, contracts, UI elements, supported chains and tokens).
 - **Full dump** — [`/llms-full.txt`](/llms-full.txt): Every page in one file. Supports `?section=` filtering (e.g. `?section=da/build`).
 
 ### Section-Specific llms.txt
@@ -151,15 +151,15 @@ Every documentation page includes AI actions in the right sidebar:
 
 ---
 
-## MCP Server for Avail Widgets
+## MCP Server for AVAIL Widgets
 
-The [Avail Widgets](/docs/nexus/widgets) registry supports the [Model Context Protocol (MCP)](https://modelcontextprotocol.io), allowing AI assistants to browse, search, and install the Nexus Widget with natural language.
+The [AVAIL Widgets](/docs/nexus/widgets) registry supports the [Model Context Protocol (MCP)](https://modelcontextprotocol.io), allowing AI assistants to browse, search, and install the Nexus Widget with natural language.
 
 ### Quick Setup
 
 <Steps>
 
-### Add the Avail Widgets registry
+### Add the AVAIL Widgets registry
 
 Add to your project's `components.json`:
 
@@ -215,7 +215,7 @@ Open `.vscode/mcp.json`, click **Start** next to the shadcn server.
 
 Once connected, try prompts like:
 
-- "Show me all available components in the Avail Widgets registry"
+- "Show me all available components in the AVAIL Widgets registry"
 - "Add @avail-widgets/nexus to my project"
 - "Set up the NexusProvider and render the Nexus Widget in swap mode"
 
@@ -239,9 +239,9 @@ npx skills add availproject/nexus-sdk
 
 For full details, see the [Skills Integration reference](/docs/nexus/nexus-sdk/reference/utility-reference#skills-integration).
 
-### Avail Widgets Skills
+### AVAIL Widgets Skills
 
-The [Avail Widgets](https://github.com/availproject/nexus-elements) repository ships skills that help agents scaffold and integrate the Nexus Widget for swaps, sends, and deposits.
+The [AVAIL Widgets](https://github.com/availproject/nexus-elements) repository ships skills that help agents scaffold and integrate the Nexus Widget for swaps, sends, and deposits.
 
 ```bash
 # Install all Widgets skills
@@ -259,7 +259,7 @@ Browse all available skills at [skills.sh/availproject/nexus-elements](https://s
 
 ## Summary for Agents
 
-If you are an AI agent reading this page, here is the quickest path to Avail documentation:
+If you are an AI agent reading this page, here is the quickest path to AVAIL documentation:
 
 1. **Start with** [`/llms.txt`](/llms.txt) for an overview and quick reference
 2. **Fetch section spokes** for focused content: [`/llms-da.txt`](/llms-da.txt) or [`/llms-nexus.txt`](/llms-nexus.txt)

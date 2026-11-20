@@ -8,8 +8,8 @@ import { AGENT_HEADERS } from "@/lib/agent-headers";
  */
 export const AGENT_RECOVERY_LINKS = [
   ["/llms.txt", "Intent-based index of every documented task"],
-  ["/llms-da.txt", "Avail DA documentation (single file)"],
-  ["/llms-nexus.txt", "Avail Nexus documentation (single file)"],
+  ["/llms-da.txt", "AVAIL DA documentation (single file)"],
+  ["/llms-nexus.txt", "AVAIL Nexus documentation (single file)"],
   ["/llms-full.txt", "Complete documentation dump"],
   ["/sitemap.xml", "Every canonical page URL"],
   ["/api/reference.json", "Structured reference data (JSON)"],
@@ -26,7 +26,7 @@ export function agentNotFoundMarkdown(requestedPath?: string): string {
   const requested = requestedPath ? `\n\nRequested: \`${requestedPath}\`` : "";
   return `# 404 — Page Not Found
 
-This page does not exist in the Avail documentation.${requested}
+This page does not exist in the AVAIL documentation.${requested}
 
 ## Where to look instead
 

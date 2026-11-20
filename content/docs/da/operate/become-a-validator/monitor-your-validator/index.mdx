@@ -1,7 +1,7 @@
 ---
 image: "/img/docs-link-preview.png"
 id: monitor
-title: How to Monitor Your Avail Validator Node
+title: How to Monitor Your AVAIL Validator Node
 sidebarTitle: Monitor Your Validator
 description: 'Learn about monitoring a validator'
 keywords:
@@ -14,19 +14,19 @@ keywords:
 
 ## Telemetry
 
-Maintaining a healthy, stable, and secure ecosystem involves closely monitoring network operations and performance. In the case of Avail nodes, they come equipped with built-in low-level
+Maintaining a healthy, stable, and secure ecosystem involves closely monitoring network operations and performance. In the case of AVAIL nodes, they come equipped with built-in low-level
 telemetry components that automatically gather and transmit detailed information about each node's operation within the network. This backend telemetry data is streamed in real-time to a
 designated endpoint, allowing you to observe information regarding your nodes behavior.
 
-Avail project has made available a [public telemetry](http://telemetry.avail.so/) for anyone to view the status of their nodes. This should not replace your own monitoring and alerts. However it is a key tool that anyone can use to view the status
+AVAIL project has made available a [public telemetry](http://telemetry.avail.so/) for anyone to view the status of their nodes. This should not replace your own monitoring and alerts. However it is a key tool that anyone can use to view the status
 of their nodes at anytime.
 
 <br/>
 <br/>
 <img src="/img/avail/validator-avail-telemetry.png" width="100%" height="100%"/>
 
-Avail telemetry has been added to the chain specification file and should automatically send telemetry data to Avail [public telemetry](http://telemetry.avail.so/). You can however also
-add the telemetry `--telemetry-url 'ws://telemetry.avail.so:8001/submit/ 0'` to your avail node start command if your node is not visible on the public telemetry.
+AVAIL telemetry has been added to the chain specification file and should automatically send telemetry data to AVAIL [public telemetry](http://telemetry.avail.so/). You can however also
+add the telemetry `--telemetry-url 'ws://telemetry.avail.so:8001/submit/ 0'` to your AVAIL node start command if your node is not visible on the public telemetry.
 
 You can also use `--name <Validator Node Name>` to set the name that will display on telemetry. Without this it will display a random node name on the telemetry.
 
@@ -45,7 +45,7 @@ For example:
 
 Prometheus serves as a monitoring platform that gathers metrics from monitored targets through scraping their metrics HTTP endpoints. In contrast, Grafana acts as a visualization dashboard specifically designed to present the collected data in an easily understandable and visually appealing manner.
 
-The below guide is for setting up a local Prometheus & Grafana instance on the same server as your Avail node. If you're already experienced with Prometheus & Grafana and want to connect your Avail node to an existing Prometheus installation on a different server, include the `--prometheus-external` flag in your Avail node's startup command.
+The below guide is for setting up a local Prometheus & Grafana instance on the same server as your AVAIL node. If you're already experienced with Prometheus & Grafana and want to connect your AVAIL node to an existing Prometheus installation on a different server, include the `--prometheus-external` flag in your AVAIL node's startup command.
 
 ### Install Prometheus
 
@@ -177,7 +177,7 @@ Navigate back to your home page, on the top right in the menu select **Import da
 <br/>
 <img src="/img/avail/validator-avail-grafana-add-dashboard.png" width="100%" height="100%"/>
 
-Import the [Avail Node Metrics file](https://raw.githubusercontent.com/availproject/docs/main/static/validator_metrics.json)
+Import the [AVAIL Node Metrics file](https://raw.githubusercontent.com/availproject/docs/main/static/validator_metrics.json)
 <br/>
 <img src="/img/avail/validator-avail-grafana-add-dashboard-2.png" width="100%" height="100%"/>
 

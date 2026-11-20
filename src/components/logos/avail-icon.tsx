@@ -12,7 +12,7 @@ export function AvailIcon({
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={cn("size-14", className)}
-      aria-label="Avail"
+      aria-label="AVAIL"
       {...props}
     >
       <path

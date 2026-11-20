@@ -26,7 +26,7 @@ export function InfoPage({
                 href="/"
                 className="ui-16 text-muted-foreground transition-colors hover:text-foreground"
               >
-                ← Avail Documentation
+                ← AVAIL Documentation
               </Link>
             </nav>
             <h1 className="font-serif text-2xl md:text-[28px] font-medium leading-8 md:leading-9 tracking-[0.56px] text-brand">

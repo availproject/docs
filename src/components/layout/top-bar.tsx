@@ -103,7 +103,7 @@ export default function Topbar() {
                 <Link
                   href="/"
                   className="lg:hidden inline-flex items-center"
-                  aria-label="Avail home"
+                  aria-label="AVAIL home"
                 >
                   <AvailIcon className="size-6 text-[#006BF4] dark:text-foreground" />
                 </Link>

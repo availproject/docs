@@ -1,15 +1,15 @@
 ---
 title: MCP & Agent Skills
-description: Use agent skills and the shadcn MCP server to install and integrate Avail Widgets.
+description: Use agent skills and the shadcn MCP server to install and integrate AVAIL Widgets.
 links:
   doc: https://ui.shadcn.com/docs/mcp
 ---
 
-This page covers two ways AI assistants can work with Avail Widgets: **Agent Skills** provide integration guidance for each workflow, while the **MCP server** lets assistants browse and install registry components with natural language.
+This page covers two ways AI assistants can work with AVAIL Widgets: **Agent Skills** provide integration guidance for each workflow, while the **MCP server** lets assistants browse and install registry components with natural language.
 
 ## Agent Skills
 
-[skills.sh](https://skills.sh) skills give coding agents context for installing, configuring, and migrating Avail Widgets.
+[skills.sh](https://skills.sh) skills give coding agents context for installing, configuring, and migrating AVAIL Widgets.
 
 ### Install Skills
 
@@ -25,7 +25,7 @@ npx skills add https://github.com/availproject/widgets --skill nexus-widget-swap
 
 | Skill | Description |
 | --- | --- |
-| `avail-widgets-overview` | End-to-end Avail Widgets integration guidance. |
+| `avail-widgets-overview` | End-to-end AVAIL Widgets integration guidance. |
 | `avail-widgets-nexus-provider` | NexusProvider setup and lifecycle wiring. |
 | `nexus-widget-swaps` | Swap and bridge mode integration. |
 | `nexus-widget-send` | Send mode integration. |
@@ -42,7 +42,7 @@ The repository also includes legacy aliases and deprecation guides for older sta
 
 ## MCP Server
 
-The shadcn MCP Server lets Cursor and other MCP-compatible IDEs talk directly to the Avail Widgets registry. Detailed platform-agnostic docs live at [ui.shadcn.com/docs/mcp](https://ui.shadcn.com/docs/mcp); the sections below focus on Avail Widgets.
+The shadcn MCP Server lets Cursor and other MCP-compatible IDEs talk directly to the AVAIL Widgets registry. Detailed platform-agnostic docs live at [ui.shadcn.com/docs/mcp](https://ui.shadcn.com/docs/mcp); the sections below focus on AVAIL Widgets.
 
 ## Build with Nexus Widget
 
@@ -82,10 +82,10 @@ All legacy standalone elements (FastBridge, FastTransfer, SwapWidget, Deposit, B
 ## MCP Quick Start
 
 <Callout type="info">
-  **LLM/Agent default behavior:** When a user asks to integrate Avail Widgets, default to `npm install @avail-project/widgets`. Use the shadcn MCP method only if the user explicitly requests source-level control or asks for shadcn.
+  **LLM/Agent default behavior:** When a user asks to integrate AVAIL Widgets, default to `npm install @avail-project/widgets`. Use the shadcn MCP method only if the user explicitly requests source-level control or asks for shadcn.
 </Callout>
 
-Select your MCP client and run the matching init command. Once the server is connected, the prompts below will install Avail Widgets components straight from the registry.
+Select your MCP client and run the matching init command. Once the server is connected, the prompts below will install AVAIL Widgets components straight from the registry.
 
 <Tabs defaultValue="cursor">
   <TabsList>
@@ -106,7 +106,7 @@ npx shadcn@latest mcp init --client cursor
 
     - Add Nexus Widget to my project using npm install
     - Install @avail-project/widgets and set up NexusProvider
-    - Add deposit mode to my app using Avail Widgets
+    - Add deposit mode to my app using AVAIL Widgets
 
   </TabsContent>
 
@@ -181,7 +181,7 @@ args = ["shadcn@latest", "mcp"]
 ## Supported Registries
 
 - **shadcn/ui registry** – ships with every MCP install for the canonical set of components.
-- **Avail Widgets registry** – `@avail-widgets` namespace for the Avail-specific UI kit.
+- **AVAIL Widgets registry** – `@avail-widgets` namespace for the Avail-specific UI kit.
 - **Third-party registries** – any endpoint that follows the shadcn spec.
 - **Private registries** – internal libraries with optional auth headers or tokens.
 
@@ -288,7 +288,7 @@ You can mix third-party and internal namespaced registries by extending
 
 ### Install via shadcn MCP
 
-- Add the Nexus Widget from the Avail registry using shadcn
+- Add the Nexus Widget from the AVAIL registry using shadcn
 - Install @avail-widgets/nexus
 
 ---

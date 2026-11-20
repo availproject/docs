@@ -1,9 +1,9 @@
 ---
 image: "/img/docs-link-preview.png"
 id: madara
-title: How to Use Madara with Avail
+title: How to Use Madara with AVAIL
 sidebarTitle: Avail-Powered Madara Validium
-description: 'Discover how to utilize Avail as a data availability layer to build a Substrate-based Validium with Madara.'
+description: 'Discover how to utilize AVAIL as a data availability layer to build a Substrate-based Validium with Madara.'
 keywords:
   - documentation
   - avail
@@ -15,7 +15,7 @@ keywords:
 
 ## Introduction
 
-Embark on setting up your own Madara-based Validium, leveraging Avail as the data availability layer. This guide is tailored for deploying on Ethereum's Sepolia testnet and integrating with the Avail Turing testnet. To gain a comprehensive understanding of Madara Starknet, review the [<ins>Madara documentation</ins>](https://docs.madara.zone/).
+Embark on setting up your own Madara-based Validium, leveraging AVAIL as the data availability layer. This guide is tailored for deploying on Ethereum's Sepolia testnet and integrating with the AVAIL Turing testnet. To gain a comprehensive understanding of Madara Starknet, review the [<ins>Madara documentation</ins>](https://docs.madara.zone/).
 
 In this guide, you will conduct the following:
 
@@ -24,9 +24,9 @@ In this guide, you will conduct the following:
   - [Hardware Requirements](#hardware-requirements)
 - [Launch an Avail-Powered Madara Validium](#launch-an-avail-powered-madara-validium)
   - [Running a Single-Node Development Chain](#running-a-single-node-development-chain)
-  - [Setting Up Avail as the DA Layer](#setting-up-avail-as-the-da-layer)
+  - [Setting Up AVAIL as the DA Layer](#setting-up-avail-as-the-da-layer)
   - [Deploying an Account on Your Chain](#deploying-an-account-on-your-chain)
-  - [Using Avail in Madara](#using-avail-in-madara)
+  - [Using AVAIL in Madara](#using-avail-in-madara)
 
 ## Prerequisites
 
@@ -58,12 +58,12 @@ curl -L https://github.com/franalgaba/cairo-installer/raw/main/bin/cairo-install
 
 ### Hardware Requirements
 
-The Madara stack, being a StarkNet sequencer, has specific hardware requirements for efficient operation. These requirements are particularly important when integrating Avail as the DA Layer.
+The Madara stack, being a StarkNet sequencer, has specific hardware requirements for efficient operation. These requirements are particularly important when integrating AVAIL as the DA Layer.
 
 | Component      | Minimum Requirements             | Recommended Setup                | Suggested AWS Instance |
 | -------------- | -------------------------------- | -------------------------------- | ---------------------- |
 | Sequencer Node | 4-core CPU, 16GB RAM, 100 GB SSD | 8-core CPU, 32GB RAM, 200 GB SSD | m5a.xlarge             |
-| Avail Node     | 4-core CPU, 8GB RAM, 50 GB SSD   | 8-core CPU, 16GB RAM, 100 GB SSD | m5a.large              |
+| AVAIL Node     | 4-core CPU, 8GB RAM, 50 GB SSD   | 8-core CPU, 16GB RAM, 100 GB SSD | m5a.large              |
 
 <Callout type="info">
 The storage requirements can vary based on the volume of transactions and the length of the chain history you intend to maintain. For high-traffic networks, consider scaling your storage capacity accordingly.
@@ -110,9 +110,9 @@ The storage requirements can vary based on the volume of transactions and the le
    ./target/release/madara build-spec > ./infra/chain-sepcs/chain-spec-plain.json
    ```
 
-### Setting Up Avail as the DA Layer
+### Setting Up AVAIL as the DA Layer
 
-1. Configure Avail for Madara:
+1. Configure AVAIL for Madara:
 
    ```bash
    # Configuration for local Avail node
@@ -126,19 +126,19 @@ The storage requirements can vary based on the volume of transactions and the le
    EOF
    ```
 
-2. Start Avail Node (in another terminal):
+2. Start AVAIL Node (in another terminal):
 
    ```bash
    ./data-avail --dev --rpc-port 9945 --port 30334
    ```
 
-3. Setup Madara for Avail:
+3. Setup Madara for AVAIL:
 
    ```bash
    ./madara setup --chain=dev --from-remote --base-path=../.madara
    ```
 
-4. Launch Madara with Avail:
+4. Launch Madara with AVAIL:
 
    ```bash
    ./madara --chain=dev --base-path=../.madara --da-layer=avail --force-authoring --alice
@@ -148,10 +148,10 @@ The storage requirements can vary based on the volume of transactions and the le
 
 - After setting up your chain, you can deploy your own account and start making transactions.
 
-### Using Avail in Madara
+### Using AVAIL in Madara
 
-- Specify `--da-layer avail` when launching a Madara node to use Avail for publishing the state_diff.
+- Specify `--da-layer avail` when launching a Madara node to use AVAIL for publishing the state_diff.
 
 <Callout>
-Remember to adjust the `da-config.json` file based on your setup, whether it's a local node or using the Avail network.
+Remember to adjust the `da-config.json` file based on your setup, whether it's a local node or using the AVAIL network.
 </Callout>

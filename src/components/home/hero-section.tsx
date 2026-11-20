@@ -10,7 +10,7 @@ export function HeroSection() {
           style={{ fontFamily: "Delight, sans-serif", fontWeight: 500 }}
         >
           <span className="block text-[28px] leading-[1.2] md:text-[56px] md:leading-[1.1]">
-            Build with Avail &amp;
+            Build with AVAIL &amp;
           </span>
           <span className="block text-[28px] leading-[1.2] md:text-[56px] md:leading-[1.1]">
             Grow Beyond One Chain

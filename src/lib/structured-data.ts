@@ -22,12 +22,12 @@ export const AVAIL_SOCIAL_PROFILES = [
 export const organizationLd = {
   "@type": "Organization",
   "@id": `${AVAIL_HOME}/#organization`,
-  name: "Avail",
-  alternateName: "Avail Project",
+  name: "AVAIL",
+  alternateName: "AVAIL Project",
   url: AVAIL_HOME,
   logo: `${SITE_URL}/avail_logo.png`,
   description:
-    "Avail is a modular blockchain stack providing data availability (Avail DA) and cross-chain unification (Avail Nexus).",
+    "AVAIL is a modular blockchain stack providing data availability (AVAIL DA) and cross-chain unification (AVAIL Nexus).",
   sameAs: AVAIL_SOCIAL_PROFILES,
   contactPoint: [
     {
@@ -59,9 +59,9 @@ export const websiteLd = {
       "@type": "WebSite",
       "@id": `${SITE_URL}/#website`,
       url: SITE_URL,
-      name: "Avail Documentation",
+      name: "AVAIL Documentation",
       description:
-        "Documentation for Avail DA (data availability) and Avail Nexus (cross-chain unification).",
+        "Documentation for AVAIL DA (data availability) and AVAIL Nexus (cross-chain unification).",
       inLanguage: "en",
       publisher: { "@id": `${AVAIL_HOME}/#organization` },
       potentialAction: {
@@ -76,7 +76,7 @@ export const websiteLd = {
     {
       "@type": "SoftwareApplication",
       "@id": `${SITE_URL}/#software`,
-      name: "Avail",
+      name: "AVAIL",
       applicationCategory: "DeveloperApplication",
       operatingSystem: "Linux, macOS, Windows",
       url: AVAIL_HOME,

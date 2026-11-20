@@ -105,7 +105,7 @@ export function ThemeToggle({
             )}
           >
             <Sun size={20} />
-            <span>Avail Light</span>
+            <span>AVAIL Light</span>
           </button>
           <button
             type="button"
@@ -126,7 +126,7 @@ export function ThemeToggle({
             )}
           >
             <Moon size={20} />
-            <span>Avail Dark</span>
+            <span>AVAIL Dark</span>
           </button>
           <button
             type="button"

@@ -1,13 +1,13 @@
 ---
-title: "How to Run an Avail node"
+title: "How to Run an AVAIL node"
 image: '/img/docs-link-preview.png'
-description: "Run an Avail full node using a pre-built binary, from source, with Docker, or via an infrastructure provider."
+description: "Run an AVAIL full node using a pre-built binary, from source, with Docker, or via an infrastructure provider."
 ---
 
 
-## How to run an Avail node 
+## How to run an AVAIL node 
 
-There are four main ways of running an Avail node:
+There are four main ways of running an AVAIL node:
 
 1. By running a pre-built binary.
 2. By building from source
@@ -17,7 +17,7 @@ There are four main ways of running an Avail node:
 <Callout type="info">
 **LOOKING TO BE AN RPC PROVIDER?**<br/>
 
-We welcome all community members who are looking to run an RPC node on Avail.
+We welcome all community members who are looking to run an RPC node on AVAIL.
 While the exact config of your node will depend on your unique requirements, the following flags are
 required to make sure your node can be used to access all RPC methods:
 
@@ -88,8 +88,8 @@ required to make sure your node can be used to access all RPC methods:
   <TabsContent value="run-a-pre-built-binary">
 
 
-1. Go to the [Avail node GitHub releases page](https://github.com/availproject/avail/releases/).
-There you will see a lot of pre-built binaries for each version of the Avail node.
+1. Go to the [AVAIL node GitHub releases page](https://github.com/availproject/avail/releases/).
+There you will see a lot of pre-built binaries for each version of the AVAIL node.
 
 2. Please download the binary suitable from your system, of the `latest` version.
 You can do this using the GUI or by running the following command in your terminal:
@@ -106,7 +106,7 @@ tar -xzvf <YOUR-SYSTEM-SPECIFIC-BINARY>.tar.gz
 > Your terminal should now look something like this:
 <br/>
 <p align="center">
-<img src="/img/node-binary-demo.png" alt="Extracted Avail node binary" width="95%"/>
+<img src="/img/node-binary-demo.png" alt="Extracted AVAIL node binary" width="95%"/>
 </p>
 
 - The file in red is what we downloaded to our system.
@@ -221,13 +221,13 @@ However, the 'sudo' command gives the terminal root access, so be careful
 when using it.
 </Callout>
 
-4. Clone the Avail node repo and move your terminal into it:
+4. Clone the AVAIL node repo and move your terminal into it:
 
 ```bash
 git clone https://github.com/availproject/avail.git && cd avail
 ```
 
-5. Build the Avail node by executing this command:
+5. Build the AVAIL node by executing this command:
 
 ```bash
 cargo build --release
@@ -238,7 +238,7 @@ On a system with a Quad-core processor & 8GBs of RAM, the build process typicall
 around 35-40 minutes.
 </Callout>
 
-6. Once your Avail node is compiled locally, you can run it using:
+6. Once your AVAIL node is compiled locally, you can run it using:
 
 ```bash
 cargo run --release -- --name a-random-name --chain mainnet -d ./output
@@ -324,7 +324,7 @@ Check out [these post-installation instructions in Docker's docs](https://docs.d
 
 </Callout>
 
-To download and run an Avail node using Docker:
+To download and run an AVAIL node using Docker:
 
 1. Simply run the following command in your terminal:
 
@@ -337,7 +337,7 @@ docker run --restart=on-failure -d -v /root/avail/node-data:/da/node-data -p 994
 
 2. To configure Docker specific flags you can refer to Docker's documentation,
 and you can check out the Additional configs section in this page to get more information
-on how to configure the Avail node.
+on how to configure the AVAIL node.
 
 3. To a persistent output from the container, you can run:
 
@@ -400,20 +400,20 @@ docker logs -f <container_id>
   <TabsContent value="assisted-deployment">
 
 
-[OnFinality](https://onfinality.io) is a blockchain native infrastructure provider supporting the Avail ecosystem with private Archive, Full, and Validator nodes. Your Avail node will be fully synced and ready to use within minutes.
+[OnFinality](https://onfinality.io) is a blockchain native infrastructure provider supporting the AVAIL ecosystem with private Archive, Full, and Validator nodes. Your AVAIL node will be fully synced and ready to use within minutes.
 
 <Callout type="info">
 To run a node with OnFinality, first [Sign Up](https://app.onfinality.io/signup) for an OnFinality account. 
 
-In this guide we will show you how to run a self-service Avail node. For a fully managed setup please contact support@onfinality.io
+In this guide we will show you how to run a self-service AVAIL node. For a fully managed setup please contact support@onfinality.io
 </Callout>
 
 1. Open the [OnFinality Portal](https://app.onfinality.io) and navigate to the "Dedicated Nodes" menu
 
-2. Select "Avail" > "Deploy Node"
+2. Select "AVAIL" > "Deploy Node"
 
 <p align="center">
-<img src="/img/node-onfinality/onfinality-avail-1.png" alt="Deploy Avail Node with OnFinality - Select Avail" width="95%"/>
+<img src="/img/node-onfinality/onfinality-avail-1.png" alt="Deploy AVAIL Node with OnFinality - Select AVAIL" width="95%"/>
 </p>
 
 3. Enter your node's configuration, including:
@@ -425,16 +425,16 @@ In this guide we will show you how to run a self-service Avail node. For a fully
 - **Configuration:** The Compute size and storage of your node. If in doubt, start with the recommended configuration and scale as necessary.
 
 <p align="center">
-<img src="/img/node-onfinality/onfinality-avail-2.png" alt="Deploy Avail Node with OnFinality - Select Configuration" width="95%"/>
+<img src="/img/node-onfinality/onfinality-avail-2.png" alt="Deploy AVAIL Node with OnFinality - Select Configuration" width="95%"/>
 </p>
 
 Press "Next".
 
-4. Review your node's Launch Arguments. See the complete commands and arguments supported by Avail at the bottom of this page.
+4. Review your node's Launch Arguments. See the complete commands and arguments supported by AVAIL at the bottom of this page.
 
 
 <p align="center">
-<img src="/img/node-onfinality/onfinality-avail-3.png" alt="Deploy Avail Node with OnFinality - Review Launch Arguments" width="95%"/>
+<img src="/img/node-onfinality/onfinality-avail-3.png" alt="Deploy AVAIL Node with OnFinality - Review Launch Arguments" width="95%"/>
 </p>
 
 Press "Next".
@@ -443,21 +443,21 @@ Press "Next".
 
 
 <p align="center">
-<img src="/img/node-onfinality/onfinality-avail-4.png" alt="Deploy Avail Node with OnFinality - Review Deployment" width="95%"/>
+<img src="/img/node-onfinality/onfinality-avail-4.png" alt="Deploy AVAIL Node with OnFinality - Review Deployment" width="95%"/>
 </p>
 
 6. Your node will initialize and be ready within several minutes. Confirm that the Syncing Status is "Synced" and the CPU is within a healthy range.
 
 <p align="center">
-<img src="/img/node-onfinality/onfinality-avail-5.png" alt="Deploy Avail Node with OnFinality - Get API Endpoints" width="95%"/>
+<img src="/img/node-onfinality/onfinality-avail-5.png" alt="Deploy AVAIL Node with OnFinality - Get API Endpoints" width="95%"/>
 </p>
 
-Congratulations, your Avail node is now ready to use! 
+Congratulations, your AVAIL node is now ready to use! 
 
 Copy the API Endpoints and fire away
 
 <Callout type="info">
-The team at OnFinality will update your node for you as new Avail image versions are released.
+The team at OnFinality will update your node for you as new AVAIL image versions are released.
 
 For more information, visit OnFinality's guide to [Maintaining and Upgrading your Dedicated Node](https://documentation.onfinality.io/support/maintain-and-upgrade-your-dedicated-node)
 </Callout>
@@ -466,13 +466,13 @@ For more information, visit OnFinality's guide to [Maintaining and Upgrading you
   </TabsContent>
 </Tabs>
 
-Your node will also appear on the [Avail Telemetry site](https://telemetry.avail.so/), listed under the "Node name" from the node command output.
+Your node will also appear on the [AVAIL Telemetry site](https://telemetry.avail.so/), listed under the "Node name" from the node command output.
 Be sure to select the appropriate network tab at the top to view your node's status.
 
 
 ## Additional configs
 
-The Avail node is a highly customizable piece of software. You can fetch a list of supported commands and flags
+The AVAIL node is a highly customizable piece of software. You can fetch a list of supported commands and flags
 using:
 
 ```bash

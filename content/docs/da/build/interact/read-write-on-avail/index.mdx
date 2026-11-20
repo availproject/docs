@@ -1,6 +1,6 @@
 ---
 title: "Read & Write Data"
-description: "Submit data to Avail DA and read it back using the TypeScript, Rust, or Go SDK."
+description: "Submit data to AVAIL DA and read it back using the TypeScript, Rust, or Go SDK."
 image: '/img/docs-link-preview.png'
 ---
 
@@ -14,10 +14,10 @@ to be familiar with the concept.
 
 ## Setting up the dev environment
 
-In this guide we will use some dedicated libraries to interact with Avail DA.
+In this guide we will use some dedicated libraries to interact with AVAIL DA.
 To set up a dev environment for `avail-js`, please follow the steps [outlined here](/docs/da/api-reference/avail-node-api#setting-up-the-dev-environment).
 
-## Submitting data to Avail DA
+## Submitting data to AVAIL DA
 
 <Tabs defaultValue="avail-js">
   <TabsList>
@@ -34,7 +34,7 @@ To set up a dev environment for `avail-js`, please follow the steps [outlined he
 2. Paste the following code into the file:
 
 This piece of code submits:
-- A string named `data` to Avail DA
+- A string named `data` to AVAIL DA
 - to the `appID` of 89
 - We expect devs to submit data to their own specific `appID`s.
 
@@ -119,7 +119,7 @@ ts-node your-file-name.ts
 2. Paste the following code into the file:
 
 This piece of code submits:
-- A string named `data` to Avail DA
+- A string named `data` to AVAIL DA
 - to the `appID` of 1
 - We expect devs to submit data to their own specific `appID`s.
 
@@ -196,7 +196,7 @@ cargo run
 2. Paste the following code into the file:
 
 This piece of code submits:
-- A string to Avail DA
+- A string to AVAIL DA
 - to the `appID` of 89
 - We expect devs to submit data to their own specific `appID`s.
 
@@ -289,7 +289,7 @@ go run main.go
 </p>
 <Callout type="info">
 The `appID` should be an integer that represents a valid AppID on the network.
-To check out how to create an AppID on Avail, [refer to this page](/docs/da/build/interact/app-id).
+To check out how to create an AppID on AVAIL, [refer to this page](/docs/da/build/interact/app-id).
 </Callout>
 
 7. Click on `Sign and Submit` and approve the transaction in your wallet.
@@ -298,11 +298,11 @@ To check out how to create an AppID on Avail, [refer to this page](/docs/da/buil
   </TabsContent>
 </Tabs>
 
-## Fetch data submission transactions from Avail DA [#fetch-data-submissions]
+## Fetch data submission transactions from AVAIL DA [#fetch-data-submissions]
 
 ### Fetch data submissions using transaction hash and block hash [#da-transactions-by-hash]
 
-> You can read back your submitted data from Avail DA using the `blockHash` and `txHash` of the transaction.
+> You can read back your submitted data from AVAIL DA using the `blockHash` and `txHash` of the transaction.
 
 <Tabs defaultValue="avail-js">
   <TabsList>
@@ -504,7 +504,7 @@ go run main.go
 
 ### Fetch data submissions using AppID [#da-transactions-by-app-id]
 
-> You can read back your submitted data from Avail DA using the `AppID`.
+> You can read back your submitted data from AVAIL DA using the `AppID`.
 
 <Tabs defaultValue="avail-js">
   <TabsList>
@@ -887,7 +887,7 @@ go run main.go
   </TabsContent>
 </Tabs>
 
-## Fetch all types of transactions on Avail DA [#fetch-all-transactions]
+## Fetch all types of transactions on AVAIL DA [#fetch-all-transactions]
 
 ### Fetch all transactions by a particular signer in a block [#fetch-transactions-by-signer]
 
@@ -1290,7 +1290,7 @@ go run main.go
 
 ## Estimate fees for your data submission [#estimate-fees]
 
-The `avail-js` SDK provides a method to estimate the cost of submitting a particular piece of data to Avail DA.
+The `avail-js` SDK provides a method to estimate the cost of submitting a particular piece of data to AVAIL DA.
 Here is how you can use it:
 
 <Tabs defaultValue="avail-js">

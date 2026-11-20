@@ -63,7 +63,7 @@ const daCategories = [
     icon: <GetStartedIcon />,
     title: "Get started",
     description:
-      "Overview of Avail DA's architecture with quick links to guides, APIs, and tutorials.",
+      "Overview of AVAIL DA's architecture with quick links to guides, APIs, and tutorials.",
   },
   {
     href: "/docs/da/concepts",
@@ -84,7 +84,7 @@ const daCategories = [
     icon: <OperateIcon />,
     title: "Operate",
     description:
-      "Run light clients, full nodes, or become a validator on the Avail network.",
+      "Run light clients, full nodes, or become a validator on the AVAIL network.",
   },
   {
     href: "/docs/da/user-guides",
@@ -120,7 +120,7 @@ export function ProductGrid() {
             className="text-center text-xl text-brand md:text-[28px]"
             style={{ fontFamily: "Delight, sans-serif", fontWeight: 500 }}
           >
-            Avail Nexus
+            AVAIL Nexus
           </h2>
           <div className="flex flex-col">
             {nexusCategories.map((cat) => (
@@ -147,7 +147,7 @@ export function ProductGrid() {
             className="text-center text-xl text-brand md:text-[28px]"
             style={{ fontFamily: "Delight, sans-serif", fontWeight: 500 }}
           >
-            Avail DA
+            AVAIL DA
           </h2>
           <div className="flex flex-col">
             {daCategories.map((cat) => (

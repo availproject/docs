@@ -2,7 +2,7 @@
 image: "/img/docs-link-preview.png"
 id: faqs
 title: FAQs
-description: 'FAQs on Avail and the Avail ecosystem.'
+description: 'FAQs on AVAIL and the AVAIL ecosystem.'
 keywords:
   - docs
   - avail
@@ -11,27 +11,27 @@ keywords:
   - question
 ---
 
-## What problem does Avail solve?
+## What problem does AVAIL solve?
 
-Avail is solving fundamental scaling and user experience problems. 
+AVAIL is solving fundamental scaling and user experience problems. 
 Cross-ecosystem transactions are cumbersome and difficult, driving more fragmentation throughout an already fragmented ecosystem and this makes it hard for app developers to onboard new users and liquidity. 
 
 
-Avail addresses these issues from first principles, solving scalability with the first DA layer to anchor modular blockchains using cutting-edge 
+AVAIL addresses these issues from first principles, solving scalability with the first DA layer to anchor modular blockchains using cutting-edge 
 zero knowledge technology to ensure responsive and reliable data availability.
-Avail Nexus is a general purpose interoperability protocol, that will leverage Avail DA as the root of trust.
-App developers can use Avail Nexus to quickly onboard users and liquidity into their new apps. Blockchain developers can use Avail DA to build hyper-scalable and cost efficient blockchain solutions.
+AVAIL Nexus is a general purpose interoperability protocol, that will leverage AVAIL DA as the root of trust.
+App developers can use AVAIL Nexus to quickly onboard users and liquidity into their new apps. Blockchain developers can use AVAIL DA to build hyper-scalable and cost efficient blockchain solutions.
 
 
 
 ## How can I get involved?
 
-- [Use Avail DA](https://docs.availproject.org/) for your chain
+- [Use AVAIL DA](https://docs.availproject.org/) for your chain
 - Run a [Validator](https://docs.availproject.org/da/operate-a-node/become-a-validator)
 - Run a [light client](https://docs.availproject.org/da/operate-a-node/run-a-light-client)
 - Join [Discord](https://discord.gg/AvailProject)
 - Follow us on [X](https://x.com/AvailProject)
-- Join the [Avail Uncharted](https://github.com/availproject/avail-uncharted) Technical Contributor's program
+- Join the [AVAIL Uncharted](https://github.com/availproject/avail-uncharted) Technical Contributor's program
 
 ## How do I get in touch if I have questions?
 
@@ -43,11 +43,11 @@ We have a bug bounty program where you can report the vulnerability. Please chec
 
 ## What is a popular use case of a light client?
 
-There are many use-cases which today rely on an intermediary to maintain a full node, such that end users of a blockchain do not communicate directly with the blockchain but instead through the intermediary. Light clients have until now not been a suitable replacement for this architecture because they lacked data availability guarantees. Avail solves this issue, thus enabling more applications to directly participate on the blockchain network without intermediaries. Although Avail does support full nodes, we expect most applications will not need to run one, or will need to run fewer.
+There are many use-cases which today rely on an intermediary to maintain a full node, such that end users of a blockchain do not communicate directly with the blockchain but instead through the intermediary. Light clients have until now not been a suitable replacement for this architecture because they lacked data availability guarantees. AVAIL solves this issue, thus enabling more applications to directly participate on the blockchain network without intermediaries. Although AVAIL does support full nodes, we expect most applications will not need to run one, or will need to run fewer.
 
 ## What is data availability sampling (DAS)?
 
-Avail DA light clients, like other light clients, only download the headers of the blockchain. However, they additionally perform data availability sampling: a technique that randomly samples small sections of the block data and verifies they are correct. When combined with erasure coding and KZG polynomial commitments, light clients are able to provide strong (nearly 100%) guarantees of availability without relying on fraud proofs, and with only a small constant number of queries.
+AVAIL DA light clients, like other light clients, only download the headers of the blockchain. However, they additionally perform data availability sampling: a technique that randomly samples small sections of the block data and verifies they are correct. When combined with erasure coding and KZG polynomial commitments, light clients are able to provide strong (nearly 100%) guarantees of availability without relying on fraud proofs, and with only a small constant number of queries.
 
 ## How is erasure coding used to increase data availability guarantees?
 
@@ -65,16 +65,16 @@ In our construction, we use KZG commitments for the following reasons:
 
 In the future, we might use other polynomial commitment schemes, if that gives us better bounds or guarantees.
 
-## Since Avail is used by multiple applications, does that mean chains have to download transactions from other chains?
+## Since AVAIL is used by multiple applications, does that mean chains have to download transactions from other chains?
 
-No. Avail headers contain an index that allows a given application to determine and download only the sections of a block that have data for that application. Thus, they are largely unaffected by other chains using Avail at the same time or by block sizes.
+No. AVAIL headers contain an index that allows a given application to determine and download only the sections of a block that have data for that application. Thus, they are largely unaffected by other chains using AVAIL at the same time or by block sizes.
 
 The only exception is data availability sampling. In order to verify that data is available (and due to the nature of erasure coding), clients sample small parts of the block at random, including possibly sections that contain data for other applications.
 
-## Who is behind Avail?
+## Who is behind AVAIL?
 
-Avail is led by former Polygon co-founder [Anurag Arjun](https://x.com/anuragarjun) and former Polygon research lead [Prabal Banerjee](https://x.com/prabalbanerjee). <br/>
-The [Avail team](https://availproject.org/aboutus) consists of more than 40 professionals with solid experience in their areas of expertise ranging from marketing to blockchain design and programming. 
+AVAIL is led by former Polygon co-founder [Anurag Arjun](https://x.com/anuragarjun) and former Polygon research lead [Prabal Banerjee](https://x.com/prabalbanerjee). <br/>
+The [AVAIL team](https://availproject.org/aboutus) consists of more than 40 professionals with solid experience in their areas of expertise ranging from marketing to blockchain design and programming. 
 Many have proven track records in the Web3 space and a diverse background that forms the foundation of a solid team.
 
 

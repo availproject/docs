@@ -9,7 +9,7 @@ const REFERENCE_DATA = {
   _meta: {
     lastUpdated: "2026-09-16",
     version: "2.0.0",
-    description: "Structured reference data for Avail DA and Nexus",
+    description: "Structured reference data for AVAIL DA and Nexus",
   },
   da: {
     networks: {

@@ -4,13 +4,13 @@ description: "How AVAIL token fees are calculated based on compute, storage, and
 image: '/img/docs-link-preview.png'
 ---
 
-Every extrinsic (transaction) executed on Avail costs a certain amount of `AVAIL` tokens. These fees vary for different
+Every extrinsic (transaction) executed on AVAIL costs a certain amount of `AVAIL` tokens. These fees vary for different
 extrinsics and are determined primarily by two considerations:
 
 1. The amount of processing power required to include the transaction in the chain.
 2. The amount of storage required to store the transaction on-chain.
 
-Avail's pricing formula is designed to keep transacting on-chain feasible while also making it expensive to spam the network.
+AVAIL's pricing formula is designed to keep transacting on-chain feasible while also making it expensive to spam the network.
 
 ## Terms you need to know
 
@@ -52,22 +52,22 @@ Final fee = Base fee + Length fee + Weight fee  + Tip(optional)
 
 #### `submitDataFeeModifier`
 
-Posting new data to the chain is a core component of the Avail network. To ensure the fees for doing so remain
+Posting new data to the chain is a core component of the AVAIL network. To ensure the fees for doing so remain
 viable, the `submitDataFeeModifier` can be adjusted when needed after going through
-[Avail's governance process](/docs/da/user-guides/staking-governance/governance-on-avail).
+[AVAIL's governance process](/docs/da/user-guides/staking-governance/governance-on-avail).
 
 This multiplier is used to adjust the `Weight fee` component of the final fee for all `dataAvailability_submitData` transactions.
 
 <Callout type="info">
 To query the current value of the `submitDataFeeModifier`:
 
-1. Go to the [chainstate page of the Avail explorer](https://explorer.availproject.org/#/chainstate).
+1. Go to the [chainstate page of the AVAIL explorer](https://explorer.availproject.org/#/chainstate).
 2. Query the `dataAvailability_submitDataFeeModifier` method.
 </Callout>
 
 #### Significance of the data input
 
-For most extrinsics on Avail, the raw size of the input parameters doesn't matter much. DA transactions are different — the size of the data being posted has a direct impact on both fee components:
+For most extrinsics on AVAIL, the raw size of the input parameters doesn't matter much. DA transactions are different — the size of the data being posted has a direct impact on both fee components:
 
 The **Length fee** scales with the encoded size of the data, since larger submissions consume more block space. The **Weight fee** also increases because generating KZG commitments for the data requires more computation as the data grows.
 
@@ -90,6 +90,6 @@ The exact fee depends on the current `submitDataFeeModifier` and congestion mult
 **Related concepts**
 
 - Learn about [App IDs](/docs/da/concepts/app-ids), which are used to organize data submissions on the network.
-- Understand [how Avail DA works](/docs/da/concepts/how-avail-da-works) — including KZG commitments that drive the Weight fee.
+- Understand [how AVAIL DA works](/docs/da/concepts/how-avail-da-works) — including KZG commitments that drive the Weight fee.
 - See [Networks & Endpoints](/docs/da/networks) for network details and contract addresses.
 </Callout>

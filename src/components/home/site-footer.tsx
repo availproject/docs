@@ -105,7 +105,7 @@ export function SiteFooter() {
           </div>
         </div>
         <p className="ui-14 text-muted-foreground mt-8">
-          Copyright &copy; Avail Project. All rights reserved.
+          Copyright &copy; AVAIL Project. All rights reserved.
         </p>
       </div>
       <div className="mx-auto max-w-[928px] px-6 md:px-12">

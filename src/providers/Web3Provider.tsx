@@ -99,7 +99,7 @@ const sophonWithIcon: ConnectKitChain = {
 const WALLET_CONNECT_ID = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID!;
 
 const defaultConfig = getDefaultConfig({
-  appName: "Avail Docs",
+  appName: "AVAIL Docs",
   appDescription: "docs",
   appIcon: "https://widgets.availproject.org/avail-fav.svg",
   walletConnectProjectId: WALLET_CONNECT_ID,

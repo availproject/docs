@@ -165,7 +165,7 @@ export default async function Page(props: {
     isPartOf: {
       "@type": "WebSite",
       "@id": `${baseUrl}/#website`,
-      name: "Avail Documentation",
+      name: "AVAIL Documentation",
       url: baseUrl,
     },
     publisher: organizationLd,

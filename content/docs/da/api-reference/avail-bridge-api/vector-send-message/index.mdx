@@ -1,17 +1,17 @@
 ---
 title: "Bridge a message from origin to destination chain"
-description: "Send arbitrary messages between Avail and Ethereum using the vector_sendMessage extrinsic."
+description: "Send arbitrary messages between AVAIL and Ethereum using the vector_sendMessage extrinsic."
 ---
 
 
-- On-chain name of extrinsic: `vector_sendMessage` to send a message from Avail to Ethereum.
-- On-chain name of extrinsic: `vector_execute` to execute a message receieved from Ethereum on Avail.
+- On-chain name of extrinsic: `vector_sendMessage` to send a message from AVAIL to Ethereum.
+- On-chain name of extrinsic: `vector_execute` to execute a message receieved from Ethereum on AVAIL.
 
 <Callout type="warning">
 `vector_sendMessage` must be submitted directly. Wrapped bridge sends, including proxy, multisig, scheduler, and batch calls, are rejected and will fail validation.
 </Callout>
 
-## Send an arbitrary message from Avail DA to Ethereum
+## Send an arbitrary message from AVAIL DA to Ethereum
 
 
 <Tabs defaultValue="avail-rust">
@@ -36,7 +36,7 @@ let da_call = avail::tx()
 
 ## Full Example
 
-### Sending arbitrary message from Avail to Ethereum.
+### Sending arbitrary message from AVAIL to Ethereum.
 
 Initialize the `avail-rust` SDK.
 
@@ -105,7 +105,7 @@ After we have all this ready, we just need to define our message and send it usi
 
 ```
 
-Finally we wait for the transaction to be included in Avail's block and do some transaction handling.
+Finally we wait for the transaction to be included in AVAIL's block and do some transaction handling.
  ```rust
 
     let transaction = sdk
@@ -349,7 +349,7 @@ cargo run
 
 
 
-## Send an arbitrary message from Ethereum to Avail DA
+## Send an arbitrary message from Ethereum to AVAIL DA
 
 <Tabs defaultValue="avail-rust">
   <TabsList>
@@ -358,7 +358,7 @@ cargo run
   <TabsContent value="avail-rust">
 
 
-Let us look at how a message sent from Ethereum is being executed on Avail using the `vector` pallet.
+Let us look at how a message sent from Ethereum is being executed on AVAIL using the `vector` pallet.
 ```rust
 let da_call = avail::tx().vector().execute(
         avail_stored_slot,
@@ -371,7 +371,7 @@ let da_call = avail::tx().vector().execute(
 
 ## Full  Example
 
-### Sending arbitrary message from Ethereum to Avail
+### Sending arbitrary message from Ethereum to AVAIL
 
 Let us initialize some of out essentials such as `signer`, `provider`, `contract`, etc. This will allow us to interact with Ethereum easily. 
 
@@ -428,7 +428,7 @@ async fn main() -> Result<()> {
 
 ```
 
-2. Now we send a message using `contract.sendMessage` from Ethereum to Avail. 
+2. Now we send a message using `contract.sendMessage` from Ethereum to AVAIL. 
 ```rust
 let call = contract.sendMessage(recipient.into(), config.clone().message_data.into());
     let pending_tx = call.from(sender.0.into());
@@ -463,7 +463,7 @@ let call = contract.sendMessage(recipient.into(), config.clone().message_data.in
 
 
 ```
-### Retrieving and Executing the message sent to Avail
+### Retrieving and Executing the message sent to AVAIL
 1. Using the Bridge API we check if the Ethereum block in which we sent the message is in range for the bridge. If it is, then we get the account and storage proofs.
 
 ```rust
@@ -525,8 +525,8 @@ let call = contract.sendMessage(recipient.into(), config.clone().message_data.in
 
 ```
 
-2. We then call in Avail to call the `execute` method in the `vector` pallet, which is for executing a bridged message from Ethereum. We are submitting proof against the roots stored in the pallet storage. The pallet then executes the message we are giving proof for. 
-We only get the encoded tx, that we then have to sign and send, and wait for the transaction to included and executed on Avail.
+2. We then call in AVAIL to call the `execute` method in the `vector` pallet, which is for executing a bridged message from Ethereum. We are submitting proof against the roots stored in the pallet storage. The pallet then executes the message we are giving proof for. 
+We only get the encoded tx, that we then have to sign and send, and wait for the transaction to included and executed on AVAIL.
 ```rust 
 let da_call = avail::tx().vector().execute(
         avail_stored_slot,

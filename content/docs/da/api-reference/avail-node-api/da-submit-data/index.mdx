@@ -1,7 +1,7 @@
 ---
-title: "Submit new data to Avail DA"
+title: "Submit new data to AVAIL DA"
 image: '/img/docs-link-preview.png'
-description: "Submit application data to the Avail network using the dataAvailability_submitData extrinsic."
+description: "Submit application data to the AVAIL network using the dataAvailability_submitData extrinsic."
 ---
 
 On-chain name of extrinsic: `dataAvailability_submitData`
@@ -38,7 +38,7 @@ On-chain name of extrinsic: `dataAvailability_submitData`
 
 | parameter        | type          | optional | description                                            |
 | ---------------- | ------------- | -------- | ------------------------------------------------------ |
-| api              | API           | false    | api for avail chain                                    |
+| api              | API           | false    | api for AVAIL chain                                    |
 | WaitForInclusion | WaitFor       | false    | wait for block inclusion or finalization               |
 | Seed             | Mnemonic      | false    | seed of the account that needs to sign the transaction |
 | data             | SignerOptions | true     | data to be submitted                                   |
@@ -64,11 +64,11 @@ The rest of the code should work as is.
 
 <Callout type="info">
 **PLEASE NOTE**<br/>
-1. You can submit data to Avail DA using a specific `app_id` that you created. If you don't know how,
+1. You can submit data to AVAIL DA using a specific `app_id` that you created. If you don't know how,
 read more [in our docs here](/docs/da/api-reference/avail-node-api/da-create-application-key).<br/>
 
 2. You can submit data to **ANY** `app_id`, even if you didn't create it. This however does not contitute an
-attack vector since the rollups building on top of Avail DA can always filter out DA submissions.
+attack vector since the rollups building on top of AVAIL DA can always filter out DA submissions.
 </Callout>
 
 <Tabs defaultValue="avail-js">
@@ -299,4 +299,4 @@ and try again.
 </Tabs>
 
 > This will lead to your data being submitted through a specific `app_id`, which you can verify by looking
-> up your transaction on the [Avail explorer](https://explorer.availproject.org/#/explorer).
+> up your transaction on the [AVAIL explorer](https://explorer.availproject.org/#/explorer).

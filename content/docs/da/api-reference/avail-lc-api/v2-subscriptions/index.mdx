@@ -4,7 +4,7 @@ image: '/img/docs-link-preview.png'
 description: "Subscribe to real-time block and data availability events using the light client WebSocket API."
 ---
 
-The Avail light client WebSocket API allows real-time communication between a client and a server over a 
+The AVAIL light client WebSocket API allows real-time communication between a client and a server over a 
 persistent connection. The Web socket API can be used on its own or in combination with HTTP API to enable different pull/push use cases.
 <br/>
 <details className="border p-3 rounded-md bg-[#EFF6FF]">
@@ -27,15 +27,15 @@ npm install -g wscat
 ```
 </Callout>
 
-## Get started with the Websocket Avail LC API
+## Get started with the Websocket AVAIL LC API
 
-1. The Avail LC Websocket API generates a unique `subscription_id` upon request. 
+1. The AVAIL LC Websocket API generates a unique `subscription_id` upon request. 
 2. This ID is used to connect to the websocket server.
 3. The `v2/subscriptions` method creates subscriptions for given topics. In case of reconnects, the user needs to subscribe again.
 
 ### Generate a subscription ID
 
-1. The very first step in using the Avail LC Websocket API is to generate a subscription ID.
+1. The very first step in using the AVAIL LC Websocket API is to generate a subscription ID.
 2. You can do that using a simple `Curl` request to the `v2/subscriptions` endpoint.
 
 
@@ -130,9 +130,9 @@ async fn main() {
 
 ### Initialize the Websocket connection
 
-You can use this method to actually connect to Avail light client web socket. Multiple connections are currently allowed.
+You can use this method to actually connect to AVAIL light client web socket. Multiple connections are currently allowed.
 
-To connect to the Avail LC websocket API, you need:
+To connect to the AVAIL LC websocket API, you need:
 
 1. Access to a [running Light Client](/docs/da/operate/run-a-light-client/light-client#running-the-light-client).
 2. A subscription ID generated using the [`v2/subscriptions`](#v2subscriptions) method.
@@ -184,4 +184,4 @@ or you can use a unique UUID4 value for each request you send. The choice is you
 Using a single UUID4 value is simple, but using a unique UUID4 value for each request can help you 
 correlate each response with a unique request.
 
-The Avail LC API was designed with dev experience in mind, and this way you can choose the way that suits you best.
+The AVAIL LC API was designed with dev experience in mind, and this way you can choose the way that suits you best.

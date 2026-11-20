@@ -1,20 +1,20 @@
 ---
 title: "Multisigs"
-description: "Set up and manage multisig wallets on Avail DA through the AvailApps explorer."
+description: "Set up and manage multisig wallets on AVAIL DA through the AvailApps explorer."
 image: '/img/docs-link-preview.png'
 ---
 
-You can use the [avail-apps](https://explorer.availproject.org/#/accounts) explorer to set up and start using a multisig wallet on Avail DA.
+You can use the [avail-apps](https://explorer.availproject.org/#/accounts) explorer to set up and start using a multisig wallet on AVAIL DA.
 This guide will show you how to do so.
 
 <Callout type="info">  
 **PREREQUISITES** <br/>
-The only prerequisite is that you have access to one or more Avail DA accounts.
-Refer to our docs on [setting up an Avail wallet](/docs/da/user-guides/accounts) for more details if needed
+The only prerequisite is that you have access to one or more AVAIL DA accounts.
+Refer to our docs on [setting up an AVAIL wallet](/docs/da/user-guides/accounts) for more details if needed
 </Callout>
 
 
-## Create a multisig wallet on Avail DA
+## Create a multisig wallet on AVAIL DA
 
 <Steps>
 
@@ -37,7 +37,7 @@ There are two ways to do this:
   </TabsContent>
   <TabsContent value="import-a-json-file">
 
-1. Create a json file with all the Avail DA addresses you want to import.
+1. Create a json file with all the AVAIL DA addresses you want to import.
 The syntax is as follows:
 
 ```json
@@ -68,7 +68,7 @@ that will allow you to configure your multisig wallet.
 <Callout type="info">
 DOUBLE CHECK<br/>
 Please note that a multisig account created on one network won't be created automatically on another. This
-tutorial is based on he Turing testnet, but will work just as well for Avail DA mainnet too.
+tutorial is based on he Turing testnet, but will work just as well for AVAIL DA mainnet too.
 </Callout>
 
 ### Configure the multisig
@@ -91,7 +91,7 @@ a transaction from the multisig.
 **BUT WHAT OF OTHER SIGNATORIES?**<br/>
 An obvious question that pops up is how will other signatories import the multisig wallet into the avail-apps
 explorer on their own machine?<br/>
-Due to the way the `multisig` pallet works on Avail DA, a multisig derived from the same set of addresses and the same `threshold` value
+Due to the way the `multisig` pallet works on AVAIL DA, a multisig derived from the same set of addresses and the same `threshold` value
 will always have the same address.
 Thus, all signatories can simply create a multisig on their machine with addresses of all the other signatories along with a constant `threshold value` to derive the same '*multisig address*'.
 Alternatively, a single json file with all signatories can be created and shared among all signatories.
@@ -106,7 +106,7 @@ the multisig's address before proceeding.
 Do not use multisig calls for Avail-to-Ethereum bridge sends. Bridge sends must be submitted directly with `vector_sendMessage`; wrapped bridge sends are rejected.
 </Callout>
 
-## Use a multisig wallet on Avail DA
+## Use a multisig wallet on AVAIL DA
 
 <Steps>
 
@@ -163,7 +163,7 @@ the transaction.
 2. Thus, an approval by just one more authorised signatory will execute the transaction that will
 transfer <br/>`10 AVAIL` to the recipient.
 
-But what if you simply want to approve the transaction without executing it? Avail DA's multisig implementation
+But what if you simply want to approve the transaction without executing it? AVAIL DA's multisig implementation
 allows for this functionality too.
 Let us say you are the final signatory whose approval will mean the transaction has enough approvals
 to be executed.<br/>
@@ -224,7 +224,7 @@ Needless to say, you will, as a signatory, be able to execute the transaction on
 
 </Steps>
 {/* 
-## 2nd way to use a multisig wallet on Avail DA (for advanced users)
+## 2nd way to use a multisig wallet on AVAIL DA (for advanced users)
 
 Let us go through the same process as before, i.e., executing a transaction from our multisig wallet
 to transfer funds, but using the `extrinsics` tab instead. */}

@@ -105,10 +105,10 @@ export function AccountMenu({ theme, setTheme }: AccountMenuProps) {
                   )}
                   <span>
                     {theme === "dark"
-                      ? "Avail Light"
+                      ? "AVAIL Light"
                       : theme === "system"
-                        ? "Avail Light"
-                        : "Avail Dark"}
+                        ? "AVAIL Light"
+                        : "AVAIL Dark"}
                   </span>
                 </button>
                 {/* Disconnect */}
