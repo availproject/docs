@@ -4,7 +4,7 @@ import { SITE_URL } from "@/lib/structured-data";
 export const metadata = {
   title: "Contact",
   description:
-    "How to reach the Avail team — developer support on Discord, documentation issues on GitHub, security disclosures, and business enquiries.",
+    "How to reach the AVAIL team — developer support on Discord, documentation issues on GitHub, security disclosures, and business enquiries.",
   alternates: { canonical: `${SITE_URL}/contact` },
 };
 
@@ -12,15 +12,15 @@ export default function ContactPage() {
   return (
     <InfoPage
       title="Contact"
-      lede="How to reach the Avail team, depending on what you need."
+      lede="How to reach the AVAIL team, depending on what you need."
     >
       <InfoSection heading="Developer support">
         <p>
           For build questions, integration help, and anything about running
           nodes, the fastest route is the community. Ask in the{" "}
-          <a href="https://discord.com/invite/AvailProject">Avail Discord</a>,
+          <a href="https://discord.com/invite/AvailProject">AVAIL Discord</a>,
           where the engineering team is active, or in the{" "}
-          <a href="https://t.me/AvailCommunity">Avail Telegram community</a>.
+          <a href="https://t.me/AvailCommunity">AVAIL Telegram community</a>.
         </p>
       </InfoSection>
 
@@ -33,7 +33,7 @@ export default function ContactPage() {
           </a>
           . For other projects, open an issue in the{" "}
           <a href="https://github.com/availproject">
-            Avail GitHub organisation
+            AVAIL GitHub organisation
           </a>{" "}
           against the relevant repository.
         </p>
@@ -66,7 +66,7 @@ export default function ContactPage() {
           Announcements and updates are posted on{" "}
           <a href="https://x.com/AvailProject">X</a>. General information about
           the project, including the team and open roles, lives on the{" "}
-          <a href="https://www.availproject.org">main Avail website</a>.
+          <a href="https://www.availproject.org">main AVAIL website</a>.
         </p>
       </InfoSection>
     </InfoPage>

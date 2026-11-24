@@ -1,9 +1,9 @@
 ---
 image: "/img/docs-link-preview.png"
 id: light-client
-title: How to Run an Avail light client
+title: How to Run an AVAIL light client
 sidebarTitle: Run a Light Client
-description: 'Learn how to run an Avail light client.'
+description: 'Learn how to run an AVAIL light client.'
 keywords:
   - docs
   - avail
@@ -28,13 +28,13 @@ You can find the latest release binary in the [`avail-light`](https://github.com
 
 <Callout type="info">
 **RECOMMENDED VERSION** <br/>
-You can find the latest release of the Avail LC from [our Github repo](https://github.com/availproject/avail-light).
+You can find the latest release of the AVAIL LC from [our Github repo](https://github.com/availproject/avail-light).
 We recommend devs to use the `Latest` release.
 </Callout>
 
 ## Light client modes
 
-The Avail light client has two main modes of operation:
+The AVAIL light client has two main modes of operation:
 
 1. **Light-client mode**: The basic mode of operation and is always active no matter the mode selected. 
 If an `app_id` is not provided (or is = 0), this mode will commence. On each header received the client 
@@ -46,7 +46,7 @@ This data can then be accessed via a local HTTP endpoint.
 
 <Callout type="info">
 **WE RECOMMEND LEARNING ABOUT APP IDs on AVAIL DA**<br/>
-App IDs are an important concept in the context of Avail. We recommend you go through [this page in our docs](/docs/da/concepts/app-ids) to understand how they work before moving forward.
+App IDs are an important concept in the context of AVAIL. We recommend you go through [this page in our docs](/docs/da/concepts/app-ids) to understand how they work before moving forward.
 </Callout>
 
 ## Running the light client
@@ -68,19 +68,19 @@ Availup supports many different config flags to support your needs.
 Detailed documentation for them can be found [in our Github repo](https://github.com/availproject/availup?tab=readme-ov-file#availup).
 </Callout>
 
-**[`availup`](https://github.com/availproject/availup)** is the recommended way of running the Avail light client for most users.
-`availup` is a shell wrapper that allows you to spin up your own instance of the Avail light client 
+**[`availup`](https://github.com/availproject/availup)** is the recommended way of running the AVAIL light client for most users.
+`availup` is a shell wrapper that allows you to spin up your own instance of the AVAIL light client 
 with a simple `curl` command.
 
 <Callout type="info">
-To run the Avail LC using `availup`, make sure you have [`curl`](https://curl.se/) installed on your system. To check, quickly:
+To run the AVAIL LC using `availup`, make sure you have [`curl`](https://curl.se/) installed on your system. To check, quickly:
 
 ```sh
 curl --version
 ```
 </Callout>
 
-1. To spin up an Avail light client on the Turing testnet, just run this one command in your terminal:
+1. To spin up an AVAIL light client on the Turing testnet, just run this one command in your terminal:
 
 ```sh
 curl -sL1 avail.sh | bash
@@ -123,11 +123,11 @@ curl -sL1 avail.sh | bash
 
 <Callout type="info">
 **CONFIG FLAGS**<br/>
-You can run the Avail light client with different flags to configure it according to your needs.
+You can run the AVAIL light client with different flags to configure it according to your needs.
 Detailed documentation for them can be found [in our Github repo](https://github.com/availproject/avail-light/blob/main/client/README.md#options).
 </Callout>
 
-  You can also download and run a pre-built binary of the Avail light client.
+  You can also download and run a pre-built binary of the AVAIL light client.
   To do so:
 
   1. Download the [recommended version of the binary](https://github.com/availproject/avail-light/releases) that is compatible with your operating system.
@@ -218,15 +218,15 @@ You can configure the run command with a variety of [config flags](https://githu
 
 <Callout type="info">
 **CONFIG FLAGS**<br/>
-You can run the Avail light client with different flags to configure it according to your needs.
+You can run the AVAIL light client with different flags to configure it according to your needs.
 Detailed documentation for them can be found [in our Github repo](https://github.com/availproject/avail-light/blob/main/client/README.md#options).
 </Callout>
 
-   Building the Avail light client from source is a more advanced option that 
+   Building the AVAIL light client from source is a more advanced option that 
    provides you with the maximum flexibility.
    To do so:
 
-   1. Clone the Avail light-client repo and checkout to the specified version:
+   1. Clone the AVAIL light-client repo and checkout to the specified version:
    ```sh
    git clone https://github.com/availproject/avail-light.git
    cd avail-light
@@ -285,7 +285,7 @@ Detailed documentation for them can be found [in our Github repo](https://github
 without having to set up a separate virtual machine or a dual-boot system.
 
 However, we realise that working with WSL might be inconvenient for some users. We have therefore also included
-instructions on how to run the Avail light client natively on Windows without having to go through any technical hassles.
+instructions on how to run the AVAIL light client natively on Windows without having to go through any technical hassles.
 
 <Tabs defaultValue="without-wsl">
   <TabsList>
@@ -295,12 +295,12 @@ instructions on how to run the Avail light client natively on Windows without ha
   <TabsContent value="without-wsl">
 
 
-1. Go to the [releases page of the Avail light client repo](https://github.com/availproject/avail-light/releases), and download the
+1. Go to the [releases page of the AVAIL light client repo](https://github.com/availproject/avail-light/releases), and download the
 `avail-light-windows-runner.zip` file of the `Latest` version.
 
 2. Right click the downloaded file and extract it to a convenient location.
 
-3. Then run the `availup.bat` file by double clicking it. This will start the Avail light client.
+3. Then run the `availup.bat` file by double clicking it. This will start the AVAIL light client.
 
 4. If everything goes well, the client output will look like this:
 
@@ -372,7 +372,7 @@ sudo apt-get update && sudo apt upgrade
 ```
 </Callout>
 
-6. Once you have an up to date Linux distro (in this case Ubuntu) running, you can initialize the Avail light client by simply running:
+6. Once you have an up to date Linux distro (in this case Ubuntu) running, you can initialize the AVAIL light client by simply running:
 ```sh
 curl -sL1 avail.sh | bash
 ```
@@ -413,11 +413,11 @@ curl -sL1 avail.sh | bash
 
 <Callout type="info">
 **ONLY IF YOU WANT TO SUBMIT DATA TO AVAIL DA USING THE LIGHT CLIENT**<br/>
-The light client API exposes a method you can use to submit data to Avail DA, but to do so the API needs access to an Avail account with some AVAIL tokens. \
+The light client API exposes a method you can use to submit data to AVAIL DA, but to do so the API needs access to an AVAIL account with some AVAIL tokens. \
 > *You don't need to set an identity if you only want your client to fetch data from the network.*
 </Callout>
 
-- Whenever you run an Avail LC, you will notice a file named `identity.toml` being created in the same 
+- Whenever you run an AVAIL LC, you will notice a file named `identity.toml` being created in the same 
 directory as the binary. This is a default file that contains a random `seed phrase` that represents your
 identity on the network.
 
@@ -448,19 +448,19 @@ Availup supports many different config flags to support your needs.
 Detailed documentation for them can be found [in our Github repo](https://github.com/availproject/availup?tab=readme-ov-file#availup).
 </Callout>
 
-**[`availup`](https://github.com/availproject/availup)** is the recommended way of running the Avail light client for most users.
-`availup` is a shell wrapper that allows you to spin up your own instance of the Avail light client 
+**[`availup`](https://github.com/availproject/availup)** is the recommended way of running the AVAIL light client for most users.
+`availup` is a shell wrapper that allows you to spin up your own instance of the AVAIL light client 
 with a simple `curl` command.
 
 <Callout type="info">
-To run the Avail LC using `availup`, make sure you have [`curl`](https://curl.se/) installed on your system. To check, quickly:
+To run the AVAIL LC using `availup`, make sure you have [`curl`](https://curl.se/) installed on your system. To check, quickly:
 
 ```sh
 curl --version
 ```
 </Callout>
 
-1. To spin up an Avail light client on the Turing testnet, just run this one command in your terminal:
+1. To spin up an AVAIL light client on the Turing testnet, just run this one command in your terminal:
 
 ```sh
 curl -sL1 avail.sh | bash -s -- --app_id 18 --network turing --identity identity.toml
@@ -484,11 +484,11 @@ You will need to pass the full path to the `identity.toml` file if it is located
 
 <Callout type="info">
 **CONFIG FLAGS**<br/>
-You can run the Avail light client with different flags to configure it according to your needs.
+You can run the AVAIL light client with different flags to configure it according to your needs.
 Detailed documentation for them can be found [in our Github repo](https://github.com/availproject/avail-light/blob/main/client/README.md#options).
 </Callout>
 
-  You can also download and run a pre-built binary of the Avail light client.
+  You can also download and run a pre-built binary of the AVAIL light client.
   To do so:
 
   1. Download the [recommended version of the binary](https://github.com/availproject/avail-light/releases) that is compatible with your operating system.
@@ -557,15 +557,15 @@ You can configure the run command with a variety of [config flags](https://githu
 
 <Callout type="info">
 **CONFIG FLAGS**<br/>
-You can run the Avail light client with different flags to configure it according to your needs.
+You can run the AVAIL light client with different flags to configure it according to your needs.
 Detailed documentation for them can be found [in our Github repo](https://github.com/availproject/avail-light/blob/main/client/README.md#options).
 </Callout>
 
-   Building the Avail light client from source is a more advanced option that 
+   Building the AVAIL light client from source is a more advanced option that 
    provides you with the maximum flexibility.
    To do so:
 
-   1. Clone the Avail light-client repo and checkout to the specified version:
+   1. Clone the AVAIL light-client repo and checkout to the specified version:
    ```sh
    git clone https://github.com/availproject/avail-light.git
    cd avail-light

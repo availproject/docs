@@ -22,7 +22,7 @@ export default async function NotFound() {
         <body>
           <h1>404 - Page Not Found</h1>
           <p>
-            This page does not exist in the Avail documentation. Use one of the
+            This page does not exist in the AVAIL documentation. Use one of the
             indexes below to find the correct URL.
           </p>
           <ul>

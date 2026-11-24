@@ -1,6 +1,6 @@
 ---
 title: "Using the Explorer"
-description: "Browse blocks, transactions, and validators on Avail DA using the network explorers."
+description: "Browse blocks, transactions, and validators on AVAIL DA using the network explorers."
 image: '/img/docs-link-preview.png'
 ---
 
@@ -8,12 +8,12 @@ import { cloneElement } from 'react'
 
 
 <Callout type="info">
-The Avail network has two main explorers that can be used to browse the network:
+The AVAIL network has two main explorers that can be used to browse the network:
 
-1. [Avail Apps explorer](https://explorer.avail.so/): A dev-focussed explorer with powerful tools to work with the network.
+1. [AVAIL Apps explorer](https://explorer.avail.so/): A dev-focussed explorer with powerful tools to work with the network.
 2. [Subscan explorer](https://avail-turing.subscan.io/): A simpler, and recommended way to explore the network for most users.
 
-This tutorial will focus on helping advanced users and devs get started with the Avail Apps Explorer.
+This tutorial will focus on helping advanced users and devs get started with the AVAIL Apps Explorer.
 </Callout>
 
 ## Switch networks
@@ -26,7 +26,7 @@ This tutorial will focus on helping advanced users and devs get started with the
   <TabsContent value="availapps-explorer">
 
 <Callout type="info">
-The Avail Apps explorer currently supports [Avail mainnet](https://mainnet.explorer.availproject.org/) and [Avail Turing testnet](https://turing.explorer.availproject.org/).
+The AVAIL Apps explorer currently supports [AVAIL mainnet](https://mainnet.explorer.availproject.org/) and [AVAIL Turing testnet](https://turing.explorer.availproject.org/).
 </Callout>
 To switch networks:
 
@@ -52,7 +52,7 @@ To switch networks:
 
 
 <Callout type="info">
-The Subscan explorer currently supports [Avail mainnet](https://avail.subscan.io/) and [Avail Turing testnet](https://avail-turing.subscan.io/).
+The Subscan explorer currently supports [AVAIL mainnet](https://avail.subscan.io/) and [AVAIL Turing testnet](https://avail-turing.subscan.io/).
 </Callout>
 To switch networks:
 
@@ -81,7 +81,7 @@ To switch networks:
 1. Due to how the network is designed, it is not possible for the `AvailApps` explorer to query a transaction's details using just it's hash directly from a node.
 
 2. The `Subscan` explorer however, makes it possible to do so, since it queries from a dedicated indexer
-built on top of Avail to support this feature.
+built on top of AVAIL to support this feature.
 </Callout>
 
 <Tabs defaultValue="availapps-explorer">
@@ -146,7 +146,7 @@ built on top of Avail to support this feature.
   </TabsList>
   <TabsContent value="availapps-explorer">
 
-The `AvailApps` explorer can be used to add or import Avail accounts into the explorer.
+The `AvailApps` explorer can be used to add or import AVAIL accounts into the explorer.
 
 To go to the page, click on the `Accounts` tab on the top-left, or click [this link](https://explorer.availproject.org/#/accounts).
 1. The `accounts` section shows any accounts created straight from the explorer. You don't need any wallet extensions to create or use them.
@@ -199,7 +199,7 @@ You can find them within the `Developer` tab.
 
 <Callout type="info">
 **WHAT ARE PALLETS?**<br/>
-Avail organizes its runtime functionality into `pallets`. Each pallet is a collection of calls and extrinsics of a specific functionality.
+AVAIL organizes its runtime functionality into `pallets`. Each pallet is a collection of calls and extrinsics of a specific functionality.
 For example, the `data_availability` pallet contains all the calls and extrinsics related to querying and submitting data to the network, and so on.
 Some methods might be grouped into seemingly unrelated pallets for technical reasons, but this largely holds true.
 
@@ -236,7 +236,7 @@ But `system_account` method won't return anything without an `AccountId32` param
 <img src="/img/new-explorer/new-explorer-8.png" align="center" />
 </div>
 
-5. And that's it. You just used the `AvailApps` explorer to query the balance of an account on the Avail network. You can query other methods in a similar way.
+5. And that's it. You just used the `AvailApps` explorer to query the balance of an account on the AVAIL network. You can query other methods in a similar way.
 
 
 ### How to use the explorer to send transactions to the network
@@ -256,7 +256,7 @@ We have covered different examples of doing so in our docs. Here is one of them:
 <img src="/img/new-explorer/new-explorer-9.png" align="center" />
 </div>
 
-2. For example, to query the current value of the `existentialDeposit` of an account on Avail, which is the minimum amount required by an
+2. For example, to query the current value of the `existentialDeposit` of an account on AVAIL, which is the minimum amount required by an
 account to exist on the network, you can call the `balances_existentialDeposit` constant.
 
 <br/>
@@ -328,7 +328,7 @@ The following sections walk you through querying, creating, and submitting data 
 
 ### How to check the next available `appID`?
 
-Anyone can create their own `appID` on Avail DA. Let us first check out the next available `appID` on the network.
+Anyone can create their own `appID` on AVAIL DA. Let us first check out the next available `appID` on the network.
 
 1. Make sure you're on the `chain state` section of the explorer. You can access it by [simply clicking this link](https://explorer.availproject.org/#/chainstate),
 or by navigating to it through the `developer` tab near the top right.
@@ -345,7 +345,7 @@ No need to pass any params, just click the `+` button next to the method name.
 
 ### How to register my own `appID`?
 
-1. Make sure you have one or more Avail DA wallets connected to the explorer. If you don't know how to do so,
+1. Make sure you have one or more AVAIL DA wallets connected to the explorer. If you don't know how to do so,
 you can follow our docs on [setting up a new wallet](/docs/da/user-guides/accounts#creating-an-account-on-avail-da).
 
 2. Simply [click this link](https://explorer.availproject.org/#/extrinsics) OR navigate to the `extrinsics` section of the explorer through the `developer` tab.
@@ -353,7 +353,7 @@ you can follow our docs on [setting up a new wallet](/docs/da/user-guides/accoun
 <Callout type="info">
 Please note that the `Developer` tab does not show the `extrinsics` section at all if you don't
 have a wallet set up on the explorer or an extension wallet connected to it.
-So make sure you have an [Avail DA wallet set up](/docs/da/user-guides/accounts) before moving forward.
+So make sure you have an [AVAIL DA wallet set up](/docs/da/user-guides/accounts) before moving forward.
 </Callout>
 
 3. Select the `dataAvailability` pallet, and the `createApplicationKey` method.
@@ -382,22 +382,22 @@ So make sure you have an [Avail DA wallet set up](/docs/da/user-guides/accounts)
 <Callout type="info">
 **DO NOT CHANGE THE `appID` FOR THIS TRANSACTION**<br/>
 
-1. Each and every single transaction on Avail DA has an `appID` associated with it, which is **greater than or equal to** `0`.
+1. Each and every single transaction on AVAIL DA has an `appID` associated with it, which is **greater than or equal to** `0`.
 2. A transaction or data submission with the `appID` of `0` is used for **chain-level** operations.
-3. This is what we need to use for creating a new `appID`, since the act of creating a new `appID` has nothing to do with a specific '*app*' on Avail DA.
-4. This field would instead have been a positive integer if we, for example, were submitting data to a specific application on Avail DA.
+3. This is what we need to use for creating a new `appID`, since the act of creating a new `appID` has nothing to do with a specific '*app*' on AVAIL DA.
+4. This field would instead have been a positive integer if we, for example, were submitting data to a specific application on AVAIL DA.
 </Callout>
 
-7. Authorize the transaction through your wallet, and you're done! You've successfully created your own `appID` on Avail DA.
+7. Authorize the transaction through your wallet, and you're done! You've successfully created your own `appID` on AVAIL DA.
 
 8. You can verify `7` by using the steps covered earlier to query the `appKeys` method :)
 
 ### How to submit data to my `appID`?
 
-You can submit data to your, or any other `appID` on Avail DA using the explorer by calling the
+You can submit data to your, or any other `appID` on AVAIL DA using the explorer by calling the
 `submitData` extrinsic from within the `dataAvailability` pallet.
 
-1. Make sure you have one or more Avail DA wallets connected to the explorer. If you don't know how to do so,
+1. Make sure you have one or more AVAIL DA wallets connected to the explorer. If you don't know how to do so,
 you can follow our docs on [setting up a new wallet](/docs/da/user-guides/accounts#creating-an-account-on-avail-da).
 
 2. Simply [click this link](https://explorer.availproject.org/#/extrinsics) OR navigate to the `extrinsics` section of the explorer through the `developer` tab.

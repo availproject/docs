@@ -1,9 +1,9 @@
 ---
 image: "/img/docs-link-preview.png"
 id: overview
-title: Building on the OP Stack with Avail
+title: Building on the OP Stack with AVAIL
 sidebarTitle: Overview
-description: "Discover how to utilize Avail as a data availability layer."
+description: "Discover how to utilize AVAIL as a data availability layer."
 keywords:
   - documentation
   - avail
@@ -13,7 +13,7 @@ keywords:
   - da
 ---
 
-The OP Stack, instrumental for the development of L2 rollups and maintained by the [<ins>Optimism Collective</ins>](https://www.optimism.io/), is now extendable with Avail as an alternative data availability layer. Developers working with the OP Stack can utilize Avail to address data availability concerns, enhancing the stack's scalability while simultaneously cutting down data handling costs.
+The OP Stack, instrumental for the development of L2 rollups and maintained by the [<ins>Optimism Collective</ins>](https://www.optimism.io/), is now extendable with AVAIL as an alternative data availability layer. Developers working with the OP Stack can utilize AVAIL to address data availability concerns, enhancing the stack's scalability while simultaneously cutting down data handling costs.
 
 ## Transaction Lifecycle
 
@@ -27,19 +27,19 @@ The OP Stack, instrumental for the development of L2 rollups and maintained by t
    - **Component**: `op-batcher`
    - **Function**: Collects transactions into batches for more efficient processing.
 
-3. **Data Availability with Avail**
+3. **Data Availability with AVAIL**
 
    - **Component**: `op-plasma`
-   - **Function**: Sidecar run alongside `op-batcher`. Sends the transaction batches to Avail's blockchain, ensuring data availability.
+   - **Function**: Sidecar run alongside `op-batcher`. Sends the transaction batches to AVAIL's blockchain, ensuring data availability.
 
 4. **Transaction Reference Creation**
 
-   - **Outcome**: Avail returns a unique transaction reference to `op-avail`.
+   - **Outcome**: AVAIL returns a unique transaction reference to `op-avail`.
 
 5. **Calldata Submission to Ethereum**
 
    - **Component**: `op-batcher`
-   - **Action**: Submits the transaction reference from Avail as `calldata` to Ethereum.
+   - **Action**: Submits the transaction reference from AVAIL as `calldata` to Ethereum.
 
 6. **Verifier and Rollup Node Integration**
    - **Component**: `op-node`
@@ -47,9 +47,9 @@ The OP Stack, instrumental for the development of L2 rollups and maintained by t
 
 ## Interoperability and Fault Proofing
 
-The Avail OP Stack will evolve to integrate Optimism's fault proof system and the OP Stack sequencer's decentralization efforts. The Avail data root is posted to Ethereum through the Vector data attestation bridge, allowing for seamless verification of data availability consensus.
+The AVAIL OP Stack will evolve to integrate Optimism's fault proof system and the OP Stack sequencer's decentralization efforts. The AVAIL data root is posted to Ethereum through the Vector data attestation bridge, allowing for seamless verification of data availability consensus.
 
 ## Developer Onboarding
 
-Developers can start experimenting with the Avail OP Stack today by following the guide in the [Avail OP Stack](https://github.com/availproject/op-evm) repo. For support and updates, join the Avail Forum or Discord.
+Developers can start experimenting with the AVAIL OP Stack today by following the guide in the [AVAIL OP Stack](https://github.com/availproject/op-evm) repo. For support and updates, join the AVAIL Forum or Discord.
 

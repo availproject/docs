@@ -1,10 +1,10 @@
 ---
-title: "Deploy Arbitrum Orbit with Avail DA"
-description: "Step-by-step guide to deploy an Arbitrum Orbit L3 chain with Avail DA using Docker."
+title: "Deploy Arbitrum Orbit with AVAIL DA"
+description: "Step-by-step guide to deploy an Arbitrum Orbit L3 chain with AVAIL DA using Docker."
 image: '/img/docs-link-preview.png'
 ---
 
-# Deploy Arbitrum Orbit with Avail DA
+# Deploy Arbitrum Orbit with AVAIL DA
 
 This guide follows the deployment of an Arbitrum Orbit chain (L3) with Arbitrum Sepolia (L2) as the base chain. You can follow the same steps with any [other supported chains](/docs/da/build/rollups/arbitrum-nitro/overview#reference) with the relevant contract addresses.
 
@@ -16,13 +16,13 @@ This guide is based on [Arbitrum Orbit Quickstart](https://docs.arbitrum.io/laun
 
 #### Docker
 - You need to have [docker](https://docs.docker.com/engine/) and [docker-compose](https://docs.docker.com/compose/) installed on your machine.
-#### Avail 
-- An Avail account with some AVAIL tokens in it. You can refer to [our docs here](/docs/da/user-guides/accounts) to get started.
+#### AVAIL 
+- An AVAIL account with some AVAIL tokens in it. You can refer to [our docs here](/docs/da/user-guides/accounts) to get started.
 - An application key (`app-id`) for your rollup. Learn [how to get your `app-id` here](/docs/da/build/interact/app-id). 
 
 #### Arbitrum Sepolia 
 - At least 1 ETH over Arbsepolia Testnet. You can follow [Step 1](https://docs.arbitrum.io/launch-orbit-chain/orbit-quickstart#step-1-acquire-arbitrum-testnet-eth-and-the-native-token-for-orbit-chains-with-custom-gas-tokens) on Arbitrum Orbit Doc for acquiring testnet $ETH
-- This guide will use [Arbitrum's ArbSepolia](https://docs.arbitrum.io/build-decentralized-apps/public-chains#arbitrum-sepolia) and [Avail's Turing](/docs/da/networks) testnets.
+- This guide will use [Arbitrum's ArbSepolia](https://docs.arbitrum.io/build-decentralized-apps/public-chains#arbitrum-sepolia) and [AVAIL's Turing](/docs/da/networks) testnets.
 
 
 ## Download avail-nitro-node docker image
@@ -70,7 +70,7 @@ Install and build
     VALIDATOR_PRIVATE_KEY :- Validator
     ```
     
-- Set avail account info for DA submissions
+- Set AVAIL account info for DA submissions
     
     ```bash
     AVAIL_ADDR_SEED=
@@ -97,7 +97,7 @@ Install and build
     
 ### Step-3: Rollup contract deployment
   
-  - Run avail orbit rollup deployment command
+  - Run AVAIL orbit rollup deployment command
     
     ```bash
     npm run deploy-avail-orbit-rollup
@@ -109,7 +109,7 @@ Install and build
       <img src="/img/nitro-stack-1.png" alt="nitro-stack"/>
       </p>
     
-- You will get to see two files added `nodeConfig.json` and `orbitSetupScriptConfig.json`, which will be need in the next step to spin and set up Avail Orbit Rollup.
+- You will get to see two files added `nodeConfig.json` and `orbitSetupScriptConfig.json`, which will be need in the next step to spin and set up AVAIL Orbit Rollup.
 
 #### Before proceeding, let's briefly review what just happened:
 
@@ -119,7 +119,7 @@ Install and build
 Your Orbit chain's base contracts are responsible for facilitating the exchange of information between your chain's node(s) and its base chain's nodes. This includes the batch posting of transactions from your Orbit chain to its base chain, the staking of tokens by your Orbit chain's validators the challenge mechanism, bridging mechanisms, and more.
 
 
-## Spin up the avail orbit rollup chain using orbit-setup-script
+## Spin up the AVAIL orbit rollup chain using orbit-setup-script
 
 ### Step-1: Download [orbit-setup-script](https://github.com/availproject/orbit-setup-script.git)
     
@@ -156,12 +156,12 @@ PRIVATE_KEY="0xYourPrivateKey" L2_RPC_URL="https://sepolia-rollup.arbitrum.io/rp
 
 ## Hurray!
 
-**Congratulations,** Your local Orbit chain with Avail DA is now running.
+**Congratulations,** Your local Orbit chain with AVAIL DA is now running.
 
 ### Appendix A:- Use Arbitrum bridge for your local chain
 
 After completing final setup, you can find two files `network.json` and `outputInfo.json`.
-Add in your avail orbit rollup testnet to the [bridge](https://bridge.arbitrum.io/?destinationChain=arbitrum-sepolia&sourceChain=sepolia). This will only be for local testing.
+Add in your AVAIL orbit rollup testnet to the [bridge](https://bridge.arbitrum.io/?destinationChain=arbitrum-sepolia&sourceChain=sepolia). This will only be for local testing.
 Paste `outputInfo.json` configuration in setting section of bridge
 
 #### Appendix B: Logging

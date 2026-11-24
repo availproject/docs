@@ -1,17 +1,17 @@
 ---
 title: "What are App IDs?"
-description: "Unique identifiers that separate and filter data submissions on Avail DA by application."
+description: "Unique identifiers that separate and filter data submissions on AVAIL DA by application."
 image: '/img/docs-link-preview.png'
 ---
 
 ## Introduction
 
-As a general-purpose base layer, Avail is designed to support many
+As a general-purpose base layer, AVAIL is designed to support many
 modular chains at the same time, providing consensus and data
 availability to all of them simultaneously.
 
-How does this work? Avail headers contain an index that allows a given
-modular chain (or "application" in Avail terminology) to determine and
+How does this work? AVAIL headers contain an index that allows a given
+modular chain (or "application" in AVAIL terminology) to determine and
 download _only_ the sections of a block that have data for that
 particular application.
 
@@ -31,7 +31,7 @@ the block at random to verify availability.
 
 <Steps>
 
-### Consider a random block on Avail DA
+### Consider a random block on AVAIL DA
 
 It might contain data blobs from a variety of different rollups pertaining to their different execution environments.
 Think of the EVM, the SVM, Stackr, ZKsync chains, OP stack, and many more. \
@@ -40,7 +40,7 @@ just to fetch the data it needs.
 
 <br/>
 <p align="center">
-<img src="/img/quickstart/quickstart-app-id-1.png" alt="random block on Avail DA" width="100%" />
+<img src="/img/quickstart/quickstart-app-id-1.png" alt="random block on AVAIL DA" width="100%" />
 </p>
 
 ### Now think of the same data neatly arranged into its own sections
@@ -51,18 +51,18 @@ A developer now does not need to parse through the entire block to find the data
 
 <br/>
 <p align="center">
-<img src="/img/quickstart/quickstart-app-id-2.png" alt="random data arranged neatly in Avail DA block" width="100%" />
+<img src="/img/quickstart/quickstart-app-id-2.png" alt="random data arranged neatly in AVAIL DA block" width="100%" />
 </p>
 
 ### These *'sections'* are flexible
 
-All of the rollups running on Avail DA probably won't submit data in all of the blocks. Thus, it is likely some `AppIDs` will be empty in some blocks. \
+All of the rollups running on AVAIL DA probably won't submit data in all of the blocks. Thus, it is likely some `AppIDs` will be empty in some blocks. \
 On the flipside, some rollups might need to submit more data than usual in a particular block. \
-None of this is an issue on Avail DA, the individual block builds as needed in the moment.
+None of this is an issue on AVAIL DA, the individual block builds as needed in the moment.
 
 <br/>
 <p align="center">
-<img src="/img/quickstart/quickstart-app-id-3.png" alt="AppIDs on Avail DA are flexible" width="100%" />
+<img src="/img/quickstart/quickstart-app-id-3.png" alt="AppIDs on AVAIL DA are flexible" width="100%" />
 </p>
 
 </Steps>
@@ -80,9 +80,9 @@ Each `appID` consists of 3 fields:
 - The `key` and `id` fields of every `appID` are unique. If you try to create an `appID` with the same `key` as an existing one, the operation will fail.
 
 - **Anyone can submit any sort of data to any `appID` regardless of whether or not they created it.** \
-  This is not an attack vector. Avail DA is a DA layer, not an execution environment --
+  This is not an attack vector. AVAIL DA is a DA layer, not an execution environment --
   it is not concerned with the validity of the data being submitted, only with its availability.
-  Any app or execution layer building on top of Avail DA can set up rules to filter out unwanted data submissions.
+  Any app or execution layer building on top of AVAIL DA can set up rules to filter out unwanted data submissions.
   For example, they could require that only data submitted with a particular signature is accepted, treating all other submissions as spam.
 
 <Callout type="info">

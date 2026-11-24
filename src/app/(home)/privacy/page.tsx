@@ -4,7 +4,7 @@ import { SITE_URL } from "@/lib/structured-data";
 export const metadata = {
   title: "Privacy Notice",
   description:
-    "What personal data the Avail documentation site collects, why it collects it, and what rights you have.",
+    "What personal data the AVAIL documentation site collects, why it collects it, and what rights you have.",
   alternates: { canonical: `${SITE_URL}/privacy` },
 };
 
@@ -15,7 +15,7 @@ export default function PrivacyPage() {
         This notice explains what personal data docs.availproject.org (the
         &ldquo;Site&rdquo;) collects when you use it, why, and what rights you
         have. It covers this documentation site only. It does not cover the
-        Avail network, which is a public blockchain, or other Avail websites and
+        AVAIL network, which is a public blockchain, or other AVAIL websites and
         products.
       </p>
 
@@ -51,7 +51,7 @@ export default function PrivacyPage() {
 
       <InfoSection heading="Connecting a wallet">
         <p>
-          Some Avail Nexus pages include live demo widgets that you can connect
+          Some AVAIL Nexus pages include live demo widgets that you can connect
           a wallet to. Connecting is entirely optional, and no documentation
           requires it. When you connect, the site reads your public address and
           the balances needed to render the demo. We never receive your private

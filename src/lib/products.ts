@@ -9,14 +9,14 @@ export interface Product {
 export const products: Product[] = [
   {
     slug: "da",
-    label: "Avail DA",
+    label: "AVAIL DA",
     basePath: "/docs/da",
     startUrl: "/docs/da/get-started",
     logoKey: "avail-da",
   },
   {
     slug: "nexus",
-    label: "Avail Nexus",
+    label: "AVAIL Nexus",
     basePath: "/docs/nexus",
     startUrl: "/docs/nexus/get-started",
     logoKey: "avail-nexus",

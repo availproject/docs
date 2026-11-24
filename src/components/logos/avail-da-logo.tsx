@@ -12,7 +12,7 @@ export function AvailDALogo({
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={cn("block h-6 w-auto", className)}
-      aria-label="Avail DA"
+      aria-label="AVAIL DA"
       {...props}
     >
       <path

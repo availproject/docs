@@ -1,42 +1,42 @@
 ---
-title: "Cosmos Avail DA module"
-description: "Integrate Cosmos SDK chains with Avail DA using the CADA module for scalable data availability."
+title: "Cosmos AVAIL DA module"
+description: "Integrate Cosmos SDK chains with AVAIL DA using the CADA module for scalable data availability."
 ---
 
 
-## What is CADA (Cosmos Avail DA module)
+## What is CADA (Cosmos AVAIL DA module)
 
-CADA is a module designed to connect Cosmos sovereign chains with the Avail network, making it easier for any Cosmos chain or rollapp to use Avail as their Data Availability (DA) layer. 
+CADA is a module designed to connect Cosmos sovereign chains with the AVAIL network, making it easier for any Cosmos chain or rollapp to use AVAIL as their Data Availability (DA) layer. 
 
-With CADA, developers can improve the scalability and security of their decentralized applications within the Cosmos ecosystem. It enables better data handling and availability, allowing Cosmos-based chains to tap into the strengths of Avail and build a more connected and resilient blockchain network.
+With CADA, developers can improve the scalability and security of their decentralized applications within the Cosmos ecosystem. It enables better data handling and availability, allowing Cosmos-based chains to tap into the strengths of AVAIL and build a more connected and resilient blockchain network.
 
 Learn more about the CADA module below:
 <Cards>
-    <Card icon={<FileIcon />} title="Cosmos Avail DA Module" href="https://github.com/vitwit/avail-da-module" />
+    <Card icon={<FileIcon />} title="Cosmos AVAIL DA Module" href="https://github.com/vitwit/avail-da-module" />
 </Cards>
 
 
-## What is Avail DA? 
+## What is AVAIL DA? 
 
-Avail is the permisionless unification layer for web3. Avail is designed to be a platform that connects different ecosystems by providing a modular, scalable, and interoperable platform.
-Avail's vision is to provide a cohesive, unified user experience within a flexible and modular blockchain ecosystem, drawing on lessons from Web2 to innovate in Web3. 
+AVAIL is the permisionless unification layer for web3. AVAIL is designed to be a platform that connects different ecosystems by providing a modular, scalable, and interoperable platform.
+AVAIL's vision is to provide a cohesive, unified user experience within a flexible and modular blockchain ecosystem, drawing on lessons from Web2 to innovate in Web3. 
 
-With Avail's foundational DA layer ([Avail DA](/docs/da/get-started)), different ecosystems can innovate on top freely, while leveraging Nexus for cross-ecosystem messaging. 
+With AVAIL's foundational DA layer ([AVAIL DA](/docs/da/get-started)), different ecosystems can innovate on top freely, while leveraging Nexus for cross-ecosystem messaging. 
 
-Learn more about [Avail here](/docs/da/get-started).
+Learn more about [AVAIL here](/docs/da/get-started).
 
 ## Integration Guide
 
 To integrate the CADA module into your Cosmos SDK application, follow the steps outlined in the [integration guide](https://github.com/vitwit/cada/tree/main/x/cada/integration_docs)
 
 <Callout type="info">
-Note: Ensure that the Avail light client URL is correctly configured for the module to function as expected. For instructions on setup Avail locally, please refer to [this documentation](https://github.com/rollkit/avail-da?tab=readme-ov-file#avail-da).
+Note: Ensure that the AVAIL light client URL is correctly configured for the module to function as expected. For instructions on setup AVAIL locally, please refer to [this documentation](https://github.com/rollkit/avail-da?tab=readme-ov-file#avail-da).
 </Callout>
 
 You can also use the references below for integration.You can also simply run the module from these repositories as well:
 <Cards>
     <Card icon={<FileIcon />} title="Cosmos SDK Integration Example" href="https://github.com/vitwit/cosmos-sdk/tree/integrate_avail_da" />
-    <Card icon={<FileIcon />} title="Avail DA Module with Simapp" href="https://github.com/vitwit/avail-da-module/tree/main/simapp" />
+    <Card icon={<FileIcon />} title="AVAIL DA Module with Simapp" href="https://github.com/vitwit/avail-da-module/tree/main/simapp" />
 </Cards>
 If you are running the chain from the Simapp repository, you can use this [init-chain script](https://github.com/vitwit/avail-da-module/blob/main/simapp/init-simapp.sh) to set up the testnet.
 
@@ -55,12 +55,12 @@ Sends `block range` information to the relayer.
 
 
 ### Relayer
-Fetches the `block data` from the Cosmos Provider and posts it to the Avail light client.
+Fetches the `block data` from the Cosmos Provider and posts it to the AVAIL light client.
 
-### Avail light client
+### AVAIL light client
 Confirms whether the data is available.
 
-    If **Yes**: Broadcast the Avail height and status.
+    If **Yes**: Broadcast the AVAIL height and status.
 
     If **No**: Retry data submission.
 
@@ -77,36 +77,36 @@ The core functionality of the **CADA** module is integrated with and operates on
 
 In the CADA module:
 
-- At each block interval, the `PreBlocker` ABCI method sends a request to the `Relayer`, specifying the range of block heights that are ready to be posted to the **Avail** Data Availability (DA) network.
+- At each block interval, the `PreBlocker` ABCI method sends a request to the `Relayer`, specifying the range of block heights that are ready to be posted to the **AVAIL** Data Availability (DA) network.
 
 ![Block Data Flow](/img/CADA-data-submisson-flow.png)
 
-- The chain is responsible for aggregating vote extensions from all validators and verifying whether the data has been made available on Avail.
+- The chain is responsible for aggregating vote extensions from all validators and verifying whether the data has been made available on AVAIL.
 - Since verification requires communicating with the light client, an asynchronous voting mechanism is needed. **Vote extensions** enable this asynchronous voting mechanism for verification purposes.
 
 ![Vote Extension](/img/CADA-verification.png)
 
 ### 2. Relayer
 
-The **Relayer** facilitates communication between the Cosmos Chain, the Avail light client, and the Cosmos Provider.
+The **Relayer** facilitates communication between the Cosmos Chain, the AVAIL light client, and the Cosmos Provider.
 
-- **Data Submission**: The relayer is responsible for fetching block data from the Cosmos provider and posting it to the Avail light client via an HTTP request.
-- Based on the response from the light client, the relayer submits a transaction informing the validators of the data availability status and the specific Avail block height where the data is included, so that validators can verify it.
+- **Data Submission**: The relayer is responsible for fetching block data from the Cosmos provider and posting it to the AVAIL light client via an HTTP request.
+- Based on the response from the light client, the relayer submits a transaction informing the validators of the data availability status and the specific AVAIL block height where the data is included, so that validators can verify it.
   
-- **Data Verification**: During verification, the relayer communicates with the Avail light client to confirm whether the data is truly available at the specified height.
+- **Data Verification**: During verification, the relayer communicates with the AVAIL light client to confirm whether the data is truly available at the specified height.
 
 
-### 3. Avail Light Node
+### 3. AVAIL Light Node
 
-The **Avail light client** allows interaction with the Avail DA network without requiring a full node, and without having to trust remote peers. It leverages **Data Availability Sampling (DAS)**, which the light client performs on every newly created block.
+The **AVAIL light client** allows interaction with the AVAIL DA network without requiring a full node, and without having to trust remote peers. It leverages **Data Availability Sampling (DAS)**, which the light client performs on every newly created block.
 
-- The chain communicates with the Avail light client via the relayer during the data submission and data availability verification processes.
+- The chain communicates with the AVAIL light client via the relayer during the data submission and data availability verification processes.
 
-Find more details about the Avail light client [here](/docs/da/operate/run-a-light-client/overview).
+Find more details about the AVAIL light client [here](/docs/da/operate/run-a-light-client/overview).
 
 ### 4. Cosmos Provider
 
-The **Cosmos Provider** is responsible for fetching block data via RPC so that the data can be posted to Avail for availability checks.
+The **Cosmos Provider** is responsible for fetching block data via RPC so that the data can be posted to AVAIL for availability checks.
 
 
 ## Workflow
@@ -127,7 +127,7 @@ The **Cosmos Provider** is responsible for fetching block data via RPC so that t
 
 - Once the success of data availability is confirmed, the `Relayer` broadcasts the `Avail height` at which the blob data is made available using the `MsgUpdateBlobStatus` transaction.
 
-- The status, Avail height, and voting deadline will be updated in the state.
+- The status, AVAIL height, and voting deadline will be updated in the state.
 
     ```
     status = IN_VOTING
@@ -137,7 +137,7 @@ The **Cosmos Provider** is responsible for fetching block data via RPC so that t
 
 
 
-- At block height `VotingEndBlock - 1`, all the validators verify if the specified blocks data is truly made available at the specified Avail height. They cast their vote (YES or NO) using `vote extensions`.
+- At block height `VotingEndBlock - 1`, all the validators verify if the specified blocks data is truly made available at the specified AVAIL height. They cast their vote (YES or NO) using `vote extensions`.
 
 - At block height `VotingEndBlock`, all the votes from `vote_extensions` will be collected and aggregated. If the collective `voting power is > 66%`, the status will be updated
 

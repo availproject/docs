@@ -1,9 +1,9 @@
 ---
 image: "/img/docs-link-preview.png"
 id: op-stack
-title: Deploy OP Stack chain with Avail DA
+title: Deploy OP Stack chain with AVAIL DA
 sidebarTitle: Avail-Powered OP Stack Optimium
-description: "Discover how to utilize Avail as a data availability layer."
+description: "Discover how to utilize AVAIL as a data availability layer."
 keywords:
   - documentation
   - avail
@@ -15,7 +15,7 @@ keywords:
 
 ## Introduction
 
-Embark on setting up your own OP stack chain in [alt-da mode](https://docs.optimism.io/stack/beta-features/alt-da-mode) using Avail as Data Availability layer . This guide targets Ethereum's Sepolia testnet and Avail Turing testnet. For a detailed understanding, review the [Optimism Documentation](https://stack.optimism.io/docs/build/getting-started/#know-before-you-go).
+Embark on setting up your own OP stack chain in [alt-da mode](https://docs.optimism.io/stack/beta-features/alt-da-mode) using AVAIL as Data Availability layer . This guide targets Ethereum's Sepolia testnet and AVAIL Turing testnet. For a detailed understanding, review the [Optimism Documentation](https://stack.optimism.io/docs/build/getting-started/#know-before-you-go).
 
 ## Prerequisites
 
@@ -50,13 +50,13 @@ Ensure you have installed the following software.
 For deploying to Sepolia, access an L1 node using a provider like [Alchemy](https://www.alchemy.com/dapps/Sepolia) or [run your own Sepolia node](https://notes.ethereum.org/@launchpad/Sepolia).
 
 
-## Setup Avail DA server
+## Setup AVAIL DA server
 
-This introduces a sidecar DA Server for Optimism that interacts with Avail DA for posting and retrieving data.
+This introduces a sidecar DA Server for Optimism that interacts with AVAIL DA for posting and retrieving data.
 
 ### Run avail-da server(binary).
 
-1. Build Avail DA Server
+1. Build AVAIL DA Server
    ```bash
    git clone https://github.com/availproject/avail-alt-da-server.git
    cd avail-alt-da-server
@@ -426,7 +426,7 @@ Deploy essential L1 contracts for the chain’s functionality:
    --throttle-threshold=0
    ```
 
-   Adjust the `--max-channel-duration=n` setting to balance transaction frequency on L1 and the operational costs of the batcher. Recommended is a minimum of 2 since avail block time is 20s and ethereum's 12sec.
+   Adjust the `--max-channel-duration=n` setting to balance transaction frequency on L1 and the operational costs of the batcher. Recommended is a minimum of 2 since AVAIL block time is 20s and ethereum's 12sec.
 
 
 ### `op-proposer`

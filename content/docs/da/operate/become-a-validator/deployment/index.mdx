@@ -1,9 +1,9 @@
 ---
 image: "/img/docs-link-preview.png"
 id: simple-node-deployment
-title: Avail Node - Simple Deployment
+title: AVAIL Node - Simple Deployment
 sidebarTitle: Simple Deployment
-description: 'Learn how to run deploy Avail Node on a server.'
+description: 'Learn how to run deploy AVAIL Node on a server.'
 keywords:
   - docs
   - avail
@@ -15,14 +15,14 @@ keywords:
 
 <Callout type="info">
 **ASSISTED DEPLOYMENT**<br/>
-If you prefer running your Avail validator with the help of an infrastructure provider, you can check out [on-finality's docs here](https://documentation.onfinality.io/support/set-up-an-avail-validator-with-onfinality).
+If you prefer running your AVAIL validator with the help of an infrastructure provider, you can check out [on-finality's docs here](https://documentation.onfinality.io/support/set-up-an-avail-validator-with-onfinality).
 </Callout>
 
-This guide aims to help you learn the basics of deploying your Avail Node manually or by docker/podman.
+This guide aims to help you learn the basics of deploying your AVAIL Node manually or by docker/podman.
 
 ## Cloud Server
 
-Deploying long-lasting services is best done on an online machine more than 99% of the time and is dedicated solely to running that service. This means that your Avail Node should not be deployed on a personal computer; running it on your Homelab or a cloud provider is a better option.
+Deploying long-lasting services is best done on an online machine more than 99% of the time and is dedicated solely to running that service. This means that your AVAIL Node should not be deployed on a personal computer; running it on your Homelab or a cloud provider is a better option.
 
 There are many cloud providers to choose from. Here are some of them:
 
@@ -110,7 +110,7 @@ pwd
 
 <Callout type="warning" emoji="⚠️">
 NODE VERSION FOR TURING<br/>
-Please note that the Avail node underwent major breaking changes while making upgrades to transition towards Turing.
+Please note that the AVAIL node underwent major breaking changes while making upgrades to transition towards Turing.
 </Callout>
 
 ```bash
@@ -186,7 +186,7 @@ WantedBy=multi-user.target
 
 Let's let's break it down for clarity.
 
-- **Description**: Provides a human-readable description of the service. In this case, it describes the service as "Avail Node". This description is mainly used for documentation purposes and can be displayed in various system management tools and commands.
+- **Description**: Provides a human-readable description of the service. In this case, it describes the service as "AVAIL Node". This description is mainly used for documentation purposes and can be displayed in various system management tools and commands.
 - **ExecStart**: Specifies the command to start the service. In this case, it runs the /root/avail/data-avail executable with a series of command-line arguments.
 - **Restart**: Defines the restart behavior of the service. In this case, the service will be restarted if it fails.
 - **RestartSec**: Specifies the time to sleep before restarting the service after it exits unexpectedly. In this case, it's set to 5 seconds.
@@ -248,7 +248,7 @@ As expected, the node is syncing new blocks. If these logs are new to you, head 
 
 We have our server up and online. We updated all our dependencies and are now ready to do the actual work. 
 
-1. In the home directory, let's create a folder where we are going to store all the data that the Avail Docker container will generate.
+1. In the home directory, let's create a folder where we are going to store all the data that the AVAIL Docker container will generate.
 
 ```bash
 mkdir avail && cd avail
@@ -328,4 +328,4 @@ As expected, the node is syncing new blocks. If these logs are new to you, head 
 
 ## What's Next
 
-This is where our story ends. We have a working node connected to the Turing chain and deployed on a cloud provider. If the system restarts or the Avail Node program suddenly ends, it will be automatically restarted, so there will be almost no downtime.
+This is where our story ends. We have a working node connected to the Turing chain and deployed on a cloud provider. If the system restarts or the AVAIL Node program suddenly ends, it will be automatically restarted, so there will be almost no downtime.

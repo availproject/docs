@@ -2,7 +2,7 @@
 image: "/img/docs-link-preview.png"
 id: glossary
 title: Glossary
-description: 'A glossary of essential terms, definitions, and concepts related to Avail.'
+description: 'A glossary of essential terms, definitions, and concepts related to AVAIL.'
 keywords:
   - docs
   - avail
@@ -13,19 +13,19 @@ keywords:
 
 ## App-Chain
 
-An appchain is an independent blockchain tailored to a specific application's needs, providing dedicated performance and scalability without the constraints of a shared chain. Avail enables modular appchain architectures based on different layer 2 or 3 scaling solutions.
+An appchain is an independent blockchain tailored to a specific application's needs, providing dedicated performance and scalability without the constraints of a shared chain. AVAIL enables modular appchain architectures based on different layer 2 or 3 scaling solutions.
 
 ## AVAIL
 
-AVAIL is the native token of the Avail network. The AVAIL token is live on Mainnet; [learn more about the AVAIL token here](/docs/da/user-guides/staking-governance/overview).
+AVAIL is the native token of the AVAIL network. The AVAIL token is live on Mainnet; [learn more about the AVAIL token here](/docs/da/user-guides/staking-governance/overview).
 
-## Avail JS Apps
+## AVAIL JS Apps
 
-The Avail JS Apps UI is a forked version of [Polkadot JS Apps UI](https://polkadot.js.org/apps/) used for visualizing and interacting with the Avail network.
+The AVAIL JS Apps UI is a forked version of [Polkadot JS Apps UI](https://polkadot.js.org/apps/) used for visualizing and interacting with the AVAIL network.
 
 ## BABE
 
-BABE (Blind Assignment for Blockchain Extension), part of the Substrate framework, is the block production mechanism that Avail uses. Refer to the [Polkadot Wiki](https://wiki.polkadot.network/docs/learn-consensus#block-production-babe) for more details.
+BABE (Blind Assignment for Blockchain Extension), part of the Substrate framework, is the block production mechanism that AVAIL uses. Refer to the [Polkadot Wiki](https://wiki.polkadot.network/docs/learn-consensus#block-production-babe) for more details.
 
 ## Bonding
 
@@ -41,7 +41,7 @@ Validators set a commission rate that is deducted from their block production re
 
 ## Consensus
 
-Consensus is the mechanism by which nodes agree on what blockchain data is valid. Avail uses [NPoS](#nominated-proof-of-stake) as its consensus protocol.
+Consensus is the mechanism by which nodes agree on what blockchain data is valid. AVAIL uses [NPoS](#nominated-proof-of-stake) as its consensus protocol.
 
 ## Controller Account
 
@@ -49,11 +49,11 @@ The controller account manages staking activities — nominating validators, bon
 
 ## Data Attestation
 
-Data attestation confirms the authenticity and accessibility of on-chain data. Avail block headers include KZG polynomial commitments for data and a Merkle tree root with data blobs as leaves. A supermajority of validators finalize headers using the [GRANDPA](#grandpa) protocol.
+Data attestation confirms the authenticity and accessibility of on-chain data. AVAIL block headers include KZG polynomial commitments for data and a Merkle tree root with data blobs as leaves. A supermajority of validators finalize headers using the [GRANDPA](#grandpa) protocol.
 
 ## Data Availability Committee (DAC)
 
-A DAC is a group of nodes that preserves copies of off-chain data and ensures its accessibility on demand. Unlike DACs, which typically serve specific L2 solutions, Avail is a general-purpose data availability layer that operates as an autonomous chain.
+A DAC is a group of nodes that preserves copies of off-chain data and ensures its accessibility on demand. Unlike DACs, which typically serve specific L2 solutions, AVAIL is a general-purpose data availability layer that operates as an autonomous chain.
 
 ## Data Availability Sampling (DAS)
 
@@ -61,7 +61,7 @@ DAS allows light clients to confirm data availability without downloading full b
 
 ## DHT (Distributed Hash Table)
 
-A DHT is a decentralized lookup system that holds key-value pairs, enabling peers to quickly find data. In Avail, the DHT facilitates sharing data cells for random sampling and proof verification, connecting nodes for efficient cell discovery and access.
+A DHT is a decentralized lookup system that holds key-value pairs, enabling peers to quickly find data. In AVAIL, the DHT facilitates sharing data cells for random sampling and proof verification, connecting nodes for efficient cell discovery and access.
 
 ## Decoupling
 
@@ -73,7 +73,7 @@ Equivocation is when a validator signs two or more conflicting blocks or message
 
 ## Era
 
-An era in Avail is a predefined number of [sessions](#session) during which the validator set is determined and rewards are distributed. At each era boundary, validators are selected for the active set based on stake amount and prior performance.
+An era in AVAIL is a predefined number of [sessions](#session) during which the validator set is determined and rewards are distributed. At each era boundary, validators are selected for the active set based on stake amount and prior performance.
 
 ## Epoch
 
@@ -81,9 +81,9 @@ An epoch is a designated time frame during which a specific group of validators 
 
 ## Execution
 
-In traditional blockchains, execution is how nodes process transactions to transition state. Avail does not have a general-purpose execution layer — execution occurs in other layers (such as rollups), and the resulting data is posted to Avail in raw form.
+In traditional blockchains, execution is how nodes process transactions to transition state. AVAIL does not have a general-purpose execution layer — execution occurs in other layers (such as rollups), and the resulting data is posted to AVAIL in raw form.
 
-Avail validators do not execute transactions to attest to block validity. They primarily attest to the correct packaging of published data, which is why Avail can accommodate larger block sizes with reduced per-block overhead.
+AVAIL validators do not execute transactions to attest to block validity. They primarily attest to the correct packaging of published data, which is why AVAIL can accommodate larger block sizes with reduced per-block overhead.
 
 ## Finality Gadget
 
@@ -95,27 +95,27 @@ Fraud proofs are cryptographic proofs used to challenge the legitimacy of a tran
 
 ## GRANDPA
 
-GRANDPA (GHOST-based Recursive Ancestor Deriving Prefix Agreement), part of the Substrate framework, is the finality gadget Avail uses. Refer to [the GRANDPA paper](https://github.com/w3f/consensus/blob/master/pdf/grandpa.pdf) for the full protocol description.
+GRANDPA (GHOST-based Recursive Ancestor Deriving Prefix Agreement), part of the Substrate framework, is the finality gadget AVAIL uses. Refer to [the GRANDPA paper](https://github.com/w3f/consensus/blob/master/pdf/grandpa.pdf) for the full protocol description.
 
 ## KZG Commitments
 
-KZG commitments, introduced by Kate, Zaverucha, and Goldberg in 2010, are a concise method for committing to polynomials. Avail uses KZG commitments because they enable succinct commitments for block headers, support brief openings for light client verification, and provide strong cryptographic binding that prevents fraudulent commitments.
+KZG commitments, introduced by Kate, Zaverucha, and Goldberg in 2010, are a concise method for committing to polynomials. AVAIL uses KZG commitments because they enable succinct commitments for block headers, support brief openings for light client verification, and provide strong cryptographic binding that prevents fraudulent commitments.
 
 ## Kademlia DHT (Kad-DHT)
 
-Kad-DHT is a DHT variant that organizes nodes on a chord ring ordered by ID. Avail uses Kad-DHT to store data cells and locate which peer holds a particular data segment, with matrix data cells uniquely mapped to Peer IDs.
+Kad-DHT is a DHT variant that organizes nodes on a chord ring ordered by ID. AVAIL uses Kad-DHT to store data cells and locate which peer holds a particular data segment, with matrix data cells uniquely mapped to Peer IDs.
 
 ## libp2p
 
-[libp2p](https://libp2p.io/) is an open-source modular network stack for building P2P applications. Avail integrates libp2p to establish a decentralized network for data availability, ensuring transaction data is efficiently stored and disseminated to validators and full nodes.
+[libp2p](https://libp2p.io/) is an open-source modular network stack for building P2P applications. AVAIL integrates libp2p to establish a decentralized network for data availability, ensuring transaction data is efficiently stored and disseminated to validators and full nodes.
 
 ## Light Client
 
-Light clients allow users to interact with a blockchain without syncing the full chain, typically retrieving only block headers. Avail light clients enhance this with Data Availability Sampling, downloading and verifying random block segments to confirm content availability.
+Light clients allow users to interact with a blockchain without syncing the full chain, typically retrieving only block headers. AVAIL light clients enhance this with Data Availability Sampling, downloading and verifying random block segments to confirm content availability.
 
 ## Mainnet
 
-A mainnet is the fully operational, public "production" version of a blockchain network where real transactions and applications run. See the ["Mainnet is Live!" blog post](https://blog.availproject.org/road-to-mainnet-september-2023/) for details on Avail's mainnet.
+A mainnet is the fully operational, public "production" version of a blockchain network where real transactions and applications run. See the ["Mainnet is Live!" blog post](https://blog.availproject.org/road-to-mainnet-september-2023/) for details on AVAIL's mainnet.
 
 ## Modular Blockchain
 
@@ -127,7 +127,7 @@ A monolithic blockchain handles all core functionalities (execution, settlement,
 
 ## Nominated Proof of Stake
 
-Nominated Proof of Stake (NPoS) is a consensus algorithm where users nominate validators to produce blocks on their behalf. Validators receive rewards in native tokens and share a portion with nominators based on a set commission rate. Avail uses NPoS as implemented within Substrate.
+Nominated Proof of Stake (NPoS) is a consensus algorithm where users nominate validators to produce blocks on their behalf. Validators receive rewards in native tokens and share a portion with nominators based on a set commission rate. AVAIL uses NPoS as implemented within Substrate.
 
 ## Oversubscribed
 
@@ -135,7 +135,7 @@ Oversubscribed refers to when the number of nominators wishing to participate ex
 
 ## Scalability
 
-Scalability in Avail refers to increasing the volume of data the chain can disseminate without degrading participant experience. Avail achieves this through a modular approach that moves DA off-chain, allowing each component to scale independently.
+Scalability in AVAIL refers to increasing the volume of data the chain can disseminate without degrading participant experience. AVAIL achieves this through a modular approach that moves DA off-chain, allowing each component to scale independently.
 
 ## Session
 
@@ -143,7 +143,7 @@ A session is a specific duration during which a fixed set of validators operate.
 
 ## Settlement
 
-Settlement is the process by which modular layers agree on the correct execution outcome of transaction data. Avail receives and stores raw transaction data without executing it — actual execution and validation occur in other layers, with results settled through mechanisms like validity proofs on Ethereum.
+Settlement is the process by which modular layers agree on the correct execution outcome of transaction data. AVAIL receives and stores raw transaction data without executing it — actual execution and validation occur in other layers, with results settled through mechanisms like validity proofs on Ethereum.
 
 ## Slashing
 
@@ -163,12 +163,12 @@ A testnet is a simulated blockchain network used to test and debug applications 
 
 ## Validium
 
-A validium stores transaction data off the primary L1 (e.g., Ethereum) and can leverage Avail's scalable DA module. Rather than directing data to a [DAC](#data-availability-committee-dac) or other alternatives, validiums can commit data to Avail. Essentially, a validium is a rollup with off-chain data availability.
+A validium stores transaction data off the primary L1 (e.g., Ethereum) and can leverage AVAIL's scalable DA module. Rather than directing data to a [DAC](#data-availability-committee-dac) or other alternatives, validiums can commit data to AVAIL. Essentially, a validium is a rollup with off-chain data availability.
 
 ## Validator
 
-An Avail validator is a full node responsible for verifying transactions and adding them to the blockchain.
+An AVAIL validator is a full node responsible for verifying transactions and adding them to the blockchain.
 
 ## Volition
 
-A volition is an advanced form of zero-knowledge rollup that lets developers choose whether to store transaction data on-chain or off-chain. Volitions can leverage Avail's DA layer to keep off-chain data accessible and verifiable, optimizing for both cost and availability.
+A volition is an advanced form of zero-knowledge rollup that lets developers choose whether to store transaction data on-chain or off-chain. Volitions can leverage AVAIL's DA layer to keep off-chain data accessible and verifiable, optimizing for both cost and availability.

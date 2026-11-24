@@ -11,7 +11,7 @@ import {
   type RegistryProcessedFile,
 } from "./registry-code-browser";
 export const STYLES = [
-  { name: "avail-widgets" as const, title: "Avail Widgets" },
+  { name: "avail-widgets" as const, title: "AVAIL Widgets" },
 ] as const;
 export type Style = (typeof STYLES)[number];
 

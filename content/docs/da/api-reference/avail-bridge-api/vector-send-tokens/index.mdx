@@ -1,18 +1,18 @@
 ---
 title: "Bridge tokens from origin to destination chain"
-description: "Transfer AVAIL tokens between Avail and Ethereum using the vector bridge extrinsics."
+description: "Transfer AVAIL tokens between AVAIL and Ethereum using the vector bridge extrinsics."
 ---
 
 
 
-- On-chain name of extrinsic: `vector_sendMessage` to send a message from Avail to Ethereum.
-- On-chain name of extrinsic: `vector_execute` to execute a message receieved from Ethereum on Avail.
+- On-chain name of extrinsic: `vector_sendMessage` to send a message from AVAIL to Ethereum.
+- On-chain name of extrinsic: `vector_execute` to execute a message receieved from Ethereum on AVAIL.
 
 <Callout type="warning">
 Avail-to-Ethereum token bridge sends use `vector_sendMessage` and must be submitted directly. Wrapped bridge sends, including multisig, proxy, scheduler, and batch calls, are rejected.
 </Callout>
 
-## Bridge tokens from Avail DA to Ethereum
+## Bridge tokens from AVAIL DA to Ethereum
 
 <Tabs defaultValue="avail-rust">
   <TabsList>
@@ -25,7 +25,7 @@ Avail-to-Ethereum token bridge sends use `vector_sendMessage` and must be submit
 
 
 
-## Bridge tokens from Ethereum to Avail DA
+## Bridge tokens from Ethereum to AVAIL DA
 
 <Tabs defaultValue="avail-rust">
   <TabsList>
@@ -33,7 +33,7 @@ Avail-to-Ethereum token bridge sends use `vector_sendMessage` and must be submit
   </TabsList>
   <TabsContent value="avail-rust">
 
-Let us look at how a message sent from Ethereum is being executed on Avail using the `vector` pallet.
+Let us look at how a message sent from Ethereum is being executed on AVAIL using the `vector` pallet.
 ```rust
 let da_call = avail::tx().vector().execute(
         avail_stored_slot,
@@ -45,7 +45,7 @@ let da_call = avail::tx().vector().execute(
 
 ## Full  Example
 
-### Sending AVAIL tokens from Ethereum to Avail
+### Sending AVAIL tokens from Ethereum to AVAIL
 
 Let us initialize some of out essentials such as `signer`, `provider`, `contract`, etc. This will allow us to interact with Ethereum easily. 
 
@@ -93,7 +93,7 @@ async fn main() -> Result<()> {
         .on_http(Url::parse(config.ethereum_url.as_str())?);
 ```
 
-2. Now we send a message using `contract.sendAVAIL` from Ethereum to Avail. 
+2. Now we send a message using `contract.sendAVAIL` from Ethereum to AVAIL. 
 
 ```rust
     let contract = AvailBridgeContract::new(contract_addr, &provider);
@@ -113,7 +113,7 @@ async fn main() -> Result<()> {
 
 ```
 
-3. Let us also define our `message_id` and define the parameters of our AVAIL that is being sent to be understandable by the Avail network, such as `message.asset_id`, `message.amount`, `from` addressm `to` address, `origin_domain` (Ethereum), `destination_domain` (Avail)
+3. Let us also define our `message_id` and define the parameters of our AVAIL that is being sent to be understandable by the AVAIL network, such as `message.asset_id`, `message.amount`, `from` addressm `to` address, `origin_domain` (Ethereum), `destination_domain` (AVAIL)
 
 ```rust
 let message_id = u64::from_be_bytes(
@@ -135,7 +135,7 @@ let message_id = u64::from_be_bytes(
     };
 ```
 
-### Retrieving and Executing the message sent to Avail
+### Retrieving and Executing the message sent to AVAIL
 
 1. Using the Bridge API we check if the Ethereum block in which we sent the message is in range for the bridge. If it is, then we get the account and storage proofs.
 
@@ -193,8 +193,8 @@ let (avail_stored_block_hash, avail_stored_slot) = loop {
 
     println!("Message: {sent_message:?}");
 ```
-2. We then initialize the Avail SDK and call the `execute` method in the `vector` pallet, which is for executing a bridged message from Ethereum. We are submitting proof against the roots stored in the pallet storage. The pallet then executes the message we are giving proof for. 
-We only get the encoded tx, that we then have to sign and send, and wait for the transaction to included and executed on Avail.
+2. We then initialize the AVAIL SDK and call the `execute` method in the `vector` pallet, which is for executing a bridged message from Ethereum. We are submitting proof against the roots stored in the pallet storage. The pallet then executes the message we are giving proof for. 
+We only get the encoded tx, that we then have to sign and send, and wait for the transaction to included and executed on AVAIL.
 
 ```rust
 let sdk = SDK::new(config.avail_rpc_url.as_str()).await.unwrap();

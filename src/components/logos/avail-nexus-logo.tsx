@@ -12,7 +12,7 @@ export function AvailNexusLogo({
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={cn("block h-6 w-auto", className)}
-      aria-label="Avail Nexus"
+      aria-label="AVAIL Nexus"
       {...props}
     >
       <path
