@@ -531,6 +531,7 @@ const REFERENCE_DATA = {
   links: {
     github: "https://github.com/availproject",
     docs: "https://docs.availproject.org",
+    openapi: "/openapi.json",
     llms_txt: "/llms.txt",
     llms_full_txt: "/llms-full.txt",
     markdown_api: "/api/markdown/{slug}",

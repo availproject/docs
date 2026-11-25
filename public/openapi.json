@@ -1,0 +1,319 @@
+{
+  "openapi": "3.1.0",
+  "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
+  "info": {
+    "title": "AVAIL Documentation API",
+    "version": "1.0.0",
+    "description": "Programmatic access to AVAIL documentation, documentation search, and structured reference data. No authentication is required."
+  },
+  "servers": [
+    {
+      "url": "https://docs.availproject.org",
+      "description": "Production"
+    }
+  ],
+  "externalDocs": {
+    "description": "AI-friendly documentation features",
+    "url": "https://docs.availproject.org/docs/ai-features"
+  },
+  "paths": {
+    "/api/reference.json": {
+      "get": {
+        "operationId": "getReferenceData",
+        "summary": "Get structured AVAIL reference data",
+        "description": "Returns DA networks, contracts, SDK packages, API URLs, Nexus chains, tokens, and related links.",
+        "tags": ["Reference"],
+        "responses": {
+          "200": {
+            "description": "Structured AVAIL reference data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReferenceData"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/search": {
+      "get": {
+        "operationId": "searchDocumentation",
+        "summary": "Search AVAIL documentation",
+        "description": "Returns matching pages, headings, and text results. Include the query parameter even when searching for an empty string.",
+        "tags": ["Search"],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": true,
+            "description": "The search term.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of documentation search results.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SearchResult"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/SearchFailure"
+          }
+        }
+      }
+    },
+    "/api/markdown": {
+      "get": {
+        "operationId": "getDocumentation",
+        "summary": "Get the documentation index or one documentation page",
+        "description": "Returns the documentation index when slug is omitted, or one page when slug is supplied. The slug is the page path below /docs/, for example da/get-started. Returns JSON when format=json is supplied. The equivalent human-readable URL /api/markdown/{slug} also remains available.",
+        "tags": ["Documentation"],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/DocumentationSlug"
+          },
+          {
+            "$ref": "#/components/parameters/ResponseFormat"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/MarkdownSuccess"
+          },
+          "404": {
+            "$ref": "#/components/responses/MarkdownNotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/MarkdownFailure"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "DocumentationSlug": {
+        "name": "slug",
+        "in": "query",
+        "required": false,
+        "description": "Optional documentation page path below /docs/. Query serialization safely supports nested paths such as da/get-started.",
+        "schema": {
+          "type": "string",
+          "minLength": 1
+        },
+        "example": "da/get-started"
+      },
+      "ResponseFormat": {
+        "name": "format",
+        "in": "query",
+        "required": false,
+        "description": "Set to json to receive a JSON document instead of text/markdown.",
+        "schema": {
+          "type": "string",
+          "enum": ["json"]
+        }
+      }
+    },
+    "responses": {
+      "MarkdownSuccess": {
+        "description": "The requested documentation. Use format=json to select the JSON representation.",
+        "headers": {
+          "x-markdown-tokens": {
+            "description": "Estimated token count for the Markdown representation. Only present on text/markdown responses.",
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "content": {
+          "text/markdown": {
+            "schema": {
+              "type": "string"
+            }
+          },
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/MarkdownPage"
+            }
+          }
+        }
+      },
+      "MarkdownNotFound": {
+        "description": "The requested documentation page does not exist. The default representation is Markdown; format=json selects the structured JSON error.",
+        "content": {
+          "text/markdown": {
+            "schema": {
+              "type": "string"
+            },
+            "example": "# 404 — Page Not Found\n\nSee /llms.txt or /sitemap.xml for available documentation."
+          },
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "example": {
+              "error": {
+                "code": "DOCUMENT_NOT_FOUND",
+                "message": "No documentation page exists for the requested slug.",
+                "resolution": "Use /llms.txt, /llms-full.txt, or /sitemap.xml to find a valid documentation URL.",
+                "path": "/docs/does/not/exist"
+              }
+            }
+          }
+        }
+      },
+      "MarkdownFailure": {
+        "description": "The documentation content could not be generated.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "SearchFailure": {
+        "description": "The documentation search could not be completed.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "ReferenceData": {
+        "type": "object",
+        "required": ["_meta", "da", "nexus", "links"],
+        "properties": {
+          "_meta": {
+            "type": "object",
+            "required": ["lastUpdated", "version", "description"],
+            "properties": {
+              "lastUpdated": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          },
+          "da": {
+            "type": "object",
+            "description": "DA networks, contracts, SDKs, and hosted API endpoints."
+          },
+          "nexus": {
+            "type": "object",
+            "description": "Nexus contracts, supported chains, tokens, and SDKs."
+          },
+          "links": {
+            "type": "object",
+            "description": "Related documentation and machine-readable resources."
+          }
+        }
+      },
+      "SearchResult": {
+        "type": "object",
+        "required": ["id", "type", "content", "url"],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "description": "Result kind, such as page, heading, or text."
+          },
+          "content": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "breadcrumbs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "contentWithHighlights": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        },
+        "additionalProperties": true
+      },
+      "MarkdownPage": {
+        "type": "object",
+        "required": ["title", "url", "content"],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string",
+            "description": "Cleaned Markdown page content."
+          }
+        }
+      },
+      "ApiError": {
+        "type": "object",
+        "required": ["code", "message", "resolution"],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Stable machine-readable error code."
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable explanation of the error."
+          },
+          "resolution": {
+            "type": "string",
+            "description": "Actionable recovery guidance, including relevant documentation or indexes."
+          },
+          "path": {
+            "type": "string",
+            "description": "Requested path associated with the error, when available."
+          }
+        },
+        "additionalProperties": false
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "required": ["error"],
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/ApiError"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

@@ -15,6 +15,7 @@ AVAIL documentation is built to be consumed by AI agents, LLMs, and developer to
 | [.md suffix](#md-suffix-access) | Append `.md` to any page URL | Get any docs page as clean markdown |
 | [Content negotiation](#content-negotiation) | `Accept: text/markdown` header | Request markdown from any docs URL via HTTP header |
 | [Markdown API](#markdown-api) | `GET /api/markdown/{slug}` | Programmatic markdown access with JSON option |
+| [OpenAPI specification](#openapi-specification) | `GET /openapi.json` | OpenAPI 3.1 description of the public documentation API |
 | [Structured data](#structured-reference-data) | `GET /api/reference.json` | Networks, contracts, SDKs as machine-readable JSON |
 | [AI headers](#ai-headers) | Automatic | `Content-Signal`, `X-Robots-Tag`, and `Vary` on all AI responses |
 | [Agent detection](#agent-detection) | Automatic | Identifies Claude, ChatGPT, Cursor, Perplexity via User-Agent |
@@ -88,6 +89,9 @@ curl https://docs.availproject.org/api/markdown/nexus/get-started
 
 # JSON format (includes title, description, URL, and content)
 curl "https://docs.availproject.org/api/markdown/nexus/get-started?format=json"
+
+# Query-serialized slug (recommended for generated OpenAPI clients)
+curl "https://docs.availproject.org/api/markdown?slug=nexus/get-started&format=json"
 ```
 
 JSON response shape:
@@ -99,6 +103,16 @@ JSON response shape:
   "url": "/docs/nexus/get-started",
   "content": "## Get Started with Nexus\n\n..."
 }
+```
+
+---
+
+## OpenAPI Specification
+
+The public documentation API is described by an [OpenAPI 3.1 specification](/openapi.json). Agents and developer tools can use it to discover the markdown, search, and structured reference endpoints, their parameters, and their response schemas:
+
+```bash
+curl https://docs.availproject.org/openapi.json
 ```
 
 ---

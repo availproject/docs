@@ -2,6 +2,7 @@ import { findPath } from "fumadocs-core/page-tree";
 import { createFromSource } from "fumadocs-core/search/server";
 import type { NextRequest } from "next/server";
 import { trackAgentRequest } from "@/lib/analytics/agent-tracking";
+import { apiErrorResponse } from "@/lib/api-error";
 import { source } from "@/lib/source";
 
 const searchAPI = createFromSource(source, {
@@ -63,19 +64,30 @@ const searchAPI = createFromSource(source, {
 });
 
 export async function GET(request: NextRequest) {
-  const url = new URL(request.url);
+  try {
+    const url = new URL(request.url);
 
-  // Agents/programmatic consumers: server-side search with BM25 tuning
-  if (url.searchParams.has("query")) {
-    trackAgentRequest(request, { route: "/api/search" });
-    return searchAPI.GET(request);
+    // Agents/programmatic consumers: server-side search with BM25 tuning
+    if (url.searchParams.has("query")) {
+      trackAgentRequest(request, { route: "/api/search" });
+      return await searchAPI.GET(request);
+    }
+
+    // Search dialog: export full index for client-side search
+    const response = await searchAPI.staticGET();
+    response.headers.set(
+      "Cache-Control",
+      "public, max-age=3600, s-maxage=31536000, stale-while-revalidate=86400",
+    );
+    return response;
+  } catch (error) {
+    console.error("Error searching documentation:", error);
+    return apiErrorResponse(500, {
+      code: "SEARCH_FAILED",
+      message: "The documentation search could not be completed.",
+      resolution:
+        "Retry the request, or use /llms.txt and /sitemap.xml to browse the documentation.",
+      path: "/api/search",
+    });
   }
-
-  // Search dialog: export full index for client-side search
-  const response = await searchAPI.staticGET();
-  response.headers.set(
-    "Cache-Control",
-    "public, max-age=3600, s-maxage=31536000, stale-while-revalidate=86400",
-  );
-  return response;
 }

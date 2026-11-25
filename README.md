@@ -239,6 +239,7 @@ The site exposes several endpoints designed for AI agents, LLMs, and programmati
 |---|---|
 | `/llms.txt` | Intent-based quick-reference with categorized links ("If you want to...") |
 | `/llms-full.txt` | Full concatenated markdown of all pages. Supports `?section=` filtering (e.g. `?section=da/build`) |
+| `/openapi.json` | OpenAPI 3.1 specification for the public documentation API |
 | `/api/markdown/{slug}` | Raw markdown for any page. Also accessible via `Accept: text/markdown` content negotiation on any docs page |
 | `/api/reference.json` | Structured JSON with networks, contracts, SDK versions, and API endpoints |
 

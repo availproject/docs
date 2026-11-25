@@ -78,7 +78,7 @@ describe("GET /api/reference.json", () => {
     expect(data.nexus.vault_contracts.mainnet).toBeInstanceOf(Array);
     expect(data.nexus.vault_contracts.mainnet.length).toBe(12);
     expect(data.nexus.vault_contracts.testnet).toBeInstanceOf(Array);
-    expect(data.nexus.vault_contracts.testnet.length).toBe(7);
+    expect(data.nexus.vault_contracts.testnet.length).toBe(8);
 
     for (const entry of data.nexus.vault_contracts.mainnet) {
       expect(entry.address).toMatch(ethRegex);
@@ -149,6 +149,7 @@ describe("GET /api/reference.json", () => {
     expect(data.links).toBeDefined();
     expect(data.links.github).toBeDefined();
     expect(data.links.docs).toBeDefined();
+    expect(data.links.openapi).toBe("/openapi.json");
   });
 
   it("has Content-Signal and Cache-Control headers", () => {
