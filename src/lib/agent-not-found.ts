@@ -12,6 +12,7 @@ export const AGENT_RECOVERY_LINKS = [
   ["/llms-nexus.txt", "AVAIL Nexus documentation (single file)"],
   ["/llms-full.txt", "Complete documentation dump"],
   ["/sitemap.xml", "Every canonical page URL"],
+  ["/openapi.json", "Machine-readable API specification (OpenAPI 3.1)"],
   ["/api/reference.json", "Structured reference data (JSON)"],
 ] as const;
 

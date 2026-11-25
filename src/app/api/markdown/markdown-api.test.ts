@@ -20,6 +20,16 @@ vi.mock("@/lib/source", () => ({
           },
         };
       }
+      if (slug[0] === "da" && slug[1] === "error") {
+        return {
+          url: "/docs/da/error",
+          data: {
+            title: "Broken Page",
+            description: "A test failure",
+            getText: vi.fn().mockRejectedValue(new Error("Test failure")),
+          },
+        };
+      }
       return null;
     },
   },
@@ -78,6 +88,16 @@ describe("markdown API - root route", () => {
     expect(data).toHaveProperty("url");
     expect(data).toHaveProperty("content", CLEANED_CONTENT);
   });
+
+  it("accepts nested slugs through standard query serialization", async () => {
+    const res = await rootGET(
+      makeRequest("/api/markdown", { slug: "da/build", format: "json" }),
+    );
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(data.url).toBe("/docs/da/build");
+    expect(data.content).toBe(CLEANED_CONTENT);
+  });
 });
 
 describe("markdown API - slug route", () => {
@@ -98,11 +118,57 @@ describe("markdown API - slug route", () => {
     expect(res.status).toBe(200);
   });
 
-  it("returns 404 for non-existent page", async () => {
+  it("returns a Markdown 404 for a non-existent page", async () => {
     const res = await slugGET(makeRequest("/api/markdown/does/not/exist"), {
       params: Promise.resolve({ slug: ["does", "not", "exist"] }),
     });
     expect(res.status).toBe(404);
+    expect(res.headers.get("content-type")).toBe(
+      "text/markdown; charset=utf-8",
+    );
+    expect(await res.text()).toContain("[/llms.txt](/llms.txt)");
+  });
+
+  it("returns a structured JSON 404 when JSON was requested", async () => {
+    const res = await slugGET(
+      makeRequest("/api/markdown/does/not/exist", { format: "json" }),
+      { params: Promise.resolve({ slug: ["does", "not", "exist"] }) },
+    );
+    expect(res.status).toBe(404);
+    expect(res.headers.get("content-type")).toContain("application/json");
+    expect(await res.json()).toEqual({
+      error: {
+        code: "DOCUMENT_NOT_FOUND",
+        message: "No documentation page exists for the requested slug.",
+        resolution:
+          "Use /llms.txt, /llms-full.txt, or /sitemap.xml to find a valid documentation URL.",
+        path: "/docs/does/not/exist",
+      },
+    });
+  });
+
+  it("returns a structured JSON 500 when generation fails", async () => {
+    const consoleError = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+    try {
+      const res = await slugGET(makeRequest("/api/markdown/da/error"), {
+        params: Promise.resolve({ slug: ["da", "error"] }),
+      });
+      expect(res.status).toBe(500);
+      expect(res.headers.get("content-type")).toContain("application/json");
+      expect(await res.json()).toEqual({
+        error: {
+          code: "MARKDOWN_GENERATION_FAILED",
+          message: "The documentation content could not be generated.",
+          resolution:
+            "Retry the request, or fetch /llms-full.txt for the complete documentation dump.",
+          path: "/docs/da/error",
+        },
+      });
+    } finally {
+      consoleError.mockRestore();
+    }
   });
 
   it("has x-markdown-tokens header", async () => {

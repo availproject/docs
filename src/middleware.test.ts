@@ -105,4 +105,56 @@ describe("middleware", () => {
     expect(rewrite).not.toBeNull();
     expect(new URL(rewrite!).pathname).toBe("/api/markdown/da/build");
   });
+
+  it("answers unknown pages with a Markdown 404 for agents", async () => {
+    const res = middleware(makeRequest("/no-such-page", "text/markdown"));
+    expect(res.status).toBe(404);
+    expect(res.headers.get("content-type")).toBe(
+      "text/markdown; charset=utf-8",
+    );
+    expect(res.headers.get("vary")).toBe(MARKDOWN_VARY);
+    const body = await res.text();
+    expect(body).toContain("`/no-such-page`");
+    expect(body).toContain("[/llms.txt](/llms.txt)");
+  });
+
+  it("does not redirect non-legacy paths that merely share a prefix", async () => {
+    for (const path of ["/database", "/nexus-fake", "/user-guides-archive"]) {
+      const res = middleware(makeRequest(path, "text/markdown"));
+      expect(res.status).toBe(404);
+      expect(res.headers.get("location")).toBeNull();
+      expect(res.headers.get("content-type")).toBe(
+        "text/markdown; charset=utf-8",
+      );
+      expect(await res.text()).toContain(`\`${path}\``);
+    }
+  });
+
+  it("does not return 404s for known non-docs pages", () => {
+    for (const path of ["/about", "/contact", "/privacy"]) {
+      const res = middleware(makeRequest(path, "text/markdown"));
+      expect(res.status).not.toBe(404);
+      expect(res.headers.get("x-middleware-rewrite")).toBeNull();
+    }
+  });
+
+  it("does not return 404s for machine-readable static files", () => {
+    for (const path of ["/openapi.json", "/robots.txt", "/sitemap.xml"]) {
+      const res = middleware(makeRequest(path, "text/markdown"));
+      expect(res.status).not.toBe(404);
+    }
+  });
+
+  it("leaves browser requests to unknown pages untouched", () => {
+    const res = middleware(makeRequest("/no-such-page", "text/html"));
+    expect(res.headers.get("x-middleware-rewrite")).toBeNull();
+    expect(res.status).not.toBe(404);
+  });
+
+  it("applies legacy redirects before answering an unknown page", () => {
+    const res = middleware(
+      makeRequest("/da/archived-content", "text/markdown"),
+    );
+    expect(res.headers.get("location")).toContain("/docs/da/");
+  });
 });

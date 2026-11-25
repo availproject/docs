@@ -160,7 +160,8 @@ describe("generateLlmsTxt", () => {
     }
   });
 
-  it("references /api/reference.json and /llms-full.txt", () => {
+  it("references the OpenAPI specification and machine-readable indexes", () => {
+    expect(output).toContain("/openapi.json");
     expect(output).toContain("/api/reference.json");
     expect(output).toContain("/llms-full.txt");
   });
